@@ -30,6 +30,7 @@ namespace SOGIP_v2.Models
         [Display(Name = "Primer Nombre")]
         public string Nombre1 { get; set; }
 
+        [Required]
         [Display(Name = "Segundo Nombre")]
         public string Nombre2 { get; set; }
 
