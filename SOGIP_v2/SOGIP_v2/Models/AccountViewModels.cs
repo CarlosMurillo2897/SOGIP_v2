@@ -74,11 +74,26 @@ namespace SOGIP_v2.Models
         public string Cedula { get; set; }
 
         [Required]
-        [Display(Name = "Nombre")]
-        public string Nombre { get; set; }
+        [Display(Name = "Primer Nombre")]
+        public string Nombre1 { get; set; }
 
-        //[Display(Name = "Fecha")]
-        public DateTime fecha_expiracion { get; set; }
+        //No requerido.
+        [Display(Name = "Segundo Nombre")]
+        public string Nombre2 { get; set; }
+
+        [Required]
+        [Display(Name = "Primer Apellido")]
+        public string Apellido1 { get; set; }
+
+        // Los asiáticos normalmente solo tienen un apellido, mejor que no sea requerido.
+        [Display(Name = "Segundo Apellido")]
+        public string Apellido2 { get; set; }
+
+        public DateTime Fecha_Expiracion { get; set; }
+
+        //[Required]
+        [Display(Name = "Fecha de nacimiento")]
+        public DateTime Fecha_Nacimiento { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]

@@ -155,7 +155,7 @@ namespace SOGIP_v2.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Cedula, Email = model.Email, Cedula = model.Cedula,
-                                                 Nombre = model.Nombre, Fecha_Expiracion = DateTime.Now};
+                                                 Nombre1 = model.Nombre1, Fecha_Expiracion = DateTime.Now};
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

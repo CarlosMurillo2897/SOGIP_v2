@@ -14,7 +14,11 @@ namespace SOGIP_v2.Models
         public string Cedula { get; set; }
         public string CedulaExtra { get; set; }
         public DateTime Fecha_Expiracion { get; set; }
-        public string Nombre { get; set; }
+        public string Nombre1 { get; set; }
+        public string Nombre2 { get; set; }
+        public string Apellido1 { get; set; }
+        public string Apellido2 { get; set; }
+        public DateTime Fecha_Nacimiento { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

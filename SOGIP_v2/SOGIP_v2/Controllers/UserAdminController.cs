@@ -6,6 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System;
 
 namespace SOGIP_v2.Controllers
 {
@@ -90,7 +91,10 @@ namespace SOGIP_v2.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = userViewModel.Email, Email = userViewModel.Email, Nombre = userViewModel.Nombre };
+                var user = new ApplicationUser { UserName = userViewModel.Cedula, Email = userViewModel.Email, Nombre1 = userViewModel.Nombre1,
+                                                 Nombre2 = userViewModel.Nombre2, Apellido1 = userViewModel.Apellido1, Apellido2 = userViewModel.Apellido2,
+                                                 Cedula = userViewModel.Cedula, Fecha_Nacimiento = DateTime.Now, Fecha_Expiracion = DateTime.Now};
+
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
 
                 //Add User to the selected Roles 
@@ -142,7 +146,12 @@ namespace SOGIP_v2.Controllers
                 Id = user.Id,
                 Email = user.Email,
                 UserName = user.UserName,
-                Nombre = user.Nombre,
+                Cedula = user.Cedula,
+                Nombre1 = user.Nombre1,
+                Nombre2 = user.Nombre2,
+                Apellido1 = user.Apellido1,
+                Apellido2 = user.Apellido2,
+                Fecha_Nacimiento = user.Fecha_Nacimiento,
                 RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
                 {
                     Selected = userRoles.Contains(x.Name),
@@ -156,7 +165,7 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,Nombre")] EditUserViewModel editUser, params string[] selectedRole)
+        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,Nombre1,Nombre2,Apellido1,Apellido2,Fecha_Nacimiento")] EditUserViewModel editUser, params string[] selectedRole)
         {
             if (ModelState.IsValid)
             {
@@ -166,9 +175,14 @@ namespace SOGIP_v2.Controllers
                     return HttpNotFound();
                 }
 
-                user.UserName = editUser.Email;
+                user.UserName = editUser.UserName;
+                user.Cedula = editUser.UserName;
                 user.Email = editUser.Email;
-                user.Nombre = editUser.Nombre;
+                user.Nombre1 = editUser.Nombre1;
+                user.Nombre2 = editUser.Nombre2;
+                user.Apellido1 = editUser.Apellido1;
+                user.Apellido2 = editUser.Apellido2;
+                user.Fecha_Nacimiento = editUser.Fecha_Nacimiento;
 
                 var userRoles = await UserManager.GetRolesAsync(user.Id);
 

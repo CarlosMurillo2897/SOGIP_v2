@@ -216,6 +216,14 @@
     <Compile Include="Migrations\201809250613020_change_table_name.Designer.cs">
       <DependentUpon>201809250613020_change_table_name.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809261601133_Inclusión_apellidos_User.cs" />
+    <Compile Include="Migrations\201809261601133_Inclusión_apellidos_User.Designer.cs">
+      <DependentUpon>201809261601133_Inclusión_apellidos_User.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.cs" />
+    <Compile Include="Migrations\201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.Designer.cs">
+      <DependentUpon>201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -314,6 +322,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809250613020_change_table_name.resx">
       <DependentUpon>201809250613020_change_table_name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809261601133_Inclusión_apellidos_User.resx">
+      <DependentUpon>201809261601133_Inclusión_apellidos_User.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.resx">
+      <DependentUpon>201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

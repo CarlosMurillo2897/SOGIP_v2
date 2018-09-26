@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
@@ -16,18 +17,34 @@ namespace SOGIP_v2.Models
     {
         public string Id { get; set; }
 
-        [Required]
-        [Display(Name = "Nombre")]
-        public string Nombre { get; set; }
-
-        [Required]
-        [Display(Name = "Nombre de Usuario")]
+        [Display(Name = "Cedula")]
         public string UserName { get; set; }
+        public string Cedula { get; set; }
 
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Email")]
         [EmailAddress]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Primer Nombre")]
+        public string Nombre1 { get; set; }
+
+        [Required]
+        [Display(Name = "Segundo Nombre")]
+        public string Nombre2 { get; set; }
+
+        [Required]
+        [Display(Name = "Primer Apellido")]
+        public string Apellido1 { get; set; }
+
+        // Los asiáticos normalmente solo tienen un apellido, mejor que no sea requerido.
+        [Display(Name = "Segundo Apellido")]
+        public string Apellido2 { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha de nacimiento")]
+        public DateTime Fecha_Nacimiento { get; set; }
 
         public IEnumerable<SelectListItem> RolesList { get; set; }
     }
