@@ -4956,15 +4956,17 @@ a.badge:focus {
   margin-left: 3px;
 }
 .jumbotron {
-  padding-top: 30px;
-  padding-bottom: 30px;
-  margin-bottom: 30px;
-  color: inherit;
-  background-color: #eee;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
+    color: inherit;
+    background-color: #eee;
+    font-size: 50px;
 }
 .jumbotron h1,
 .jumbotron .h1 {
   color: inherit;
+
 }
 .jumbotron p {
   margin-bottom: 15px;
