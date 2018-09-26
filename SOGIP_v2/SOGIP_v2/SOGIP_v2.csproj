@@ -224,10 +224,6 @@
     <Compile Include="Migrations\201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.Designer.cs">
       <DependentUpon>201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809262001554_Genero-Usuario.cs" />
-    <Compile Include="Migrations\201809262001554_Genero-Usuario.Designer.cs">
-      <DependentUpon>201809262001554_Genero-Usuario.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201809262004272_Sexo-Usuario.cs" />
     <Compile Include="Migrations\201809262004272_Sexo-Usuario.Designer.cs">
       <DependentUpon>201809262004272_Sexo-Usuario.cs</DependentUpon>
@@ -336,9 +332,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.resx">
       <DependentUpon>201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809262001554_Genero-Usuario.resx">
-      <DependentUpon>201809262001554_Genero-Usuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809262004272_Sexo-Usuario.resx">
       <DependentUpon>201809262004272_Sexo-Usuario.cs</DependentUpon>
