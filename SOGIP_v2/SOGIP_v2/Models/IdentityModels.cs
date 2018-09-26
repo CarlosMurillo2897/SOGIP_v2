@@ -19,6 +19,10 @@ namespace SOGIP_v2.Models
         public string Apellido1 { get; set; }
         public string Apellido2 { get; set; }
         public DateTime Fecha_Nacimiento { get; set; }
+<<<<<<< HEAD
+=======
+        public Boolean Sexo { get; set; }
+>>>>>>> IngresoMasivo_Carlos
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

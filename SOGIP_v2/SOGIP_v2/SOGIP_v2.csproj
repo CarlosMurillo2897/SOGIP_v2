@@ -224,6 +224,13 @@
     <Compile Include="Migrations\201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.Designer.cs">
       <DependentUpon>201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
+=======
+    <Compile Include="Migrations\201809262004272_Sexo-Usuario.cs" />
+    <Compile Include="Migrations\201809262004272_Sexo-Usuario.Designer.cs">
+      <DependentUpon>201809262004272_Sexo-Usuario.cs</DependentUpon>
+    </Compile>
+>>>>>>> IngresoMasivo_Carlos
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -329,6 +336,12 @@
     <EmbeddedResource Include="Migrations\201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.resx">
       <DependentUpon>201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.cs</DependentUpon>
     </EmbeddedResource>
+<<<<<<< HEAD
+=======
+    <EmbeddedResource Include="Migrations\201809262004272_Sexo-Usuario.resx">
+      <DependentUpon>201809262004272_Sexo-Usuario.cs</DependentUpon>
+    </EmbeddedResource>
+>>>>>>> IngresoMasivo_Carlos
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -275,3 +275,9 @@ C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.dll
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.pdb
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.Inclusión_apellidos_User.resources
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.Inclusión_Nombre1_2Apellido1_2Fecha_Nacimiento.resources
+<<<<<<< HEAD
+=======
+C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.csprojAssemblyReference.cache
+C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.GeneroUsuario.resources
+C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.SexoUsuario.resources
+>>>>>>> IngresoMasivo_Carlos
