@@ -1,5 +1,12 @@
 -- use "SOGIP_v2.2"
+ delete from SOGIP_UserLogins;
+ delete from SOGIP_UserClaims;
+ delete from SOGIP_Users;
+ delete from SOGIP_UserRoles;
+ delete from SOGIP_Roles;
 -- select * from SOGIP_Users;
+-- select * from SOGIP_Roles order by Id asc;
+-- select * from SOGIP_UserRoles;
 -- sp_help SOGIP_Users;
 
 -- ++++++++++++++++++++++++++ TABLAS ++++++++++++++++++++++++++
@@ -11,38 +18,31 @@ create table SOGIP_Estado(
 );
 
 
-create table SOGIP_Usuario(
-	idUsuario int not null identity,
-	cedula varchar(45) not null unique,
-	cedulaExtra varchar(45),
-	contrasena varchar(45) not null,
-	fecha_expiracion datetime,
-	nombre varchar(90) not null,
-	correo varchar(40),
-	telefono varchar(20),
-	estado int,
-	rol int,
-	constraint pkSOGIP_Usuario primary key(id),
-	constraint fkSOGIP_Rol1 foreign key(tipo) references SOGIP_Rol(idRol)
-	constraint fkSOGIP_Estado1 foreign key(tipo) references SOGIP_Estado1(idEstado)
+create table SOGIP_Categoria(
+	idCategoria int not null identity,
+	descripcion varchar(80) not null unique,
+	constraint pkSOGIP_Categoria primary key(idCategoria)
 );
 
--- Supervisor es un tipo de Administrador.
-create table SOGIP_Administrador( 
-	id int not null identity,
-	apellido1 varchar(90),
-	apellido2 varchar(90),
-	fecha_nacimiento datetime not null,
-	usuario int,
-	constraint pkSOGIP_Administrador primary key(id),
-	constraint fkSOGIP_Usuario1 foreign key(usuario) references SOGIP_Usuario(id)
+
+create table SOGIP_Tipo_Deporte(
+	idTipoDeporte int not null identity,
+	descripcion varchar(80) not null unique,
+	constraint pkSOGIP_Tipo_Deporte primary key(idTipoDeporte)
 );
+
+
+create table SOGIP_Deporte(
+	idDeporte int not null identity,
+	nombre varchar(80) not null unique,
+	tipoDeporte int,
+	constraint pkSOGIP_Deporte primary key(idDeporte)
+	constraint fkSOGIP_TipoDeporte1 foreign key(tipoDeporte) references SOGIP_Tipo_Deporte(idTipoDeporte)
+);
+
 
 create table SOGIP_Entrenador(
 	id int not null identity,
-	apellido1 varchar(90),
-	apellido2 varchar(90),
-	fecha_nacimiento datetime,
 	genero tinyint not null,
 	titulo varBinary(MAX),
 	usuario int,
@@ -55,9 +55,6 @@ create table SOGIP_Entrenador(
 
 create table SOGIP_Atleta(
 	id int not null identity,
-	apellido1 varchar(90),
-	apellido2 varchar(90),
-	fecha_nacimiento datetime,
 	genero tinyint not null,
 	usuario int,
 	seleccion int,
@@ -69,7 +66,7 @@ create table SOGIP_Atleta(
 	constraint fkSOGIP_Entrenador1 foreign key(entrenador) references SOGIP_Entrenador(id)
 );
 
--- Asociaciones/Federaciones/Selecciones(?)
+
 create table SOGIP_Entidades( 
 	idEntidades int not null identity,
 	localidad varchar(45),
@@ -81,9 +78,6 @@ create table SOGIP_Entidades(
 
 create table SOGIP_Funcionarios_ICODER(
 	idFuncionarios_ICODER int not null identity,
-	apellido1 varchar(90),
-	apellido2 varchar(90),
-	fecha_nacimiento datetime,
 	genero tinyint not null,
 	usuario int,
 	entrenador int,
@@ -95,9 +89,6 @@ create table SOGIP_Funcionarios_ICODER(
 
 create table SOGIP_Entidades_Publicas(
 	idEntidades_Publicas int not null identity,
-	apellido1 varchar(90),
-	apellido2 varchar(90),
-	fecha_nacimiento datetime,
 	genero tinyint not null,
 	usuario int,
 	entrenador int,
@@ -114,14 +105,15 @@ create table SOGIP_Entidades_Publicas(
 
  insert into SOGIP_Roles values('1', 'Supervisor');
  insert into SOGIP_Roles values('2', 'Administrador');
- insert into SOGIP_Roles values('3', 'Seleccion');
- insert into SOGIP_Roles values('4','Federacion');
- insert into SOGIP_Roles values('5','Entrenador');
- insert into SOGIP_Roles values('6','Atleta');
- insert into SOGIP_Roles values('7','Funcionarios ICODER');
- insert into SOGIP_Roles values('8','Entidades Publicas');
- insert into SOGIP_Roles values('9','Asociacion');
- insert into SOGIP_Roles values('10','Comite');
+ insert into SOGIP_Roles values('3', 'Seleccion/Federacion');
+ insert into SOGIP_Roles values('4', 'Entrenador');
+ insert into SOGIP_Roles values('5', 'Atleta');
+ insert into SOGIP_Roles values('6', 'Funcionarios ICODER');
+ insert into SOGIP_Roles values('7', 'Entidades Publicas');
+ insert into SOGIP_Roles values('8', 'Asociacion/Comite');
+-- insert into SOGIP_Roles values('9','Federacion');
+-- insert into SOGIP_Roles values('10','Comite');
+
 
 -- insert into SOGIP_Estado values('Finalizado');
 -- insert into SOGIP_Estado values('Activo');
@@ -133,17 +125,16 @@ create table SOGIP_Entidades_Publicas(
 
 -- ++++++++++++++++++++++++++ TRIGGERS ++++++++++++++++++++++++++
 
-
---create trigger tr1 on SOGIP_Usuario
--- for update, insert
---  as
---   if update(contrasena)
---    begin
---     update SOGIP_Usuario
---     set fecha_expiracion=SOGIP_Usuario.fecha_expiracion+90
---     from inserted
---     where SOGIP_Usuario.id = inserted.id
---    end
+create trigger fecha_expiracion on SOGIP_Users
+ for update, insert
+  as
+   if update(PasswordHash)
+    begin
+     update AspNetUsers
+     set fecha_expiracion=SOGIP_Users.fecha_expiracion+90
+     from inserted
+     where SOGIP_Users.id = inserted.id
+    end
 
 -- ++++++++++++++++++++++++++ TRIGGERS ++++++++++++++++++++++++++
 
@@ -158,17 +149,16 @@ create table SOGIP_Entidades_Publicas(
 -- drop table SOGIP_Funcionarios_ICODER;
 -- drop table SOGIP_Entidades Publicas;
 
--- drop table SOGIP_Tipo;
 -- drop table SOGIP_Estado;
-
--- drop table SOGIP_Usuario;
-
+-- drop table SOGIP_UserLogins;
+-- drop table SOGIP_UserClaims;
+-- drop table SOGIP_Users;
+-- drop table SOGIP_UserRoles;
+-- drop table SOGIP_Roles;
 -- drop trigger tr1;
 
--- Para dropear la DB se posiciona sobre otra DB y a continuación
--- se dropea.
-
---  1. use master;
---  2. drop database SOGIP;
+-- Drop DB
+-- 1. use master;
+-- 2. drop database "SOGIP_v2.2";
 
 -- ++++++++++++++++++++++++++++ Drops ++++++++++++++++++++++++++++
