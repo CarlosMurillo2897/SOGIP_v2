@@ -95,6 +95,9 @@ namespace SOGIP_v2.Models
         [Display(Name = "Fecha de nacimiento")]
         public DateTime Fecha_Nacimiento { get; set; }
 
+        [Display(Name ="Sexo")]
+        public Boolean Sexo { get; set; }
+
         [Required]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
         [DataType(DataType.Password)]
