@@ -93,7 +93,8 @@ namespace SOGIP_v2.Controllers
             {
                 var user = new ApplicationUser { UserName = userViewModel.Cedula, Email = userViewModel.Email, Nombre1 = userViewModel.Nombre1,
                                                  Nombre2 = userViewModel.Nombre2, Apellido1 = userViewModel.Apellido1, Apellido2 = userViewModel.Apellido2,
-                                                 Cedula = userViewModel.Cedula, Fecha_Nacimiento = DateTime.Now, Fecha_Expiracion = DateTime.Now};
+                                                 Cedula = userViewModel.Cedula, Fecha_Nacimiento = DateTime.Now, Fecha_Expiracion = DateTime.Now,
+                                                 Sexo = true };
 
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
 
@@ -152,6 +153,7 @@ namespace SOGIP_v2.Controllers
                 Apellido1 = user.Apellido1,
                 Apellido2 = user.Apellido2,
                 Fecha_Nacimiento = user.Fecha_Nacimiento,
+                //Sexo = user.Sexo,
                 RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
                 {
                     Selected = userRoles.Contains(x.Name),
@@ -165,7 +167,7 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,Nombre1,Nombre2,Apellido1,Apellido2,Fecha_Nacimiento")] EditUserViewModel editUser, params string[] selectedRole)
+        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,Nombre1,Nombre2,Apellido1,Apellido2")] EditUserViewModel editUser, params string[] selectedRole)
         {
             if (ModelState.IsValid)
             {
@@ -182,7 +184,8 @@ namespace SOGIP_v2.Controllers
                 user.Nombre2 = editUser.Nombre2;
                 user.Apellido1 = editUser.Apellido1;
                 user.Apellido2 = editUser.Apellido2;
-                user.Fecha_Nacimiento = editUser.Fecha_Nacimiento;
+                //user.Fecha_Nacimiento = editUser.Fecha_Nacimiento;
+                //user.Sexo = edirtUser.Sexo;
 
                 var userRoles = await UserManager.GetRolesAsync(user.Id);
 
