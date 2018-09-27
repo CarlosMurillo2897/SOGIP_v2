@@ -7,7 +7,7 @@
 -- delete from SOGIP_UserRoles;
 -- delete from SOGIP_Roles;
 
--- select * from SOGIP_Users;
+-- select * from SOGIP_Users, SOGIP_UserRoles where SOGIP_Users.Id = SOGIP_UserRoles.Userid;
 -- select * from SOGIP_Roles order by Id asc;
 -- select * from SOGIP_UserRoles;
 -- sp_help SOGIP_Users; -- Describe la tabla.
@@ -44,6 +44,15 @@ create table SOGIP_Deporte(
 );
 
 
+create table SOGIP_Entrenador(
+	idEntrenador int not null identity,
+	titulo varBinary(MAX),
+	usuario int,
+	constraint pkSOGIP_Entrenador primary key(idEntrenador),
+	constraint fkSOGIP_Users4 foreign key(usuario) references SOGIP_Users(Id)
+);
+
+
 create table SOGIP_Seleccion(
 	idSeleccion int not null identity,
 	nombreSeleccion varchar(90) not null,
@@ -59,12 +68,12 @@ create table SOGIP_Seleccion(
 );
 
 
-create table SOGIP_Entrenador(
-	idEntrenador int not null identity,
-	titulo varBinary(MAX),
+create table SOGIP_Asociacion_Deportiva(
+	idAsociacionDeportiva int not null identity,
+	localidad varchar(100),
 	usuario int,
-	constraint pkSOGIP_Entrenador primary key(idEntrenador),
-	constraint fkSOGIP_Users4 foreign key(usuario) references SOGIP_Users(Id)
+	constraint pkSOGIP_Asociacion_Deportiva primary key(idAsociacionDeportiva),
+	constraint fkSOGIP_Users8 foreign key(usuario) references SOGIP_Users(Id)
 );
 
 
@@ -87,7 +96,7 @@ create table SOGIP_Funcionario_ICODER(
 	entrenador int,
 	constraint pkSOGIP_Funcionario_ICODER primary key(idFuncionarioICODER),
 	constraint fkSOGIP_Users6 foreign key(usuario) references SOGIP_Users(Id),
-	constraint fkSOGIP_Entrenador2 foreign key(entrenador) references SOGIP_Entrenador(idEntrenador)
+	constraint fkSOGIP_Users7 foreign key(entrenador) references SOGIP_Entrenador(idEntrenador)
 );
 
 
@@ -103,17 +112,8 @@ create table SOGIP_Entidad_Publica(
 	usuario int,
 	tipo_entidad int,
 	constraint pkSOGIP_Entidad_Publica primary key(idEntidadPublica),
-	constraint fkSOGIP_Users7 foreign key(usuario) references SOGIP_Users(Id),
+	constraint fkSOGIP_Users8 foreign key(usuario) references SOGIP_Users(Id),
 	constraint fkSOGIP_Tipo_Entidad foreign key(tipo_entidad) references SOGIP_Users(idTipoEntidad)
-);
-
-
-create table SOGIP_Asociacion_Deportiva(
-	idAsociacionDeportiva int not null identity,
-	localidad varchar(100),
-	usuario int,
-	constraint pkSOGIP_Asociacion_Deportiva primary key(idAsociacionDeportiva),
-	constraint fkSOGIP_Users8 foreign key(usuario) references SOGIP_Users(Id)
 );
 
 
