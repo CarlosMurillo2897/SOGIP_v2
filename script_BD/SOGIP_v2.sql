@@ -141,7 +141,13 @@ create table SOGIP_Entidad_Publica(
 -- insert into SOGIP_Estado values('En Proceso');
 
 
--- ++++++++++++++++++++++++++++ Inserts ++++++++++++++++++++++++++++
+-- ++++++++++++++++++++++++++++ Inserts CATEGORIAS ++++++++++++++++++++++++++++
+
+--
+--insert into sogip_categorias values('Juvenil');
+--insert into sogip_categorias values('Mayor');
+--insert into sogip_categorias values('SUB 20');
+--insert into sogip_categorias values('Nacional');
 
 
 -- ++++++++++++++++++++++++++ TRIGGERS ++++++++++++++++++++++++++

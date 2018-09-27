@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System;
+using System.Collections.Generic;
 
 namespace SOGIP_v2.Controllers
 {
     //[Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public UsersAdminController()
         {
         }
@@ -78,6 +81,22 @@ namespace SOGIP_v2.Controllers
         //[HttpGet]
         public async Task<ActionResult> Create()
         {
+            //Entities List
+            var getEntidad = db.Tipo_Entidad.ToList();
+            SelectList listE = new SelectList(getEntidad, "Tipo_EntidadId", "Nombre");
+            ViewBag.Entidades = listE;
+
+            //Sport List
+            var getDeporte = db.Deportes.ToList();
+            SelectList listD = new SelectList(getDeporte,"DeporteId","Nombre");
+            ViewBag.Deportes = listD;
+
+            //Category List
+            var getCategoria = db.Categorias.ToList();
+            SelectList listC = new SelectList(getCategoria, "CategoriaId", "Descripcion");
+            ViewBag.Categorias = listC;
+
+
             //Get the list of Roles
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
             return View();
@@ -115,15 +134,20 @@ namespace SOGIP_v2.Controllers
                 else
                 {
                     ModelState.AddModelError("", adminresult.Errors.First());
+          
+
                     ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
                     return View();
 
                 }
                 return RedirectToAction("Index");
             }
+      
             ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
             return View();
         }
+
+        
 
         //
         // GET: /Users/Edit/1
