@@ -93,7 +93,7 @@ namespace SOGIP_v2.Controllers
 
             //Category List
             var getCategoria = db.Categorias.ToList();
-            SelectList listC = new SelectList(getCategoria, "CategoriaId", "Descripcion");
+            SelectList listC = new SelectList(getCategoria, "Descripcion", "CategoriaId");
             ViewBag.Categorias = listC;
 
 

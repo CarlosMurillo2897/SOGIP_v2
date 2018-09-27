@@ -143,11 +143,13 @@ create table SOGIP_Entidad_Publica(
 
 -- ++++++++++++++++++++++++++++ Inserts CATEGORIAS ++++++++++++++++++++++++++++
 
---
---insert into sogip_categorias values('Juvenil');
---insert into sogip_categorias values('Mayor');
---insert into sogip_categorias values('SUB 20');
---insert into sogip_categorias values('Nacional');
+
+insert into SOGIP_CATEGORIAS values('Juvenil');
+insert into SOGIP_CATEGORIAS values('Mayor');
+insert into SOGIP_CATEGORIAS values('SUB 20');
+insert into SOGIP_CATEGORIAS values('Nacional');
+
+select * from SOGIP_Roles;
 
 
 -- ++++++++++++++++++++++++++ TRIGGERS ++++++++++++++++++++++++++
