@@ -7,7 +7,7 @@ namespace SOGIP_v2.Models
 {
     public class Atleta
     {
-        public int IdAtleta { get; set; }
+        public int AtletaId { get; set; }
         public string Localidad { get; set; }
         public ApplicationUser Usuario { get; set; }
         public Seleccion Seleccion { get; set; }

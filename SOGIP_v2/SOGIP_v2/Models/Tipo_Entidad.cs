@@ -7,7 +7,7 @@ namespace SOGIP_v2.Models
 {
     public class Tipo_Entidad
     {
-        public int IdTipo_Entidad { get; set; }
+        public int Tipo_EntidadId { get; set; }
         public string Descripcion { get; set; }
     }
 }

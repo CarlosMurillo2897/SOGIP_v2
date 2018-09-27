@@ -7,10 +7,12 @@
 -- delete from SOGIP_UserRoles;
 -- delete from SOGIP_Roles;
 
+-- select * from SOGIP_Users;
 -- select * from SOGIP_Users, SOGIP_UserRoles where SOGIP_Users.Id = SOGIP_UserRoles.Userid;
 -- select * from SOGIP_Roles order by Id asc;
 -- select * from SOGIP_UserRoles;
 -- sp_help SOGIP_Users; -- Describe la tabla.
+-- select * from SOGIP_Estados;
 
 -- ++++++++++++++++++++++++++ TABLAS ++++++++++++++++++++++++++
 

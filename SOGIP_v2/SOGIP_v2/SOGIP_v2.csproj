@@ -192,6 +192,8 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
+    <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\UserAdminController.cs" />
     <Compile Include="Generales.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -228,11 +230,30 @@
     <Compile Include="Migrations\201809262004272_Sexo-Usuario.Designer.cs">
       <DependentUpon>201809262004272_Sexo-Usuario.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809270316070_Clases-Sprint#1.cs" />
+    <Compile Include="Migrations\201809270316070_Clases-Sprint#1.Designer.cs">
+      <DependentUpon>201809270316070_Clases-Sprint#1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809270405546_cambio_Nombre.cs" />
+    <Compile Include="Migrations\201809270405546_cambio_Nombre.Designer.cs">
+      <DependentUpon>201809270405546_cambio_Nombre.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\Usuarios\Asociacion_Deportiva.cs" />
+    <Compile Include="Models\Usuarios\Atleta.cs" />
+    <Compile Include="Models\Agrupaciones\Categoria.cs" />
+    <Compile Include="Models\Agrupaciones\Deporte.cs" />
+    <Compile Include="Models\Usuarios\Entidad_Publica.cs" />
+    <Compile Include="Models\Usuarios\Entrenador.cs" />
+    <Compile Include="Models\Estado.cs" />
+    <Compile Include="Models\Usuarios\Funcionario_ICODER.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Usuarios\Seleccion.cs" />
+    <Compile Include="Models\Tipo_Deporte.cs" />
+    <Compile Include="Models\Tipo_Entidad.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -300,6 +321,16 @@
     <Content Include="Views\UsersAdmin\Delete.cshtml" />
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
+    <Content Include="Views\Asociacion_Deportiva\Create.cshtml" />
+    <Content Include="Views\Asociacion_Deportiva\Delete.cshtml" />
+    <Content Include="Views\Asociacion_Deportiva\Details.cshtml" />
+    <Content Include="Views\Asociacion_Deportiva\Edit.cshtml" />
+    <Content Include="Views\Asociacion_Deportiva\Index.cshtml" />
+    <Content Include="Views\Estados\Create.cshtml" />
+    <Content Include="Views\Estados\Delete.cshtml" />
+    <Content Include="Views\Estados\Details.cshtml" />
+    <Content Include="Views\Estados\Edit.cshtml" />
+    <Content Include="Views\Estados\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\App_Data\" />
@@ -335,6 +366,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809262004272_Sexo-Usuario.resx">
       <DependentUpon>201809262004272_Sexo-Usuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809270316070_Clases-Sprint#1.resx">
+      <DependentUpon>201809270316070_Clases-Sprint#1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809270405546_cambio_Nombre.resx">
+      <DependentUpon>201809270405546_cambio_Nombre.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

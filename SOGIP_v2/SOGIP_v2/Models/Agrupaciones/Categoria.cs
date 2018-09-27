@@ -7,7 +7,7 @@ namespace SOGIP_v2.Models
 {
     public class Categoria
     {
-        public int IdCategoria { get; set; }
+        public int CategoriaId { get; set; }
         public string Descripcion { get; set; }
     }
 }

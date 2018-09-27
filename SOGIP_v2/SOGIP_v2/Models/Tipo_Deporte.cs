@@ -7,7 +7,7 @@ namespace SOGIP_v2.Models
 {
     public class Tipo_Deporte
     {
-        public int IdTipoDeporte { get; set; }
+        public int Tipo_DeporteId { get; set; }
         public string Descripcion { get; set; }
     }
 }
