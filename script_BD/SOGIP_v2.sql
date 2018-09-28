@@ -1,6 +1,8 @@
 -- create database SOGIP_v2.2
 -- use "SOGIP_v2.2"
+-- use master;
 
+-- drop database "SOGIP_v2.2"
 -- delete from SOGIP_UserLogins;
 -- delete from SOGIP_UserClaims;
 -- delete from SOGIP_Users;

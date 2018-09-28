@@ -47,6 +47,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -238,6 +242,10 @@
     <Compile Include="Migrations\201809270405546_cambio_Nombre.Designer.cs">
       <DependentUpon>201809270405546_cambio_Nombre.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809280446170_issue.cs" />
+    <Compile Include="Migrations\201809280446170_issue.Designer.cs">
+      <DependentUpon>201809280446170_issue.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -331,8 +339,10 @@
     <Content Include="Views\Estados\Details.cshtml" />
     <Content Include="Views\Estados\Edit.cshtml" />
     <Content Include="Views\Estados\Index.cshtml" />
+    <Content Include="Views\UsersAdmin\CreateMasive.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\Documentos_Importados\" />
     <Folder Include="Migrations\App_Data\" />
   </ItemGroup>
   <ItemGroup>
@@ -372,6 +382,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809270405546_cambio_Nombre.resx">
       <DependentUpon>201809270405546_cambio_Nombre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809280446170_issue.resx">
+      <DependentUpon>201809280446170_issue.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
