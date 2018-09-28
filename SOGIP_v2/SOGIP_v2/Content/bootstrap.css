@@ -1609,6 +1609,7 @@ pre code {
   margin-left: auto;
 }
 .row {
+    
   margin-right: -15px;
   margin-left: -15px;
 }
@@ -6781,37 +6782,3 @@ button.close {
     display: none !important;
   }
 }
-
-.#menu-horizontal {
-    width: 500px;
-    margin: 0 auto;
-}
-
-#menu-horizontal li {
-    margin: 0 1px;
-    width: 98px;
-    min-height: 19px;
-    text-align: center;
-    background: #BBB;
-    list-style: none;
-    padding: 2px 0;
-}
-
-    /* y otro poquito por aquí.. */
-
-    #menu-horizontal li:hover {
-        background: #C5014F;
-    }
-
-    #menu-horizontal >li a {
-        font: bold 11px Arial, Helvetica, sans-serif;
-        color: #FFF;
-        text-decoration: none;
-    }
-
-    #menu-horizontal li> ul li {
-        float: none;
-        width: 98px;
-        margin: 1px 0;
-    }
-/*# sourceMappingURL=bootstrap.css.map */

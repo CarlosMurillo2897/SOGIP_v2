@@ -1,14 +1,19 @@
 ﻿@model SOGIP_v2.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Crear";
+                /**/
+    <div class="header">
+        <div class="jumbotron">
+            <h1 class="auto-style1">
+                <a href="@Url.Action()" class="logo"><img src="~/Content/Imagenes/logo_png_header.png"></a> SISTEMA OPERATIVO GIMNASIO DE PESAS
+            </h1>
+        </div>
+    </div>
 }
-
 <h2>@ViewBag.Title.</h2>
 
 @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Crear una nueva cuenta</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-error" })
     <div class="form-group">
