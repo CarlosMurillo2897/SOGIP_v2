@@ -37,7 +37,7 @@
                 <label class="control-label">
                     Seleccione el rol del usuario
                 </label>
-                <select name="SelectedRole">
+                <select name="selectedRoles">
                     @foreach (var item in (SelectList)ViewBag.RoleId)
                     {
                         @*<input type="" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />*@
@@ -110,7 +110,7 @@
                 <div class="col-md-1 col-lg-3">
                     <div class="form-group">
                         <div class="col-md-10">
-                            @Html.LabelFor(m => m.Sexo, new { @class = "control-label" })
+                            @Html.Label("Genero", new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.Sexo, Genero, "-- Seleccionar --")
                         </div>
                     </div>

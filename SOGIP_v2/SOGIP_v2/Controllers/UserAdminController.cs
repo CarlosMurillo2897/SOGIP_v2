@@ -102,6 +102,11 @@ namespace SOGIP_v2.Controllers
             ViewBag.Selecciones = listS;
 
             //Get the list of Roles
+            var getRoles = db.Roles.ToList();
+            SelectList listR = new SelectList(getRoles, "Id", "Name");
+            ViewBag.RoleId = listR;
+
+
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
             return View();
         }
@@ -121,6 +126,7 @@ namespace SOGIP_v2.Controllers
                                                  Sexo = true };
 
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
+                string[] trainer = { "Entrenador" };
 
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
@@ -128,17 +134,15 @@ namespace SOGIP_v2.Controllers
                     if (selectedRoles != null)
                     {
                         var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
-
-                        //if (selectedRoles.Equals("Entrenador"))
-                        //{                       
-                        //    Entrenador entrenador = new Entrenador()
-                        //    {
-                        //        Usuario= user
-                        //    };
-                        //    db.Entrenadores.Add(entrenador);
-                        //    db.SaveChanges();
-                        //}
-
+                        if (selectedRoles.Equals(trainer[0]))
+                        {
+                            Entrenador entrenador = new Entrenador()
+                            {
+                                Usuario = user
+                            };
+                            db.Entrenadores.Add(entrenador);
+                            db.SaveChanges();
+                        }
 
                         if (!result.Succeeded)
                         {
@@ -174,10 +178,9 @@ namespace SOGIP_v2.Controllers
             SelectList listS = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
             ViewBag.Selecciones = listS;
             //Entities List
-            var getEntidad = db.Tipo_Entidad.ToList();
-            SelectList listE = new SelectList(getEntidad, "Tipo_EntidadId", "Descripcion");
-            ViewBag.Entidades = listE;
-            ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
+
+            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+
             return View();
         }
 
