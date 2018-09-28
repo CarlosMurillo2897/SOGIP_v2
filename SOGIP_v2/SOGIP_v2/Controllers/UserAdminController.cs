@@ -83,19 +83,23 @@ namespace SOGIP_v2.Controllers
         {
             //Entities List
             var getEntidad = db.Tipo_Entidad.ToList();
-            SelectList listE = new SelectList(getEntidad, "Tipo_EntidadId", "Nombre");
+            SelectList listE = new SelectList(getEntidad, "Tipo_EntidadId", "Descripcion");
             ViewBag.Entidades = listE;
 
             //Sport List
             var getDeporte = db.Deportes.ToList();
-            SelectList listD = new SelectList(getDeporte,"DeporteId","Nombre");
+            SelectList listD = new SelectList(getDeporte, "DeporteId", "Nombre");
             ViewBag.Deportes = listD;
 
             //Category List
             var getCategoria = db.Categorias.ToList();
-            SelectList listC = new SelectList(getCategoria, "Descripcion", "CategoriaId");
+            SelectList listC = new SelectList(getCategoria, "CategoriaId", "Descripcion");
             ViewBag.Categorias = listC;
 
+            //Seleccion List
+            var getSeleccion = db.Selecciones.ToList();
+            SelectList listS = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
+            ViewBag.Selecciones = listS;
 
             //Get the list of Roles
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
@@ -110,6 +114,7 @@ namespace SOGIP_v2.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var user = new ApplicationUser { UserName = userViewModel.Cedula, Email = userViewModel.Email, Nombre1 = userViewModel.Nombre1,
                                                  Nombre2 = userViewModel.Nombre2, Apellido1 = userViewModel.Apellido1, Apellido2 = userViewModel.Apellido2,
                                                  Cedula = userViewModel.Cedula, Fecha_Nacimiento = DateTime.Now, Fecha_Expiracion = DateTime.Now,
@@ -123,6 +128,18 @@ namespace SOGIP_v2.Controllers
                     if (selectedRoles != null)
                     {
                         var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
+
+                        //if (selectedRoles.Equals("Entrenador"))
+                        //{                       
+                        //    Entrenador entrenador = new Entrenador()
+                        //    {
+                        //        Usuario= user
+                        //    };
+                        //    db.Entrenadores.Add(entrenador);
+                        //    db.SaveChanges();
+                        //}
+
+
                         if (!result.Succeeded)
                         {
                             ModelState.AddModelError("", result.Errors.First());
@@ -134,7 +151,7 @@ namespace SOGIP_v2.Controllers
                 else
                 {
                     ModelState.AddModelError("", adminresult.Errors.First());
-          
+
 
                     ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
                     return View();
@@ -142,7 +159,24 @@ namespace SOGIP_v2.Controllers
                 }
                 return RedirectToAction("Index");
             }
-      
+            //Sport List
+            var getDeporte = db.Deportes.ToList();
+            SelectList listD = new SelectList(getDeporte, "DeporteId", "Nombre");
+            ViewBag.Deportes = listD;
+
+            //Category List
+            var getCategoria = db.Categorias.ToList();
+            SelectList listC = new SelectList(getCategoria, "CategoriaId", "Descripcion");
+            ViewBag.Categorias = listC;
+
+            //Seleccion List
+            var getSeleccion = db.Selecciones.ToList();
+            SelectList listS = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
+            ViewBag.Selecciones = listS;
+            //Entities List
+            var getEntidad = db.Tipo_Entidad.ToList();
+            SelectList listE = new SelectList(getEntidad, "Tipo_EntidadId", "Descripcion");
+            ViewBag.Entidades = listE;
             ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
             return View();
         }
