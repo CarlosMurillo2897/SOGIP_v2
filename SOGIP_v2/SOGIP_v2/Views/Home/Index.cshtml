@@ -1,20 +1,14 @@
-﻿@{
-<div class="jumbotron">
-    <h1 class="auto-style1">
-        <a href="@Url.Action()" class="logo"><img src="~/Content/Imagenes/logo_png_header.png"></a> SISTEMA OPERATIVO GIMNASIO DE PESAS
-    </h1>
-</div>
+﻿
+@{
+    <div class="header">
+        <div class="jumbotron">
+            <h1 class="auto-style1">
+                <a href="@Url.Action()" class="logo"><img src="~/Content/Imagenes/logo_png_header.png"></a> SISTEMA OPERATIVO GIMNASIO DE PESAS
+            </h1>
+        </div>
+    </div>
 }
 
-<div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        @Html.Partial("_LoginPartial")
-    </div>
-</div>
+@{
+    <h2>@Html.Partial("_LoginPartial")</h2>
+}
