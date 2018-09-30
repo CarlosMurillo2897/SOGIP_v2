@@ -20,6 +20,27 @@ namespace SOGIP_v2.Controllers
         {
         }
 
+        public string composicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
+        {
+            string mes = "";
+
+            if (Nacimiento.Month < 10)
+            {
+                mes = "0";
+            }
+
+            mes = mes + Nacimiento.Month;
+
+            string password = char.ToUpper(Nombre1[0]) + "" +
+                              char.ToLower(Nombre1[1]) + "" +
+                              char.ToUpper(Apellido1[0]) + "" +
+                              char.ToLower(Apellido1[1]) + "" +
+                              Cedula.Substring(0, 4) +
+                              mes +
+                              Nacimiento.Year;
+            return password;
+        }
+
         public UsersAdminController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
@@ -107,7 +128,7 @@ namespace SOGIP_v2.Controllers
             ViewBag.RoleId = listR;
 
 
-            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
             return View();
         }
 
@@ -115,17 +136,25 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, params string[] selectedRoles)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string selectedRoles)
         {
             if (ModelState.IsValid)
             {
 
-                var user = new ApplicationUser { UserName = userViewModel.Cedula, Email = userViewModel.Email, Nombre1 = userViewModel.Nombre1,
-                                                 Nombre2 = userViewModel.Nombre2, Apellido1 = userViewModel.Apellido1, Apellido2 = userViewModel.Apellido2,
-                                                 Cedula = userViewModel.Cedula, Fecha_Nacimiento = DateTime.Now, Fecha_Expiracion = DateTime.Now,
-                                                 Sexo = true };
+                var user = new ApplicationUser {
+                    UserName = userViewModel.Cedula,
+                    Email = userViewModel.Email,
+                    Nombre1 = userViewModel.Nombre1,
+                    Nombre2 = userViewModel.Nombre2,
+                    Apellido1 = userViewModel.Apellido1,
+                    Apellido2 = userViewModel.Apellido2,
+                    Cedula = userViewModel.Cedula,
+                    Fecha_Nacimiento = userViewModel.Fecha_Nacimiento,
+                    Fecha_Expiracion = DateTime.Now,
+                    Sexo = userViewModel.Sexo };
 
-                var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);             
+
+                var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));             
                 
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
@@ -134,15 +163,33 @@ namespace SOGIP_v2.Controllers
                     {
                         var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
 
-                        Entrenador entrenador = new Entrenador()
-                        {
-                           Usuario_Id=user.Id
-                        };
-                            db.Entrenadores.Add(entrenador);
-                            db.SaveChanges();
+                        switch (selectedRoles) {
+                            case "Atleta":
+                                {
+                                    /*Atleta atleta = new Atleta() { Usuario_Id = user.Id };
+                                    db.Atletas.Add(atleta);
+                                    db.SaveChanges();*/
+                                    break;
+                                }
+                            case "Entidades Publicas":
+                                {
+                                    /*Entidad_Publica entPub = new Entidad_Publica() { Usuario_Id = user.Id };
+                                    db.Entidad_Publica.Add(entPub);
+                                    db.SaveChanges();*/
+                                    break;
+                                }
+                            case "Funcionarios ICODER":
+                                {
+                                    /*Funcionario_ICODER funcionario = new Funcionario_ICODER() { Usuario_Id = user.Id };
+                                    db.Funcionario_ICODER.Add(funcionario);
+                                    db.SaveChanges();*/
+                                    break;
+                                }
+
+                        }
 
 
-                        if (!result.Succeeded)
+                    if (!result.Succeeded)
                         {
                             ModelState.AddModelError("", result.Errors.First());
                             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
@@ -161,6 +208,7 @@ namespace SOGIP_v2.Controllers
                 }
                 return RedirectToAction("Index");
             }
+
             //Sport List
             var getDeporte = db.Deportes.ToList();
             SelectList listD = new SelectList(getDeporte, "DeporteId", "Nombre");
@@ -177,7 +225,7 @@ namespace SOGIP_v2.Controllers
             ViewBag.Selecciones = listS;
             //Entities List
 
-            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
 
             return View();
         }

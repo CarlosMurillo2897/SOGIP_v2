@@ -1,6 +1,5 @@
 ﻿@model SOGIP_v2.Models.RegisterViewModel
 @{
-    /**/
 
     ViewBag.Title = "Registro Manual";
 
@@ -42,7 +41,7 @@
                     {
                         @*<input type="" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />*@
                         <option>
-                            @Html.Label(item.Value, new { @class = "control-label" })
+                            @Html.Label(item.Text, new { @class = "control-label" })
                         </option>
                     }
                 </select>
@@ -148,7 +147,7 @@
                     </td>
                 </tr>
 
-                @*DATOS DE SELECCIONES*@
+                @*DATOS DE SELECCIONES
                 <tr>
                     <th><h4>ASPECTOS GENERALES SELECCION</h4></th>
                 </tr>
@@ -200,9 +199,9 @@
                             </div>
                         </div>
                     </td>
-                </tr>
+                </tr>*@
 
-                @*DATOS DE ENTIDADES PUBLICAS*@
+                @*DATOS DE ENTIDADES PUBLICAS
                 <tr>
                     <th><h4>ASPECTOS GENERALES ENTIDADES PUBLICAS</h4></th>
                 </tr>
@@ -224,9 +223,9 @@
                             </div>
                         </div>
                     </td>
-                </tr>
+                </tr>*@
 
-                @*DATOS PARA LAS ATLETA*@
+                @*DATOS PARA LAS ATLETA
                 <tr><th><h4>ASPECTOS GENERALES DE ATLETAS</h4></th></tr>
                 <tr>
                     <td>
@@ -246,10 +245,10 @@
                             </div>
                         </div>
                     </td>
-                </tr>
+                </tr>*@
 
 
-                @*DATOS PARA F.ICODER*@
+                @*DATOS PARA F.ICODER
                 <tr><th><h4>ASPECTOS GENERALES DE FUNCIONARIOS ICODER</h4></th></tr>
                 <tr>
                     <td>
@@ -263,11 +262,11 @@
                             </div>
                         </div>
                     </td>
-                </tr>
+                </tr>*@
 
             </table>
 
-                <div class="col-md-5 col-lg-3">
+                @*<div class="col-md-5 col-lg-3">
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Password, new { @class = "control-label" })
@@ -282,7 +281,7 @@
                                 @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                
 
                     <div class="form-group">

@@ -89,25 +89,25 @@ namespace SOGIP_v2.Models
         [Display(Name = "Segundo Apellido")]
         public string Apellido2 { get; set; }
 
-        public DateTime Fecha_Expiracion { get; set; }
-
-        //[Required]
+        [Required]
         [Display(Name = "Fecha de nacimiento")]
         public DateTime Fecha_Nacimiento { get; set; }
 
         [Display(Name ="Sexo")]
         public Boolean Sexo { get; set; }
 
-        [Required]
+        public DateTime Fecha_Expiracion { get; set; }
+
+        /*[Required]
         [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Contraseña")]
+        [Display(Name = "Contraseña")]*/
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
+        /*[DataType(DataType.Password)]
         [Display(Name = "Confirmar contraseña")]
         [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
-        public string ConfirmPassword { get; set; }
+        public string ConfirmPassword { get; set; }*/
     }
 
     public class ResetPasswordViewModel
