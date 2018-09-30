@@ -22,12 +22,8 @@
  -- select * from SOGIP_Tipo_Entidad
  -- select * from SOGIP_Entidad_Publica
 
- sp_help SOGIP_Users; -- Describe los atributos de cualquier tabla.
- sp_help SOGIP_Atletas;
- sp_help SOGIP_Entidad_Publica;
- sp_help SOGIP_Funcionario_ICODER;
+ -- sp_help SOGIP_Users; -- Describe los atributos de cualquier tabla.
 
- sp_help SOGIP_Estados;
 
 -- ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
@@ -54,6 +50,34 @@
  insert into SOGIP_Categorias values('Mayor');
  insert into SOGIP_Categorias values('SUB 20');
  insert into SOGIP_Categorias values('Nacional');
+
+ insert into SOGIP_Tipo_Deporte values('Individual');
+ insert into SOGIP_Tipo_Deporte values('De conjunto');
+ insert into SOGIP_Tipo_Deporte values('De tiempo y marca');
+ insert into SOGIP_Tipo_Deporte values('De combate');
+ insert into SOGIP_Tipo_Deporte values('De raqueta');
+ insert into SOGIP_Tipo_Deporte values('De precision');
+
+ insert into SOGIP_Deportes values('AJEDREZ', 3);
+ insert into SOGIP_Deportes values('ATLETISMO', 1);
+ insert into SOGIP_Deportes values('BILLAR', 1);
+ insert into SOGIP_Deportes values('BOLICHE', 2);
+ insert into SOGIP_Deportes values('BOXEO', 1);
+ insert into SOGIP_Deportes values('CICLISMO', 1);
+ insert into SOGIP_Deportes values('ESGRIMA', 4);
+ insert into SOGIP_Deportes values('FISICOCULTURISMO', 1);
+ insert into SOGIP_Deportes values('HALTEROFILIA', 1);
+ insert into SOGIP_Deportes values('JUDO', 4);
+ insert into SOGIP_Deportes values('KARATE DO', 4);
+ insert into SOGIP_Deportes values('MOTORES', 1);
+ insert into SOGIP_Deportes values('NADO SINCRONIZADO', 2);
+ insert into SOGIP_Deportes values('NATACION', 3);
+ insert into SOGIP_Deportes values('PARALIMPICO');
+ insert into SOGIP_Deportes values('PATINAJE', 2);
+ insert into SOGIP_Deportes values('POTENCIA', 1);
+ insert into SOGIP_Deportes values('PULSOS', 1);
+ insert into SOGIP_Deportes values('RACQUETBOL', 5);
+
 
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Daniel Oduber');
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Juan Santamaría');
