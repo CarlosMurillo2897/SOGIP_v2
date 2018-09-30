@@ -242,9 +242,13 @@
     <Compile Include="Migrations\201809270405546_cambio_Nombre.Designer.cs">
       <DependentUpon>201809270405546_cambio_Nombre.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809280446170_issue.cs" />
-    <Compile Include="Migrations\201809280446170_issue.Designer.cs">
-      <DependentUpon>201809280446170_issue.cs</DependentUpon>
+    <Compile Include="Migrations\201809300010105_entrenadores-model.cs" />
+    <Compile Include="Migrations\201809300010105_entrenadores-model.Designer.cs">
+      <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809301916157_unique_Attributes.cs" />
+    <Compile Include="Migrations\201809301916157_unique_Attributes.Designer.cs">
+      <DependentUpon>201809301916157_unique_Attributes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -271,6 +275,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
+    <Content Include="Content\manual.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -281,6 +286,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\create.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -383,8 +389,11 @@
     <EmbeddedResource Include="Migrations\201809270405546_cambio_Nombre.resx">
       <DependentUpon>201809270405546_cambio_Nombre.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809280446170_issue.resx">
-      <DependentUpon>201809280446170_issue.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809300010105_entrenadores-model.resx">
+      <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809301916157_unique_Attributes.resx">
+      <DependentUpon>201809301916157_unique_Attributes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

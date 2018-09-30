@@ -15,8 +15,31 @@ namespace SOGIP_v2.Controllers
     //[Authorize(Roles = "Admin")]
     public class UsersAdminController : Controller
     {
+        private ApplicationDbContext db = new ApplicationDbContext();
+
         public UsersAdminController()
         {
+        }
+
+        public string composicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
+        {
+            string mes = "";
+
+            if (Nacimiento.Month < 10)
+            {
+                mes = "0";
+            }
+
+            mes = mes + Nacimiento.Month;
+
+            string password = char.ToUpper(Nombre1[0]) + "" +
+                              char.ToLower(Nombre1[1]) + "" +
+                              char.ToUpper(Apellido1[0]) + "" +
+                              char.ToLower(Apellido1[1]) + "" +
+                              Cedula.Substring(0, 4) +
+                              mes +
+                              Nacimiento.Year;
+            return password;
         }
 
         public UsersAdminController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
@@ -80,32 +103,93 @@ namespace SOGIP_v2.Controllers
         //[HttpGet]
         public async Task<ActionResult> Create()
         {
-            //Get the list of Roles
-            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+            //Entities List
+            var getEntidad = db.Tipo_Entidad.ToList();
+            SelectList listE = new SelectList(getEntidad, "Tipo_EntidadId", "Descripcion");
+            ViewBag.Entidades = listE;
+
+            //Sport List
+            var getDeporte = db.Deportes.ToList();
+            SelectList listD = new SelectList(getDeporte, "DeporteId", "Nombre");
+            ViewBag.Deportes = listD;
+
+            //Category List
+            var getCategoria = db.Categorias.ToList();
+            SelectList listC = new SelectList(getCategoria, "CategoriaId", "Descripcion");
+            ViewBag.Categorias = listC;
+
+            //Seleccion List
+            var getSeleccion = db.Selecciones.ToList();
+            SelectList listS = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
+            ViewBag.Selecciones = listS;
+
+            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
             return View();
         }
 
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, params string[] selectedRoles)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string selectedRoles, int SelectedEntity)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = userViewModel.Cedula, Email = userViewModel.Email, Nombre1 = userViewModel.Nombre1,
-                                                 Nombre2 = userViewModel.Nombre2, Apellido1 = userViewModel.Apellido1, Apellido2 = userViewModel.Apellido2,
-                                                 Cedula = userViewModel.Cedula, Fecha_Nacimiento = DateTime.Now, Fecha_Expiracion = DateTime.Now,
-                                                 Sexo = true };
 
-                var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
+                var user = new ApplicationUser {
+                    UserName = userViewModel.Cedula,
+                    Email = userViewModel.Email,
+                    Nombre1 = userViewModel.Nombre1,
+                    Nombre2 = userViewModel.Nombre2,
+                    Apellido1 = userViewModel.Apellido1,
+                    Apellido2 = userViewModel.Apellido2,
+                    Cedula = userViewModel.Cedula,
+                    Fecha_Nacimiento = userViewModel.Fecha_Nacimiento,
+                    Fecha_Expiracion = DateTime.Now,
+                    Sexo = userViewModel.Sexo };
 
+
+                var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));             
+                
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
                 {
                     if (selectedRoles != null)
                     {
-                        var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
-                        if (!result.Succeeded)
+                        var result = await UserManager.AddToRoleAsync(user.Id, selectedRoles);
+                        
+                        switch (selectedRoles) {
+                            case "Atleta":
+                                {
+                                    /*Atleta atleta = new Atleta() { Usuario_Id = user.Id };
+                                    db.Atletas.Add(atleta);
+                                    db.SaveChanges();*/
+                                    break;
+                                }
+                            case "Entidades Publicas":
+                                {
+                                    Entidad_Publica entPub = new Entidad_Publica()
+                                    {
+                                        Usuario_Id = user.Id,
+                                        NombreEntidad_Publica = "EntidadNueva",
+                                        Tipo_Entidad = db.Tipo_Entidad.Single(x => x.Tipo_EntidadId == SelectedEntity)
+                                    };
+
+                                    db.Entidad_Publica.Add(entPub);
+                                    db.SaveChanges();
+                                    break;
+                                }
+                            case "Funcionarios ICODER":
+                                {
+                                    /*Funcionario_ICODER funcionario = new Funcionario_ICODER() { Usuario_Id = user.Id };
+                                    db.Funcionario_ICODER.Add(funcionario);
+                                    db.SaveChanges();*/
+                                    break;
+                                }
+
+                        }
+
+
+                    if (!result.Succeeded)
                         {
                             ModelState.AddModelError("", result.Errors.First());
                             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
@@ -116,16 +200,36 @@ namespace SOGIP_v2.Controllers
                 else
                 {
                     ModelState.AddModelError("", adminresult.Errors.First());
+
+
                     ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
                     return View();
 
                 }
                 return RedirectToAction("Index");
             }
-            ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
+
+            //Sport List
+            var getDeporte = db.Deportes.ToList();
+            SelectList listD = new SelectList(getDeporte, "DeporteId", "Nombre");
+            ViewBag.Deportes = listD;
+
+            //Category List
+            var getCategoria = db.Categorias.ToList();
+            SelectList listC = new SelectList(getCategoria, "CategoriaId", "Descripcion");
+            ViewBag.Categorias = listC;
+
+            //Seleccion List
+            var getSeleccion = db.Selecciones.ToList();
+            SelectList listS = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
+            ViewBag.Selecciones = listS;
+            //Entities List
+
+            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
+
             return View();
         }
-
+        
 
         public ActionResult CreateMasive()
         {
@@ -281,7 +385,7 @@ namespace SOGIP_v2.Controllers
         //    return View();
         //}
 
-
+        
         // GET: /Users/Edit/1
         [HttpGet]
         public async Task<ActionResult> Edit(string id)

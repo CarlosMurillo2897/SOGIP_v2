@@ -1,0 +1,10 @@
+﻿.card-default {
+    background-color: bisque;
+    background: linear-gradient(#fff,#ebebeb) repeat scroll 0 0 transparent;
+}
+.row-default {
+    
+}
+h4 {
+    padding-left: 14px;
+}
