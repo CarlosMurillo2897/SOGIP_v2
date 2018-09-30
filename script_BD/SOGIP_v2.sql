@@ -1,18 +1,61 @@
--- create database SOGIP_v2.2
--- use "SOGIP_v2.2"
+ use master;
+ drop database SOGIP_v2.2
 
--- delete from SOGIP_UserLogins;
--- delete from SOGIP_UserClaims;
--- delete from SOGIP_Users;
--- delete from SOGIP_UserRoles;
--- delete from SOGIP_Roles;
+ use "SOGIP_v2.2"
 
--- select * from SOGIP_Users;
--- select * from SOGIP_Users, SOGIP_UserRoles where SOGIP_Users.Id = SOGIP_UserRoles.Userid;
--- select * from SOGIP_Roles order by Id asc;
--- select * from SOGIP_UserRoles;
--- sp_help SOGIP_Users; -- Describe la tabla.
--- select * from SOGIP_Estados;
+ delete from SOGIP_Users;
+ delete from SOGIP_UserRoles;
+ delete from SOGIP_Roles;
+
+ select * from SOGIP_Users, SOGIP_UserRoles where SOGIP_Users.Id = SOGIP_UserRoles.Userid;
+ select * from SOGIP_Users;
+ select * from SOGIP_Roles order by Id asc;
+ select * from SOGIP_UserRoles;
+ select * from SOGIP_Estados;
+
+ sp_help SOGIP_Users; -- Describe los atributos de cualquier tabla.
+
+
+-- ++++++++++++++++++++++++++++ Inserts ++++++++++++++++++++++++++++
+
+
+ insert into SOGIP_Roles values('1', 'Supervisor');
+ insert into SOGIP_Roles values('2', 'Administrador');
+ insert into SOGIP_Roles values('3', 'Seleccion/Federacion');
+ insert into SOGIP_Roles values('4', 'Entrenador');
+ insert into SOGIP_Roles values('5', 'Atleta');
+ insert into SOGIP_Roles values('6', 'Funcionarios ICODER');
+ insert into SOGIP_Roles values('7', 'Entidades Publicas');
+ insert into SOGIP_Roles values('8', 'Asociacion/Comite');
+
+ insert into SOGIP_Estados values('Inactivo');
+ insert into SOGIP_Estados values('Activo');
+ insert into SOGIP_Estados values('Finalizado');
+ insert into SOGIP_Estados values('Activo');
+ insert into SOGIP_Estados values('En Proceso');
+
+ insert into SOGIP_CATEGORIAS values('Juvenil');
+ insert into SOGIP_CATEGORIAS values('Mayor');
+ insert into SOGIP_CATEGORIAS values('SUB 20');
+ insert into SOGIP_CATEGORIAS values('Nacional');
+
+
+-- ++++++++++++++++++++++++++ TRIGGERS ++++++++++++++++++++++++++
+
+
+create trigger fecha_expiracion on SOGIP_Users
+ for update, insert
+  as
+   if update(PasswordHash)
+    begin
+     update SOGIP_Users
+     set fecha_expiracion=SOGIP_Users.fecha_expiracion+90
+     from inserted
+     where SOGIP_Users.id = inserted.id
+    end
+
+
+-- ++++++++++++++++++++++++++ TRIGGERS ++++++++++++++++++++++++++
 
 -- ++++++++++++++++++++++++++ TABLAS ++++++++++++++++++++++++++
 
@@ -120,74 +163,3 @@ create table SOGIP_Entidad_Publica(
 
 
 -- ++++++++++++++++++++++++++ TABLAS ++++++++++++++++++++++++++
-
-
--- ++++++++++++++++++++++++++++ Inserts ++++++++++++++++++++++++++++
-
- insert into SOGIP_Roles values('1', 'Supervisor');
- insert into SOGIP_Roles values('2', 'Administrador');
- insert into SOGIP_Roles values('3', 'Seleccion/Federacion');
- insert into SOGIP_Roles values('4', 'Entrenador');
- insert into SOGIP_Roles values('5', 'Atleta');
- insert into SOGIP_Roles values('6', 'Funcionarios ICODER');
- insert into SOGIP_Roles values('7', 'Entidades Publicas');
- insert into SOGIP_Roles values('8', 'Asociacion/Comite');
--- insert into SOGIP_Roles values('9','Federacion');
--- insert into SOGIP_Roles values('10','Comite');
-
-
--- insert into SOGIP_Estado values('Finalizado');
--- insert into SOGIP_Estado values('Activo');
--- insert into SOGIP_Estado values('En Proceso');
-
-
--- ++++++++++++++++++++++++++++ Inserts CATEGORIAS ++++++++++++++++++++++++++++
-
-
-insert into SOGIP_CATEGORIAS values('Juvenil');
-insert into SOGIP_CATEGORIAS values('Mayor');
-insert into SOGIP_CATEGORIAS values('SUB 20');
-insert into SOGIP_CATEGORIAS values('Nacional');
-
-select * from SOGIP_Roles;
-
-
--- ++++++++++++++++++++++++++ TRIGGERS ++++++++++++++++++++++++++
-
-create trigger fecha_expiracion on SOGIP_Users
- for update, insert
-  as
-   if update(PasswordHash)
-    begin
-     update AspNetUsers
-     set fecha_expiracion=SOGIP_Users.fecha_expiracion+90
-     from inserted
-     where SOGIP_Users.id = inserted.id
-    end
-
--- ++++++++++++++++++++++++++ TRIGGERS ++++++++++++++++++++++++++
-
-
--- ++++++++++++++++++++++++++++ Drops ++++++++++++++++++++++++++++
-
--- drop table SOGIP_Supervisor;
--- drop table SOGIP_Administrador;
--- drop table SOGIP_Seleccion;
--- drop table SOGIP_Entrenador;
--- drop table SOGIP_Atleta;
--- drop table SOGIP_Funcionarios_ICODER;
--- drop table SOGIP_Entidades Publicas;
-
--- drop table SOGIP_Estado;
--- drop table SOGIP_UserLogins;
--- drop table SOGIP_UserClaims;
--- drop table SOGIP_Users;
--- drop table SOGIP_UserRoles;
--- drop table SOGIP_Roles;
--- drop trigger tr1;
-
--- Drop DB
--- 1. use master;
--- 2. drop database "SOGIP_v2.2";
-
--- ++++++++++++++++++++++++++++ Drops ++++++++++++++++++++++++++++
