@@ -42,7 +42,7 @@
                     {
                         @*<input type="" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />*@
                         <option>
-                            @Html.Label(item.Value, new { @class = "control-label" })
+                            @Html.Label(item.Text, new { @class = "control-label" })
                         </option>
                     }
                 </select>
@@ -162,7 +162,7 @@
                                     <select name="SelectedCategory" class="categoria_">
                                         @foreach (var category in (SelectList)ViewBag.Categorias)
                                         {
-                                            <option>
+                                            <option value="@category.Value">
                                                 @Html.Label(category.Text, new { @class = " control-label" })
                                             </option>
                                         }
@@ -181,7 +181,7 @@
                                     <select name="SelectedSport">
                                         @foreach (var sport in (SelectList)ViewBag.Deportes)
                                         {
-                                            <option>
+                                            <option value="@sport.Value">
                                                 @Html.Label(sport.Text, new { @class = "control-label" })
                                             </option>
                                         }
@@ -195,7 +195,8 @@
                         <div>
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    <input type="hidden" class="nombre_seleccion form-control" name="nombre_seleccion" />
+                                    @Html.Label("Entrenador (cedula)", new { @class = "control-label" })
+                                    <input type="text" class="id_entrenador form-control" name="id_entrenador" />
                                 </div>
                             </div>
                         </div>
@@ -216,7 +217,7 @@
                                         @foreach (var entity in (SelectList)ViewBag.Entidades)
                                         {
                                             <option>
-                                                @Html.Label(entity.Text, new { @class = "control-label" })
+                                                @Html.Label(entity.Value, entity.Text, new { @class = "control-label" })
                                             </option>
                                         }
                                     </select>

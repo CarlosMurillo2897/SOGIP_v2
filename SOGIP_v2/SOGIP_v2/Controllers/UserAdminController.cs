@@ -107,7 +107,7 @@ namespace SOGIP_v2.Controllers
             ViewBag.RoleId = listR;
 
 
-            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+            ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
             return View();
         }
 
@@ -115,7 +115,7 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, params string[] selectedRoles)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string selectedRoles, int SelectedCategory, int SelectedSport, FormCollection form)
         {
             if (ModelState.IsValid)
             {
@@ -134,13 +134,43 @@ namespace SOGIP_v2.Controllers
                     {
                         var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
 
-                        Entrenador entrenador = new Entrenador()
-                        {
-                           Usuario_Id=user.Id
-                        };
-                            db.Entrenadores.Add(entrenador);
-                            db.SaveChanges();
 
+                        switch (selectedRoles) {
+
+                            case "Entrenador":
+                                Entrenador entrenador = new Entrenador()
+                                 {
+                                     Usuario_Id = db.Users.Single(x => x.Id == user.Id)
+                                };
+                                 db.Entrenadores.Add(entrenador);
+                                break;
+
+
+                            case "Seleccion":
+                                Seleccion seleccion = new Seleccion()
+                                {
+                                    Nombre_Seleccion = "Seleccion de",
+                                  Usuario=db.Users.Single(x=>x.Id==user.Id),
+                                  Deporte_Id= db.Deportes.Single(x=>x.DeporteId==SelectedSport), 
+                                  Categoria_Id= db.Categorias.Single(x=>x.CategoriaId==SelectedCategory),
+
+                                };
+                                db.Selecciones.Add(seleccion);
+                                break;
+
+                            case "Asociacion":
+                                Asociacion_Deportiva asociacion = new Asociacion_Deportiva()
+                                {
+                                    Localidad=form["nombre_localidad"].ToString(),
+                                    Usuario_Id= db.Users.Single(x => x.Id == user.Id)
+
+                                };
+                                db.Asociacion_Deportiva.Add(asociacion);
+                                break;
+
+                        
+                    }
+                        db.SaveChanges();
 
                         if (!result.Succeeded)
                         {
