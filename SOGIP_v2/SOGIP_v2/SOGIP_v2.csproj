@@ -242,6 +242,10 @@
     <Compile Include="Migrations\201809300010105_entrenadores-model.Designer.cs">
       <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809301916157_unique_Attributes.cs" />
+    <Compile Include="Migrations\201809301916157_unique_Attributes.Designer.cs">
+      <DependentUpon>201809301916157_unique_Attributes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -381,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809300010105_entrenadores-model.resx">
       <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809301916157_unique_Attributes.resx">
+      <DependentUpon>201809301916157_unique_Attributes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

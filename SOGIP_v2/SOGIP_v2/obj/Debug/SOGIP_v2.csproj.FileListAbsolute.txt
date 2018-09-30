@@ -424,3 +424,4 @@ C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.
 C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.csprojAssemblyReference.cache
 C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.entrenadoresmodel.resources
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.entrenadoresmodel.resources
+C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.unique_Attributes.resources

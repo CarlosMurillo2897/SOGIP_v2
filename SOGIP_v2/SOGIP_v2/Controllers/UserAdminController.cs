@@ -122,12 +122,6 @@ namespace SOGIP_v2.Controllers
             SelectList listS = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
             ViewBag.Selecciones = listS;
 
-            //Get the list of Roles
-            var getRoles = db.Roles.ToList();
-            SelectList listR = new SelectList(getRoles, "Id", "Name");
-            ViewBag.RoleId = listR;
-
-
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
             return View();
         }
@@ -136,7 +130,7 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string selectedRoles)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string selectedRoles, int SelectedEntity)
         {
             if (ModelState.IsValid)
             {
@@ -161,8 +155,8 @@ namespace SOGIP_v2.Controllers
                 {
                     if (selectedRoles != null)
                     {
-                        var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
-
+                        var result = await UserManager.AddToRoleAsync(user.Id, selectedRoles);
+                        
                         switch (selectedRoles) {
                             case "Atleta":
                                 {
@@ -173,9 +167,15 @@ namespace SOGIP_v2.Controllers
                                 }
                             case "Entidades Publicas":
                                 {
-                                    /*Entidad_Publica entPub = new Entidad_Publica() { Usuario_Id = user.Id };
+                                    Entidad_Publica entPub = new Entidad_Publica()
+                                    {
+                                        Usuario_Id = user.Id,
+                                        NombreEntidad_Publica = "EntidadNueva",
+                                        Tipo_Entidad = db.Tipo_Entidad.Single(x => x.Tipo_EntidadId == SelectedEntity)
+                                    };
+
                                     db.Entidad_Publica.Add(entPub);
-                                    db.SaveChanges();*/
+                                    db.SaveChanges();
                                     break;
                                 }
                             case "Funcionarios ICODER":

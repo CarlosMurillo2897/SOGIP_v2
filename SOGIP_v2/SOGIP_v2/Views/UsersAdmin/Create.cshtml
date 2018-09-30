@@ -36,7 +36,7 @@
                 <label class="control-label">
                     Seleccione el rol del usuario
                 </label>
-                <select name="selectedRoles">
+                <select id="selectedRoles" name="selectedRoles" onchange="foo()">
                     @foreach (var item in (SelectList)ViewBag.RoleId)
                     {
                         @*<input type="" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />*@
@@ -201,7 +201,7 @@
                     </td>
                 </tr>*@
 
-                @*DATOS DE ENTIDADES PUBLICAS
+                @*DATOS DE ENTIDADES PUBLICAS*@
                 <tr>
                     <th><h4>ASPECTOS GENERALES ENTIDADES PUBLICAS</h4></th>
                 </tr>
@@ -214,7 +214,7 @@
                                     <select name="SelectedEntity">
                                         @foreach (var entity in (SelectList)ViewBag.Entidades)
                                         {
-                                            <option>
+                                            <option value="@entity.Value">
                                                 @Html.Label(entity.Text, new { @class = "control-label" })
                                             </option>
                                         }
@@ -223,7 +223,7 @@
                             </div>
                         </div>
                     </td>
-                </tr>*@
+                </tr>
 
                 @*DATOS PARA LAS ATLETA
                 <tr><th><h4>ASPECTOS GENERALES DE ATLETAS</h4></th></tr>
@@ -266,33 +266,21 @@
 
             </table>
 
-                @*<div class="col-md-5 col-lg-3">
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            @Html.LabelFor(m => m.Password, new { @class = "control-label" })
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        </div>
-                    </div>
-                    </div>
-                    <div class="col-md-5 col-lg-3">
-                        <div class="form-group">
-                            <div class="col-md-10">
-                                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
-                                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-                            </div>
-                        </div>
-                    </div>*@
-               
-
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" class="btn btn-default" value="Crear" />
+                            <input type="submit" class="btn btn-default" value="Crear"/>
                         </div>
                 </div>
-    </div>
+            </div>
         </div>
 }
-
+<script>
+    function foo() {
+        var roles = document.getElementById("selectedRolesV").value;
+        window.alert(roles);
+        // document.getElementById("selectedRoles").value="Administrador";
+    }
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
