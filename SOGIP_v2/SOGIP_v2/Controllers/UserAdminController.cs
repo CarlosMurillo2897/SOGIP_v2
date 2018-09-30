@@ -125,24 +125,22 @@ namespace SOGIP_v2.Controllers
                                                  Cedula = userViewModel.Cedula, Fecha_Nacimiento = DateTime.Now, Fecha_Expiracion = DateTime.Now,
                                                  Sexo = true };
 
-                var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
-                string[] trainer = { "Entrenador" };
-
+                var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);             
+                
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
                 {
                     if (selectedRoles != null)
                     {
                         var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
-                        if (selectedRoles.Equals(trainer[0]))
+
+                        Entrenador entrenador = new Entrenador()
                         {
-                            Entrenador entrenador = new Entrenador()
-                            {
-                                Usuario = user
-                            };
+                           Usuario_Id=user.Id
+                        };
                             db.Entrenadores.Add(entrenador);
                             db.SaveChanges();
-                        }
+
 
                         if (!result.Succeeded)
                         {

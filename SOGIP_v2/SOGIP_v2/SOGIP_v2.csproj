@@ -238,6 +238,10 @@
     <Compile Include="Migrations\201809270405546_cambio_Nombre.Designer.cs">
       <DependentUpon>201809270405546_cambio_Nombre.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809300010105_entrenadores-model.cs" />
+    <Compile Include="Migrations\201809300010105_entrenadores-model.Designer.cs">
+      <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -374,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809270405546_cambio_Nombre.resx">
       <DependentUpon>201809270405546_cambio_Nombre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809300010105_entrenadores-model.resx">
+      <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
