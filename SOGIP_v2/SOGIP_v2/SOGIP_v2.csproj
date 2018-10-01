@@ -47,10 +47,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -246,11 +242,6 @@
     <Compile Include="Migrations\201809300010105_entrenadores-model.Designer.cs">
       <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
     </Compile>
-<<<<<<< HEAD
-    <Compile Include="Migrations\201809301916157_unique_Attributes.cs" />
-    <Compile Include="Migrations\201809301916157_unique_Attributes.Designer.cs">
-      <DependentUpon>201809301916157_unique_Attributes.cs</DependentUpon>
-=======
     <Compile Include="Migrations\201809302007094_variables_selec_aso.cs" />
     <Compile Include="Migrations\201809302007094_variables_selec_aso.Designer.cs">
       <DependentUpon>201809302007094_variables_selec_aso.cs</DependentUpon>
@@ -262,7 +253,6 @@
     <Compile Include="Migrations\201809302259075_entre_aso_lam.cs" />
     <Compile Include="Migrations\201809302259075_entre_aso_lam.Designer.cs">
       <DependentUpon>201809302259075_entre_aso_lam.cs</DependentUpon>
->>>>>>> LISANDRA-A
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -359,10 +349,8 @@
     <Content Include="Views\Estados\Details.cshtml" />
     <Content Include="Views\Estados\Edit.cshtml" />
     <Content Include="Views\Estados\Index.cshtml" />
-    <Content Include="Views\UsersAdmin\CreateMasive.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Content\Documentos_Importados\" />
     <Folder Include="Migrations\App_Data\" />
   </ItemGroup>
   <ItemGroup>
@@ -406,10 +394,6 @@
     <EmbeddedResource Include="Migrations\201809300010105_entrenadores-model.resx">
       <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
     </EmbeddedResource>
-<<<<<<< HEAD
-    <EmbeddedResource Include="Migrations\201809301916157_unique_Attributes.resx">
-      <DependentUpon>201809301916157_unique_Attributes.cs</DependentUpon>
-=======
     <EmbeddedResource Include="Migrations\201809302007094_variables_selec_aso.resx">
       <DependentUpon>201809302007094_variables_selec_aso.cs</DependentUpon>
     </EmbeddedResource>
@@ -418,7 +402,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809302259075_entre_aso_lam.resx">
       <DependentUpon>201809302259075_entre_aso_lam.cs</DependentUpon>
->>>>>>> LISANDRA-A
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
