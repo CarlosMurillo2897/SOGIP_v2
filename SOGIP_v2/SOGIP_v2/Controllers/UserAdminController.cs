@@ -144,7 +144,7 @@ namespace SOGIP_v2.Controllers
                                 };
                                  db.Entrenadores.Add(entrenador);
                                 break;
-
+                                
 
                             case "Seleccion":
                                 Seleccion seleccion = new Seleccion()
