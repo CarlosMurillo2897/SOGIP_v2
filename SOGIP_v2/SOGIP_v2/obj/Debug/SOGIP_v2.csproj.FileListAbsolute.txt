@@ -426,8 +426,12 @@ C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.
 <<<<<<< HEAD
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.entrenadoresmodel.resources
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.unique_Attributes.resources
+<<<<<<< HEAD
 =======
 C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.variables_selec_aso.resources
 C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.selec.resources
 C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.entre_aso_lam.resources
 >>>>>>> LISANDRA-A
+=======
+>>>>>>> Usuarios_CMB
+>>>>>>> IngresoMasivo_Carlos

@@ -47,6 +47,69 @@
                 </select>
             </div>
         </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Nombre1, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Nombre2, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Nombre2, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apellido1, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Apellido2, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Apellido2, new { @class = "form-control" })
+        </div>
+    </div>
+    @*<div class="form-group">
+        @Html.LabelFor(m => m.Fecha_Nacimiento, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Fecha_Nacimiento, new { @class = "form-control" })
+        </div>
+    </div>*@
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label">
+            Seleccione los roles del usuario
+        </label>
+        <div class="col-md-10">
+            <select name="SelectedRoles">
+                @foreach (var item in (SelectList)ViewBag.RoleId)
+                {
+                    @*<input type="" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />*@
+                    <option>
+                        @Html.Label(item.Value, new { @class = "control-label" })
+                    </option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Crear" />
+=======
         <div class="card card-default">
             <div class="row">
                 <h4>DATOS PERSONALES</h4>
