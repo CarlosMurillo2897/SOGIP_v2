@@ -242,9 +242,23 @@
     <Compile Include="Migrations\201809300010105_entrenadores-model.Designer.cs">
       <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
     </Compile>
+<<<<<<< HEAD
     <Compile Include="Migrations\201809301916157_unique_Attributes.cs" />
     <Compile Include="Migrations\201809301916157_unique_Attributes.Designer.cs">
       <DependentUpon>201809301916157_unique_Attributes.cs</DependentUpon>
+=======
+    <Compile Include="Migrations\201809302007094_variables_selec_aso.cs" />
+    <Compile Include="Migrations\201809302007094_variables_selec_aso.Designer.cs">
+      <DependentUpon>201809302007094_variables_selec_aso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809302241278_selec.cs" />
+    <Compile Include="Migrations\201809302241278_selec.Designer.cs">
+      <DependentUpon>201809302241278_selec.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201809302259075_entre_aso_lam.cs" />
+    <Compile Include="Migrations\201809302259075_entre_aso_lam.Designer.cs">
+      <DependentUpon>201809302259075_entre_aso_lam.cs</DependentUpon>
+>>>>>>> LISANDRA-A
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -386,8 +400,19 @@
     <EmbeddedResource Include="Migrations\201809300010105_entrenadores-model.resx">
       <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
     </EmbeddedResource>
+<<<<<<< HEAD
     <EmbeddedResource Include="Migrations\201809301916157_unique_Attributes.resx">
       <DependentUpon>201809301916157_unique_Attributes.cs</DependentUpon>
+=======
+    <EmbeddedResource Include="Migrations\201809302007094_variables_selec_aso.resx">
+      <DependentUpon>201809302007094_variables_selec_aso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809302241278_selec.resx">
+      <DependentUpon>201809302241278_selec.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809302259075_entre_aso_lam.resx">
+      <DependentUpon>201809302259075_entre_aso_lam.cs</DependentUpon>
+>>>>>>> LISANDRA-A
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

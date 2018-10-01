@@ -9,9 +9,9 @@ namespace SOGIP_v2.Models
     {
         public int SeleccionId { get; set; }
         public string Nombre_Seleccion { get; set; }
-        public string Usuario_Id { get; set; }
-        public Deporte Deporte { get; set; }
-        public Categoria Categoria { get; set; }
-        public Entrenador Entrenador { get; set; }
+        public ApplicationUser Usuario { get; set; }
+        public Deporte Deporte_Id { get; set; }
+        public Categoria Categoria_Id { get; set; }
+        public Entrenador Entrenador_Id { get; set; }
     }
 }

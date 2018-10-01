@@ -130,7 +130,7 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string selectedRoles, int SelectedEntity)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, int selectedEntity, string selectedRoles, int SelectedCategory, int SelectedSport)
         {
             if (ModelState.IsValid)
             {
@@ -185,9 +185,44 @@ namespace SOGIP_v2.Controllers
                                     db.SaveChanges();*/
                                     break;
                                 }
-
                         }
 
+                        switch (selectedRoles) {
+
+                            case "Entrenador":
+                                Entrenador entrenador = new Entrenador()
+                                 {
+                                     Usuario_Id = db.Users.Single(x => x.Id == user.Id)
+                                };
+                                 db.Entrenadores.Add(entrenador);
+                                break;
+
+
+                            case "Seleccion":
+                                Seleccion seleccion = new Seleccion()
+                                {
+                                    Nombre_Seleccion = "Seleccion de",
+                                  Usuario=db.Users.Single(x=>x.Id==user.Id),
+                                  Deporte_Id= db.Deportes.Single(x=>x.DeporteId==SelectedSport), 
+                                  Categoria_Id= db.Categorias.Single(x=>x.CategoriaId==SelectedCategory),
+
+                                };
+                                db.Selecciones.Add(seleccion);
+                                break;
+
+                            case "Asociacion":
+                                Asociacion_Deportiva asociacion = new Asociacion_Deportiva()
+                                {
+                                    Localidad=form["nombre_localidad"].ToString(),
+                                    Usuario_Id= db.Users.Single(x => x.Id == user.Id)
+
+                                };
+                                db.Asociacion_Deportiva.Add(asociacion);
+                                break;
+
+                        
+                    }
+                        db.SaveChanges();
 
                     if (!result.Succeeded)
                         {
