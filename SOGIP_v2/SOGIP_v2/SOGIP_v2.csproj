@@ -289,6 +289,7 @@
     <Content Include="Views\UsersAdmin\Delete.cshtml" />
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
+    <Content Include="Views\Home\header.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\App_Data\" />

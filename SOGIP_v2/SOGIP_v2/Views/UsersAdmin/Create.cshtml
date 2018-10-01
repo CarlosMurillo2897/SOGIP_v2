@@ -1,20 +1,9 @@
-﻿@model SOGIP_v2.Models.RegisterViewModel
-@{
-                /**/
-    <div class="header">
-        <div class="jumbotron">
-            <h1 class="auto-style1">
-                <a href="@Url.Action()" class="logo"><img src="~/Content/Imagenes/logo_png_header.png"></a> SISTEMA OPERATIVO GIMNASIO DE PESAS
-            </h1>
-        </div>
-    </div>
-}
-<h2>@ViewBag.Title.</h2>
-
+﻿
+@model SOGIP_v2.Models.RegisterViewModel
 @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
+    @Html.Partial("/Views/Home/header.cshtml")
     @Html.AntiForgeryToken()
-    <hr />
     @Html.ValidationSummary("", new { @class = "text-error" })
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
