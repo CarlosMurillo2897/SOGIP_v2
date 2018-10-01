@@ -426,3 +426,4 @@ C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.
 C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.variables_selec_aso.resources
 C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.selec.resources
 C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.entre_aso_lam.resources
+C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.asoDep.resources

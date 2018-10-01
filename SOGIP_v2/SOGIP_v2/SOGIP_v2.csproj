@@ -254,6 +254,10 @@
     <Compile Include="Migrations\201809302259075_entre_aso_lam.Designer.cs">
       <DependentUpon>201809302259075_entre_aso_lam.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810011958469_asoDep.cs" />
+    <Compile Include="Migrations\201810011958469_asoDep.Designer.cs">
+      <DependentUpon>201810011958469_asoDep.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -402,6 +406,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809302259075_entre_aso_lam.resx">
       <DependentUpon>201809302259075_entre_aso_lam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810011958469_asoDep.resx">
+      <DependentUpon>201810011958469_asoDep.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

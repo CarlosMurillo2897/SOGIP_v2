@@ -145,12 +145,13 @@ namespace SOGIP_v2.Controllers
                                  db.Entrenadores.Add(entrenador);
                                 break;
                                 
-
+                                //no sé por que diablos, pero cuando concateno el nombre
+                                //de selección, se crean espacios y separa mucho los nombres
                             case "Seleccion":
                                 Seleccion seleccion = new Seleccion()
                                 {
-                                    Nombre_Seleccion = "Seleccion de",
-                                  Usuario=db.Users.Single(x=>x.Id==user.Id),
+                                  Nombre_Seleccion ="Seleccion"+form["sele_n"].ToString() + "de"+ form["sele_m"].ToString(),
+                                  Usuario =db.Users.Single(x=>x.Id==user.Id),
                                   Deporte_Id= db.Deportes.Single(x=>x.DeporteId==SelectedSport), 
                                   Categoria_Id= db.Categorias.Single(x=>x.CategoriaId==SelectedCategory),
 
@@ -162,6 +163,7 @@ namespace SOGIP_v2.Controllers
                                 Asociacion_Deportiva asociacion = new Asociacion_Deportiva()
                                 {
                                     Localidad=form["nombre_localidad"].ToString(),
+                                    Nombre_DepAso=form["nombre_aso"].ToString(),
                                     Usuario_Id= db.Users.Single(x => x.Id == user.Id)
 
                                 };
@@ -171,7 +173,7 @@ namespace SOGIP_v2.Controllers
                         
                     }
                         db.SaveChanges();
-
+                        //ViewBag.Message = "El usuario " + user.Cedula + " se ha registrado correctamente";
                         if (!result.Succeeded)
                         {
                             ModelState.AddModelError("", result.Errors.First());
@@ -189,6 +191,7 @@ namespace SOGIP_v2.Controllers
                     return View();
 
                 }
+               
                 return RedirectToAction("Index");
             }
             //Sport List

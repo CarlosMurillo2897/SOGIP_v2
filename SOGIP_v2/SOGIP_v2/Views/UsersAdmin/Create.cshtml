@@ -55,7 +55,7 @@
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Cedula, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", required = "required" })
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Nombre1, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control", required = "required" })
                         </div>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Apellido1, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control", required = "required" })
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Apellido2, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Apellido2, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.Apellido2, new { @class = "form-control", required = "required" })
                         </div>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     @Html.LabelFor(m => m.Email, new { @class = "control-label" })
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", required = "required" })
                                 </div>
                             </div>
                         </div>
@@ -142,6 +142,24 @@
                                 <div class="col-md-10">
                                     @Html.Label("Localidad", new { @class = "control-label" })
                                     <input type="text" class="nombre_localidad form-control" name="nombre_localidad" />
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                @*ASPECTOS GENERALES DE ASOCIACION-COMITÉ*@
+                <tr>
+                    <th><h4>ASPECTOS GENERALES DE ASOCIACION/COMITE</h4></th>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    @Html.Label("Nombre de Asociacion o comite", new { @class = "control-label" })
+                                    <input type="text" class="nombre_aso form-control" name="nombre_aso" required="required" />
                                 </div>
                             </div>
                         </div>
@@ -191,22 +209,23 @@
                         </div>
                     </td>
 
-                    <td>
-                        <div>
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.Label("Entrenador (cedula)", new { @class = "control-label" })
-                                    <input type="text" class="id_entrenador form-control" name="id_entrenador" />
+                    @*<td>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        @Html.Label("Entrenador (cedula)", new { @class = "control-label" })
+                                        <input type="text" class="id_entrenador form-control" name="id_entrenador" />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
+                        </td>*@
                 </tr>
                 <tr>
                     <td>
                         <div class="col-md-10">
-                            @Html.Label("Nombre de la sele xdxdd", new { @class = "control-label" })
-                            <input type="text" class="sele_n" name="sele_n" id="sele_n" />
+                            @*@Html.Label("Nombre de la sele", new { @class = "control-label" })*@
+                            <input type="hidden" class="sele_n" name="sele_n" id="sele_n" />
+                            <input type="hidden" class="sele_m" name="sele_m" id="sele_m" />
                         </div>
                     </td>
                 </tr>
@@ -267,7 +286,7 @@
 
                                 <div class="col-md-10">
                                     @Html.Label("Ingrese cedula del entrenador", new { @class = "control-label" })
-                                    <input type="text" class="entrenadorF form-control name="entrenadorF" id="entrenadorF" />
+                                    <input type="text" class="entrenadorF form-control" name="entrenadorF" id="entrenadorF" />
                                 </div>
                             </div>
                         </div>
@@ -302,6 +321,15 @@
         </div>
     </div>
 }
+
+@*@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Message");
+        };
+    </script>
+}*@
 
 
 
