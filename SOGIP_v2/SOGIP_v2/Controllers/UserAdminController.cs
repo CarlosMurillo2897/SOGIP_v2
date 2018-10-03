@@ -180,6 +180,7 @@ namespace SOGIP_v2.Controllers
                                     db.Selecciones.Add(seleccion);
                                     break;
                                 }
+                                
                             case "Entrenador":
                                 {
                                     Entrenador entrenador = new Entrenador()
@@ -198,9 +199,24 @@ namespace SOGIP_v2.Controllers
                                         Usuario = db.Users.Single(x => x.Id == user.Id)
                                         // (checked == true) Asociacion = (x.Id):Seleccion = (x.Id);
                                     };
-
+                                    
                                     db.Atletas.Add(atleta);
                                     break;
+                                }
+                                    
+                                //no sé por que diablos, pero cuando concateno el nombre
+                                //de selección, se crean espacios y separa mucho los nombres
+                            case "Seleccion":{
+                                Seleccion seleccion = new Seleccion()
+                                {
+                                  Nombre_Seleccion ="Seleccion"+form["sele_n"].ToString() + "de"+ form["sele_m"].ToString(),
+                                  Usuario =db.Users.Single(x=>x.Id==user.Id),
+                                  Deporte_Id= db.Deportes.Single(x=>x.DeporteId==SelectedSport), 
+                                  Categoria_Id= db.Categorias.Single(x=>x.CategoriaId==SelectedCategory),
+                                };
+                                
+                                  db.Selecciones.Add(seleccion);
+                                  break;
                                 }
 
                             case "Funcionarios ICODER":
@@ -210,6 +226,9 @@ namespace SOGIP_v2.Controllers
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
                                         // Entrenador = db.Users.Single(x => x.Id == CedulaJosafat)
                                     };
+                                    Localidad=form["nombre_localidad"].ToString(),
+                                    Nombre_DepAso=form["nombre_aso"].ToString(),
+                                    Usuario_Id= db.Users.Single(x => x.Id == user.Id)
 
                                     db.Funcionario_ICODER.Add(funcionario);
                                     break;
@@ -241,8 +260,9 @@ namespace SOGIP_v2.Controllers
                     }
 
                     db.SaveChanges();
-
-                    if (!result.Succeeded)
+                    
+                        //ViewBag.Message = "El usuario " + user.Cedula + " se ha registrado correctamente";
+                        if (!result.Succeeded)
                         {
                             ModelState.AddModelError("", result.Errors.First());
                             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
@@ -285,6 +305,7 @@ namespace SOGIP_v2.Controllers
 
             return View();
         }
+        
         
 
         public ActionResult CreateMasive()

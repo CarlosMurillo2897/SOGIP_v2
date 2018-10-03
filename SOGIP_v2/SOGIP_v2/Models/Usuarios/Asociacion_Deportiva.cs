@@ -10,5 +10,6 @@ namespace SOGIP_v2.Models
         public int Asociacion_DeportivaId { get; set; }
         public string Localidad { get; set; }
         public ApplicationUser Usuario { get; set; }
+        public string Nombre_DepAso { get; set; }
     }
 }

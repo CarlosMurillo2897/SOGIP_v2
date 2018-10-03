@@ -529,3 +529,4 @@ C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\bin\System.Xml.XPath.XD
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\bin\System.Collections.Immutable.dll
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\bin\System.Collections.Immutable.xml
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.csprojAssemblyReference.cache
+C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.asoDep.resources
