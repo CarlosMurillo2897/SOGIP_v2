@@ -18,10 +18,13 @@ use "SOGIP_v2.2"
  select * from SOGIP_Roles order by Id asc;
  select * from SOGIP_UserRoles;
  select * from SOGIP_Estados;
+
+ select * from SOGIP_Selecciones;
+ select * from SOGIP_Entrenadores;
  select * from SOGIP_Atletas;
- select * from SOGIP_Funcionario_ICODER;
- select * from SOGIP_Tipo_Entidad
- select * from SOGIP_Entidad_Publica
+ select * from SOGIP_Funcionario_ICODER;	
+ select * from SOGIP_Entidad_Publica;
+ select * from SOGIP_Asociacion_Deportiva;
 
  sp_help SOGIP_Users; -- Describe los atributos de cualquier tabla.
 

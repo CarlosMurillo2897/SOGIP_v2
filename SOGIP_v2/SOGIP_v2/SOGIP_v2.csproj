@@ -47,7 +47,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=1.2.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.1.5.0\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
@@ -254,6 +261,10 @@
     <Compile Include="Migrations\201809302259075_entre_aso_lam.Designer.cs">
       <DependentUpon>201809302259075_entre_aso_lam.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810030228239_new.cs" />
+    <Compile Include="Migrations\201810030228239_new.Designer.cs">
+      <DependentUpon>201810030228239_new.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -402,6 +413,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201809302259075_entre_aso_lam.resx">
       <DependentUpon>201809302259075_entre_aso_lam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810030228239_new.resx">
+      <DependentUpon>201810030228239_new.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

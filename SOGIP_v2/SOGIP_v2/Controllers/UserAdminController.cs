@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using System;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SOGIP_v2.Controllers
 {
@@ -130,10 +131,13 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, int selectedEntity, string selectedRoles, int SelectedCategory, int SelectedSport)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, int SelectedEntity, string selectedRoles, int SelectedCategory, int SelectedSport, FormCollection form)
         {
             if (ModelState.IsValid)
             {
+                /*Atleta
+                 Enti-publica
+                 Func-icoder*/
 
                 var user = new ApplicationUser {
                     UserName = userViewModel.Cedula,
@@ -148,81 +152,95 @@ namespace SOGIP_v2.Controllers
                     Sexo = userViewModel.Sexo };
 
 
-                var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));             
-                
+                var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));
+
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
                 {
                     if (selectedRoles != null)
                     {
                         var result = await UserManager.AddToRoleAsync(user.Id, selectedRoles);
+
+                        if (selectedRoles == "Atleta Alto Rendimiento") {
+                            selectedRoles = "Atleta";
+                        }
                         
                         switch (selectedRoles) {
-                            case "Atleta":
+                            case "Seleccion":
                                 {
-                                    /*Atleta atleta = new Atleta() { Usuario_Id = user.Id };
-                                    db.Atletas.Add(atleta);
-                                    db.SaveChanges();*/
+                                    Seleccion seleccion = new Seleccion()
+                                    {
+                                        Nombre_Seleccion = "Seleccion de",
+                                        Usuario = db.Users.Single(x => x.Id == user.Id),
+                                        Deporte_Id = db.Deportes.Single(x => x.DeporteId == SelectedSport),
+                                        Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
+                                        // Entrenador_Id = 
+                                    };
+
+                                    db.Selecciones.Add(seleccion);
                                     break;
                                 }
+                            case "Entrenador":
+                                {
+                                    Entrenador entrenador = new Entrenador()
+                                    {
+                                        Usuario = db.Users.Single(x => x.Id == user.Id)
+                                    };
+
+                                    db.Entrenadores.Add(entrenador);
+                                    break;
+                                }
+
+                            case "Atleta":
+                                {
+                                    Atleta atleta = new Atleta()
+                                    {
+                                        Usuario = db.Users.Single(x => x.Id == user.Id)
+                                        // (checked == true) Asociacion = (x.Id):Seleccion = (x.Id);
+                                    };
+
+                                    db.Atletas.Add(atleta);
+                                    break;
+                                }
+
+                            case "Funcionarios ICODER":
+                                {
+                                    Funcionario_ICODER funcionario = new Funcionario_ICODER()
+                                    {
+                                        Usuario = db.Users.Single(x => x.Id == user.Id),
+                                        // Entrenador = db.Users.Single(x => x.Id == CedulaJosafat)
+                                    };
+
+                                    db.Funcionario_ICODER.Add(funcionario);
+                                    break;
+                                }
+
                             case "Entidades Publicas":
                                 {
                                     Entidad_Publica entPub = new Entidad_Publica()
                                     {
-                                        Usuario_Id = user.Id,
-                                        NombreEntidad_Publica = "EntidadNueva",
+                                        Usuario = db.Users.Single(x => x.Id == user.Id),
                                         Tipo_Entidad = db.Tipo_Entidad.Single(x => x.Tipo_EntidadId == SelectedEntity)
                                     };
 
                                     db.Entidad_Publica.Add(entPub);
-                                    db.SaveChanges();
                                     break;
                                 }
-                            case "Funcionarios ICODER":
-                                {
-                                    /*Funcionario_ICODER funcionario = new Funcionario_ICODER() { Usuario_Id = user.Id };
-                                    db.Funcionario_ICODER.Add(funcionario);
-                                    db.SaveChanges();*/
-                                    break;
-                                }
-                        }
-
-                        switch (selectedRoles) {
-
-                            case "Entrenador":
-                                Entrenador entrenador = new Entrenador()
-                                 {
-                                     Usuario_Id = db.Users.Single(x => x.Id == user.Id)
-                                };
-                                 db.Entrenadores.Add(entrenador);
-                                break;
-
-
-                            case "Seleccion":
-                                Seleccion seleccion = new Seleccion()
-                                {
-                                    Nombre_Seleccion = "Seleccion de",
-                                  Usuario=db.Users.Single(x=>x.Id==user.Id),
-                                  Deporte_Id= db.Deportes.Single(x=>x.DeporteId==SelectedSport), 
-                                  Categoria_Id= db.Categorias.Single(x=>x.CategoriaId==SelectedCategory),
-
-                                };
-                                db.Selecciones.Add(seleccion);
-                                break;
 
                             case "Asociacion":
-                                Asociacion_Deportiva asociacion = new Asociacion_Deportiva()
                                 {
-                                    Localidad=form["nombre_localidad"].ToString(),
-                                    Usuario_Id= db.Users.Single(x => x.Id == user.Id)
+                                    Asociacion_Deportiva asociacion = new Asociacion_Deportiva()
+                                    {
+                                        Localidad = form["nombre_localidad"].ToString(),
+                                        Usuario = db.Users.Single(x => x.Id == user.Id)
+                                    };
 
-                                };
-                                db.Asociacion_Deportiva.Add(asociacion);
-                                break;
-
-                        
+                                    db.Asociacion_Deportiva.Add(asociacion);
+                                    break;
+                                }
                     }
-                        db.SaveChanges();
+
+                    db.SaveChanges();
 
                     if (!result.Succeeded)
                         {
@@ -232,6 +250,7 @@ namespace SOGIP_v2.Controllers
                         }
                     }
                 }
+
                 else
                 {
                     ModelState.AddModelError("", adminresult.Errors.First());
@@ -241,6 +260,8 @@ namespace SOGIP_v2.Controllers
                     return View();
 
                 }
+
+                // If everything it's ok.
                 return RedirectToAction("Index");
             }
 
