@@ -106,32 +106,37 @@ namespace SOGIP_v2.Controllers
         {
             //Entities List
             var getEntidad = db.Tipo_Entidad.ToList();
-            SelectList listE = new SelectList(getEntidad, "Tipo_EntidadId", "Descripcion");
-            ViewBag.Entidades = listE;
+            SelectList listaEntidades = new SelectList(getEntidad, "Tipo_EntidadId", "Descripcion");
+            ViewBag.Entidades = listaEntidades;
 
             //Sport List
             var getDeporte = db.Deportes.ToList();
-            SelectList listD = new SelectList(getDeporte, "DeporteId", "Nombre");
-            ViewBag.Deportes = listD;
+            SelectList listaDeportes = new SelectList(getDeporte, "DeporteId", "Nombre");
+            ViewBag.Deportes = listaDeportes;
 
             //Category List
             var getCategoria = db.Categorias.ToList();
-            SelectList listC = new SelectList(getCategoria, "CategoriaId", "Descripcion");
-            ViewBag.Categorias = listC;
+            SelectList listCategorías = new SelectList(getCategoria, "CategoriaId", "Descripcion");
+            ViewBag.Categorias = listCategorías;
 
             //Seleccion List
             var getSeleccion = db.Selecciones.ToList();
-            SelectList listS = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
-            ViewBag.Selecciones = listS;
+            SelectList listaSelecciones = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
+            ViewBag.Selecciones = listaSelecciones;
 
+            var getAsociaciones = db.Asociacion_Deportiva.ToList();
+            SelectList listAsociaciones = new SelectList(getAsociaciones, "Asociacion_DeportivaId", "Nombre_DepAso");
+            ViewBag.Asociaciones = listAsociaciones;
+            
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
+
             return View();
         }
 
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, int SelectedEntity, string selectedRoles, int SelectedCategory, int SelectedSport, FormCollection form)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, int selectedS, int SelectedAsox, int SelectedEntity, string selectedRoles, int SelectedCategory, int SelectedSport, FormCollection form)
         {
             if (ModelState.IsValid)
             {
@@ -169,11 +174,12 @@ namespace SOGIP_v2.Controllers
 
                             //no sé por que diablos, pero cuando concateno el nombre
                             //de selección, se crean espacios y separa mucho los nombres
-                            case "Seleccion":
+                            case "Seleccion/Federacion":
                                 {
                                     Seleccion seleccion = new Seleccion()
                                     {
-                                        Nombre_Seleccion = "Seleccion" + form["sele_n"].ToString() + "de" + form["sele_m"].ToString(),
+                                        //Nombre_Seleccion = "Seleccion" + form["sele_n"].ToString() + "de" + form["sele_m"].ToString(),
+                                        Nombre_Seleccion = form["sele_n"].ToString(),
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
                                         Deporte_Id = db.Deportes.Single(x => x.DeporteId == SelectedSport),
                                         Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
@@ -198,10 +204,17 @@ namespace SOGIP_v2.Controllers
                                 {
                                     Atleta atleta = new Atleta()
                                     {
-                                        Usuario = db.Users.Single(x => x.Id == user.Id)
-                                        // (checked == true) Asociacion = (x.Id):Seleccion = (x.Id);
+                                        Usuario = db.Users.Single(x => x.Id == user.Id),
+                                        Localidad = form["nombre_localidad"].ToString()
                                     };
-                                    
+                                    if (Atleta_Tipo == "Selección") {
+                                        atleta.Seleccion = db.Selecciones.Single(x => x.SeleccionId == selectedS);
+                                    }
+                                    else
+                                    {
+                                        atleta.Asociacion_Deportiva = db.Asociacion_Deportiva.Single(x => x.Asociacion_DeportivaId == SelectedAsox);
+                                    }
+
                                     db.Atletas.Add(atleta);
                                     break;
                                 }
@@ -211,7 +224,7 @@ namespace SOGIP_v2.Controllers
                                     Funcionario_ICODER funcionario = new Funcionario_ICODER()
                                     {
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
-                                        // Entrenador = db.Users.Single(x => x.Id == CedulaJosafat)
+                                        Entrenador = db.Users.Single(x => x.Cedula == "114070986") // Cédula de Josafat, esto es momentáneo.
                                     };
 
                                     db.Funcionario_ICODER.Add(funcionario);
@@ -230,7 +243,7 @@ namespace SOGIP_v2.Controllers
                                     break;
                                 }
 
-                            case "Asociacion":
+                            case "Asociacion/Comite":
                                 {
                                     Asociacion_Deportiva asociacion = new Asociacion_Deportiva()
                                     {

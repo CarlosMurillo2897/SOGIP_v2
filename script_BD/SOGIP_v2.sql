@@ -13,10 +13,18 @@ use "SOGIP_v2.2"
 -- ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
 
- select * from SOGIP_Users, SOGIP_UserRoles where SOGIP_Users.Id = SOGIP_UserRoles.Userid;
+ select SOGIP_Users.Nombre1, SOGIP_Roles.Name, SOGIP_Roles.id
+ from 
+ SOGIP_Users, SOGIP_UserRoles, SOGIP_Roles
+ where 
+ SOGIP_Users.Id = SOGIP_UserRoles.Userid
+ and
+ SOGIP_UserRoles.Roleid = SOGIP_Roles.id
+ order by SOGIP_Roles.id;
+
  select * from SOGIP_Users;
  select * from SOGIP_Roles order by Id asc;
- select * from SOGIP_UserRoles;
+ select * from SOGIP_UserRoles, SOGIP_Roles;
  select * from SOGIP_Estados;
 
  select * from SOGIP_Selecciones;
@@ -175,6 +183,7 @@ insert into SOGIP_Tipo_Entidad values('Sistema Nacional de Radio y Televisión');
 insert into SOGIP_Tipo_Entidad values('Universidad Empresarial de Costa Rica');
 insert into SOGIP_Tipo_Entidad values('Universidad Estatal a Distancia');
 insert into SOGIP_Tipo_Entidad values('Universidad Nacional de Costa Rica');
+
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++
 
