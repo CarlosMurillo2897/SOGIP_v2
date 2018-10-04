@@ -295,6 +295,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
     <Content Include="Content\manual.css" />
+    <Content Include="Content\StyleHeader.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -364,6 +365,7 @@
     <Content Include="Views\Estados\Details.cshtml" />
     <Content Include="Views\Estados\Edit.cshtml" />
     <Content Include="Views\Estados\Index.cshtml" />
+    <Content Include="Views\Home\header.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\App_Data\" />

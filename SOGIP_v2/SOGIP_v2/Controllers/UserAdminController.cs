@@ -61,8 +61,7 @@ namespace SOGIP_v2.Controllers
                 _userManager = value;
             }
         }
-
-        private ApplicationRoleManager _roleManager;
+          private ApplicationRoleManager _roleManager;
         public ApplicationRoleManager RoleManager
         {
             get

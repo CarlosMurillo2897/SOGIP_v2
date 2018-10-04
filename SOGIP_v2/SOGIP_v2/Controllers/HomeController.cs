@@ -26,5 +26,9 @@ namespace SOGIP_v2.Controllers
 
             return View();
         }
+        public ActionResult header()
+        {
+            return View();
+        }
     }
 }
