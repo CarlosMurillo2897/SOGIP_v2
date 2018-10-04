@@ -124,6 +124,7 @@ namespace SOGIP_v2.Controllers
             SelectList listaSelecciones = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
             ViewBag.Selecciones = listaSelecciones;
 
+            //Aso List
             var getAsociaciones = db.Asociacion_Deportiva.ToList();
             SelectList listAsociaciones = new SelectList(getAsociaciones, "Asociacion_DeportivaId", "Nombre_DepAso");
             ViewBag.Asociaciones = listAsociaciones;
@@ -136,7 +137,7 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, int selectedS, int SelectedAsox, int SelectedEntity, string selectedRoles, int SelectedCategory, int SelectedSport, FormCollection form)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, string selectedRoles, int? SelectedCategory, int? SelectedSport, FormCollection form)
         {
             if (ModelState.IsValid)
             {
@@ -283,21 +284,30 @@ namespace SOGIP_v2.Controllers
                 return RedirectToAction("Index");
             }
 
+            //Entities List
+            var getEntidad = db.Tipo_Entidad.ToList();
+            SelectList listaEntidades = new SelectList(getEntidad, "Tipo_EntidadId", "Descripcion");
+            ViewBag.Entidades = listaEntidades;
+
             //Sport List
             var getDeporte = db.Deportes.ToList();
-            SelectList listD = new SelectList(getDeporte, "DeporteId", "Nombre");
-            ViewBag.Deportes = listD;
+            SelectList listaDeportes = new SelectList(getDeporte, "DeporteId", "Nombre");
+            ViewBag.Deportes = listaDeportes;
 
             //Category List
             var getCategoria = db.Categorias.ToList();
-            SelectList listC = new SelectList(getCategoria, "CategoriaId", "Descripcion");
-            ViewBag.Categorias = listC;
+            SelectList listCategorías = new SelectList(getCategoria, "CategoriaId", "Descripcion");
+            ViewBag.Categorias = listCategorías;
 
             //Seleccion List
             var getSeleccion = db.Selecciones.ToList();
-            SelectList listS = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
-            ViewBag.Selecciones = listS;
-            //Entities List
+            SelectList listaSelecciones = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
+            ViewBag.Selecciones = listaSelecciones;
+
+            //Aso List
+            var getAsociaciones = db.Asociacion_Deportiva.ToList();
+            SelectList listAsociaciones = new SelectList(getAsociaciones, "Asociacion_DeportivaId", "Nombre_DepAso");
+            ViewBag.Asociaciones = listAsociaciones;
 
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
 
