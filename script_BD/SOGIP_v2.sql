@@ -106,6 +106,7 @@ create trigger fecha_expiracion on SOGIP_Users
  insert into SOGIP_Deportes values('POTENCIA', 1);
  insert into SOGIP_Deportes values('PULSOS', 1);
  insert into SOGIP_Deportes values('RACQUETBOL', 5);
+ insert into SOGIP_Deportes values('ABC', 1);
 
 
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Daniel Oduber');
@@ -159,6 +160,7 @@ insert into SOGIP_Tipo_Entidad values('Ministerio de Ciencia, Tecnología y Telec
 insert into SOGIP_Tipo_Entidad values('Ministerio de Comercio Exterior');
 insert into SOGIP_Tipo_Entidad values('Ministerio de Comunicación');
 insert into SOGIP_Tipo_Entidad values('Ministerio de Cultura y Juventud');
+insert into SOGIP_Tipo_Entidad values('Ministerio de Deporte y Recreación');
 insert into SOGIP_Tipo_Entidad values('Ministerio de Economía, Industria y Comercio');
 insert into SOGIP_Tipo_Entidad values('Ministerio de Educación Pública');
 insert into SOGIP_Tipo_Entidad values('Ministerio de Gobernación y Policía');

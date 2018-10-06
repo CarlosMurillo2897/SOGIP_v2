@@ -1,4 +1,6 @@
 ﻿@model SOGIP_v2.Models.RegisterViewModel
+@Html.Partial("/Views/Home/header.cshtml")
+@Html.Partial("_LoginPartial")
 @{
 
     ViewBag.Title = "Registro Manual";
@@ -38,11 +40,11 @@
                 </label>
                 <select id="selectedRoles" name="selectedRoles">
                     @foreach (var item in (SelectList)ViewBag.RoleId)
-                     {
+                    {
                         <option>
                             @Html.Label(item.Text, new { @class = "control-label" })
                         </option>
-                     }
+                    }
                 </select>
             </div>
 
@@ -278,11 +280,11 @@
                                     @Html.Label("Seleccione la Asociacion", new { @class = "control-label" })
                                     <select name="SelectedAsox">
                                         @foreach (var asox in (SelectList)ViewBag.Asociaciones)
-                                         {
+                                        {
                                             <option value="@asox.Value">
                                                 @Html.Label(asox.Text, new { @class = "control-label" })
                                             </option>
-                                         }
+                                        }
                                     </select>
                                 </div>
                             </div>

@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<SOGIP_v2.Models.ApplicationUser>
 
+@Html.Partial("/Views/Home/header.cshtml")
+@Html.Partial("_LoginPartial")
+
 @{
     ViewBag.Title = "Inicio";
 }
@@ -7,7 +10,7 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-default"})
+    @Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-default" })
 </p>
 <table class="table">
     <tr>

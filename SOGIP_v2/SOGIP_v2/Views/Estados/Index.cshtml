@@ -1,5 +1,8 @@
 ﻿@model IEnumerable<SOGIP_v2.Models.Estado>
 
+@Html.Partial("/Views/Home/header.cshtml")
+@Html.Partial("_LoginPartial")
+
 @{
     ViewBag.Title = "Inicio";
 }
@@ -17,17 +20,18 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.EstadoId }) |
-            @Html.ActionLink("Detalles", "Details", new { id=item.EstadoId }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id=item.EstadoId })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.EstadoId }) |
+                @Html.ActionLink("Detalles", "Details", new { id = item.EstadoId }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.EstadoId })
+            </td>
+        </tr>
+    }
 
 </table>

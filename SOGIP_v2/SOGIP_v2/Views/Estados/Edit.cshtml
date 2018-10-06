@@ -1,5 +1,8 @@
 ﻿@model SOGIP_v2.Models.Estado
 
+@Html.Partial("/Views/Home/header.cshtml")
+@Html.Partial("_LoginPartial")
+
 @{
     ViewBag.Title = "Editar";
 }
@@ -10,7 +13,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Estado</h4>
         <hr />
@@ -33,9 +36,9 @@
     </div>
 }
 
-    <div>
-        @Html.ActionLink("Regresar", "Index")
-    </div>
+<div>
+    @Html.ActionLink("Regresar", "Index")
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
