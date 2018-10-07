@@ -201,7 +201,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
-    <Compile Include="Controllers\UserAdminController.cs" />
+    <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Generales.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\IdentityExtensions.cs" />
@@ -366,6 +366,8 @@
     <Content Include="Views\Estados\Edit.cshtml" />
     <Content Include="Views\Estados\Index.cshtml" />
     <Content Include="Views\Home\header.cshtml" />
+    <Content Include="Views\UsersAdmin\IndexMasivo.cshtml" />
+    <Content Include="Views\UsersAdmin\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\App_Data\" />

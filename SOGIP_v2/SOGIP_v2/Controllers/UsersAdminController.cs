@@ -22,7 +22,7 @@ namespace SOGIP_v2.Controllers
         {
         }
 
-        public string composicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
+        public static string composicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
         {
             string mes = "";
 
@@ -61,7 +61,7 @@ namespace SOGIP_v2.Controllers
                 _userManager = value;
             }
         }
-          private ApplicationRoleManager _roleManager;
+        private ApplicationRoleManager _roleManager;
         public ApplicationRoleManager RoleManager
         {
             get
@@ -127,7 +127,7 @@ namespace SOGIP_v2.Controllers
             var getAsociaciones = db.Asociacion_Deportiva.ToList();
             SelectList listAsociaciones = new SelectList(getAsociaciones, "Asociacion_DeportivaId", "Nombre_DepAso");
             ViewBag.Asociaciones = listAsociaciones;
-            
+
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
 
             return View();
@@ -144,7 +144,8 @@ namespace SOGIP_v2.Controllers
                  Enti-publica
                  Func-icoder*/
 
-                var user = new ApplicationUser {
+                var user = new ApplicationUser
+                {
                     UserName = userViewModel.Cedula,
                     Email = userViewModel.Email,
                     Nombre1 = userViewModel.Nombre1,
@@ -154,7 +155,8 @@ namespace SOGIP_v2.Controllers
                     Cedula = userViewModel.Cedula,
                     Fecha_Nacimiento = userViewModel.Fecha_Nacimiento,
                     Fecha_Expiracion = DateTime.Now,
-                    Sexo = userViewModel.Sexo };
+                    Sexo = userViewModel.Sexo
+                };
 
 
                 var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));
@@ -166,11 +168,13 @@ namespace SOGIP_v2.Controllers
                     {
                         var result = await UserManager.AddToRoleAsync(user.Id, selectedRoles);
 
-                        if (selectedRoles == "Atleta Alto Rendimiento") {
+                        if (selectedRoles == "Atleta Alto Rendimiento")
+                        {
                             selectedRoles = "Atleta";
                         }
-                        
-                        switch (selectedRoles) {
+
+                        switch (selectedRoles)
+                        {
 
                             //no sé por que diablos, pero cuando concateno el nombre
                             //de selección, se crean espacios y separa mucho los nombres
@@ -207,7 +211,8 @@ namespace SOGIP_v2.Controllers
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
                                         Localidad = form["nombre_localidad"].ToString()
                                     };
-                                    if (Atleta_Tipo == "Selección") {
+                                    if (Atleta_Tipo == "Selección")
+                                    {
                                         atleta.Seleccion = db.Selecciones.Single(x => x.SeleccionId == selectedS);
                                     }
                                     else
@@ -255,10 +260,10 @@ namespace SOGIP_v2.Controllers
                                     db.Asociacion_Deportiva.Add(asociacion);
                                     break;
                                 }
-                    }
+                        }
 
-                    db.SaveChanges();
-                    
+                        db.SaveChanges();
+
                         //ViewBag.Message = "El usuario " + user.Cedula + " se ha registrado correctamente";
                         if (!result.Succeeded)
                         {
@@ -312,164 +317,7 @@ namespace SOGIP_v2.Controllers
 
             return View();
         }
-        
-        
 
-        public ActionResult CreateMasive()
-        {
-            return View();
-        }
-
-        //[HttpPost]
-        //public async Task<ActionResult> CreateMasive(HttpPostedFileBase excelfile, RegisterViewModel userViewModel)
-        //{
-
-        //    if (excelfile == null || excelfile.ContentLength == 0)
-        //    {
-        //        ViewBag.Error = "Seleccione un archivo Excel para cargar los datos<br>";
-        //        return View();
-        //    }
-        //    else
-        //    {
-        //        if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
-        //        {
-        //            int fin;
-        //            string terminacion;
-
-        //            if (excelfile.FileName.EndsWith("xlsx"))
-        //            {
-        //                fin = excelfile.FileName.Length - 5;
-        //                terminacion = ").xlsx";
-        //            }
-        //            else
-        //            {
-        //                fin = excelfile.FileName.Length - 4;
-        //                terminacion = ").xls";
-        //            }
-
-        //            string name = excelfile.FileName.Substring(0, fin);
-
-        //            string path = Server.MapPath("~/Content/Registros/" + name +
-        //                                         "(" + DateTime.Now.Year.ToString() + "-"
-        //                                         + DateTime.Now.Month.ToString() + "-"
-        //                                         + DateTime.Now.Day.ToString() + ")-("
-        //                                         + DateTime.Now.Hour.ToString() + "-"
-        //                                         + DateTime.Now.Minute.ToString() + "-"
-        //                                         + DateTime.Now.Second.ToString() + terminacion);
-
-        //            if (System.IO.File.Exists(path))
-        //                System.IO.File.Delete(path);
-        //            excelfile.SaveAs(path);
-
-        //            Excel.Application application = new Excel.Application();
-        //            Excel.Workbook workbook = application.Workbooks.Open(path);
-        //            Excel.Worksheet worksheet = workbook.ActiveSheet;
-        //            Excel.Range range = worksheet.UsedRange;
-
-        //            List<ApplicationUser> usuarios = new List<ApplicationUser>();
-
-        //            for (int row = 2; row <= range.Rows.Count; row++)
-        //            {
-        //                ApplicationUser user = new ApplicationUser();
-
-        //                user.
-        //                a.usuario = u.id;
-
-        //                u.cedula = ((Excel.Range)range.Cells[row, 1]).Text;
-
-        //                a.nombre = ((Excel.Range)range.Cells[row, 2]).Text;
-        //                a.apellido1 = ((Excel.Range)range.Cells[row, 4]).Text;
-        //                a.apellido2 = ((Excel.Range)range.Cells[row, 5]).Text;
-
-        //                u.contrasena = "P@ssw0rd";
-
-        //                a.correo = ((Excel.Range)range.Cells[row, 11]).Text;
-        //                a.telefono = ((Excel.Range)range.Cells[row, 12]).Text;
-        //                a.genero = (((Excel.Range)range.Cells[row, 13]).Text == "M") ? Byte.MaxValue : Byte.MinValue;
-
-        //                string fecha = ((Excel.Range)range.Cells[row, 14]).Text;
-        //                string[] campos = fecha.Split('/');
-        //                a.fecha_nacimiento = System.DateTime.Parse(campos[1] + "/" + campos[0] + "/" + campos[2]);
-
-        //                u.fecha_expiracion = System.DateTime.Now;
-
-        //                usrs.Add(u);
-        //                db.SOGIP_Usuario.Add(u);
-        //                db.SaveChanges();
-
-        //                aths.Add(a);
-        //                db.SOGIP_Atleta.Add(a);
-        //                db.SaveChanges();
-
-        //            }
-
-        //            ViewBag.ListUsrs = usrs;
-        //            ViewBag.ListAths = aths;
-
-        //            workbook.Close();
-
-        //            System.Diagnostics.Process[] process = System.Diagnostics.Process.GetProcessesByName("Excel");
-        //            foreach (System.Diagnostics.Process p in process)
-        //            {
-        //                if (!string.IsNullOrEmpty(p.ProcessName))
-        //                {
-        //                    try { p.Kill(); }
-        //                    catch { }
-        //                }
-        //            }
-
-        //            return View();
-        //        }
-        //        else
-        //        {
-        //            ViewBag.Error = "El tipo de archivo no es aceptado. <br>";
-        //            return View();
-        //        }
-        //    }
-
-
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = new ApplicationUser
-        //        {
-        //            UserName = userViewModel.Cedula,
-        //            Email = userViewModel.Email,
-        //            Nombre1 = userViewModel.Nombre1,
-        //            Nombre2 = userViewModel.Nombre2,
-        //            Apellido1 = userViewModel.Apellido1,
-        //            Apellido2 = userViewModel.Apellido2,
-        //            Cedula = userViewModel.Cedula,
-        //            Fecha_Nacimiento = DateTime.Now,
-        //            Fecha_Expiracion = DateTime.Now,
-        //            Sexo = true
-        //        };
-
-        //        var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
-
-        //        if (adminresult.Succeeded)
-        //        {
-        //            /*var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
-        //            if (!result.Succeeded)
-        //            {
-        //                ModelState.AddModelError("", result.Errors.First());
-        //                ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
-        //                return View();
-        //            }*/
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError("", adminresult.Errors.First());
-        //            return View();
-
-        //        }
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    return View();
-        //}
-
-        
         // GET: /Users/Edit/1
         [HttpGet]
         public async Task<ActionResult> Edit(string id)
@@ -599,6 +447,127 @@ namespace SOGIP_v2.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+
+        public ActionResult IndexMasivo()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Import(HttpPostedFileBase excelfile)
+        {
+            if (excelfile == null || excelfile.ContentLength == 0)
+            {
+                ViewBag.Error = "Seleccione un archivo Excel para cargar los datos<br/>";
+                return View("IndexMasivo");
+            }
+            else
+            {
+                if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
+                {
+
+                    int fin;
+                    string terminacion;
+
+                    if (excelfile.FileName.EndsWith("xlsx"))
+                    {
+                        fin = excelfile.FileName.Length - 5;
+                        terminacion = ").xlsx";
+                    }
+                    else
+                    {
+                        fin = excelfile.FileName.Length - 4;
+                        terminacion = ").xls";
+                    }
+
+                    string name = excelfile.FileName.Substring(0, fin);
+                    string path = Server.MapPath("~/Content/Registros/" + name +
+                                                 "(" + DateTime.Now.Year.ToString() + "-"
+                                                 + DateTime.Now.Month.ToString() + "-"
+                                                 + DateTime.Now.Day.ToString() + ")-("
+                                                 + DateTime.Now.Hour.ToString() + "-"
+                                                 + DateTime.Now.Minute.ToString() + "-"
+                                                 + DateTime.Now.Second.ToString() + terminacion);
+
+                    if (System.IO.File.Exists(path))
+                    {
+                        System.IO.File.Delete(path);
+                    }
+                    excelfile.SaveAs(path);
+
+                    Excel.Application application = new Excel.Application();
+                    Excel.Workbook workbook = application.Workbooks.Open(path);
+                    Excel.Worksheet worksheet = workbook.ActiveSheet;
+                    Excel.Range range = worksheet.UsedRange;
+
+                    List<ApplicationUser> listUsrs = new List<ApplicationUser>();
+
+                    for (int row = 2; row <= range.Rows.Count; row++)
+                    {
+                        string fecha = ((Excel.Range)range.Cells[row, 9]).Text;
+                        /*
+                        Separación de la fecha en campos
+                        campos[0]=día
+                        campos[1]=mes
+                        campos[2]=año
+                        */
+                        string[] campos = fecha.Split('/');
+
+                        var user = new ApplicationUser
+                        {
+                            UserName = ((Excel.Range)range.Cells[row, 1]).Text,
+                            Nombre1 = ((Excel.Range)range.Cells[row, 2]).Text,
+                            Nombre2 = ((Excel.Range)range.Cells[row, 3]).Text,
+                            Apellido1 = ((Excel.Range)range.Cells[row, 4]).Text,
+                            Apellido2 = ((Excel.Range)range.Cells[row, 5]).Text,
+                            Email = ((Excel.Range)range.Cells[row, 6]).Text,
+                            PhoneNumber = ((Excel.Range)range.Cells[row, 7]).Text,
+                            Cedula = ((Excel.Range)range.Cells[row, 1]).Text,
+                            Fecha_Nacimiento = DateTime.Parse(campos[1] + "/" + campos[0] + "/" + campos[2]),
+                            Fecha_Expiracion = DateTime.Now,
+                            Sexo = (((Excel.Range)range.Cells[row, 8]).Text == "M") ? true : false
+                        };
+
+                        var compPass = composicionPassword(user.Nombre1, user.Apellido1, user.Cedula, user.Fecha_Nacimiento);
+                        var adminresult = await UserManager.CreateAsync(user, compPass);
+
+                        //if(adminresult.Succeeded)
+                        //{
+                        //    var result = await UserManager.AddToRoleAsync(user.Id, "Atleta");
+                        //}
+
+                        listUsrs.Add(user);
+                    }
+
+                    ViewBag.ListUsrs = listUsrs;
+
+                    workbook.Close();
+
+                    System.Diagnostics.Process[] process = System.Diagnostics.Process.GetProcessesByName("Excel");
+                    foreach (System.Diagnostics.Process p in process)
+                    {
+                        if (!string.IsNullOrEmpty(p.ProcessName))
+                        {
+                            try { p.Kill(); }
+                            catch { }
+                        }
+                    }
+
+                    return View("Success");
+                }
+                else
+                {
+                    ViewBag.Error = "El tipo de archivo no es aceptado. <br>";
+                    return View("IndexMasivo");
+                }
+            }
+        }
+
+        [HttpPost]
+        public ActionResult Guardar()
+        {
+            return View("IndexMasivo");
         }
     }
 }
