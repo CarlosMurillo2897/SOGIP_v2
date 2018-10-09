@@ -140,9 +140,6 @@ namespace SOGIP_v2.Controllers
         {
             if (ModelState.IsValid)
             {
-                /*Atleta
-                 Enti-publica
-                 Func-icoder*/
 
                 var user = new ApplicationUser
                 {
@@ -505,14 +502,6 @@ namespace SOGIP_v2.Controllers
 
                     for (int row = 2; row <= range.Rows.Count; row++)
                     {
-                        string fecha = ((Excel.Range)range.Cells[row, 9]).Text;
-                        /*
-                        Separación de la fecha en campos
-                        campos[0]=día
-                        campos[1]=mes
-                        campos[2]=año
-                        */
-                        string[] campos = fecha.Split('/');
 
                         var user = new ApplicationUser
                         {
@@ -521,23 +510,28 @@ namespace SOGIP_v2.Controllers
                             Nombre2 = ((Excel.Range)range.Cells[row, 3]).Text,
                             Apellido1 = ((Excel.Range)range.Cells[row, 4]).Text,
                             Apellido2 = ((Excel.Range)range.Cells[row, 5]).Text,
-                            Email = ((Excel.Range)range.Cells[row, 6]).Text,
-                            PhoneNumber = ((Excel.Range)range.Cells[row, 7]).Text,
-                            Cedula = ((Excel.Range)range.Cells[row, 1]).Text,
-                            Fecha_Nacimiento = DateTime.Parse(campos[1] + "/" + campos[0] + "/" + campos[2]),
-                            Fecha_Expiracion = DateTime.Now,
-                            Sexo = (((Excel.Range)range.Cells[row, 8]).Text == "M") ? true : false
+                            Sexo = (((Excel.Range)range.Cells[row, 8]).Text == "M") ? true : false,
+                            Email = ((Excel.Range)range.Cells[row, 11]).Text,
+                            PhoneNumber = ((Excel.Range)range.Cells[row, 12]).Text,
+                            Fecha_Expiracion = DateTime.Now
                         };
 
+                        string fecha = ((Excel.Range)range.Cells[row, 14]).Text;
+                        string[] campos = fecha.Split('/');
+
+                        user.Fecha_Nacimiento = DateTime.Parse(campos[1] + "/" + campos[0] + "/" + campos[2]);
+                        user.Cedula = user.UserName;
+
                         var compPass = composicionPassword(user.Nombre1, user.Apellido1, user.Cedula, user.Fecha_Nacimiento);
+
                         var adminresult = await UserManager.CreateAsync(user, compPass);
 
-                        //if(adminresult.Succeeded)
-                        //{
-                        //    var result = await UserManager.AddToRoleAsync(user.Id, "Atleta");
-                        //}
+                        if (adminresult.Succeeded) {
+                            var result = await UserManager.AddToRoleAsync(user.Id, "Atleta");
+                        }
 
                         listUsrs.Add(user);
+
                     }
 
                     ViewBag.ListUsrs = listUsrs;
@@ -556,12 +550,15 @@ namespace SOGIP_v2.Controllers
 
                     return View("Success");
                 }
+
                 else
                 {
                     ViewBag.Error = "El tipo de archivo no es aceptado. <br>";
                     return View("IndexMasivo");
                 }
+
             }
+
         }
 
         [HttpPost]

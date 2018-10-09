@@ -22,6 +22,7 @@ use "SOGIP_v2.2"
  SOGIP_UserRoles.Roleid = SOGIP_Roles.id
  order by SOGIP_Roles.id;
 
+ delete from SOGIP_Users where Email != 'cmb28@hotmail.com';
  delete from SOGIP_Users;
 
  select * from SOGIP_Users;

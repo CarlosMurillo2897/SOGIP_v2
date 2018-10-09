@@ -11,7 +11,7 @@
             <ul class="nav navbar-nav navbar-right">
 
                 <li>
-                    @Html.BeginForm("BusquedaUsuario", "Busqueda", FormMethod.Post, new { id = "Buscar" })
+                    @*Html.BeginForm("BusquedaUsuario", "Busqueda", FormMethod.Post, new { id = "Buscar" })*@
                     @Html.TextBox("Busqueda", "", htmlAttributes: new { id = "buscar", placeholder = "Búsqueda de usuarios" })
                     Cédula @Html.RadioButton("Búsqueda", "Cédula", true)
                     Nombre  @Html.RadioButton("Búsqueda", "Nombre", false)
