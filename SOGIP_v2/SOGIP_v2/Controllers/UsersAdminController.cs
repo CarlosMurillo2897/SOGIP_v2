@@ -17,13 +17,15 @@ namespace SOGIP_v2.Controllers
     public class UsersAdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        
         public UsersAdminController()
         {
         }
 
         public static string composicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
         {
+            
+            
             string mes = "";
 
             if (Nacimiento.Month < 10)
@@ -71,6 +73,7 @@ namespace SOGIP_v2.Controllers
             private set
             {
                 _roleManager = value;
+                
             }
         }
 
@@ -103,6 +106,7 @@ namespace SOGIP_v2.Controllers
         //[HttpGet]
         public async Task<ActionResult> Create()
         {
+           
             //Entities List
             var getEntidad = db.Tipo_Entidad.ToList();
             SelectList listaEntidades = new SelectList(getEntidad, "Tipo_EntidadId", "Descripcion");
