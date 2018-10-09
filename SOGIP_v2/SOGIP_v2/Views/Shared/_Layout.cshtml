@@ -14,6 +14,8 @@
 </head>
 <body>
     <div class="container body-content">
+        @Html.Partial("/Views/Home/header.cshtml")
+        @Html.Partial("_LoginPartial")
         @RenderBody()
         <hr />
     </div>

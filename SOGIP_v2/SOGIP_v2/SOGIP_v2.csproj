@@ -370,6 +370,7 @@
     <Content Include="Views\UsersAdmin\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Content\Registros\" />
     <Folder Include="Migrations\App_Data\" />
   </ItemGroup>
   <ItemGroup>

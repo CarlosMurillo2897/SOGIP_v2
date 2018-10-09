@@ -22,6 +22,8 @@ use "SOGIP_v2.2"
  SOGIP_UserRoles.Roleid = SOGIP_Roles.id
  order by SOGIP_Roles.id;
 
+ delete from SOGIP_Users;
+
  select * from SOGIP_Users;
  select * from SOGIP_Roles order by Id asc;
  select * from SOGIP_UserRoles, SOGIP_Roles;

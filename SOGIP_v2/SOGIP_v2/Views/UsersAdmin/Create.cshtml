@@ -2,10 +2,7 @@
 
 
 @{
-
     ViewBag.Title = "Registro Manual";
-    @Html.Partial("/Views/Home/header.cshtml")
-    @Html.Partial("_LoginPartial")
 
     List<SelectListItem> Genero = new List<SelectListItem>();
     Genero.Add(new SelectListItem
@@ -20,9 +17,6 @@
     });
 }
 
-
-
-
 @Styles.Render("~/Content/manual.css")
 
 <h2>@ViewBag.Title.</h2>
@@ -34,7 +28,7 @@
 <body>
     <hr />
     @Html.ValidationSummary(true)
-    @Html.ValidationSummary(false,"Los siguientes campos obligatorios están vacios: ")
+    @Html.ValidationSummary(false, "Los siguientes campos obligatorios están vacios: ")
     <div class="container">
         <div class="form-group">
             <div class="col-md-10">
@@ -58,8 +52,16 @@
                 <div class="col-md-1 col-lg-3">
                     <div class="form-group">
                         <div class="col-md-10">
+
                             @Html.LabelFor(m => m.Cedula, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control" })
+                            <br />
+                            Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { onclick = "$('#Cedula').val('');" })
+                            Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { onclick = "$('#Cedula').val('');" })
+                            <br />
+                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", placeholder = "Nacional solo números", onkeypress = "return isNumber(event);" })
+                            <br />
+                            <input type="button" value="Limpiar" onclick="$('#Cedula').val('');">
+                            @* <input type="text" name="myinput" id="myinput" onkeypress="return isNumber(event);" /> *@
                         </div>
                     </div>
                 </div>
@@ -320,6 +322,22 @@
 </body>
 }
 
+<script>
+
+    function isNumber(e) {
+        var allow = $("input[name='Nacionalidad']:checked").val();
+        var ced = $("#Cedula").val().length;
+
+        if (allow == "Nacional") {
+            if ( ced < 9) {
+                e = e || window.event;
+                var charCode = e.which ? e.which : e.keyCode;
+                return /\d/.test(String.fromCharCode(charCode));
+            }
+        }
+
+    }
+</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
