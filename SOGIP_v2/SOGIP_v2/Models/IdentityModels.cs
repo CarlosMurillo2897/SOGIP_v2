@@ -58,7 +58,9 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Tipo_Deporte>().        ToTable("SOGIP_Tipo_Deporte");
             modelBuilder.Entity<Tipo_Entidad>().        ToTable("SOGIP_Tipo_Entidad");
             modelBuilder.Entity<Seleccion>().           ToTable("SOGIP_Selecciones");
-           
+            modelBuilder.Entity<Horario>().             ToTable("SOGIP_Horario");
+            modelBuilder.Entity<Cita>().                ToTable("SOGIP_Cita");
+
         }
 
         public static ApplicationDbContext Create()
@@ -87,6 +89,10 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Tipo_Entidad> Tipo_Entidad { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Entidad_Publica> Entidad_Publica { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Horario> Horario { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Cita> Cita { get; set; }
 
     }
 }
