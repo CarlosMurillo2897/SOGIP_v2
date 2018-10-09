@@ -301,7 +301,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Imagenes\FONDO.png" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
+    <Content Include="Content\Login.css" />
     <Content Include="Content\manual.css" />
     <Content Include="Content\StyleHeader.css" />
     <Content Include="favicon.ico" />
