@@ -217,45 +217,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809250534097_migration_Initial.cs" />
-    <Compile Include="Migrations\201809250534097_migration_Initial.Designer.cs">
-      <DependentUpon>201809250534097_migration_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809250538312_User_Attributes.cs" />
-    <Compile Include="Migrations\201809250538312_User_Attributes.Designer.cs">
-      <DependentUpon>201809250538312_User_Attributes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809250613020_change_table_name.cs" />
-    <Compile Include="Migrations\201809250613020_change_table_name.Designer.cs">
-      <DependentUpon>201809250613020_change_table_name.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809261601133_Inclusión_apellidos_User.cs" />
-    <Compile Include="Migrations\201809261601133_Inclusión_apellidos_User.Designer.cs">
-      <DependentUpon>201809261601133_Inclusión_apellidos_User.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.cs" />
-    <Compile Include="Migrations\201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.Designer.cs">
-      <DependentUpon>201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809262004272_Sexo-Usuario.cs" />
-    <Compile Include="Migrations\201809262004272_Sexo-Usuario.Designer.cs">
-      <DependentUpon>201809262004272_Sexo-Usuario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809270316070_Clases-Sprint#1.cs" />
-    <Compile Include="Migrations\201809270316070_Clases-Sprint#1.Designer.cs">
-      <DependentUpon>201809270316070_Clases-Sprint#1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809270405546_cambio_Nombre.cs" />
-    <Compile Include="Migrations\201809270405546_cambio_Nombre.Designer.cs">
-      <DependentUpon>201809270405546_cambio_Nombre.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809300010105_entrenadores-model.cs" />
-    <Compile Include="Migrations\201809300010105_entrenadores-model.Designer.cs">
-      <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810121909415_final.cs" />
-    <Compile Include="Migrations\201810121909415_final.Designer.cs">
-      <DependentUpon>201810121909415_final.cs</DependentUpon>
+    <Compile Include="Migrations\201810121956479_all.cs" />
+    <Compile Include="Migrations\201810121956479_all.Designer.cs">
+      <DependentUpon>201810121956479_all.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -480,35 +444,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809250534097_migration_Initial.resx">
-      <DependentUpon>201809250534097_migration_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809250538312_User_Attributes.resx">
-      <DependentUpon>201809250538312_User_Attributes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809250613020_change_table_name.resx">
-      <DependentUpon>201809250613020_change_table_name.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809261601133_Inclusión_apellidos_User.resx">
-      <DependentUpon>201809261601133_Inclusión_apellidos_User.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.resx">
-      <DependentUpon>201809261618001_Inclusión_Nombre1_2-Apellido1_2-Fecha_Nacimiento.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809262004272_Sexo-Usuario.resx">
-      <DependentUpon>201809262004272_Sexo-Usuario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809270316070_Clases-Sprint#1.resx">
-      <DependentUpon>201809270316070_Clases-Sprint#1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809270405546_cambio_Nombre.resx">
-      <DependentUpon>201809270405546_cambio_Nombre.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809300010105_entrenadores-model.resx">
-      <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810121909415_final.resx">
-      <DependentUpon>201810121909415_final.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810121956479_all.resx">
+      <DependentUpon>201810121956479_all.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
