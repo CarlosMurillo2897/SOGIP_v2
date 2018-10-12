@@ -11,6 +11,5 @@ namespace SOGIP_v2.Models
         public ApplicationUser Usuario { get; set; }
         public DateTime RutinaFecha { get; set; }
         public string RutinaObservaciones { get; set; }
-        public List<Conjunto_Ejercicio> RutinaEjercicios { get; set; }
     }
 }

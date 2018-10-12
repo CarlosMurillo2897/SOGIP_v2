@@ -60,9 +60,8 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Seleccion>().ToTable("SOGIP_Selecciones");
             modelBuilder.Entity<Horario>().ToTable("SOGIP_Horario");
             modelBuilder.Entity<Cita>().ToTable("SOGIP_Cita");
-            //modelBuilder.Entity<Ejercicio>().ToTable("SOGIP_Ejercicio");
-            //modelBuilder.Entity<Conjunto_Ejercicio>().ToTable("SOGIP_Conjunto_Ejercicio");
-            //modelBuilder.Entity<Rutina>().ToTable("SOGIP_Rutina");
+            modelBuilder.Entity<Conjunto_Ejercicio>().ToTable("SOGIP_Conjunto_Ejercicio");
+            modelBuilder.Entity<Rutina>().ToTable("SOGIP_Rutina");
 
         }
 
@@ -97,7 +96,6 @@ namespace SOGIP_v2.Models
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Cita> Cita { get; set; }
 
-        public System.Data.Entity.DbSet<SOGIP_v2.Models.Ejercicio> Ejercicios { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Conjunto_Ejercicio> Conjunto_Ejercicios { get; set; }
 
