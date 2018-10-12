@@ -253,45 +253,9 @@
     <Compile Include="Migrations\201809300010105_entrenadores-model.Designer.cs">
       <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201809302007094_variables_selec_aso.cs" />
-    <Compile Include="Migrations\201809302007094_variables_selec_aso.Designer.cs">
-      <DependentUpon>201809302007094_variables_selec_aso.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809302241278_selec.cs" />
-    <Compile Include="Migrations\201809302241278_selec.Designer.cs">
-      <DependentUpon>201809302241278_selec.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809302259075_entre_aso_lam.cs" />
-    <Compile Include="Migrations\201809302259075_entre_aso_lam.Designer.cs">
-      <DependentUpon>201809302259075_entre_aso_lam.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810011958469_asoDep.cs" />
-    <Compile Include="Migrations\201810011958469_asoDep.Designer.cs">
-      <DependentUpon>201810011958469_asoDep.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810030449561_final.cs" />
-    <Compile Include="Migrations\201810030449561_final.Designer.cs">
-      <DependentUpon>201810030449561_final.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810090032327_sogip_horario.cs" />
-    <Compile Include="Migrations\201810090032327_sogip_horario.Designer.cs">
-      <DependentUpon>201810090032327_sogip_horario.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810111834190_cita_nueva.cs" />
-    <Compile Include="Migrations\201810111834190_cita_nueva.Designer.cs">
-      <DependentUpon>201810111834190_cita_nueva.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810120658524_supr.cs" />
-    <Compile Include="Migrations\201810120658524_supr.Designer.cs">
-      <DependentUpon>201810120658524_supr.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.cs" />
-    <Compile Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.Designer.cs">
-      <DependentUpon>201810110729027_Tabla_Expedientes_Fisios.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810120750267_expfis.cs" />
-    <Compile Include="Migrations\201810120750267_expfis.Designer.cs">
-      <DependentUpon>201810120750267_expfis.cs</DependentUpon>
+    <Compile Include="Migrations\201810121909415_final.cs" />
+    <Compile Include="Migrations\201810121909415_final.Designer.cs">
+      <DependentUpon>201810121909415_final.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -543,35 +507,8 @@
     <EmbeddedResource Include="Migrations\201809300010105_entrenadores-model.resx">
       <DependentUpon>201809300010105_entrenadores-model.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809302007094_variables_selec_aso.resx">
-      <DependentUpon>201809302007094_variables_selec_aso.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809302241278_selec.resx">
-      <DependentUpon>201809302241278_selec.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809302259075_entre_aso_lam.resx">
-      <DependentUpon>201809302259075_entre_aso_lam.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810011958469_asoDep.resx">
-      <DependentUpon>201810011958469_asoDep.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810030449561_final.resx">
-      <DependentUpon>201810030449561_final.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810090032327_sogip_horario.resx">
-      <DependentUpon>201810090032327_sogip_horario.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810111834190_cita_nueva.resx">
-      <DependentUpon>201810111834190_cita_nueva.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810120658524_supr.resx">
-      <DependentUpon>201810120658524_supr.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.resx">
-      <DependentUpon>201810110729027_Tabla_Expedientes_Fisios.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810120750267_expfis.resx">
-      <DependentUpon>201810120750267_expfis.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810121909415_final.resx">
+      <DependentUpon>201810121909415_final.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

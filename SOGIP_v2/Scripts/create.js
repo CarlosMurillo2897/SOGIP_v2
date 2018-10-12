@@ -209,5 +209,3 @@ jQuery.extend(jQuery.validator.messages, { // Cambio de mensaje.
     required: "Este campo es requerido",
     minlength: jQuery.validator.format("Este campo requiere de al menos 2 caracteres.")
 });
-
-$('input[type="text"]').setCustomValidity("This is a custom message"); 

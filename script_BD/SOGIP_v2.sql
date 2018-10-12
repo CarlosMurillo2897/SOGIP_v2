@@ -3,10 +3,10 @@
 +++++++ RECONSTRUIR BASE DE DATOS CON LOS CAMBIOS RESPECTIVOS ++++++++++
 
 use master;
-drop database "SOGIP_v2.2"
+drop database "SOGIP_v3"
 
-create database "SOGIP_v2.2"
-use "SOGIP_v2.2"
+create database "SOGIP_v3"
+use "SOGIP_v3"
 
 +++++++ RECONSTRUIR BASE DE DATOS CON LOS CAMBIOS RESPECTIVOS ++++++++++
 
@@ -24,14 +24,10 @@ use "SOGIP_v2.2"
 
  delete from SOGIP_Users where Email != 'cmb28@hotmail.com';
  delete from SOGIP_Users;
- 
-****PARA PRUEBAS INGRESO MASIVO****
-delete SOGIP_Users;
-****PARA PRUEBAS INGRESO MASIVO****
 
  select * from SOGIP_Users;
- select * from SOGIP_Rutina;
  select * from SOGIP_Roles order by Id asc;
+
  select * from SOGIP_UserRoles, SOGIP_Roles;
  select * from SOGIP_Estados;
 
@@ -48,22 +44,9 @@ delete SOGIP_Users;
 
 -- ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
--- *********PRUEBA*********
-create table SOGIP_Ejercicio(
-	EjercicioId int not null identity,
-	EjercicioNombre varchar(50) not null,
-	EjercicioDescripcion varchar(120),
-	EjercicioRef int,
-	constraint pkSOGIP_Ejercicio primary key(EjercicioId),
-	constraint fkSOGIP_Ejercicio foreign key(EjercicioRef) references SOGIP_Ejercicio(EjercicioId)
-);
-
-drop table SOGIP_Ejercicio;
--- *********PRUEBA*********
-
 -- ++++++++++++++++++++++++++ Trigger's ++++++++++++++++++++++++++
 
-
+/*
 create trigger fecha_expiracion on SOGIP_Users
  for update, insert
   as
@@ -74,62 +57,61 @@ create trigger fecha_expiracion on SOGIP_Users
      from inserted
      where SOGIP_Users.id = inserted.id
     end
-
+*/
 
 -- ++++++++++++++++++++++++++ Trigger's ++++++++++++++++++++++++++
 
 -- ++++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++++
 
 
- insert into SOGIP_Roles values('1', 'Supervisor');
- insert into SOGIP_Roles values('2', 'Administrador');
- insert into SOGIP_Roles values('3', 'Seleccion/Federacion');
- insert into SOGIP_Roles values('4', 'Entrenador');
- insert into SOGIP_Roles values('5', 'Atleta');
- insert into SOGIP_Roles values('6', 'Atleta Becados');
- insert into SOGIP_Roles values('7', 'Funcionarios ICODER');
- insert into SOGIP_Roles values('8', 'Entidades Publicas');
- insert into SOGIP_Roles values('9', 'Asociacion/Comite');
- insert into SOGIP_Roles values('10', 'Usuario Externo');
+insert into SOGIP_Roles values('1', 'Supervisor');
+insert into SOGIP_Roles values('2', 'Administrador');
+insert into SOGIP_Roles values('3', 'Seleccion/Federacion');
+insert into SOGIP_Roles values('4', 'Entrenador');
+insert into SOGIP_Roles values('5', 'Atleta');
+insert into SOGIP_Roles values('6', 'Atleta Becados');
+insert into SOGIP_Roles values('7', 'Funcionarios ICODER');
+insert into SOGIP_Roles values('8', 'Entidades Publicas');
+insert into SOGIP_Roles values('9', 'Asociacion/Comite');
+insert into SOGIP_Roles values('10', 'Usuario Externo');
 
- insert into SOGIP_Estados values('Inactivo');
- insert into SOGIP_Estados values('Activo');
- insert into SOGIP_Estados values('Finalizado');
- insert into SOGIP_Estados values('En Proceso');
+insert into SOGIP_Estados values('Inactivo');
+insert into SOGIP_Estados values('Activo');
+insert into SOGIP_Estados values('Finalizado');
+insert into SOGIP_Estados values('En Proceso');
 
- insert into SOGIP_Categorias values('Juvenil');
- insert into SOGIP_Categorias values('Mayor');
- insert into SOGIP_Categorias values('SUB 20');
- insert into SOGIP_Categorias values('Nacional');
+insert into SOGIP_Categorias values('Juvenil');
+insert into SOGIP_Categorias values('Mayor');
+insert into SOGIP_Categorias values('SUB 20');
+insert into SOGIP_Categorias values('Nacional');
 
- insert into SOGIP_Tipo_Deporte values('Individual');
- insert into SOGIP_Tipo_Deporte values('De conjunto');
- insert into SOGIP_Tipo_Deporte values('De tiempo y marca');
- insert into SOGIP_Tipo_Deporte values('De combate');
- insert into SOGIP_Tipo_Deporte values('De raqueta');
- insert into SOGIP_Tipo_Deporte values('De precision');
+insert into SOGIP_Tipo_Deporte values('Individual');
+insert into SOGIP_Tipo_Deporte values('De conjunto');
+insert into SOGIP_Tipo_Deporte values('De tiempo y marca');
+insert into SOGIP_Tipo_Deporte values('De combate');
+insert into SOGIP_Tipo_Deporte values('De raqueta');
+insert into SOGIP_Tipo_Deporte values('De precision');
 
- insert into SOGIP_Deportes values('AJEDREZ', 3);
- insert into SOGIP_Deportes values('ATLETISMO', 1);
- insert into SOGIP_Deportes values('BILLAR', 1);
- insert into SOGIP_Deportes values('BOLICHE', 2);
- insert into SOGIP_Deportes values('BOXEO', 1);
- insert into SOGIP_Deportes values('CICLISMO', 1);
- insert into SOGIP_Deportes values('ESGRIMA', 4);
- insert into SOGIP_Deportes values('FISICOCULTURISMO', 1);
- insert into SOGIP_Deportes values('HALTEROFILIA', 1);
- insert into SOGIP_Deportes values('JUDO', 4);
- insert into SOGIP_Deportes values('KARATE DO', 4);
- insert into SOGIP_Deportes values('MOTORES', 1);
- insert into SOGIP_Deportes values('NADO SINCRONIZADO', 2);
- insert into SOGIP_Deportes values('NATACION', 3);
- insert into SOGIP_Deportes values('PARALIMPICO', 1);
- insert into SOGIP_Deportes values('PATINAJE', 2);
- insert into SOGIP_Deportes values('POTENCIA', 1);
- insert into SOGIP_Deportes values('PULSOS', 1);
- insert into SOGIP_Deportes values('RACQUETBOL', 5);
- insert into SOGIP_Deportes values('ABC', 1);
-
+insert into SOGIP_Deportes values('AJEDREZ', 3);
+insert into SOGIP_Deportes values('ATLETISMO', 1);
+insert into SOGIP_Deportes values('BILLAR', 1);
+insert into SOGIP_Deportes values('BOLICHE', 2);
+insert into SOGIP_Deportes values('BOXEO', 1);
+insert into SOGIP_Deportes values('CICLISMO', 1);
+insert into SOGIP_Deportes values('ESGRIMA', 4);
+insert into SOGIP_Deportes values('FISICOCULTURISMO', 1);
+insert into SOGIP_Deportes values('HALTEROFILIA', 1);
+insert into SOGIP_Deportes values('JUDO', 4);
+insert into SOGIP_Deportes values('KARATE DO', 4);
+insert into SOGIP_Deportes values('MOTORES', 1);
+insert into SOGIP_Deportes values('NADO SINCRONIZADO', 2);
+insert into SOGIP_Deportes values('NATACION', 3);
+insert into SOGIP_Deportes values('PARALIMPICO', 1);
+insert into SOGIP_Deportes values('PATINAJE', 2);
+insert into SOGIP_Deportes values('POTENCIA', 1);
+insert into SOGIP_Deportes values('PULSOS', 1);
+insert into SOGIP_Deportes values('RACQUETBOL', 5);
+insert into SOGIP_Deportes values('ABC', 1);
 
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Daniel Oduber');
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Juan Santamaría');
@@ -208,7 +190,7 @@ insert into SOGIP_Tipo_Entidad values('Universidad Empresarial de Costa Rica');
 insert into SOGIP_Tipo_Entidad values('Universidad Estatal a Distancia');
 insert into SOGIP_Tipo_Entidad values('Universidad Nacional de Costa Rica');
 
-
+/*
 insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-11-18 08:00:11',1),convert(datetime,'10-11-18 08:25:11',1));
 insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-11-18 09:00:11',1),convert(datetime,'10-11-18 09:25:11',1));
 insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-09-18 10:00:11',1),convert(datetime,'10-09-18 10:25:11',1));
@@ -221,114 +203,6 @@ insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', conver
 insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-12-18 09:00:11',1),convert(datetime,'10-12-18 09:25:11',1));
 insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-12-18 10:00:11',1),convert(datetime,'10-12-18 11:25:11',1));
 insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-12-18 13:00:11',1),convert(datetime,'10-12-18 13:25:11',1));
-
--- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++
-
--- ++++++++++++++++++++++++++ Tablas ++++++++++++++++++++++++++
-
-/*
-
-create table SOGIP_Estado(
-	idEstado int not null identity,
-	descripcion varchar(80) not null unique,
-	constraint pkSOGIP_Estado primary key(idEstado)
-);
-
-
-create table SOGIP_Categoria(
-	idCategoria int not null identity,
-	descripcion varchar(80) not null unique,
-	constraint pkSOGIP_Categoria primary key(idCategoria)
-);
-
-
-create table SOGIP_Tipo_Deporte(
-	idTipoDeporte int not null identity,
-	descripcion varchar(80) not null unique,
-	constraint pkSOGIP_Tipo_Deporte primary key(idTipoDeporte)
-);
-
-
-create table SOGIP_Deporte(
-	idDeporte int not null identity,
-	nombre varchar(80) not null unique,
-	tipoDeporte int,
-	constraint pkSOGIP_Deporte primary key(idDeporte)
-	constraint fkSOGIP_TipoDeporte1 foreign key(tipoDeporte) references SOGIP_Tipo_Deporte(idTipoDeporte)
-);
-
-
-create table SOGIP_Entrenador(
-	idEntrenador int not null identity,
-	titulo varBinary(MAX),
-	usuario int,
-	constraint pkSOGIP_Entrenador primary key(idEntrenador),
-	constraint fkSOGIP_Users4 foreign key(usuario) references SOGIP_Users(Id)
-);
-
-
-create table SOGIP_Seleccion(
-	idSeleccion int not null identity,
-	nombreSeleccion varchar(90) not null,
-	usuario int,
-	deporte int,
-	categoria int,
-	entrenador int,
-	constraint pkSOGIP_Seleccion primary key(idSeleccion),
-	constraint fkSOGIP_Users3 foreign key(usuario) references SOGIP_Users(Id)
-	constraint fkSOGIP_Deporte1 foreign key(deporte) references SOGIP_Deporte(idDeporte)
-	constraint fkSOGIP_Categoria1 foreign key(categoria) references SOGIP_Categoria(idCategoria),
-	constraint fkSOGIP_Entrenador3 foreign key(entrenador) references SOGIP_Entrenador(idEntrenador)
-);
-
-
-create table SOGIP_Asociacion_Deportiva(
-	idAsociacionDeportiva int not null identity,
-	localidad varchar(100),
-	usuario int,
-	constraint pkSOGIP_Asociacion_Deportiva primary key(idAsociacionDeportiva),
-	constraint fkSOGIP_Users8 foreign key(usuario) references SOGIP_Users(Id)
-);
-
-
-create table SOGIP_Atleta(
-	idAtleta int not null identity,
-	localidad varchar(100),
-	usuario int,
-	seleccion int,
-	asociacion int,
-	constraint pkSOGIP_Atleta primary key(idAtleta),
-	constraint fkSOGIP_Users5 foreign key(usuario) references SOGIP_Users(Id),
-	constraint fkSOGIP_Seleccion2 foreign key(seleccion) references SOGIP_Seleccion(idSeleccion),
-	constraint fkSOGIP_Asociacion1 foreign key(asociacion) references SOGIP_Asociacion_Deportiva(idAsociacionDeportiva)
-);
-
-
-create table SOGIP_Funcionario_ICODER(
-	idFuncionarioICODER int not null identity,
-	usuario int,
-	entrenador int,
-	constraint pkSOGIP_Funcionario_ICODER primary key(idFuncionarioICODER),
-	constraint fkSOGIP_Users6 foreign key(usuario) references SOGIP_Users(Id),
-	constraint fkSOGIP_Users7 foreign key(entrenador) references SOGIP_Entrenador(idEntrenador)
-);
-
-
-create table SOGIP_Tipo_Entidad(
-	idTipoEntidad int not null identity,
-	descripcion varchar(80) not null unique,
-	constraint pkSOGIP_Tipo_Entidad primary key(idTipoEntidad)
-);
-
-create table SOGIP_Entidad_Publica(
-	idEntidadPublica int not null identity,
-	usuario int,
-	tipo_entidad int,
-	constraint pkSOGIP_Entidad_Publica primary key(idEntidadPublica),
-	constraint fkSOGIP_Users8 foreign key(usuario) references SOGIP_Users(Id),
-	constraint fkSOGIP_Tipo_Entidad foreign key(tipo_entidad) references SOGIP_Users(idTipoEntidad)
-);
-
 */
 
--- ++++++++++++++++++++++++++ Tablas ++++++++++++++++++++++++++
+-- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++
