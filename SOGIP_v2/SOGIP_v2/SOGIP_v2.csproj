@@ -283,9 +283,14 @@
     <Compile Include="Migrations\201810102206020_cambio.cs" />
     <Compile Include="Migrations\201810102206020_cambio.Designer.cs">
       <DependentUpon>201810102206020_cambio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201810111834190_cita_nueva.cs" />
     <Compile Include="Migrations\201810111834190_cita_nueva.Designer.cs">
       <DependentUpon>201810111834190_cita_nueva.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810120530351_extra.cs" />
+    <Compile Include="Migrations\201810120530351_extra.Designer.cs">
+      <DependentUpon>201810120530351_extra.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -557,8 +562,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810102206020_cambio.resx">
       <DependentUpon>201810102206020_cambio.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810111834190_cita_nueva.resx">
       <DependentUpon>201810111834190_cita_nueva.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810120530351_extra.resx">
+      <DependentUpon>201810120530351_extra.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

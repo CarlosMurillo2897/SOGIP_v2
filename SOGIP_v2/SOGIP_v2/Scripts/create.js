@@ -155,6 +155,7 @@ function isNumber(e) {  // Aceptar solo números en la cédula
 
 }
 
+
 function cls(max) { // Limpiar campo de cédula
     $('#Cedula').val('');
     document.getElementById("Cedula").maxLength = max; 
