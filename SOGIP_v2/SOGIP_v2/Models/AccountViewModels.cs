@@ -85,7 +85,7 @@ namespace SOGIP_v2.Models
         [Display(Name = "Primer Apellido")]
         public string Apellido1 { get; set; }
 
-        // Los asiáticos normalmente solo tienen un apellido, mejor que no sea requerido.
+        // Los asiáticos normalmente solo tienen un apellido.
         [Display(Name = "Segundo Apellido")]
         public string Apellido2 { get; set; }
 
@@ -98,16 +98,8 @@ namespace SOGIP_v2.Models
 
         public DateTime Fecha_Expiracion { get; set; }
 
-        /*[Required]
-        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Contraseña")]*/
         public string Password { get; set; }
 
-        /*[DataType(DataType.Password)]
-        [Display(Name = "Confirmar contraseña")]
-        [Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
-        public string ConfirmPassword { get; set; }*/
     }
 
     public class ResetPasswordViewModel
