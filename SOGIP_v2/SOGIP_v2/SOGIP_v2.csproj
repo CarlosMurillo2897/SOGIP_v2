@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=2.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
@@ -192,15 +195,13 @@
     <Reference Include="Microsoft.AI.Web">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.5.1\lib\net45\Microsoft.AI.Web.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
-      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
     <Compile Include="Controllers\Ejercicio_RutinaController.cs" />
+    <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
@@ -282,6 +283,9 @@
     <Compile Include="Migrations\201810102206020_cambio.cs" />
     <Compile Include="Migrations\201810102206020_cambio.Designer.cs">
       <DependentUpon>201810102206020_cambio.cs</DependentUpon>
+    <Compile Include="Migrations\201810111834190_cita_nueva.cs" />
+    <Compile Include="Migrations\201810111834190_cita_nueva.Designer.cs">
+      <DependentUpon>201810111834190_cita_nueva.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -312,6 +316,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fullcalendar.css" />
+    <Content Include="Content\fullcalendar.min.css" />
+    <Content Include="Content\fullcalendar.print.css" />
+    <Content Include="Content\fullcalendar.print.min.css" />
     <Content Include="Content\Imagenes\FONDO.png" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
     <Content Include="Content\Login.css" />
@@ -329,16 +337,94 @@
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\create.js" />
+    <Content Include="Scripts\fullCalendar\fullcalendar.js" />
+    <Content Include="Scripts\fullCalendar\fullcalendar.min.js" />
+    <Content Include="Scripts\fullCalendar\gcal.js" />
+    <Content Include="Scripts\fullCalendar\gcal.min.js" />
+    <Content Include="Scripts\fullCalendar\locale\af.js" />
+    <Content Include="Scripts\fullCalendar\locale\ar-dz.js" />
+    <Content Include="Scripts\fullCalendar\locale\ar-kw.js" />
+    <Content Include="Scripts\fullCalendar\locale\ar-ly.js" />
+    <Content Include="Scripts\fullCalendar\locale\ar-ma.js" />
+    <Content Include="Scripts\fullCalendar\locale\ar-sa.js" />
+    <Content Include="Scripts\fullCalendar\locale\ar-tn.js" />
+    <Content Include="Scripts\fullCalendar\locale\ar.js" />
+    <Content Include="Scripts\fullCalendar\locale\bg.js" />
+    <Content Include="Scripts\fullCalendar\locale\bs.js" />
+    <Content Include="Scripts\fullCalendar\locale\ca.js" />
+    <Content Include="Scripts\fullCalendar\locale\cs.js" />
+    <Content Include="Scripts\fullCalendar\locale\da.js" />
+    <Content Include="Scripts\fullCalendar\locale\de-at.js" />
+    <Content Include="Scripts\fullCalendar\locale\de-ch.js" />
+    <Content Include="Scripts\fullCalendar\locale\de.js" />
+    <Content Include="Scripts\fullCalendar\locale\el.js" />
+    <Content Include="Scripts\fullCalendar\locale\en-au.js" />
+    <Content Include="Scripts\fullCalendar\locale\en-ca.js" />
+    <Content Include="Scripts\fullCalendar\locale\en-gb.js" />
+    <Content Include="Scripts\fullCalendar\locale\en-ie.js" />
+    <Content Include="Scripts\fullCalendar\locale\en-nz.js" />
+    <Content Include="Scripts\fullCalendar\locale\es-do.js" />
+    <Content Include="Scripts\fullCalendar\locale\es-us.js" />
+    <Content Include="Scripts\fullCalendar\locale\es.js" />
+    <Content Include="Scripts\fullCalendar\locale\et.js" />
+    <Content Include="Scripts\fullCalendar\locale\eu.js" />
+    <Content Include="Scripts\fullCalendar\locale\fa.js" />
+    <Content Include="Scripts\fullCalendar\locale\fi.js" />
+    <Content Include="Scripts\fullCalendar\locale\fr-ca.js" />
+    <Content Include="Scripts\fullCalendar\locale\fr-ch.js" />
+    <Content Include="Scripts\fullCalendar\locale\fr.js" />
+    <Content Include="Scripts\fullCalendar\locale\gl.js" />
+    <Content Include="Scripts\fullCalendar\locale\he.js" />
+    <Content Include="Scripts\fullCalendar\locale\hi.js" />
+    <Content Include="Scripts\fullCalendar\locale\hr.js" />
+    <Content Include="Scripts\fullCalendar\locale\hu.js" />
+    <Content Include="Scripts\fullCalendar\locale\id.js" />
+    <Content Include="Scripts\fullCalendar\locale\is.js" />
+    <Content Include="Scripts\fullCalendar\locale\it.js" />
+    <Content Include="Scripts\fullCalendar\locale\ja.js" />
+    <Content Include="Scripts\fullCalendar\locale\ka.js" />
+    <Content Include="Scripts\fullCalendar\locale\kk.js" />
+    <Content Include="Scripts\fullCalendar\locale\ko.js" />
+    <Content Include="Scripts\fullCalendar\locale\lb.js" />
+    <Content Include="Scripts\fullCalendar\locale\lt.js" />
+    <Content Include="Scripts\fullCalendar\locale\lv.js" />
+    <Content Include="Scripts\fullCalendar\locale\mk.js" />
+    <Content Include="Scripts\fullCalendar\locale\ms-my.js" />
+    <Content Include="Scripts\fullCalendar\locale\ms.js" />
+    <Content Include="Scripts\fullCalendar\locale\nb.js" />
+    <Content Include="Scripts\fullCalendar\locale\nl-be.js" />
+    <Content Include="Scripts\fullCalendar\locale\nl.js" />
+    <Content Include="Scripts\fullCalendar\locale\nn.js" />
+    <Content Include="Scripts\fullCalendar\locale\pl.js" />
+    <Content Include="Scripts\fullCalendar\locale\pt-br.js" />
+    <Content Include="Scripts\fullCalendar\locale\pt.js" />
+    <Content Include="Scripts\fullCalendar\locale\ro.js" />
+    <Content Include="Scripts\fullCalendar\locale\ru.js" />
+    <Content Include="Scripts\fullCalendar\locale\sk.js" />
+    <Content Include="Scripts\fullCalendar\locale\sl.js" />
+    <Content Include="Scripts\fullCalendar\locale\sq.js" />
+    <Content Include="Scripts\fullCalendar\locale\sr-cyrl.js" />
+    <Content Include="Scripts\fullCalendar\locale\sr.js" />
+    <Content Include="Scripts\fullCalendar\locale\sv.js" />
+    <Content Include="Scripts\fullCalendar\locale\th.js" />
+    <Content Include="Scripts\fullCalendar\locale\tr.js" />
+    <Content Include="Scripts\fullCalendar\locale\uk.js" />
+    <Content Include="Scripts\fullCalendar\locale\vi.js" />
+    <Content Include="Scripts\fullCalendar\locale\zh-cn.js" />
+    <Content Include="Scripts\fullCalendar\locale\zh-tw.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\fullCalendar\locale-all.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\fullCalendar\moment.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -397,6 +483,11 @@
     <Content Include="Views\Horario\Index.cshtml" />
     <Content Include="Views\Ejercicio_Rutina\Create.cshtml" />
     <Content Include="Views\Ejercicio_Rutina\Edit.cshtml" />
+    <Content Include="Views\CitasAdmin\Create.cshtml" />
+    <Content Include="Views\CitasAdmin\Delete.cshtml" />
+    <Content Include="Views\CitasAdmin\Details.cshtml" />
+    <Content Include="Views\CitasAdmin\Edit.cshtml" />
+    <Content Include="Views\CitasAdmin\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -466,6 +557,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810102206020_cambio.resx">
       <DependentUpon>201810102206020_cambio.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810111834190_cita_nueva.resx">
+      <DependentUpon>201810111834190_cita_nueva.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
@@ -501,7 +594,7 @@
       <ErrorText>Este proyecto hace referencia a los paquetes NuGet que faltan en este equipo. Use la restauración de paquetes NuGet para descargarlos. Para obtener más información, consulte http://go.microsoft.com/fwlink/?LinkID=322105. El archivo que falta es {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props'))" />
-    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

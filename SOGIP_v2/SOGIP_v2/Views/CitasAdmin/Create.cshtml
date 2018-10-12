@@ -1,0 +1,113 @@
+﻿@model SOGIP_v2.Models.Cita
+
+@{
+    ViewBag.Title = "Calendario de Citas";
+    @Styles.Render("~/Content/fullcalendar.css")
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    <body>
+        @Html.AntiForgeryToken()
+        <hr />
+        <br />
+
+        <div id="calendar"></div>
+
+        @*<div class="form-horizontal">
+                <h4>Cita</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.InBody, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.InBody)
+                            @Html.ValidationMessageFor(model => model.InBody, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Otro, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="checkbox">
+                            @Html.EditorFor(model => model.Otro)
+                            @Html.ValidationMessageFor(model => model.Otro, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>*@
+    </body>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"> </script>
+    <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet"/>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/fullCalendar/jquery.min.js")
+    @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
+    @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
+    @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
+    <script>
+        $(document).ready(function () {
+
+            var events = [];
+            $.ajax({
+                type: "GET",
+                dataType: "JSON",
+                url: "/CitasAdmin/GetEvents",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        events.push({
+                            title: 'Citas',
+                            start: $.fullCalendar.moment(v.FechaHoraInicio),
+                            end: $.fullCalendar.moment(v.FechaHoraFinal)
+                        });
+                    })
+                    GenerateCalendar(events);
+                },
+                error: function (error) {
+                    alert("Fallo");
+                }
+            })
+
+
+            function GenerateCalendar(events) {
+                $('#calendar').fullCalendar('destroy');
+                $('#calendar').fullCalendar({
+                    contentHeight: 400,
+                    defaultDate: new Date(),
+                    timeFormat: 'h(:mm)a',
+                    header: {
+                        left: 'prev, next today',
+                        center: 'title',
+                        right: 'month, basicWeek, basicDay, agenda'
+                    },
+                    eventLimit: true,
+                    eventColor: '#378006',
+                    events: events,
+                    themeSystem: 'jquery-ui'
+                })
+
+            }
+
+        });
+
+
+    </script>
+}

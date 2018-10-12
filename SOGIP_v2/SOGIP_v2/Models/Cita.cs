@@ -11,6 +11,8 @@ namespace SOGIP_v2.Models
         public Boolean InBody { get; set; }
         public Boolean Otro { get; set; }
         public ApplicationUser UsuarioId { get; set; }
-        public Horario HorarioId { get; set; }
+        public DateTime FechaHoraInicio { get; set; }
+        public DateTime FechaHoraFinal { get; set; }
+        // public Horario HorarioId { get; set; }
     }
 }
