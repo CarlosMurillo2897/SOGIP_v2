@@ -1,0 +1,27 @@
+﻿@{
+    @Html.Partial("/Views/Home/header.cshtml")
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Success</title>
+</head>
+<body>
+    <div class="container">
+        <div class="exp_fis" id="reg_ex">
+            <h3>
+                ¡El archivo InBody se ha importado correctamente!
+            </h3>
+            @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+            <div>
+                <input type="submit" value="Regresar" />
+            </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

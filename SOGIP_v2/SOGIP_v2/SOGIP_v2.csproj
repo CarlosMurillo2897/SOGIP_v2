@@ -201,6 +201,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
+    <Compile Include="Controllers\ExpedientesFisicosController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Generales.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -269,9 +270,14 @@
     <Compile Include="Migrations\201810030449561_final.Designer.cs">
       <DependentUpon>201810030449561_final.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.cs" />
+    <Compile Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.Designer.cs">
+      <DependentUpon>201810110729027_Tabla_Expedientes_Fisios.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
+    <Compile Include="Models\ExpedienteFisico.cs" />
     <Compile Include="Models\Usuarios\Asociacion_Deportiva.cs" />
     <Compile Include="Models\Usuarios\Atleta.cs" />
     <Compile Include="Models\Agrupaciones\Categoria.cs" />
@@ -368,6 +374,8 @@
     <Content Include="Views\Home\header.cshtml" />
     <Content Include="Views\UsersAdmin\IndexMasivo.cshtml" />
     <Content Include="Views\UsersAdmin\Success.cshtml" />
+    <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
+    <Content Include="Views\ExpedientesFisicos\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Migrations\App_Data\" />
@@ -427,6 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810030449561_final.resx">
       <DependentUpon>201810030449561_final.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.resx">
+      <DependentUpon>201810110729027_Tabla_Expedientes_Fisios.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

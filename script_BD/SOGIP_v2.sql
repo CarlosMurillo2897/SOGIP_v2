@@ -22,6 +22,10 @@ use "SOGIP_v2.2"
  SOGIP_UserRoles.Roleid = SOGIP_Roles.id
  order by SOGIP_Roles.id;
 
+****PARA PRUEBAS INGRESO MASIVO****
+delete SOGIP_Users;
+****PARA PRUEBAS INGRESO MASIVO****
+
  select * from SOGIP_Users;
  select * from SOGIP_Roles order by Id asc;
  select * from SOGIP_UserRoles, SOGIP_Roles;
@@ -39,6 +43,19 @@ use "SOGIP_v2.2"
 */
 
 -- ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
+
+-- *********PRUEBA*********
+create table SOGIP_Ejercicio(
+	EjercicioId int not null identity,
+	EjercicioNombre varchar(50) not null,
+	EjercicioDescripcion varchar(120),
+	EjercicioRef int,
+	constraint pkSOGIP_Ejercicio primary key(EjercicioId),
+	constraint fkSOGIP_Ejercicio foreign key(EjercicioRef) references SOGIP_Ejercicio(EjercicioId)
+);
+
+drop table SOGIP_Ejercicio;
+-- *********PRUEBA*********
 
 -- ++++++++++++++++++++++++++ Trigger's ++++++++++++++++++++++++++
 

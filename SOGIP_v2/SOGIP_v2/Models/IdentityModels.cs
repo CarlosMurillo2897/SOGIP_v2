@@ -58,6 +58,7 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Tipo_Deporte>().        ToTable("SOGIP_Tipo_Deporte");
             modelBuilder.Entity<Tipo_Entidad>().        ToTable("SOGIP_Tipo_Entidad");
             modelBuilder.Entity<Seleccion>().           ToTable("SOGIP_Selecciones");
+            modelBuilder.Entity<ExpedienteFisico>().    ToTable("SOGIP_Expedientes_Fisicos");
            
         }
 
