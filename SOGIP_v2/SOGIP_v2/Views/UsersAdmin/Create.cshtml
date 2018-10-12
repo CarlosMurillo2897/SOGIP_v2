@@ -4,17 +4,19 @@
 @{
     ViewBag.Title = "Registro Manual";
 
-    List<SelectListItem> Genero = new List<SelectListItem>();
-    Genero.Add(new SelectListItem
+    List<SelectListItem> Sexo = new List<SelectListItem>();
+    Sexo.Add(new SelectListItem
     {
         Text = "Femenino",
         Value = "false",
     });
-    Genero.Add(new SelectListItem
+
+    Sexo.Add(new SelectListItem
     {
         Text = "Masculino",
         Value = "true",
     });
+
 }
 
 @Styles.Render("~/Content/manual.css")
@@ -49,29 +51,34 @@
         <div class="card card-default">
             <div class="row">
                 <h4>DATOS PERSONALES</h4>
-                <div class="col-md-1 col-lg-3">
-                    <div class="form-group">
-                        <div class="col-md-10">
-
-                            @Html.LabelFor(m => m.Cedula, new { @class = "control-label" })
-                            <br />
-                            Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { onclick = "$('#Cedula').val('');" })
-                            Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { onclick = "$('#Cedula').val('');" })
-                            <br />
-                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", placeholder = "Nacional solo números", onkeypress = "return isNumber(event);" })
-                            <br />
-                            <input type="button" value="Limpiar" onclick="$('#Cedula').val('');">
-                            @* <input type="text" name="myinput" id="myinput" onkeypress="return isNumber(event);" /> *@
+                    <div class="col-md-1 col-lg-3">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @Html.LabelFor(m => m.Cedula, new { @class = "control-label" })
+                                <br />
+                                Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { @onchange = "cls('10')" })
+                                Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { @onclick = "cls('15')" })
+                                <br />
+                                @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", placeholder = "Nacional solo números", maxLength = "10", onkeypress = "return isNumber(event);"})
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <div class="col-md-1 col-lg-3">
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                <br />
+                                <br />
+                                <input class="btn btn-default" id="btn_sub_form" value="Limpiar" onclick = "chk();"/> @*onclick="$('#Cedula').val('');" />*@
+                            </div>
+                        </div>
+                    </div>
             </div>
             <div class="row">
                 <div class="col-md-1 col-lg-3">
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Nombre1, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control", minlength = 2})
                         </div>
                     </div>
                 </div>
@@ -87,7 +94,7 @@
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Apellido1, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control", minlength = 2 })
                         </div>
                     </div>
                 </div>
@@ -105,15 +112,16 @@
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Fecha_Nacimiento, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:dd-MM-yyyy}", new { @class = "form-control", type = "date" })
+                            @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:dd-MM-yyyy}", new { @class = "form-control", id = "birth", type = "date", @onblur = "brth(1)", @onchange = "brth(2)" })
                         </div>
                     </div>
                 </div>
                 <div class="col-md-1 col-lg-3">
                     <div class="form-group">
                         <div class="col-md-10">
-                            @Html.Label("Genero", new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.Sexo, Genero, "-- Seleccionar --")
+                            @Html.Label("Sexo", new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.Sexo, Sexo, "-- Seleccionar --")
                         </div>
                     </div>
                 </div>
@@ -123,7 +131,7 @@
 
                 @* DATOS DE CONTACTO, CV Y LOCALIDAD SON EXCEPCIONES, para entrenador es CV *@
                 <tr>
-                    <th><h4>INFORMACION DE CONTACTO</h4></th>
+                    <th><h4>INFORMACIÓN DE CONTACTO</h4></th>
                 </tr>
                 <tr>
                     <td>
@@ -156,7 +164,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     @Html.Label("Nombre de Asociacion o comite", new { @class = "control-label" })
-                                    <input type="text" class="nombre_aso form-control" name="nombre_aso" />
+                                    <input type = "text" class = "nombre_aso form-control" name = "nombre_aso" id = "nombre_aso" />
                                 </div>
                             </div>
                         </div>
@@ -216,7 +224,7 @@
                 <tr hidden id="info_seleccion_nombre">
                     <td>
                         <div class="col-md-10">
-                            @Html.Label("Nombre de la sele", new { @class = "control-label" })
+                            @Html.Label("Nombre de la selección", new { @class = "control-label" })
                             <input class="sele_n" name="sele_n" id="sele_n" />
                             @* <input class="sele_m" name="sele_m" id="sele_m" /> *@
                         </div>
@@ -305,7 +313,7 @@
                         <div>
                             <div class="col-md-10">
                                 @Html.Label("Ingrese cedula del entrenador", new { @class = "control-label" })
-                                <input type="text" class="entrenadorF form-control" name="entrenadorF" id="entrenadorF" />
+                                <input type="text" class="entrenadorF form-control" name="entrenadorF" id="entrenadorF" required />
                             </div>
                         </div>
                     </td>
@@ -320,24 +328,12 @@
         </div>
     </div>
 </body>
+
+    <script>
+
+
+    </script>
 }
-
-<script>
-
-    function isNumber(e) {
-        var allow = $("input[name='Nacionalidad']:checked").val();
-        var ced = $("#Cedula").val().length;
-
-        if (allow == "Nacional") {
-            if ( ced < 9) {
-                e = e || window.event;
-                var charCode = e.which ? e.which : e.keyCode;
-                return /\d/.test(String.fromCharCode(charCode));
-            }
-        }
-
-    }
-</script>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

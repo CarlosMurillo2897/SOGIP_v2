@@ -68,10 +68,11 @@ create trigger fecha_expiracion on SOGIP_Users
  insert into SOGIP_Roles values('3', 'Seleccion/Federacion');
  insert into SOGIP_Roles values('4', 'Entrenador');
  insert into SOGIP_Roles values('5', 'Atleta');
- insert into SOGIP_Roles values('6', 'Atleta Alto Rendimiento');
+ insert into SOGIP_Roles values('6', 'Atleta Becados');
  insert into SOGIP_Roles values('7', 'Funcionarios ICODER');
  insert into SOGIP_Roles values('8', 'Entidades Publicas');
  insert into SOGIP_Roles values('9', 'Asociacion/Comite');
+ insert into SOGIP_Roles values('10', 'Usuario Externo');
 
  insert into SOGIP_Estados values('Inactivo');
  insert into SOGIP_Estados values('Activo');

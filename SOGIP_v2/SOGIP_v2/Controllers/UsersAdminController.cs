@@ -13,7 +13,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SOGIP_v2.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Supervisor")]
+    [Authorize(Roles = "Administrador,Supervisor")]
     public class UsersAdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -169,7 +170,7 @@ namespace SOGIP_v2.Controllers
                     {
                         var result = await UserManager.AddToRoleAsync(user.Id, selectedRoles);
 
-                        if (selectedRoles == "Atleta Alto Rendimiento")
+                        if (selectedRoles == "Atleta Becados")
                         {
                             selectedRoles = "Atleta";
                         }

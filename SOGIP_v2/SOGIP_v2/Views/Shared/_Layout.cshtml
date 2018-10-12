@@ -1,7 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +17,20 @@
         @Html.Partial("/Views/Home/header.cshtml")
         @Html.Partial("_LoginPartial")
         @RenderBody()
+
+        <br />
+        <br />
         <hr />
+
+        <footer>
+            <address>
+                <p>
+                    DERECHOS RESERVADOS &copy; @DateTime.Now.Year - SOGIP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <strong>Soporte y Ayuda:</strong>   <a href="mailto:admSOGIP@hotmail.com">admSOGIP@hotmail.com</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <abbr title="Oficina Central"> <strong>Contáctenos:</strong> </abbr> (+506) 2549 0700
+                </p>
+            </address>
+        </footer>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

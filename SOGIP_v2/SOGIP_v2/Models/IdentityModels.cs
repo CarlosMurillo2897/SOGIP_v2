@@ -27,6 +27,7 @@ namespace SOGIP_v2.Models
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Agregar aquí notificaciones personalizadas de usuario
             userIdentity.AddClaim(new Claim("Cedula", this.Cedula));
+            userIdentity.AddClaim(new Claim("Nombre1", this.Nombre1));
             return userIdentity;
         }
     }

@@ -14,5 +14,12 @@ namespace App.Extensions
             var claim = ((ClaimsIdentity)identity).FindFirst("Cedula");
             return (claim != null) ? claim.Value : string.Empty;
         }
+
+        public static string GetNombre1(this IIdentity identity)
+        {
+            var claim = ((ClaimsIdentity)identity).FindFirst("Nombre1");
+            return (claim != null) ? claim.Value : string.Empty;
+        }
+
     }
 }
