@@ -1,0 +1,43 @@
+﻿@{
+    @Html.Partial("/Views/Home/header.cshtml")
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title - Expedientes Físicos</title>
+</head>
+<body>
+    <div class="container">
+        @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <div class="exp_fis">
+                @Html.Label("Seleccione el Atleta", new { @class = "control-label" })
+                <select name="SelectedAthlete">
+                    @foreach (var entity in (SelectList)ViewBag.Atletas)
+                    {
+                        <option value="@entity.Value">
+                            @Html.Label(entity.Text, new { @class = "control-label" })
+                        </option>
+                    }
+                </select>
+            </div>
+            <div class="exp_fis" id="inicio">
+                @Html.Raw(ViewBag.Error1)
+                <span>Seleccione el archivo InBody a importar: </span><input type="file" name="inbody" value="Cargar" />
+                <br />
+                <br />
+                <br />
+            </div>
+            <div class="exp_fis">
+                @Html.Raw(ViewBag.Error2)
+                <span>Seleccione el archivo de Prueba de Fuerza a importar: </span><input type="file" name="inbody" value="Cargar" />
+                <br />
+                <input type="submit" value="Importar" />
+            </div>
+        }
+    </div>
+</body>
+</html>

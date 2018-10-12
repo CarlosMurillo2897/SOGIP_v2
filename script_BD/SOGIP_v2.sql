@@ -24,6 +24,10 @@ use "SOGIP_v2.2"
 
  delete from SOGIP_Users where Email != 'cmb28@hotmail.com';
  delete from SOGIP_Users;
+ 
+****PARA PRUEBAS INGRESO MASIVO****
+delete SOGIP_Users;
+****PARA PRUEBAS INGRESO MASIVO****
 
  select * from SOGIP_Users;
  select * from SOGIP_Rutina;
@@ -43,6 +47,19 @@ use "SOGIP_v2.2"
 */
 
 -- ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
+
+-- *********PRUEBA*********
+create table SOGIP_Ejercicio(
+	EjercicioId int not null identity,
+	EjercicioNombre varchar(50) not null,
+	EjercicioDescripcion varchar(120),
+	EjercicioRef int,
+	constraint pkSOGIP_Ejercicio primary key(EjercicioId),
+	constraint fkSOGIP_Ejercicio foreign key(EjercicioRef) references SOGIP_Ejercicio(EjercicioId)
+);
+
+drop table SOGIP_Ejercicio;
+-- *********PRUEBA*********
 
 -- ++++++++++++++++++++++++++ Trigger's ++++++++++++++++++++++++++
 

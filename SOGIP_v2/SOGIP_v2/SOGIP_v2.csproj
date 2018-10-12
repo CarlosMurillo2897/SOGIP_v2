@@ -204,6 +204,7 @@
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
+    <Compile Include="Controllers\ExpedientesFisicosController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Generales.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -283,6 +284,9 @@
     <Compile Include="Migrations\201810120658524_supr.cs" />
     <Compile Include="Migrations\201810120658524_supr.Designer.cs">
       <DependentUpon>201810120658524_supr.cs</DependentUpon>
+    <Compile Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.cs" />
+    <Compile Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.Designer.cs">
+      <DependentUpon>201810110729027_Tabla_Expedientes_Fisios.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -291,6 +295,7 @@
     <Compile Include="Models\Horario.cs" />
     <Compile Include="Models\Rutina\Conjunto_Ejercicio.cs" />
     <Compile Include="Models\Rutina\Rutina.cs" />
+    <Compile Include="Models\ExpedienteFisico.cs" />
     <Compile Include="Models\Usuarios\Asociacion_Deportiva.cs" />
     <Compile Include="Models\Usuarios\Atleta.cs" />
     <Compile Include="Models\Agrupaciones\Categoria.cs" />
@@ -485,6 +490,8 @@
     <Content Include="Views\CitasAdmin\Details.cshtml" />
     <Content Include="Views\CitasAdmin\Edit.cshtml" />
     <Content Include="Views\CitasAdmin\Index.cshtml" />
+    <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
+    <Content Include="Views\ExpedientesFisicos\Success.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -554,6 +561,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810120658524_supr.resx">
       <DependentUpon>201810120658524_supr.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.resx">
+      <DependentUpon>201810110729027_Tabla_Expedientes_Fisios.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

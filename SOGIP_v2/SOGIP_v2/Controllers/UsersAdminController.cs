@@ -483,7 +483,7 @@ namespace SOGIP_v2.Controllers
                     }
 
                     string name = excelfile.FileName.Substring(0, fin);
-                    string path = Server.MapPath("~/Content/Registros/" + name +
+                    string path = Server.MapPath("~/Content/Registros/Excel/" + name +
                                                  "(" + DateTime.Now.Year.ToString() + "-"
                                                  + DateTime.Now.Month.ToString() + "-"
                                                  + DateTime.Now.Day.ToString() + ")-("
