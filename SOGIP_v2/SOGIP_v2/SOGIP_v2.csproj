@@ -276,21 +276,13 @@
     <Compile Include="Migrations\201810090032327_sogip_horario.Designer.cs">
       <DependentUpon>201810090032327_sogip_horario.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810102203059_r.cs" />
-    <Compile Include="Migrations\201810102203059_r.Designer.cs">
-      <DependentUpon>201810102203059_r.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810102206020_cambio.cs" />
-    <Compile Include="Migrations\201810102206020_cambio.Designer.cs">
-      <DependentUpon>201810102206020_cambio.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201810111834190_cita_nueva.cs" />
     <Compile Include="Migrations\201810111834190_cita_nueva.Designer.cs">
       <DependentUpon>201810111834190_cita_nueva.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810120530351_extra.cs" />
-    <Compile Include="Migrations\201810120530351_extra.Designer.cs">
-      <DependentUpon>201810120530351_extra.cs</DependentUpon>
+    <Compile Include="Migrations\201810120658524_supr.cs" />
+    <Compile Include="Migrations\201810120658524_supr.Designer.cs">
+      <DependentUpon>201810120658524_supr.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -557,17 +549,11 @@
     <EmbeddedResource Include="Migrations\201810090032327_sogip_horario.resx">
       <DependentUpon>201810090032327_sogip_horario.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810102203059_r.resx">
-      <DependentUpon>201810102203059_r.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810102206020_cambio.resx">
-      <DependentUpon>201810102206020_cambio.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810111834190_cita_nueva.resx">
       <DependentUpon>201810111834190_cita_nueva.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810120530351_extra.resx">
-      <DependentUpon>201810120530351_extra.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810120658524_supr.resx">
+      <DependentUpon>201810120658524_supr.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -13,8 +13,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SOGIP_v2.Controllers
 {
-    //[Authorize(Roles = "Supervisor")]
-    [Authorize(Roles = "Administrador,Supervisor")]
+    //[Authorize(Roles = "Administrador,Supervisor")]
     public class UsersAdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -26,6 +26,7 @@ use "SOGIP_v2.2"
  delete from SOGIP_Users;
 
  select * from SOGIP_Users;
+ select * from SOGIP_Rutina;
  select * from SOGIP_Roles order by Id asc;
  select * from SOGIP_UserRoles, SOGIP_Roles;
  select * from SOGIP_Estados;
@@ -190,6 +191,19 @@ insert into SOGIP_Tipo_Entidad values('Universidad Empresarial de Costa Rica');
 insert into SOGIP_Tipo_Entidad values('Universidad Estatal a Distancia');
 insert into SOGIP_Tipo_Entidad values('Universidad Nacional de Costa Rica');
 
+
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-11-18 08:00:11',1),convert(datetime,'10-11-18 08:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-11-18 09:00:11',1),convert(datetime,'10-11-18 09:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-09-18 10:00:11',1),convert(datetime,'10-09-18 10:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-09-18 11:00:11',1),convert(datetime,'10-09-18 11:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-23-18 08:00:11',1),convert(datetime,'10-23-18 08:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-23-18 09:00:11',1),convert(datetime,'10-23-18 09:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'11-01-18 08:00:11',1),convert(datetime,'11-01-18 08:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'11-01-18 09:00:11',1),convert(datetime,'11-01-18 09:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-12-18 08:00:11',1),convert(datetime,'10-12-18 08:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-12-18 09:00:11',1),convert(datetime,'10-12-18 09:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-12-18 10:00:11',1),convert(datetime,'10-12-18 11:25:11',1));
+insert into sogip_cita values(1,1,'68f77a05-90b7-43a6-ad6e-604837744662', convert(datetime,'10-12-18 13:00:11',1),convert(datetime,'10-12-18 13:25:11',1));
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++
 

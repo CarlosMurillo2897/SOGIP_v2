@@ -1,64 +1,96 @@
 ﻿@model SOGIP_v2.Models.Rutina
+
+@{
+    ViewBag.Title = "Rutina";
+}
+
 @using (Html.BeginForm("Create", "Ejercicio_Rutina", FormMethod.Post, new { enctype = "form" }))
 {
-
-    <div class="exp_fis">
-        @Html.Label("Seleccione el Atleta", new { @class = "control-label" })
-        <select name="SelectedAthlete">
-            @foreach (var entity in (SelectList)ViewBag.Atletas)
-            {
-                <option value="@entity.Value">
-                    @Html.Label(entity.Text, new { @class = "control-label" })
-                </option>
-            }
-        </select>
-    </div>
     <div>
-        @Html.Label("Fecha", htmlAttributes: new { @class = "control-label" })
-        @Html.TextBoxFor(model => model.RutinaFecha, new { @class = "form-control", id = "nombre", type = "date" })
+        <div class="exp_fis">
+            @Html.Label("Seleccione el Atleta", new { @class = "control-label" })
+            <select name="Atleta_Proveniente_Del_Html_Y_Ya_Seleccionado">
+                @foreach (var atletaQueSeEnvioDelPrimerCreate in (SelectList)ViewBag.Atletas)
+                {
+                    <option value="@atletaQueSeEnvioDelPrimerCreate.Value">
+                        @* El Value es el Id del Usuaio que metimos en el primer Create
+                            este no se ve, pero por debajo cuando seleccionamos el nombre de un atleta
+                            es el Id lo que ocupamos pasar al segundo Create para establecer la conexión
+                            entre la Rutina y el Usuario.
+                        *@
+                        @Html.Label(atletaQueSeEnvioDelPrimerCreate.Text, new { @class = "control-label" })     @* El Text es el Nombre1 del Usuario que metimos en el primer Create
+                            a la gente le interesa ver esto, a nosotros no. Solo ocupamos
+                            el Id para buscar al Usuario en nuestra base de datos y hacer la conexión
+                            entre la Rutina y el Usuario.
+                        *@
+                    </option>
+                }
+            </select>
+        </div>
+
         <br />
-        @*@Html.Label("Nombre", htmlAttributes: new { @class = "control-label" })
+
+        <div>
+
+            @Html.Label("Fecha", htmlAttributes: new { @class = "control-label" })
+            @Html.TextBoxFor(model => model.RutinaFecha, new { @class = "form-control", id = "nombre", type = "date" })
+            @* Esto es Razor, lo que está haciendo es tomando el modelo, el atributo de RutinaFecha y va a asignar en el mismo lo que escribamos o definamos acá
+                una vez hecho esto, en el controller mandaremos a llamar al modelo y a este campo en específico, el cual tomará estos datos y los podremos
+                manipular para insertarlos en una Rutina normal y luego en la base de datos. *@
+
+
             <br />
-            @Html.TextBoxFor(model => model.RutinaId, new { @class = "control-label" })
-            <br />*@
-        @Html.Label("Observaciones", htmlAttributes: new { @class = "control-label" })
+
+            @Html.Label("Observaciones", htmlAttributes: new { @class = "control-label" })
+
+            <br />
+
+            @Html.TextBoxFor(model => model.RutinaObservaciones, new { @class = "control-label" })
+
+        </div>
+
         <br />
-        @Html.TextBoxFor(model => model.RutinaObservaciones, new { @class = "control-label" })
-    </div>
-    <br />
-    <table class="table table-bordered table-responsive table-hover">
-        <TR>
-            <TH COLSPAN=1>Ejercicio</TH>
-            <TH COLSPAN=3>Semana 1-2</TH>
-            <TH COLSPAN=3>Semana 3-4</TH>
-            <TH COLSPAN=3>Semana 5-6</TH>
-            <TH COLSPAN=1>Editar</TH>
-        </TR>
-        <TR>
-            <TH></TH>
-            <TH>S</TH>
-            <TH>R</TH>
-            <TH>P</TH>
-            <TH>S</TH>
-            <TH>R</TH>
-            <TH>P</TH>
-            <TH>S</TH>
-            <TH>R</TH>
-            <TH>P</TH>
-            <TH></TH>
-        </TR>
-    </table>
-    <div class="col-md-10">
-        <div class="form-group">
-            <div>
-                <p><a class="btn btn-default" href="/Ejercicio_Rutina/Edit">Agregar Ejercicio</a></p>
-            </div>
+
+        <table class="table table-bordered table-responsive table-hover">
+
+            <TR>
+
+                <TH COLSPAN=1>Ejercicio</TH>
+                <TH COLSPAN=3>Semana 1-2</TH>
+                <TH COLSPAN=3>Semana 3-4</TH>
+                <TH COLSPAN=3>Semana 5-6</TH>
+                <TH COLSPAN=1>Editar</TH>
+
+            </TR>
+
+            <TR>
+
+                <TH></TH>
+                <TH>S</TH>
+                <TH>R</TH>
+                <TH>P</TH>
+                <TH>S</TH>
+                <TH>R</TH>
+                <TH>P</TH>
+                <TH>S</TH>
+                <TH>R</TH>
+                <TH>P</TH>
+                <TH></TH>
+
+            </TR>
+
+        </table>
+
+        @*<div class="col-md-10">
+                <div class="form-group">
+                    <div>
+                        <p><a class="btn btn-default" href="/Ejercicio_Rutina/Edit">Agregar Ejercicio</a></p>
+                    </div>
+                </div>
+            </div>*@
+        <div class="col-md-10">
+            <input type="submit" class="btn btn-default" id="btn_sub_form" value="Crear Rutina" />
         </div>
     </div>
-    <div class="col-md-10">
-        <input type="submit" class="btn btn-default" id="btn_sub_form" value="Crear Rutina" />
-    </div>
-}
-</div>
 
 }
