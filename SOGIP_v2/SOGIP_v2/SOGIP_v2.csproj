@@ -284,9 +284,14 @@
     <Compile Include="Migrations\201810120658524_supr.cs" />
     <Compile Include="Migrations\201810120658524_supr.Designer.cs">
       <DependentUpon>201810120658524_supr.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.cs" />
     <Compile Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.Designer.cs">
       <DependentUpon>201810110729027_Tabla_Expedientes_Fisios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810120750267_expfis.cs" />
+    <Compile Include="Migrations\201810120750267_expfis.Designer.cs">
+      <DependentUpon>201810120750267_expfis.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -561,8 +566,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810120658524_supr.resx">
       <DependentUpon>201810120658524_supr.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810110729027_Tabla_Expedientes_Fisios.resx">
       <DependentUpon>201810110729027_Tabla_Expedientes_Fisios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810120750267_expfis.resx">
+      <DependentUpon>201810120750267_expfis.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

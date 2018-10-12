@@ -1,15 +1,7 @@
 ﻿@{
-    @Html.Partial("/Views/Home/header.cshtml")
+    ViewBag.Title = "Expedientes";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>@ViewBag.Title - Expedientes Físicos</title>
-</head>
-<body>
     <div class="container">
         @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
@@ -39,5 +31,3 @@
             </div>
         }
     </div>
-</body>
-</html>

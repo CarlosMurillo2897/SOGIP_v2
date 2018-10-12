@@ -97,15 +97,12 @@ namespace SOGIP_v2.Controllers
                 return View("Success");
             }
             else
-            {
-                
-                else
-                {
+            {            
                     ViewBag.Error = "El tipo de archivo no es aceptado. <br>";
                     return View("Index");
-                }
             }
         }
+    
 
         [HttpPost]
         public ActionResult Regresar()

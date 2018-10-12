@@ -627,3 +627,5 @@ C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\bin\roslyn\System.Threa
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.cita_nueva.resources
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.supr.resources
 C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.Tabla_Expedientes_Fisios.resources
+C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.sogip_horario.resources
+C:\Users\CCM\Documents\GitHub\SOGIP_v2\SOGIP_v2\SOGIP_v2\obj\Debug\SOGIP_v2.Migrations.expfis.resources
