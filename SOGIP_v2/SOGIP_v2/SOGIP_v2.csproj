@@ -200,6 +200,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
+    <Compile Include="Controllers\Ejercicio_RutinaController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
@@ -274,11 +275,21 @@
     <Compile Include="Migrations\201810090032327_sogip_horario.Designer.cs">
       <DependentUpon>201810090032327_sogip_horario.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810102203059_r.cs" />
+    <Compile Include="Migrations\201810102203059_r.Designer.cs">
+      <DependentUpon>201810102203059_r.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810102206020_cambio.cs" />
+    <Compile Include="Migrations\201810102206020_cambio.Designer.cs">
+      <DependentUpon>201810102206020_cambio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Cita.cs" />
     <Compile Include="Models\Horario.cs" />
+    <Compile Include="Models\Rutina\Conjunto_Ejercicio.cs" />
+    <Compile Include="Models\Rutina\Rutina.cs" />
     <Compile Include="Models\Usuarios\Asociacion_Deportiva.cs" />
     <Compile Include="Models\Usuarios\Atleta.cs" />
     <Compile Include="Models\Agrupaciones\Categoria.cs" />
@@ -384,6 +395,8 @@
     <Content Include="Views\Horario\Details.cshtml" />
     <Content Include="Views\Horario\Edit.cshtml" />
     <Content Include="Views\Horario\Index.cshtml" />
+    <Content Include="Views\Ejercicio_Rutina\Create.cshtml" />
+    <Content Include="Views\Ejercicio_Rutina\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -447,6 +460,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810090032327_sogip_horario.resx">
       <DependentUpon>201810090032327_sogip_horario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810102203059_r.resx">
+      <DependentUpon>201810102203059_r.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810102206020_cambio.resx">
+      <DependentUpon>201810102206020_cambio.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

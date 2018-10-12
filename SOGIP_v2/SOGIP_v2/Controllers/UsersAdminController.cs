@@ -190,7 +190,7 @@ namespace SOGIP_v2.Controllers
                                         Deporte_Id = db.Deportes.Single(x => x.DeporteId == SelectedSport),
                                         Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
                                     };
-
+                                   
                                     db.Selecciones.Add(seleccion);
                                     break;
                                 }
