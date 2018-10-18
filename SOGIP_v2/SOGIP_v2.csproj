@@ -200,11 +200,12 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
-    <Compile Include="Controllers\Ejercicio_RutinaController.cs" />
+    <Compile Include="Controllers\Conjunto_EjercicioController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
     <Compile Include="Controllers\ExpedientesFisicosController.cs" />
+    <Compile Include="Controllers\RutinasController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Generales.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -416,8 +417,6 @@
     <Content Include="Views\Horario\Details.cshtml" />
     <Content Include="Views\Horario\Edit.cshtml" />
     <Content Include="Views\Horario\Index.cshtml" />
-    <Content Include="Views\Ejercicio_Rutina\Create.cshtml" />
-    <Content Include="Views\Ejercicio_Rutina\Edit.cshtml" />
     <Content Include="Views\CitasAdmin\Create.cshtml" />
     <Content Include="Views\CitasAdmin\Delete.cshtml" />
     <Content Include="Views\CitasAdmin\Details.cshtml" />
@@ -425,6 +424,21 @@
     <Content Include="Views\CitasAdmin\Index.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Success.cshtml" />
+    <Content Include="Views\Conjunto_Ejercicio\Create.cshtml" />
+    <Content Include="Views\Conjunto_Ejercicio\Delete.cshtml" />
+    <Content Include="Views\Conjunto_Ejercicio\Details.cshtml" />
+    <Content Include="Views\Conjunto_Ejercicio\Edit.cshtml" />
+    <Content Include="Views\Conjunto_Ejercicio\Index.cshtml" />
+    <Content Include="Views\Rutinas\Create.cshtml" />
+    <Content Include="Views\Rutinas\Delete.cshtml" />
+    <Content Include="Views\Rutinas\Details.cshtml" />
+    <Content Include="Views\Rutinas\Edit.cshtml" />
+    <Content Include="Views\Rutinas\Index.cshtml" />
+    <Content Include="Views\Rutinas\Ejercicio.cshtml" />
+    <Content Include="Views\Rutinas\ListaEjercicio.cshtml" />
+    <Content Include="Views\Rutinas\EditEjercicio.cshtml" />
+    <Content Include="Views\Rutinas\DeleteEjercicio.cshtml" />
+    <Content Include="Views\Rutinas\DetailsEjercicio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
