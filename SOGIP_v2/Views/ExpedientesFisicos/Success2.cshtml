@@ -5,13 +5,13 @@
 <div class="container">
     <div class="exp_fis" id="reg_ex">
         <span>
-            ¡El archivo InBody se ha registrado correctamente! Pero no se seleccionó ningún archivo para la Prueba de Fuerza o el archivo de la Prueba de Fuerza está vacío.
+            ¡El archivo InBody y la Prueba de Fuerza se han registrado correctamente!
         </span>
         @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
-        <div>
-            <input type="submit" value="Regresar" />
-        </div>
+            <div>
+                <input type="submit" value="Regresar" />
+            </div>
         }
     </div>
 </div>
