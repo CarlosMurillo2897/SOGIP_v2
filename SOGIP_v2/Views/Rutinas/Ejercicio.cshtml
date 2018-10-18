@@ -19,17 +19,7 @@
                 @{
                     var viewDataRutina = ViewData["rutina"];
                 }
-                @viewDataRutina
-
-                <select name="rutinaSeleccionada">
-            @foreach (var rutina in (SelectList)ViewBag.Rutinas)
-            {
-                <option value="@rutina.Value">
-
-                    @Html.Label(rutina.Text, new { @class = "control-label" })
-                </option>
-            }
-        </select>
+                @Html.Hidden("data", viewDataRutina)
                 
             </div>
         </div>

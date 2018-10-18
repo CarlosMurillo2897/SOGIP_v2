@@ -49,19 +49,19 @@ namespace SOGIP_v2.Controllers
             string n = i.ToString();
             ViewData["rutina"] = n;
 
-            var getRutina = db.Rutinas.ToList();
-            SelectList listaRutinas = new SelectList(getRutina, "RutinaId", "RutinaId");
-            ViewBag.Rutinas = listaRutinas;
+            //var getRutina = db.Rutinas.ToList();
+            //SelectList listaRutinas = new SelectList(getRutina, "RutinaId", "RutinaId");
+            //ViewBag.Rutinas = listaRutinas;
 
             return View();
 
         }
         [HttpPost]
-        public ActionResult Ejercicio(int ? rutinaSeleccionada, Conjunto_Ejercicio ejercicio)
+        public ActionResult Ejercicio(string data, Conjunto_Ejercicio ejercicio)
         {
-            
+            int d = int.Parse(data.ToString());
              Rutina rutina = new Rutina();
-             rutina = db.Rutinas.Single(x => x.RutinaId == rutinaSeleccionada);
+             rutina = db.Rutinas.Single(x => x.RutinaId == d);
             if (rutina != null)
             {
                 Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
