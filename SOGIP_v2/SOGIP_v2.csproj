@@ -221,6 +221,14 @@
     <Compile Include="Migrations\201810121956479_all.Designer.cs">
       <DependentUpon>201810121956479_all.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810150651085_iduser_cit.cs" />
+    <Compile Include="Migrations\201810150651085_iduser_cit.Designer.cs">
+      <DependentUpon>201810150651085_iduser_cit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810151930159_cita_2.cs" />
+    <Compile Include="Migrations\201810151930159_cita_2.Designer.cs">
+      <DependentUpon>201810151930159_cita_2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -446,6 +454,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810121956479_all.resx">
       <DependentUpon>201810121956479_all.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810150651085_iduser_cit.resx">
+      <DependentUpon>201810150651085_iduser_cit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810151930159_cita_2.resx">
+      <DependentUpon>201810151930159_cita_2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
