@@ -8,7 +8,6 @@ namespace SOGIP_v2.Models
     public class Entrenador
     {
         public int EntrenadorId { get; set; }
-        //public varBinary(MAX) titulo { get; set; }
         public ApplicationUser Usuario { get; set; }
     }
 }

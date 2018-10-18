@@ -10,6 +10,11 @@ using System;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web.UI;
+using System.IO;
+using System.Data;
+using System.Web.UI.WebControls;
+using System.Data.SqlClient;
 
 namespace SOGIP_v2.Controllers
 {
@@ -17,15 +22,15 @@ namespace SOGIP_v2.Controllers
     public class UsersAdminController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        
+
         public UsersAdminController()
         {
         }
 
         public static string composicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
         {
-            
-            
+
+
             string mes = "";
 
             if (Nacimiento.Month < 10)
@@ -73,7 +78,7 @@ namespace SOGIP_v2.Controllers
             private set
             {
                 _roleManager = value;
-                
+
             }
         }
 
@@ -106,32 +111,12 @@ namespace SOGIP_v2.Controllers
         //[HttpGet]
         public async Task<ActionResult> Create()
         {
-           
-            //Entities List
-            var getEntidad = db.Tipo_Entidad.ToList();
-            SelectList listaEntidades = new SelectList(getEntidad, "Tipo_EntidadId", "Descripcion");
-            ViewBag.Entidades = listaEntidades;
 
-            //Sport List
-            var getDeporte = db.Deportes.ToList();
-            SelectList listaDeportes = new SelectList(getDeporte, "DeporteId", "Nombre");
-            ViewBag.Deportes = listaDeportes;
-
-            //Category List
-            var getCategoria = db.Categorias.ToList();
-            SelectList listCategorías = new SelectList(getCategoria, "CategoriaId", "Descripcion");
-            ViewBag.Categorias = listCategorías;
-
-            //Seleccion List
-            var getSeleccion = db.Selecciones.ToList();
-            SelectList listaSelecciones = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
-            ViewBag.Selecciones = listaSelecciones;
-
-            //Aso List
-            var getAsociaciones = db.Asociacion_Deportiva.ToList();
-            SelectList listAsociaciones = new SelectList(getAsociaciones, "Asociacion_DeportivaId", "Nombre_DepAso");
-            ViewBag.Asociaciones = listAsociaciones;
-
+            ViewBag.Entidades = new SelectList(db.Tipo_Entidad.ToList(), "Tipo_EntidadId", "Descripcion");
+            ViewBag.Deportes = new SelectList(db.Deportes.ToList(), "DeporteId", "Nombre");
+            ViewBag.Categorias = new SelectList(db.Categorias.ToList(), "CategoriaId", "Descripcion");
+            ViewBag.Selecciones = new SelectList(db.Selecciones.ToList(), "SeleccionId", "Nombre_Seleccion");
+            ViewBag.Asociaciones = new SelectList(db.Asociacion_Deportiva.ToList(), "Asociacion_DeportivaId", "Nombre_DepAso");
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
 
             return View();
@@ -140,11 +125,10 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, string selectedRoles, int? SelectedCategory, int? SelectedSport, FormCollection form)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, string selectedRoles, int? SelectedCategory, int? SelectedSport, FormCollection form, HttpPostedFileBase CV)
         {
             if (ModelState.IsValid)
             {
-
                 var user = new ApplicationUser
                 {
                     UserName = userViewModel.Cedula,
@@ -177,8 +161,6 @@ namespace SOGIP_v2.Controllers
                         switch (selectedRoles)
                         {
 
-                            //no sé por que diablos, pero cuando concateno el nombre
-                            //de selección, se crean espacios y separa mucho los nombres
                             case "Seleccion/Federacion":
                                 {
                                     Seleccion seleccion = new Seleccion()
@@ -189,19 +171,62 @@ namespace SOGIP_v2.Controllers
                                         Deporte_Id = db.Deportes.Single(x => x.DeporteId == SelectedSport),
                                         Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
                                     };
-                                   
+
                                     db.Selecciones.Add(seleccion);
                                     break;
                                 }
 
                             case "Entrenador":
                                 {
+                                    /* "Método #3"
+                                     */
+                                    if (CV != null)
+                                    {
+                                        BinaryReader br = new BinaryReader(CV.InputStream);
+                                        byte[] buffer = br.ReadBytes(CV.ContentLength);
+
+                                        Archivo file = new Archivo() {
+                                            Nombre = CV.FileName,
+                                            Extension = Path.GetExtension(CV.FileName),
+                                            Tipo = CV.ContentType,
+                                            Contenido = buffer,
+                                            Usuario = db.Users.Single(x => x.Id == user.Id)
+                                        };
+                                        db.Archivo.Add(file);
+                                    }
+
+
+                                    /* Método #2
+                                    string filepath = Server.MapPath("~/Content/Registros/"+CV.FileName);
+                                    CV.SaveAs(filepath);
+                                    string filename = Path.GetFileName(filepath);
+                                    FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
+                                    BinaryReader br = new BinaryReader(fs);
+                                    byte[] bytes = br.ReadBytes((Int32)fs.Length);
+                                    br.Close();
+                                    fs.Close();
+                                    */
+
                                     Entrenador entrenador = new Entrenador()
                                     {
                                         Usuario = db.Users.Single(x => x.Id == user.Id)
                                     };
 
+                                    /*
+                                     Método #1
+                                     entrenador.Titulo = new byte[CV.ContentLength];
+                                     CV.InputStream.Read(entrenador.Titulo, 0, CV.ContentLength);
+                                     
+
+
+                                    if (CV != null)
+                                    {
+                                        entrenador.Titulo = new byte[CV.ContentLength];
+                                        CV.InputStream.Read(entrenador.Titulo, 0, CV.ContentLength);
+                                    }*/
+
                                     db.Entrenadores.Add(entrenador);
+
                                     break;
                                 }
 
@@ -277,10 +302,17 @@ namespace SOGIP_v2.Controllers
 
                 else
                 {
+                    // Existe algún error con los datos ingresados (datos repetidos).
+
                     ModelState.AddModelError("", adminresult.Errors.First());
 
+                    ViewBag.Entidades = new SelectList(db.Tipo_Entidad.ToList(), "Tipo_EntidadId", "Descripcion");
+                    ViewBag.Deportes = new SelectList(db.Deportes.ToList(), "DeporteId", "Nombre");
+                    ViewBag.Categorias = new SelectList(db.Categorias.ToList(), "CategoriaId", "Descripcion");
+                    ViewBag.Selecciones = new SelectList(db.Selecciones.ToList(), "SeleccionId", "Nombre_Seleccion");
+                    ViewBag.Asociaciones = new SelectList(db.Asociacion_Deportiva.ToList(), "Asociacion_DeportivaId", "Nombre_DepAso");
+                    ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
 
-                    ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
                     return View();
 
                 }
@@ -289,31 +321,12 @@ namespace SOGIP_v2.Controllers
                 return RedirectToAction("Index");
             }
 
-            //Entities List
-            var getEntidad = db.Tipo_Entidad.ToList();
-            SelectList listaEntidades = new SelectList(getEntidad, "Tipo_EntidadId", "Descripcion");
-            ViewBag.Entidades = listaEntidades;
 
-            //Sport List
-            var getDeporte = db.Deportes.ToList();
-            SelectList listaDeportes = new SelectList(getDeporte, "DeporteId", "Nombre");
-            ViewBag.Deportes = listaDeportes;
-
-            //Category List
-            var getCategoria = db.Categorias.ToList();
-            SelectList listCategorías = new SelectList(getCategoria, "CategoriaId", "Descripcion");
-            ViewBag.Categorias = listCategorías;
-
-            //Seleccion List
-            var getSeleccion = db.Selecciones.ToList();
-            SelectList listaSelecciones = new SelectList(getSeleccion, "SeleccionId", "Nombre_Seleccion");
-            ViewBag.Selecciones = listaSelecciones;
-
-            //Aso List
-            var getAsociaciones = db.Asociacion_Deportiva.ToList();
-            SelectList listAsociaciones = new SelectList(getAsociaciones, "Asociacion_DeportivaId", "Nombre_DepAso");
-            ViewBag.Asociaciones = listAsociaciones;
-
+            ViewBag.Entidades = new SelectList(db.Tipo_Entidad.ToList(), "Tipo_EntidadId", "Descripcion");
+            ViewBag.Deportes = new SelectList(db.Deportes.ToList(), "DeporteId", "Nombre");
+            ViewBag.Categorias = new SelectList(db.Categorias.ToList(), "CategoriaId", "Descripcion");
+            ViewBag.Selecciones = new SelectList(db.Selecciones.ToList(), "SeleccionId", "Nombre_Seleccion");
+            ViewBag.Asociaciones = new SelectList(db.Asociacion_Deportiva.ToList(), "Asociacion_DeportivaId", "Nombre_DepAso");
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
 
             return View();
@@ -335,6 +348,8 @@ namespace SOGIP_v2.Controllers
 
             var userRoles = await UserManager.GetRolesAsync(user.Id);
 
+            ViewBag.Archivos = db.Archivo.ToList();
+
             return View(new EditUserViewModel()
             {
                 Id = user.Id,
@@ -347,6 +362,7 @@ namespace SOGIP_v2.Controllers
                 Apellido2 = user.Apellido2,
                 Fecha_Nacimiento = user.Fecha_Nacimiento,
                 //Sexo = user.Sexo,
+
                 RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
                 {
                     Selected = userRoles.Contains(x.Name),
@@ -356,12 +372,67 @@ namespace SOGIP_v2.Controllers
             });
         }
 
+        [HttpPost]
+        public void Download(int Documento)
+        {
+             var v = db.Archivo.Where( x => x.ArchivoId == Documento).FirstOrDefault();
+            // var v = db.Archivo.Last();
+
+            if (v != null)
+            {
+                byte[] fileData = v.Contenido;
+                Response.AddHeader("Content-type", v.Tipo);
+                Response.AddHeader("Content-Disposition", "attachment; filename=" + v.Nombre);
+
+                byte[] dataBlock = new byte[0x1000];
+                long fileSize;
+                int bytesRead;
+                long totalsBytesRead = 0;
+
+                using (Stream st = new MemoryStream(fileData))
+                {
+                    fileSize = st.Length;
+                    while (totalsBytesRead < fileSize)
+                    {
+                        if (Response.IsClientConnected)
+                        {
+                            bytesRead = st.Read(dataBlock, 0, dataBlock.Length);
+                            Response.OutputStream.Write(dataBlock, 0, bytesRead);
+
+                            Response.Flush();
+                            totalsBytesRead += bytesRead;
+                        }
+
+                    }
+                }
+                Response.End();
+
+
+
+            }
+
+            
+
+
+            //    string Nombre = Archivos.Last().Nombre;
+            //    byte[] documentBytes = (byte[])Archivos.Last().Contenido;
+
+            //    Response.ClearContent();
+            //    Response.ContentType = "application/octetstream";
+            //    Response.AddHeader("Content-Disposition",string.Format("attachment;filename={0}", Nombre));
+            //    Response.AddHeader("Content-Length",documentBytes.Length.ToString());
+
+            //    Response.BinaryWrite(documentBytes);
+            //    Response.Flush();
+            //    Response.End();
+        }
         //
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,Nombre1,Nombre2,Apellido1,Apellido2")] EditUserViewModel editUser, params string[] selectedRole)
+        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,Nombre1,Nombre2,Apellido1,Apellido2")] EditUserViewModel editUser, int Documento, params string[] selectedRole)
         {
+            Download(Documento);
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByIdAsync(editUser.Id);

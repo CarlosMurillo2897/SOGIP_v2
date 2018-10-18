@@ -45,12 +45,12 @@
         </div>
     </div>
     @*<div class="form-group">
-        @Html.LabelFor(model => model.Fecha_Nacimiento, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Fecha_Nacimiento, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Fecha_Nacimiento)
-        </div>
-    </div>*@
+            @Html.LabelFor(model => model.Fecha_Nacimiento, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Fecha_Nacimiento, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Fecha_Nacimiento)
+            </div>
+        </div>*@
     <div class="form-group">
         @Html.LabelFor(model => model.UserName, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
@@ -77,12 +77,40 @@
                     <option>
                         @Html.Label(item.Value, new { @class = "control-label" })
                     </option>
-
                 }
             </select>
         </span>
     </div>
-
+    @using (Html.BeginForm("Download", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+    {
+    <table id="tabla">
+        @foreach (var file in ViewBag.Archivos)
+        {
+            <tr id="Documentos">
+                <td>
+                    @file.ArchivoId
+                </td>
+                <td>
+                    @file.Nombre
+                </td>
+                <td>
+                    @file.Extension
+                </td>
+                <td>
+                    @file.Tipo
+                </td>
+            </tr>
+        }
+            <tr>
+                <td>
+                    @Html.TextBox("Documento", null, new { @class = "form-control" })
+                </td>
+            </tr>
+    </table>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Download" class="btn btn-default" />
+        </div>
+    }
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">

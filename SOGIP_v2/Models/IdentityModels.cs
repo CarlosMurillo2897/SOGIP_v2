@@ -50,20 +50,23 @@ namespace SOGIP_v2.Models
 
             modelBuilder.Entity<Asociacion_Deportiva>().ToTable("SOGIP_Asociacion_Deportiva");
             modelBuilder.Entity<Atleta>().ToTable("SOGIP_Atletas");
-            modelBuilder.Entity<Categoria>().ToTable("SOGIP_Categorias");
-            modelBuilder.Entity<Deporte>().ToTable("SOGIP_Deportes");
             modelBuilder.Entity<Entidad_Publica>().ToTable("SOGIP_Entidad_Publica");
             modelBuilder.Entity<Entrenador>().ToTable("SOGIP_Entrenadores");
-            modelBuilder.Entity<Estado>().ToTable("SOGIP_Estados");
             modelBuilder.Entity<Funcionario_ICODER>().ToTable("SOGIP_Funcionario_ICODER");
+            modelBuilder.Entity<Seleccion>().ToTable("SOGIP_Selecciones");
+
+            modelBuilder.Entity<Categoria>().ToTable("SOGIP_Categorias");
+            modelBuilder.Entity<Deporte>().ToTable("SOGIP_Deportes");
+            modelBuilder.Entity<Estado>().ToTable("SOGIP_Estados");
             modelBuilder.Entity<Tipo_Deporte>().ToTable("SOGIP_Tipo_Deporte");
             modelBuilder.Entity<Tipo_Entidad>().ToTable("SOGIP_Tipo_Entidad");
-            modelBuilder.Entity<Seleccion>().ToTable("SOGIP_Selecciones");
             modelBuilder.Entity<Horario>().ToTable("SOGIP_Horario");
             modelBuilder.Entity<Cita>().ToTable("SOGIP_Cita");
             modelBuilder.Entity<Conjunto_Ejercicio>().ToTable("SOGIP_Conjunto_Ejercicio");
             modelBuilder.Entity<Rutina>().ToTable("SOGIP_Rutina");
-            modelBuilder.Entity<ExpedienteFisico>().    ToTable("SOGIP_Expedientes_Fisicos");
+            modelBuilder.Entity<ExpedienteFisico>().ToTable("SOGIP_Expedientes_Fisicos");
+            modelBuilder.Entity<Archivo>().ToTable("SOGIP_Archivo");
+
         }
 
         public static ApplicationDbContext Create()
@@ -100,6 +103,8 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Conjunto_Ejercicio> Conjunto_Ejercicios { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Rutina> Rutinas { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Archivo> Archivo { get; set; }
 
 
     }

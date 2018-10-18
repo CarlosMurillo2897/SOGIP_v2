@@ -6,6 +6,7 @@
 
 function formulario() {
     var rol_selected = $('#selectedRoles option:selected').val();
+
     switch (rol_selected) {
 
         case "Asociacion/Comite":
@@ -17,74 +18,108 @@ function formulario() {
             $('#info_atleta_tipo').hide(); //selección o asociación
             $('#info_atleta_selec').hide();
             $('#info_atleta_aso').hide();
+
             $('#title_entidad').hide();
             $('#info_entidad').hide();
+
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
             $('#info_seleccion_nombre').hide();
+
+            $('#title_entrenador').hide();
+            $('#info_entrenador').hide();
             break;
 
-        case "Atleta" || "Atleta Alto Rendimiento":
+        case "Atleta":
             $('#title_atleta').show();
             $('#info_atleta_tipo').show();
             $('#info_atleta_selec').show();
             $('#info_atleta_aso').show();
+
             $('#title_aso').hide();
             $('#info_aso').hide();
+
             $('#title_entidad').hide();
             $('#info_entidad').hide();
+
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
             $('#info_seleccion_nombre').hide();
+
+            $('#title_entrenador').hide();
+            $('#info_entrenador').hide();
             break;
 
-        case "Atleta Alto Rendimiento":
+        case "Atleta Becados":
             $('#title_atleta').show();
             $('#info_atleta_tipo').show();
             $('#info_atleta_selec').show();
             $('#info_atleta_aso').show();
+
             $('#title_aso').hide();
             $('#info_aso').hide();
+
             $('#title_entidad').hide();
             $('#info_entidad').hide();
+
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
             $('#info_seleccion_nombre').hide();
+
+            $('#title_entrenador').hide();
+            $('#info_entrenador').hide();
             break;
 
         case "Entidades Publicas":
             $('#title_entidad').show();
             $('#info_entidad').show();
+
             $('#title_aso').hide();
             $('#info_aso').hide();
+
             $('#title_atleta').hide();
             $('#info_atleta_tipo').hide(); //selección o asociación
             $('#info_atleta_selec').hide();
             $('#info_atleta_aso').hide();
+
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
             $('#info_seleccion_nombre').hide();
+
+            $('#title_entrenador').hide();
+            $('#info_entrenador').hide();
             break;
 
         case "Entrenador":
+            $('#title_entrenador').show();
+            $('#info_entrenador').show();
+
             $('#title_aso').hide();
             $('#info_aso').hide();
+
             $('#title_atleta').hide();
             $('#info_atleta_tipo').hide(); //selección o asociación
             $('#info_atleta_selec').hide();
             $('#info_atleta_aso').hide();
+
             $('#title_entidad').hide();
             $('#info_entidad').hide();
+
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
             $('#info_seleccion_nombre').hide();
@@ -93,49 +128,70 @@ function formulario() {
         case "Funcionarios ICODER":
             $('#title_icoder').show();
             $('#info_icoder').show();
+
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
             $('#info_seleccion_nombre').hide();
+
             $('#title_aso').hide();
             $('#info_aso').hide();
+
             $('#title_atleta').hide();
             $('#info_atleta_tipo').hide(); //selección o asociación
             $('#info_atleta_selec').hide();
             $('#info_atleta_aso').hide();
+
             $('#title_entidad').hide();
             $('#info_entidad').hide();
+
+            $('#title_entrenador').hide();
+            $('#info_entrenador').hide();
             break;
 
         case "Seleccion/Federacion":
             $('#title_seleccion').show();
             $('#info_seleccion').show();
             $('#info_seleccion_nombre').show();
+
             $('#title_aso').hide();
             $('#info_aso').hide();
+
             $('#title_atleta').hide();
             $('#info_atleta_tipo').hide(); //selección o asociación
             $('#info_atleta_selec').hide();
             $('#info_atleta_aso').hide();
+
             $('#title_entidad').hide();
             $('#info_entidad').hide();
+
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+
+            $('#title_entrenador').hide();
+            $('#info_entrenador').hide();
             break;
 
         default:
             $('#title_aso').hide();
             $('#info_aso').hide();
+
             $('#title_atleta').hide();
             $('#info_atleta_tipo').hide(); //selección o asociación
             $('#info_atleta_selec').hide();
             $('#info_atleta_aso').hide();
+
             $('#title_entidad').hide();
             $('#info_entidad').hide();
+
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
             $('#info_seleccion_nombre').hide();
+
+            $('#title_entrenador').hide();
+            $('#info_entrenador').hide();
             break;
 
     }
@@ -200,6 +256,9 @@ function brth(num) {             // 1 = BLUR      |       2 = KEYPRESSED
             window.alert(" La edad mínima dentro del sistema es de 10 años. ");
             $('#birth').val(date);
         }
+
+        // CASO 4 = Error en el lenguaje.
+         // || birth > '19380-01-01'
 
     }
 

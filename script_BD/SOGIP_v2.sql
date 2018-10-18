@@ -31,6 +31,9 @@ use "SOGIP_v3"
  select * from SOGIP_UserRoles, SOGIP_Roles;
  select * from SOGIP_Estados;
 
+insert into SOGIP_Users values('aab4f4cd-060b-4755-8439-dcb1321442db','123456789',NULL,'2018-10-14 17:30:50.793','Carlos','Isaias','Murillo','Badilla','1997-08-28 00:00:00.000',1,'joha@yahos.com',0,'AIyOJ27uVPdqtXxCKXPVcZYYRFs5tW5BRq/F8ZaZnBFanUZRvJjAB7iCD70wVB1b1w==','3285f946-2df7-4ffa-ab40-b0fc82464f32',NULL,0,0,NULL,1,0,'123456789');
+
+
  select * from SOGIP_Selecciones;
  select * from SOGIP_Entrenadores;
  select * from SOGIP_Atletas;
@@ -38,7 +41,10 @@ use "SOGIP_v3"
  select * from SOGIP_Entidad_Publica;
  select * from SOGIP_Asociacion_Deportiva;
 
+ select * from SOGIP_Archivo;
+
  sp_help SOGIP_Users; -- Describe los atributos de cualquier tabla.
+ sp_help SOGIP_Entrenadores;
 
 */
 
