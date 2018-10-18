@@ -38,7 +38,7 @@ namespace SOGIP_v2.Controllers
         public ActionResult Create()
         {
             var getAtletas = db.Users.ToList();
-            SelectList listaAtletas = new SelectList(getAtletas, "Id", "Cedula");
+            SelectList listaAtletas = new SelectList(getAtletas, "Cedula", "Nombre1");
             ViewBag.Atletas = listaAtletas;
             return View();
         }
@@ -165,7 +165,7 @@ namespace SOGIP_v2.Controllers
 
           
 
-            user = db.Users.Single(x => x.Id == atletaSeleccionado);
+            user = db.Users.Single(x => x.Cedula == atletaSeleccionado);
 
             if (user != null)
             {
