@@ -1,8 +1,10 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url('Imagenes/fondo_a_opc_50%.png');
+    background-image: url("Imagenes/FONDO.png");
     background-size: cover;
+    width: 1920px;
+    height: 1080px;
     resize: both;
     overflow: scroll;
 }
