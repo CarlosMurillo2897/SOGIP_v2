@@ -59,7 +59,7 @@ namespace SOGIP_v2.Controllers
         [HttpPost]
         public ActionResult Ejercicio(string data, Conjunto_Ejercicio ejercicio)
         {
-            int d = int.Parse(data.ToString());
+            int d = 10;
              Rutina rutina = new Rutina();
              rutina = db.Rutinas.Single(x => x.RutinaId == d);
             if (rutina != null)
