@@ -80,7 +80,7 @@ namespace SOGIP_v2.Controllers
                 };
                 db.Conjunto_Ejercicios.Add(conjunto);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+        
 
             }
 
