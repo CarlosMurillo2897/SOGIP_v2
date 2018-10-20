@@ -63,7 +63,7 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Cita>().ToTable("SOGIP_Cita");
             modelBuilder.Entity<Conjunto_Ejercicio>().ToTable("SOGIP_Conjunto_Ejercicio");
             modelBuilder.Entity<Rutina>().ToTable("SOGIP_Rutina");
-            modelBuilder.Entity<ExpedienteFisico>().    ToTable("SOGIP_Expedientes_Fisicos");
+            modelBuilder.Entity<ExpedienteFisico>().ToTable("SOGIP_Expedientes_Fisicos");
         }
 
         public static ApplicationDbContext Create()
