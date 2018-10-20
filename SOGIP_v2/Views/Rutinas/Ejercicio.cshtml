@@ -4,116 +4,86 @@
 }
 
 <h2>Create</h2>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+ 
 
-@using (Html.BeginForm("Ejercicio", "Rutinas", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
+</head>
+<body>
+    <section>
+        <table class="table">
+            <tr class="info">
+                <TH COLSPAN=1>Ejercicio</TH>
+                <TH COLSPAN=3>Semana 1-2</TH>
+                <TH COLSPAN=3>Semana 3-4</TH>
+                <TH COLSPAN=3>Semana 5-6</TH>
+                <TH COLSPAN=1>Editar</TH>
 
-    <div class="form-horizontal">
+            </tr>
+            <tr class="info">
 
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <div class="col-md-10">
+                <TH></TH>
+                <TH>S1</TH>
+                <TH>R1</TH>
+                <TH>P1</TH>
+                <TH>S2</TH>
+                <TH>R2</TH>
+                <TH>P2</TH>
+                <TH>S3</TH>
+                <TH>R3</TH>
+                <TH>P3</TH>
+                <TH></TH>
+            </tr>
+        </table>
+        <form method="post">
+            <table class="table bg-info" id="tabla" width="10">
+                <tr class="fila-fija">
+                    <td><input required name="nombreEjercicio" placeholder=" Nombre Ejercicio" /></td>
+                    <td><input required name="serie1" placeholder="S1"/></td>
+                    <td><input required name="repe1" placeholder="R1" /></td>
+                    <td><input required name="peso1" placeholder="P1" /></td>
+                    <td><input required name="serie2" placeholder="S2" /></td>
+                    <td><input required name="repe2" placeholder="R2" /></td>
+                    <td><input required name="peso2" placeholder="P2" /></td>
+                    <td><input required name="serie3" placeholder="S3" /></td>
+                    <td><input required name="repe3" placeholder="R3" /></td>
+                    <td><input required name="peso3" placeholder="P3" /></td>
+                    <td class="eliminar"><input type="button" value="Menos-" /></td>
+                </tr>
+            </table>
+            <div class="btn-der">
+                <input type="submit" name="insertar" value="Insertar Ejercicio" class="btn-block btn-info" />
+                <br>
+                <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
+            </div>
+        </form>
 
-                @Html.Label("Rutina", new { @class = "control-label" })
-                @{
-                    var viewDataRutina = ViewData["rutina"];
-                }
-                @Html.Hidden("data", viewDataRutina)
-                
-            </div>
-        </div>
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.NombreEjercicio, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.NombreEjercicio, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.NombreEjercicio, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        @Html.Label("Semana 1-2", new { @class = "control-label" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Serie1, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Serie1, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Serie1, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Repeticion1, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Repeticion1, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Repeticion1, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Peso1, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Peso1, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Peso1, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        @Html.Label("Semana 3-4", new { @class = "control-label" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Serie2, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Serie2, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Serie2, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Repeticion2, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Repeticion2, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Repeticion2, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Peso2, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Peso2, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Peso2, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        @Html.Label("Semana 3-4", new { @class = "control-label" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.Serie3, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Serie3, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Serie3, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Repeticion3, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Repeticion3, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Repeticion3, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Peso3, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Peso3, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Peso3, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
+    </section>
+</body>
+</html>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+  
 
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/fullCalendar/jquery.min.js")
+    @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
+    @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
+    @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
+    <script>
+        $(function () {
+            $("#adicional").on('click', function () {
+                $("#tabla tbody tr:eq(0)").clone().removeClass('fila-fija').appendTo("#tabla");
+            });
+
+            $(document).on("click", ".eliminar", function () {
+                var parent = $(this).parents().get(0);
+                $(parent).remove();
+            });
+            $(document).on("click", ".insertar", function () {
+
+            });
+        });
+    </script>
+}
