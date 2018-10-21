@@ -225,6 +225,10 @@
     <Compile Include="Migrations\201810142319586_file.Designer.cs">
       <DependentUpon>201810142319586_file.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810202112580_estado_Usuario.cs" />
+    <Compile Include="Migrations\201810202112580_estado_Usuario.Designer.cs">
+      <DependentUpon>201810202112580_estado_Usuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -233,7 +237,7 @@
     <Compile Include="Models\Rutina\Conjunto_Ejercicio.cs" />
     <Compile Include="Models\Rutina\Rutina.cs" />
     <Compile Include="Models\ExpedienteFisico.cs" />
-    <Compile Include="Models\Usuarios\Archivo.cs" />
+    <Compile Include="Models\Archivo.cs" />
     <Compile Include="Models\Usuarios\Asociacion_Deportiva.cs" />
     <Compile Include="Models\Usuarios\Atleta.cs" />
     <Compile Include="Models\Agrupaciones\Categoria.cs" />
@@ -262,9 +266,14 @@
     <Content Include="Content\fullcalendar.print.min.css" />
     <Content Include="Content\Imagenes\FONDO.png" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
+    <Content Include="Content\Imagenes\M.png" />
+    <Content Include="Content\Imagenes\W.png" />
+    <Content Include="Content\Imagenes\W2.png" />
+    <Content Include="Content\Imagenes\W3.jpg" />
+    <Content Include="Content\Imagenes\W4.jpg" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\manual.css" />
-    <Content Include="Content\StyleHeader.css" />
+    <Content Include="Content\Perfil.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -413,7 +422,6 @@
     <Content Include="Views\Estados\Details.cshtml" />
     <Content Include="Views\Estados\Edit.cshtml" />
     <Content Include="Views\Estados\Index.cshtml" />
-    <Content Include="Views\Home\header.cshtml" />
     <Content Include="Views\UsersAdmin\IndexMasivo.cshtml" />
     <Content Include="Views\UsersAdmin\Success.cshtml" />
     <Content Include="Views\Horario\Create.cshtml" />
@@ -431,6 +439,7 @@
     <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Success.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Success2.cshtml" />
+    <Content Include="Views\Account\Perfil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -455,6 +464,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810142319586_file.resx">
       <DependentUpon>201810142319586_file.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810202112580_estado_Usuario.resx">
+      <DependentUpon>201810202112580_estado_Usuario.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

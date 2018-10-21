@@ -50,7 +50,7 @@ namespace SOGIP_v2.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Cedula")]
+        [Display(Name = "Cédula")]
         public string Cedula { get; set; }
 
         [Required]

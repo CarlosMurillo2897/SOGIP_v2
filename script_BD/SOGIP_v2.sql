@@ -13,7 +13,7 @@ use "SOGIP_v3"
 -- ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
 
- select SOGIP_Users.Nombre1, SOGIP_Roles.Name, SOGIP_Roles.id
+ select SOGIP_Users.Id, SOGIP_Users.Nombre1, SOGIP_Users.Fecha_Nacimiento, SOGIP_Users.Cedula, SOGIP_Roles.Name, SOGIP_Roles.id
  from 
  SOGIP_Users, SOGIP_UserRoles, SOGIP_Roles
  where 
@@ -26,6 +26,7 @@ use "SOGIP_v3"
  delete from SOGIP_Users;
 
  select * from SOGIP_Users;
+ drop table SOGIP_Estados;
  select * from SOGIP_Roles order by Id asc;
 
  select * from SOGIP_UserRoles, SOGIP_Roles;
@@ -68,7 +69,6 @@ create trigger fecha_expiracion on SOGIP_Users
 -- ++++++++++++++++++++++++++ Trigger's ++++++++++++++++++++++++++
 
 -- ++++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++++
-
 
 insert into SOGIP_Roles values('1', 'Supervisor');
 insert into SOGIP_Roles values('2', 'Administrador');

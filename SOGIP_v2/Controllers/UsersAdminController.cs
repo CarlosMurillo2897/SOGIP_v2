@@ -15,6 +15,7 @@ using System.IO;
 using System.Data;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
+using System.Web.Security;
 
 namespace SOGIP_v2.Controllers
 {
@@ -111,7 +112,6 @@ namespace SOGIP_v2.Controllers
         //[HttpGet]
         public async Task<ActionResult> Create()
         {
-
             ViewBag.Entidades = new SelectList(db.Tipo_Entidad.ToList(), "Tipo_EntidadId", "Descripcion");
             ViewBag.Deportes = new SelectList(db.Deportes.ToList(), "DeporteId", "Nombre");
             ViewBag.Categorias = new SelectList(db.Categorias.ToList(), "CategoriaId", "Descripcion");
@@ -140,11 +140,11 @@ namespace SOGIP_v2.Controllers
                     Cedula = userViewModel.Cedula,
                     Fecha_Nacimiento = userViewModel.Fecha_Nacimiento,
                     Fecha_Expiracion = DateTime.Now,
-                    Sexo = userViewModel.Sexo
-                };
+                    Estado = true
+            };
+                
 
-
-                var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));
+                var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));                
 
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
@@ -178,8 +178,6 @@ namespace SOGIP_v2.Controllers
 
                             case "Entrenador":
                                 {
-                                    /* "Método #3"
-                                     */
                                     if (CV != null)
                                     {
                                         BinaryReader br = new BinaryReader(CV.InputStream);
@@ -195,35 +193,10 @@ namespace SOGIP_v2.Controllers
                                         db.Archivo.Add(file);
                                     }
 
-
-                                    /* Método #2
-                                    string filepath = Server.MapPath("~/Content/Registros/"+CV.FileName);
-                                    CV.SaveAs(filepath);
-                                    string filename = Path.GetFileName(filepath);
-                                    FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read);
-                                    BinaryReader br = new BinaryReader(fs);
-                                    byte[] bytes = br.ReadBytes((Int32)fs.Length);
-                                    br.Close();
-                                    fs.Close();
-                                    */
-
                                     Entrenador entrenador = new Entrenador()
                                     {
                                         Usuario = db.Users.Single(x => x.Id == user.Id)
                                     };
-
-                                    /*
-                                     Método #1
-                                     entrenador.Titulo = new byte[CV.ContentLength];
-                                     CV.InputStream.Read(entrenador.Titulo, 0, CV.ContentLength);
-                                     
-
-
-                                    if (CV != null)
-                                    {
-                                        entrenador.Titulo = new byte[CV.ContentLength];
-                                        CV.InputStream.Read(entrenador.Titulo, 0, CV.ContentLength);
-                                    }*/
 
                                     db.Entrenadores.Add(entrenador);
 
@@ -295,6 +268,9 @@ namespace SOGIP_v2.Controllers
                         {
                             ModelState.AddModelError("", result.Errors.First());
                             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+
+                            CV = null;
+
                             return View();
                         }
                     }
@@ -313,14 +289,14 @@ namespace SOGIP_v2.Controllers
                     ViewBag.Asociaciones = new SelectList(db.Asociacion_Deportiva.ToList(), "Asociacion_DeportivaId", "Nombre_DepAso");
                     ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
 
+                    CV = null;
+
                     return View();
 
                 }
-
                 // If everything it's ok.
                 return RedirectToAction("Index");
             }
-
 
             ViewBag.Entidades = new SelectList(db.Tipo_Entidad.ToList(), "Tipo_EntidadId", "Descripcion");
             ViewBag.Deportes = new SelectList(db.Deportes.ToList(), "DeporteId", "Nombre");
@@ -341,6 +317,7 @@ namespace SOGIP_v2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = await UserManager.FindByIdAsync(id);
+            
             if (user == null)
             {
                 return HttpNotFound();
@@ -349,6 +326,7 @@ namespace SOGIP_v2.Controllers
             var userRoles = await UserManager.GetRolesAsync(user.Id);
 
             ViewBag.Archivos = db.Archivo.ToList();
+            ViewBag.rol = userRoles;
 
             return View(new EditUserViewModel()
             {
@@ -356,19 +334,15 @@ namespace SOGIP_v2.Controllers
                 Email = user.Email,
                 UserName = user.UserName,
                 Cedula = user.Cedula,
+                CedulaExtra = user.CedulaExtra,
                 Nombre1 = user.Nombre1,
                 Nombre2 = user.Nombre2,
                 Apellido1 = user.Apellido1,
                 Apellido2 = user.Apellido2,
                 Fecha_Nacimiento = user.Fecha_Nacimiento,
-                //Sexo = user.Sexo,
+                Sexo = user.Sexo,
+                Estado = user.Estado
 
-                RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
-                {
-                    Selected = userRoles.Contains(x.Name),
-                    Text = x.Name,
-                    Value = x.Name
-                })
             });
         }
 
@@ -406,31 +380,13 @@ namespace SOGIP_v2.Controllers
                     }
                 }
                 Response.End();
-
-
-
             }
-
-            
-
-
-            //    string Nombre = Archivos.Last().Nombre;
-            //    byte[] documentBytes = (byte[])Archivos.Last().Contenido;
-
-            //    Response.ClearContent();
-            //    Response.ContentType = "application/octetstream";
-            //    Response.AddHeader("Content-Disposition",string.Format("attachment;filename={0}", Nombre));
-            //    Response.AddHeader("Content-Length",documentBytes.Length.ToString());
-
-            //    Response.BinaryWrite(documentBytes);
-            //    Response.Flush();
-            //    Response.End();
         }
         //
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,Nombre1,Nombre2,Apellido1,Apellido2")] EditUserViewModel editUser, int Documento, params string[] selectedRole)
+        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,Nombre1,Nombre2,Apellido1,Apellido2,Fecha_Nacimiento,Sexo")] EditUserViewModel editUser, int Documento, params string[] selectedRole)
         {
             Download(Documento);
             if (ModelState.IsValid)
@@ -443,13 +399,14 @@ namespace SOGIP_v2.Controllers
 
                 user.UserName = editUser.UserName;
                 user.Cedula = editUser.UserName;
+                user.CedulaExtra = user.CedulaExtra;
                 user.Email = editUser.Email;
                 user.Nombre1 = editUser.Nombre1;
                 user.Nombre2 = editUser.Nombre2;
                 user.Apellido1 = editUser.Apellido1;
                 user.Apellido2 = editUser.Apellido2;
-                //user.Fecha_Nacimiento = editUser.Fecha_Nacimiento;
-                //user.Sexo = edirtUser.Sexo;
+                user.Fecha_Nacimiento = editUser.Fecha_Nacimiento;
+                user.Sexo = editUser.Sexo;
 
                 var userRoles = await UserManager.GetRolesAsync(user.Id);
 

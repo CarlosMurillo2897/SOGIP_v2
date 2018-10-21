@@ -20,12 +20,14 @@ namespace SOGIP_v2.Models
         public string Apellido2 { get; set; }
         public DateTime Fecha_Nacimiento { get; set; }
         public Boolean Sexo { get; set; }
+        public Boolean Estado { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Tenga en cuenta que el valor de authenticationType debe coincidir con el definido en CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Agregar aquí notificaciones personalizadas de usuario
+            userIdentity.AddClaim(new Claim("Id", this.Id));
             userIdentity.AddClaim(new Claim("Cedula", this.Cedula));
             userIdentity.AddClaim(new Claim("Nombre1", this.Nombre1));
             return userIdentity;

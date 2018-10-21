@@ -58,8 +58,15 @@ namespace SOGIP_v2.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
+            var online = HttpContext.User.Identity.IsAuthenticated;
+            if ( !(online) ) {
+                ViewBag.ReturnUrl = returnUrl;
+                return View();
+            }
+            else
+            {
+                return LogOff();
+            }
         }
 
         //
@@ -230,6 +237,11 @@ namespace SOGIP_v2.Controllers
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+
+        public ActionResult Perfil()
         {
             return View();
         }

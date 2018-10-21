@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOGIP_v2.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -9,6 +10,12 @@ namespace App.Extensions
 {
     public static class IdentityExtensions
     {
+        public static string getIdentificador(this IIdentity identity)
+        {
+            var claim = ((ClaimsIdentity)identity).FindFirst("Id");
+            return (claim != null) ? claim.Value : string.Empty;
+        }
+
         public static string GetCedula(this IIdentity identity)
         {
             var claim = ((ClaimsIdentity)identity).FindFirst("Cedula");
@@ -20,6 +27,5 @@ namespace App.Extensions
             var claim = ((ClaimsIdentity)identity).FindFirst("Nombre1");
             return (claim != null) ? claim.Value : string.Empty;
         }
-
     }
 }

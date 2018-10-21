@@ -24,12 +24,10 @@
 
 <h2>@ViewBag.Title.</h2>
 
-@*using (Html.BeginForm("Import", "UsersAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
 @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
 
     @Html.AntiForgeryToken()
-    <body>
 
         @Html.ValidationSummary(true)
         @Html.ValidationSummary(false, "Los siguientes campos obligatorios están vacios: ")
@@ -169,7 +167,7 @@
                                 <div class="form-group">
                                     <div class="col-md-10">
                                         @Html.Label("Nombre de Asociacion o comite", new { @class = "control-label" })
-                                        <input type="text" class="nombre_aso form-control" name="nombre_aso" id="nombre_aso" />
+                                        <input type="text" class="nombre_aso form-control" name="nombre_aso" id="nombre_aso" onload = "window.alert('new');"/>
                                     </div>
                                 </div>
                             </div>
@@ -274,7 +272,7 @@
                             <div>
                                 <div class="form-group">
                                     <div class="col-md-10">
-                                        <input type="file" id="CV" name="CV" />
+                                        <input type="file" id="CV" name="CV"/>
                                     </div>
                                 </div>
                             </div>
@@ -353,12 +351,7 @@
                 </div>
             </div>
         </div>
-    </body>
 
-    <script>
-
-
-    </script>
 }
 
 @section Scripts {

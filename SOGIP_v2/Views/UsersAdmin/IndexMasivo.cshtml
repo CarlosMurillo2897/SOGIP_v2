@@ -1,15 +1,22 @@
 ﻿@model SOGIP_v2.Models.ApplicationUser
+
 <div class="container">
+
     <div class="masivo" id="registro_tabla" name="registro_tabla">
+
         @using (Html.BeginForm("Import", "UsersAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.Raw(ViewBag.Error)
+
             <span>Seleccione el archivo Excel a importar: </span><input type="file" name="excelfile" value="Cargar" />
             <br />
-            <br>
-            <br>
-            <input type="submit" value="Importar" />
-        }
-    </div>
-</div>
+            <br />
+            <br />
 
+            <input type="submit" value="Importar" />
+
+        }
+
+    </div>
+
+</div>

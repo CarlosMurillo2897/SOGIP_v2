@@ -7,6 +7,13 @@
 function formulario() {
     var rol_selected = $('#selectedRoles option:selected').val();
 
+    $('id_entrenador').val('');
+    $('#entrenadorF').val('');
+    $('#nombre_aso').val('');
+    $('sele_n').val('');
+    $('#CV').val('');
+    
+
     switch (rol_selected) {
 
         case "Asociacion/Comite":
