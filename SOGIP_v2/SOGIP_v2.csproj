@@ -265,9 +265,13 @@
     <Content Include="Content\fullcalendar.print.min.css" />
     <Content Include="Content\Imagenes\FONDO.png" />
     <Content Include="Content\Imagenes\fondo_a.png" />
-    <Content Include="Content\Imagenes\fondo_a_opc_25%25.png" />
-    <Content Include="Content\Imagenes\fondo_a_opc_50%25.png" />
+    <Content Include="Content\Imagenes\fondo_b.png" />
+    <Content Include="Content\Imagenes\fondo_c.png" />
+    <Content Include="Content\Imagenes\fondo_d.png" />
+    <Content Include="Content\Imagenes\fondo_e.png" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
+    <Content Include="Content\Imagenes\logo_SOGIP_con_letras.png" />
+    <Content Include="Content\Imagenes\logo_SOGIP_sin_letras.png" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\manual.css" />
     <Content Include="Content\StyleHeader.css" />
