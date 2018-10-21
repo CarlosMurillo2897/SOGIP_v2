@@ -117,7 +117,7 @@ insert into SOGIP_Deportes values('PATINAJE', 2);
 insert into SOGIP_Deportes values('POTENCIA', 1);
 insert into SOGIP_Deportes values('PULSOS', 1);
 insert into SOGIP_Deportes values('RACQUETBOL', 5);
-insert into SOGIP_Deportes values('ABC', 1);
+insert into SOGIP_Deportes values('Atletas Alto Rendimiento', 1);
 
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Daniel Oduber');
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Juan Santamaría');
