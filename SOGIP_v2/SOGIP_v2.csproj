@@ -229,6 +229,7 @@
     <Compile Include="Migrations\201810202112580_estado_Usuario.cs" />
     <Compile Include="Migrations\201810202112580_estado_Usuario.Designer.cs">
       <DependentUpon>201810202112580_estado_Usuario.cs</DependentUpon>
+      </Compile>
     <Compile Include="Migrations\201810150651085_iduser_cit.cs" />
     <Compile Include="Migrations\201810150651085_iduser_cit.Designer.cs">
       <DependentUpon>201810150651085_iduser_cit.cs</DependentUpon>
@@ -236,6 +237,7 @@
     <Compile Include="Migrations\201810151930159_cita_2.cs" />
     <Compile Include="Migrations\201810151930159_cita_2.Designer.cs">
       <DependentUpon>201810151930159_cita_2.cs</DependentUpon>
+      </Compile>
     <Compile Include="Migrations\201810180336047_Exp_Fís.cs" />
     <Compile Include="Migrations\201810180336047_Exp_Fís.Designer.cs">
       <DependentUpon>201810180336047_Exp_Fís.cs</DependentUpon>
@@ -502,11 +504,13 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810202112580_estado_Usuario.resx">
       <DependentUpon>201810202112580_estado_Usuario.cs</DependentUpon>
+      </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810150651085_iduser_cit.resx">
       <DependentUpon>201810150651085_iduser_cit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810151930159_cita_2.resx">
       <DependentUpon>201810151930159_cita_2.cs</DependentUpon>
+      </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810180336047_Exp_Fís.resx">
       <DependentUpon>201810180336047_Exp_Fís.cs</DependentUpon>
     </EmbeddedResource>
