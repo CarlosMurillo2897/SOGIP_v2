@@ -55,8 +55,7 @@ namespace SOGIP_v2.Controllers
         [HttpPost]
         public ActionResult Ejercicio(string data, Conjunto_Ejercicio ejercicio)
         {
-            //int d = int.Parse(data);
-            int d = 10;
+            int d = int.Parse(data);
             Rutina rutina = new Rutina();
              rutina = db.Rutinas.Single(x => x.RutinaId == d);
             if (rutina != null)
@@ -90,8 +89,7 @@ namespace SOGIP_v2.Controllers
         }
         public ActionResult loaddata(string data)
         {
-            //int idRutina = int.Parse(data);
-            int idRutina = 10;
+            int idRutina = int.Parse(data);
             var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
 
             return Json(new {getEjercicio = getEjercicio},JsonRequestBehavior.AllowGet);

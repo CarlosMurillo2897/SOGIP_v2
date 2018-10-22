@@ -42,20 +42,6 @@
                 <TH></TH>
             </tr>
         </table>
-        <table id="myTable">
-            <tr>
-                <th>NombreEjercicio</th>
-                <th>Serie1</th>
-                <th>Repeticion1</th>
-                <th>Peso1</th>
-                <th>Serie2</th>
-                <th>Repeticion2</th>
-                <th>Peso2</th>
-                <th>Serie3</th>
-                <th>Repeticion3</th>
-                <th>Peso3</th>
-            </tr>
-            </table>
 
         <form method="POST">
             <table class="btn btn-info" id="tabla">
@@ -146,27 +132,27 @@
                 })
        
             })
-            $(document).ready(function () {
-                $('myTable').DataTable({
-                    $.ajax:({
-                        "type": "GET",
-                        "url": "/Rutinas/loaddata",
-                        "datatype": "json"
-                    }
-                    "columns": [
-                        { "data": "NombreEjercicio", "autoWidth": true },
-                        { "data": "Serie1", "autoWidth": true },
-                        { "data": "Repeticion1", "autoWidth": true },
-                        { "data": "Peso1", "autoWidth": true },
-                        { "data": "Serie2", "autoWidth": true },
-                        { "data": "Repeticion2", "autoWidth": true },
-                        { "data": "Peso2", "autoWidth": true },
-                        { "data": "Serie3", "autoWidth": true },
-                        { "data": "Repeticion3", "autoWidth": true },
-                        { "data": "Peso3", "autoWidth": true }
-                    ]
-                })
-            });
+            //$(document).ready(function () {
+            //    $('myTable').DataTable({
+            //        $.ajax:({
+            //            "type": "GET",
+            //            "url": "/Rutinas/loaddata",
+            //            "datatype": "json"
+            //        }
+            //        "columns": [
+            //            { "data": "NombreEjercicio", "autoWidth": true },
+            //            { "data": "Serie1", "autoWidth": true },
+            //            { "data": "Repeticion1", "autoWidth": true },
+            //            { "data": "Peso1", "autoWidth": true },
+            //            { "data": "Serie2", "autoWidth": true },
+            //            { "data": "Repeticion2", "autoWidth": true },
+            //            { "data": "Peso2", "autoWidth": true },
+            //            { "data": "Serie3", "autoWidth": true },
+            //            { "data": "Repeticion3", "autoWidth": true },
+            //            { "data": "Peso3", "autoWidth": true }
+            //        ]
+            //    })
+            //});
 
         });
     </script>
