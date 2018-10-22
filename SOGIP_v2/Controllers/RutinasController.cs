@@ -38,11 +38,8 @@ namespace SOGIP_v2.Controllers
         public ActionResult Create()
         {
             var getAtletas = db.Users.ToList();
-<<<<<<< HEAD
-            SelectList listaAtletas = new SelectList(getAtletas, "Id", "Nombre1");
-=======
+
             SelectList listaAtletas = new SelectList(getAtletas, "Cedula", "Nombre1");
->>>>>>> Prueba_Adri
             ViewBag.Atletas = listaAtletas;
             return View();
         }
@@ -59,15 +56,11 @@ namespace SOGIP_v2.Controllers
         [HttpPost]
         public ActionResult Ejercicio(string data, Conjunto_Ejercicio ejercicio)
         {
-<<<<<<< HEAD
-            int d = int.Parse(data.ToString());
-            Rutina rutina = new Rutina();
-            rutina = db.Rutinas.Single(x => x.RutinaId == d);
-=======
+
+       
             int d = int.Parse(data);
             Rutina rutina = new Rutina();
              rutina = db.Rutinas.Single(x => x.RutinaId == d);
->>>>>>> Prueba_Adri
             if (rutina != null)
             {
                 Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()

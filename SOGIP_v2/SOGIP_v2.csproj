@@ -480,7 +480,9 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -542,7 +544,6 @@
     <Content Include="Views\CitasAdmin\Index.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Success.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\ExpedientesFisicos\Success2.cshtml" />
     <Content Include="Views\Account\Perfil.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Create.cshtml" />
@@ -550,8 +551,6 @@
     <Content Include="Views\Conjunto_Ejercicio\Details.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Edit.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Index.cshtml" />
-=======
->>>>>>> Prueba_Adri
     <Content Include="Views\Rutinas\Create.cshtml" />
     <Content Include="Views\Rutinas\Delete.cshtml" />
     <Content Include="Views\Rutinas\Details.cshtml" />
