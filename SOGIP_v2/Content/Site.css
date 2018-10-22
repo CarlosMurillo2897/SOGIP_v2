@@ -1,12 +1,4 @@
-﻿/*body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-    background-image: url(Imagenes/fondo_e.png);
-    background-size: cover;
-    resize: both;
-    overflow: scroll;
-}*/
-body {
+﻿body {
     background-image: url(Imagenes/fondo_e.png);
     background-repeat: no-repeat;
     background-position: center center;

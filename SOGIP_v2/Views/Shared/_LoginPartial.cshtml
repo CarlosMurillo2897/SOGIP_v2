@@ -13,7 +13,7 @@
                 </a>
             </li>
             <li>
-                @Html.ActionLink("Perfil", "Perfil", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "editar" })
+                @Html.ActionLink("Perfil", "Perfil", "Account", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "editar" })
             </li>
             @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
             {
@@ -32,19 +32,16 @@
             <li>
                 @Html.ActionLink("Citas", "Create", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
             </li>
-                <li>
-                    @Html.ActionLink("Citas", "Index", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
-                </li>
-                <li>
+            <li>
                     Buscar
-                </li>
+            </li>
             }
 
             @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
             {
-                <li>
-                    @Html.ActionLink("Citas", "Index", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
-                </li>
+            <li>
+                @Html.ActionLink("Citas", "Create", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
+            </li>
                 <li>
                     @Html.ActionLink("Rutinas", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })
                 </li>
