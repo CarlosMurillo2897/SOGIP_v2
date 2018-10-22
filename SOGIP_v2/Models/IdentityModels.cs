@@ -68,7 +68,6 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Rutina>().ToTable("SOGIP_Rutina");
             modelBuilder.Entity<ExpedienteFisico>().ToTable("SOGIP_Expedientes_Fisicos");
             modelBuilder.Entity<Archivo>().ToTable("SOGIP_Archivo");
-
         }
 
         public static ApplicationDbContext Create()
@@ -108,6 +107,7 @@ namespace SOGIP_v2.Models
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Archivo> Archivo { get; set; }
 
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.ExpedienteFisico> Expedientes_Fisicos { get; set; }
 
     }
 }

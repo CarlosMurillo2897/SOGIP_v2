@@ -236,6 +236,13 @@
     <Compile Include="Migrations\201810151930159_cita_2.cs" />
     <Compile Include="Migrations\201810151930159_cita_2.Designer.cs">
       <DependentUpon>201810151930159_cita_2.cs</DependentUpon>
+    <Compile Include="Migrations\201810180336047_Exp_Fís.cs" />
+    <Compile Include="Migrations\201810180336047_Exp_Fís.Designer.cs">
+      <DependentUpon>201810180336047_Exp_Fís.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810180341154_varbinary%28max%29 para Exp_Fís.cs" />
+    <Compile Include="Migrations\201810180341154_varbinary%28max%29 para Exp_Fís.Designer.cs">
+      <DependentUpon>201810180341154_varbinary%28max%29 para Exp_Fís.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -273,12 +280,19 @@
     <Content Include="Content\fullcalendar.print.css" />
     <Content Include="Content\fullcalendar.print.min.css" />
     <Content Include="Content\Imagenes\FONDO.png" />
+    <Content Include="Content\Imagenes\fondo_a.png" />
+    <Content Include="Content\Imagenes\fondo_b.png" />
+    <Content Include="Content\Imagenes\fondo_c.png" />
+    <Content Include="Content\Imagenes\fondo_d.png" />
+    <Content Include="Content\Imagenes\fondo_e.png" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
     <Content Include="Content\Imagenes\M.png" />
     <Content Include="Content\Imagenes\W.png" />
     <Content Include="Content\Imagenes\W2.png" />
     <Content Include="Content\Imagenes\W3.jpg" />
     <Content Include="Content\Imagenes\W4.jpg" />
+    <Content Include="Content\Imagenes\logo_SOGIP_con_letras.png" />
+    <Content Include="Content\Imagenes\logo_SOGIP_sin_letras.png" />
     <Content Include="Content\Login.css" />
     <Content Include="Content\manual.css" />
     <Content Include="Content\Perfil.css" />
@@ -493,6 +507,11 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810151930159_cita_2.resx">
       <DependentUpon>201810151930159_cita_2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810180336047_Exp_Fís.resx">
+      <DependentUpon>201810180336047_Exp_Fís.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810180341154_varbinary%28max%29 para Exp_Fís.resx">
+      <DependentUpon>201810180341154_varbinary%28max%29 para Exp_Fís.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

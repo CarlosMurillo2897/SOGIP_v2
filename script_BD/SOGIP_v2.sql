@@ -41,6 +41,7 @@ insert into SOGIP_Users values('aab4f4cd-060b-4755-8439-dcb1321442db','123456789
  select * from SOGIP_Funcionario_ICODER;	
  select * from SOGIP_Entidad_Publica;
  select * from SOGIP_Asociacion_Deportiva;
+ select * from SOGIP_Expedientes_Fisicos;
 
  select * from SOGIP_Archivo;
 
