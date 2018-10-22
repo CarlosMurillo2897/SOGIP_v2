@@ -10,12 +10,6 @@
 </head>
 <body>
 
-    @Html.Label("Rutina", new { @class = "control-label" })
-    @{
-        var viewDataRutina = ViewData["rutina"];
-    }
-    @Html.Hidden("data", viewDataRutina)
-    @viewDataRutina
 
     <section>
         <table class="table">
@@ -44,6 +38,13 @@
         </table>
 
         <form method="POST">
+
+            @Html.Label("Rutina", new { @class = "control-label" })
+            @{
+                var viewDataRutina = ViewData["rutina"];
+            }
+            @Html.Hidden("data", viewDataRutina)
+            @viewDataRutina
             <table class="btn btn-info" id="tabla">
                 <tr class="fila-fija">
                     <td>
@@ -96,7 +97,7 @@
                         @Html.EditorFor(model => model.Peso3, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Peso3, "", new { @class = "text-danger" })
                     </td>
-    
+
                     <td class="btn btn-info"><input type="submit" value="Registar Ejercicio" id="insertar" /></td>
                 </tr>
             </table>
@@ -111,13 +112,9 @@
 
 </body>
 </html>
-@*Load datatable css*@
-<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet">
-@*Load datatable js*@
 @section Scripts {
-    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
+    @*<script>
         $(function () {
             $("#adicional").on('click', function () {
                 $("#tabla tbody tr:eq(0)").clone().removeClass('fila-fija').appendTo("#tabla");
@@ -155,5 +152,5 @@
             //});
 
         });
-    </script>
+    </script>*@
 }
