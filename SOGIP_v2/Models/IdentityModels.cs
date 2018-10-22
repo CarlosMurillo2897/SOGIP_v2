@@ -27,11 +27,9 @@ namespace SOGIP_v2.Models
             // Tenga en cuenta que el valor de authenticationType debe coincidir con el definido en CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
             // Agregar aquí notificaciones personalizadas de usuario
-            var gender = (this.Sexo == true)? "W": "M";
             userIdentity.AddClaim(new Claim("Id", this.Id));
             userIdentity.AddClaim(new Claim("Cedula", this.Cedula));
             userIdentity.AddClaim(new Claim("Nombre1", this.Nombre1));
-            userIdentity.AddClaim(new Claim("Sexo", gender));
             return userIdentity;
         }
     }

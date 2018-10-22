@@ -27,10 +27,6 @@ namespace App.Extensions
             var claim = ((ClaimsIdentity)identity).FindFirst("Nombre1");
             return (claim != null) ? claim.Value : string.Empty;
         }
-        public static string GetSexo(this IIdentity identity)
-        {
-            var claim = ((ClaimsIdentity)identity).FindFirst("Sexo");
-            return (claim != null) ? claim.Value : string.Empty;
-        }
+
     }
 }
