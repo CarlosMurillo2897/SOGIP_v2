@@ -17,21 +17,21 @@
             </li>
             @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
             {
-            <li>
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    Registros <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu menu-1">
-                    <li>@Html.ActionLink("Manual", "Create", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "manual" })</li>
-                    <li>@Html.ActionLink("Masivo", "IndexMasivo", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "masivo" })</li>
-                    <li>@Html.ActionLink("Estados", "Index", "Estados", routeValues: null, htmlAttributes: new { id = "estado" })</li>
-                    <li>@Html.ActionLink("Rutina", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })</li>
-                    <li>@Html.ActionLink("Expedientes", "Index", "ExpedientesFisicos", routeValues: null, htmlAttributes: new { id = "expedientesF" })</li>
-                </ul>
-            </li>
-            <li>
-                @Html.ActionLink("Citas", "Create", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
-            </li>
+                <li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Registros <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu menu-1">
+                        <li>@Html.ActionLink("Manual", "Create", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "manual" })</li>
+                        <li>@Html.ActionLink("Masivo", "IndexMasivo", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "masivo" })</li>
+                        <li>@Html.ActionLink("Estados", "Index", "Estados", routeValues: null, htmlAttributes: new { id = "estado" })</li>
+                        <li>@Html.ActionLink("Rutina", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })</li>
+                        <li>@Html.ActionLink("Expedientes", "Index", "ExpedientesFisicos", routeValues: null, htmlAttributes: new { id = "expedientesF" })</li>
+                    </ul>
+                </li>
+                <li>
+                    @Html.ActionLink("Citas", "Create", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
+                </li>
                 <li>
                     Buscar
                 </li>
@@ -41,6 +41,7 @@
             {
                 <li>
                     @Html.ActionLink("Citas", "Create", "CitasGeneral", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "rutina" } )
+
                 </li>
                 <li>
                     @Html.ActionLink("Rutinas", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })
@@ -50,17 +51,17 @@
 
             @if (User.IsInRole("Entrenador"))
             {
-                <li></li>
-                <li></li>
                 <li>@Html.ActionLink("Rutinas", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })</li>
+                <li></li>
+                <li></li>
             }
 
             @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
             {
                 @Html.AntiForgeryToken()
                 <li>
-                    
-                        <img class="img-circle" src="~/Content/Imagenes/M.png" alt="User Pic" , style="width:50px;height:50px;">
+
+                    <img class="img-circle" src="~/Content/Imagenes/M.png" alt="User Pic" , style="width:50px;height:50px;">
 
                     @Html.ActionLink(User.Identity.GetNombre1(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
