@@ -13,7 +13,7 @@
                 </a>
             </li>
             <li>
-                @Html.ActionLink("Perfil", "Edit", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "editar" })
+                @Html.ActionLink("Perfil", "Perfil", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "editar" })
             </li>
             @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
             {
@@ -60,7 +60,16 @@
             {
                 @Html.AntiForgeryToken()
                 <li>
-                    @Html.ActionLink("Hola " + User.Identity.GetNombre1(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    @if (User.Identity.GetSexo() == "W")
+                    {
+                        <img class="img-circle" src="~/Content/Imagenes/M.png" alt="User Pic" , style="width:50px;height:50px;">
+                    }
+                    else
+                    {
+                        <img class="img-circle" src="~/Content/Imagenes/W4.jpg" alt="User Pic" , style="width:50px;height:50px;">
+                    }
+
+                    @Html.ActionLink(User.Identity.GetNombre1(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
                 </li>
                 <li>
                     <a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>

@@ -218,33 +218,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810121956479_all.cs" />
-    <Compile Include="Migrations\201810121956479_all.Designer.cs">
-      <DependentUpon>201810121956479_all.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810142319586_file.cs" />
-    <Compile Include="Migrations\201810142319586_file.Designer.cs">
-      <DependentUpon>201810142319586_file.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810202112580_estado_Usuario.cs" />
-    <Compile Include="Migrations\201810202112580_estado_Usuario.Designer.cs">
-      <DependentUpon>201810202112580_estado_Usuario.cs</DependentUpon>
-      </Compile>
-    <Compile Include="Migrations\201810150651085_iduser_cit.cs" />
-    <Compile Include="Migrations\201810150651085_iduser_cit.Designer.cs">
-      <DependentUpon>201810150651085_iduser_cit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810151930159_cita_2.cs" />
-    <Compile Include="Migrations\201810151930159_cita_2.Designer.cs">
-      <DependentUpon>201810151930159_cita_2.cs</DependentUpon>
-      </Compile>
-    <Compile Include="Migrations\201810180336047_Exp_Fís.cs" />
-    <Compile Include="Migrations\201810180336047_Exp_Fís.Designer.cs">
-      <DependentUpon>201810180336047_Exp_Fís.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810180341154_varbinary%28max%29 para Exp_Fís.cs" />
-    <Compile Include="Migrations\201810180341154_varbinary%28max%29 para Exp_Fís.Designer.cs">
-      <DependentUpon>201810180341154_varbinary%28max%29 para Exp_Fís.cs</DependentUpon>
+    <Compile Include="Migrations\201810220257178_final.cs" />
+    <Compile Include="Migrations\201810220257178_final.Designer.cs">
+      <DependentUpon>201810220257178_final.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -496,26 +472,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810121956479_all.resx">
-      <DependentUpon>201810121956479_all.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810142319586_file.resx">
-      <DependentUpon>201810142319586_file.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810202112580_estado_Usuario.resx">
-      <DependentUpon>201810202112580_estado_Usuario.cs</DependentUpon>
-      </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810150651085_iduser_cit.resx">
-      <DependentUpon>201810150651085_iduser_cit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810151930159_cita_2.resx">
-      <DependentUpon>201810151930159_cita_2.cs</DependentUpon>
-      </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810180336047_Exp_Fís.resx">
-      <DependentUpon>201810180336047_Exp_Fís.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810180341154_varbinary%28max%29 para Exp_Fís.resx">
-      <DependentUpon>201810180341154_varbinary%28max%29 para Exp_Fís.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810220257178_final.resx">
+      <DependentUpon>201810220257178_final.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
