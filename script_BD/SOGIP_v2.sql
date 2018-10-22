@@ -37,6 +37,7 @@ use "SOGIP_v3"
  select * from SOGIP_Funcionario_ICODER;	
  select * from SOGIP_Entidad_Publica;
  select * from SOGIP_Asociacion_Deportiva;
+ select * from SOGIP_Expedientes_Fisicos;
 
  sp_help SOGIP_Users; -- Describe los atributos de cualquier tabla.
 

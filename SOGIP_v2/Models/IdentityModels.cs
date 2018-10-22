@@ -101,6 +101,6 @@ namespace SOGIP_v2.Models
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Rutina> Rutinas { get; set; }
 
-
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.ExpedienteFisico> Expedientes_Fisicos { get; set; }
     }
 }

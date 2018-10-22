@@ -3,7 +3,7 @@
 }
 
 <div class="container">
-    @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
     {
         <div class="exp_fis">
             <font color="red"><b>@Html.Raw(ViewBag.Error)</b></font>
@@ -20,12 +20,7 @@
         <div class="exp_fis" id="inicio">
             <font color="red"><b>@Html.Raw(ViewBag.Error1)</b></font>
             <span>Seleccione el archivo InBody a importar: </span>
-            @using (Html.BeginForm("Add", "ExpedientesFisicos",
-        FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
-            {
-                //@Html.HiddenFor(x => x.)
-                <input type="file" name="inbody" id="inbody" value="Cargar" />
-            }
+            <input type="file" name="inbody" id="inbody" value="Cargar" />
             <br />
             <br />
             <br />

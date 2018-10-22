@@ -13,6 +13,7 @@ namespace SOGIP_v2.Models
         public byte[] PruebaFuerza { get; set; }
         public Atleta Atleta { get; set; }
 
+        /*
         public static bool GuardarArchivo(string archivo)
         {
             // Leemos todos los bytes del archivo y luego lo guardamos como Base64 en un string.
@@ -39,6 +40,7 @@ namespace SOGIP_v2.Models
                 }
             }
         }
+        */
 
         /*
         protected void Button1_Click(object sender, EventArgs e)
