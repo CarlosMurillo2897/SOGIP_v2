@@ -139,6 +139,7 @@ namespace SOGIP_v2.Controllers
                     Apellido2 = userViewModel.Apellido2,
                     Cedula = userViewModel.Cedula,
                     Fecha_Nacimiento = userViewModel.Fecha_Nacimiento,
+                    Sexo = userViewModel.Sexo,
                     Fecha_Expiracion = DateTime.Now,
                     Estado = true
             };
@@ -327,6 +328,7 @@ namespace SOGIP_v2.Controllers
 
             ViewBag.Archivos = db.Archivo.ToList();
             ViewBag.rol = userRoles;
+            ViewBag.Sexo = user.Sexo;
 
             return View(new EditUserViewModel()
             {
@@ -388,7 +390,6 @@ namespace SOGIP_v2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,Nombre1,Nombre2,Apellido1,Apellido2,Fecha_Nacimiento,Sexo")] EditUserViewModel editUser, int Documento, params string[] selectedRole)
         {
-            Download(Documento);
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByIdAsync(editUser.Id);
