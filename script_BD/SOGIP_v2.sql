@@ -25,7 +25,13 @@ use "SOGIP_v3"
  delete from SOGIP_Users where Email != 'cmb28@hotmail.com';
  delete from SOGIP_Users;
 
+	1. Archivos, con bootstrap.
+	2. Rutina[] = new rutina
+	3. Container de perfil igual al de Create
+
+
  select * from SOGIP_Users;
+ select * from sogip_archivo
  drop table SOGIP_Estados;
  select * from SOGIP_Roles order by Id asc;
 

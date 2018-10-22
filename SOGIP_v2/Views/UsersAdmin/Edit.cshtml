@@ -71,64 +71,21 @@
         </div>
     </div>
 
-    <div class="form-group">
+    @*<div class="form-group">
         @Html.LabelFor(model => model.Sexo, new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @if ()
+            @if (ViewBag.Sexo == true)
             {
-
+                @Html.TextBox("Femenino", "Femenino")
             }
-            @Html.TextBoxFor(m => m.Sexo, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Sexo)
-            
-        </div>
-    </div>
-
-    @*<div class="form-group">
-            @Html.Label("Roles", new { @class = "control-label col-md-2" })
-            <span class=" col-md-10">
-                <select name="SelectedRoles">
-                    @foreach (var item in Model.RolesList)
-                    {
-                        <input type="" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
-                        <option>
-                            @Html.Label(item.Value, new { @class = "control-label" })
-                        </option>
-                    }
-                </select>
-            </span>
-        </div>
-
-        using (Html.BeginForm("Download", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+            else
             {
-                <table id="tabla">
-                    @foreach (var file in ViewBag.Archivos)
-                    {
-                        <tr id="Documentos">
-                            <td>
-                                @file.ArchivoId
-                            </td>
-                            <td>
-                                @file.Nombre
-                            </td>
-                            <td>
-                                @file.Extension
-                            </td>
-                            <td>
-                                @file.Tipo
-                            </td>
-                        </tr>
-                    }
-                    <tr>
-                        <td>
-                            @Html.TextBox("Documento", null, new { @class = "form-control" })
-                        </td>
-                    </tr>
-                </table>
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Download" class="btn btn-default" />
-                </div>
-            }*@
+                @Html.TextBox("Masculino", "Masculino")
+            }
+            @Html.ValidationMessageFor(model => model.Sexo)
+
+        </div>
+    </div>*@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
