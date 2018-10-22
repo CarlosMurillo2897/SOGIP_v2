@@ -14,23 +14,33 @@
 </head>
 <body>
     <div class="container body-content">
-        @Html.Partial("/Views/Home/header.cshtml")
+
+        <div class="header">
+            <div class="jumbotron">
+                <h1 class="auto-style1">
+                    <a href="~/Home/Index" class="logo">
+                        <img src="~/Content/Imagenes/logo_png_header.png">
+                    </a> 
+                    SISTEMA OPERATIVO GIMNASIO DE PESAS
+                </h1>
+            </div>
+        </div>
+
         @Html.Partial("_LoginPartial")
         @RenderBody()
 
-        <br />
-        <br />
         <hr />
-
-        <footer>
-            <address>
-                <p>
-                    DERECHOS RESERVADOS &copy; @DateTime.Now.Year - SOGIP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <strong>Soporte y Ayuda:</strong>   <a href="mailto:admSOGIP@hotmail.com">admSOGIP@hotmail.com</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <abbr title="Oficina Central"> <strong>Contáctenos:</strong> </abbr> (+506) 2549 0700
-                </p>
-            </address>
-        </footer>
+        <center>
+            <footer>
+                <address>
+                    <p>
+                        DERECHOS RESERVADOS &copy; @DateTime.Now.Year - SOGIP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <strong>Soporte y Ayuda:</strong>   <a href="mailto:admSOGIP@hotmail.com">admSOGIP@hotmail.com</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <abbr title="Oficina Central"> <strong>Contáctenos:</strong> </abbr> (+506) 2549-0814 (Ext. 214)
+                    </p>
+                </address>
+            </footer>
+        </center>
     </div>
 
     @Scripts.Render("~/bundles/jquery")

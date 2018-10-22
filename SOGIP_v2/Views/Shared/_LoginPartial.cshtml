@@ -2,62 +2,90 @@
 @using App.Extensions
 
 @Styles.Render("~/Content/manual.css")
-@if(User.Identity == null)
-{
-    <div id=" =123">
-        <h1>NUEVO</h1>
-    </div>
-}
 
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="header">
-            <ul class="nav navbar-nav navbar-right">
-
-                <li>
-                    @*Html.BeginForm("BusquedaUsuario", "Busqueda", FormMethod.Post, new { id = "Buscar" })*@
-                    @*Html.TextBox("Busqueda", "", htmlAttributes: new { id = "buscar", placeholder = "Búsqueda de usuarios" })
-                    Cédula @Html.RadioButton("Búsqueda", "Cédula", true)
-                    Nombre  @Html.RadioButton("Búsqueda", "Nombre", false)
-                    <input type="submit" value="Buscar" class=" btn-success" />*@
-                    
-                </li>
-                <li>
-                    @Html.ActionLink("Hola " + User.Identity.GetNombre1(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                </li>
-                <li><a href="javascript:document.getElementById('logoutForm').submit()" class=" btn btn-default">Cerrar sesión</a></li>
-            </ul>
-        </div>
-    }
-    <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
+    <nav>
+        <ul>
+            <li>
+                <a href="~/Home/Index" class="bottom-left">
+                    Inicio
+                </a>
+            </li>
+            <li>
+                @Html.ActionLink("Perfil", "Edit", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "editar" })
+            </li>
+            @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
+            {
             <li>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     Registros <span class="caret"></span>
                 </a>
-                <ul class="dropdown-menu">
-                    <li>@Html.ActionLink("Registro Manual", "Create", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "manual" })</li>
-                    <li>@Html.ActionLink("Registro Masivo", "IndexMasivo", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "masivo" })</li>
-                    <li>@Html.ActionLink("Registro de Estados", "Index", "Estados", routeValues: null, htmlAttributes: new { id = "estado" })</li>
-                    <li>@Html.ActionLink("Registro Rutina", "Create", "Rutinas", routeValues: null, htmlAttributes: new { id = "rutina" })</li>
-                    <li>@Html.ActionLink("Registro Expedientes", "Index", "ExpedientesFisicos", routeValues: null, htmlAttributes: new { id = "rutina" })</li>
+                <ul class="dropdown-menu menu-1">
+                    <li>@Html.ActionLink("Manual", "Create", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "manual" })</li>
+                    <li>@Html.ActionLink("Masivo", "IndexMasivo", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "masivo" })</li>
+                    <li>@Html.ActionLink("Estados", "Index", "Estados", routeValues: null, htmlAttributes: new { id = "estado" })</li>
+                    <li>@Html.ActionLink("Rutina", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })</li>
+                    <li>@Html.ActionLink("Expedientes", "Index", "ExpedientesFisicos", routeValues: null, htmlAttributes: new { id = "expedientesF" })</li>
                 </ul>
             </li>
             <li>
                 @Html.ActionLink("Citas", "Create", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
             </li>
+                <li>
+                    @Html.ActionLink("Citas", "Index", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
+                </li>
+                <li>
+                    Buscar
+                </li>
+            }
+
+            @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
+            {
+                <li>
+                    @Html.ActionLink("Citas", "Index", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
+                </li>
+                <li>
+                    @Html.ActionLink("Rutinas", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })
+                </li>
+                <li></li>
+                <li></li>
+            }
+
+            @if (User.IsInRole("Entrenador"))
+            {
+                <li></li>
+                <li></li>
+                <li>@Html.ActionLink("Rutinas", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })</li>
+            }
+
+            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+            {
+                @Html.AntiForgeryToken()
+                <li>
+                    @Html.ActionLink("Hola " + User.Identity.GetNombre1(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+                </li>
+                <li>
+                    <a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a>
+                </li>
+            }
         </ul>
-    </div>
+    </nav>
 
 }
+
 else
-{
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = "btn btn-default" })</li>
+{ @***************************** Menú de LogIn ******************************@
+<nav>
+    <ul>
+
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>@*, @class = "btn btn-default" })</li>*@
     </ul>
+</nav>
 }
-
-

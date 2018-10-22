@@ -13,7 +13,7 @@ use "SOGIP_v3"
 -- ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
 
- select SOGIP_Users.Nombre1, SOGIP_Roles.Name, SOGIP_Roles.id
+ select SOGIP_Users.Id, SOGIP_Users.Nombre1, SOGIP_Users.Fecha_Nacimiento, SOGIP_Users.Cedula, SOGIP_Roles.Name, SOGIP_Roles.id
  from 
  SOGIP_Users, SOGIP_UserRoles, SOGIP_Roles
  where 
@@ -26,10 +26,14 @@ use "SOGIP_v3"
  delete from SOGIP_Users;
 
  select * from SOGIP_Users;
+ drop table SOGIP_Estados;
  select * from SOGIP_Roles order by Id asc;
 
  select * from SOGIP_UserRoles, SOGIP_Roles;
  select * from SOGIP_Estados;
+
+insert into SOGIP_Users values('aab4f4cd-060b-4755-8439-dcb1321442db','123456789',NULL,'2018-10-14 17:30:50.793','Carlos','Isaias','Murillo','Badilla','1997-08-28 00:00:00.000',1,'joha@yahos.com',0,'AIyOJ27uVPdqtXxCKXPVcZYYRFs5tW5BRq/F8ZaZnBFanUZRvJjAB7iCD70wVB1b1w==','3285f946-2df7-4ffa-ab40-b0fc82464f32',NULL,0,0,NULL,1,0,'123456789');
+
 
  select * from SOGIP_Selecciones;
  select * from SOGIP_Entrenadores;
@@ -37,8 +41,12 @@ use "SOGIP_v3"
  select * from SOGIP_Funcionario_ICODER;	
  select * from SOGIP_Entidad_Publica;
  select * from SOGIP_Asociacion_Deportiva;
+ select * from SOGIP_Expedientes_Fisicos;
+
+ select * from SOGIP_Archivo;
 
  sp_help SOGIP_Users; -- Describe los atributos de cualquier tabla.
+ sp_help SOGIP_Entrenadores;
 
 */
 
@@ -62,7 +70,6 @@ create trigger fecha_expiracion on SOGIP_Users
 -- ++++++++++++++++++++++++++ Trigger's ++++++++++++++++++++++++++
 
 -- ++++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++++
-
 
 insert into SOGIP_Roles values('1', 'Supervisor');
 insert into SOGIP_Roles values('2', 'Administrador');
@@ -111,7 +118,7 @@ insert into SOGIP_Deportes values('PATINAJE', 2);
 insert into SOGIP_Deportes values('POTENCIA', 1);
 insert into SOGIP_Deportes values('PULSOS', 1);
 insert into SOGIP_Deportes values('RACQUETBOL', 5);
-insert into SOGIP_Deportes values('ABC', 1);
+insert into SOGIP_Deportes values('Atletas Alto Rendimiento', 1);
 
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Daniel Oduber');
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Juan Santamaría');

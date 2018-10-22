@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Web;
 
 namespace SOGIP_v2.Models
 {
     public class ExpedienteFisico
     {
         public int ExpedienteFisicoId { get; set; }
-        public string InBody { get; set; }
-        public string PruebaFuerza { get; set; }
+        public byte[] InBody { get; set; }
+        public byte[] PruebaFuerza { get; set; }
         public Atleta Atleta { get; set; }
 
         /*
@@ -22,8 +19,7 @@ namespace SOGIP_v2.Models
             // Leemos todos los bytes del archivo y luego lo guardamos como Base64 en un string.
             string resultado = Convert.ToBase64String(File.ReadAllBytes(archivo));
 
-            using (var cn =
-                new SqlConnection(ConfigurationManager.ConnectionStrings[0].ConnectionString))
+            using (var cn = new SqlConnection(ConfigurationManager.ConnectionStrings[0].ConnectionString))
             {
                 using (var cmd = cn.CreateCommand())
                 {
@@ -44,7 +40,9 @@ namespace SOGIP_v2.Models
                 }
             }
         }
+        */
 
+        /*
         protected void Button1_Click(object sender, EventArgs e)
         {
             using (SqlConnection cn = new SqlConnection("CONNECTION STRING"))

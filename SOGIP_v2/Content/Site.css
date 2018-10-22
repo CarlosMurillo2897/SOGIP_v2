@@ -1,7 +1,10 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url("Imagenes/FONDO.png");
+    background-image: url(Imagenes/fondo_e.png);
+    background-size: cover;
+    resize: both;
+    overflow: scroll;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -23,3 +26,7 @@ select,
 textarea {
     max-width: 280px;
 }
+
+    input[type=date] {
+        text-align: center;
+    }

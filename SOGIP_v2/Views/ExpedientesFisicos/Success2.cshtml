@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Completado";
+}
+
+<div class="container">
+    <div class="exp_fis" id="reg_ex">
+        <span>
+            ¡El archivo InBody y la Prueba de Fuerza se han registrado correctamente!
+        </span>
+        @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Get, new { enctype = "multipart/form-data" }))
+        {
+            <div>
+                <input type="submit" value="Regresar" />
+            </div>
+        }
+    </div>
+</div>

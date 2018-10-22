@@ -21,6 +21,9 @@ namespace SOGIP_v2.Models
         public string UserName { get; set; }
         public string Cedula { get; set; }
 
+        [Display(Name = "Cedula extra")]
+        public string CedulaExtra { get; set; }
+
         [Required(AllowEmptyStrings = false)]
         [Display(Name = "Email")]
         [EmailAddress]
@@ -45,7 +48,16 @@ namespace SOGIP_v2.Models
         [Display(Name = "Fecha de nacimiento")]
         public DateTime Fecha_Nacimiento { get; set; }
 
-        public IEnumerable<SelectListItem> RolesList { get; set; }
+        [Required]
+        [Display(Name = "Sexo")]
+        public bool Sexo { get; set; }
+
+        // public IEnumerable<SelectListItem> RolesList { get; set; }
+
+        [Required]
+        [Display(Name = "Estado")]
+        public bool Estado { get; set; }
+
     }
 
 }
