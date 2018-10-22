@@ -3,6 +3,12 @@
     ViewBag.Title = "Ejercicio";
 }
 
+@*@Html.Label("Rutina", new { @class = "control-label" })
+    @{
+        var viewDataRutina = ViewData["rutina"];
+    }
+    @Html.Hidden("data", viewDataRutina)*@
+
 <h2>Create</h2>
 
 @using (Html.BeginForm("Ejercicio", "Rutinas", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -14,23 +20,13 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
             <div class="col-md-10">
-
                 @Html.Label("Rutina", new { @class = "control-label" })
                 @{
                     var viewDataRutina = ViewData["rutina"];
                 }
-                @viewDataRutina
+                @Html.Hidden("data", viewDataRutina)
 
-                <select name="rutinaSeleccionada">
-            @foreach (var rutina in (SelectList)ViewBag.Rutinas)
-            {
-                <option value="@rutina.Value">
 
-                    @Html.Label(rutina.Text, new { @class = "control-label" })
-                </option>
-            }
-        </select>
-                
             </div>
         </div>
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })

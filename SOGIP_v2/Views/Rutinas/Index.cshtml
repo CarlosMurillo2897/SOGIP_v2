@@ -1,19 +1,16 @@
 ﻿@model IEnumerable<SOGIP_v2.Models.Rutina>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Lista de Rutinas";
 }
 
-<h2>Index</h2>
+<h2>Lista de Rutinas</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Crear nueva rutina", "Create")
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Usuario.Cedula)
-        </th>
         <th>
             @Html.DisplayNameFor(model => model.RutinaFecha)
         </th>
@@ -26,18 +23,15 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Usuario.Cedula)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.RutinaFecha)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RutinaObservaciones)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.RutinaId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.RutinaId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.RutinaId })|
+            @Html.ActionLink("Editar", "Edit", new { id = item.RutinaId }) |
+            @Html.ActionLink("Detalles", "Details", new { id = item.RutinaId }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id = item.RutinaId })|
             @Html.ActionLink("Registro Ejercicio", "Ejercicio", new { idRutina = item.RutinaId })|
             @Html.ActionLink("Ver Rutina", "ListaEjercicio",new { idRutina = item.RutinaId })
         </td>

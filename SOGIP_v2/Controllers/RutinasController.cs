@@ -38,7 +38,7 @@ namespace SOGIP_v2.Controllers
         public ActionResult Create()
         {
             var getAtletas = db.Users.ToList();
-            SelectList listaAtletas = new SelectList(getAtletas, "Id", "Cedula");
+            SelectList listaAtletas = new SelectList(getAtletas, "Id", "Nombre1");
             ViewBag.Atletas = listaAtletas;
             return View();
         }
@@ -57,11 +57,11 @@ namespace SOGIP_v2.Controllers
 
         }
         [HttpPost]
-        public ActionResult Ejercicio(int ? rutinaSeleccionada, Conjunto_Ejercicio ejercicio)
+        public ActionResult Ejercicio(string data, Conjunto_Ejercicio ejercicio)
         {
-            
-             Rutina rutina = new Rutina();
-             rutina = db.Rutinas.Single(x => x.RutinaId == rutinaSeleccionada);
+            int d = int.Parse(data.ToString());
+            Rutina rutina = new Rutina();
+            rutina = db.Rutinas.Single(x => x.RutinaId == d);
             if (rutina != null)
             {
                 Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
