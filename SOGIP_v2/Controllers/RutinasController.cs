@@ -19,7 +19,7 @@ namespace SOGIP_v2.Controllers
         {
             return View(db.Rutinas.ToList());
         }
-
+    
         // GET: Rutinas/Details/5
         public ActionResult Details(int? id)
         {
@@ -38,7 +38,8 @@ namespace SOGIP_v2.Controllers
         public ActionResult Create()
         {
             var getAtletas = db.Users.ToList();
-            SelectList listaAtletas = new SelectList(getAtletas, "Id", "Nombre1");
+
+            SelectList listaAtletas = new SelectList(getAtletas, "Cedula", "Nombre1");
             ViewBag.Atletas = listaAtletas;
             return View();
         }
@@ -49,19 +50,17 @@ namespace SOGIP_v2.Controllers
             string n = i.ToString();
             ViewData["rutina"] = n;
 
-            var getRutina = db.Rutinas.ToList();
-            SelectList listaRutinas = new SelectList(getRutina, "RutinaId", "RutinaId");
-            ViewBag.Rutinas = listaRutinas;
-
             return View();
 
         }
         [HttpPost]
         public ActionResult Ejercicio(string data, Conjunto_Ejercicio ejercicio)
         {
-            int d = int.Parse(data.ToString());
+
+       
+            int d = int.Parse(data);
             Rutina rutina = new Rutina();
-            rutina = db.Rutinas.Single(x => x.RutinaId == d);
+             rutina = db.Rutinas.Single(x => x.RutinaId == d);
             if (rutina != null)
             {
                 Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
@@ -91,6 +90,13 @@ namespace SOGIP_v2.Controllers
             var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
   
             return View(getEjercicio);
+        }
+        public ActionResult loaddata(string data)
+        {
+            int idRutina = int.Parse(data);
+            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
+
+            return Json(new {getEjercicio = getEjercicio},JsonRequestBehavior.AllowGet);
         }
         public ActionResult DetailsEjercicio(int? id)
         {
@@ -165,7 +171,7 @@ namespace SOGIP_v2.Controllers
 
           
 
-            user = db.Users.Single(x => x.Id == atletaSeleccionado);
+            user = db.Users.Single(x => x.Cedula == atletaSeleccionado);
 
             if (user != null)
             {

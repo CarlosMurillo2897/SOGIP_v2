@@ -31,8 +31,8 @@
 
         @Html.ValidationSummary(true)
         @Html.ValidationSummary(false, "Los siguientes campos obligatorios están vacios: ")
-        <div class="container">
-            <div class="form-group">
+        <div class="container" >
+            <div class="form-group" >
                 <div class="col-md-10">
                     <label class="control-label">
                         Seleccione el rol del usuario
@@ -130,7 +130,7 @@
                     </div>
                 </div>
 
-                <table>
+                <table class="principal">
 
                     @* DATOS DE CONTACTO, CV Y LOCALIDAD SON EXCEPCIONES, para entrenador es CV *@
                     <tr>
@@ -204,14 +204,16 @@
                                 <div class="form-group">
                                     <div class="col-md-10">
                                         @Html.Label("Seleccionar Deporte", new { @class = "control-label" })
-                                        <select name="SelectedSport">
-                                            @foreach (var sport in (SelectList)ViewBag.Deportes)
-                                            {
-                                                <option value="@sport.Value">
-                                                    @Html.Label(sport.Text, new { @class = "control-label" })
-                                                </option>
-                                            }
-                                        </select>
+                                        <div class="col-md-10">
+                                            <select name="SelectedSport">
+                                                @foreach (var sport in (SelectList)ViewBag.Deportes)
+                                                {
+                                                    <option value="@sport.Value">
+                                                        @Html.Label(sport.Text, new { @class = "control-label" })
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

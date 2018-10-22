@@ -200,7 +200,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
-    <Compile Include="Controllers\Conjunto_EjercicioController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
@@ -482,7 +481,9 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

@@ -1,7 +1,12 @@
-﻿.card-default {
+﻿.principal {
+    margin: 10px
+}
+.form-group {
+   display:inline
+}
+.card-default {
     background-color: bisque;
     background: linear-gradient(#fff,#ebebeb) repeat scroll 0 0 transparent;
-
 }
 
 h4 {
