@@ -1,9 +1,15 @@
 ﻿body {
+    /*
     background-image: url(Imagenes/fondo_e.png);
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
     background-size: cover;
+    */
+    width: auto;
+    height: auto;
+    background-image: url(Imagenes/fondo_e.png);
+    background-size: 100% 250%;
 }
 
 /* Set padding to keep content from hitting the edges */
