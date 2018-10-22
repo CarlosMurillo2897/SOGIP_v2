@@ -1,0 +1,100 @@
+﻿@model SOGIP_v2.Models.Conjunto_Ejercicio
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Conjunto_Ejercicio</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreEjercicio)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreEjercicio)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Serie1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Serie1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Repeticion1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Repeticion1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Peso1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Peso1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Serie2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Serie2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Repeticion2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Repeticion2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Peso2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Peso2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Serie3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Serie3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Repeticion3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Repeticion3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Peso3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Peso3)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditEjercicio", new { id = Model.Conjunto_EjercicioId }) |
+    @Html.ActionLink("Back to List", "ListaEjercicio")
+</p>
+
+
