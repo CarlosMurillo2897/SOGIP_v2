@@ -91,11 +91,10 @@ namespace SOGIP_v2.Controllers
   
             return View(getEjercicio);
         }
-        public ActionResult loaddata(string data)
+        public ActionResult loaddata()
         {
-            int idRutina = int.Parse(data);
-            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
-
+            //int idRutina = int.Parse(data);
+            var getEjercicio = db.Conjunto_Ejercicios.ToList();
             return Json(new {getEjercicio = getEjercicio},JsonRequestBehavior.AllowGet);
         }
         public ActionResult DetailsEjercicio(int? id)
