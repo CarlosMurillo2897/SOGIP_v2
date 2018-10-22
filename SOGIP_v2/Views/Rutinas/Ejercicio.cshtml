@@ -1,5 +1,4 @@
 ﻿@model SOGIP_v2.Models.Conjunto_Ejercicio
-
 @{
     ViewBag.Title = "Ejercicio";
 }
@@ -16,6 +15,7 @@
         var viewDataRutina = ViewData["rutina"];
     }
     @Html.Hidden("data", viewDataRutina)
+
 
     <section>
         <table class="table">
@@ -42,6 +42,21 @@
                 <TH></TH>
             </tr>
         </table>
+        <table id="myTable">
+            <tr>
+                <th>NombreEjercicio</th>
+                <th>Serie1</th>
+                <th>Repeticion1</th>
+                <th>Peso1</th>
+                <th>Serie2</th>
+                <th>Repeticion2</th>
+                <th>Peso2</th>
+                <th>Serie3</th>
+                <th>Repeticion3</th>
+                <th>Peso3</th>
+            </tr>
+            </table>
+
         <form method="POST">
             <table class="btn btn-info" id="tabla">
                 <tr class="fila-fija">
@@ -95,19 +110,12 @@
                         @Html.EditorFor(model => model.Peso3, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Peso3, "", new { @class = "text-danger" })
                     </td>
-                    <td class="eliminar"><input type="button" value="Menos-" /></td>
+    
                     <td class="btn btn-info"><input type="submit" value="Registar Ejercicio" id="insertar" /></td>
                 </tr>
             </table>
             <br>
             <div class="btn-der">
-                <br>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Registar Ejercicio" class="btn btn-info" id="insertar" />
-                    </div>
-                </div>
-                <br>
                 <br>
                 <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
             </div>
@@ -117,34 +125,48 @@
 
 </body>
 </html>
-
+@*Load datatable css*@
+<link href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css" rel="stylesheet">
+@*Load datatable js*@
 @section Scripts {
-
-
+    <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(function () {
             $("#adicional").on('click', function () {
                 $("#tabla tbody tr:eq(0)").clone().removeClass('fila-fija').appendTo("#tabla");
-   
             });
 
-            $(document).on("click", ".eliminar", function () {
-                var parent = $(this).parents().get(0);
-                $(parent).remove();
-            });
-            $("#insertar").click(function () {
-                var t = document.getElementById("btn btn-info");
-                var trs = t.getElementsByClassName("fila-fija");
-                for (var i = 0; i < trs.length; i++) {
-                    var id = trs[i].innerHTML;
+            $(document).on("click", ".insetar", function () {
+                var data = document;
                     $.ajax({
                         type: "POST",
                         url: "/Rutinas/Ejercicio",
-                        data: id,
-                    })
-                }
+                        data:data,
+                })
+       
             })
+            $(document).ready(function () {
+                $('myTable').DataTable({
+                    $.ajax:({
+                        "type": "GET",
+                        "url": "/Rutinas/loaddata",
+                        "datatype": "json"
+                    }
+                    "columns": [
+                        { "data": "NombreEjercicio", "autoWidth": true },
+                        { "data": "Serie1", "autoWidth": true },
+                        { "data": "Repeticion1", "autoWidth": true },
+                        { "data": "Peso1", "autoWidth": true },
+                        { "data": "Serie2", "autoWidth": true },
+                        { "data": "Repeticion2", "autoWidth": true },
+                        { "data": "Peso2", "autoWidth": true },
+                        { "data": "Serie3", "autoWidth": true },
+                        { "data": "Repeticion3", "autoWidth": true },
+                        { "data": "Peso3", "autoWidth": true }
+                    ]
+                })
+            });
 
         });
     </script>

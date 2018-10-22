@@ -49,18 +49,15 @@ namespace SOGIP_v2.Controllers
             string n = i.ToString();
             ViewData["rutina"] = n;
 
-            //var getRutina = db.Rutinas.ToList();
-            //SelectList listaRutinas = new SelectList(getRutina, "RutinaId", "RutinaId");
-            //ViewBag.Rutinas = listaRutinas;
-
             return View();
 
         }
         [HttpPost]
         public ActionResult Ejercicio(string data, Conjunto_Ejercicio ejercicio)
         {
+            //int d = int.Parse(data);
             int d = 10;
-             Rutina rutina = new Rutina();
+            Rutina rutina = new Rutina();
              rutina = db.Rutinas.Single(x => x.RutinaId == d);
             if (rutina != null)
             {
@@ -80,7 +77,6 @@ namespace SOGIP_v2.Controllers
                 };
                 db.Conjunto_Ejercicios.Add(conjunto);
                 db.SaveChanges();
-        
 
             }
 
@@ -91,6 +87,14 @@ namespace SOGIP_v2.Controllers
             var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
   
             return View(getEjercicio);
+        }
+        public ActionResult loaddata(string data)
+        {
+            //int idRutina = int.Parse(data);
+            int idRutina = 10;
+            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
+
+            return Json(new {getEjercicio = getEjercicio},JsonRequestBehavior.AllowGet);
         }
         public ActionResult DetailsEjercicio(int? id)
         {
