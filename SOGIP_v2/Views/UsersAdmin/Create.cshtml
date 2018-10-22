@@ -204,14 +204,16 @@
                                 <div class="form-group">
                                     <div class="col-md-10">
                                         @Html.Label("Seleccionar Deporte", new { @class = "control-label" })
-                                        <select name="SelectedSport">
-                                            @foreach (var sport in (SelectList)ViewBag.Deportes)
-                                            {
-                                                <option value="@sport.Value">
-                                                    @Html.Label(sport.Text, new { @class = "control-label" })
-                                                </option>
-                                            }
-                                        </select>
+                                        <div class="col-md-10">
+                                            <select name="SelectedSport">
+                                                @foreach (var sport in (SelectList)ViewBag.Deportes)
+                                                {
+                                                    <option value="@sport.Value">
+                                                        @Html.Label(sport.Text, new { @class = "control-label" })
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

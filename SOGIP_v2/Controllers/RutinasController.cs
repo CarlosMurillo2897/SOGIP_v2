@@ -19,7 +19,7 @@ namespace SOGIP_v2.Controllers
         {
             return View(db.Rutinas.ToList());
         }
-
+    
         // GET: Rutinas/Details/5
         public ActionResult Details(int? id)
         {
