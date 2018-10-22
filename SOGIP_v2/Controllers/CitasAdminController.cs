@@ -44,36 +44,42 @@ namespace SOGIP_v2.Controllers
                     var v = db.Cita.Where(a => a.CitaId == e.CitaId).FirstOrDefault();
                     if (v != null)
                     {
-                        v.InBody = e.InBody;
-                        v.Otro = e.Otro;
-                        v.FechaHoraInicio = e.FechaHoraInicio;
-                        v.FechaHoraFinal = e.FechaHoraFinal;
+
+                        var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();
+                        var check2 = db.Cita.Where(x => x.FechaHoraFinal == e.FechaHoraInicio).FirstOrDefault();
+                        if (check==null && check2==null)
+                        {
+                            v.InBody = e.InBody;
+                            v.Otro = e.Otro;
+                            v.FechaHoraInicio = e.FechaHoraInicio;
+                            v.FechaHoraFinal = e.FechaHoraFinal;
+                        }
+                        
                     }
 
                 }
                 else //si la cita no existe en la db, pues la creo
                 {
-
-                    ApplicationUser UserA = db.Users.Single(x => x.Email == "agueroruiz.lisandra@hotmail.com");
-                    ApplicationUser UserB = db.Users.Single(x => x.Apellido2 == "Sanchez");
                     ApplicationUser User = db.Users.Single(x => x.Cedula == e.UsuarioCedula);
-                    Cita nueva = new Cita()
+                    var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();
+                    var check2 = db.Cita.Where(x => x.FechaHoraFinal == e.FechaHoraInicio).FirstOrDefault();
+                    if (check == null && check2 == null)
                     {
-                    InBody=e.InBody,
-                    Otro=e.Otro,
-                    UsuarioId_Id = User,
-                    UsuarioCedula =e.UsuarioCedula,
-                    UsuarioNombre=User.Nombre1,
-                    UsuarioApellido1=User.Apellido1,
-                    UsuarioApellido2=User.Apellido2,
-                    FechaHoraInicio=e.FechaHoraInicio,
-                    FechaHoraFinal=e.FechaHoraFinal
-                };
-                    
-
-
-                    
-                    db.Cita.Add(nueva);
+                        Cita nueva = new Cita()
+                        {
+                            InBody = e.InBody,
+                            Otro = e.Otro,
+                            UsuarioId_Id = User,
+                            UsuarioCedula = e.UsuarioCedula,
+                            UsuarioNombre = User.Nombre1,
+                            UsuarioApellido1 = User.Apellido1,
+                            UsuarioApellido2 = User.Apellido2,
+                            FechaHoraInicio = e.FechaHoraInicio,
+                            FechaHoraFinal = e.FechaHoraFinal
+                        };
+                        db.Cita.Add(nueva);
+                    }
+  
                 }
                 db.SaveChanges();
                 status = true;
