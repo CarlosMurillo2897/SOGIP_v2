@@ -38,7 +38,11 @@ namespace SOGIP_v2.Controllers
         public ActionResult Create()
         {
             var getAtletas = db.Users.ToList();
+<<<<<<< HEAD
             SelectList listaAtletas = new SelectList(getAtletas, "Id", "Nombre1");
+=======
+            SelectList listaAtletas = new SelectList(getAtletas, "Cedula", "Nombre1");
+>>>>>>> Prueba_Adri
             ViewBag.Atletas = listaAtletas;
             return View();
         }
@@ -49,19 +53,21 @@ namespace SOGIP_v2.Controllers
             string n = i.ToString();
             ViewData["rutina"] = n;
 
-            var getRutina = db.Rutinas.ToList();
-            SelectList listaRutinas = new SelectList(getRutina, "RutinaId", "RutinaId");
-            ViewBag.Rutinas = listaRutinas;
-
             return View();
 
         }
         [HttpPost]
         public ActionResult Ejercicio(string data, Conjunto_Ejercicio ejercicio)
         {
+<<<<<<< HEAD
             int d = int.Parse(data.ToString());
             Rutina rutina = new Rutina();
             rutina = db.Rutinas.Single(x => x.RutinaId == d);
+=======
+            int d = int.Parse(data);
+            Rutina rutina = new Rutina();
+             rutina = db.Rutinas.Single(x => x.RutinaId == d);
+>>>>>>> Prueba_Adri
             if (rutina != null)
             {
                 Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
@@ -91,6 +97,13 @@ namespace SOGIP_v2.Controllers
             var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
   
             return View(getEjercicio);
+        }
+        public ActionResult loaddata(string data)
+        {
+            int idRutina = int.Parse(data);
+            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
+
+            return Json(new {getEjercicio = getEjercicio},JsonRequestBehavior.AllowGet);
         }
         public ActionResult DetailsEjercicio(int? id)
         {
@@ -165,7 +178,7 @@ namespace SOGIP_v2.Controllers
 
           
 
-            user = db.Users.Single(x => x.Id == atletaSeleccionado);
+            user = db.Users.Single(x => x.Cedula == atletaSeleccionado);
 
             if (user != null)
             {

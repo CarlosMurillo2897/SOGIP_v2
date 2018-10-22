@@ -200,7 +200,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
-    <Compile Include="Controllers\Conjunto_EjercicioController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
@@ -543,6 +542,7 @@
     <Content Include="Views\CitasAdmin\Index.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Success.cshtml" />
+<<<<<<< HEAD
     <Content Include="Views\ExpedientesFisicos\Success2.cshtml" />
     <Content Include="Views\Account\Perfil.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Create.cshtml" />
@@ -550,6 +550,8 @@
     <Content Include="Views\Conjunto_Ejercicio\Details.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Edit.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Index.cshtml" />
+=======
+>>>>>>> Prueba_Adri
     <Content Include="Views\Rutinas\Create.cshtml" />
     <Content Include="Views\Rutinas\Delete.cshtml" />
     <Content Include="Views\Rutinas\Details.cshtml" />

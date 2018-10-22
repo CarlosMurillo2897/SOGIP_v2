@@ -1,7 +1,11 @@
 ﻿@model SOGIP_v2.Models.Rutina
 
 @{
+<<<<<<< HEAD
     ViewBag.Title = "Registro de Rutinas";
+=======
+    ViewBag.Title = "Rutina";
+>>>>>>> Prueba_Adri
 }
 
 
@@ -20,14 +24,14 @@
         <div class="col-md-10">
             @Html.Label("Seleccione el Atleta", new { @class = "control-label" })
             <select name="atletaSeleccionado">
-                @foreach (var atleta in (SelectList)ViewBag.Atletas)
+                @foreach (var entity in (SelectList)ViewBag.Atletas)
                 {
-                    <option value="@atleta.Value">
-
-                        @Html.Label(atleta.Text, new { @class = "control-label" })
+                    <option value="@entity.Value">
+                        @Html.Label(entity.Text, new { @class = "control-label" })
                     </option>
                 }
             </select>
+
         </div>
         </div>
         <div class="form-group">
@@ -52,8 +56,13 @@
         </div>
 
         <div class="form-group">
+<<<<<<< HEAD
             <div class="col-md-10">
                 <input type="submit" value="CREAR" class="btn btn-default" />
+=======
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Crear Rutina" class="btn btn-default" />
+>>>>>>> Prueba_Adri
             </div>
         </div>
     </div>
@@ -62,9 +71,12 @@
     }
 
     <div>
-        @Html.ActionLink("Back to List", "Index")
+        @Html.ActionLink("Lista Rutinas", "Index")
     </div>
 
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+   @section Scripts {
+
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
