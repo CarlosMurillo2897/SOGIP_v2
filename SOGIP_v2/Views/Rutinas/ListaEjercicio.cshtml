@@ -1,10 +1,9 @@
 ﻿@model IEnumerable<SOGIP_v2.Models.Conjunto_Ejercicio>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Lista Ejercicios";
 }
 
-<h2>Index</h2>
 <p>
     @Html.ActionLink("Create New", "Index")
 </p>
@@ -69,9 +68,9 @@
                 @Html.DisplayFor(modelItem => item.Peso3)
             </td>
             <td>
-                @Html.ActionLink("Edit", "EditEjercicio", new { id = item.Conjunto_EjercicioId }) |
-                @Html.ActionLink("Details", "DetailsEjercicio", new { id = item.Conjunto_EjercicioId }) |
-                @Html.ActionLink("Delete", "DeleteEjercicio", new { id = item.Conjunto_EjercicioId })
+                @Html.ActionLink("Editar", "EditEjercicio", new { id = item.Conjunto_EjercicioId }) |
+                @Html.ActionLink("Detalles", "DetailsEjercicio", new { id = item.Conjunto_EjercicioId }) |
+                @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item.Conjunto_EjercicioId })
             </td>
         </tr>
     }

@@ -1,6 +1,6 @@
 ﻿@model SOGIP_v2.Models.Conjunto_Ejercicio
 @{
-    ViewBag.Title = "Ejercicio";
+    ViewBag.Title = "Ejercicios";
 }
 <html lang="es">
 <head>
@@ -15,7 +15,7 @@
         var viewDataRutina = ViewData["rutina"];
     }
     @Html.Hidden("data", viewDataRutina)
-
+    @viewDataRutina
 
     <section>
         <table class="table">

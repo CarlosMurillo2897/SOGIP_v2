@@ -433,7 +433,6 @@
     <Content Include="Views\Rutinas\EditEjercicio.cshtml" />
     <Content Include="Views\Rutinas\DeleteEjercicio.cshtml" />
     <Content Include="Views\Rutinas\DetailsEjercicio.cshtml" />
-    <Content Include="Views\Rutinas\ejemplo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
