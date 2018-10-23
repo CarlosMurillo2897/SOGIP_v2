@@ -79,7 +79,10 @@ namespace SOGIP_v2.Controllers
                     Peso2 = ejercicio.Peso2,
                     Serie3 = ejercicio.Serie3,
                     Repeticion3 = ejercicio.Repeticion3,
-                    Peso3 = ejercicio.Peso3
+                    Peso3 = ejercicio.Peso3,
+                    ColorEjercicio = ejercicio.ColorEjercicio,
+                    diaEjercicio = ejercicio.diaEjercicio
+
                 };
                 db.Conjunto_Ejercicios.Add(conjunto);
                 db.SaveChanges();

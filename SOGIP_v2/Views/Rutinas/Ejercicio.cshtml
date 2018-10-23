@@ -2,7 +2,41 @@
 @{
     ViewBag.Title = "Ejercicios";
 
-    
+    List<SelectListItem> Color = new List<SelectListItem>();
+    Color.Add(new SelectListItem
+    {
+        Text = "Rojo",
+    });
+    Color.Add(new SelectListItem
+    {
+        Text = "Amarillo",
+    });
+    Color.Add(new SelectListItem
+    {
+        Text = "Verde",
+    });
+    Color.Add(new SelectListItem
+    {
+        Text = "Azul",
+    });
+
+    List<SelectListItem> Dia = new List<SelectListItem>();
+    Dia.Add(new SelectListItem
+    {
+        Text = "Día 1",
+    });
+    Dia.Add(new SelectListItem
+    {
+        Text = "Día 2",
+    });
+    Dia.Add(new SelectListItem
+    {
+        Text = "Día 3",
+    });
+    Dia.Add(new SelectListItem
+    {
+        Text = "Día 4",
+    });
 }
 
 
@@ -81,7 +115,24 @@
                 var viewDataRutina = ViewData["rutina"];
             }
             @Html.Hidden("data", viewDataRutina)
-
+            <div class="col-md-1 col-lg-3">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.Label("Color Ejercicio", new { @class = "control-label" })
+                        <br />
+                        @Html.DropDownListFor(model => model.ColorEjercicio, Color, "-- Seleccionar --")
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1 col-lg-3">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.Label("Día Rutina", new { @class = "control-label" })
+                        <br />
+                        @Html.DropDownListFor(model => model.diaEjercicio, Dia, "-- Seleccionar --")
+                    </div>
+                </div>
+            </div>
             <table class="table table-bordered table-responsive table-hover" id="tabla">
                 <tr>
                     <td>
@@ -135,14 +186,15 @@
                         @Html.ValidationMessageFor(model => model.Peso3, "", new { @class = "text-danger" })
                     </td>
                     <td>
-                    <input type="submit" value="Ejercicio" class="btn btn-default" /> </td>
+                        <input type="submit" value="Ejercicio" class="btn btn-default" />
+                    </td>
                 </tr>
             </table>
             <br>
             @*<div class="btn-der">
-                <br>
-                <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
-            </div>*@
+            <br>
+            <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
+        </div>*@
         </form>
 
     </section>
