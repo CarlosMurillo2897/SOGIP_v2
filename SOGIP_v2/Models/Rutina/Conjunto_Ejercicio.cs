@@ -19,6 +19,8 @@ namespace SOGIP_v2.Models
         public int Repeticion3 { get; set; }
         public int Peso3 { get; set; }
         public Rutina ConjuntoEjercicioRutina { get; set; }
+        public string ColorEjercicio { get; set; }
+        public string diaEjercicio { get; set; }
 
     }
 }

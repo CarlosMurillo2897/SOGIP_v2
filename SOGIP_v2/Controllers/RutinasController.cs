@@ -50,6 +50,9 @@ namespace SOGIP_v2.Controllers
             string n = i.ToString();
             ViewData["rutina"] = n;
 
+            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
+            ViewBag.Conjunto_Ejercicios = getEjercicio;
+
             return View();
 
         }
@@ -61,6 +64,7 @@ namespace SOGIP_v2.Controllers
             int d = int.Parse(data);
             Rutina rutina = new Rutina();
              rutina = db.Rutinas.Single(x => x.RutinaId == d);
+            
             if (rutina != null)
             {
                 Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
@@ -79,7 +83,9 @@ namespace SOGIP_v2.Controllers
                 };
                 db.Conjunto_Ejercicios.Add(conjunto);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == d).ToList();
+                ViewBag.Conjunto_Ejercicios = getEjercicio;
+                return Ejercicio(d);
 
             }
 
@@ -88,8 +94,8 @@ namespace SOGIP_v2.Controllers
         public ActionResult ListaEjercicio(int ? idRutina)
         {
             var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
-  
-            return View(getEjercicio);
+            ViewBag["ejercicios"] = getEjercicio;
+            return View();
         }
         public ActionResult loaddata()
         {
@@ -108,7 +114,7 @@ namespace SOGIP_v2.Controllers
             {
                 return HttpNotFound();
             }
-            return View(conjunto_Ejercicio);
+            return RedirectToAction("Index");
         }
         public ActionResult EditEjercicio(int? id)
         {
@@ -159,7 +165,7 @@ namespace SOGIP_v2.Controllers
             Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Find(id);
             db.Conjunto_Ejercicios.Remove(conjunto_Ejercicio);
             db.SaveChanges();
-            return RedirectToAction("ListaEjercicio");
+            return RedirectToAction("Index");
         }
 
     [HttpPost]
