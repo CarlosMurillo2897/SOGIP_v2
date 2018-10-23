@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Expedientes Físicos";
 }
-
+@Styles.Render("~/Content/manual.css")
 <div class="container">
     @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
     {
@@ -17,20 +17,48 @@
                 }
             </select>
         </div>
-        <div class="exp_fis" id="inicio">
-            <font color="red"><b>@Html.Raw(ViewBag.Error1)</b></font>
-            <span>Seleccione el archivo InBody a importar: </span>
-            <input type="file" name="inbody" id="inbody" value="Cargar" />
-            <br />
-            <br />
-            <br />
+        <div class="row">
+            <div class="col-md-6">
+
+
+                <div class="form-group files">
+                    <label>Seleccione un archivo InBody </label>
+                    <input type="file" name="inbody" id="inbody" class="form-control" multiple="">
+                    <!--input type="file" name="inbody" id="inbody" value="Cargar" /-->
+                </div>
+
+
+            </div>
+            <div class="col-md-6">
+
+
+                <div class="form-group files color">
+                    <label> Seleccione una prueba de fuerza </label>
+                    <input type="file" name="pruFu" id="pruFu" class="form-control" multiple="">
+                    <!--input type="file" name="pruFu" id="pruFu" value="Cargar" /-->
+                </div>
+
+
+            </div>
         </div>
-        <div class="exp_fis">
-            <font color="red"><b>@Html.Raw(ViewBag.Error2)</b></font>
-            <span>Seleccione el archivo de Prueba de Fuerza a importar: </span>
-            <input type="file" name="pruFu" id="pruFu" value="Cargar" />
-            <br />
-            <input type="submit" value="Importar" />
-        </div>
+
+        @*<div class="exp_fis" id="inicio">
+                <font color="red"><b>@Html.Raw(ViewBag.Error1)</b></font>
+                <span>Seleccione el archivo InBody a importar: </span>
+                <input type="file" name="inbody" id="inbody" value="Cargar" />
+                <br />
+                <br />
+                <br />
+            </div>
+            <div class="exp_fis">
+                <font color="red"><b>@Html.Raw(ViewBag.Error2)</b></font>
+                <span>Seleccione el archivo de Prueba de Fuerza a importar: </span>
+                <input type="file" name="pruFu" id="pruFu" value="Cargar" />
+                <br />
+                <input type="submit" value="Importar" />
+            </div>*@
+
+        <input type="submit" value="Importar" />
+
     }
 </div>

@@ -2,146 +2,94 @@
 @{
     ViewBag.Title = "Editar";
 }
-
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <h4>Editar los detalles de la cuenta de usuario.</h4>
-    <hr />
-    @Html.ValidationSummary(true)
-    @Html.HiddenFor(model => model.Id)
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Cedula, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Cedula, new { @readonly = "readonly", @class = "form-control" })
+    <div class="form-horizontal">
+        <h4>Editar los detalles de la cuenta de usuario.</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cedula, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Cedula, new { @readonly = "readonly", @class = "form-control" })
+            </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.CedulaExtra, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.CedulaExtra, new { @class = "form-control" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.CedulaExtra, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.CedulaExtra, new { @class = "form-control" })
+            </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Nombre1, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Nombre1)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre1, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Nombre1)
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Nombre2, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Nombre2, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Nombre2)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nombre2, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Nombre2, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Nombre2)
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Apellido1, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Apellido1)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Apellido1, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Apellido1)
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Apellido2, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Apellido2, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Apellido2)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Apellido2, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Apellido2, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Apellido2)
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(model => model.Fecha_Nacimiento, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "birth", type = "date" })
-            @Html.ValidationMessageFor(model => model.Fecha_Nacimiento)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fecha_Nacimiento, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "birth", type = "date" })
+                @Html.ValidationMessageFor(model => model.Fecha_Nacimiento)
+            </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Email)
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Sexo, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @if ()
-            {
-
-            }
-            @Html.TextBoxFor(m => m.Sexo, new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.Sexo)
-            
-        </div>
-    </div>
-
-    @*<div class="form-group">
-            @Html.Label("Roles", new { @class = "control-label col-md-2" })
-            <span class=" col-md-10">
-                <select name="SelectedRoles">
-                    @foreach (var item in Model.RolesList)
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.Sexo, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @if (ViewBag.Sexo == true)
                     {
-                        <input type="" name="SelectedRole" value="@item.Value" checked="@item.Selected" class="checkbox-inline" />
-                        <option>
-                            @Html.Label(item.Value, new { @class = "control-label" })
-                        </option>
+                        @Html.TextBox("Femenino", "Femenino")
                     }
-                </select>
-            </span>
-        </div>
-
-        using (Html.BeginForm("Download", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-            {
-                <table id="tabla">
-                    @foreach (var file in ViewBag.Archivos)
+                    else
                     {
-                        <tr id="Documentos">
-                            <td>
-                                @file.ArchivoId
-                            </td>
-                            <td>
-                                @file.Nombre
-                            </td>
-                            <td>
-                                @file.Extension
-                            </td>
-                            <td>
-                                @file.Tipo
-                            </td>
-                        </tr>
+                        @Html.TextBox("Masculino", "Masculino")
                     }
-                    <tr>
-                        <td>
-                            @Html.TextBox("Documento", null, new { @class = "form-control" })
-                        </td>
-                    </tr>
-                </table>
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Download" class="btn btn-default" />
+                    @Html.ValidationMessageFor(model => model.Sexo)
+
                 </div>
-            }*@
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Guardar" class="btn btn-default" />
+            </div>*@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Guardar" class="btn btn-default" />
+            </div>
         </div>
     </div>
-</div>
 }
-
 <div>
     @Html.ActionLink("Regresar a la lista", "Index")
 </div>
-
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
