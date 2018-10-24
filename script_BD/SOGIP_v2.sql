@@ -22,13 +22,10 @@ use "SOGIP_v3"
  SOGIP_UserRoles.Roleid = SOGIP_Roles.id
  order by SOGIP_Roles.id;
 
+ insert into SOGIP_Users values('13801ff2-347b-47fe-be88-07c2e903e8be','402360192',NULL,'2019-01-18 15:45:47.237','Carlos','Isaias','Murillo','Badilla','1997-08-28 00:00:00.000',0,1,'cmb28@hotmail.com',0,'APnw7+KqN+h6+3hSMIqXd7oijKxbOBZd2nDsY7c7FXak3NDB+ZLt+KSG7r4skP7B3A==','fd984d9b-1446-4510-a6bb-62384169f32c',NULL,0,0,NULL,1,0,'402360192');
+
  delete from SOGIP_Users where Email != 'cmb28@hotmail.com';
  delete from SOGIP_Users;
-
-	1. Archivos, con bootstrap.
-	2. Rutina[] = new rutina
-	3. Container de perfil igual al de Create
-
 
  select * from SOGIP_Users;
  select * from sogip_archivo
@@ -51,6 +48,8 @@ drop table SOGIP_Cita;
  select * from SOGIP_Expedientes_Fisicos;
 
  select * from SOGIP_Archivo;
+ select * from SOGIP_Rutina;
+select * from SOGIP_Conjunto_Ejercicio;
 
  sp_help SOGIP_Users; -- Describe los atributos de cualquier tabla.
  sp_help SOGIP_Entrenadores;

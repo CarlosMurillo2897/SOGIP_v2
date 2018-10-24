@@ -205,15 +205,15 @@ function formulario() {
 
 }
 
-function isNumber(e) {  // Aceptar solo números en la cédula
+function isNumber(evt) {  // Aceptar solo números en la cédula
 
     var allow = $("input[name='Nacionalidad']:checked").val();
-    var ced = $("#Cedula").val().length;
 
     if (allow == "Nacional") {
-            e = e || window.event;
-            var charCode = e.which ? e.which : e.keyCode;
-            return /\d/.test(String.fromCharCode(charCode));
+        var ch = String.fromCharCode(evt.which);
+        if (!(/[0-9]/.test(ch))) {
+            evt.preventDefault();
+        }
     }
 
 }
