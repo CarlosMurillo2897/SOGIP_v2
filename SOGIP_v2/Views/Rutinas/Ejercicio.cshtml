@@ -41,208 +41,210 @@
 
 
 <h2>Rutina</h2>
-
+<div>
+    @Html.ActionLink("Lista Rutinas", "Index")
+</div>
 @using (Html.BeginForm("Ejercicio", "Rutinas", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
 
-<html lang="es">
-<head>
-    <meta charset="utf-8">
+    <html lang="es">
+    <head>
+        <meta charset="utf-8">
 
 
-</head>
-<body>
+    </head>
+    <body>
 
 
-    <section>
-        <div class="row">
-            <div class="col-sm-12">
-                <table id="proveedores" class="table table-bordered table-responsive table-hover">
-                    <thead style="background-color:#337ab7;border-color:#2e6da4;color:#fff;">
+        <section>
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="proveedores" class="table table-bordered table-responsive table-hover">
+                        <thead style="background-color:#337ab7;border-color:#2e6da4;color:#fff;">
 
-                        <TR>
-                            <TH COLSPAN=1>Ejercicio</TH>
-                            <TH COLSPAN=3>Semana 1-2</TH>
-                            <TH COLSPAN=3>Semana 3-4</TH>
-                            <TH COLSPAN=3>Semana 5-6</TH>
-                            <TH COLSPAN=1>Editar</TH>
+                            <TR>
+                                <TH COLSPAN=1>Ejercicio</TH>
+                                <TH COLSPAN=3>Semana 1-2</TH>
+                                <TH COLSPAN=3>Semana 3-4</TH>
+                                <TH COLSPAN=3>Semana 5-6</TH>
+                                <TH COLSPAN=1>Editar</TH>
 
-                        </TR>
+                            </TR>
 
-                        <TR>
+                            <TR>
 
-                            <TH></TH>
-                            <TH>S</TH>
-                            <TH>R</TH>
-                            <TH>P</TH>
-                            <TH>S</TH>
-                            <TH>R</TH>
-                            <TH>P</TH>
-                            <TH>S</TH>
-                            <TH>R</TH>
-                            <TH>P</TH>
-                            <TH></TH>
-                        </TR>
-                    </thead>
-                    <tbody>
-                        @foreach (var row in ViewBag.Conjunto_Ejercicios)
-                        {
-                            <tr>
-                                <td>@row.NombreEjercicio</td>
-                                <td>@row.Serie1</td>
-                                <td>@row.Repeticion1</td>
-                                <td>@row.Peso1</td>
-                                <td>@row.Serie2</td>
-                                <td>@row.Repeticion2</td>
-                                <td>@row.Peso2</td>
-                                <td>@row.Serie3</td>
-                                <td>@row.Repeticion3</td>
-                                <td>@row.Peso3</td>
+                                <TH></TH>
+                                <TH>S</TH>
+                                <TH>R</TH>
+                                <TH>P</TH>
+                                <TH>S</TH>
+                                <TH>R</TH>
+                                <TH>P</TH>
+                                <TH>S</TH>
+                                <TH>R</TH>
+                                <TH>P</TH>
+                                <TH></TH>
+                            </TR>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in ViewBag.Conjunto_Ejercicios)
+                            {
+                                <tr>
+                                    <td>@row.NombreEjercicio</td>
+                                    <td>@row.Serie1</td>
+                                    <td>@row.Repeticion1</td>
+                                    <td>@row.Peso1</td>
+                                    <td>@row.Serie2</td>
+                                    <td>@row.Repeticion2</td>
+                                    <td>@row.Peso2</td>
+                                    <td>@row.Serie3</td>
+                                    <td>@row.Repeticion3</td>
+                                    <td>@row.Peso3</td>
 
-                                <td>
-                                    @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
-                                    @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <form method="POST">
-            @{
-                var viewDataRutina = ViewData["rutina"];
-            }
-            @Html.Hidden("data", viewDataRutina)
-            <div class="col-md-1 col-lg-3">
-                <div class="form-group">
-                    <div class="col-md-10">
-                        @Html.Label("Color Ejercicio", new { @class = "control-label" })
-                        <br />
-                        @Html.DropDownListFor(model => model.ColorEjercicio, Color, "-- Seleccionar --")
-                    </div>
+                                    <td>
+                                        @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
+                                        @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <div class="col-md-1 col-lg-3">
-                <div class="form-group">
-                    <div class="col-md-10">
-                        @Html.Label("Día Rutina", new { @class = "control-label" })
-                        <br />
-                        @Html.DropDownListFor(model => model.diaEjercicio, Dia, "-- Seleccionar --")
-                    </div>
-                </div>
-            </div>
-            <table class="table table-bordered table-responsive table-hover" id="tabla">
-                <tr>
-                    <td>
-                        @Html.LabelFor(model => model.NombreEjercicio, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.NombreEjercicio, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.NombreEjercicio, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.LabelFor(model => model.Serie1, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Serie1, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Serie1, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.LabelFor(model => model.Repeticion1, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Repeticion1, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Repeticion1, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.LabelFor(model => model.Peso1, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Peso1, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Peso1, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.LabelFor(model => model.Serie2, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Serie2, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Serie2, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.LabelFor(model => model.Repeticion2, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Repeticion2, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Repeticion2, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.LabelFor(model => model.Peso2, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Peso2, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Peso2, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.LabelFor(model => model.Serie3, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Serie3, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Serie3, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.LabelFor(model => model.Repeticion3, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Repeticion3, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Repeticion3, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.LabelFor(model => model.Peso3, htmlAttributes: new { @class = "control-label col-md-2" })
-                        @Html.EditorFor(model => model.Peso3, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Peso3, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        <input type="submit" value="Ejercicio" class="btn btn-default" />
-                    </td>
-                </tr>
-            </table>
-            <br>
-            @*<div class="btn-der">
-            <br>
-            <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
-        </div>*@
-        </form>
-
-    </section>
-
-</body>
-</html>
+            <form method="POST">
+                @{
+                    var viewDataRutina = ViewData["rutina"];
                 }
+                @Html.Hidden("data", viewDataRutina)
+                <div class="col-md-1 col-lg-3">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.Label("Color Ejercicio", new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.ColorEjercicio, Color, "-- Seleccionar --")
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1 col-lg-3">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.Label("Día Rutina", new { @class = "control-label" })
+                            <br />
+                            @Html.DropDownListFor(model => model.diaEjercicio, Dia, "-- Seleccionar --")
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-bordered table-responsive table-hover" id="tabla">
+                    <tr>
+                        <td>
+                            @Html.LabelFor(model => model.NombreEjercicio, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.NombreEjercicio, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.NombreEjercicio, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model.Serie1, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Serie1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Serie1, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model.Repeticion1, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Repeticion1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Repeticion1, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model.Peso1, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Peso1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Peso1, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model.Serie2, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Serie2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Serie2, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model.Repeticion2, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Repeticion2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Repeticion2, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model.Peso2, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Peso2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Peso2, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model.Serie3, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Serie3, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Serie3, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model.Repeticion3, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Repeticion3, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Repeticion3, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            @Html.LabelFor(model => model.Peso3, htmlAttributes: new { @class = "control-label col-md-2" })
+                            @Html.EditorFor(model => model.Peso3, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Peso3, "", new { @class = "text-danger" })
+                        </td>
+                        <td>
+                            <input type="submit" value="Ejercicio" class="btn btn-default" />
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                @*<div class="btn-der">
+                        <br>
+                        <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
+                    </div>*@
+            </form>
+
+        </section>
+
+    </body>
+</html>
+}
 @section Scripts {
     @*@Scripts.Render("~/bundles/jqueryval")
-    <script>
-        $(function () {
-            $("#adicional").on('click', function () {
-                $("#tabla tbody ").clone().removeClass('fila-fija').appendTo("#tabla");
+        <script>
+            $(function () {
+                $("#adicional").on('click', function () {
+                    $("#tabla tbody ").clone().removeClass('fila-fija').appendTo("#tabla");
 
-            });
+                });
 
-            $(document).on("click", ".insetar", function () {
-                var data = document;
-                    $.ajax({
-                        type: "POST",
-                        url: "/Rutinas/Ejercicio",
-                        data:data,
+                $(document).on("click", ".insetar", function () {
+                    var data = document;
+                        $.ajax({
+                            type: "POST",
+                            url: "/Rutinas/Ejercicio",
+                            data:data,
+                    })
+
                 })
-       
-            })
-            //Por favor revisar
-            $(document).ready(function () {
-                $('myTable').DataTable({
-                    "ajax":{
-                        "type": "GET",
-                        "url": "/Rutinas/loaddata",
-                        "datatype": "json"
-                    },
-                    "columns": [
-                        { "data": "NombreEjercicio", "autoWidth": true },
-                        { "data": "Serie1", "autoWidth": true },
-                        { "data": "Repeticion1", "autoWidth": true },
-                        { "data": "Peso1", "autoWidth": true },
-                        { "data": "Serie2", "autoWidth": true },
-                        { "data": "Repeticion2", "autoWidth": true },
-                        { "data": "Peso2", "autoWidth": true },
-                        { "data": "Serie3", "autoWidth": true },
-                        { "data": "Repeticion3", "autoWidth": true },
-                        { "data": "Peso3", "autoWidth": true }
-                    ]
-                })
-            });
+                //Por favor revisar
+                $(document).ready(function () {
+                    $('myTable').DataTable({
+                        "ajax":{
+                            "type": "GET",
+                            "url": "/Rutinas/loaddata",
+                            "datatype": "json"
+                        },
+                        "columns": [
+                            { "data": "NombreEjercicio", "autoWidth": true },
+                            { "data": "Serie1", "autoWidth": true },
+                            { "data": "Repeticion1", "autoWidth": true },
+                            { "data": "Peso1", "autoWidth": true },
+                            { "data": "Serie2", "autoWidth": true },
+                            { "data": "Repeticion2", "autoWidth": true },
+                            { "data": "Peso2", "autoWidth": true },
+                            { "data": "Serie3", "autoWidth": true },
+                            { "data": "Repeticion3", "autoWidth": true },
+                            { "data": "Peso3", "autoWidth": true }
+                        ]
+                    })
+                });
 
-        });*@
+            });*@
     </script>
 }

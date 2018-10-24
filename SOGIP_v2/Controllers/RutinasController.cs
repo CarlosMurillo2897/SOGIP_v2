@@ -255,6 +255,13 @@ namespace SOGIP_v2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id).ToList();
+            foreach (var n in getEjercicio)
+            {
+                int i = n.Conjunto_EjercicioId;
+                Conjunto_Ejercicio conjunto = db.Conjunto_Ejercicios.Find(i);
+                db.Conjunto_Ejercicios.Remove(conjunto);
+            }
             Rutina rutina = db.Rutinas.Find(id);
             db.Rutinas.Remove(rutina);
             db.SaveChanges();
