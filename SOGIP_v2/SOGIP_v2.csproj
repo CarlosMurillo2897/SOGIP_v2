@@ -221,6 +221,10 @@
     <Compile Include="Migrations\201810220257178_final.Designer.cs">
       <DependentUpon>201810220257178_final.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810230432023_ejercicio.cs" />
+    <Compile Include="Migrations\201810230432023_ejercicio.Designer.cs">
+      <DependentUpon>201810230432023_ejercicio.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -583,6 +587,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810220257178_final.resx">
       <DependentUpon>201810220257178_final.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810230432023_ejercicio.resx">
+      <DependentUpon>201810230432023_ejercicio.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
