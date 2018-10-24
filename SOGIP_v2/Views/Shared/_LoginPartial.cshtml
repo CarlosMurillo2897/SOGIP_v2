@@ -40,7 +40,8 @@
             @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
             {
                 <li>
-                    @Html.ActionLink("Citas", "Create", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
+                    @Html.ActionLink("Citas", "Create", "CitasGeneral", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "rutina" } )
+
                 </li>
                 <li>
                     @Html.ActionLink("Rutinas", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })

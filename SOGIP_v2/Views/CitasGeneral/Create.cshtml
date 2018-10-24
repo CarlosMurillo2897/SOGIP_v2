@@ -60,7 +60,7 @@
                     <div class="form-group">
                         <label>Hora de inicio</label>
                         <div class="input-group date" id="dtp3">
-                            <span class="input-group-addon" ><span class="glyphicon glyphicon-time"></span></span>
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                             <input class="timepicker form-control" id="txtHora" type="text">
                         </div>
                     </div>
@@ -72,7 +72,7 @@
                             <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
                             <input class="timepicker form-control" id="txtHoraF" type="text" readonly>
                         </div>
-                        
+
                     </div>
                     <div class="form-group">
                         <div class="checkbox">
@@ -128,7 +128,7 @@
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: "/CitasAdmin/GetEvents",
+                    url: "/CitasGeneral/GetEvents",
                     success: function (data) {
                         $.each(data, function (i, v) {
                             events.push({
@@ -221,7 +221,6 @@
                                 end: end
 
                             };
-                            $('#cedUD').show();
                             openEditForm();
                             $('calendar').fullCalendar('unselect');
                         }
@@ -243,8 +242,6 @@
 
             //EDITAR CITA
             $('#btnEdit').click(function () {
-                //Abrir modal dialog para editar el evento seleccionado
-                $('#cedUD').hide();
                 openEditForm();
             })
 
@@ -254,7 +251,7 @@
                     $.ajax({
                         type: "POST",
                         dataType: "JSON",
-                        url: '/CitasAdmin/DeleteEvent',
+                        url: '/CitasGeneral/DeleteEvent',
                         data: { 'citaId': selectedEvent.citaId },
                         success: function (data) {
                             if (data.status) {
@@ -311,58 +308,27 @@
                         alert('La fecha y hora de finalización es inválido');
                         return;
                     }
-                   
+
                 }
 
                 //Esta variable almacena la cita sobre la cual se está trabajando
 
-                if ($('#cedUD').is(':hidden') == false) {
-                    var startTime = $('#txtHora').timepicker('getTime');
+                var startTime = $('#txtHora').timepicker('getTime');
 
-                    if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == true) {
-                        var endTime = new Date(startTime.getTime() + 110 * 60000);   // add 30 minutes
-                        $('#txtHoraF').timepicker('setTime', endTime);
-                    }
-
-                    else if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == true) {
-                        var endTime = new Date(startTime.getTime() + 90 * 60000);   // add 30 minutes
-                        $('#txtHoraF').timepicker('setTime', endTime);
-                    }
-
-                    else if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == false) {
-                        var endTime = new Date(startTime.getTime() + 20 * 60000);   // add 30 minutes
-                        $('#txtHoraF').timepicker('setTime', endTime);
-                    }
-
-                    data = {
-                        CitaId: $('#hdEventID').val(),
-                        InBody: $('#inbodyCheck').is(':checked'),
-                        Otro: $('#rutinaCheck').is(':checked'),
-                        UsuarioCedula: $('#txtCed').val().trim(),
-                        FechaHoraInicio: $('#txtStart').val().trim() + ' ' + $('#txtHora').val().trim(),
-                        FechaHoraFinal: $('#txtStart').val().trim() + ' ' + $('#txtHoraF').val().trim()
-                    }
+                if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == true) {
+                    var endTime = new Date(startTime.getTime() + 110 * 60000);   // add 30 minutes
+                    $('#txtHoraF').timepicker('setTime', endTime);
                 }
 
-                else {
+                else if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == true) {
+                    var endTime = new Date(startTime.getTime() + 90 * 60000);   // add 30 minutes
+                    $('#txtHoraF').timepicker('setTime', endTime);
+                }
 
-                    var startTime = $('#txtHora').timepicker('getTime');
-
-                    if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == true) {
-                        var endTime = new Date(startTime.getTime() + 110 * 60000);   // add 30 minutes
-                        $('#txtHoraF').timepicker('setTime', endTime);
-                    }
-
-                    else if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == true) {
-                        var endTime = new Date(startTime.getTime() + 90 * 60000);   // add 30 minutes
-                        $('#txtHoraF').timepicker('setTime', endTime);
-                    }
-
-                    else if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == false) {
-                        var endTime = new Date(startTime.getTime() + 20 * 60000);   // add 30 minutes
-                        $('#txtHoraF').timepicker('setTime', endTime);
-                    }
-
+                else if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == false) {
+                    var endTime = new Date(startTime.getTime() + 20 * 60000);   // add 30 minutes
+                    $('#txtHoraF').timepicker('setTime', endTime);
+                }
                     data = {
                         CitaId: $('#hdEventID').val(),
                         InBody: $('#inbodyCheck').is(':checked'),
@@ -370,7 +336,7 @@
                         FechaHoraInicio: $('#txtStart').val().trim() + ' ' + $('#txtHora').val().trim(),
                         FechaHoraFinal: $('#txtStart').val().trim() + ' ' + $('#txtHoraF').val().trim()
                     }
-                }
+                
                 //Llamando función para enviar cambios
                 SaveDate(data);
             })
@@ -379,7 +345,7 @@
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: '/CitasAdmin/SaveEvent',
+                    url: '/CitasGeneral/SaveEvent',
                     data: data,
                     success: function (data) {
                         if (data.status) {
@@ -396,7 +362,7 @@
                     }
                 })
             }
-            
+
             var today = new Date();
             $(function () {
                 $("#dtp1").datepicker({
@@ -410,7 +376,7 @@
                     'maxTime': '7:00pm'
                 });
             });
-           
+
 
 
 

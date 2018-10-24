@@ -200,6 +200,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
+    <Compile Include="Controllers\CitasGeneralController.cs" />
+    <Compile Include="Controllers\Conjunto_EjercicioController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
@@ -566,6 +568,11 @@
     <Content Include="Views\Rutinas\EditEjercicio.cshtml" />
     <Content Include="Views\Rutinas\DeleteEjercicio.cshtml" />
     <Content Include="Views\Rutinas\DetailsEjercicio.cshtml" />
+    <Content Include="Views\CitasGeneral\Create.cshtml" />
+    <Content Include="Views\CitasGeneral\Delete.cshtml" />
+    <Content Include="Views\CitasGeneral\Details.cshtml" />
+    <Content Include="Views\CitasGeneral\Edit.cshtml" />
+    <Content Include="Views\CitasGeneral\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />

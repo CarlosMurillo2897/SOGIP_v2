@@ -7,30 +7,28 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SOGIP_v2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace SOGIP_v2.Controllers
 {
-    public class CitasAdminController : Controller
+    public class CitasGeneralController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: CitasAdmin
-        public ActionResult Index()
-        {
-            return View(db.Cita.ToList());
-        }
-
-        //Muestra todas las citas en el calendario
+        //CurrentUser
+       
+        
         [HttpPost]
-        public JsonResult GetEvents()
+        public JsonResult GetEvents(string id)
         {
 
-            var Citas = db.Cita.ToList();
+            string userid = HttpContext.User.Identity.GetUserId();
+            var Citas = db.Cita.Where(x => x.UsuarioId_Id.Id == userid).ToList();
             return new JsonResult { Data = Citas, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
 
-        
+
         //Actualiza o crea citas        
         [HttpPost]
         public JsonResult SaveEvent(Cita e)
@@ -47,7 +45,7 @@ namespace SOGIP_v2.Controllers
 
                         var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();
                         var check2 = db.Cita.Where(x => x.FechaHoraFinal == e.FechaHoraInicio).FirstOrDefault();
-                        if (check==null && check2==null)
+                        if (check == null && check2 == null)
                         {
                             v.InBody = e.InBody;
                             v.Otro = e.Otro;
@@ -58,13 +56,14 @@ namespace SOGIP_v2.Controllers
                         {
                             return new JsonResult { Data = new { status = false } };
                         }
-                        
+
                     }
 
                 }
                 else //si la cita no existe en la db, pues la creo
                 {
-                    ApplicationUser User = db.Users.Single(x => x.Cedula == e.UsuarioCedula);
+                    string userid = HttpContext.User.Identity.GetUserId();
+                    ApplicationUser User = db.Users.Single(x => x.Id == userid);
                     var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();
                     var check2 = db.Cita.Where(x => x.FechaHoraFinal == e.FechaHoraInicio).FirstOrDefault();
                     if (check == null && check2 == null)
@@ -74,7 +73,7 @@ namespace SOGIP_v2.Controllers
                             InBody = e.InBody,
                             Otro = e.Otro,
                             UsuarioId_Id = User,
-                            UsuarioCedula = e.UsuarioCedula,
+                            UsuarioCedula = User.Cedula,
                             UsuarioNombre = User.Nombre1,
                             UsuarioApellido1 = User.Apellido1,
                             UsuarioApellido2 = User.Apellido2,
@@ -87,7 +86,7 @@ namespace SOGIP_v2.Controllers
                     {
                         return new JsonResult { Data = new { status = false } };
                     }
-  
+
                 }
                 db.SaveChanges();
                 status = true;
@@ -116,7 +115,17 @@ namespace SOGIP_v2.Controllers
         }
 
 
-        // GET: CitasAdmin/Details/5
+
+
+
+        // GET: CitasGeneral
+        public ActionResult Index(string Id)
+        {          
+                      
+            return View(db.Cita.ToList());
+        }
+
+        // GET: CitasGeneral/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -131,18 +140,18 @@ namespace SOGIP_v2.Controllers
             return View(cita);
         }
 
-        // GET: CitasAdmin/Create
+        // GET: CitasGeneral/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: CitasAdmin/Create
+        // POST: CitasGeneral/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CitaId,InBody,Otro")] Cita cita)
+        public ActionResult Create([Bind(Include = "CitaId,InBody,Otro,UsuarioCedula,UsuarioNombre,UsuarioApellido1,UsuarioApellido2,FechaHoraInicio,FechaHoraFinal")] Cita cita)
         {
             if (ModelState.IsValid)
             {
@@ -154,7 +163,7 @@ namespace SOGIP_v2.Controllers
             return View(cita);
         }
 
-        // GET: CitasAdmin/Edit/5
+        // GET: CitasGeneral/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -169,12 +178,12 @@ namespace SOGIP_v2.Controllers
             return View(cita);
         }
 
-        // POST: CitasAdmin/Edit/5
+        // POST: CitasGeneral/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CitaId,InBody,Otro")] Cita cita)
+        public ActionResult Edit([Bind(Include = "CitaId,InBody,Otro,UsuarioCedula,UsuarioNombre,UsuarioApellido1,UsuarioApellido2,FechaHoraInicio,FechaHoraFinal")] Cita cita)
         {
             if (ModelState.IsValid)
             {
@@ -185,7 +194,7 @@ namespace SOGIP_v2.Controllers
             return View(cita);
         }
 
-        // GET: CitasAdmin/Delete/5
+        // GET: CitasGeneral/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -200,7 +209,7 @@ namespace SOGIP_v2.Controllers
             return View(cita);
         }
 
-        // POST: CitasAdmin/Delete/5
+        // POST: CitasGeneral/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
