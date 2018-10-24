@@ -95,12 +95,12 @@ namespace SOGIP_v2.Controllers
         //    return View(ejercicio);
         //}
         [HttpPost]
-        public JsonResult Ejercicio(List<Conjunto_Ejercicio> ejercicios) //AGREGAR EL ID DE LA RUTINA
+        public JsonResult Ejercicio(string data, List<Conjunto_Ejercicio> ejercicios) //AGREGAR EL ID DE LA RUTINA
         {
             var status = false;
             //Busco el id de la rutina.
-            int d = 6;
-            //int d = int.Parse(data);
+            //int d = 6;
+            int d = int.Parse(data);
             Rutina rutina = new Rutina();
             rutina = db.Rutinas.Single(x => x.RutinaId == d);
 

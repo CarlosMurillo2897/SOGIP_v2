@@ -48,7 +48,7 @@
 <head>
     <meta charset="utf-8">
 
-
+   
 </head>
 <body>
 
@@ -144,6 +144,7 @@
                 var viewDataRutina = ViewData["rutina"];
             }
             @Html.Hidden("data", viewDataRutina)
+            
 
         </form>
 
@@ -259,13 +260,15 @@
                         Peso3: table.rows[i].cells[9].children[0].value
                     });
                 }
-
+  
 
                 $.ajax({
                     url: '/Rutinas/Ejercicio',
                     dataType: 'JSON',
                     type: 'POST',
-                    data: JSON.stringify(tableArr), //agregar el campo para el id de la rutina
+                    data: {
+                        data: "data", ejercicios: JSON.stringify(tableArr)
+                    }, //agregar el campo para el id de la rutina
                     contentType: 'application/json; charset=utf-8',
                     success: function (result) {
                         alert('Ejercicios Registrados');
