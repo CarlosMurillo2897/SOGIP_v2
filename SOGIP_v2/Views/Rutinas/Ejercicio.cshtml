@@ -216,11 +216,24 @@
                 var input10 = document.createElement("input");
                 input10.type = "text";
 
-                var input11 = document.createElement("input");
-                input11.type = "text";
-
-                var input12 = document.createElement("input");
-                input12.type = "text";
+                var dias = ["Día1", "Día2", "Día3", "Día4"];
+                var d = document.createElement('select');
+                d.type = 'select';
+                for (var i = 0; i < dias.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = dias[i];
+                    option.text = dias[i];
+                    d.add(option);
+                }
+                var colores = ["Nada","Verde", "Celeste", "Azul", "Rojo","Verde","Amarillo"];
+                var c = document.createElement('select');
+                c.type = 'select';
+                for (var i = 0; i < colores.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = colores[i];
+                    option.text = colores[i];
+                    c.add(option);
+                }
                
                 //DropDownList1.type = "DropDownList"; DropDownList1.items.insert(Dia, " - Select From List - ")
 
@@ -241,8 +254,8 @@
                 newCell7.appendChild(input7);
                 newCell8.appendChild(input8);
                 newCell9.appendChild(input9);
-                newCell10.appendChild(input11);
-                newCell11.appendChild(input12);
+                newCell10.appendChild(d);
+                newCell11.appendChild(c);
                 newCell12.appendChild(checkBox);
 
             });
