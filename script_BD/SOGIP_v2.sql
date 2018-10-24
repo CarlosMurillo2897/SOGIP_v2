@@ -239,6 +239,7 @@ insert into SOGIP_Users values('b889fe47-541d-4453-8733-022709c1592f', '11407098
 insert into SOGIP_Users values('de8b4ac7-40a3-4b23-aa2b-28ae9fcb9253', '402260033', NULL, '2019-01-18 17:13:38.123', 'Emmanuel', NULL, 'Niño', 'Villalta', '1995-02-14 00:00:00.000', 0, 1, 'emmanuelnino@emmanuelnino.com', 0, 'AArLIlxJ6VcgWrGQRqlVf8jM1UA7+WoOndCCiMZ3D6bJJQ2KI8MiBLmttJCQSL/3Hg==', '93511ecb-cb2b-4a6c-8191-81dcfdc47ced', NULL, 0, 0, NULL, 1, 0, '402260033');
 insert into SOGIP_Users values('8f9c47bf-edbd-40bf-9b5e-f753dd81a766', '000000000', NULL, '2019-01-19 21:34:58.363', 'Sistema', 'Operativo', 'Gimnasio', 'Pesas', '2000-01-01 00:00:00.000', 0, 1, 'admSOGIP@hotmail.com', 0, 'AG33oMVrb494bn6JdvpIGf2UV1wbopV1ttoNqJP9/LOD8S0PPltbD4XUYzMorUX8mA==', '6508b809-9b26-4f7e-aad6-b550cbe32fa6', NULL, 0, 0, NULL, 1, 0, '000000000');
 
+
 insert into SOGIP_UserRoles values('8f9c47bf-edbd-40bf-9b5e-f753dd81a766', 1);
 insert into SOGIP_UserRoles values('b889fe47-541d-4453-8733-022709c1592f', 2);
 insert into SOGIP_UserRoles values('43002ea0-b75c-44a0-8f29-7d5c0eeffed2', 3);
