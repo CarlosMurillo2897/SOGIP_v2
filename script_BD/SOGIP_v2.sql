@@ -22,9 +22,12 @@ use "SOGIP_v3"
  SOGIP_UserRoles.Roleid = SOGIP_Roles.id
  order by SOGIP_Roles.id;
 
+ insert into SOGIP_Users values('13801ff2-347b-47fe-be88-07c2e903e8be','402360192',NULL,'2019-01-18 15:45:47.237','Carlos','Isaias','Murillo','Badilla','1997-08-28 00:00:00.000',0,1,'cmb28@hotmail.com',0,'APnw7+KqN+h6+3hSMIqXd7oijKxbOBZd2nDsY7c7FXak3NDB+ZLt+KSG7r4skP7B3A==','fd984d9b-1446-4510-a6bb-62384169f32c',NULL,0,0,NULL,1,0,'402360192');
+
  delete from SOGIP_Users where Email != 'cmb28@hotmail.com';
  delete from SOGIP_Users;
 
+<<<<<<< HEAD
  select * from SOGIP_Archivo;
  select * from SOGIP_Asociacion_Deportiva;
  select * from SOGIP_Atletas;
@@ -53,9 +56,6 @@ use "SOGIP_v3"
 		sp_help SOGIP_Users; 
 		sp_help SOGIP_Entrenadores;
 
-insert into SOGIP_Users values('b889fe47-541d-4453-8733-022709c1592f', '114070986', NULL, '2019-01-18 15:52:12.557', 'Josafat', 'Antonio', 'Barboza', 'Umaña', '1989-10-06 00:00:00.000', 0, 1, 'josa@josa.com', 0, 'AAAAGb+hoJnZqkFtRi3SDPAQqwviIyybQISr4nF99nLf9cEoygh0rzKIUm2Dx1qYyQ==', 'de3fb782-d243-4a25-8106-623ebfa68fc7', NULL, 0, 0, NULL, 1, 0, '114070986');
-
-
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
  ++++++++++++++++++++++++++++ Delete's ++++++++++++++++++++++++++++
@@ -82,6 +82,7 @@ insert into SOGIP_Users values('b889fe47-541d-4453-8733-022709c1592f', '11407098
  delete from SOGIP_UserLogins;
  delete from SOGIP_UserRoles;
  delete from SOGIP_Users;
+ 
 
  ++++++++++++++++++++++++++++ Delete's ++++++++++++++++++++++++++++
 

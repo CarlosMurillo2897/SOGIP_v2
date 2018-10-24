@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @using App.Extensions
+@model SOGIP_v2.Models.EditUserViewModel
 
 @{
     ViewBag.Title = "Perfil";
@@ -9,19 +10,29 @@
 
 @*src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"*@
 
-<br><br>
+
+<br>
+<br>
 <div class="container">
-    <div class="well span8 offset2">    @* Este es el "card" *@
+    <div class="well span8 offset2">
+        @* Este es el "card" *@
         <div class="row-fluid user-row">
 
             <div class="span1">
-                <img class="img-circle" src="~/Content/Imagenes/W4.jpg" alt="User Pic" , style="width:50px;height:50px;">
+                @if (ViewBag.Usuario.Sexo == true)
+                {
+                    <img class="img-circle" src="~/Content/Imagenes/W4.jpg" alt="User Pic" , style="width:50px;height:50px;">
+                }
+                else
+                {
+                    <img class="img-circle" src="~/Content/Imagenes/M.png" alt="User Pic" , style="width:50px;height:50px;">
+                }
             </div>
 
             <div class="span10">
-                <strong>Josfat</strong><br>
-                <strong>@Html.Label("Nombre")</strong><br>
-                <span class="text-muted">Tipo de usuario: Administrator</span>
+                <strong>Nombre</strong><br>
+                <strong>@ViewBag.Usuario.Nombre1</strong><br>
+                <span class="text-muted">Tipo de usuario: @ViewBag.rol</span>
             </div>
             <div class="span1 dropdown-user" data-for=".cyruxx">
                 <i class="icon-chevron-down text-muted"></i>
@@ -37,27 +48,34 @@
                     <div class="panel-body">
                         <div class="row-fluid">
                             <div class="span3">
-                                <img class="img-circle" src="~/Content/Imagenes/W4.jpg" alt="User Pic" , style="width:100px;height:100px;">
+                                @if (ViewBag.Usuario.Sexo == true)
+                                {
+                                    <img class="img-circle" src="~/Content/Imagenes/W4.jpg" alt="User Pic" , style="width:100px;height:100px;">
+                                }
+                                else
+                                {
+                                    <img class="img-circle" src="~/Content/Imagenes/M.png" alt="User Pic" , style="width:100px;height:100px;">
+                                }
                             </div>
                             <div class="span6">
-                                <strong>Josafat</strong><br>
+                                <strong>@ViewBag.Usuario.Nombre1</strong><br>
                                 <table class="table table-condensed table-responsive table-user-information">
                                     <tbody>
                                         <tr>
                                             <td>Nombre:</td>
-                                            <td>Josafat</td>
+                                            <td>@ViewBag.Usuario.Nombre1</td>
                                         </tr>
                                         <tr>
                                             <td>Apellidos:</td>
-                                            <td>Barboza Umaña</td>
+                                            <td>@ViewBag.Usuario.Apellido1 @ViewBag.Usuario.Apellido2</td>
                                         </tr>
                                         <tr>
                                             <td>Fecha de nacimiento:</td>
-                                            <td>10/06/1989</td>
+                                            <td>@ViewBag.Fecha</td>
                                         </tr>
                                         <tr>
                                             <td>Email:</td>
-                                            <td>josafat@icoder.co.cr</td>
+                                            <td>@ViewBag.Usuario.Email</td>
                                         </tr>
                                         <tr>
                                             <td>Localidad:</td>
@@ -65,23 +83,62 @@
                                         </tr>
                                         <tr>
                                             <td>Género:</td>
-                                            <td>Masculino</td>
+                                            @if (ViewBag.Usuario.Sexo == true)
+                                            {
+                                                <td>Masculino</td>
+                                            }
+                                            else
+                                            {
+                                                <td>Femenino</td>
+                                            }
                                         </tr>
                                         <tr>
                                             <td>Documentos adjuntados:</td>
-                                            <td>0</td>
+                                            </tr>
+                                        <tr>
+                                            <td>Número: </td>
+                                            <td>Nombre:</td>
+                                            <td>Tipo:</td>
                                         </tr>
+
+                                        @if (ViewBag.Archivos != null)
+                                        {
+                                            var num = 0;
+
+                                            foreach (var doc in ViewBag.Archivos)
+                                            {
+                                                num = num + 1;
+                                                <tr>
+                                                    <td>N#@num:</td>
+                                                    <td>@doc.Nombre</td>
+                                                    <td>@doc.Extension</td>
+                                                    <td>
+                                                        @*using (Html.BeginForm("Download", "UsersAdmin", routeValues: new { Documento = @doc.ArchivoId }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))*@
+                                                        @using (Html.BeginForm("Download", "UsersAdmin", routeValues: new { Documento = @doc.ArchivoId }))
+                                                        {
+                                                            @*using (Html.BeginForm("Download", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+                                                            *@
+                                                            @*Html.ActionLink("Descargar", "Create", "UsersAdmin", routeValues: new { Documento = @doc.ArchivoId }, htmlAttributes: new { enctype = "multipart/form-data", @class="btn" })*@
+                                                            <input type="submit" class="btn " id="btn_sub_form" value="Descargar" />
+                                                        }
+
+                                                    </td>
+                                                </tr>
+                                                @*doc.ArchivoId*@
+                                            }
+                                        }
+
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
                     <div class="panel-footer">
-                        <button class="btn  btn-primary" type="button"
+                        @*<button class="btn  btn-primary" type="button"
                                 data-toggle="tooltip"
                                 data-original-title="Send message to user">
                             <i class="icon-envelope icon-white"></i>
-                        </button>
+                        </button>*@
 
                         <span class="pull-right">
                             @Html.ActionLink("Editar", "Edit", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "editar", @class = "btn btn-warning", @type = "button" })

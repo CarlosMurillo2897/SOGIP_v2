@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -17,6 +18,7 @@ namespace SOGIP_v2.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext db = new ApplicationDbContext();
 
         public AccountController()
         {
@@ -241,9 +243,45 @@ namespace SOGIP_v2.Controllers
             return View();
         }
 
-        public ActionResult Perfil()
+        [HttpGet]
+        public async Task<ActionResult> Perfil(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = await UserManager.FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+
+            var userRoles = await UserManager.GetRolesAsync(user.Id);
+
+            ViewBag.Archivos = db.Archivo.ToList();
+            ViewBag.Archivos = db.Archivo.Where(x => x.Usuario.Id == user.Id);
+            ViewBag.rol = userRoles.First();
+            ViewBag.Usuario = user;
+            ViewBag.Fecha = user.Fecha_Nacimiento.Date;
+
+            return View(new EditUserViewModel()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
+                Cedula = user.Cedula,
+                CedulaExtra = user.CedulaExtra,
+                Nombre1 = user.Nombre1,
+                Nombre2 = user.Nombre2,
+                Apellido1 = user.Apellido1,
+                Apellido2 = user.Apellido2,
+                Fecha_Nacimiento = user.Fecha_Nacimiento,
+                Sexo = user.Sexo,
+                Estado = user.Estado
+
+            });
+
         }
 
         //
