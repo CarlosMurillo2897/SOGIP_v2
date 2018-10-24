@@ -1,6 +1,7 @@
 ﻿@model SOGIP_v2.Models.Conjunto_Ejercicio
 @{
     ViewBag.Title = "Ejercicios";
+    @Styles.Render("~/Content/Rutina.css")
 
     List<SelectListItem> Color = new List<SelectListItem>();
     Color.Add(new SelectListItem
@@ -41,210 +42,242 @@
 
 
 <h2>Rutina</h2>
-<div>
-    @Html.ActionLink("Lista Rutinas", "Index")
-</div>
-@using (Html.BeginForm("Ejercicio", "Rutinas", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-
-    <html lang="es">
-    <head>
-        <meta charset="utf-8">
 
 
-    </head>
-    <body>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
 
 
-        <section>
-            <div class="row">
-                <div class="col-sm-12">
-                    <table id="proveedores" class="table table-bordered table-responsive table-hover">
-                        <thead style="background-color:#337ab7;border-color:#2e6da4;color:#fff;">
+</head>
+<body>
 
-                            <TR>
-                                <TH COLSPAN=1>Ejercicio</TH>
-                                <TH COLSPAN=3>Semana 1-2</TH>
-                                <TH COLSPAN=3>Semana 3-4</TH>
-                                <TH COLSPAN=3>Semana 5-6</TH>
-                                <TH COLSPAN=1>Editar</TH>
+    <div class="col-sm-12">
+        <table id="rutina" class="table table-bordered table-responsive table-hover">
+            <thead style="background-color:#337ab7;border-color:#2e6da4;color:#fff;">
 
-                            </TR>
+                <TR>
+                    <TH COLSPAN=1>Ejercicio</TH>
+                    <TH COLSPAN=3>Semana 1-2</TH>
+                    <TH COLSPAN=3>Semana 3-4</TH>
+                    <TH COLSPAN=3>Semana 5-6</TH>
+                    <TH COLSPAN=1>Editar</TH>
 
-                            <TR>
+                </TR>
 
-                                <TH></TH>
-                                <TH>S</TH>
-                                <TH>R</TH>
-                                <TH>P</TH>
-                                <TH>S</TH>
-                                <TH>R</TH>
-                                <TH>P</TH>
-                                <TH>S</TH>
-                                <TH>R</TH>
-                                <TH>P</TH>
-                                <TH></TH>
-                            </TR>
-                        </thead>
-                        <tbody>
-                            @foreach (var row in ViewBag.Conjunto_Ejercicios)
-                            {
-                                <tr>
-                                    <td>@row.NombreEjercicio</td>
-                                    <td>@row.Serie1</td>
-                                    <td>@row.Repeticion1</td>
-                                    <td>@row.Peso1</td>
-                                    <td>@row.Serie2</td>
-                                    <td>@row.Repeticion2</td>
-                                    <td>@row.Peso2</td>
-                                    <td>@row.Serie3</td>
-                                    <td>@row.Repeticion3</td>
-                                    <td>@row.Peso3</td>
+                <TR>
 
-                                    <td>
-                                        @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
-                                        @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <form method="POST">
-                @{
-                    var viewDataRutina = ViewData["rutina"];
-                }
-                @Html.Hidden("data", viewDataRutina)
-                <div class="col-md-1 col-lg-3">
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            @Html.Label("Color Ejercicio", new { @class = "control-label" })
-                            <br />
-                            @Html.DropDownListFor(model => model.ColorEjercicio, Color, "-- Seleccionar --")
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-1 col-lg-3">
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            @Html.Label("Día Rutina", new { @class = "control-label" })
-                            <br />
-                            @Html.DropDownListFor(model => model.diaEjercicio, Dia, "-- Seleccionar --")
-                        </div>
-                    </div>
-                </div>
-                <table class="table table-bordered table-responsive table-hover" id="tabla">
+                    <TH></TH>
+                    <TH>S</TH>
+                    <TH>R</TH>
+                    <TH>P</TH>
+                    <TH>S</TH>
+                    <TH>R</TH>
+                    <TH>P</TH>
+                    <TH>S</TH>
+                    <TH>R</TH>
+                    <TH>P</TH>
+                    <TH></TH>
+                </TR>
+            </thead>
+            <tbody>
+                @foreach (var row in ViewBag.Conjunto_Ejercicios)
+                {
                     <tr>
+                        <td>@row.NombreEjercicio</td>
+                        <td>@row.Serie1</td>
+                        <td>@row.Repeticion1</td>
+                        <td>@row.Peso1</td>
+                        <td>@row.Serie2</td>
+                        <td>@row.Repeticion2</td>
+                        <td>@row.Peso2</td>
+                        <td>@row.Serie3</td>
+                        <td>@row.Repeticion3</td>
+                        <td>@row.Peso3</td>
+
                         <td>
-                            @Html.LabelFor(model => model.NombreEjercicio, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.EditorFor(model => model.NombreEjercicio, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.NombreEjercicio, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.LabelFor(model => model.Serie1, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.EditorFor(model => model.Serie1, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Serie1, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.LabelFor(model => model.Repeticion1, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.EditorFor(model => model.Repeticion1, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Repeticion1, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.LabelFor(model => model.Peso1, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.EditorFor(model => model.Peso1, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Peso1, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.LabelFor(model => model.Serie2, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.EditorFor(model => model.Serie2, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Serie2, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.LabelFor(model => model.Repeticion2, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.EditorFor(model => model.Repeticion2, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Repeticion2, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.LabelFor(model => model.Peso2, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.EditorFor(model => model.Peso2, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Peso2, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.LabelFor(model => model.Serie3, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.EditorFor(model => model.Serie3, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Serie3, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.LabelFor(model => model.Repeticion3, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.EditorFor(model => model.Repeticion3, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Repeticion3, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            @Html.LabelFor(model => model.Peso3, htmlAttributes: new { @class = "control-label col-md-2" })
-                            @Html.EditorFor(model => model.Peso3, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Peso3, "", new { @class = "text-danger" })
-                        </td>
-                        <td>
-                            <input type="submit" value="Ejercicio" class="btn btn-default" />
+                            @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
+                            @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
                         </td>
                     </tr>
-                </table>
-                <br>
-                @*<div class="btn-der">
-                        <br>
-                        <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
-                    </div>*@
-            </form>
+                }
+            </tbody>
+        </table>
+    </div>
 
-        </section>
 
-    </body>
+    <section>
+        <table class="table table-bordered table-responsive table-hover" id="tabla">
+            <TR>
+                <TH COLSPAN=1>Ejercicio</TH>
+                <TH COLSPAN=3>Semana 1-2</TH>
+                <TH COLSPAN=3>Semana 3-4</TH>
+                <TH COLSPAN=3>Semana 5-6</TH>
+                @*<TH COLSPAN=1>Color</TH>
+                @*<TH COLSPAN=1>Día</TH>*@
+                <TH COLSPAN=1>Accion</TH>
+
+            </TR>
+
+            <TR>
+                <TH></TH>
+                <TH>S</TH>
+                <TH>R</TH>
+                <TH>P</TH>
+                <TH>S</TH>
+                <TH>R</TH>
+                <TH>P</TH>
+                <TH>S</TH>
+                <TH>R</TH>
+                <TH>P</TH>
+                <TH></TH>
+            </TR>
+        </table>
+        <br>
+        <div class="btn-der">
+            <br>
+            <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
+            <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear </button>
+        </div>
+        <form method="POST">
+            @{
+                var viewDataRutina = ViewData["rutina"];
+            }
+            @Html.Hidden("data", viewDataRutina)
+
+        </form>
+
+    </section>
+
+</body>
 </html>
-}
+
 @section Scripts {
-    @*@Scripts.Render("~/bundles/jqueryval")
-        <script>
-            $(function () {
-                $("#adicional").on('click', function () {
-                    $("#tabla tbody ").clone().removeClass('fila-fija').appendTo("#tabla");
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
 
+        //Insert new rows into table
+        $(function () {
+            $("#adicional").on('click', function () {
+                var tableRef = document.getElementById('tabla').getElementsByTagName('tbody')[0];
+
+                // Insert a row in the table at the last row
+                var newRow = tableRef.insertRow(tableRef.rows.length);
+
+                // Insert a cell in the row at index 0
+                var newCell = newRow.insertCell(0);
+                var newCell1 = newRow.insertCell(1);
+                var newCell2 = newRow.insertCell(2);
+                var newCell3 = newRow.insertCell(3);
+                var newCell4 = newRow.insertCell(4);
+                var newCell5 = newRow.insertCell(5);
+                var newCell6 = newRow.insertCell(6);
+                var newCell7 = newRow.insertCell(7);
+                var newCell8 = newRow.insertCell(8);
+                var newCell9 = newRow.insertCell(9);
+                var newCell10 = newRow.insertCell(10);
+                //var newCell11 = newRow.insertCell(11);
+                //var newCell12 = newRow.insertCell(12);
+
+                var input1 = document.createElement("input");
+                input1.type = "number"; input1.min = 0;
+
+
+                var input2 = document.createElement("input");
+                input2.type = "number"; input2.min = 0;
+
+                var input3 = document.createElement("input");
+                input3.type = "number"; input3.min = 0;
+
+                var input4 = document.createElement("input");
+                input4.type = "number"; input4.min = 0;
+
+                var input5 = document.createElement("input");
+                input5.type = "number"; input5.min = 0;
+
+                var input6 = document.createElement("input");
+                input6.type = "number"; input6.min = 0;
+
+                var input7 = document.createElement("input");
+                input7.type = "number"; input7.min = 0;
+
+                var input8 = document.createElement("input");
+                input8.type = "number"; input8.min = 0;
+
+                var input9 = document.createElement("input");
+                input9.type = "number"; input9.min = 0;
+
+                var input10 = document.createElement("input");
+                input9.type = "text";
+
+                //var DropDownList = document.createElement("select");
+                //DropDownList.type = "DropDownList"; DropDownList.items.insert(Dia, " - Select From List - ")
+
+
+                var checkBox = document.createElement('input');
+                checkBox.type = 'button';
+                checkBox.className = 'btn btn-danger';
+                checkBox.value = '-';
+                checkBox.name = 'checkbox';
+
+                newCell.appendChild(input10);
+                newCell1.appendChild(input1);
+                newCell2.appendChild(input2);
+                newCell3.appendChild(input3);
+                newCell4.appendChild(input4);
+                newCell5.appendChild(input5);
+                newCell6.appendChild(input6);
+                newCell7.appendChild(input7);
+                newCell8.appendChild(input8);
+                newCell9.appendChild(input9);
+               // newCell10.appendChild(DropDownList);
+                newCell10.appendChild(checkBox);
+
+            });
+
+            //Delete rows in tha table
+            $('.table tbody').on('click', '.btn', function () {
+                $(this).closest('tr').remove();
+            });
+
+
+            //method to send array to controller
+            $('#submit').click(function () {
+                var table = document.getElementById("tabla");
+                var tableArr = [];
+                for (var i = 2; i < table.rows.length; i++) {
+                    tableArr.push({
+                        NombreEjercicio: table.rows[i].cells[0].children[0].value,
+                        Serie1: table.rows[i].cells[1].children[0].value,
+                        Repeticion1: table.rows[i].cells[2].children[0].value,
+                        Peso1: table.rows[i].cells[3].children[0].value,
+                        Serie2: table.rows[i].cells[4].children[0].value,
+                        Repeticion2: table.rows[i].cells[5].children[0].value,
+                        Peso2: table.rows[i].cells[6].children[0].value,
+                        Serie3: table.rows[i].cells[7].children[0].value,
+                        Repeticion3: table.rows[i].cells[8].children[0].value,
+                        Peso3: table.rows[i].cells[9].children[0].value
+                    });
+                }
+
+
+                $.ajax({
+                    url: '/Rutinas/Ejercicio',
+                    dataType: 'JSON',
+                    type: 'POST',
+                    data: JSON.stringify(tableArr), //agregar el campo para el id de la rutina
+                    contentType: 'application/json; charset=utf-8',
+                    success: function (result) {
+                        alert('Ejercicios Registrados');
+                    },
+                    error: function (request) {
+                        alert('Hubo un error');
+                    }
                 });
 
-                $(document).on("click", ".insetar", function () {
-                    var data = document;
-                        $.ajax({
-                            type: "POST",
-                            url: "/Rutinas/Ejercicio",
-                            data:data,
-                    })
+            });
 
-                })
-                //Por favor revisar
-                $(document).ready(function () {
-                    $('myTable').DataTable({
-                        "ajax":{
-                            "type": "GET",
-                            "url": "/Rutinas/loaddata",
-                            "datatype": "json"
-                        },
-                        "columns": [
-                            { "data": "NombreEjercicio", "autoWidth": true },
-                            { "data": "Serie1", "autoWidth": true },
-                            { "data": "Repeticion1", "autoWidth": true },
-                            { "data": "Peso1", "autoWidth": true },
-                            { "data": "Serie2", "autoWidth": true },
-                            { "data": "Repeticion2", "autoWidth": true },
-                            { "data": "Peso2", "autoWidth": true },
-                            { "data": "Serie3", "autoWidth": true },
-                            { "data": "Repeticion3", "autoWidth": true },
-                            { "data": "Peso3", "autoWidth": true }
-                        ]
-                    })
-                });
 
-            });*@
+        });
     </script>
 }
