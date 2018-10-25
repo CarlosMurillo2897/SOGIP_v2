@@ -128,7 +128,7 @@ namespace SOGIP_v2.Controllers
                     db.Conjunto_Ejercicios.Add(conjunto);
                 }
                 db.SaveChanges();
-              
+               
 
             }
             return new JsonResult { Data = new { status = status } };

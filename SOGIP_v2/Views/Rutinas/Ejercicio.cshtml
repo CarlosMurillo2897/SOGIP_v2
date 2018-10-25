@@ -3,41 +3,7 @@
     ViewBag.Title = "Ejercicios";
     @Styles.Render("~/Content/Rutina.css")
 
-    List<SelectListItem> Color = new List<SelectListItem>();
-    Color.Add(new SelectListItem
-    {
-        Text = "Rojo",
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Amarillo",
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Verde",
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Azul",
-    });
-
-    List<SelectListItem> Dia = new List<SelectListItem>();
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 1",
-    });
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 2",
-    });
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 3",
-    });
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 4",
-    });
+  
 }
 
 
@@ -115,8 +81,8 @@
 
 
     <section>
-        <table class="table table-bordered table-responsive table-hover" id="tabla">
-            <TR>
+        <table id="tabla" class="table table-condensed table-bordered table-hover">
+            <TR align="center" class="active">
                 <TH COLSPAN=1>Ejercicio</TH>
                 <TH COLSPAN=3>Semana 1-2</TH>
                 <TH COLSPAN=3>Semana 3-4</TH>
@@ -299,7 +265,8 @@
                     data: JSON.stringify(datos), //agregar el campo para el id de la rutina
                     contentType: 'application/json; charset=utf-8',
                     success: function (result) {
-                        alert('Ejercicios Registrados');
+                       alert('Ejercicios Registrados');
+                        location.reload();
                     },
                     error: function (request) {
                         alert('Hubo un error');
