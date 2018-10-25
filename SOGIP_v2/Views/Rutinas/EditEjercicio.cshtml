@@ -7,11 +7,7 @@
     List<SelectListItem> Color = new List<SelectListItem>();
     Color.Add(new SelectListItem
     {
-        Text = "Rojo",
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Amarillo",
+        Text = "Nada",
     });
     Color.Add(new SelectListItem
     {
@@ -19,7 +15,23 @@
     });
     Color.Add(new SelectListItem
     {
+        Text = "Celeste",
+    });
+    Color.Add(new SelectListItem
+    {
         Text = "Azul",
+    });
+    Color.Add(new SelectListItem
+    {
+        Text = "Rojo",
+    });
+    Color.Add(new SelectListItem
+    {
+        Text = "Verde",
+    });
+    Color.Add(new SelectListItem
+    {
+        Text = "Amarillo",
     });
 
     List<SelectListItem> Dia = new List<SelectListItem>();
@@ -133,22 +145,18 @@
             @Html.ValidationMessageFor(model => model.Peso3, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="col-md-1 col-lg-3">
-        <div class="form-group">
-            <div class="col-md-10">
-                @Html.Label("Color Ejercicio", new { @class = "control-label" })
-                <br />
-                @Html.DropDownListFor(model => model.ColorEjercicio, Color, "-- Seleccionar --")
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ColorEjercicio, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.ColorEjercicio, Color, "-- Seleccionar --")
+            @Html.ValidationMessageFor(model => model.ColorEjercicio, "", new { @class = "text-danger" })
         </div>
     </div>
-    <div class="col-md-1 col-lg-3">
-        <div class="form-group">
-            <div class="col-md-10">
-                @Html.Label("Día Rutina", new { @class = "control-label" })
-                <br />
-                @Html.DropDownListFor(model => model.diaEjercicio, Dia, "-- Seleccionar --")
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.diaEjercicio, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(model => model.diaEjercicio, Dia, "-- Seleccionar --")
+            @Html.ValidationMessageFor(model => model.diaEjercicio, "", new { @class = "text-danger" })
         </div>
     </div>
 
