@@ -2,7 +2,7 @@
 @model IEnumerable<SOGIP_v2.Models.Conjunto_Ejercicio>
 
 @{
-    ViewBag.Title = "Lista Ejercicios";
+    ViewBag.Title = "Ejercicios";
 }
 
 <p>
@@ -11,10 +11,12 @@
 <h3>Rutina</h3>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-
 </head>
 <body>
-
+    @{
+        var viewDataRutina = ViewData["rutina"];
+    }
+    @Html.Hidden("data", viewDataRutina)
 
     <div class="row">
         <div class="col-sm-12">
@@ -26,7 +28,6 @@
                         <TH COLSPAN=3>Semana 1-2</TH>
                         <TH COLSPAN=3>Semana 3-4</TH>
                         <TH COLSPAN=3>Semana 5-6</TH>
-                        <TH COLSPAN=1>Editar</TH>
 
                     </TR>
 
@@ -42,137 +43,29 @@
                         <TH>S</TH>
                         <TH>R</TH>
                         <TH>P</TH>
-                        <TH></TH>
                     </TR>
                 </thead>
                 <tbody>
-                    @foreach (var row in Model)
+                    @foreach (var item in Model)
                     {
-                        <tr>
-                            <td>@row.NombreEjercicio</td>
-                            <td>@row.Serie1</td>
-                            <td>@row.Repeticion1</td>
-                            <td>@row.Peso1</td>
-                            <td>@row.Serie2</td>
-                            <td>@row.Repeticion2</td>
-                            <td>@row.Peso2</td>
-                            <td>@row.Serie3</td>
-                            <td>@row.Repeticion3</td>
-                            <td>@row.Peso3</td>
-                            <td>
-                                @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
-                                @Html.ActionLink("Detalles", "DetailsEjercicio", new { id = row.Conjunto_EjercicioId }) |
-                                @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.NombreEjercicio)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Serie1)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Repeticion1)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Peso1)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Serie2)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Repeticion2)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Peso2)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Serie3)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Repeticion3)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Peso3)</td>
+                    </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
-
-
-
-    @*<script type="text/javascript" language="javascript">
-    $(document).ready(function () {
-        $("#proveedores").DataTable({
-            "language": {
-                "sProcessing": "Procesando...",
-                "sLengthMenu": "Mostrar _MENU_ registros",
-                "sZeroRecords": "No se encontraron resultados",
-                "sEmptyTable": "Ningún dato disponible en esta tabla",
-                "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-                "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
-                "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
-                "sInfoPostFix": "",
-                "sSearch": "Buscar:",
-                "sUrl": "",
-                "sInfoThousands": ",",
-                "sLoadingRecords": "Cargando...",
-                "oPaginate": {
-                    "sFirst": "Primero",
-                    "sLast": "Último",
-                    "sNext": "Siguiente",
-                    "sPrevious": "Anterior"
-                },
-                "oAria": {
-                    "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
-                    "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-                }
-            }
-        });
-        });
-        $(function () {
-            $("#adicional").on('click', function () {
-                $("#tabla tbody ").clone().removeClass('fila-fija').appendTo("#tabla");
-
-            });
-
-    //$(document).ready(function () {
-    //    $('#proveedores').DataTable({
-    //        "ajax": "data/objects.txt",
-    //        "columns": [
-    //            { "data": "ClienteId" },
-    //            { "data": "RazonSocial" },
-    //            { "data": "NumeroDocumento" },
-    //            { "data": "Direccion" },
-    //            { "data": "Fijo" },
-    //            { "data": "Email" },
-    //            { "data": "Estado" }
-    //        ]
-    //    });
-    //});
-
-    $(document).ready(function () {
-        $('#proveedores').DataTable();
-    });
-
-    function llamarVistaParcial() {
-        $.ajax({
-            cache: false,
-            async: true,
-            type: "GET",
-            url: '@Url.Action("CreatePV", "Cliente")',
-            data: {},
-            success: function (response) {
-                //$('#resultado').html('');
-                $('#resultado').empty().html(response);
-                $("#myModal").modal('show');
-            }
-        });
-        //$("#myModal").modal('show');
-    };
-
-        $('form').submit(function (e) {
-            e.preventDefault();
-            //$('#message').empty();
-            var $form = $(this);
-            if ($form.valid()) {
-                $.ajax({
-                    url: '@Url.Action("CreatePV", "Cliente")',
-                    type: this.method,
-                    data: $(this).serialize(),
-                    cache: false,
-                    success: function (result) {
-                        if (result.guardado) {
-
-                        }
-                    },
-                    error: function (result) {
-                    }
-                });
-            }
-        });*@
-
-
-    </script>
 </body>
 </html>
  
-     
-
-        @*<br>
-        <div class="btn-der">
-            <br>
-            <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
-        </div>*@
+    

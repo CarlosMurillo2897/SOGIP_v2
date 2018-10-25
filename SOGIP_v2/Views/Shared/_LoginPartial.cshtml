@@ -40,11 +40,15 @@
             @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
             {
                 <li>
+
                     @Html.ActionLink("Citas", "Create", "CitasGeneral", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "rutina" } )
 
                 </li>
                 <li>
-                    @Html.ActionLink("Rutinas", "Ejercicio", "Rutinas", routeValues: new { idUsuario = User.Identity.GetUserId() }, htmlAttributes: new { id = "rutina" })
+                  @*  @Html.ActionLink("Rutinas", "Ejercicio", "Rutinas", routeValues: new { idUsuario = User.Identity.GetUserId() }, htmlAttributes: new { id = "rutina" })*@
+
+                    @Html.ActionLink("Rutina", "ListaEjercicio", "Rutinas", routeValues: new { idUsuario = User.Identity.GetUserId() }, htmlAttributes: new {id = "rutina" })
+
                 </li>
                 <li></li>
             }
