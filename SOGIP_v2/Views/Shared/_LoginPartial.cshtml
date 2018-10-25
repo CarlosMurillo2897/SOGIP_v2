@@ -43,7 +43,7 @@
                 @Html.ActionLink("Citas", "Create", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
             </li>
                 <li>
-                    @Html.ActionLink("Rutinas", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })
+                    @Html.ActionLink("Rutina", "ListaEjercicio", "Rutinas", routeValues: new { idUsuario = User.Identity.GetUserId() }, htmlAttributes: new {id = "rutina" })
                 </li>
                 <li></li>
                 <li></li>

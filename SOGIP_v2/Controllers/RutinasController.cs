@@ -134,12 +134,30 @@ namespace SOGIP_v2.Controllers
             return new JsonResult { Data = new { status = status } };
         }
 
-        public ActionResult ListaEjercicio(int ? idRutina)
+        public ActionResult ListaEjercicio(int ? id, string idUsuario)
         {
-            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
-            ViewBag["ejercicios"] = getEjercicio;
+            if (id != null)
+            {
+                Rutina rutina = db.Rutinas.Find(id);
+                int i = rutina.RutinaId;
+                string n = i.ToString();
+                ViewData["rutina"] = n;
+                var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id).ToList();
+                ViewBag.Conjunto_Ejercicios = getEjercicio;
+            }
+            if(idUsuario != null)
+            {
+                Rutina rutina = db.Rutinas.FirstOrDefault(x => x.Usuario.Id == idUsuario);
+                int i = rutina.RutinaId;
+                string n = i.ToString();
+                ViewData["rutina"] = n;
+                var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id).ToList();
+                ViewBag.Conjunto_Ejercicios = getEjercicio;
+            }
             return View();
+
         }
+      
         public ActionResult loaddata()
         {
             //int idRutina = int.Parse(data);
@@ -174,7 +192,7 @@ namespace SOGIP_v2.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditEjercicio([Bind(Include = "Conjunto_EjercicioId,NombreEjercicio,Serie1,Repeticion1,Peso1,Serie2,Repeticion2,Peso2,Serie3,Repeticion3,Peso3")] Conjunto_Ejercicio conjunto_Ejercicio)
+        public ActionResult EditEjercicio([Bind(Include = "Conjunto_EjercicioId,NombreEjercicio,Serie1,Repeticion1,Peso1,Serie2,Repeticion2,Peso2,Serie3,Repeticion3,Peso3,ColorEjercicio, diaEjercicio")] Conjunto_Ejercicio conjunto_Ejercicio)
         {
             if (ModelState.IsValid)
             {
