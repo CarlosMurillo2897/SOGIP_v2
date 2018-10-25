@@ -44,14 +44,14 @@
 
                 </li>
                 <li>
-                    @Html.ActionLink("Rutinas", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })
+                    @Html.ActionLink("Rutinas", "Ejercicio", "Rutinas", routeValues: null, htmlAttributes: new { id = "rutina" })
                 </li>
                 <li></li>
             }
 
             @if (User.IsInRole("Entrenador"))
             {
-                <li>@Html.ActionLink("Rutinas", "Create", "Ejercicio_Rutina", routeValues: null, htmlAttributes: new { id = "rutina" })</li>
+                <li>@Html.ActionLink("Rutinas", "Create", "Rutinas", routeValues: null, htmlAttributes: new { id = "rutina" })</li>
                 <li></li>
                 <li></li>
             }
