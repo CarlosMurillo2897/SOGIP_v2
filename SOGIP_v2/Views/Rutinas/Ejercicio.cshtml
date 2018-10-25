@@ -3,41 +3,7 @@
     ViewBag.Title = "Ejercicios";
     @Styles.Render("~/Content/Rutina.css")
 
-    List<SelectListItem> Color = new List<SelectListItem>();
-    Color.Add(new SelectListItem
-    {
-        Text = "Rojo",
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Amarillo",
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Verde",
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Azul",
-    });
-
-    List<SelectListItem> Dia = new List<SelectListItem>();
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 1",
-    });
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 2",
-    });
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 3",
-    });
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 4",
-    });
+  
 }
 
 
@@ -48,7 +14,9 @@
 <head>
     <meta charset="utf-8">
 
-   
+    <div>
+        @Html.ActionLink("Lista Rutinas", "Index")
+    </div>
 </head>
 <body>
 
@@ -61,6 +29,8 @@
                     <TH COLSPAN=3>Semana 1-2</TH>
                     <TH COLSPAN=3>Semana 3-4</TH>
                     <TH COLSPAN=3>Semana 5-6</TH>
+                    <TH COLSPAN=1>Color</TH>
+                    <TH COLSPAN=1>Día</TH>
                     <TH COLSPAN=1>Editar</TH>
 
                 </TR>
@@ -78,28 +48,32 @@
                     <TH>R</TH>
                     <TH>P</TH>
                     <TH></TH>
+                    <TH></TH>
+                    <TH></TH>
                 </TR>
             </thead>
             <tbody>
                 @foreach (var row in ViewBag.Conjunto_Ejercicios)
                 {
-                    <tr>
-                        <td>@row.NombreEjercicio</td>
-                        <td>@row.Serie1</td>
-                        <td>@row.Repeticion1</td>
-                        <td>@row.Peso1</td>
-                        <td>@row.Serie2</td>
-                        <td>@row.Repeticion2</td>
-                        <td>@row.Peso2</td>
-                        <td>@row.Serie3</td>
-                        <td>@row.Repeticion3</td>
-                        <td>@row.Peso3</td>
+                <tr>
+                    <td>@row.NombreEjercicio</td>
+                    <td>@row.Serie1</td>
+                    <td>@row.Repeticion1</td>
+                    <td>@row.Peso1</td>
+                    <td>@row.Serie2</td>
+                    <td>@row.Repeticion2</td>
+                    <td>@row.Peso2</td>
+                    <td>@row.Serie3</td>
+                    <td>@row.Repeticion3</td>
+                    <td>@row.Peso3</td>
+                    <td>@row.ColorEjercicio</td>
+                    <td>@row.diaEjercicio</td>
 
-                        <td>
-                            @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
-                            @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
-                        </td>
-                    </tr>
+                    <td>
+                        @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
+                        @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>
@@ -107,14 +81,14 @@
 
 
     <section>
-        <table class="table table-bordered table-responsive table-hover" id="tabla">
-            <TR>
+        <table id="tabla" class="table table-condensed table-bordered table-hover">
+            <TR align="center" class="active">
                 <TH COLSPAN=1>Ejercicio</TH>
                 <TH COLSPAN=3>Semana 1-2</TH>
                 <TH COLSPAN=3>Semana 3-4</TH>
                 <TH COLSPAN=3>Semana 5-6</TH>
-                @*<TH COLSPAN=1>Color</TH>
-                @*<TH COLSPAN=1>Día</TH>*@
+                <TH COLSPAN=1>Día</TH>
+                <TH COLSPAN=1>Color</TH>
                 <TH COLSPAN=1>Accion</TH>
 
             </TR>
@@ -131,6 +105,8 @@
                 <TH>R</TH>
                 <TH>P</TH>
                 <TH></TH>
+                <TH></TH>
+                <TH></TH>
             </TR>
         </table>
         <br>
@@ -139,16 +115,12 @@
             <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
             <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear </button>
         </div>
-        <form method="POST">
+  
             @{
                 var viewDataRutina = ViewData["rutina"];
             }
             @Html.Hidden("data", viewDataRutina)
-            
-
-        </form>
-
-    </section>
+            </section>
 
 </body>
 </html>
@@ -156,7 +128,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-
         //Insert new rows into table
         $(function () {
             $("#adicional").on('click', function () {
@@ -177,8 +148,8 @@
                 var newCell8 = newRow.insertCell(8);
                 var newCell9 = newRow.insertCell(9);
                 var newCell10 = newRow.insertCell(10);
-                //var newCell11 = newRow.insertCell(11);
-                //var newCell12 = newRow.insertCell(12);
+                var newCell11 = newRow.insertCell(11);
+                var newCell12 = newRow.insertCell(12);
 
                 var input1 = document.createElement("input");
                 input1.type = "number"; input1.min = 0;
@@ -209,10 +180,28 @@
                 input9.type = "number"; input9.min = 0;
 
                 var input10 = document.createElement("input");
-                input9.type = "text";
+                input10.type = "text";
 
-                //var DropDownList = document.createElement("select");
-                //DropDownList.type = "DropDownList"; DropDownList.items.insert(Dia, " - Select From List - ")
+                var dias = ["Día1", "Día2", "Día3", "Día4"];
+                var d = document.createElement('select');
+                d.type = 'select';
+                for (var i = 0; i < dias.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = dias[i];
+                    option.text = dias[i];
+                    d.add(option);
+                }
+                var colores = ["Nada","Verde", "Celeste", "Azul", "Rojo","Verde","Amarillo"];
+                var c = document.createElement('select');
+                c.type = 'select';
+                for (var i = 0; i < colores.length; i++) {
+                    var option = document.createElement('option');
+                    option.value = colores[i];
+                    option.text = colores[i];
+                    c.add(option);
+                }
+               
+                //DropDownList1.type = "DropDownList"; DropDownList1.items.insert(Dia, " - Select From List - ")
 
 
                 var checkBox = document.createElement('input');
@@ -231,8 +220,9 @@
                 newCell7.appendChild(input7);
                 newCell8.appendChild(input8);
                 newCell9.appendChild(input9);
-               // newCell10.appendChild(DropDownList);
-                newCell10.appendChild(checkBox);
+                newCell10.appendChild(d);
+                newCell11.appendChild(c);
+                newCell12.appendChild(checkBox);
 
             });
 
@@ -257,21 +247,26 @@
                         Peso2: table.rows[i].cells[6].children[0].value,
                         Serie3: table.rows[i].cells[7].children[0].value,
                         Repeticion3: table.rows[i].cells[8].children[0].value,
-                        Peso3: table.rows[i].cells[9].children[0].value
+                        Peso3: table.rows[i].cells[9].children[0].value,
+                        ColorEjercicio: table.rows[i].cells[10].children[0].value,
+                        diaEjercicio: table.rows[i].cells[11].children[0].value
                     });
                 }
-  
-
+          
+                var datos = {
+                    'data': @viewDataRutina,
+                    'ejercicios': tableArr
+                }
+               
                 $.ajax({
                     url: '/Rutinas/Ejercicio',
                     dataType: 'JSON',
                     type: 'POST',
-                    data: {
-                        data: "data", ejercicios: JSON.stringify(tableArr)
-                    }, //agregar el campo para el id de la rutina
+                    data: JSON.stringify(datos), //agregar el campo para el id de la rutina
                     contentType: 'application/json; charset=utf-8',
                     success: function (result) {
-                        alert('Ejercicios Registrados');
+                       alert('Ejercicios Registrados');
+                        location.reload();
                     },
                     error: function (request) {
                         alert('Hubo un error');
