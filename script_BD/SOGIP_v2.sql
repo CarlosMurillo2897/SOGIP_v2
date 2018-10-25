@@ -272,9 +272,6 @@ insert into SOGIP_Funcionario_ICODER values('b889fe47-541d-4453-8733-022709c1592
 insert into SOGIP_Funcionario_ICODER values('b889fe47-541d-4453-8733-022709c1592f', '843f21d4-b301-4847-848b-f4cd20827a6a');
 insert into SOGIP_Funcionario_ICODER values('b889fe47-541d-4453-8733-022709c1592f', '79a605e5-2900-44bf-9b35-eaf0b419bd17');
 
-select SOGIP_Users.Cedula, SOGIP_Users.Nombre1, SOGIP_Users.Apellido1 from SOGIP_Users, SOGIP_Rutina where 
-SOGIP_Users.id = SOGIP_Rutina.Usuario_Id and SOGIP_Rutina.Usuario_Id = '079f4abe-80b2-43c0-9566-640869ea266a';
-
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Bajar Peso, aumentar masa Muscular', '079f4abe-80b2-43c0-9566-640869ea266a');
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Bajar porcentaje de grasa', '5c48e11d-0abc-4f76-88a5-bc49e83af272');
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Descanso 1 min despues de terminar la serie', 'c6d47fdc-c219-4d7f-b613-0aca0c812a29');
@@ -301,15 +298,23 @@ insert into SOGIP_Conjunto_Ejercicio values('Peso muerto', 3, 12, 0, 3, 12, 0, 3
 insert into SOGIP_Conjunto_Ejercicio values('Pantorrilla', 3, 8, 0, 3, 12, 0, 3, 12, 0, 3, 'Dia2', 'Azul');
 insert into SOGIP_Conjunto_Ejercicio values('lumbares', 3, 20, 0, 3, 23, 0, 3, 25, 0, 3, 'Dia2', 'Rojo');
 
+insert into SOGIP_Cita values(1, 0, '603290698', 'Yenci', 'Gonzalez', 'Ruiz', '2018-10-24 08:00:00.000', '2018-10-24 08:20:00.000', '0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824');
+insert into SOGIP_Cita values(1, 1, '115280606', 'ELIZABETH', 'CESPEDES', 'VIQUEZ', '2018-10-24 09:00:00.000', '2018-10-24 10:50:00.000', 'cbbe0afc-dbf4-46b3-ba5f-91ca8531decd');
+insert into SOGIP_Cita values(0, 1, '104730812', 'ARCADIO', 'QUESADA', 'BARRANTES', '2018-10-25 13:00:00.000', '2018-10-25 14:30:00.000', '6642f3e1-dc3f-43df-9be2-ebff4ee67d56');
+insert into SOGIP_Cita values(1, 0, '104730812', 'ARCADIO', 'QUESADA', 'BARRANTES', '2018-10-24 13:00:00.000', '2018-10-24 13:20:00.000', '6642f3e1-dc3f-43df-9be2-ebff4ee67d56');
+insert into SOGIP_Cita values(1, 1, '205940271', 'Juan', 'Arce', 'Viquez', '2018-10-26 08:00:00.000', '2018-10-26 09:50:00.000', 'c6d47fdc-c219-4d7f-b613-0aca0c812a29');
+insert into SOGIP_Cita values(0, 1, '111470524', 'MANUEL', 'GUZMAN', 'SABORIO', '2018-11-06 13:00:00.000', '2018-11-06 14:30:00.000', 'fbb7a9fe-9975-4f17-bff2-d760d267a942');
+insert into SOGIP_Cita values(1, 0, '111470524', 'MANUEL', 'GUZMAN', 'SABORIO', '2018-10-26 10:00:00.000', '2018-10-26 10:20:00.000', 'fbb7a9fe-9975-4f17-bff2-d760d267a942');
+insert into SOGIP_Cita values(1, 0, '104670428', 'ILEANA', 'MADRIGAL', 'CECILIANO', '2018-11-06 16:30:00.000', '2018-11-06 16:50:00.000', '09d9e8a1-14e1-43bd-8bc2-75b52378757d');
+insert into SOGIP_Cita values(0, 1, '104670428', 'ILEANA', 'MADRIGAL', 'CECILIANO', '2018-11-08 08:00:00.000', '2018-11-08 09:30:00.000', '09d9e8a1-14e1-43bd-8bc2-75b52378757d');
+insert into SOGIP_Cita values(1, 1, '603290698', 'Yenci', 'Gonzalez', 'Ruiz', '2018-11-19 18:00:00.000', '2018-11-19 19:50:00.000', '0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824');
+insert into SOGIP_Cita values(0, 1, '603290698', 'Yenci', 'Gonzalez', 'Ruiz', '2018-11-20 18:00:00.000', '2018-11-20 19:30:00.000', '0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824');
+insert into SOGIP_Cita values(1, 0, '206140354', 'FELIPE', 'BARRANTES', 'MADRIZ', '2018-10-29 06:00:00.000', '2018-10-29 06:20:00.000', '843f21d4-b301-4847-848b-f4cd20827a6a');
+insert into SOGIP_Cita values(0, 1, '206140354', 'FELIPE', 'BARRANTES', 'MADRIZ', '2018-10-30 06:00:00.000', '2018-10-30 07:30:00.000', '843f21d4-b301-4847-848b-f4cd20827a6a');
+insert into SOGIP_Cita values(1, 0, '206140354', 'FELIPE', 'BARRANTES', 'MADRIZ', '2018-11-29 06:00:00.000', '2018-11-29 06:20:00.000', '843f21d4-b301-4847-848b-f4cd20827a6a');
+insert into SOGIP_Cita values(0, 1, '206140354', 'FELIPE', 'BARRANTES', 'MADRIZ', '2018-11-30 06:00:00.000', '2018-11-30 07:30:00.000', '843f21d4-b301-4847-848b-f4cd20827a6a');
+insert into SOGIP_Cita values(1, 1, '104670428', 'ILEANA', 'MADRIGAL', 'CECILIANO', '2018-10-29 08:20:00.000', '2018-10-29 10:10:00.000', '09d9e8a1-14e1-43bd-8bc2-75b52378757d');
+insert into SOGIP_Cita values(1, 0, '302070270', 'ALEJANDRA', 'VALVERDE', 'BRENES', '2018-10-29 17:00:00.000', '2018-10-29 17:20:00.000', '79a605e5-2900-44bf-9b35-eaf0b419bd17');
 
-select u.Nombre1 from 
-SOGIP_Users as u,
-SOGIP_Funcionario_ICODER as f,
-SOGIP_Atletas as a
-where u.Id = f.Usuario_Id or
-where u.Id = a.Usuario_Id
-order by u.Nombre1 asc
-
-select * from SOGIP_Atletas;
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++

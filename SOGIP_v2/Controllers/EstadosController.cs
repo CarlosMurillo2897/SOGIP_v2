@@ -51,8 +51,16 @@ namespace SOGIP_v2.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Estados.Add(estado);
-                db.SaveChanges();
+                if (db.Estados.Any( x => x.Descripcion == estado.Descripcion)) {
+                    ModelState.AddModelError("", "Descripción repetida.");
+                    return View(estado);
+                }
+                else
+                {
+                    db.Estados.Add(estado);
+                    db.SaveChanges();
+                }
+                
                 return RedirectToAction("Index");
             }
 

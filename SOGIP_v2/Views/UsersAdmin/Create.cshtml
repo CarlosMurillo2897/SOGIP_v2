@@ -31,46 +31,40 @@
     @Html.ValidationSummary(true)
     @Html.ValidationSummary(false, "Los siguientes campos obligatorios están vacios: ")
     <div class="container">
-        <div class="form-group">
-            <div class="col-md-10">
-                <label class="control-label">
-                    Seleccione el rol del usuario
-                </label>
-                <select id="selectedRoles" name="selectedRoles">
-                    @foreach (var item in (SelectList)ViewBag.RoleId)
-                    {
-                        <option>
-                            @Html.Label(item.Text, new { @class = "control-label" })
-                        </option>
-                    }
-                </select>
-            </div>
 
-        </div>
-        <hr />
         <div class="card card-default">
+            <div class="form-group">
+                <div class="col-md-10">
+                    <label class="control-label">
+                        Seleccione el rol del usuario
+                    </label>
+                    <select id="selectedRoles" name="selectedRoles">
+                        @foreach (var item in (SelectList)ViewBag.RoleId)
+                        {
+                            <option>
+                                @Html.Label(item.Text, new { @class = "control-label" })
+                            </option>
+                        }
+                    </select>
+                </div>
+
+            </div>
             <div class="row">
                 <div class="col-md-10">
                     <h4>DATOS PERSONALES</h4>
                 </div>
-            </div>
-            <hr />
-            <div class="card card-default">
-                <div class="row">
-                    <div class="col-md-10">
-                        <h4>DATOS PERSONALES</h4>
-                    </div>
-                    <div class="col-md-1 col-lg-3">
-                        <div class="form-group">
-                            <div class="col-md-10">
-                                @Html.LabelFor(m => m.Cedula, new { @class = "control-label" })
-                                <br />
-                                Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { @onchange = "cls('10')" })
-                                Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { @onclick = "cls('15')" })
-                                <br />
-                                @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", placeholder = "Nacional solo números", maxLength = "10", onkeypress = "isNumber(event);" })
-                            </div>
+                <div class="col-md-1 col-lg-3">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.LabelFor(m => m.Cedula, new { @class = "control-label" })
+                            <br />
+                            Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { @onchange = "cls('10')" })
+                            Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { @onclick = "cls('15')" })
+                            <br />
+                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", placeholder = "Nacional solo números", maxLength = "10", onkeypress = "isNumber(event);" })
+
                         </div>
+
                     </div>
                 </div>
                 <div class="col-md-1 col-lg-3">
@@ -83,6 +77,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-md-1 col-lg-3">
                     <div class="form-group">
@@ -137,7 +132,7 @@
                 </div>
             </div>
             <table class="principal">
-            
+
                 @* DATOS DE CONTACTO, CV Y LOCALIDAD SON EXCEPCIONES, para entrenador es CV *@
                 <tr>
                     <th><h4>INFORMACIÓN DE CONTACTO</h4></th>
@@ -191,37 +186,37 @@
                                 <div class="col-md-8">
                                     @Html.Label("Seleccionar Categoria", new { @class = "control-label" })
                                     <div class="col-md-8">
-                                            <select name="SelectedCategory">
-                                                @foreach (var category in (SelectList)ViewBag.Categorias)
-                                                {
-                                                    <option value="@category.Value">
-                                                        @Html.Label(category.Text, new { @class = " control-label" })
-                                                    </option>
-                                                }
-                                            </select>
-                                        </div>
+                                        <select name="SelectedCategory">
+                                            @foreach (var category in (SelectList)ViewBag.Categorias)
+                                            {
+                                                <option value="@category.Value">
+                                                    @Html.Label(category.Text, new { @class = " control-label" })
+                                                </option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                        </td>
-                        <td>
-                            <div>
-                                <div class="form-group">
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    @Html.Label("Seleccionar Deporte", new { @class = "control-label" })
                                     <div class="col-md-10">
-                                        @Html.Label("Seleccionar Deporte", new { @class = "control-label" })
-                                        <div class="col-md-10">
-                                            <select name="SelectedSport">
-                                                @foreach (var sport in (SelectList)ViewBag.Deportes)
-                                                {
-                                                    <option value="@sport.Value">
-                                                        @Html.Label(sport.Text, new { @class = "control-label" })
-                                                    </option>
-                                                }
-                                            </select>
-                                        </div>
+                                        <select name="SelectedSport">
+                                            @foreach (var sport in (SelectList)ViewBag.Deportes)
+                                            {
+                                                <option value="@sport.Value">
+                                                    @Html.Label(sport.Text, new { @class = "control-label" })
+                                                </option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                     </td>
                     <td>
                         <div>
@@ -353,14 +348,14 @@
                     </td>
                 </tr>
 
-                    @*DATOS PARA F.ICODER*@
+                @*DATOS PARA F.ICODER*@
                 <tr hidden id="title_icoder"><th><h4>ASPECTOS GENERALES DE FUNCIONARIOS ICODER</h4></th></tr>
 
                 <tr hidden id="info_icoder">
                     <td>
                         <div>
                             <div class="col-md-10">
-                                    @Html.Label("Entrenador predeterminado", new { @class = "control-label" })
+                                @Html.Label("Entrenador predeterminado", new { @class = "control-label" })
                                 <input type="text" class="entrenadorF form-control" name="entrenadorF" id="entrenadorF" placeholder="114070986" readonly />
                             </div>
                         </div>
@@ -377,9 +372,9 @@
     </div>
 
 
+
 }
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/create.js")
-}
