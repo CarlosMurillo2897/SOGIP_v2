@@ -272,6 +272,9 @@ insert into SOGIP_Funcionario_ICODER values('b889fe47-541d-4453-8733-022709c1592
 insert into SOGIP_Funcionario_ICODER values('b889fe47-541d-4453-8733-022709c1592f', '843f21d4-b301-4847-848b-f4cd20827a6a');
 insert into SOGIP_Funcionario_ICODER values('b889fe47-541d-4453-8733-022709c1592f', '79a605e5-2900-44bf-9b35-eaf0b419bd17');
 
+select SOGIP_Users.Cedula, SOGIP_Users.Nombre1, SOGIP_Users.Apellido1 from SOGIP_Users, SOGIP_Rutina where 
+SOGIP_Users.id = SOGIP_Rutina.Usuario_Id and SOGIP_Rutina.Usuario_Id = '079f4abe-80b2-43c0-9566-640869ea266a';
+
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Bajar Peso, aumentar masa Muscular', '079f4abe-80b2-43c0-9566-640869ea266a');
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Bajar porcentaje de grasa', '5c48e11d-0abc-4f76-88a5-bc49e83af272');
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Descanso 1 min despues de terminar la serie', 'c6d47fdc-c219-4d7f-b613-0aca0c812a29');
@@ -298,5 +301,15 @@ insert into SOGIP_Conjunto_Ejercicio values('Peso muerto', 3, 12, 0, 3, 12, 0, 3
 insert into SOGIP_Conjunto_Ejercicio values('Pantorrilla', 3, 8, 0, 3, 12, 0, 3, 12, 0, 3, 'Dia2', 'Azul');
 insert into SOGIP_Conjunto_Ejercicio values('lumbares', 3, 20, 0, 3, 23, 0, 3, 25, 0, 3, 'Dia2', 'Rojo');
 
+
+select u.Nombre1 from 
+SOGIP_Users as u,
+SOGIP_Funcionario_ICODER as f,
+SOGIP_Atletas as a
+where u.Id = f.Usuario_Id or
+where u.Id = a.Usuario_Id
+order by u.Nombre1 asc
+
+select * from SOGIP_Atletas;
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++

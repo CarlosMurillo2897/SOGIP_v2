@@ -44,7 +44,7 @@
 
                 </li>
                 <li>
-                    @Html.ActionLink("Rutinas", "Ejercicio", "Rutinas", routeValues: null, htmlAttributes: new { id = "rutina" })
+                    @Html.ActionLink("Rutinas", "Ejercicio", "Rutinas", routeValues: new { idUsuario = User.Identity.GetUserId() }, htmlAttributes: new { id = "rutina" })
                 </li>
                 <li></li>
             }

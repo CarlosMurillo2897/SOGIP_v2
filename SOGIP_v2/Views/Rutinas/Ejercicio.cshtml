@@ -2,8 +2,6 @@
 @{
     ViewBag.Title = "Ejercicios";
     @Styles.Render("~/Content/Rutina.css")
-
-  
 }
 
 
@@ -68,7 +66,6 @@
                     <td>@row.Peso3</td>
                     <td>@row.ColorEjercicio</td>
                     <td>@row.diaEjercicio</td>
-
                     <td>
                         @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
                         @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
@@ -154,7 +151,6 @@
                 var input1 = document.createElement("input");
                 input1.type = "number"; input1.min = 0;
 
-
                 var input2 = document.createElement("input");
                 input2.type = "number"; input2.min = 0;
 
@@ -223,6 +219,8 @@
                 newCell10.appendChild(d);
                 newCell11.appendChild(c);
                 newCell12.appendChild(checkBox);
+
+                document.getElementsByClassName("input").required;
 
             });
 

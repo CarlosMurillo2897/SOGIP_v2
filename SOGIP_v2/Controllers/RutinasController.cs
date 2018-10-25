@@ -43,15 +43,29 @@ namespace SOGIP_v2.Controllers
             ViewBag.Atletas = listaAtletas;
             return View();
         }
-        public ActionResult Ejercicio(int? idRutina)
+        public ActionResult Ejercicio(int? idRutina, string idUsuario)
         {
-            Rutina rutina = db.Rutinas.Find(idRutina);
-            int i = rutina.RutinaId;
-            string n = i.ToString();
-            ViewData["rutina"] = n;
+            if (idRutina != null)
+            {
+                Rutina rutina = db.Rutinas.Find(idRutina);
+                int i = rutina.RutinaId;
+                string n = i.ToString();
+                ViewData["rutina"] = n;
 
-            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
-            ViewBag.Conjunto_Ejercicios = getEjercicio;
+                var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
+                ViewBag.Conjunto_Ejercicios = getEjercicio;
+            }
+            if (idUsuario != null)
+            {
+                Rutina rutina = db.Rutinas.FirstOrDefault(x => x.Usuario.Id == idUsuario);
+                int i = rutina.RutinaId;
+                string n = i.ToString();
+                ViewData["rutina"] = n;
+
+                var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.Usuario.Id == idUsuario).ToList();
+                ViewBag.Conjunto_Ejercicios = getEjercicio;
+            }
+            
 
             return View();
 
@@ -95,7 +109,7 @@ namespace SOGIP_v2.Controllers
         //    return View(ejercicio);
         //}
         [HttpPost]
-        public JsonResult Ejercicio(string data,List<Conjunto_Ejercicio> ejercicios) //AGREGAR EL ID DE LA RUTINA
+        public JsonResult Ejercicio(string data, List<Conjunto_Ejercicio> ejercicios) //AGREGAR EL ID DE LA RUTINA
         {
             var status = false;
             //Busco el id de la rutina.
@@ -134,18 +148,32 @@ namespace SOGIP_v2.Controllers
             return new JsonResult { Data = new { status = status } };
         }
 
-        public ActionResult ListaEjercicio(int ? idRutina)
+        public ActionResult ListaEjercicio(int? idRutina, string idUsuario)
         {
-            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
-            ViewBag["ejercicios"] = getEjercicio;
+
+            if (idRutina != null) { 
+                var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina).ToList();
+                ViewBag["ejercicios"] = getEjercicio;
+            }
+
+            if(idUsuario != null)
+            {
+                // var Usuario = db.Users.FirstOrDefault(x => x.Id == idUsuario);
+                var getEx = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.Usuario.Id == idUsuario).ToList();
+                ViewBag["ejercicios"] = getEx;
+            }
+
+            
             return View();
         }
+
         public ActionResult loaddata()
         {
             //int idRutina = int.Parse(data);
             var getEjercicio = db.Conjunto_Ejercicios.ToList();
             return Json(new {getEjercicio = getEjercicio},JsonRequestBehavior.AllowGet);
         }
+
         public ActionResult DetailsEjercicio(int? id)
         {
             if (id == null)
