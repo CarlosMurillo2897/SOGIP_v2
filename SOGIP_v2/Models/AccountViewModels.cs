@@ -70,10 +70,12 @@ namespace SOGIP_v2.Models
         public string Email { get; set; }
 
         [Required]
+        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 9)]
         [Display(Name = "Cedula")]
         public string Cedula { get; set; }
 
         [Required]
+        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
         [Display(Name = "Primer Nombre")]
         public string Nombre1 { get; set; }
 
@@ -82,6 +84,7 @@ namespace SOGIP_v2.Models
         public string Nombre2 { get; set; }
 
         [Required]
+        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
         [Display(Name = "Primer Apellido")]
         public string Apellido1 { get; set; }
 

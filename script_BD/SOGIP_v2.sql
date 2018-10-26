@@ -8,7 +8,7 @@ drop database "SOGIP_v3"
 create database "SOGIP_v3"
 use "SOGIP_v3"
 
-+++++++ RECONSTRUIR BASE DE DATOS CON LOS CAMBIOS RESPECTIVOS ++++++++++
+ +++++++ RECONSTRUIR BASE DE DATOS CON LOS CAMBIOS RESPECTIVOS ++++++++++
 
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
