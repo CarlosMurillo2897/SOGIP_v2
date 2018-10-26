@@ -61,7 +61,7 @@
                             Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { @onchange = "cls('10')" })
                             Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { @onclick = "cls('15')" })
                             <br />
-                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", placeholder = "Nacional solo números", maxLength = "10", onkeypress = "isNumber(event);" })
+                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", placeholder = "Nacional solo números", maxLength = "10", minlength = 4, onkeypress = "isNumber(event);" })
 
                         </div>
 
@@ -378,3 +378,4 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/create.js")
+}
