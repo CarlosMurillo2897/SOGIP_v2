@@ -28,5 +28,12 @@ namespace App.Extensions
             return (claim != null) ? claim.Value : string.Empty;
         }
 
+        public static string GetSexo(this IIdentity identity)
+        {
+            var claim = ((ClaimsIdentity)identity).FindFirst("Sexo").ToString();
+
+            return (claim != null) ? claim : string.Empty;
+        }
+
     }
 }

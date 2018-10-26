@@ -61,8 +61,7 @@
                             Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { @onchange = "cls('10')" })
                             Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { @onclick = "cls('15')" })
                             <br />
-                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", placeholder = "Nacional solo números", maxLength = "10", minlength = 4, onkeypress = "isNumber(event);" })
-
+                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", maxLength = "10", placeholder = "Nacional solo números", onkeypress = "isNumber(event);"})
                         </div>
 
                     </div>
@@ -72,7 +71,7 @@
                         <div class="col-md-10">
                             <br />
                             <br />
-                            <input class="btn btn-warning" id="btn_sub_form" value="Limpiar" onclick="$('#Cedula').val('');" />
+                            <input type="button" class="btn btn-warning" id="btn_sub_form" value="Limpiar" onclick="$('#Cedula').val('');" />
                         </div>
                     </div>
                 </div>
@@ -83,7 +82,7 @@
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Nombre1, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control", minlength = 2 })
+                            @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control"})
                         </div>
                     </div>
                 </div>
@@ -99,7 +98,7 @@
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Apellido1, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control", minlength = 2 })
+                            @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control"})
                         </div>
                     </div>
                 </div>
@@ -168,7 +167,7 @@
                             <div class="form-group">
                                 <div class="col-md-10">
                                     @Html.Label("Nombre de Asociacion o comite", new { @class = "control-label" })
-                                    <input type="text" class="nombre_aso form-control" name="nombre_aso" id="nombre_aso" onload="window.alert('new');" />
+                                    <input type="text" class="nombre_aso form-control" name="nombre_aso" id="nombre_aso" />
                                 </div>
                             </div>
                         </div>
@@ -214,23 +213,6 @@
                                             }
                                         </select>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.Label("Seleccionar Deporte", new { @class = "control-label" })
-                                    <select name="SelectedSport">
-                                        @foreach (var sport in (SelectList)ViewBag.Deportes)
-                                        {
-                                            <option value="@sport.Value">
-                                                @Html.Label(sport.Text, new { @class = "control-label" })
-                                            </option>
-                                        }
-                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -303,8 +285,8 @@
                     <td>
                         <div class="col-md-10">
                             @*Html.Label("Selección o Asociación", new { @class = "control-label" })*@
-                            Asociación @Html.RadioButton("Atleta_Tipo", "Asociación", true)
-                            Selección  @Html.RadioButton("Atleta_Tipo", "Selección", false)
+                            Asociación @Html.RadioButton("Atleta_Tipo", "Asociación", true, new { id = "Atleta_Tipo", @onchange= "EscondeSelecciones()" })
+                            Selección  @Html.RadioButton("Atleta_Tipo", "Selección", false, new { id = "Atleta_Tipo", @onchange = "EscondeAsociaciones()" })
                         </div>
                     </td>
                 </tr>

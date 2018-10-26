@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data.Entity;
+using System.IO;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -30,6 +31,10 @@ namespace SOGIP_v2.Models
             userIdentity.AddClaim(new Claim("Id", this.Id));
             userIdentity.AddClaim(new Claim("Cedula", this.Cedula));
             userIdentity.AddClaim(new Claim("Nombre1", this.Nombre1));
+            userIdentity.AddClaim(new Claim("Sexo", this.Sexo.ToString()));
+            /*userIdentity.AddClaim(
+                new Claim(CustomClaimTypes.IsEmployee, 
+                    isEmployee.GetValueOrDefault(false).ToString()));*/
             return userIdentity;
         }
     }

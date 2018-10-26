@@ -18,8 +18,8 @@ namespace SOGIP_v2.Models
         public string Id { get; set; }
 
         [Display(Name = "Cedula")]
-        public string UserName { get; set; }
         public string Cedula { get; set; }
+        public string UserName { get; set; }
 
         [Display(Name = "Cedula extra")]
         public string CedulaExtra { get; set; }

@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-
+    $('#selectedRoles').val('Administrador');
     $('#selectedRoles').change(function () { formulario(); });
 
 });
@@ -43,7 +43,7 @@ function formulario() {
         case "Atleta":
             $('#title_atleta').show();
             $('#info_atleta_tipo').show();
-            $('#info_atleta_selec').show();
+            $('#info_atleta_selec').hide();
             $('#info_atleta_aso').show();
 
             $('#title_aso').hide();
@@ -61,12 +61,13 @@ function formulario() {
 
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
+
             break;
 
         case "Atleta Becados":
             $('#title_atleta').show();
             $('#info_atleta_tipo').show();
-            $('#info_atleta_selec').show();
+            $('#info_atleta_selec').hide();
             $('#info_atleta_aso').show();
 
             $('#title_aso').hide();
@@ -84,6 +85,7 @@ function formulario() {
 
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
+
             break;
 
         case "Entidades Publicas":
@@ -271,7 +273,12 @@ function brth(num) {             // 1 = BLUR      |       2 = KEYPRESSED
 
 }
 
-jQuery.extend(jQuery.validator.messages, { // Cambio de mensaje.
-    required: "Este campo es requerido",
-    minlength: jQuery.validator.format("Este campo requiere de al menos 2 caracteres.")
-});
+function EscondeSelecciones() {
+    $('#info_atleta_selec').hide();
+    $('#info_atleta_aso').show();
+}
+
+function EscondeAsociaciones() {
+    $('#info_atleta_selec').show();
+    $('#info_atleta_aso').hide();
+}
