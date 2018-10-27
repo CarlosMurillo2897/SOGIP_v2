@@ -20,7 +20,7 @@
                 <li>
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         Registros <span class="caret"></span>
-                    </a>
+                    </a>    
                     <ul class="dropdown-menu menu-1">
                         <li>@Html.ActionLink("Manual", "Create", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "manual" })</li>
                         <li>@Html.ActionLink("Masivo", "IndexMasivo", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "masivo" })</li>
@@ -68,7 +68,7 @@
                     {
                         <img class="img-circle" src="~/Content/Imagenes/M.png" alt="User Pic" , style="width:50px;height:50px;">
                     }else{
-                        <img class="img-circle" src="~/Content/Imagenes/W4.jpg" alt="User Pic" , style="width:50px;height:50px;">
+                        <img class="img-circle" src="~/Content/Imagenes/W6.png" alt="User Pic" , style="width:50px;height:50px; background-color:black;">
                     }
 
                     @Html.ActionLink(User.Identity.GetNombre1(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })

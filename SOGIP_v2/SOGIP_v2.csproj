@@ -270,6 +270,8 @@
     <Content Include="Content\fullcalendar.min.css" />
     <Content Include="Content\fullcalendar.print.css" />
     <Content Include="Content\fullcalendar.print.min.css" />
+    <Content Include="Content\Imagenes\cancelar.png" />
+    <Content Include="Content\Imagenes\comprobado.png" />
     <Content Include="Content\Imagenes\FONDO.png" />
     <Content Include="Content\Imagenes\fondo_a.png" />
     <Content Include="Content\Imagenes\fondo_b.png" />
@@ -277,6 +279,9 @@
     <Content Include="Content\Imagenes\fondo_d.png" />
     <Content Include="Content\Imagenes\fondo_e.png" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
+    <Content Include="Content\Imagenes\W5.png" />
+    <Content Include="Content\Imagenes\W6.png" />
+    <Content Include="Content\Imagenes\W7.png" />
     <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\Imagenes\M.png" />
     <Content Include="Content\Imagenes\W.png" />
@@ -385,6 +390,7 @@
     <Content Include="Scripts\fullCalendar\locale\vi.js" />
     <Content Include="Scripts\fullCalendar\locale\zh-cn.js" />
     <Content Include="Scripts\fullCalendar\locale\zh-tw.js" />
+    <Content Include="Scripts\IndexUsuarios.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
