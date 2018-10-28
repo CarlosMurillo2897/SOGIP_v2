@@ -26,10 +26,11 @@ namespace SOGIP_v2.Controllers
                                idAtleta = u.Id,
                                cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
                            };
+
             var getAtletas = consulta.ToList();
-            var atletas = db.Users.Select(x => x.Roles.Where( y => y.RoleId == "4") );
             SelectList listaAtletas = new SelectList(getAtletas, "idAtleta", "cedNomCompleto");
             ViewBag.Atletas = listaAtletas;
+
             return View();
         }
 

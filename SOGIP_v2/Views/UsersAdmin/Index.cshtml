@@ -3,238 +3,219 @@
 @{
     ViewBag.Title = "Inicio";
 }
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-default" })
-</p>
+@Styles.Render("~/Content/Perfil.css")
+
+<h2>Inicio Usuarios</h2>
+<span class="pull-left">
+
+    @Html.ActionLink("Crear nuevo usuario", "Create", null, new { @class = "btn btn-default" })
+
+</span>
+@*<span class="pull-right"> <input class="btn btn-warning" type="button" onclick="cerrarPaneles()" value="Cerrar Paneles"></span>*@
 
 <br><br>
+<br><br>
 <div class="container">
-    <div class="well span8 offset2">
-        <div class="row-fluid user-row">
-            <div class="span1">
-                <img class="img-circle"
-                     src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"
-                     alt="User Pic">
-            </div>
-            <div class="span10">
-                <strong>Cyruxx</strong><br>
-                <span class="text-muted">User level: Administrator</span>
-            </div>
-            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 dropdown-user" data-for=".cyruxx">
-                <i class="glyphicon glyphicon-chevron-down text-muted"></i>
-            </div>
-        </div>
-        <div class="row-fluid user-infos cyruxx">
-            <div class="span10 offset1">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">User information</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row-fluid">
-                            <div class="span3">
-                                <img class="img-circle"
-                                     src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100"
-                                     alt="User Pic">
-                            </div>
-                            <div class="span6">
-                                <strong>Cyruxx</strong><br>
-                                <table class="table table-condensed table-responsive table-user-information">
-                                    <tbody>
-                                        <tr>
-                                            <td>User level:</td>
-                                            <td>Administrator</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Registered since:</td>
-                                            <td>11/12/2013</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Topics</td>
-                                            <td>15</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Warnings</td>
-                                            <td>0</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <button class="btn  btn-primary" type="button"
-                                data-toggle="tooltip"
-                                data-original-title="Send message to user">
-                            <i class="icon-envelope icon-white"></i>
-                        </button>
-                        <span class="pull-right">
-                            <button class="btn btn-warning" type="button"
-                                    data-toggle="tooltip"
-                                    data-original-title="Edit this user">
-                                <i class="icon-edit icon-white"></i>
-                            </button>
-                            <button class="btn btn-danger" type="button"
-                                    data-toggle="tooltip"
-                                    data-original-title="Remove this user">
-                                <i class="icon-remove icon-white"></i>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="row-fluid user-row">
-            <div class="span1">
-                <img class="img-circle"
-                     src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"
-                     alt="User Pic">
+    <div class="well span8 offset 2">
+
+        @foreach (var item in Model)
+        {
+            
+            <div class="row user-row">
+
+                <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
+                    @if (item.Estado == true)
+                    {
+                        <img class="img-circle"
+                             src="~/Content/Imagenes/comprobado.png"
+                             style="width: 50px; height: 50px;"
+                             alt="User Pic">
+                    }
+                    else
+                    {
+                        <img class="img-circle"
+                             src="~/Content/Imagenes/cancelar.png"
+                             style="width: 50px; height: 50px;"
+                             alt="User Pic">
+                    }
+
+                </div>
+
+                <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
+                    <strong> @item.Cedula</strong><br>
+                    <strong> @item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
+                    <span class="text-muted">Tipo de Usuario: @ViewData[item.Id]</span>
+                </div>
+
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 dropdown-user" data-for=".@item.Id">
+                    <i class="glyphicon glyphicon-chevron-down text-muted"></i>
+                </div>
+
             </div>
-            <div class="span10">
-                <strong>Nibbler</strong><br>
-                <span class="text-muted">User level: Moderator</span>
-            </div>
-            <div class="span1 dropdown-user" data-for=".alexanderMahrt">
-                <i class="icon-chevron-down text-muted"></i>
-            </div>
-        </div>
-        <div class="row-fluid user-infos alexanderMahrt">
-            <div class="span10 offset1">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">User information</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row-fluid">
-                            <div class="span3">
-                                <img class="img-circle"
-                                     src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100"
-                                     alt="User Pic">
-                            </div>
-                            <div class="span6">
-                                <strong>Alexander Mahrt</strong><br>
-                                <table class="table table-condensed table-responsive table-user-information">
-                                    <tbody>
-                                        <tr>
-                                            <td>User level:</td>
-                                            <td>Moderator</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Registered since:</td>
-                                            <td>11/12/2013</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Topics</td>
-                                            <td>5</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Warnings</td>
-                                            <td>0</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+
+            <div class="row user-infos @item.Id">
+
+                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
+
+                    <div class="panel panel-primary">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Información de Usuario</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
+                                    @if (item.Sexo == true)
+                                    {
+                                        <img class="img-circle"
+                                             src="~/Content/Imagenes/M.png"
+                                             style="width: 100px; height: 100px;"
+                                             alt="User Pic">
+                                    }
+                                    else
+                                    {
+                                        <img class="img-circle"
+                                             src="~/Content/Imagenes/W6.png"
+                                             style="width: 100px; height: 100px; background-color:black;"
+                                             alt="User Pic">
+                                    }
+                                </div>
+
+                                <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
+                                    @if (item.Sexo == true)
+                                    {
+                                        <img class="img-circle"
+                                             src="~/Content/Imagenes/M.png"
+                                             style="width: 50px; height: 50px;"
+                                             alt="User Pic">
+                                    }
+                                    else
+                                    {
+                                        <img class="img-circle"
+                                             src="~/Content/Imagenes/W6.png"
+                                             style="width: 50px; height: 50px; background-color:black;"
+                                             alt="User Pic">
+                                    }
+                                </div>
+
+                                <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
+                                    <strong>@item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
+                                    <dl id="new">
+                                        <dt>Nombre:</dt>
+                                        <dd>@item.Nombre1 @item.Nombre2</dd>
+                                        <dt>Apellidos:</dt>
+                                        <dd>@item.Apellido1 @item.Apellido2</dd>
+                                        <dt>Fecha de Nacimiento:</dt>
+                                        <dd>@item.Fecha_Nacimiento.ToShortDateString()</dd>
+                                        <dt>E-mail:</dt>
+                                        <dd>@item.Email</dd>
+                                        <dt>Localidad:</dt>
+                                        <dd>(vacía)</dd>
+                                        <dt>Género:</dt>
+                                        @if (item.Sexo == true)
+                                        {
+                                            <dd>Masculino</dd>
+                                        }
+                                        else
+                                        {
+                                            <dd>Femenino</dd>
+                                        }
+                                        <dt><strong>Documentos adjuntados:</strong></dt>
+                                        <dt>Nombre:</dt>
+                                        <dd>Tipo:</dd>
+                                        <dt>Documento.pdf</dt>
+                                        <dd>CV</dd>
+                                        <dd>
+                                            <button class="btn btn-sm btn-info" type="button"
+                                                    data-toggle="tooltip"
+                                                    data-original-title="Descargar este documento.">
+                                                Descargar <i class="glyphicon glyphicon-download"></i>
+                                            </button>
+                                        </dd>
+                                        <dt>Prueba de Fuerza.pdf</dt>
+                                        <dd>Prueba de Fuerza</dd>
+                                        <dd>
+                                            <button class="btn btn-sm btn-success" type="button"
+                                                    data-toggle="tooltip"
+                                                    data-original-title="Descargar este documento.">
+                                                Descargar <i class="glyphicon glyphicon-download"></i>
+                                            </button>
+                                        </dd>
+                                    </dl>
+                                </div>
+                                <div class=" col-md-9 col-lg-9 hidden-xs hidden-sm">
+                                    <strong>@item.Nombre1</strong><br>
+                                    <table class="table table-user-information" id="@item.Id">
+                                        <tbody>
+                                            <tr>
+                                                <td>Nombre:</td>
+                                                <td>@item.Nombre1 @item.Nombre2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Apellidos:</td>
+                                                <td>@item.Apellido1 @item.Apellido2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fecha de Nacimiento:</td>
+                                                <td>@item.Fecha_Nacimiento.ToShortDateString()</td>
+                                            </tr>
+                                            <tr>
+                                                <td>E-mail:</td>
+                                                <td>@item.Email</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Localidad:</td>
+                                                <td>(vacía)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Género:</td>
+                                                @if (item.Sexo == true)
+                                                {
+                                                    <td>Masculino</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>Femenino</td>
+                                                }
+
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Documentos adjuntados:</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nombre:</td>
+                                                <td>Tipo:</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel-footer">
-                        <button class="btn btn-primary" type="button"
-                                data-toggle="tooltip"
-                                data-original-title="Send message to user">
-                            <i class="icon-envelope icon-white"></i>
-                        </button>
-                        <span class="pull-right">
-                            <button class="btn btn-warning" type="button"
+
+                        <div class="panel-footer">
+
+                            <button class="btn btn-sm btn-danger" type="button" id="inhabilitar" onclick="window.confirm('¿Inhabilitar usuario?');"
                                     data-toggle="tooltip"
-                                    data-original-title="Edit this user">
-                                <i class="icon-edit icon-white"></i>
+                                    data-original-title="Inhabilitar este usuario.">
+                                Inhabilitar <i class="glyphicon glyphicon-remove"></i>
                             </button>
-                            <button class="btn btn-danger" type="button"
-                                    data-toggle="tooltip"
-                                    data-original-title="Remove this user">
-                                <i class="icon-remove icon-white"></i>
-                            </button>
-                        </span>
+
+                            <span class="pull-right">
+                                @*Html.ActionLink("Editar", "Edit", "UsersAdmin", routeValues: new { id = item.Id }, htmlAttributes: new { @class = "btn btn-sm btn-primary", @type = "button", @data_toggle = "tooltip", @data_original_title = "Editar este usuario." })*@
+                                <a href="/UsersAdmin/Edit/@item.Id" class = "btn btn-sm btn-primary"  type = "button" data-toggle = "tooltip" data-original-title = "Editar este usuario.">
+                                    Editar<i class="glyphicon glyphicon-edit"></i>
+                                </a>
+                            </span>
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row-fluid user-row">
-            <div class="span1">
-                <img class="img-circle"
-                     src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"
-                     alt="User Pic">
-            </div>
-            <div class="span10">
-                <strong>MyUsername</strong><br>
-                <span class="text-muted">User level: Registered user</span>
-            </div>
-            <div class="span1 dropdown-user" data-for=".myUsername">
-                <i class="icon-chevron-down text-muted"></i>
-            </div>
-        </div>
-        <div class="row-fluid user-infos myUsername">
-            <div class="span10 offset1">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">User information</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row-fluid">
-                            <div class="span3">
-                                <img class="img-circle"
-                                     src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=100"
-                                     alt="User Pic">
-                            </div>
-                            <div class="span6">
-                                <strong>MyUsername</strong><br>
-                                <table class="table table-condensed table-responsive table-user-information">
-                                    <tbody>
-                                        <tr>
-                                            <td>User level:</td>
-                                            <td>Registered user</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Registered since:</td>
-                                            <td>11/12/2013</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Topics</td>
-                                            <td>1</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Warnings</td>
-                                            <td>1</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <button class="btn btn-primary" type="button"
-                                data-toggle="tooltip"
-                                data-original-title="Send message to user">
-                            <i class="icon-envelope icon-white"></i>
-                        </button>
-                        <span class="pull-right">
-                            <button class="btn btn-warning" type="button"
-                                    data-toggle="tooltip"
-                                    data-original-title="Edit this user">
-                                <i class="icon-edit icon-white"></i>
-                            </button>
-                            <button class="btn btn-danger" type="button"
-                                    data-toggle="tooltip"
-                                    data-original-title="Remove this user">
-                                <i class="icon-remove icon-white"></i>
-                            </button>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
+        }
     </div>
 </div>
 

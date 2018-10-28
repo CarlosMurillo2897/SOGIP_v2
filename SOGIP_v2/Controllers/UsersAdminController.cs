@@ -88,7 +88,20 @@ namespace SOGIP_v2.Controllers
         [HttpGet]
         public async Task<ActionResult> Index()
         {
-            return View(await UserManager.Users.ToListAsync());
+            var usuarios = await UserManager.Users.ToListAsync();
+            foreach (var usuario in usuarios)
+            {
+                var rol = await UserManager.GetRolesAsync(usuario.Id);
+                ViewData[usuario.Id] = rol.First();
+            }
+
+            return View(usuarios);
+        }
+
+        public JsonResult ArchivosUsuario(string usuarioId)
+        {
+            List<Archivo> archivos = db.Archivo.Where(x => x.Usuario.Id == usuarioId).ToList();
+            return Json(archivos, JsonRequestBehavior.AllowGet);
         }
 
         //
@@ -352,7 +365,6 @@ namespace SOGIP_v2.Controllers
         public void Download(int Documento)
         {
              var v = db.Archivo.Where( x => x.ArchivoId == Documento).FirstOrDefault();
-            // var v = db.Archivo.Last();
 
             if (v != null)
             {

@@ -264,24 +264,8 @@ namespace SOGIP_v2.Controllers
             ViewBag.Archivos = db.Archivo.Where(x => x.Usuario.Id == user.Id);
             ViewBag.rol = userRoles.First();
             ViewBag.Usuario = user;
-            ViewBag.Fecha = user.Fecha_Nacimiento.Date;
 
-            return View(new EditUserViewModel()
-            {
-                Id = user.Id,
-                Email = user.Email,
-                UserName = user.UserName,
-                Cedula = user.Cedula,
-                CedulaExtra = user.CedulaExtra,
-                Nombre1 = user.Nombre1,
-                Nombre2 = user.Nombre2,
-                Apellido1 = user.Apellido1,
-                Apellido2 = user.Apellido2,
-                Fecha_Nacimiento = user.Fecha_Nacimiento,
-                Sexo = user.Sexo,
-                Estado = user.Estado
-
-            });
+            return View();
 
         }
 
