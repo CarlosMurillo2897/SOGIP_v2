@@ -226,6 +226,10 @@
     <Compile Include="Migrations\201810230432023_ejercicio.Designer.cs">
       <DependentUpon>201810230432023_ejercicio.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810280519536_rutinas.cs" />
+    <Compile Include="Migrations\201810280519536_rutinas.Designer.cs">
+      <DependentUpon>201810280519536_rutinas.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -601,6 +605,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810230432023_ejercicio.resx">
       <DependentUpon>201810230432023_ejercicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810280519536_rutinas.resx">
+      <DependentUpon>201810280519536_rutinas.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

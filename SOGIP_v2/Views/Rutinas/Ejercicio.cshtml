@@ -17,6 +17,12 @@
     </div>
 </head>
 <body>
+    <h4>Usuario</h4>
+    @Html.DisplayFor(model => model.ConjuntoEjercicioRutina.Usuario.Cedula)
+    @{
+        var viewDataNombre = ViewData["nombre"];
+    }
+    <h4> @viewDataNombre </h4>
 
     <div class="col-sm-12">
         <table id="rutina" class="table table-bordered table-responsive table-hover">
@@ -53,24 +59,24 @@
             <tbody>
                 @foreach (var row in ViewBag.Conjunto_Ejercicios)
                 {
-                <tr>
-                    <td>@row.NombreEjercicio</td>
-                    <td>@row.Serie1</td>
-                    <td>@row.Repeticion1</td>
-                    <td>@row.Peso1</td>
-                    <td>@row.Serie2</td>
-                    <td>@row.Repeticion2</td>
-                    <td>@row.Peso2</td>
-                    <td>@row.Serie3</td>
-                    <td>@row.Repeticion3</td>
-                    <td>@row.Peso3</td>
-                    <td>@row.ColorEjercicio</td>
-                    <td>@row.diaEjercicio</td>
-                    <td>
-                        @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
-                        @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@row.NombreEjercicio</td>
+                        <td>@row.Serie1</td>
+                        <td>@row.Repeticion1</td>
+                        <td>@row.Peso1</td>
+                        <td>@row.Serie2</td>
+                        <td>@row.Repeticion2</td>
+                        <td>@row.Peso2</td>
+                        <td>@row.Serie3</td>
+                        <td>@row.Repeticion3</td>
+                        <td>@row.Peso3</td>
+                        <td>@row.ColorEjercicio</td>
+                        <td>@row.diaEjercicio</td>
+                        <td>
+                            @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
+                            @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -112,12 +118,13 @@
             <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
             <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear </button>
         </div>
-  
-            @{
-                var viewDataRutina = ViewData["rutina"];
-            }
-            @Html.Hidden("data", viewDataRutina)
-            </section>
+
+        @{
+            var viewDataRutina = ViewData["rutina"];
+        }
+        @Html.Hidden("data", viewDataRutina)
+
+    </section>
 
 </body>
 </html>
@@ -149,31 +156,31 @@
                 var newCell12 = newRow.insertCell(12);
 
                 var input1 = document.createElement("input");
-                input1.type = "number"; input1.min = 0;
+                input1.type = "text"; input1.min = 0;
 
                 var input2 = document.createElement("input");
-                input2.type = "number"; input2.min = 0;
+                input2.type = "text"; input2.min = 0;
 
                 var input3 = document.createElement("input");
-                input3.type = "number"; input3.min = 0;
+                input3.type = "text"; input3.min = 0;
 
                 var input4 = document.createElement("input");
-                input4.type = "number"; input4.min = 0;
+                input4.type = "text"; input4.min = 0;
 
                 var input5 = document.createElement("input");
-                input5.type = "number"; input5.min = 0;
+                input5.type = "text"; input5.min = 0;
 
                 var input6 = document.createElement("input");
-                input6.type = "number"; input6.min = 0;
+                input6.type = "text"; input6.min = 0;
 
                 var input7 = document.createElement("input");
-                input7.type = "number"; input7.min = 0;
+                input7.type = "text"; input7.min = 0;
 
                 var input8 = document.createElement("input");
-                input8.type = "number"; input8.min = 0;
+                input8.type = "text"; input8.min = 0;
 
                 var input9 = document.createElement("input");
-                input9.type = "number"; input9.min = 0;
+                input9.type = "text"; input9.min = 0;
 
                 var input10 = document.createElement("input");
                 input10.type = "text";
