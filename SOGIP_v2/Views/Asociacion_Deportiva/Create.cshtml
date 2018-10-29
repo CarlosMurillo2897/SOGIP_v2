@@ -1,16 +1,22 @@
 ﻿@model SOGIP_v2.Models.Asociacion_Deportiva
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "Crear";
 }
+
+<div class="col-md-10">
+    <a href="~/Home/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
+</div>
+<br />
+<br />
 
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Asociacion_Deportiva</h4>
         <hr />

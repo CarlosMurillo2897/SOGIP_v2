@@ -218,25 +218,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810220257178_final.cs" />
-    <Compile Include="Migrations\201810220257178_final.Designer.cs">
-      <DependentUpon>201810220257178_final.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810230432023_ejercicio.cs" />
-    <Compile Include="Migrations\201810230432023_ejercicio.Designer.cs">
-      <DependentUpon>201810230432023_ejercicio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810280519536_rutinas.cs" />
-    <Compile Include="Migrations\201810280519536_rutinas.Designer.cs">
-      <DependentUpon>201810280519536_rutinas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810281936239_zi.cs" />
-    <Compile Include="Migrations\201810281936239_zi.Designer.cs">
-      <DependentUpon>201810281936239_zi.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810290441586_plus.cs" />
-    <Compile Include="Migrations\201810290441586_plus.Designer.cs">
-      <DependentUpon>201810290441586_plus.cs</DependentUpon>
+    <Compile Include="Migrations\201810290613440_SOGIP.cs" />
+    <Compile Include="Migrations\201810290613440_SOGIP.Designer.cs">
+      <DependentUpon>201810290613440_SOGIP.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -610,20 +594,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810220257178_final.resx">
-      <DependentUpon>201810220257178_final.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810230432023_ejercicio.resx">
-      <DependentUpon>201810230432023_ejercicio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810280519536_rutinas.resx">
-      <DependentUpon>201810280519536_rutinas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810281936239_zi.resx">
-      <DependentUpon>201810281936239_zi.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810290441586_plus.resx">
-      <DependentUpon>201810290441586_plus.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810290613440_SOGIP.resx">
+      <DependentUpon>201810290613440_SOGIP.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
