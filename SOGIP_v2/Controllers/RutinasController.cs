@@ -7,7 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SOGIP_v2.Models;
-
+using System.Text.RegularExpressions;
 namespace SOGIP_v2.Controllers
 {
     public class RutinasController : Controller
@@ -121,6 +121,33 @@ namespace SOGIP_v2.Controllers
 
         //    return View(ejercicio);
         //}
+        public bool estaCorrecto(List<Conjunto_Ejercicio> ejercicios)
+        {
+
+            string expresion, expresionNumerica;
+            expresionNumerica = "^[0-9,+,=,/]+$";
+            expresion = @"(^[a-zA-Z'.\s])";
+            System.Text.RegularExpressions.Regex automata = new Regex(expresion);
+            System.Text.RegularExpressions.Regex automataNumerico = new Regex(expresionNumerica);
+            for (var i = 0; i < ejercicios.Count; i++)
+            {
+                if (ejercicios[i].NombreEjercicio == null || !automata.IsMatch(ejercicios[i].NombreEjercicio)||
+                    ejercicios[i].Serie1 == null || !automataNumerico.IsMatch(ejercicios[i].Serie1)||
+                    ejercicios[i].Repeticion1 == null || !automataNumerico.IsMatch(ejercicios[i].Repeticion1) ||
+                    ejercicios[i].Peso1 == null || !automataNumerico.IsMatch(ejercicios[i].Peso1) ||
+                    ejercicios[i].Serie2 == null || !automataNumerico.IsMatch(ejercicios[i].Serie2) ||
+                    ejercicios[i].Repeticion2 == null || !automataNumerico.IsMatch(ejercicios[i].Repeticion2) ||
+                    ejercicios[i].Peso2 == null || !automataNumerico.IsMatch(ejercicios[i].Peso2) ||
+                    ejercicios[i].Serie3 == null || !automataNumerico.IsMatch(ejercicios[i].Serie3) ||
+                    ejercicios[i].Repeticion3 == null || !automataNumerico.IsMatch(ejercicios[i].Repeticion3) ||
+                   ejercicios[i].Peso3 == null || !automataNumerico.IsMatch(ejercicios[i].Peso3) ||
+                    ejercicios[i].ColorEjercicio == null||ejercicios[i].diaEjercicio == null)
+                {
+                    return false;
+                }
+            }
+                return true;
+        }
         [HttpPost]
         public JsonResult Ejercicio(string data, List<Conjunto_Ejercicio> ejercicios) //AGREGAR EL ID DE LA RUTINA
         {
@@ -130,33 +157,35 @@ namespace SOGIP_v2.Controllers
             int d = int.Parse(data);
             Rutina rutina = new Rutina();
             rutina = db.Rutinas.Single(x => x.RutinaId == d);
-
             //Asigno ejercicios a la rutina
             if (rutina != null)
             {
-                for (int i = 0; i < ejercicios.Count; i++)
+                if (estaCorrecto(ejercicios) == true)
                 {
-                    Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
-                    {
-                        ConjuntoEjercicioRutina = rutina,
-                        NombreEjercicio = ejercicios[i].NombreEjercicio,
-                        Serie1 = ejercicios[i].Serie1,
-                        Repeticion1 = ejercicios[i].Repeticion1,
-                        Peso1 = ejercicios[i].Peso1,
-                        Serie2 = ejercicios[i].Serie2,
-                        Repeticion2 = ejercicios[i].Repeticion2,
-                        Peso2 = ejercicios[i].Peso2,
-                        Serie3 = ejercicios[i].Serie3,
-                        Repeticion3 = ejercicios[i].Repeticion3,
-                        Peso3 = ejercicios[i].Peso3,
-                        ColorEjercicio = ejercicios[i].ColorEjercicio,
-                        diaEjercicio = ejercicios[i].diaEjercicio
-                    };
-                    db.Conjunto_Ejercicios.Add(conjunto);
-                }
-                db.SaveChanges();
-               
 
+                    for (int i = 0; i < ejercicios.Count; i++)
+                    {
+                        Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
+                        {
+                            ConjuntoEjercicioRutina = rutina,
+                            NombreEjercicio = ejercicios[i].NombreEjercicio,
+                            Serie1 = ejercicios[i].Serie1,
+                            Repeticion1 = ejercicios[i].Repeticion1,
+                            Peso1 = ejercicios[i].Peso1,
+                            Serie2 = ejercicios[i].Serie2,
+                            Repeticion2 = ejercicios[i].Repeticion2,
+                            Peso2 = ejercicios[i].Peso2,
+                            Serie3 = ejercicios[i].Serie3,
+                            Repeticion3 = ejercicios[i].Repeticion3,
+                            Peso3 = ejercicios[i].Peso3,
+                            ColorEjercicio = ejercicios[i].ColorEjercicio,
+                            diaEjercicio = ejercicios[i].diaEjercicio
+                        };
+                        db.Conjunto_Ejercicios.Add(conjunto);
+                    }
+                    db.SaveChanges();
+                }
+                return new JsonResult { Data = new { status = status } };
             }
             return new JsonResult { Data = new { status = status } };
         }

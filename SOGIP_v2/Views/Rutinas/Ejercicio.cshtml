@@ -1,4 +1,5 @@
-﻿@model SOGIP_v2.Models.Conjunto_Ejercicio
+﻿@using System.Text.RegularExpressions;
+@model SOGIP_v2.Models.Conjunto_Ejercicio
 @{
     ViewBag.Title = "Ejercicios";
     @Styles.Render("~/Content/Rutina.css")
@@ -26,7 +27,7 @@
 
     <div class="col-sm-12">
         <table id="rutina" class="table table-bordered table-responsive table-hover">
-            <thead style="background-color:#337ab7;border-color:#2e6da4;color:#fff;">
+            <thead>
 
                 <TR>
                     <TH COLSPAN=1>Ejercicio</TH>
@@ -185,7 +186,7 @@
                 var input10 = document.createElement("input");
                 input10.type = "text";
 
-                var colores = ["Nada","Verde", "Celeste", "Azul", "Rojo","Verde","Amarillo"];
+                var colores = ["Nada", "Verde", "Celeste", "Azul", "Rojo", "Verde", "Amarillo"];
                 var c = document.createElement('select');
                 c.type = 'select';
                 for (var i = 0; i < colores.length; i++) {
@@ -203,7 +204,7 @@
                     option.text = dias[i];
                     d.add(option);
                 }
-               
+
                 //DropDownList1.type = "DropDownList"; DropDownList1.items.insert(Dia, " - Select From List - ")
 
 
@@ -257,30 +258,61 @@
                         diaEjercicio: table.rows[i].cells[11].children[0].value
                     });
                 }
-          
+
                 var datos = {
                     'data': @viewDataRutina,
                     'ejercicios': tableArr
                 }
-               
-                $.ajax({
-                    url: '/Rutinas/Ejercicio',
-                    dataType: 'JSON',
-                    type: 'POST',
-                    data: JSON.stringify(datos), //agregar el campo para el id de la rutina
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (result) {
-                       alert('Ejercicios Registrados');
-                        location.reload();
-                    },
-                    error: function (request) {
-                        alert('Hubo un error');
-                    }
-                });
+                @{
+                    string expresion, expresionNumerica;
+                    expresionNumerica = "^[0-9,+,=,/]+$";
+                    expresion = @"(^[a-zA-Z'.\s])";
+                    System.Text.RegularExpressions.Regex automata = new Regex(expresion);
+                    System.Text.RegularExpressions.Regex automataNumerico = new Regex(expresionNumerica);
+}
+                //$(document).ready(function () {
+                //for (var i = 0; i < tableArr.length; i++){
+                //    if (tableArr[i].NombreEjercicio == null || !automata.IsMatch(tableArr[i].NombreEjercicio) ||
+                //        tableArr[i].Serie1 == null || !automataNumerico.IsMatch(tableArr[i].Serie1) ||
+                //        tableArr[i].Repeticion1 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion1) ||
+                //        tableArr[i].Peso1 == null || !automataNumerico.IsMatch(tableArr[i].Peso1) ||
+                //        tableArr[i].Serie2 == null || !automataNumerico.IsMatch(tableArr[i].Serie2) ||
+                //        tableArr[i].Repeticion2 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion2) ||
+                //        tableArr[i].Peso2 == null || !automataNumerico.IsMatch(tableArr[i].Peso2) ||
+                //        tableArr[i].Serie3 == null || !automataNumerico.IsMatch(tableArr[i].Serie3) ||
+                //        tableArr[i].Repeticion3 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion3) ||
+                //        tableArr[i].Peso3 == null || !automataNumerico.IsMatch(tableArr[i].Peso3) ||
+                //    tableArr[i].ColorEjercicio == null || tableArr[i].diaEjercicio == null) {
+                //            alert('Hubo un error');
+                //        }
+                //}
+                //});
+           
+                        $.ajax({
+                            url: '/Rutinas/Ejercicio',
+                            dataType: 'JSON',
+                            type: 'POST',
+                            data: JSON.stringify(datos), //agregar el campo para el id de la rutina
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (result) {
+                                alert('Ejercicios Registrados');
+                                location.reload();
 
-            });
+                            },
+                            error: function (request) {
+                                alert('Hubo un error');
+                            }
+                        });
 
-
+                    });
         });
     </script>
 }
+
+
+    @*Regex reg = new Regex("^[a-zA-Z'.\s]{0,1000}$");
+                for (var i = 0; i < table.length; i++) {
+                    if (!reg.IsMatch(table.row[i]) && table.row[i]== null) {
+                        alert('Malo');
+                    }
+                }*@
