@@ -104,6 +104,17 @@ namespace SOGIP_v2.Controllers
             return Json(archivos, JsonRequestBehavior.AllowGet);
         }
 
+        
+        public JsonResult InhabilitarUsuario(string usuarioId, bool estado) // estado = true -> usuario.Estado = 0 / estado = false -> usuario.Estado = 1
+        {
+            var usuario = db.Users.Where(x => x.Id == usuarioId).SingleOrDefault();
+                
+                usuario.Estado = (estado)? false : true;
+                db.SaveChanges();
+
+            return Json(usuario.Estado, JsonRequestBehavior.AllowGet);
+        }
+
         //
         // GET: /Users/Details/5
         [HttpGet]

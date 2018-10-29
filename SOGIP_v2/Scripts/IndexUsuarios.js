@@ -70,10 +70,88 @@
     //$('#inhabilitar').click(function (e) {
     //    e.preventDefault();
     //    confirm("¿Inhabilitar este usuario?");
-    //});
+    //);
 
 });
 
+function dis(id, DI) {
+
+    var clase = document.getElementById(DI).className;
+
+    var status = (clase == 'btn btn-sm btn-danger')? true : false;
+
+    var datos = {
+        'usuarioId': id,
+        'estado': status
+    }
+
+    $.ajax({
+        url: '/UsersAdmin/InhabilitarUsuario',
+        dataType: 'JSON',
+        type: 'POST',
+        data: JSON.stringify(datos),
+        contentType: 'application/json; charset=utf-8',
+        success: function (result) {
+
+            if (result == true) {
+                $('#Comprobado-' + id).attr('src', "/Content/Imagenes/comprobado.png");
+                $('#Cancelar-' + id).attr('src', "/Content/Imagenes/comprobado.png");
+
+                $('#disable-' + id).attr('class', 'btn btn-sm btn-danger');
+                $('#enable-' + id).attr('class', 'btn btn-sm btn-danger');
+
+                $('#disable-' + id).attr('data-toggle', 'tooltip');
+                $('#enable-' + id).attr('data-toggle', 'tooltip');
+
+                $('#disable-' + id).attr('data-original-title', 'Deshabilitar este usuario.');
+                $('#enable-' + id).attr('data-original-title', 'Deshabilitar este usuario.');
+
+                let icono = document.createElement('icon');
+
+                icono.setAttribute("class", "glyphicon glyphicon-remove");
+
+                $('#disable-' + id).html("Deshabilitar ");
+                $('#enable-' + id).html("Deshabilitar ");
+
+                $('#disable-' + id).append(icono);
+                $('#enable-' + id).append(icono);
+
+                window.alert('¡Usuario habilitado!')
+
+            } else {
+
+                $('#Comprobado-' + id).attr('src', "/Content/Imagenes/cancelar.png");
+                $('#Cancelar-' + id).attr('src', "/Content/Imagenes/cancelar.png");
+
+                $('#disable-' + id).attr('class', 'btn btn-sm btn-success');
+                $('#enable-' + id).attr('class', 'btn btn-sm btn-success');
+
+                $('#disable-' + id).attr('data-toggle', 'tooltip');
+                $('#enable-' + id).attr('data-toggle', 'tooltip');
+
+                $('#disable-' + id).attr('data-original-title', 'Habilitar este usuario.');
+                $('#enable-' + id).attr('data-original-title', 'Habilitar este usuario.');
+
+                let icono = document.createElement('icon');
+
+                icono.setAttribute("class", "glyphicon glyphicon-check");
+
+                $('#disable-' + id).html("Habilitar ");
+                $('#enable-' + id).html("Habilitar ");
+
+                $('#disable-' + id).append(icono);
+                $('#enable-' + id).append(icono);
+
+                window.alert('Usuario deshabilitado.');
+
+            }
+                
+        }
+    });
+
+}
+
+// Se le adhiere un vector con todos los usuarios id y que elimine los tablas de todos.
 //function cerrarPaneles() {
 //    var panels = $('.user-infos');
 //    panels.hide();

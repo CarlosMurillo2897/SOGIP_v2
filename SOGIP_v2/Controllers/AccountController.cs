@@ -91,9 +91,19 @@ namespace SOGIP_v2.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+
+                    if (UserManager.FindByName(model.Cedula).Estado)
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
+                    else
+                    {
+                        AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                        ModelState.AddModelError("", "Usuario desactivado. Contacte al administrador.");
+                        return View(model);
+                    }
+
                 case SignInStatus.LockedOut:
-                    var name = HttpContext.User.Identity.Name;
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });

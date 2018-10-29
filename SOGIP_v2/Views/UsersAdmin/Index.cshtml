@@ -26,16 +26,17 @@
             <div class="row user-row">
 
                 <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
+
                     @if (item.Estado == true)
                     {
-                        <img class="img-circle"
+                        <img class="img-circle" id="Comprobado-@item.Id"
                              src="~/Content/Imagenes/comprobado.png"
                              style="width: 50px; height: 50px;"
                              alt="User Pic">
                     }
                     else
                     {
-                        <img class="img-circle"
+                        <img class="img-circle" id="Cancelar-@item.Id"
                              src="~/Content/Imagenes/cancelar.png"
                              style="width: 50px; height: 50px;"
                              alt="User Pic">
@@ -197,16 +198,25 @@
                         </div>
 
                         <div class="panel-footer">
-
-                            <button class="btn btn-sm btn-danger" type="button" id="inhabilitar" onclick="window.confirm('¿Inhabilitar usuario?');"
-                                    data-toggle="tooltip"
-                                    data-original-title="Inhabilitar este usuario.">
-                                Inhabilitar <i class="glyphicon glyphicon-remove"></i>
-                            </button>
+                            @if (item.Estado == true)
+                            {
+                                <button class="btn btn-sm btn-danger" type="button" id="disable-@item.Id" onclick="dis('@item.Id', id);"
+                                        data-toggle="tooltip"
+                                        data-original-title="Deshabilitar este usuario.">
+                                    Deshabilitar <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            }else
+                            {
+                                <button class="btn btn-sm btn-success" type="button" id="enable-@item.Id" onclick="dis('@item.Id', id);"
+                                        data-toggle="tooltip"
+                                        data-original-title="Habilitar este usuario.">
+                                    Habilitar <i class="glyphicon glyphicon-check"></i>
+                                </button>
+                            }
 
                             <span class="pull-right">
                                 @*Html.ActionLink("Editar", "Edit", "UsersAdmin", routeValues: new { id = item.Id }, htmlAttributes: new { @class = "btn btn-sm btn-primary", @type = "button", @data_toggle = "tooltip", @data_original_title = "Editar este usuario." })*@
-                                <a href="/UsersAdmin/Edit/@item.Id" class = "btn btn-sm btn-primary"  type = "button" data-toggle = "tooltip" data-original-title = "Editar este usuario.">
+                                <a href="/UsersAdmin/Edit/@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
                                     Editar<i class="glyphicon glyphicon-edit"></i>
                                 </a>
                             </span>
