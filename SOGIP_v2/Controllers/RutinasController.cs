@@ -183,9 +183,6 @@ namespace SOGIP_v2.Controllers
             //Asigno ejercicios a la rutina
             if (rutina != null)
             {
-                if (estaCorrecto(ejercicios) == true)
-                {
-
                     for (int i = 0; i < ejercicios.Count; i++)
                     {
                         Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
@@ -207,8 +204,6 @@ namespace SOGIP_v2.Controllers
                         db.Conjunto_Ejercicios.Add(conjunto);
                     }
                     db.SaveChanges();
-                }
-                return new JsonResult { Data = new { status = status } };
             }
             return new JsonResult { Data = new { status = status } };
         }
@@ -334,10 +329,12 @@ namespace SOGIP_v2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmedEjercicio(int id)
         {
-            Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Find(id);
+            
+            Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Include("ConjuntoEjercicioRutina").SingleOrDefault(x => x.Conjunto_EjercicioId == id); ;
+            int idRutina = conjunto_Ejercicio.ConjuntoEjercicioRutina.RutinaId;
             db.Conjunto_Ejercicios.Remove(conjunto_Ejercicio);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Ejercicio", new { idRutina });
         }
 
     [HttpPost]
