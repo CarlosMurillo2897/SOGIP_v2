@@ -6,14 +6,13 @@
 
 <h2>Lista de Rutinas</h2>
 
-<p>
-    @Html.ActionLink("Nueva Rutina", "Create")
-</p>
+@Html.ActionLink("Crear nueva rutina", "Create", null, new { @class = "btn btn-default" })
+
 <table class="table">
     <tr>
-      <th>
-          @Html.DisplayNameFor(model => model.Usuario)
-          </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Usuario)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.RutinaFecha)
         </th>
@@ -23,28 +22,29 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
 
-            @Html.DisplayFor(modelItem => item.Usuario.Cedula)
-            @Html.DisplayFor(modelItem => item.Usuario.Nombre1)
-            @Html.DisplayFor(modelItem => item.Usuario.Apellido1)
-            @Html.DisplayFor(modelItem => item.Usuario.Apellido2)
-        </td>
-        <td>
-           
-            @item.RutinaFecha.ToShortDateString()
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.RutinaObservaciones)
-        </td>
-        <td>
-            @Html.ActionLink("Editar", "Edit", new { id = item.RutinaId }) |
-            @Html.ActionLink("Eliminar", "Delete", new { id = item.RutinaId })|
-            @Html.ActionLink("Rutina", "Ejercicio", new { idRutina = item.RutinaId })
-        </td>
-    </tr>
-}
+                @Html.DisplayFor(modelItem => item.Usuario.Cedula)
+                @Html.DisplayFor(modelItem => item.Usuario.Nombre1)
+                @Html.DisplayFor(modelItem => item.Usuario.Apellido1)
+                @Html.DisplayFor(modelItem => item.Usuario.Apellido2)
+            </td>
+            <td>
+
+                @item.RutinaFecha.ToShortDateString()
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RutinaObservaciones)
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "Edit", new { id = item.RutinaId }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.RutinaId })|
+                @Html.ActionLink("Rutina", "Ejercicio", new { idRutina = item.RutinaId })
+            </td>
+        </tr>
+    }
 
 </table>

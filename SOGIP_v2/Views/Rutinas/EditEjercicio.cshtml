@@ -7,54 +7,64 @@
     List<SelectListItem> Color = new List<SelectListItem>();
     Color.Add(new SelectListItem
     {
-        Text = "Nada",
+        Text = "Blanco",
+        Value = "white"
     });
     Color.Add(new SelectListItem
     {
-        Text = "Verde",
+        Text = "Rosado",
+        Value = "deeppink",
     });
     Color.Add(new SelectListItem
     {
         Text = "Celeste",
+        Value = "aqua"
     });
     Color.Add(new SelectListItem
     {
-        Text = "Azul",
+        Text = "Morado",
+        Value = "mediumpurple"
     });
     Color.Add(new SelectListItem
     {
-        Text = "Rojo",
+        Text = "Naranja",
+        Value = "orange"
     });
     Color.Add(new SelectListItem
     {
         Text = "Verde",
+        Value = "chartreuse"
     });
     Color.Add(new SelectListItem
     {
         Text = "Amarillo",
+        Value = "yellow"
     });
 
     List<SelectListItem> Dia = new List<SelectListItem>();
     Dia.Add(new SelectListItem
     {
         Text = "Día 1",
+        Value = "Dia1"
     });
     Dia.Add(new SelectListItem
     {
         Text = "Día 2",
+        Value = "Dia2"
     });
     Dia.Add(new SelectListItem
     {
         Text = "Día 3",
+        Value = "Dia3"
     });
     Dia.Add(new SelectListItem
     {
         Text = "Día 4",
+        Value = "Dia4"
     });
 }
 
 <h2>Editar</h2>
-
 
 @using (Html.BeginForm())
 {
@@ -172,9 +182,7 @@
         </div>
     </div>
 </div>
-}
-
-    
+}    
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

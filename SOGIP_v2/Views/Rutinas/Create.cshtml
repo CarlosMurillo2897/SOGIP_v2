@@ -6,7 +6,7 @@
 
 }
 
-
+@Html.ActionLink("Volver al Inicio", "Index", null, new { @class = "btn btn-default" })
 
 @using (Html.BeginForm("Create", "Rutinas", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
@@ -14,56 +14,53 @@
     @Html.AntiForgeryToken()
 
     <body>
-<div class="form-horizontal">
+        <div class="form-horizontal">
 
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="container">
-    <div class="form-group">
-        <div class="col-md-10">
-            @Html.Label("Seleccione el Atleta", new { @class = "control-label" })
-            <select name="atletaSeleccionado">
-                @foreach (var entity in (SelectList)ViewBag.Atletas)
-                {
-                    <option value="@entity.Value">
-                        @Html.Label(entity.Text, new { @class = "control-label" })
-                    </option>
-                }
-            </select>
-        </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-10">
-                @Html.Label("Fecha de la Rutina", new { @class = "control-label" })
-                <div class="input-group">
-                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                    @Html.EditorFor(model => model.RutinaFecha, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-                    @Html.ValidationMessageFor(model => model.RutinaFecha, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="container">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.Label("Seleccione el Atleta", new { @class = "control-label" })
+                        <select name="atletaSeleccionado">
+                            @foreach (var entity in (SelectList)ViewBag.Atletas)
+                            {
+                                <option value="@entity.Value">
+                                    @Html.Label(entity.Text, new { @class = "control-label" })
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.Label("Fecha de la Rutina", new { @class = "control-label" })
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                            @Html.EditorFor(model => model.RutinaFecha, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                            @Html.ValidationMessageFor(model => model.RutinaFecha, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.Label("Observaciones", new { @class = "control-label" })
+                        <div class="input-group">
+                            @Html.EditorFor(model => model.RutinaObservaciones, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RutinaObservaciones, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Crear Rutina" class="btn btn-default" />
                 </div>
             </div>
         </div>
+    </body>
+}
 
-        <div class="form-group">
-            <div class="col-md-10">
-                @Html.Label("Observaciones", new { @class = "control-label" })
-                <div class="input-group">
-                @Html.EditorFor(model => model.RutinaObservaciones, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.RutinaObservaciones, "", new { @class = "text-danger" })
-            </div>
-                </div>
-        </div>
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Crear Rutina" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-        </body>
-    }
 
-    <div>
-        @Html.ActionLink("Lista Rutinas", "Index")
-    </div>
-
-   @section Scripts {
+@section Scripts {
 
 
     @Scripts.Render("~/bundles/jqueryval")
