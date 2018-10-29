@@ -1,90 +1,330 @@
 ﻿@model SOGIP_v2.Models.EditUserViewModel
 @{
     ViewBag.Title = "Editar";
+    @Styles.Render("~/Content/Edit.css")
+
+
+    List<SelectListItem> Sexo = new List<SelectListItem>();
+    Sexo.Add(new SelectListItem
+    {
+        Text = "Femenino",
+        Value = "false",
+    });
+
+    Sexo.Add(new SelectListItem
+    {
+        Text = "Masculino",
+        Value = "true",
+    });
 }
-@using (Html.BeginForm())
+
+@using (Html.BeginForm("Edit", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.HiddenFor(model => model.Id)
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-6  toppad">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Información de Usuario</h3>
 
-    <div class="form-horizontal">
-        <h4>Editar los detalles de la cuenta de usuario.</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.Id)
-        <div class="form-group">
-            @Html.LabelFor(model => model.Cedula, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Cedula, new { @readonly = "readonly", @class = "form-control" })
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class=" col-md-10 col-lg-15 ">
+                                <ul class="nav nav-tabs" id="edit">
+                                    <li class="active"><a href="#perfil" data-toggle="tab">Inf Personal</a></li>
+                                    <li><a href="#contacto" data-toggle="tab">Contacto</a></li>
+                                    <li><a href="#adicional" data-toggle="tab">Inf Adicional</a></li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    @*INFORMACIÓN PERSONAL*@
+                                    <div class="tab-pane active in" id="perfil">
+                                        <table class="table table-user-information">
+                                            <tbody>
+                                                <tr>
+                                                    <td> @Html.Label("Cédula", new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.Cedula, new { @readonly = "readonly", @class = "form-control" })
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> @Html.Label("Cédula Extranjera (si posee)", new { @class = "control-label col-md-2" })</td>
+                                                    <td>@Html.TextBoxFor(m => m.CedulaExtra, new { @class = "form-control" })</td>
+                                                </tr>
+                                                <tr>
+                                                    <td> @Html.LabelFor(model => model.Nombre1, new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control", required = "required" })
+                                                        @Html.ValidationMessageFor(model => model.Nombre1)
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td> @Html.LabelFor(model => model.Nombre2, new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.Nombre2, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(model => model.Nombre2)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@Html.LabelFor(model => model.Apellido1, new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control", required = "required" })
+                                                        @Html.ValidationMessageFor(model => model.Apellido1)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>@Html.LabelFor(model => model.Apellido2, new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.Apellido2, new { @class = "form-control", required = "required" })
+                                                        @Html.ValidationMessageFor(model => model.Apellido2)
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> @Html.LabelFor(model => model.Fecha_Nacimiento, new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "birth", type = "date", required = "required" })
+                                                        @Html.ValidationMessageFor(model => model.Fecha_Nacimiento)
+                                                    </td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td> @Html.Label("Genero", new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @Html.DropDownListFor(model => model.Sexo, Sexo, "-- Seleccionar --", new { @class = "form-control", id="generoId" })
+                                                        @Html.ValidationMessageFor(model => model.Sexo)
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    @*INFORMACIÓN DE CONTACTO*@
+                                    <div class="tab-pane fade" id="contacto">
+                                        <table class="table table-user-information">
+                                            <tbody>
+
+                                                <tr>
+                                                    <td> @Html.Label("Usuario", new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @readonly = "readonly", required = "required" })
+                                                        @Html.ValidationMessageFor(model => model.UserName)
+                                                    </td>
+
+                                                <tr>
+                                                <tr>
+                                                    <td> @Html.Label("Rol", new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @foreach (var item in ViewBag.rol)
+                                                        {
+                                                            <input value="@item" name="rolName" id="rolName" readonly class="form-control"/>
+                                                        }
+                                                    </td>
+
+                                                <tr>
+                                                    <td> @Html.LabelFor(model => model.Email, new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", required = "required" })
+                                                        @Html.ValidationMessageFor(model => model.Email)
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="adicional">
+                                        <table class="table table-user-information">
+                                            <tbody>
+                                                <tr hidden id="asociacion">
+                                                    <td> @Html.Label("Asociación/Comité", new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @if (@ViewBag.comite != null)
+                                                        {
+                                                            <input type="text" class="form-control" value="@(ViewBag.comite)" name="nombre_aso" required>
+                                                        }
+                                                    </td>
+
+                                                <tr hidden id="entidad">
+                                                    <td> @Html.Label("Entidad", new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @if (@ViewBag.entidad != null)
+                                                        {
+                                                            <select name="SelectedEntity" id="entidadId">
+                                                                @foreach (var entity in (SelectList)ViewBag.Entidades)
+                                                                {
+                                                                    <option value="@entity.Value">
+                                                                        @Html.Label(entity.Text, new { @class = "control-label" })
+                                                                    </option>
+                                                                }
+                                                            </select>
+                                                        }
+                                                    </td>
+                                                </tr>
+
+                                                <tr hidden id="seleccion">
+                                                    <td> @Html.Label("Selección", new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        @if (@ViewBag.seleccion != null)
+                                                        {
+                                                            <input type="text" class="form-control" value="@(ViewBag.seleccion)" name="sele_n" required>
+                                                        }
+                                                    </td>
+                                                </tr>
+
+                                                <tr hidden id="entrenador">
+                                                    <td> @Html.Label("Curriculum", new { @class = "control-label col-md-2" })</td>
+                                                    <td>
+                                                        <div class="form-group files">
+                                                            <input id="CV" name="CV" type="file" class="form-control" multiple="">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @*Atletas*@
+                                                <tr hidden  id="info_atleta_tipo">
+                                                    <td>
+                                                        <div class="col-md-10">
+                                                            @*Html.Label("Selección o Asociación", new { @class = "control-label" })*@
+                                                            Asociación @Html.RadioButton("Atleta_Tipo", "Asociación", false, new { id = "Atleta_Tipo", @onchange = "EscondeSelecciones()" })
+                                                            Selección  @Html.RadioButton("Atleta_Tipo", "Selección", true, new { id = "Atleta_Tipo", @onchange = "EscondeAsociaciones()" })
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr hidden id="info_atleta_selec" >
+                                                    <td>
+                                                        <div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-10">
+
+                                                                    @Html.Label("Seleccione la seleccion", new { @class = "control-label" })
+                                                                    <select name="SelectedS">
+                                                                        @foreach (var sel in (SelectList)ViewBag.Selecciones)
+                                                                        {
+                                                                            <option value="@sel.Value">
+                                                                                @Html.Label(sel.Text, new { @class = "control-label" })
+                                                                            </option>
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr hidden id="info_atleta_aso">
+                                                    <td>
+                                                        <div>
+                                                            <div class="form-group">
+                                                                <div class="col-md-10">
+                                                                    @Html.Label("Seleccione la Asociacion", new { @class = "control-label" })
+                                                                    <select name="SelectedAsox">
+                                                                        @foreach (var asox in (SelectList)ViewBag.Asociaciones)
+                                                                        {
+                                                                            <option value="@asox.Value">
+                                                                                @Html.Label(asox.Text, new { @class = "control-label" })
+                                                                            </option>
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <input type="submit" value="Guardar" class="btn btn-default" />
+
+                    </div>
+
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.CedulaExtra, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.CedulaExtra, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nombre1, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Nombre1)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Nombre2, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Nombre2, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Nombre2)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Apellido1, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Apellido1, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Apellido1)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Apellido2, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Apellido2, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Apellido2)
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Fecha_Nacimiento, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "birth", type = "date" })
-                @Html.ValidationMessageFor(model => model.Fecha_Nacimiento)
-            </div>
-        </div>
+
+        
+
     </div>
-
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.Sexo, new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @if (ViewBag.Sexo == true)
-            {
-                @Html.TextBox("Femenino", "Femenino")
-            }
-            else
-            {
-                @Html.TextBox("Masculino", "Masculino")
-            }
-            @Html.ValidationMessageFor(model => model.Sexo)
-
-        </div>
-    </div>*@
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Guardar" class="btn btn-default" />
-            </div>
-        </div>
 }
+
 <div>
     @Html.ActionLink("Regresar a la lista", "Index")
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        $(document).ready(function () {
+            
+            $('[name=SelectedEntity]').val( @ViewBag.entidad );
+            $('[name=generoId]').val( @ViewBag.genero );
+
+            if (@ViewBag.var1!= null) {$('[name=SelectedAsox]').val( @ViewBag.var1 );}
+            
+            if (@ViewBag.var2!= null) { $('[name=SelectedS]').val( @ViewBag.var2 ); }
+
+           
+            
+            formulario_editar();
+            
+        });
+
+        function EscondeSelecciones() {
+            $('#info_atleta_selec').hide();
+            $('#info_atleta_aso').show();
+        }
+
+        function EscondeAsociaciones() {
+            $('#info_atleta_selec').show();
+            $('#info_atleta_aso').hide();
+        }
+
+        function formulario_editar() {
+            var rol_selected = $('#rolName').val();
+
+            switch (rol_selected) {
+                case 'Entrenador':
+                    $('#entrenador').show();
+                    break;
+
+                case 'Seleccion/Federacion':
+                    $('#seleccion').show();
+                    break;
+
+                case 'Entidades Publicas':
+                    $('#entidad').show();
+                    break;
+
+                case 'Asociacion/Comite':
+                    $('#asociacion').show();
+                    break;
+
+                case 'Atleta Becados':
+                    $('#info_atleta_tipo').show();
+                    $('#info_atleta_selec').show();
+                    break;
+                    
+                case 'Atleta':
+                    $('#info_atleta_tipo').show();
+                    $('#info_atleta_selec').show();
+                    break;
+                    
+
+                default:
+                    $('#adicional').hide();
+                 break;
+
+            }
+        }
+
+
+    </script>
 }

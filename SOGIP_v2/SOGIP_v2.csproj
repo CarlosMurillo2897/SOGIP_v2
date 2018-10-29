@@ -229,6 +229,9 @@
     <Compile Include="Migrations\201810280519536_rutinas.cs" />
     <Compile Include="Migrations\201810280519536_rutinas.Designer.cs">
       <DependentUpon>201810280519536_rutinas.cs</DependentUpon>
+    <Compile Include="Migrations\201810281936239_zi.cs" />
+    <Compile Include="Migrations\201810281936239_zi.Designer.cs">
+      <DependentUpon>201810281936239_zi.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -269,6 +272,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Edit.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.min.css" />
@@ -609,6 +613,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810280519536_rutinas.resx">
       <DependentUpon>201810280519536_rutinas.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810281936239_zi.resx">
+      <DependentUpon>201810281936239_zi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
