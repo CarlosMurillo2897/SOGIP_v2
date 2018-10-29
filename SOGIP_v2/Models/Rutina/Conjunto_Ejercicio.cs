@@ -10,7 +10,7 @@ namespace SOGIP_v2.Models
         public int Conjunto_EjercicioId { get; set; }
         public string NombreEjercicio { get; set; }
         public string Serie1 { get; set; }
-        public string Repeticion1 { get; set; }
+        public string Repeticion1 { get; set; } 
         public string Peso1 { get; set; }
         public string Serie2 { get; set; }
         public string Repeticion2 { get; set; }
