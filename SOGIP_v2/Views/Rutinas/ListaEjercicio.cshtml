@@ -5,14 +5,11 @@
     ViewBag.Title = "Ejercicios";
 }
 
-<p>
-    @Html.ActionLink("Rutinas", "Index")
-</p>
+
+    @Html.ActionLink("Volver a Inicio", "Index", "Home", null, new { @class = "btn btn-default" })
+
 <h3>Rutina</h3>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-</head>
-<body>
+
     @{
         var viewDataRutina = ViewData["rutina"];
     }
@@ -46,26 +43,99 @@
                     </TR>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model)
+                    @if (ViewBag.Conjunto_Ejercicios1 != null)
                     {
-                    <tr>
-                        <td>@Html.DisplayFor(modelItem => item.NombreEjercicio)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Serie1)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Repeticion1)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Peso1)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Serie2)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Repeticion2)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Peso2)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Serie3)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Repeticion3)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Peso3)</td>
-                    </tr>
+
+                        foreach (var item1 in ViewBag.Conjunto_Ejercicios1)
+                        {
+
+                            <tr style="background-color: @item1.ColorEjercicio">
+                                <td>@item1.NombreEjercicio</td>
+                                <td>@item1.Serie1</td>
+                                <td>@item1.Repeticion1</td>
+                                <td>@item1.Peso1</td>
+                                <td>@item1.Serie2</td>
+                                <td>@item1.Repeticion2</td>
+                                <td>@item1.Peso2</td>
+                                <td>@item1.Serie3</td>
+                                <td>@item1.Repeticion3</td>
+                                <td>@item1.Peso3</td>
+                            </tr>
+                        }
+                    }
+                    @if (ViewBag.Conjunto_Ejercicios2 != null)
+                    {
+                        foreach (var item2 in ViewBag.Conjunto_Ejercicios2)
+                        {
+                            <tr style="background-color: @item2.ColorEjercicio">
+                                <td>@item2.NombreEjercicio</td>
+                                <td>@item2.Serie1</td>
+                                <td>@item2.Repeticion1</td>
+                                <td>@item2.Peso1</td>
+                                <td>@item2.Serie2</td>
+                                <td>@item2.Repeticion2</td>
+                                <td>@item2.Peso2</td>
+                                <td>@item2.Serie3</td>
+                                <td>@item2.Repeticion3</td>
+                                <td>@item2.Peso3</td>
+                            </tr>
+                        }
+                    }
+                    @if (ViewBag.Conjunto_Ejercicios3 != null)
+                    {
+                        foreach (var item3 in ViewBag.Conjunto_Ejercicios3)
+                        {
+                            <tr style="background-color: @item3.ColorEjercicio">
+                                <td>@item3.NombreEjercicio</td>
+                                <td>@item3.Serie1</td>
+                                <td>@item3.Repeticion1</td>
+                                <td>@item3.Peso1</td>
+                                <td>@item3.Serie2</td>
+                                <td>@item3.Repeticion2</td>
+                                <td>@item3.Peso2</td>
+                                <td>@item3.Serie3</td>
+                                <td>@item3.Repeticion3</td>
+                                <td>@item3.Peso3</td>
+                            </tr>
+                        }
+                    }
+                    @if (ViewBag.Conjunto_Ejercicios4 != null)
+                    {
+                        foreach (var item4 in ViewBag.Conjunto_Ejercicios4)
+                        {
+                            <tr style="background-color: @item4.ColorEjercicio">
+                                <td>@item4.NombreEjercicio</td>
+                                <td>@item4.Serie1</td>
+                                <td>@item4.Repeticion1</td>
+                                <td>@item4.Peso1</td>
+                                <td>@item4.Serie2</td>
+                                <td>@item4.Repeticion2</td>
+                                <td>@item4.Peso2</td>
+                                <td>@item4.Serie3</td>
+                                <td>@item4.Repeticion3</td>
+                                <td>@item4.Peso3</td>
+                            </tr>
+                        }
+                    }
+                    @if (ViewBag.Conjunto_Ejercicios5 != null)
+                    {
+                        foreach (var item5 in ViewBag.Conjunto_Ejercicios5)
+                        {
+                            <tr style="background-color: @item5.ColorEjercicio">
+                                <td>@item5.NombreEjercicio</td>
+                                <td>@item5.Serie1</td>
+                                <td>@item5.Repeticion1</td>
+                                <td>@item5.Peso1</td>
+                                <td>@item5.Serie2</td>
+                                <td>@item5.Repeticion2</td>
+                                <td>@item5.Peso2</td>
+                                <td>@item5.Serie3</td>
+                                <td>@item5.Repeticion3</td>
+                                <td>@item5.Peso3</td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
         </div>
     </div>
-</body>
-</html>
- 
-    

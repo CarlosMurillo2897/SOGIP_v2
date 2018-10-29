@@ -67,11 +67,6 @@
 
     $('[data-toggle="tooltip"]').tooltip();
 
-    //$('#inhabilitar').click(function (e) {
-    //    e.preventDefault();
-    //    confirm("¿Inhabilitar este usuario?");
-    //);
-
 });
 
 function dis(id, DI) {

@@ -1,5 +1,6 @@
 ﻿@using System.Text.RegularExpressions;
 @model SOGIP_v2.Models.Conjunto_Ejercicio
+
 @{
     ViewBag.Title = "Ejercicios";
     @Styles.Render("~/Content/Rutina.css")
@@ -8,96 +9,30 @@
 
 <h2>Rutina</h2>
 
+<h4>Usuario</h4>
+@Html.DisplayFor(model => model.ConjuntoEjercicioRutina.Usuario.Cedula)
+@{
+    var viewDataNombre = ViewData["nombre"];
+}
+<h4> @viewDataNombre </h4>
 
-<html lang="es">
-<head>
-    <meta charset="utf-8">
+<div class="col-sm-12">
+    <table id="rutina" class="table table-bordered table-responsive table-hover">
+        <thead>
 
-    <div>
-        @Html.ActionLink("Lista Rutinas", "Index")
-    </div>
-</head>
-<body>
-    <h4>Usuario</h4>
-    @Html.DisplayFor(model => model.ConjuntoEjercicioRutina.Usuario.Cedula)
-    @{
-        var viewDataNombre = ViewData["nombre"];
-    }
-    <h4> @viewDataNombre </h4>
-
-    <div class="col-sm-12">
-        <table id="rutina" class="table table-bordered table-responsive table-hover">
-            <thead>
-
-                <TR>
-                    <TH COLSPAN=1>Ejercicio</TH>
-                    <TH COLSPAN=3>Semana 1-2</TH>
-                    <TH COLSPAN=3>Semana 3-4</TH>
-                    <TH COLSPAN=3>Semana 5-6</TH>
-                    <TH COLSPAN=1>Color</TH>
-                    <TH COLSPAN=1>Día</TH>
-                    <TH COLSPAN=1>Editar</TH>
-
-                </TR>
-
-                <TR>
-
-                    <TH></TH>
-                    <TH>S</TH>
-                    <TH>R</TH>
-                    <TH>P</TH>
-                    <TH>S</TH>
-                    <TH>R</TH>
-                    <TH>P</TH>
-                    <TH>S</TH>
-                    <TH>R</TH>
-                    <TH>P</TH>
-                    <TH></TH>
-                    <TH></TH>
-                    <TH></TH>
-                </TR>
-            </thead>
-            <tbody>
-                @foreach (var row in ViewBag.Conjunto_Ejercicios)
-                {
-                    <tr>
-                        <td>@row.NombreEjercicio</td>
-                        <td>@row.Serie1</td>
-                        <td>@row.Repeticion1</td>
-                        <td>@row.Peso1</td>
-                        <td>@row.Serie2</td>
-                        <td>@row.Repeticion2</td>
-                        <td>@row.Peso2</td>
-                        <td>@row.Serie3</td>
-                        <td>@row.Repeticion3</td>
-                        <td>@row.Peso3</td>
-                        <td>@row.ColorEjercicio</td>
-                        <td>@row.diaEjercicio</td>
-                        <td>
-                            @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
-                            @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-
-
-    <section>
-        <table id="tabla" class="table table-bordered table-responsive table-hover">
-            <TR align="center" class="active">
+            <TR>
                 <TH COLSPAN=1>Ejercicio</TH>
                 <TH COLSPAN=3>Semana 1-2</TH>
                 <TH COLSPAN=3>Semana 3-4</TH>
                 <TH COLSPAN=3>Semana 5-6</TH>
                 <TH COLSPAN=1>Color</TH>
                 <TH COLSPAN=1>Día</TH>
-                <TH COLSPAN=1>Accion</TH>
+                <TH COLSPAN=1>Editar</TH>
 
             </TR>
 
             <TR>
+
                 <TH></TH>
                 <TH>S</TH>
                 <TH>R</TH>
@@ -112,29 +47,83 @@
                 <TH></TH>
                 <TH></TH>
             </TR>
-        </table>
+        </thead>
+        <tbody>
+            @foreach (var row in ViewBag.Conjunto_Ejercicios)
+            {
+                <tr>
+                    <td>@row.NombreEjercicio</td>
+                    <td>@row.Serie1</td>
+                    <td>@row.Repeticion1</td>
+                    <td>@row.Peso1</td>
+                    <td>@row.Serie2</td>
+                    <td>@row.Repeticion2</td>
+                    <td>@row.Peso2</td>
+                    <td>@row.Serie3</td>
+                    <td>@row.Repeticion3</td>
+                    <td>@row.Peso3</td>
+                    <td>@row.ColorEjercicio</td>
+                    <td>@row.diaEjercicio</td>
+                    <td>
+                        @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
+                        @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<section>
+    <table id="tabla" class="table table-bordered table-responsive table-hover">
+        <TR align="center" class="active">
+            <TH COLSPAN=1>Ejercicio</TH>
+            <TH COLSPAN=3>Semana 1-2</TH>
+            <TH COLSPAN=3>Semana 3-4</TH>
+            <TH COLSPAN=3>Semana 5-6</TH>
+            <TH COLSPAN=1>Color</TH>
+            <TH COLSPAN=1>Día</TH>
+            <TH COLSPAN=1>Accion</TH>
+
+        </TR>
+
+        <TR>
+            <TH></TH>
+            <TH>S</TH>
+            <TH>R</TH>
+            <TH>P</TH>
+            <TH>S</TH>
+            <TH>R</TH>
+            <TH>P</TH>
+            <TH>S</TH>
+            <TH>R</TH>
+            <TH>P</TH>
+            <TH></TH>
+            <TH></TH>
+            <TH></TH>
+        </TR>
+    </table>
+    <br>
+    <div class="btn-der">
         <br>
-        <div class="btn-der">
-            <br>
-            <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
-            <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear </button>
-        </div>
+        <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
+        <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear </button>
+    </div>
 
-        @{
-            var viewDataRutina = ViewData["rutina"];
-        }
-        @Html.Hidden("data", viewDataRutina)
+    @{
+        var viewDataRutina = ViewData["rutina"];
+    }
+    @Html.Hidden("data", viewDataRutina)
 
-    </section>
-
-</body>
-</html>
+</section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
+
+<script>
         //Insert new rows into table
-        $(function () {
+        $(document).ready(function () {
             $("#adicional").on('click', function () {
                 var tableRef = document.getElementById('tabla').getElementsByTagName('tbody')[0];
 
@@ -157,38 +146,39 @@
                 var newCell12 = newRow.insertCell(12);
 
                 var input1 = document.createElement("input");
-                input1.type = "text"; input1.min = 0;
+                input1.type = "text"; input1.min = 0; input1.pattern = "[a-z]"; input1.title = "Palabras únicamente."
 
                 var input2 = document.createElement("input");
-                input2.type = "text"; input2.min = 0;
+                input2.type = "text"; input2.min = 0; input2.pattern = "[a-z]"; input2.title = "Palabras únicamente."
 
                 var input3 = document.createElement("input");
-                input3.type = "text"; input3.min = 0;
+                input3.type = "text"; input3.min = 0; input3.pattern = "[a-z]"; input3.title = "Palabras únicamente."
 
                 var input4 = document.createElement("input");
-                input4.type = "text"; input4.min = 0;
+                input4.type = "text"; input4.min = 0; input4.pattern = "[a-z]"; input4.title = "Palabras únicamente."
 
                 var input5 = document.createElement("input");
-                input5.type = "text"; input5.min = 0;
+                input5.type = "text"; input5.min = 0; input5.pattern = "[a-z]"; input5.title = "Palabras únicamente."
 
                 var input6 = document.createElement("input");
-                input6.type = "text"; input6.min = 0;
+                input6.type = "text"; input6.min = 0; input6.pattern = "[a-z]"; input6.title = "Palabras únicamente."
 
                 var input7 = document.createElement("input");
-                input7.type = "text"; input7.min = 0;
+                input7.type = "text"; input7.min = 0; input7.pattern = "[a-z]"; input7.title = "Palabras únicamente."
 
                 var input8 = document.createElement("input");
-                input8.type = "text"; input8.min = 0;
+                input8.type = "text"; input8.min = 0; input8.pattern = "[a-z]"; input8.title = "Palabras únicamente."
 
                 var input9 = document.createElement("input");
-                input9.type = "text"; input9.min = 0;
+                input9.type = "text"; input9.min = 0; input9.pattern = "[a-z]"; input9.title = "Palabras únicamente."
 
-                var input10 = document.createElement("input");
+                var input10 = document.createElement("input"); 
                 input10.type = "text";
 
                 var colores = ["Nada", "Verde", "Celeste", "Azul", "Rojo", "Verde", "Amarillo"];
                 var c = document.createElement('select');
                 c.type = 'select';
+
                 for (var i = 0; i < colores.length; i++) {
                     var option = document.createElement('option');
                     option.value = colores[i];
@@ -239,7 +229,9 @@
 
 
             //method to send array to controller
-            $('#submit').click(function () {
+            $('#submit').click(function (event) {
+                event.preventDefault();
+
                 var table = document.getElementById("tabla");
                 var tableArr = [];
                 for (var i = 2; i < table.rows.length; i++) {
@@ -269,7 +261,7 @@
                     expresion = @"(^[a-zA-Z'.\s])";
                     System.Text.RegularExpressions.Regex automata = new Regex(expresion);
                     System.Text.RegularExpressions.Regex automataNumerico = new Regex(expresionNumerica);
-}
+                }
                 //$(document).ready(function () {
                 //for (var i = 0; i < tableArr.length; i++){
                 //    if (tableArr[i].NombreEjercicio == null || !automata.IsMatch(tableArr[i].NombreEjercicio) ||
@@ -287,7 +279,7 @@
                 //        }
                 //}
                 //});
-           
+
                         $.ajax({
                             url: '/Rutinas/Ejercicio',
                             dataType: 'JSON',
@@ -306,13 +298,5 @@
 
                     });
         });
-    </script>
+</script>
 }
-
-
-    @*Regex reg = new Regex("^[a-zA-Z'.\s]{0,1000}$");
-                for (var i = 0; i < table.length; i++) {
-                    if (!reg.IsMatch(table.row[i]) && table.row[i]== null) {
-                        alert('Malo');
-                    }
-                }*@

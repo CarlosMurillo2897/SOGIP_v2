@@ -207,9 +207,21 @@ namespace SOGIP_v2.Controllers
                 int i = rutina.RutinaId;
                 string n = i.ToString();
                 ViewData["rutina"] = n;
-                var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id).ToList();
-                ViewBag.Conjunto_Ejercicios = getEjercicio;
+
+                var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.diaEjercicio == "Dia1").ToList();
+                var getEjercicio2 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.diaEjercicio == "Dia2").ToList();
+                var getEjercicio3 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.diaEjercicio == "Dia3").ToList();
+                var getEjercicio4 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.diaEjercicio == "Dia4").ToList();
+                var getEjercicio5 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.diaEjercicio == "Dia5").ToList();
+
+                ViewBag.Conjunto_Ejercicios1 = getEjercicio1;
+                ViewBag.Conjunto_Ejercicios2 = getEjercicio2;
+                ViewBag.Conjunto_Ejercicios3 = getEjercicio3;
+                ViewBag.Conjunto_Ejercicios4 = getEjercicio4;
+                ViewBag.Conjunto_Ejercicios5 = getEjercicio5;
+
             }
+
             return View();
 
         }

@@ -280,29 +280,31 @@ insert into SOGIP_Funcionario_ICODER values('b889fe47-541d-4453-8733-022709c1592
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Bajar Peso, aumentar masa Muscular', '079f4abe-80b2-43c0-9566-640869ea266a');
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Bajar porcentaje de grasa', '5c48e11d-0abc-4f76-88a5-bc49e83af272');
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Descanso 1 min despues de terminar la serie', 'c6d47fdc-c219-4d7f-b613-0aca0c812a29');
-select * from sogip_users where id = '991f4235-ab92-4fad-94ca-98b9a6dc503c'
-select * from sogip_archivo
-insert into SOGIP_Conjunto_Ejercicio values('aperturas maq individual', 3, 10, 60, 3, 12, 60, 3, 12, 70, 1, 'Dia1', 'Verde');
-insert into SOGIP_Conjunto_Ejercicio values('pull down maquina individual', 3, 10, 90, 3, 12, 90, 3, 90, 100, 1, 'Dia1', 'Verde');
-insert into SOGIP_Conjunto_Ejercicio values('rodilla a codo opuesto', 3, 20, 0, 3, 25, 0, 3, 30, 0, 1, 'Dia1', 'Rojo');
-insert into SOGIP_Conjunto_Ejercicio values('sentadilla con mancuerda', 3, 10, 15, 3, 12, 15, 3, 12, 20, 1, 'Dia1', 'Azul');
-insert into SOGIP_Conjunto_Ejercicio values('santadilla+salto cajon', 3, 10, 0, 3, 12, 0, 3, 12, 0, 1, 'Dia1', 'Azul');
-insert into SOGIP_Conjunto_Ejercicio values('abdominales', 3, 25, 0, 3, 27, 0, 3, 30, 0, 1, 'Dia1', 'Celeste');
-insert into SOGIP_Conjunto_Ejercicio values('lumbares', 3, 20, 0, 3, 25, 0, 3, 30, 0, 1, 'Dia1', 'Celeste');
-insert into SOGIP_Conjunto_Ejercicio values('Press pecho plano', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'Dia1', 'Verde');
-insert into SOGIP_Conjunto_Ejercicio values('Extension rodilla', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'Dia1', 'Verde');
-insert into SOGIP_Conjunto_Ejercicio values('Remo individaul polea', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'Dia1', 'Azul');
-insert into SOGIP_Conjunto_Ejercicio values('Pull down', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'Dia2', 'Verde');
-insert into SOGIP_Conjunto_Ejercicio values('Flex codo', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'Dia2', 'Amarrillo');
-insert into SOGIP_Conjunto_Ejercicio values('Elevacion frontal hombros', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'Dia2', 'Rojo');
-insert into SOGIP_Conjunto_Ejercicio values('press pecho', 3, 12, 0, 3, 12, 0, 3, 12, 0, 3, 'Dia1', 'Rojo');
-insert into SOGIP_Conjunto_Ejercicio values('Aperturas con polea', 3, 12, 0, 3, 12, 0, 3, 12, 0, 3, 'Dia1', 'Rojo');
-insert into SOGIP_Conjunto_Ejercicio values('Remo Mancuerda', 3, 12, 0, 3, 12, 0, 3, 12, 0, 3, 'Dia1', 'Verde');
-insert into SOGIP_Conjunto_Ejercicio values('extension', 3, 12, 0, 3, 12, 0, 3, 12, 0, 3, 'Dia1', 'Celeste');
-insert into SOGIP_Conjunto_Ejercicio values('Extension rodilla', 3, 8, 0, 3, 8, 0, 3, 8, 0, 3, 'Dia2', 'Morado');
-insert into SOGIP_Conjunto_Ejercicio values('Peso muerto', 3, 12, 0, 3, 12, 0, 3, 12, 0, 3, 'Dia2', 'verde');
-insert into SOGIP_Conjunto_Ejercicio values('Pantorrilla', 3, 8, 0, 3, 12, 0, 3, 12, 0, 3, 'Dia2', 'Azul');
-insert into SOGIP_Conjunto_Ejercicio values('lumbares', 3, 20, 0, 3, 23, 0, 3, 25, 0, 3, 'Dia2', 'Rojo');
+
+-- select * from sogip_users where id = '991f4235-ab92-4fad-94ca-98b9a6dc503c'
+-- select * from SOGIP_Conjunto_Ejercicio
+
+insert into SOGIP_Conjunto_Ejercicio values('aperturas maq individual', 3, 10, 60, 3, 12, 60, 3, 12, 70, 1, 'chartreuse', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('pull down maquina individual', 3, 10, 90, 3, 12, 90, 3, 90, 100, 1, 'chartreuse', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('rodilla a codo opuesto', 3, 20, 0, 3, 25, 0, 3, 30, 0, 1, 'orange', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('sentadilla con mancuerda', 3, 10, 15, 3, 12, 15, 3, 12, 20, 1, 'deeppink', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('santadilla+salto cajon', 3, 10, 0, 3, 12, 0, 3, 12, 0, 1, 'deeppink', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('abdominales', 3, 25, 0, 3, 27, 0, 3, 30, 0, 1, 'aqua', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('lumbares', 3, 20, 0, 3, 25, 0, 3, 30, 0, 1, 'aqua', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('Press pecho plano', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'chartreuse', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('Extension rodilla', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'chartreuse',  'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('Remo individaul polea', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'deeppink','Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('Pull down', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'chartreuse', 'Dia2');
+insert into SOGIP_Conjunto_Ejercicio values('Flex codo', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'yellow', 'Dia2');
+insert into SOGIP_Conjunto_Ejercicio values('Elevacion frontal hombros', 3, 10, 0, 3, 12, 0, 3, 12, 0, 2, 'orange', 'Dia2');
+insert into SOGIP_Conjunto_Ejercicio values('press pecho', 3, 12, 0, 3, 12, 0, 3, 12, 0, 3, 'orange', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('Aperturas con polea', 3, 12, 0, 3, 12, 0, 3, 12, 0, 3, 'orange', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('Remo Mancuerda', 3, 12, 0, 3, 12, 0, 3, 12, 0, 3, 'chartreuse', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('extension', 3, 12, 0, 3, 12, 0, 3, 12, 0, 3, 'aqua', 'Dia1');
+insert into SOGIP_Conjunto_Ejercicio values('Extension rodilla', 3, 8, 0, 3, 8, 0, 3, 8, 0, 3, 'mediumpurple', 'Dia2');
+insert into SOGIP_Conjunto_Ejercicio values('Peso muerto', 3, 12, 0, 3, 12, 0, 3, 12, 0, 3, 'chartreuse', 'Dia2');
+insert into SOGIP_Conjunto_Ejercicio values('Pantorrilla', 3, 8, 0, 3, 12, 0, 3, 12, 0, 3, 'deeppink', 'Dia2');
+insert into SOGIP_Conjunto_Ejercicio values('lumbares', 3, 20, 0, 3, 23, 0, 3, 25, 0, 3, 'orange', 'Dia2');
 
 insert into SOGIP_Cita values(1, 0, '603290698', 'YENCI', 'GONZALEZ', 'RUIZ', '2018-10-24 08:00:00.000', '2018-10-24 08:20:00.000', '0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824');
 insert into SOGIP_Cita values(1, 1, '115280606', 'ELIZABETH', 'CESPEDES', 'VIQUEZ', '2018-10-24 09:00:00.000', '2018-10-24 10:50:00.000', 'cbbe0afc-dbf4-46b3-ba5f-91ca8531decd');
