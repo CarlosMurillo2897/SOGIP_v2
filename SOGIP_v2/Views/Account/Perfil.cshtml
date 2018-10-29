@@ -12,19 +12,21 @@
 <br>
 <br>
 <div class="container">
+    <div>
+        <a href="~/Home/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
+    </div>
     <div class="well span8 offset2">
         @* Este es el "card" *@
         <div class="row-fluid user-row">
-
             <div class="span1">
                 @*if (ViewBag.Usuario.Sexo == true)
-                {
-                    <img class="img-circle" src="~/Content/Imagenes/M.png" alt="User Pic" , style="width:50px;height:50px;">
-                }
-                else
-                {
-                    <img class="img-circle" src="~/Content/Imagenes/W6.png" alt="User Pic" , style="width:50px;height:50px; background-color:black;">
-                }*@
+                    {
+                        <img class="img-circle" src="~/Content/Imagenes/M.png" alt="User Pic" , style="width:50px;height:50px;">
+                    }
+                    else
+                    {
+                        <img class="img-circle" src="~/Content/Imagenes/W6.png" alt="User Pic" , style="width:50px;height:50px; background-color:black;">
+                    }*@
                 <!--span class="pull-right"-->
                 @if (ViewBag.Usuario.Estado == true)
                 {
@@ -58,7 +60,8 @@
                                 @if (ViewBag.Usuario.Sexo == true)
                                 {
                                     <img class="img-circle" src="~/Content/Imagenes/M.png" alt="User Pic" , style="width:100px;height:100px;">
-                                }else
+                                }
+                                else
                                 {
                                     <img class="img-circle" src="~/Content/Imagenes/W6.png" alt="User Pic" , style="width:100px;height:100px; background-color: black;">
                                 }
@@ -137,10 +140,10 @@
                     </div>
                     <div class="panel-footer">
                         <span class="pull-left">
-                            <input type="button" class="btn btn-danger" value="Inhabilitar" style="height:45px;"/>
+                            <input type="button" class="btn btn-danger" value="Inhabilitar" style="height:45px;" />
                         </span>
                         <span class="pull-right">
-                                    @Html.ActionLink("Editar", "Edit", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "editar", @class = "btn btn-warning", @type = "button" })
+                            @Html.ActionLink("Editar", "Edit", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "editar", @class = "btn btn-warning", @type = "button" })
                         </span>
                     </div>
                 </div>

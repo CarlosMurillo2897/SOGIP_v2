@@ -3,6 +3,12 @@
     ViewBag.Title = "Gestionar";
 }
 
+<div class="col-md-10">
+    <a href="~/Home/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
+</div>
+<br />
+<br />
+
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
@@ -30,13 +36,13 @@
         </dd>
         @*
             Los números de teléfono se pueden usar como una segunda fase de comprobación en un sistema de autenticación en dos fases.
-             
+
              Consulte <a href="https://go.microsoft.com/fwlink/?LinkId=403804">este artículo</a>
                 para obtener detalles sobre cómo configurar esta aplicación ASP.NET para que sea compatible con la autenticación en dos fases mediante SMS.
-             
+
              Quite la marca de comentario de los bloques siguientes después de configurar la autenticación en dos fases.
         *@
-        @*  
+        @*
             <dt>Número de teléfono:</dt>
             <dd>
                 @(Model.PhoneNumber ?? "None")

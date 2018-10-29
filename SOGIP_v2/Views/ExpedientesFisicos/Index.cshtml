@@ -7,6 +7,11 @@
 <div class="container">
     @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
     {
+        <div class="col-md-10">
+            <a href="~/Home/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
+        </div>
+        <br />
+        <br />
         <div class="exp_fis">
             <font color="red"><b>@Html.Raw(ViewBag.Error)</b></font>
             @Html.Label("Seleccione el Atleta: ", new { @class = "control-label" })
@@ -19,22 +24,22 @@
                 }
             </select>
         </div>
-            <div class="row">
-                <div class="col-md-6">
-                        <div class="form-group files">
-                            <label>Seleccione un archivo InBody </label>
-                            <input type="file" name="inbody" id="inbody" class="form-control" multiple="">
-                            <!--input type="file" name="inbody" id="inbody" value="Cargar" /-->
-                        </div>
-                </div>
-                <div class="col-md-6">
-                        <div class="form-group files color">
-                            <label> Seleccione una prueba de fuerza </label>
-                            <input type="file" name="pruFu" id="pruFu" class="form-control" multiple="">
-                            <!--input type="file" name="pruFu" id="pruFu" value="Cargar" /-->
-                        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group files">
+                    <label>Seleccione un archivo InBody </label>
+                    <input type="file" name="inbody" id="inbody" class="form-control" multiple="">
+                    <!--input type="file" name="inbody" id="inbody" value="Cargar" /-->
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="form-group files color">
+                    <label> Seleccione una prueba de fuerza </label>
+                    <input type="file" name="pruFu" id="pruFu" class="form-control" multiple="">
+                    <!--input type="file" name="pruFu" id="pruFu" value="Cargar" /-->
+                </div>
+            </div>
+        </div>
 
         @*<div class="exp_fis" id="inicio">
                 <font color="red"><b>@Html.Raw(ViewBag.Error1)</b></font>
