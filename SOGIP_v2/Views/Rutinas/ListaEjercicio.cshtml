@@ -45,9 +45,15 @@
                 <tbody>
                     @if (ViewBag.Conjunto_Ejercicios1 != null)
                     {
+                        var dia = true;
 
                         foreach (var item1 in ViewBag.Conjunto_Ejercicios1)
                         {
+                            if (dia)
+                            {
+                                <tr><td>Día 1</td></tr>
+                                dia = false;
+                            }
 
                             <tr style="background-color: @item1.ColorEjercicio">
                                 <td>@item1.NombreEjercicio</td>
@@ -65,8 +71,15 @@
                     }
                     @if (ViewBag.Conjunto_Ejercicios2 != null)
                     {
+                        var dia = true;
                         foreach (var item2 in ViewBag.Conjunto_Ejercicios2)
                         {
+                            if (dia)
+                            {
+                                <tr><td>Día 2</td></tr>
+                                dia = false;
+                            }
+
                             <tr style="background-color: @item2.ColorEjercicio">
                                 <td>@item2.NombreEjercicio</td>
                                 <td>@item2.Serie1</td>
@@ -83,8 +96,14 @@
                     }
                     @if (ViewBag.Conjunto_Ejercicios3 != null)
                     {
+                        var dia = true;
                         foreach (var item3 in ViewBag.Conjunto_Ejercicios3)
                         {
+                            if (dia)
+                            {
+                                <tr><td>Día 3</td></tr>
+                                dia = false;
+                            }
                             <tr style="background-color: @item3.ColorEjercicio">
                                 <td>@item3.NombreEjercicio</td>
                                 <td>@item3.Serie1</td>
@@ -101,8 +120,15 @@
                     }
                     @if (ViewBag.Conjunto_Ejercicios4 != null)
                     {
+                        var dia = true;
                         foreach (var item4 in ViewBag.Conjunto_Ejercicios4)
                         {
+                            if (dia)
+                            {
+                                <tr><td>Día 4</td></tr>
+                                dia = false;
+                            }
+
                             <tr style="background-color: @item4.ColorEjercicio">
                                 <td>@item4.NombreEjercicio</td>
                                 <td>@item4.Serie1</td>
@@ -119,8 +145,15 @@
                     }
                     @if (ViewBag.Conjunto_Ejercicios5 != null)
                     {
+                        var dia = true;
+
                         foreach (var item5 in ViewBag.Conjunto_Ejercicios5)
                         {
+                            if (dia)
+                            {
+                                <tr><td>Día 5</td></tr>
+                                dia = false;
+                            }
                             <tr style="background-color: @item5.ColorEjercicio">
                                 <td>@item5.NombreEjercicio</td>
                                 <td>@item5.Serie1</td>
