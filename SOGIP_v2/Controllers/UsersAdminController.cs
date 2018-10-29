@@ -331,7 +331,8 @@ namespace SOGIP_v2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = await UserManager.FindByIdAsync(id);
-            
+            //var usar = db.Users.Single(x=>x.Id==id);
+
             if (user == null)
             {
                 return HttpNotFound();
@@ -339,9 +340,44 @@ namespace SOGIP_v2.Controllers
 
             var userRoles = await UserManager.GetRolesAsync(user.Id);
 
-            ViewBag.Archivos = db.Archivo.ToList();
+
+
+            //Comite/Aso *****
+            ViewBag.Asociaciones = new SelectList(db.Asociacion_Deportiva.ToList(), "Asociacion_DeportivaId", "Nombre_DepAso");
+            var comite = db.Asociacion_Deportiva.Where(x => x.Usuario.Id == user.Id).FirstOrDefault();
+            if (comite != null) { ViewBag.comite = comite.Nombre_DepAso; }
+
+
+            //Entidad
+            ViewBag.Entidades = new SelectList(db.Tipo_Entidad.ToList(), "Tipo_EntidadId", "Descripcion");
+            var entidad = db.Entidad_Publica.Where(x => x.Usuario.Id == user.Id).FirstOrDefault();
+            if (entidad != null) { ViewBag.entidad = entidad.Tipo_Entidad.Tipo_EntidadId; }
+
+
+            //Usuario
+            ViewBag.genero = user.Sexo;
+
+            //Seleccion/Federación *****
+            ViewBag.Selecciones = new SelectList(db.Selecciones.ToList(), "SeleccionId", "Nombre_Seleccion");
+            var sele = db.Selecciones.Where(a => a.Usuario.Id == user.Id).FirstOrDefault();
+            if (sele != null) { ViewBag.seleccion = sele.Nombre_Seleccion; }
+
+            var atleta = db.Atletas.Where(x => x.Usuario.Id == user.Id).FirstOrDefault();
+            if (atleta != null)
+            {
+                ViewBag.var1 = atleta.Asociacion_Deportiva.Asociacion_DeportivaId;
+                ViewBag.var2 = atleta.Seleccion.SeleccionId;
+            }
+
+
+            
+
+
+            //Entrenador
+            //ViewBag.Archivos = db.Archivo.Where(x => x.Usuario == user).ToList();
+
+            //Roles
             ViewBag.rol = userRoles;
-            ViewBag.Sexo = user.Sexo;
 
             return View(new EditUserViewModel()
             {
@@ -359,6 +395,7 @@ namespace SOGIP_v2.Controllers
                 Estado = user.Estado
 
             });
+
         }
 
         [HttpPost]
@@ -400,19 +437,20 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Email,Id,UserName,Nombre1,Nombre2,Apellido1,Apellido2,Fecha_Nacimiento,Sexo")] EditUserViewModel editUser, int Documento, params string[] selectedRole)
+        public ActionResult Edit([Bind(Include = "Id,Cedula,CedulaExtra,Nombre1,Nombre2,Apellido1,Apellido2,Fecha_Nacimiento,Sexo,Email")] EditUserViewModel editUser, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, FormCollection form, HttpPostedFileBase CV)
         {
+            // Download(Documento);
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByIdAsync(editUser.Id);
+                string rol = form["rolName"].ToString();
+                var user = db.Users.Single(x => x.Id == editUser.Id);
+                var userRoles = UserManager.GetRolesAsync(user.Id);
                 if (user == null)
                 {
                     return HttpNotFound();
                 }
 
-                user.UserName = editUser.UserName;
-                user.Cedula = editUser.UserName;
-                user.CedulaExtra = user.CedulaExtra;
+                user.CedulaExtra = editUser.CedulaExtra;
                 user.Email = editUser.Email;
                 user.Nombre1 = editUser.Nombre1;
                 user.Nombre2 = editUser.Nombre2;
@@ -421,29 +459,67 @@ namespace SOGIP_v2.Controllers
                 user.Fecha_Nacimiento = editUser.Fecha_Nacimiento;
                 user.Sexo = editUser.Sexo;
 
-                var userRoles = await UserManager.GetRolesAsync(user.Id);
-
-                selectedRole = selectedRole ?? new string[] { };
-
-                var result = await UserManager.AddToRolesAsync(user.Id, selectedRole.Except(userRoles).ToArray<string>());
-
-                if (!result.Succeeded)
+                if(rol== "Atleta Becados")
                 {
-                    ModelState.AddModelError("", result.Errors.First());
-                    return View();
+                    rol = "Atleta";
                 }
-                result = await UserManager.RemoveFromRolesAsync(user.Id, userRoles.Except(selectedRole).ToArray<string>());
 
-                if (!result.Succeeded)
+                switch (rol)
                 {
-                    ModelState.AddModelError("", result.Errors.First());
-                    return View();
+                    case "Seleccion/Federacion":
+                        var sele = db.Selecciones.Single(x => x.Usuario.Id == editUser.Id);
+                        sele.Nombre_Seleccion = form["sele_n"].ToString();
+                        break;
+                    case "Asociacion/Comite":
+                        var aso = db.Asociacion_Deportiva.Single(x => x.Usuario.Id == editUser.Id);
+                        aso.Nombre_DepAso = form["nombre_aso"].ToString();
+                        break;
+                    case "Entidades Publicas":
+                        var ent = db.Entidad_Publica.Single(x => x.Usuario.Id == editUser.Id);
+                        ent.Tipo_Entidad = db.Tipo_Entidad.Single(x => x.Tipo_EntidadId == SelectedEntity);
+                        break;
+
+                    case "Entrenador":
+                        if (CV != null)
+                        {
+                            BinaryReader br = new BinaryReader(CV.InputStream);
+                            byte[] buffer = br.ReadBytes(CV.ContentLength);
+
+                            Archivo file = new Archivo()
+                            {
+                                Nombre = CV.FileName,
+                                Extension = Path.GetExtension(CV.FileName),
+                                Tipo = CV.ContentType,
+                                Contenido = buffer,
+                                Usuario = db.Users.Single(x => x.Id == user.Id)
+                            };
+                            db.Archivo.Add(file);
+                        }
+                        break;
+
+                    case "Atleta":
+                        var atleta = db.Atletas.Single(x=>x.Usuario.Id==editUser.Id);
+                        if (Atleta_Tipo == "Selección")
+                        {
+                            atleta.Seleccion = db.Selecciones.Single(x => x.SeleccionId == selectedS);
+                        }
+                        else
+                        {
+                            atleta.Asociacion_Deportiva = db.Asociacion_Deportiva.Single(x => x.Asociacion_DeportivaId == SelectedAsox);
+                        }
+                        break;
                 }
-                return RedirectToAction("Index");
+
+
             }
-            ModelState.AddModelError("", "Something failed.");
-            return View();
+            else
+            {
+                ModelState.AddModelError("", "Something failed.");
+            }
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
+
 
         //
         // GET: /Users/Delete/5

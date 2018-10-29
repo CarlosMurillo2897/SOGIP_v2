@@ -226,6 +226,10 @@
     <Compile Include="Migrations\201810230432023_ejercicio.Designer.cs">
       <DependentUpon>201810230432023_ejercicio.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810281936239_zi.cs" />
+    <Compile Include="Migrations\201810281936239_zi.Designer.cs">
+      <DependentUpon>201810281936239_zi.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -265,6 +269,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Edit.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fullcalendar.css" />
     <Content Include="Content\fullcalendar.min.css" />
@@ -601,6 +606,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201810230432023_ejercicio.resx">
       <DependentUpon>201810230432023_ejercicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810281936239_zi.resx">
+      <DependentUpon>201810281936239_zi.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
