@@ -1,4 +1,6 @@
 ﻿@model SOGIP_v2.Models.EditUserViewModel
+@using Microsoft.AspNet.Identity
+@using App.Extensions
 @{
     ViewBag.Title = "Editar";
     @Styles.Render("~/Content/Edit.css")
@@ -26,7 +28,15 @@
     <div class="container">
         <div class="row">
             <div class="col-md-10">
-                <a href="~/Home/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
+                @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
+                {
+                    <a href="~/UsersAdmin/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
+                }
+                else
+                {
+                    <a href="~/Home/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
+                }
+
             </div>
             <div class="col-md-6 col-lg-6  toppad">
                 <div class="panel panel-primary">
@@ -252,14 +262,10 @@
             </div>
         </div>
 
-        
+
 
     </div>
 }
-
-<div>
-    @Html.ActionLink("Regresar a la lista", "Index")
-</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -273,10 +279,10 @@
             $('[name=SelectedAsox]').val( @ViewBag.var1 );
             $('[name=SelectedS]').val( @ViewBag.var2 );
 
-            
+
         });
         function a() {
-            alert("holi");
+            // alert("holi");
         }
 
         function EscondeSelecciones() {
@@ -290,9 +296,9 @@
         }
 
         function form() {
-            alert("h");
+            // alert("h");
             var rol_selected = $('#rolName').val();
-           
+
 
             switch (rol_selected) {
                 case 'Entrenador':
@@ -315,12 +321,12 @@
                     $('#info_atleta_tipo').show();
                     $('#info_atleta_selec').show();
                     break;
-                    
+
                 case 'Atleta':
                     $('#info_atleta_tipo').show();
                     $('#info_atleta_selec').show();
                     break;
-                    
+
 
                 default:
                     $('#adicional').hide();

@@ -11,7 +11,7 @@
     }
 
 
-<button onclick="location.href='../Home/Index';" " id="btn_regresar" class="btn btn-success">&laquo; Regresar</button>
+<button onclick="location.href='../Rutinas/Index'" id="btn_regresar" class="btn btn-success">&laquo; Regresar</button>
 
 
 <h2>Rutina</h2>
@@ -144,7 +144,7 @@
                         <td>@item2.Serie3</td>
                         <td>@item2.Repeticion3</td>
                         <td>@item2.Peso3</td>
-                        <td>@item2.ColorEjercicio</td>
+                        @*<td>@item2.ColorEjercicio</td>*@
                         <td>@item2.diaEjercicio</td>
                         <td>
                             @Html.ActionLink("Editar", "EditEjercicio", new { id = item2.Conjunto_EjercicioId }) |
@@ -192,7 +192,7 @@
                         <td>@item3.Serie3</td>
                         <td>@item3.Repeticion3</td>
                         <td>@item3.Peso3</td>
-                        <td>@item3.ColorEjercicio</td>
+                        @*<td>@item3.ColorEjercicio</td>*@
                         <td>@item3.diaEjercicio</td>
                         <td>
                             @Html.ActionLink("Editar", "EditEjercicio", new { id = item3.Conjunto_EjercicioId }) |
