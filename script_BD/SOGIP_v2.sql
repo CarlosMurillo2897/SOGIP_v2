@@ -230,7 +230,7 @@ insert into SOGIP_Tipo_Entidad values('Universidad Estatal a Distancia');
 insert into SOGIP_Tipo_Entidad values('Universidad Nacional de Costa Rica');
 
 -- update SOGIP_Users set Sexo = 1 where Cedula='110280141';
-
+sp_help sogip_conjunto_ejercicio
 insert into SOGIP_Users values('079f4abe-80b2-43c0-9566-640869ea266a', '110280141', NULL, '2019-04-20 13:42:39.747', 'ALONSO', NULL, 'LEON', 'MENA', '1979-02-11 00:00:00.000', 1, 1, 'alonso.leon@icoder.co.cr', 0, 'AEuLAa53HkMBZx7hobzIRLRXS39d88xPS7n6xrsz5cHxjL/TG9UG+FCkyM0kpQ8mLg==', 'aa379c05-9fe6-4f9f-b0b8-11520a87d019', NULL, 0, 0, NULL, 1, 0, '110280141');
 insert into SOGIP_Users values('09d9e8a1-14e1-43bd-8bc2-75b52378757d', '104670428', NULL, '2019-01-22 16:02:16.563', 'ILEANA', NULL, 'MADRIGAL', 'CECILIANO', '1956-07-18 00:00:00.000', 0, 1, 'ileana.madrigal@icoder.go.cr', 0, 'AC8f7m9SJVC5Hp2EpGB+6RvhzQFyW1HDAHMNtNwFzb9q5SPPst6T6pNXnjS9L3HaKg==', '5535d562-81b7-42a6-9fb4-83e77a4b5e2f', NULL, 0, 0, NULL, 1, 0, '104670428');
 insert into SOGIP_Users values('0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824', '603290698', NULL, '2019-01-22 15:58:20.630', 'YENCI', NULL, 'GONZALEZ', 'RUIZ', '1983-06-04 00:00:00.000', 0, 1, 'yenci.gonzalez@icoder.co.cr', 0, 'ADz1OynzfyQk7xOpalS/Usus/H+jG1ilTFPPbpWOL01+UFKgCPGMK+C5J/hK68OnUw==', 'ba3deaaa-ba69-4a54-9369-8bde2cd1166e', NULL, 0, 0, NULL, 1, 0, '603290698');
@@ -253,6 +253,7 @@ insert into SOGIP_UserRoles values('b889fe47-541d-4453-8733-022709c1592f', 2);
 insert into SOGIP_UserRoles values('43002ea0-b75c-44a0-8f29-7d5c0eeffed2', 3);
 insert into SOGIP_UserRoles values('914db4cb-8e02-4476-9e42-31befefd7a0e', 6);
 insert into SOGIP_UserRoles values('9d9d279f-016a-47e9-bf70-9ed4a4754de5', 6);
+insert into SOGIP_UserRoles values('de8b4ac7-40a3-4b23-aa2b-28ae9fcb9253', 6);
 insert into SOGIP_UserRoles values('079f4abe-80b2-43c0-9566-640869ea266a', 7);
 insert into SOGIP_UserRoles values('09d9e8a1-14e1-43bd-8bc2-75b52378757d', 7);
 insert into SOGIP_UserRoles values('0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824', 7);

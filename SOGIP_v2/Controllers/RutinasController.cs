@@ -55,6 +55,7 @@ namespace SOGIP_v2.Controllers
             ViewBag.Atletas = listaAtletas;
             return View();
         }
+
         public ActionResult Ejercicio(int? idRutina, string idUsuario)
         {
             if (idRutina != null)
@@ -287,20 +288,24 @@ namespace SOGIP_v2.Controllers
             {
                 return HttpNotFound();
             }
+
             string nombre = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
+
             ViewData["nombre"] = nombre;
+            ViewData["idRutina"] = rutina.RutinaId;
+
             return View(conjunto_Ejercicio);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditEjercicio([Bind(Include = "Conjunto_EjercicioId,NombreEjercicio,Serie1,Repeticion1,Peso1,Serie2,Repeticion2,Peso2,Serie3,Repeticion3,Peso3,ColorEjercicio, diaEjercicio")] Conjunto_Ejercicio conjunto_Ejercicio)
+        public ActionResult EditEjercicio([Bind(Include = "Conjunto_EjercicioId,NombreEjercicio,Serie1,Repeticion1,Peso1,Serie2,Repeticion2,Peso2,Serie3,Repeticion3,Peso3,ColorEjercicio, diaEjercicio")] Conjunto_Ejercicio conjunto_Ejercicio, int idRutina)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(conjunto_Ejercicio).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Ejercicio", new { idRutina} );
             }
             return View(conjunto_Ejercicio);
         }
