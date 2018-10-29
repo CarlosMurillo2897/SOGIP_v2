@@ -336,17 +336,18 @@
                 var input10 = document.createElement("input"); 
                 input10.type = "text";
 
-                var colores = ["Nada", "Verde", "Celeste", "Azul", "Rojo", "Verde", "Amarillo"];
+                var colores = ["Blanco", "Rosado", "Celeste", "Morado", "Naranja", "Verde", "Amarillo"];
+                var colors = ["white", "deeppink", "aqua", "mediumpurple", "orange", "chartreuse", "yellow"];
                 var c = document.createElement('select');
                 c.type = 'select';
 
                 for (var i = 0; i < colores.length; i++) {
                     var option = document.createElement('option');
-                    option.value = colores[i];
+                    option.value = colors[i];
                     option.text = colores[i];
                     c.add(option);
                 }
-                var dias = ["Día1", "Día2", "Día3", "Día4"];
+                var dias = ["Dia1", "Dia2", "Dia3", "Dia4"];
                 var d = document.createElement('select');
                 d.type = 'select';
                 for (var i = 0; i < dias.length; i++) {
@@ -390,8 +391,7 @@
 
 
             //method to send array to controller
-            $('#submit').click(function (event) {
-                event.preventDefault();
+            $('#submit').click(function () {
 
                 var table = document.getElementById("tabla");
                 var tableArr = [];
