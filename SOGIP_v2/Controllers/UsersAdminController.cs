@@ -376,9 +376,13 @@ namespace SOGIP_v2.Controllers
             var atleta = db.Atletas.Where(x => x.Usuario.Id == user.Id).FirstOrDefault();
             if (atleta != null)
             {
-                ViewBag.var1 = atleta.Asociacion_Deportiva.Asociacion_DeportivaId;
-                ViewBag.var2 = atleta.Seleccion.SeleccionId;
+                if (atleta.Asociacion_Deportiva != null) { ViewBag.var1 = atleta.Asociacion_Deportiva.Asociacion_DeportivaId; }
+                if (atleta.Seleccion != null) { ViewBag.var2 = atleta.Seleccion.SeleccionId; }
             }
+               
+           
+               
+            
 
 
             

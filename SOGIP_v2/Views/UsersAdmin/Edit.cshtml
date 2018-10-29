@@ -263,19 +263,18 @@
 
     <script>
         $(document).ready(function () {
-            
+
+            form();
             $('[name=SelectedEntity]').val( @ViewBag.entidad );
             $('[name=generoId]').val( @ViewBag.genero );
+            $('[name=SelectedAsox]').val( @ViewBag.var1 );
+            $('[name=SelectedS]').val( @ViewBag.var2 );
 
-            if (@ViewBag.var1!= null) {$('[name=SelectedAsox]').val( @ViewBag.var1 );}
-            
-            if (@ViewBag.var2!= null) { $('[name=SelectedS]').val( @ViewBag.var2 ); }
-
-           
-            
-            formulario_editar();
             
         });
+        function a() {
+            alert("holi");
+        }
 
         function EscondeSelecciones() {
             $('#info_atleta_selec').hide();
@@ -287,8 +286,10 @@
             $('#info_atleta_aso').hide();
         }
 
-        function formulario_editar() {
+        function form() {
+            alert("h");
             var rol_selected = $('#rolName').val();
+           
 
             switch (rol_selected) {
                 case 'Entrenador':
