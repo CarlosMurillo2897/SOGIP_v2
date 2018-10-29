@@ -6,15 +6,13 @@
     @Styles.Render("~/Content/Rutina.css")
 }
 
-<<<<<<< HEAD
     @{
         var viewDataRutina = ViewData["rutina"];
     }
 
-    @Html.Hidden("data", viewDataRutina)
-=======
+
 <button onclick="location.href='../Home/Index';" " id="btn_regresar" class="btn btn-success">&laquo; Regresar</button>
->>>>>>> Pierre_AjustesBtns
+
 
 <h2>Rutina</h2>
 
@@ -68,8 +66,6 @@
                         <tr><td>Día 1</td></tr>
                         dia = false;
                     }
-
-<<<<<<< HEAD
                         <tr style="background-color: @item1.ColorEjercicio">
                             <td>@item1.NombreEjercicio</td>
                             <td>@item1.Serie1</td>
@@ -88,8 +84,7 @@
                                 @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item1.Conjunto_EjercicioId })
                             </td>
                         </tr>
-=======
-                    <tr style="background-color: @item1.ColorEjercicio">
+                    @*<tr style="background-color: @item1.ColorEjercicio">
                         <td>@item1.NombreEjercicio</td>
                         <td>@item1.Serie1</td>
                         <td>@item1.Repeticion1</td>
@@ -106,8 +101,7 @@
                             @Html.ActionLink("Editar", "EditEjercicio", new { id = item1.Conjunto_EjercicioId }) |
                             @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item1.Conjunto_EjercicioId })
                         </td>
-                    </tr>
->>>>>>> Pierre_AjustesBtns
+                    </tr>*@
                 }
             }
             @if (ViewBag.Conjunto_Ejercicios2 != null)
@@ -121,7 +115,6 @@
                         dia = false;
                     }
 
-<<<<<<< HEAD
                         <tr style="background-color: @item2.ColorEjercicio">
                             <td>@item2.NombreEjercicio</td>
                             <td>@item2.Serie1</td>
@@ -140,7 +133,6 @@
                                 @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item2.Conjunto_EjercicioId })
                             </td>
                         </tr>
-=======
                     <tr style="background-color: @item2.ColorEjercicio">
                         <td>@item2.NombreEjercicio</td>
                         <td>@item2.Serie1</td>
@@ -159,7 +151,6 @@
                             @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item2.Conjunto_EjercicioId })
                         </td>
                     </tr>
->>>>>>> Pierre_AjustesBtns
                 }
             }
             @if (ViewBag.Conjunto_Ejercicios3 != null)
@@ -172,7 +163,6 @@
                         <tr><td>Día 3</td></tr>
                         dia = false;
                     }
-<<<<<<< HEAD
                         <tr style="background-color: @item3.ColorEjercicio">
                             <td>@item3.NombreEjercicio</td>
                             <td>@item3.Serie1</td>
@@ -191,7 +181,6 @@
                                 @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item3.Conjunto_EjercicioId })
                             </td>
                         </tr>
-=======
                     <tr style="background-color: @item3.ColorEjercicio">
                         <td>@item3.NombreEjercicio</td>
                         <td>@item3.Serie1</td>
@@ -210,7 +199,6 @@
                             @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item3.Conjunto_EjercicioId })
                         </td>
                     </tr>
->>>>>>> Pierre_AjustesBtns
                 }
             }
             @if (ViewBag.Conjunto_Ejercicios4 != null)
@@ -223,8 +211,6 @@
                         <tr><td>Día 4</td></tr>
                         dia = false;
                     }
-
-<<<<<<< HEAD
                         <tr style="background-color: @item4.ColorEjercicio">
                             <td>@item4.NombreEjercicio</td>
                             <td>@item4.Serie1</td>
@@ -243,7 +229,6 @@
                                 @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item4.Conjunto_EjercicioId })
                             </td>
                         </tr>
-=======
                     <tr style="background-color: @item4.ColorEjercicio">
                         <td>@item4.NombreEjercicio</td>
                         <td>@item4.Serie1</td>
@@ -262,7 +247,6 @@
                             @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item4.Conjunto_EjercicioId })
                         </td>
                     </tr>
->>>>>>> Pierre_AjustesBtns
                 }
             }
             @if (ViewBag.Conjunto_Ejercicios5 != null)
@@ -276,7 +260,6 @@
                         <tr><td>Día 5</td></tr>
                         dia = false;
                     }
-<<<<<<< HEAD
                         <tr style="background-color: @item5.ColorEjercicio">
                             <td>@item5.NombreEjercicio</td>
                             <td>@item5.Serie1</td>
@@ -295,7 +278,6 @@
                                 @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item5.Conjunto_EjercicioId,  })
                             </td>
                         </tr>
-=======
                     <tr style="background-color: @item5.ColorEjercicio">
                         <td>@item5.NombreEjercicio</td>
                         <td>@item5.Serie1</td>
@@ -314,7 +296,6 @@
                             @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item5.Conjunto_EjercicioId })
                         </td>
                     </tr>
->>>>>>> Pierre_AjustesBtns
                 }
             }
 
