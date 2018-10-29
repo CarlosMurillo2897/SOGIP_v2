@@ -1,0 +1,12 @@
+﻿body {
+}
+
+thead {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    color: #fff;
+}
+input {
+    width: 70px;
+    height: 30px;
+}

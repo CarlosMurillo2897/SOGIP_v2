@@ -11,6 +11,9 @@
 </p>
 <table class="table">
     <tr>
+      <th>
+          @Html.DisplayNameFor(model => model.Usuario)
+          </th>
         <th>
             @Html.DisplayNameFor(model => model.RutinaFecha)
         </th>
@@ -23,14 +26,21 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.RutinaFecha)
+
+            @Html.DisplayFor(modelItem => item.Usuario.Cedula)
+            @Html.DisplayFor(modelItem => item.Usuario.Nombre1)
+            @Html.DisplayFor(modelItem => item.Usuario.Apellido1)
+            @Html.DisplayFor(modelItem => item.Usuario.Apellido2)
+        </td>
+        <td>
+           
+            @item.RutinaFecha.ToShortDateString()
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.RutinaObservaciones)
         </td>
         <td>
             @Html.ActionLink("Editar", "Edit", new { id = item.RutinaId }) |
-            @Html.ActionLink("Detalles", "Details", new { id = item.RutinaId }) |
             @Html.ActionLink("Eliminar", "Delete", new { id = item.RutinaId })|
             @Html.ActionLink("Rutina", "Ejercicio", new { idRutina = item.RutinaId })
         </td>

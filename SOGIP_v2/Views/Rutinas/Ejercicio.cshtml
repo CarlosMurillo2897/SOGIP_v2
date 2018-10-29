@@ -1,4 +1,5 @@
-﻿@model SOGIP_v2.Models.Conjunto_Ejercicio
+﻿@using System.Text.RegularExpressions;
+@model SOGIP_v2.Models.Conjunto_Ejercicio
 @{
     ViewBag.Title = "Ejercicios";
     @Styles.Render("~/Content/Rutina.css")
@@ -17,10 +18,16 @@
     </div>
 </head>
 <body>
+    <h4>Usuario</h4>
+    @Html.DisplayFor(model => model.ConjuntoEjercicioRutina.Usuario.Cedula)
+    @{
+        var viewDataNombre = ViewData["nombre"];
+    }
+    <h4> @viewDataNombre </h4>
 
     <div class="col-sm-12">
         <table id="rutina" class="table table-bordered table-responsive table-hover">
-            <thead style="background-color:#337ab7;border-color:#2e6da4;color:#fff;">
+            <thead>
 
                 <TR>
                     <TH COLSPAN=1>Ejercicio</TH>
@@ -53,24 +60,24 @@
             <tbody>
                 @foreach (var row in ViewBag.Conjunto_Ejercicios)
                 {
-                <tr>
-                    <td>@row.NombreEjercicio</td>
-                    <td>@row.Serie1</td>
-                    <td>@row.Repeticion1</td>
-                    <td>@row.Peso1</td>
-                    <td>@row.Serie2</td>
-                    <td>@row.Repeticion2</td>
-                    <td>@row.Peso2</td>
-                    <td>@row.Serie3</td>
-                    <td>@row.Repeticion3</td>
-                    <td>@row.Peso3</td>
-                    <td>@row.ColorEjercicio</td>
-                    <td>@row.diaEjercicio</td>
-                    <td>
-                        @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
-                        @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
-                    </td>
-                </tr>
+                    <tr>
+                        <td>@row.NombreEjercicio</td>
+                        <td>@row.Serie1</td>
+                        <td>@row.Repeticion1</td>
+                        <td>@row.Peso1</td>
+                        <td>@row.Serie2</td>
+                        <td>@row.Repeticion2</td>
+                        <td>@row.Peso2</td>
+                        <td>@row.Serie3</td>
+                        <td>@row.Repeticion3</td>
+                        <td>@row.Peso3</td>
+                        <td>@row.ColorEjercicio</td>
+                        <td>@row.diaEjercicio</td>
+                        <td>
+                            @Html.ActionLink("Editar", "EditEjercicio", new { id = row.Conjunto_EjercicioId }) |
+                            @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = row.Conjunto_EjercicioId })
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -78,7 +85,7 @@
 
 
     <section>
-        <table id="tabla" class="table table-condensed table-bordered table-hover">
+        <table id="tabla" class="table table-bordered table-responsive table-hover">
             <TR align="center" class="active">
                 <TH COLSPAN=1>Ejercicio</TH>
                 <TH COLSPAN=3>Semana 1-2</TH>
@@ -112,12 +119,13 @@
             <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
             <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear </button>
         </div>
-  
-            @{
-                var viewDataRutina = ViewData["rutina"];
-            }
-            @Html.Hidden("data", viewDataRutina)
-            </section>
+
+        @{
+            var viewDataRutina = ViewData["rutina"];
+        }
+        @Html.Hidden("data", viewDataRutina)
+
+    </section>
 
 </body>
 </html>
@@ -149,36 +157,36 @@
                 var newCell12 = newRow.insertCell(12);
 
                 var input1 = document.createElement("input");
-                input1.type = "number"; input1.min = 0;
+                input1.type = "text"; input1.min = 0;
 
                 var input2 = document.createElement("input");
-                input2.type = "number"; input2.min = 0;
+                input2.type = "text"; input2.min = 0;
 
                 var input3 = document.createElement("input");
-                input3.type = "number"; input3.min = 0;
+                input3.type = "text"; input3.min = 0;
 
                 var input4 = document.createElement("input");
-                input4.type = "number"; input4.min = 0;
+                input4.type = "text"; input4.min = 0;
 
                 var input5 = document.createElement("input");
-                input5.type = "number"; input5.min = 0;
+                input5.type = "text"; input5.min = 0;
 
                 var input6 = document.createElement("input");
-                input6.type = "number"; input6.min = 0;
+                input6.type = "text"; input6.min = 0;
 
                 var input7 = document.createElement("input");
-                input7.type = "number"; input7.min = 0;
+                input7.type = "text"; input7.min = 0;
 
                 var input8 = document.createElement("input");
-                input8.type = "number"; input8.min = 0;
+                input8.type = "text"; input8.min = 0;
 
                 var input9 = document.createElement("input");
-                input9.type = "number"; input9.min = 0;
+                input9.type = "text"; input9.min = 0;
 
                 var input10 = document.createElement("input");
                 input10.type = "text";
 
-                var colores = ["Nada","Verde", "Celeste", "Azul", "Rojo","Verde","Amarillo"];
+                var colores = ["Nada", "Verde", "Celeste", "Azul", "Rojo", "Verde", "Amarillo"];
                 var c = document.createElement('select');
                 c.type = 'select';
                 for (var i = 0; i < colores.length; i++) {
@@ -196,7 +204,7 @@
                     option.text = dias[i];
                     d.add(option);
                 }
-               
+
                 //DropDownList1.type = "DropDownList"; DropDownList1.items.insert(Dia, " - Select From List - ")
 
 
@@ -250,30 +258,61 @@
                         diaEjercicio: table.rows[i].cells[11].children[0].value
                     });
                 }
-          
+
                 var datos = {
                     'data': @viewDataRutina,
                     'ejercicios': tableArr
                 }
-               
-                $.ajax({
-                    url: '/Rutinas/Ejercicio',
-                    dataType: 'JSON',
-                    type: 'POST',
-                    data: JSON.stringify(datos), //agregar el campo para el id de la rutina
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (result) {
-                       alert('Ejercicios Registrados');
-                        location.reload();
-                    },
-                    error: function (request) {
-                        alert('Hubo un error');
-                    }
-                });
+                @{
+                    string expresion, expresionNumerica;
+                    expresionNumerica = "^[0-9,+,=,/]+$";
+                    expresion = @"(^[a-zA-Z'.\s])";
+                    System.Text.RegularExpressions.Regex automata = new Regex(expresion);
+                    System.Text.RegularExpressions.Regex automataNumerico = new Regex(expresionNumerica);
+}
+                //$(document).ready(function () {
+                //for (var i = 0; i < tableArr.length; i++){
+                //    if (tableArr[i].NombreEjercicio == null || !automata.IsMatch(tableArr[i].NombreEjercicio) ||
+                //        tableArr[i].Serie1 == null || !automataNumerico.IsMatch(tableArr[i].Serie1) ||
+                //        tableArr[i].Repeticion1 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion1) ||
+                //        tableArr[i].Peso1 == null || !automataNumerico.IsMatch(tableArr[i].Peso1) ||
+                //        tableArr[i].Serie2 == null || !automataNumerico.IsMatch(tableArr[i].Serie2) ||
+                //        tableArr[i].Repeticion2 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion2) ||
+                //        tableArr[i].Peso2 == null || !automataNumerico.IsMatch(tableArr[i].Peso2) ||
+                //        tableArr[i].Serie3 == null || !automataNumerico.IsMatch(tableArr[i].Serie3) ||
+                //        tableArr[i].Repeticion3 == null || !automataNumerico.IsMatch(tableArr[i].Repeticion3) ||
+                //        tableArr[i].Peso3 == null || !automataNumerico.IsMatch(tableArr[i].Peso3) ||
+                //    tableArr[i].ColorEjercicio == null || tableArr[i].diaEjercicio == null) {
+                //            alert('Hubo un error');
+                //        }
+                //}
+                //});
+           
+                        $.ajax({
+                            url: '/Rutinas/Ejercicio',
+                            dataType: 'JSON',
+                            type: 'POST',
+                            data: JSON.stringify(datos), //agregar el campo para el id de la rutina
+                            contentType: 'application/json; charset=utf-8',
+                            success: function (result) {
+                                alert('Ejercicios Registrados');
+                                location.reload();
 
-            });
+                            },
+                            error: function (request) {
+                                alert('Hubo un error');
+                            }
+                        });
 
-
+                    });
         });
     </script>
 }
+
+
+    @*Regex reg = new Regex("^[a-zA-Z'.\s]{0,1000}$");
+                for (var i = 0; i < table.length; i++) {
+                    if (!reg.IsMatch(table.row[i]) && table.row[i]== null) {
+                        alert('Malo');
+                    }
+                }*@
