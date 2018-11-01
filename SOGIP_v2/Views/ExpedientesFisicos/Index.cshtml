@@ -1,12 +1,15 @@
 ﻿@{
-    ViewBag.Title = "Expedientes Físicos";
+                /**/
+
+                ViewBag.Title = "Expedientes Físicos";
 }
 
 @Styles.Render("~/Content/manual.css")
 
-<div class="container">
-    @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
-    {
+
+@using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
+{
+    <div class="container">
         <div class="col-md-10">
             <a href="~/Home/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
         </div>
@@ -14,14 +17,27 @@
         <br />
         <div class="exp_fis">
             <font color="red"><b>@Html.Raw(ViewBag.Error)</b></font>
-          <tr>
-                <td><input type="radio" name="Tipo_Cta" onclick="cargarCombo(this);" value="P" />Funcionario</td>
-                <td><input type="radio" name="Tipo_Cta" onclick="cargarCombo(this);" value="E" />Atletas</td>
-      </tr>
+            <table>
+                <tr>
+                    <td><input type="radio" name="Tipo_Cta" id="funcionario"/>Funcionario</td>
+                    <td><input type="radio" name="Tipo_Cta" id="atleta"/>Atletas</td>
+                </tr>
+            </table>
             <br>
             <form id="myForm">
                 <label for="usuarioLabel"><b>Usuarios</b></label>
-                <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
+                 <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
+
+                @*<select name="SelectedCategory">
+                    @foreach (var category in (SelectList)ViewBag.Atletas)
+                    {
+                        <option value="@category.Value">
+                            @Html.Label(category.Text, new { @class = " control-label" })
+                        </option>
+                    }
+                </select>*@
+
+
             </form>
 
 
@@ -60,40 +76,63 @@
             </div>*@
 
         <input type="submit" value="Importar" />
+        </div>
 
-    }
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
+        }
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
 
-        <script>
-            function cargarCombo(radio) {
-                $ajax({
-                    type: "POST",
-                    url: "/ExpedientesFisicos/getUsuarios",
-                    dataType: "JSON",
-                    // parametros que recibe la accion de tu controlador
-                    data: { TipoUsuario: radio.value },
-                    contentType: 'application/json; charset=utf-8',
-                    success: function (data) {
-                        $.each(data, function (index, item) {
-                            //Limpiamos el contenido del combo
-                            $("#usuariosDropdown").html('');
-                            //Incrustamos las opciones del SelectList
-                            $("#usuariosDropdown").append("<option id='"
-                                + item.idAtleta + "'>" + itemc.cedNomCompleto + "</option>");
-                        });
-                    }
+            <script>
+
+                $(document).ready(function () {
+
+                    $('#funcionario').change(function () {
+                        cargaF();
+                    })
+
+                    $('#atleta').change(function () {
+                        cargaA();
+                    })
+
                 });
+
+                
+                function cargaF() {
+                    $.getJSON("/ExpedientesFisicos/getUsuariosF", null, function (data) {
+                        $("#usuariosDropdown").empty() // Remove all <option> child tags.
+                        $.each(data, function (index, item) { // Iterates through a collection
+                            $("#usuariosDropdown").append(
+                                $('<option></option>')
+                                    .text(item.cedNomCompleto)
+                                    .val(item.idAtleta)
+                            );
+                        });
+                    });
                 }
-        </script>
-    }
+
+                function cargaA() {
+                    $.getJSON("/ExpedientesFisicos/getUsuariosA", null, function (data) {
+                        $("#usuariosDropdown").empty() // Remove all <option> child tags.
+                        $.each(data, function (index, item) { // Iterates through a collection
+                            $("#usuariosDropdown").append(
+                                $('<option></option>')
+                                    .text(item.cedNomCompleto)
+                                    .val(item.idAtleta)
+                            );
+                        });
+                    });
+                }
+
+                
+            </script>
+        }
 
 
-    @*<select name="SelectedAthlete" id="select">
-            @foreach (var entity in (SelectList)ViewBag.Atletas)
-            {
-                <option value="@entity.Value">
-                    @Html.Label(entity.Text, new { @class = "control-label" })
-                </option>
-            }
-        </select>*@
+        @*<select name="SelectedAthlete" id="select">
+                @foreach (var entity in (SelectList)ViewBag.Atletas)
+                {
+                    <option value="@entity.Value">
+                        @Html.Label(entity.Text, new { @class = "control-label" })
+                    </option>
+                }
+            </select>*@
