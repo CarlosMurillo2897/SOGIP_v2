@@ -10,15 +10,24 @@ namespace SOGIP_v2.Controllers
     public class ExpedientesFisicosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        
 
-        // GET: ExpedientesFisicos
         public ActionResult Index()
         {
+       
+
+            return View();
+        }
+
+
+        public JsonResult getUsuariosF()
+        {
+
             // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
             var consulta = //from a in db.Atletas
                            from u in db.Users
                            from f in db.Funcionario_ICODER
-                           //where u.Id.Equals(a.Usuario.Id)
+                               //where u.Id.Equals(a.Usuario.Id)
                            where u.Id.Equals(f.Usuario.Id)
                            orderby u.Nombre1 ascending
                            select new
@@ -28,14 +37,33 @@ namespace SOGIP_v2.Controllers
                            };
 
             var getAtletas = consulta.ToList();
-            SelectList listaAtletas = new SelectList(getAtletas, "idAtleta", "cedNomCompleto");
-            ViewBag.Atletas = listaAtletas;
-
-            return View();
+            return Json(getAtletas, JsonRequestBehavior.AllowGet);
         }
 
+
+        public JsonResult getUsuariosA()
+        {
+
+            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
+            var consulta = //from a in db.Atletas
+                           from u in db.Users
+                           from f in db.Atletas
+                               //where u.Id.Equals(a.Usuario.Id)
+                           where u.Id.Equals(f.Usuario.Id)
+                           orderby u.Nombre1 ascending
+                           select new
+                           {
+                               idAtleta = u.Id,
+                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
+                           };
+
+            var getAtletas = consulta.ToList();
+            return Json(getAtletas, JsonRequestBehavior.AllowGet);
+        }
+
+
         [HttpPost]
-        public ActionResult Index(HttpPostedFileBase inbody, HttpPostedFileBase pruFu, string SelectedAthlete)
+        public ActionResult Index(HttpPostedFileBase inbody, HttpPostedFileBase pruFu, string usuarioDropdown)
         {
             // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
             var consulta = //from a in db.Atletas
@@ -82,7 +110,7 @@ namespace SOGIP_v2.Controllers
                         Extension = Path.GetExtension(inbody.FileName),
                         Tipo = inbody.ContentType,
                         Contenido = buffer,
-                        Usuario = db.Users.Single(x => x.Id == SelectedAthlete)
+                        Usuario = db.Users.Single(x => x.Id == usuarioDropdown)
                     };
                     db.Archivo.Add(file);
                 }
@@ -98,7 +126,7 @@ namespace SOGIP_v2.Controllers
                         Extension = Path.GetExtension(pruFu.FileName),
                         Tipo = pruFu.ContentType,
                         Contenido = buffer,
-                        Usuario = db.Users.Single(x => x.Id == SelectedAthlete)
+                        Usuario = db.Users.Single(x => x.Id == usuarioDropdown)
                     };
                     db.Archivo.Add(pF);
                 }

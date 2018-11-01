@@ -42,6 +42,17 @@ namespace SOGIP_v2.Controllers
                            where u.Roles.FirstOrDefault().RoleId == "5" || 
                            u.Roles.FirstOrDefault().RoleId == "7" ||
                            u.Roles.FirstOrDefault().RoleId == "6"
+            return View();
+        }
+        
+        public JsonResult getUsuariosF()
+        {
+            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
+            var consulta = //from a in db.Atletas
+                           from u in db.Users
+                           from f in db.Funcionario_ICODER
+                               //where u.Id.Equals(a.Usuario.Id)
+                           where u.Id.Equals(f.Usuario.Id)
                            orderby u.Nombre1 ascending
                            select new
                            {
@@ -50,11 +61,30 @@ namespace SOGIP_v2.Controllers
                            };
 
             var getAtletas = consulta.ToList();
-            var atletas = db.Users.Select(x => x.Roles.Where(y => y.RoleId == "4"));
-            SelectList listaAtletas = new SelectList(getAtletas, "idAtleta", "cedNomCompleto");
-            ViewBag.Atletas = listaAtletas;
-            return View();
+            return Json(getAtletas, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult getUsuariosA()
+        {
+
+            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
+            var consulta = //from a in db.Atletas
+                           from u in db.Users
+                           from f in db.Atletas
+                               //where u.Id.Equals(a.Usuario.Id)
+                           where u.Id.Equals(f.Usuario.Id)
+                           orderby u.Nombre1 ascending
+                           select new
+                           {
+                               idAtleta = u.Id,
+                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
+                           };
+
+            var getAtletas = consulta.ToList();
+            return Json(getAtletas, JsonRequestBehavior.AllowGet);
+        }
+
 
         public ActionResult Ejercicio(int? idRutina, string idUsuario)
         {
@@ -210,6 +240,7 @@ namespace SOGIP_v2.Controllers
 
         public ActionResult ListaEjercicio(int ? id, string idUsuario)
         {
+          
             if (id != null)
             {
                 Rutina rutina = db.Rutinas.Find(id);
@@ -217,11 +248,11 @@ namespace SOGIP_v2.Controllers
                 string n = i.ToString();
                 ViewData["rutina"] = n;
 
-                var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.DiaEjercicio == "Dia1").ToList();
-                var getEjercicio2 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.DiaEjercicio == "Dia2").ToList();
-                var getEjercicio3 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.DiaEjercicio == "Dia3").ToList();
-                var getEjercicio4 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.DiaEjercicio == "Dia4").ToList();
-                var getEjercicio5 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.DiaEjercicio == "Dia5").ToList();
+                var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.diaEjercicio == "Dia1").ToList();
+                var getEjercicio2 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.diaEjercicio == "Dia2").ToList();
+                var getEjercicio3 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.diaEjercicio == "Dia3").ToList();
+                var getEjercicio4 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.diaEjercicio == "Dia4").ToList();
+                var getEjercicio5 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.diaEjercicio == "Dia5").ToList();
 
                 ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
                 ViewBag.Conjunto_Ejercicios2 = (getEjercicio2.Count > 0) ? getEjercicio2 : null;
@@ -230,7 +261,8 @@ namespace SOGIP_v2.Controllers
                 ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
 
             }
-            if(idUsuario != null)
+
+            if (idUsuario != null)
             {
                 Rutina rutina = db.Rutinas.FirstOrDefault(x => x.Usuario.Id == idUsuario);
                 int i = rutina.RutinaId;
@@ -248,7 +280,32 @@ namespace SOGIP_v2.Controllers
                 ViewBag.Conjunto_Ejercicios3 = (getEjercicio3.Count > 0) ? getEjercicio3 : null;
                 ViewBag.Conjunto_Ejercicios4 = (getEjercicio4.Count > 0) ? getEjercicio4 : null;
                 ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
+            }
+            
+                if (rutina != null)
+                {
+                    int i = rutina.RutinaId;
+                    string n = i.ToString();
+                    ViewData["rutina"] = n;
 
+                    var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.diaEjercicio == "Dia1").ToList();
+                    var getEjercicio2 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.diaEjercicio == "Dia2").ToList();
+                    var getEjercicio3 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.diaEjercicio == "Dia3").ToList();
+                    var getEjercicio4 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.diaEjercicio == "Dia4").ToList();
+                    var getEjercicio5 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.diaEjercicio == "Dia5").ToList();
+
+                    ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
+                    ViewBag.Conjunto_Ejercicios2 = (getEjercicio2.Count > 0) ? getEjercicio2 : null;
+                    ViewBag.Conjunto_Ejercicios3 = (getEjercicio3.Count > 0) ? getEjercicio3 : null;
+                    ViewBag.Conjunto_Ejercicios4 = (getEjercicio4.Count > 0) ? getEjercicio4 : null;
+                    ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
+                }
+                else
+                {
+                    string men = "No tiene rutina";
+                    ViewData["mensaje"] = men;
+                    return View();
+                }
             }
 
             return View();
@@ -338,14 +395,14 @@ namespace SOGIP_v2.Controllers
         }
 
     [HttpPost]
-        public ActionResult Create(string atletaSeleccionado, Rutina rutinaCreate)
+        public ActionResult Create(string usuarioDropdown,Rutina rutinaCreate)
         {
 
             ApplicationUser user = new ApplicationUser();
 
           
 
-            user = db.Users.Single(x => x.Id == atletaSeleccionado);
+            user = db.Users.Single(x => x.Id == usuarioDropdown);
 
             if (user != null)
             {

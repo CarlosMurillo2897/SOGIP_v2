@@ -11,7 +11,7 @@
     var viewDataNombre = ViewData["nombre"];
 }
 
-<button onclick="location.href='../Rutinas/Index'" id="btn_regresar" class="btn btn-success">&laquo; Regresar</button>
+@Html.ActionLink("Lista Rutinas", "Index", null, new { @class = "btn btn-default" })
 
 <h2>Rutina</h2>
 
@@ -86,7 +86,6 @@
                         <tr><td>Día 2</td></tr>
                         dia = false;
                     }
-
                     <tr style="background-color: @item2.ColorEjercicio">
                         <td>@item2.NombreEjercicio</td>
                         <td>@item2.Serie1</td>
@@ -238,7 +237,7 @@
 </section>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/jqueryval")
     <script>
         //Insert new rows into table
         $(document).ready(function () {
@@ -315,7 +314,6 @@
                 }
 
                 //DropDownList1.type = "DropDownList"; DropDownList1.items.insert(Dia, " - Select From List - ")
-
 
                 var checkBox = document.createElement('input');
                 checkBox.type = 'button';
