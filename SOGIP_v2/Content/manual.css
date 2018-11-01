@@ -8,7 +8,7 @@
 
 .card-default {
     background-color: bisque;
-    background-image: linear-gradient(to right, #b3b3b3, #f2f2f2);
+    background-image: linear-gradient(#e6f2ff, #cce6ff, #0088cc);
 }
 
 h4 {
@@ -75,7 +75,7 @@ nav {
         padding: 0;
         margin: 0;
         display: inline-block;
-        background-image: linear-gradient(to right, #b3b3b3, #f2f2f2);
+        background-image: linear-gradient( #b3b3b3, #f2f2f2);
         border-radius: 5px;
     }
 

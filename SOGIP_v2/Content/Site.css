@@ -1,5 +1,5 @@
 ﻿body {
-    background-image: url(Imagenes/fondo_e.png);
+    background-image: url("Imagenes/trianglify.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: fixed;
@@ -46,4 +46,5 @@ textarea {
 
 .jumbotron {
     padding-bottom: 20px;
+    background-image: linear-gradient(#b3b3b3, #ffffff);
 }
