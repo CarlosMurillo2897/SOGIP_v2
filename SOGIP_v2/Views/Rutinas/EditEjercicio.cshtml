@@ -74,14 +74,18 @@
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.Conjunto_EjercicioId)
-
+    <h4>
+        @Html.ActionLink("Volver a la Rutina", "Ejercicio", new { idRutina = Model.ConjuntoEjercicioRutina.RutinaId })
+    </h4>
     <h4>Usuario</h4>
     @{
         var viewDataNombre = ViewData["nombre"];
         var idRutina = ViewData["idRutina"];
     }
 
+
     @Html.Hidden("idRutina", idRutina)
+
 
     <h4> @viewDataNombre </h4>
 

@@ -4,12 +4,10 @@
     ViewBag.Title = "Eliminar";
 }
 
-<div class="col-md-10">
-    <a href="~/Home/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
-</div>
-<br />
-<br />
 
+<br />
+<br />
+@Html.ActionLink("Lista Rutinas", "Index", null, new { @class = "btn btn-default" })
 
 <h3>¿Seguro que desea Eliminar?</h3>
 <div>
@@ -39,8 +37,7 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Eliminar" class="btn btn-default" /> |
-            @Html.ActionLink("Lista Rutinas", "Index")
+            <input type="submit" value="Eliminar" class="btn btn-default" /> 
         </div>
     }
 </div>

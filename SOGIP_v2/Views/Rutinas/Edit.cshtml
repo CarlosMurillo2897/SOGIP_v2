@@ -7,10 +7,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-
-<div class="col-md-10">
-    <a href="~/Rutinas/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
-</div>
+    @Html.ActionLink("Lista Rutinas", "Index", null, new { @class = "btn btn-default" })
     <br />
     <br />
 
