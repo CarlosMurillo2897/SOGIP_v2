@@ -19,17 +19,16 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="container">
                 <div class="form-group">
-                    <div class="col-md-10">
-                        @Html.Label("Seleccione el Atleta", new { @class = "control-label" })
-                        <select name="atletaSeleccionado">
-                            @foreach (var entity in (SelectList)ViewBag.Atletas)
-                            {
-                                <option value="@entity.Value">
-                                    @Html.Label(entity.Text, new { @class = "control-label" })
-                                </option>
-                            }
-                        </select>
-                    </div>
+                    <table>
+                        <tr>
+                            <td><input type="radio" name="Tipo_Cta" id="funcionario" />Funcionario</td>
+                            <td><input type="radio" name="Tipo_Cta" id="atleta" />Atletas</td>
+                        </tr>
+                    </table>
+                    <br>
+                    <form id="myForm">
+                        <label for="usuarioLabel"><b>Usuarios</b></label>
+                        <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
                 </div>
                 <div class="form-group">
                     <div class="col-md-10">
@@ -51,7 +50,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-offset-2 col-md-10">
+                <br>
+                <div class= "col-md-10">
                     <input type="submit" value="Crear Rutina" class="btn btn-default" />
                 </div>
             </div>
@@ -61,8 +61,49 @@
 
 
 @section Scripts {
-
-
     @Scripts.Render("~/bundles/jqueryval")
 
+    <script>
+
+                $(document).ready(function () {
+
+                    $('#funcionario').change(function () {
+                        cargaF();
+                    })
+
+                    $('#atleta').change(function () {
+                        cargaA();
+                    })
+
+                });
+
+
+                function cargaF() {
+                    $.getJSON("/ExpedientesFisicos/getUsuariosF", null, function (data) {
+                        $("#usuariosDropdown").empty() // Remove all <option> child tags.
+                        $.each(data, function (index, item) { // Iterates through a collection
+                            $("#usuariosDropdown").append(
+                                $('<option></option>')
+                                    .text(item.cedNomCompleto)
+                                    .val(item.idAtleta)
+                            );
+                        });
+                    });
+                }
+
+                function cargaA() {
+                    $.getJSON("/ExpedientesFisicos/getUsuariosA", null, function (data) {
+                        $("#usuariosDropdown").empty() // Remove all <option> child tags.
+                        $.each(data, function (index, item) { // Iterates through a collection
+                            $("#usuariosDropdown").append(
+                                $('<option></option>')
+                                    .text(item.cedNomCompleto)
+                                    .val(item.idAtleta)
+                            );
+                        });
+                    });
+                }
+
+
+    </script>
 }

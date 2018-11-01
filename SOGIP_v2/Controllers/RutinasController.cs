@@ -38,6 +38,13 @@ namespace SOGIP_v2.Controllers
 
         public ActionResult Create()
         {
+            
+            return View();
+        }
+        public JsonResult getUsuariosF()
+        {
+
+            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
             var consulta = //from a in db.Atletas
                            from u in db.Users
                            from f in db.Funcionario_ICODER
@@ -49,12 +56,32 @@ namespace SOGIP_v2.Controllers
                                idAtleta = u.Id,
                                cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
                            };
+
             var getAtletas = consulta.ToList();
-            var atletas = db.Users.Select(x => x.Roles.Where(y => y.RoleId == "4"));
-            SelectList listaAtletas = new SelectList(getAtletas, "idAtleta", "cedNomCompleto");
-            ViewBag.Atletas = listaAtletas;
-            return View();
+            return Json(getAtletas, JsonRequestBehavior.AllowGet);
         }
+
+
+        public JsonResult getUsuariosA()
+        {
+
+            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
+            var consulta = //from a in db.Atletas
+                           from u in db.Users
+                           from f in db.Atletas
+                               //where u.Id.Equals(a.Usuario.Id)
+                           where u.Id.Equals(f.Usuario.Id)
+                           orderby u.Nombre1 ascending
+                           select new
+                           {
+                               idAtleta = u.Id,
+                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
+                           };
+
+            var getAtletas = consulta.ToList();
+            return Json(getAtletas, JsonRequestBehavior.AllowGet);
+        }
+
 
         public ActionResult Ejercicio(int? idRutina, string idUsuario)
         {
@@ -350,14 +377,14 @@ namespace SOGIP_v2.Controllers
         }
 
     [HttpPost]
-        public ActionResult Create(string atletaSeleccionado, Rutina rutinaCreate)
+        public ActionResult Create(string usuarioDropdown,Rutina rutinaCreate)
         {
 
             ApplicationUser user = new ApplicationUser();
 
           
 
-            user = db.Users.Single(x => x.Id == atletaSeleccionado);
+            user = db.Users.Single(x => x.Id == usuarioDropdown);
 
             if (user != null)
             {
