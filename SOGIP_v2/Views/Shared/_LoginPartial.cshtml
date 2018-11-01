@@ -13,7 +13,7 @@
                 </a>
             </li>
             <li>
-                @Html.ActionLink("Perfil", "Perfil", "Account", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "editar" })
+                @Html.ActionLink("Perfil", "Perfil", "Account", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "perfil" })
             </li>
             @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
             {
@@ -30,10 +30,10 @@
                     </ul>
                 </li>
                 <li>
-                    @Html.ActionLink("Citas", "Create", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "rutina" })
+                    @Html.ActionLink("Citas", "Create", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "citas" })
                 </li>
                 <li>
-                    Buscar
+                    @Html.ActionLink("Buscar", "Index", "Busqueda", routeValues: null, htmlAttributes: new { id = "buscar" })
                 </li>
             }
 
@@ -41,7 +41,7 @@
             {
                 <li>
 
-                    @Html.ActionLink("Citas", "Create", "CitasGeneral", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "rutina" } )
+                    @Html.ActionLink("Citas", "Create", "CitasGeneral", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "citas" } )
 
                 </li>
                 <li>
@@ -84,16 +84,16 @@
 
 else
 { @***************************** Menú de LogIn ******************************@
-<nav>
-    <ul>
+    <nav>
+        <ul>
 
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li></li>
-        <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>@*, @class = "btn btn-default" })</li>*@
-    </ul>
-</nav>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>@*, @class = "btn btn-default" })</li>*@
+        </ul>
+    </nav>
 }

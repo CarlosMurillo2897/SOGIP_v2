@@ -41,11 +41,11 @@
                     <label class="control-label">
                         Seleccione el rol del usuario
                     </label>
-                    <select id="selectedRoles" name="selectedRoles">
+                    <select id="selectedRoles" name="selectedRoles" class="form-control">
                         @foreach (var item in (SelectList)ViewBag.RoleId)
                         {
                             <option>
-                                @Html.Label(item.Text, new { @class = "control-label", id = "selectRol" })
+                                @Html.Label(item.Text, new { @class = "control", id = "selectRol" })
                             </option>
                         }
                     </select>
@@ -128,7 +128,7 @@
                         <div class="col-md-10">
                             @Html.Label("Sexo", new { @class = "control-label" })
                             <br />
-                            @Html.DropDownListFor(model => model.Sexo, Sexo, "-- Seleccionar --", new { id = "Sexo" })
+                            @Html.DropDownListFor(model => model.Sexo, Sexo, "-- Seleccionar --", new { @class = "form-control", id = "Sexo" })
                         </div>
                     </div>
                 </div>

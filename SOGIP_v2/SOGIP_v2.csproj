@@ -200,6 +200,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
+    <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\CitasGeneralController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
@@ -218,9 +219,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201810290613440_SOGIP.cs" />
-    <Compile Include="Migrations\201810290613440_SOGIP.Designer.cs">
-      <DependentUpon>201810290613440_SOGIP.cs</DependentUpon>
+    <Compile Include="Migrations\201810312312478_all.cs" />
+    <Compile Include="Migrations\201810312312478_all.Designer.cs">
+      <DependentUpon>201810312312478_all.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -261,6 +262,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Busqueda.css" />
     <Content Include="Content\Edit.css" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\fullcalendar.css" />
@@ -311,6 +313,7 @@
     <Content Include="Contents\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Contents\bootstrap-datepicker.css.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
+    <Content Include="Scripts\Busquedas.js" />
     <Content Include="Scripts\create.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.min.js" />
@@ -575,6 +578,7 @@
     <Content Include="Views\CitasGeneral\Details.cshtml" />
     <Content Include="Views\CitasGeneral\Edit.cshtml" />
     <Content Include="Views\CitasGeneral\Index.cshtml" />
+    <Content Include="Views\Busqueda\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -594,8 +598,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810290613440_SOGIP.resx">
-      <DependentUpon>201810290613440_SOGIP.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810312312478_all.resx">
+      <DependentUpon>201810312312478_all.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

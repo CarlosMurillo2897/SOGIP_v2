@@ -1,0 +1,43 @@
+﻿@model IEnumerable<SOGIP_v2.Models.ApplicationUser>
+
+@{
+    ViewBag.Title = "Búsqueda";
+
+    List<SelectListItem> Tipo = new List<SelectListItem>();
+
+    Tipo.Add(new SelectListItem { Text = "Cédula", Value = "0" });
+    Tipo.Add(new SelectListItem { Text = "Nombre", Value = "1" });
+    Tipo.Add(new SelectListItem { Text = "Apellido", Value = "2" });
+    @*Tipo.Add(new SelectListItem { Text = "Sexo", Value = "3" });
+        Tipo.Add(new SelectListItem { Text = "Asociación/Comité", Value = "4" });
+        Tipo.Add(new SelectListItem { Text = "Selección/Federación", Value = "5" });
+        Tipo.Add(new SelectListItem { Text = "Atleta", Value = "6" });
+        Tipo.Add(new SelectListItem { Text = "Atleta Alto Rendimiento", Value = "7" });*@
+}
+
+@Styles.Render("~/Content/Perfil.css")
+
+<h2>Búsqueda</h2>
+
+<div>
+    <center>
+        <input class="" type="search" placeholder="Buscar por" id="Search">
+        @Html.DropDownList("Tipo", Tipo, new { @class = "", id = "SearchBy" })
+        <button id="SearchBtn" type="submit">Buscar</button>
+    </center>
+</div>
+
+<br><br>
+<br><br>
+
+<div class="container">
+
+    <div class="well span8 offset 2" id="perfiles">
+
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Busquedas.js")
+}

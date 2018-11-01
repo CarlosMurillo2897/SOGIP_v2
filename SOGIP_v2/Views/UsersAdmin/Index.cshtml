@@ -8,9 +8,7 @@
 
 <h2>Inicio Usuarios</h2>
 <span class="pull-left">
-
     @Html.ActionLink("Crear nuevo usuario", "Create", null, new { @class = "btn btn-default" })
-
 </span>
 @*<span class="pull-right"> <input class="btn btn-warning" type="button" onclick="cerrarPaneles()" value="Cerrar Paneles"></span>*@
 
@@ -215,7 +213,6 @@
                             }
 
                             <span class="pull-right">
-                                @*Html.ActionLink("Editar", "Edit", "UsersAdmin", routeValues: new { id = item.Id }, htmlAttributes: new { @class = "btn btn-sm btn-primary", @type = "button", @data_toggle = "tooltip", @data_original_title = "Editar este usuario." })*@
                                 <a href="/UsersAdmin/Edit/@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
                                     Editar<i class="glyphicon glyphicon-edit"></i>
                                 </a>

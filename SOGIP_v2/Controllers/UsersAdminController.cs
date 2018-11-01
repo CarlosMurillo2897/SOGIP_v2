@@ -89,6 +89,7 @@ namespace SOGIP_v2.Controllers
         public async Task<ActionResult> Index()
         {
             var usuarios = await UserManager.Users.ToListAsync();
+
             foreach (var usuario in usuarios)
             {
                 var rol = await UserManager.GetRolesAsync(usuario.Id);
@@ -168,7 +169,6 @@ namespace SOGIP_v2.Controllers
                     Estado = true
             };
                 
-
                 var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));                
 
                 //Add User to the selected Roles 

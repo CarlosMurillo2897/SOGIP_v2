@@ -3,7 +3,7 @@ namespace SOGIP_v2.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class SOGIP : DbMigration
+    public partial class all : DbMigration
     {
         public override void Up()
         {
@@ -221,7 +221,7 @@ namespace SOGIP_v2.Migrations
                         Repeticion3 = c.String(),
                         Peso3 = c.String(),
                         ColorEjercicio = c.String(),
-                        diaEjercicio = c.String(),
+                        DiaEjercicio = c.String(),
                         ConjuntoEjercicioRutina_RutinaId = c.Int(),
                     })
                 .PrimaryKey(t => t.Conjunto_EjercicioId)
