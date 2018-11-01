@@ -312,6 +312,7 @@
     <Content Include="Contents\bootstrap-datepicker.css.map" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\create.js" />
+    <Content Include="Scripts\expedientes.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.min.js" />
     <Content Include="Scripts\fullCalendar\gcal.js" />
