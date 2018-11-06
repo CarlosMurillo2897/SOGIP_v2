@@ -2,10 +2,11 @@
 
 @{
     ViewBag.Title = "Lista de Rutinas";
+    @Styles.Render("~/Content/Rutina.css")
 }
 
 <div class="col-md-10">
-    
+
 </div>
 <br />
 <br />
@@ -46,9 +47,9 @@
                 @Html.DisplayFor(modelItem => item.RutinaObservaciones)
             </td>
             <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.RutinaId }) |
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.RutinaId })|
-                @Html.ActionLink("Rutina", "Ejercicio", new { idRutina = item.RutinaId })
+                @Html.ActionLink("Editar", "Edit", new { id = item.RutinaId}, new { @style = "color:#000aaa;" }) |
+                @Html.ActionLink("Eliminar", "Delete", new { id = item.RutinaId }, new { @style = "color:#000aaa;" })|
+                @Html.ActionLink("Rutina", "Ejercicio", new { idRutina = item.RutinaId }, new { @style = "color:#000aaa;" })
             </td>
         </tr>
     }
