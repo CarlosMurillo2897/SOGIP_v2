@@ -1,29 +1,68 @@
-﻿body {
-    background-image: url("Imagenes/trianglify.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-    background-size: cover;
+﻿
+*,
+*:after,
+*::before {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-/*body {
-    padding-top: 50px;
-    padding-bottom: 20px;
-    background-image: url(Imagenes/fondo_e.png);
-    background-size: cover;
-    resize: both;
-    overflow: scroll;
-}*/
-
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+.wrapper {
+    max-width: 90%;
+    margin: 0 auto;
+    padding-top: 110px;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding-top: 40px;
+}
+
+@media screen and (min-width: 931px) {
+    .navbar > li {
+        flex-basis: 50%;
+    }
+}
+
+@media screen and (min-width: 931) {
+    .header {
+        flex-wrap: wrap;
+        flex-basis: 100%;
+    }
+}
+
+/* Mobile Styles */
+@media only screen and (max-width: 400px) {
+    body {
+        background-color: #F09A9D; /* Red */
+    }
+    .container {
+        padding-top: 110px;
+    }
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 401px) and (max-width: 960px) {
+    body {
+        background-color: #F5CF8E; /* Yellow */
+    }
+
+    .container {
+        padding-top: 110px;
+    }
+}
+
+/* Desktop Styles */
+@media only screen and (min-width: 961px) {
+    body {
+        background-color: #B2D6FF; /* Blue */
+    }
+}
+
+
 .dl-horizontal dt {
     white-space: normal;
 }
@@ -38,13 +77,163 @@ textarea {
     input[type=date] {
         text-align: center;
     }
-
-#logo_SOGIP {
-    vertical-align: middle;
-    float: left;
+/*HEADER*/
+.header {
+    overflow: hidden;
+    background-image: linear-gradient( #b3b3b3, #f2f2f2);
+    position: absolute;
+    top: 0;
+    left:0;
+    right:0;
+    width: 100%;
+    text-align:center;
 }
 
-.jumbotron {
-    padding-bottom: 20px;
-    background-image: linear-gradient(#b3b3b3, #ffffff);
+.header-center{
+    font-size: 2px;
+}
+
+.header-right {
+    float: right;
+    margin-bottom: 3px;
+    margin-right:10px;
+}
+
+.header-left {
+    float: left;
+    margin-left: 10px;
+    margin-bottom: 3px;
+}
+
+.panel-footerA {
+    width: 100%;
+    position:absolute;
+    left:0;
+}
+/*MENU ESE DE MIERDA*/
+.navbar {
+    background-image: linear-gradient( #b3b3b3, #f2f2f2);
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right:0;
+    width: 100%;
+}
+
+
+.navbar ul li a {
+    color: black;
+}
+
+    .navbar ul li a:hover::before,
+    .navbar ul li a:hover::after,
+    .navbar ul li a:focus::before,
+    .navbar ul li a:focus::after
+    {
+        opacity: 1;
+        -webkit-transform: translateX(0px);
+        -moz-transform: translateX(0px);
+        transform: translateX(0px);
+    }
+
+    .navbar ul li a::after, .navbar ul li a::before {
+        display: inline-block;
+        opacity: 0;
+        -webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+        -moz-transition: -moz-transform 0.3s, opacity 0.2s;
+        transition: transform 0.3s, opacity 0.2s;
+        color: #3a7999;
+        font-weight: bolder;
+    }
+
+    .navbar ul li a::before {
+        margin-right: 20px;
+        content: '[';
+        -webkit-transform: translateX(20px);
+        -moz-transform: translateX(20px);
+        transform: translateX(20px);
+    }
+
+    .navbar ul li a::after {
+        margin-left: 30px;
+        content: ']';
+        -webkit-transform: translateX(-20px);
+        -moz-transform: translateX(-20px);
+        transform: translateX(-20px);
+    }
+
+    .navbar ul li a:hover {
+        color: #3a7999;
+        background: rgba(0,0,0,0);
+    }
+
+    li a, .dropdown-toggle {
+        display: inline-block;
+        color: white;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    li a:hover, .dropdown:hover .dropdown-toggle {        
+        color: #3a7999;
+        background: rgba(0,0,0,0);
+    }
+
+
+
+li.dropdown {
+    display: flex;
+}
+
+
+
+.dropdown-menu a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+        text-align: left;
+ }
+.dropdown-menu a:hover {
+    background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+
+.navbar-header .icon-bar {
+    background-color: #3a7999;
+}
+
+.collapse {
+    flex-basis: 40% !important;
+}
+
+
+/*Menu de perfil*/
+.dropdown a {
+    text-decoration: none;
+}
+
+.navbar-content {
+    width: 320px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+    .navbar-content:before, .navbar-content:after {
+        display: table;
+        content: "";
+        line-height: 0;
+    }
+
+.navbar-footer-content {
+    padding: 15px 15px 15px 15px;
+}
+
+.dropdown-menu {
+    padding: 0px;
+    overflow: hidden;
 }
