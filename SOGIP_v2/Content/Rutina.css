@@ -10,3 +10,18 @@ input {
     width: 70px;
     height: 30px;
 }
+a.my-class {
+    color: #333333
+}
+
+    a.my-class:active {
+        color: #666666
+    }
+
+    a.my-class:link {
+        color: #999999
+    }
+
+    a.my-class:visited {
+        color: #CCCCCC
+    }
