@@ -58,7 +58,7 @@
 /* Desktop Styles */
 @media only screen and (min-width: 961px) {
     body {
-        background-color: #B2D6FF; /* Blue */
+        background-color: #778fa8 /* Blue */
     }
 }
 
@@ -78,15 +78,19 @@ textarea {
         text-align: center;
     }
 /*HEADER*/
+h1{
+    color: white;
+}
+
 .header {
     overflow: hidden;
-    background-image: linear-gradient( #b3b3b3, #f2f2f2);
+    background: #34495e;
     position: absolute;
     top: 0;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
     width: 100%;
-    text-align:center;
+    text-align: center;
 }
 
 .header-center{
@@ -106,23 +110,31 @@ textarea {
 }
 
 .panel-footerA {
+    background: #34495e;
     width: 100%;
-    position:absolute;
-    left:0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    color: white;
+}
+
+.panel-footerA a{
+    color: white;
 }
 /*MENU ESE DE MIERDA*/
 .navbar {
-    background-image: linear-gradient( #b3b3b3, #f2f2f2);
+    background: #2980b9;
+    border-bottom: 4px solid #34495e;
     position: absolute;
     margin: 0 auto;
     left: 0;
-    right:0;
+    right: 0;
     width: 100%;
 }
 
 
 .navbar ul li a {
-    color: black;
+    color: white;
 }
 
     .navbar ul li a:hover::before,
@@ -142,7 +154,7 @@ textarea {
         -webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
         -moz-transition: -moz-transform 0.3s, opacity 0.2s;
         transition: transform 0.3s, opacity 0.2s;
-        color: #3a7999;
+        color: #ecf0f1;
         font-weight: bolder;
     }
 
@@ -163,21 +175,20 @@ textarea {
     }
 
     .navbar ul li a:hover {
-        color: #3a7999;
+        color: #ecf0f1;
         background: rgba(0,0,0,0);
     }
 
     li a, .dropdown-toggle {
         display: inline-block;
-        color: white;
         text-align: center;
         text-decoration: none;
     }
 
-    li a:hover, .dropdown:hover .dropdown-toggle {        
-        color: #3a7999;
-        background: rgba(0,0,0,0);
-    }
+        li a:hover, .dropdown:hover .dropdown-toggle {
+            color: #ecf0f1;
+            background: rgba(0,0,0,0);
+        }
 
 
 
@@ -199,6 +210,7 @@ li.dropdown {
 }
 
 .dropdown:hover .dropdown-menu {
+    background: #34495e;
     display: block;
 }
 

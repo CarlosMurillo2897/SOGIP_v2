@@ -2,8 +2,11 @@
 
 @{
     ViewBag.Title = "Details";
+    @Styles.Render("~/Content/Detalle_Rutina.css")
 }
 
+<html>
+<body>
 <h2>Detalles</h2>
 
 <div>
@@ -39,3 +42,6 @@
     @Html.ActionLink("Editar", "Edit", new { id = Model.RutinaId }) |
     @Html.ActionLink("Lista Rutinas", "Index")
 </p>
+
+   </body>
+</html>

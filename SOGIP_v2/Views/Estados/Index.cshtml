@@ -3,39 +3,50 @@
 
 @{
     ViewBag.Title = "Estados";
+
+    @Styles.Render("~/Content/manual.css")
+    @Styles.Render("~/Content/Detalle_Rutina.css")
 }
 
-@Styles.Render("~/Content/manual.css")
 
 
-<br />
-<br />
+<html>
+<body>
+    <div class="container">
 
-<h2>Inicio Estado</h2>
+        <h2>Inicio Estado</h2>
 
-<p>
-    @Html.ActionLink("Crear Nuevo", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </th>
-        <th></th>
-    </tr>
+        <p>
+            @Html.ActionLink("Crear Nuevo", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </th>
+                <th></th>
+            </tr>
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripcion)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.EstadoId }) |
-                @Html.ActionLink("Detalles", "Details", new { id = item.EstadoId }) |
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.EstadoId })
-            </td>
-        </tr>
-    }
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descripcion)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.EstadoId }) |
+                        @Html.ActionLink("Detalles", "Details", new { id = item.EstadoId }) |
+                        @Html.ActionLink("Eliminar", "Delete", new { id = item.EstadoId })
+                    </td>
+                </tr>
+            }
 
-</table>
+        </table>
+
+
+    </div>
+</body>
+</html>
+
+
+

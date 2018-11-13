@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "Editar";
     @Styles.Render("~/Content/Edit.css")
+    @Styles.Render("~/Content/manual.css")
 
 
     List<SelectListItem> Sexo = new List<SelectListItem>();
@@ -20,6 +21,9 @@
     });
 }
 
+<html>
+<body>
+
 @using (Html.BeginForm("Edit", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -27,17 +31,8 @@
     @Html.HiddenFor(model => model.Id)
     <div class="container">
         <div class="row">
-            <div class="col-md-10">
-                @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
-                {
-                    <a href="~/UsersAdmin/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
-                }
-                else
-                {
-                    <a href="~/Home/Index"><input type="button" id="btn_regresar" class="btn btn-success" value="&laquo; Regresar"></a>
-                }
-
-            </div>
+            <br />
+            <br />
             <div class="col-md-6 col-lg-6  toppad">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
@@ -266,6 +261,8 @@
 
     </div>
 }
+    </body>
+</html>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

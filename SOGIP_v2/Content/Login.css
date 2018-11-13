@@ -7,4 +7,11 @@
 .panel {
     background-color: #E5E5E5;
     border-color: #E5E5E5;
+    
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding-top: 90px;
 }
