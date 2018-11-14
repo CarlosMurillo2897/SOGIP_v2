@@ -85,17 +85,19 @@ namespace SOGIP_v2.Controllers
 
             if (inbody == null || inbody.ContentLength == 0)
             {
-                ViewBag.Error1 = "No se seleccionó ningún archivo o el archivo InBody está vacío<br/>";
-                if (pruFu == null || pruFu.ContentLength == 0)
-                {
-                    ViewBag.Error2 = "No se seleccionó ningún archivo o el archivo de la Prueba de Fuerza está vacío<br/>";
-                    return View();
-                }
-                else
-                {
-                    ViewBag.Error2 = "No se puede subir la Prueba de Fuerza si el archivo InBody no se encuentra<br/>";
-                    return View();
-                }
+                TempData["msg"] = "<script>alert('No se selecciono ningún archivo');</script>";
+                return View();
+                //ViewBag.Error1 = "No se seleccionó ningún archivo o el archivo InBody está vacío<br/>";
+                //if (pruFu == null || pruFu.ContentLength == 0)
+                //{
+                //    ViewBag.Error2 = "No se seleccionó ningún archivo o el archivo de la Prueba de Fuerza está vacío<br/>";
+                //    return View();
+                //}
+                //else
+                //{
+                //    ViewBag.Error2 = "No se puede subir la Prueba de Fuerza si el archivo InBody no se encuentra<br/>";
+                //    return View();
+                //}
             }
             else
             {
@@ -132,7 +134,8 @@ namespace SOGIP_v2.Controllers
                 }
                 db.SaveChanges();
 
-                return View("Success");
+                TempData["msg"] = "<script>alert('Archivo se subido correctamente');</script>";
+                return View();
             }
         }
 

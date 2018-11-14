@@ -27,7 +27,7 @@
                     </table>
                     <br>
                     @*LISTA DE FUNCIONARIOS/ATLETAS*@
-                    <form id="myForm">
+                    <form id="myForm" align="center">
                         <label for="usuarioLabel"><b>Usuarios</b></label>
                         <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
                     </form>
@@ -37,21 +37,21 @@
                     <br />
                     <br />
 
-                    <div class="row">
+                    <div class="row" align="center">
                         <br />
-                        <div class="col-md-6">
-                            <div class="form-group files">
-                                <label>Seleccione un archivo InBody </label>
+                        <div class="col-md-6" align="center">
+                            <div class="form-group files" align="center">
+                                <label>Seleccione un archivo InBody - Prueba de Fuerza </label>
                                 <input type="file" name="inbody" id="inbody" class="form-control" multiple="">
                             </div>
                         </div>
 
-                        <div class="col-md-6">
-                            <div class="form-group files color">
-                                <label> Seleccione una prueba de fuerza </label>
-                                <input type="file" name="pruFu" id="pruFu" class="form-control" multiple="">
-                            </div>
+                        @*<div class="col-md-6">
+                        <div class="form-group files color">
+                            <label> Seleccione una prueba de fuerza </label>
+                            <input type="file" name="pruFu" id="pruFu" class="form-control" multiple="">
                         </div>
+                    </div>*@
                     </div>
                     <br />
                     <br />
@@ -60,6 +60,7 @@
                 </div>
 
             </div>
+            @Html.Raw(TempData["msg"])
         </div>
         </body>
 
