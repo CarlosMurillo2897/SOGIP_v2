@@ -271,7 +271,6 @@
                             }
                             else
                             {
-                                if (item.Estado == true)
                             <div class="panel-footer">
                                 @if (item.Estado == true)
                                 {
@@ -289,7 +288,6 @@
                                         Habilitar <i class="glyphicon glyphicon-check"></i>
                                     </button>
                                 }
-                            }
                             <span class="pull-right">
                                 <a href="/UsersAdmin/Edit/@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
                                     Editar  <i class="glyphicon glyphicon-edit"></i>
@@ -301,13 +299,13 @@
                                         Editar<i class="glyphicon glyphicon-edit"></i>
                                     </a>
                                 </span>
-
                             </div>
+                            }
                         </div>
                     </div>
                 </div>
-            }
         </div>
+            }
     </div>
 </body>
 </html>
