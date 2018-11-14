@@ -13,14 +13,14 @@ use "SOGIP_v3"
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
 
- select SOGIP_Users.Id, Cedula, Nombre1, Nombre2, Fecha_Nacimiento, SOGIP_Roles.Name, SOGIP_Roles.Id
+ select SOGIP_Users.Id, SOGIP_Users.Nombre1, SOGIP_Users.Fecha_Nacimiento, SOGIP_Users.Cedula, SOGIP_Roles.Name, SOGIP_Roles.id
  from 
  SOGIP_Users, SOGIP_UserRoles, SOGIP_Roles
  where 
  SOGIP_Users.Id = SOGIP_UserRoles.Userid
  and
  SOGIP_UserRoles.Roleid = SOGIP_Roles.id
- order by SOGIP_Roles.Id;
+ order by SOGIP_Roles.id;
 
  delete from SOGIP_Users where Email != 'cmb28@hotmail.com';
  delete from SOGIP_Users;
@@ -45,7 +45,7 @@ use "SOGIP_v3"
  select * from SOGIP_Tipo_Entidad;
  select * from SOGIP_UserClaims;
  select * from SOGIP_UserLogins;
- select * from SOGIP_UserRoles where RoleId='6';
+ select * from SOGIP_UserRoles;
  select * from SOGIP_Users;
 
  -- Describe los atributos de cualquier tabla. --
@@ -152,8 +152,6 @@ insert into SOGIP_Deportes values('PULSOS', 1);
 insert into SOGIP_Deportes values('RACQUETBOL', 5);
 insert into SOGIP_Deportes values('Atletas Alto Rendimiento', 1);
 
--- update SOGIP_Users set Estado=0 where Apellido1 = 'Murillo';
-
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Daniel Oduber');
 insert into SOGIP_Tipo_Entidad values('Aeropuerto Internacional Juan Santamaría');
 insert into SOGIP_Tipo_Entidad values('Banco Central de Costa Rica (BCCR)');
@@ -200,7 +198,8 @@ insert into SOGIP_Tipo_Entidad values('Instituto Nacional de Vivienda y Urbanism
 insert into SOGIP_Tipo_Entidad values('Instituto Tecnológico de Costa Rica');
 insert into SOGIP_Tipo_Entidad values('Junta de Administración Portuaria y de Desarrollo Económico de la Vertiente Atlántica de Costa Rica');
 insert into SOGIP_Tipo_Entidad values('Junta de Protección Social (JPS)');
-insert into SOGIP_Tipo_Entidad values('Ministerio de Agricultura y Ganadería');insert into SOGIP_Tipo_Entidad values('Ministerio de Ambiente y Energía');
+insert into SOGIP_Tipo_Entidad values('Ministerio de Agricultura y Ganadería');
+insert into SOGIP_Tipo_Entidad values('Ministerio de Ambiente y Energía');
 insert into SOGIP_Tipo_Entidad values('Ministerio de Ciencia, Tecnología y Telecomunicaciones');
 insert into SOGIP_Tipo_Entidad values('Ministerio de Comercio Exterior');
 insert into SOGIP_Tipo_Entidad values('Ministerio de Comunicación');
@@ -231,26 +230,24 @@ insert into SOGIP_Tipo_Entidad values('Universidad Empresarial de Costa Rica');
 insert into SOGIP_Tipo_Entidad values('Universidad Estatal a Distancia');
 insert into SOGIP_Tipo_Entidad values('Universidad Nacional de Costa Rica');
 
--- sp_help sogip_conjunto_ejercicio
-
--- Hora actual: select current_timestamp
-
-insert into SOGIP_Users values('079f4abe-80b2-43c0-9566-640869ea266a', '110280141', NULL, current_timestamp, 'ALONSO', NULL, 'LEON', 'MENA', '1979-02-11 00:00:00.000', 1, 1, 'alonso.leon@icoder.co.cr', 0, 'AEuLAa53HkMBZx7hobzIRLRXS39d88xPS7n6xrsz5cHxjL/TG9UG+FCkyM0kpQ8mLg==', 'aa379c05-9fe6-4f9f-b0b8-11520a87d019', NULL, 0, 0, NULL, 1, 0, '110280141');
-insert into SOGIP_Users values('09d9e8a1-14e1-43bd-8bc2-75b52378757d', '104670428', NULL, current_timestamp, 'ILEANA', NULL, 'MADRIGAL', 'CECILIANO', '1956-07-18 00:00:00.000', 0, 1, 'ileana.madrigal@icoder.go.cr', 0, 'AC8f7m9SJVC5Hp2EpGB+6RvhzQFyW1HDAHMNtNwFzb9q5SPPst6T6pNXnjS9L3HaKg==', '5535d562-81b7-42a6-9fb4-83e77a4b5e2f', NULL, 0, 0, NULL, 1, 0, '104670428');
-insert into SOGIP_Users values('0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824', '603290698', NULL, current_timestamp, 'YENCI', NULL, 'GONZALEZ', 'RUIZ', '1983-06-04 00:00:00.000', 0, 1, 'yenci.gonzalez@icoder.co.cr', 0, 'ADz1OynzfyQk7xOpalS/Usus/H+jG1ilTFPPbpWOL01+UFKgCPGMK+C5J/hK68OnUw==', 'ba3deaaa-ba69-4a54-9369-8bde2cd1166e', NULL, 0, 0, NULL, 1, 0, '603290698');
-insert into SOGIP_Users values('43002ea0-b75c-44a0-8f29-7d5c0eeffed2', '112530907', NULL, current_timestamp, 'EMMANUEL', 'DAVID', 'CHANTO', 'SEGURA', '1985-08-25 00:00:00.000', 1, 1, 'chanto@chanto.com', 0, 'AOP0cWhiVc+Eot6ruccEtMvhqwrSt6K6bXixvSTtOryoGNt8TP8k7/ETtBrPjlgACA==', 'f24f4272-ceeb-4f08-bf54-611817c49847', NULL, 0, 0, NULL, 1, 0, '112530907');
-insert into SOGIP_Users values('5c48e11d-0abc-4f76-88a5-bc49e83af272', '112600685', NULL, current_timestamp, 'AGUSTIN', NULL, 'HERRERA', 'CORDERO', '1985-11-08 00:00:00.000', 1, 1, 'agustin.herrera@icoder.co.cr', 0, 'AHfDOYBGEabFBynUnXw+nQsQ+n6kTPX1mDeyZdObrVgourKOUmOEvtBoo619B3ALag==', 'b95dd422-32ac-4707-a4c1-b1b9952d2a6f', NULL, 0, 0, NULL, 1, 0, '112600685');
-insert into SOGIP_Users values('6642f3e1-dc3f-43df-9be2-ebff4ee67d56', '104730812', NULL, current_timestamp, 'ARCADIO', NULL, 'QUESADA', 'BARRANTES', '1956-07-21 00:00:00.000', 1, 1, 'arcadio.quesada@icoder.go.cr', 0, 'AOuwdjmySA/PV9y5wcsj0tMAWPkECptnCN2YWRxUFWT1x43RFw2v2NukoVLqFG9c/A==', 'ae5e643c-5830-4ffe-bb91-d1caeb551412', NULL, 0, 0, NULL, 1, 0, '104730812');
-insert into SOGIP_Users values('79a605e5-2900-44bf-9b35-eaf0b419bd17', '302070270', NULL, current_timestamp, 'ALEJANDRA', NULL, 'VALVERDE', 'BRENES', '1955-02-19 00:00:00.000', 0, 1, 'alejandra.valverde@icoder.go.cr', 0, 'AOBW3lc3N/8SxJ34xf0veqxxivER5SDuOPXB2YCU2csvA94Rnj8RgdQaIfAJmfnHZQ==', 'c635327d-8421-431d-bf0b-c10731f7919f', NULL, 0, 0, NULL, 1, 0, '302070270');
-insert into SOGIP_Users values('843f21d4-b301-4847-848b-f4cd20827a6a', '206140354', NULL, current_timestamp, 'FELIPE', NULL, 'BARRANTES', 'MADRIZ', '1956-11-28 00:00:00.000', 1, 1, 'felipe.barrantes@icoder.go.cr', 0, 'AD0ykwUv1mMXpk8O+5xyeXMNH4rdawPru+iAyDqFNoKMJZSoCRTIcHV2oq3apwFEnw==', '1920116b-64f5-4ab9-8ee7-b78986029ce7', NULL, 0, 0, NULL, 1, 0, '206140354');
-insert into SOGIP_Users values('8f9c47bf-edbd-40bf-9b5e-f753dd81a766', '000000000', NULL, current_timestamp, 'SISTEMA', 'OPERATIVO', 'GIMNASIO', 'PESAS', '2000-01-01 00:00:00.000', 0, 1, 'admSOGIP@hotmail.com', 0, 'AG33oMVrb494bn6JdvpIGf2UV1wbopV1ttoNqJP9/LOD8S0PPltbD4XUYzMorUX8mA==', '6508b809-9b26-4f7e-aad6-b550cbe32fa6', NULL, 0, 0, NULL, 1, 0, '000000000');
-insert into SOGIP_Users values('914db4cb-8e02-4476-9e42-31befefd7a0e', '402120310', NULL, current_timestamp, 'ANA', 'MARIA', 'PORRAS', 'LORIA', '1991-09-21 00:00:00.000', 0, 1, 'anaporras@anaporras.com', 0, 'AMJoytp/8v+RwnlaWrtK4MDwxUGWwBdJ+/XNbpQbtRo0bC2eTf3uMs5rX0iHsus1ng==', 'e4a8b6c5-eb52-4c07-aeae-48216b8b286e', NULL, 0, 0, NULL, 1, 0, '402120310');
-insert into SOGIP_Users values('9d9d279f-016a-47e9-bf70-9ed4a4754de5', '110830174', NULL, current_timestamp, 'AARON', 'ANDRES', 'HIDALGO', 'NUÑEZ', '1980-02-10 00:00:00.000', 1, 1, 'aaron@aaron.com', 0, 'AI33t6s1zh79xQNvhIZu+a3ew6AP+qhorBRdp0Q8xFn6bhhU4cemPKEE8t334VC2aA==', 'b8589e3c-e75c-47a0-9dfc-5e56ea5582eb', NULL, 0, 0, NULL, 1, 0, '110830174');
-insert into SOGIP_Users values('b889fe47-541d-4453-8733-022709c1592f', '114070986', NULL, current_timestamp, 'JOSAFAT', 'ANTONIO', 'BARBOZA', 'UMAÑA', '1989-10-06 00:00:00.000', 1, 1, 'josa@josa.com', 0, 'AAAAGb+hoJnZqkFtRi3SDPAQqwviIyybQISr4nF99nLf9cEoygh0rzKIUm2Dx1qYyQ==', 'de3fb782-d243-4a25-8106-623ebfa68fc7', NULL, 0, 0, NULL, 1, 0, '114070986');
-insert into SOGIP_Users values('c6d47fdc-c219-4d7f-b613-0aca0c812a29', '205940271', NULL, current_timestamp, 'JUAN', 'GABRIEL', 'ARCE', 'VIQUEZ', '1984-05-05 00:00:00.000', 1, 1, 'juangabriel.arce@icoder.co.cr', 0, 'AHWWx/H6t/zJVPpbdk115btZWrHz302G3/WQflJUxJzT0o9y9iy9Od1DPZXhfFzp+g==', '3c3063d7-2b23-4248-a070-32fa9d4ced96', NULL, 0, 0, NULL, 1, 0, '205940271');
-insert into SOGIP_Users values('cbbe0afc-dbf4-46b3-ba5f-91ca8531decd', '115280606', NULL, current_timestamp, 'ELIZABETH', NULL, 'CESPEDES', 'VIQUEZ', '1993-02-22 00:00:00.000', 0, 1, 'elizabeth.cespedes@icoder.go.cr', 0, 'AP6Ij6lHC9SYnAsen9j1DUsmbhoSie32VwozIHClTELLOL6XOumpltyGcqJSb4q8Zw==', 'c866e133-79d6-4663-b0e3-a2cd70b92670', NULL, 0, 0, NULL, 1, 0, '115280606');
-insert into SOGIP_Users values('de8b4ac7-40a3-4b23-aa2b-28ae9fcb9253', '402260033', NULL, current_timestamp, 'EMMANUEL', NULL, 'NIÑO', 'VILLALTA', '1995-02-14 00:00:00.000', 1, 1, 'emmanuelnino@emmanuelnino.com', 0, 'AArLIlxJ6VcgWrGQRqlVf8jM1UA7+WoOndCCiMZ3D6bJJQ2KI8MiBLmttJCQSL/3Hg==', '93511ecb-cb2b-4a6c-8191-81dcfdc47ced', NULL, 0, 0, NULL, 1, 0, '402260033');
-insert into SOGIP_Users values('fbb7a9fe-9975-4f17-bff2-d760d267a942', '111470524', NULL, current_timestamp, 'MANUEL', NULL, 'GUZMAN', 'SABORIO', '1982-08-25 00:00:00.000', 1, 1, 'manuel.guzman@icoder.go.cr', 0, 'AB1OFhuEBHK7opKoLmdAMWAMUwkCE7ILUQ+fYYQzayVfvJVOnFrBli6FpM1BxnXK7A==', 'cab480f8-b03d-47aa-9f90-e7c197325e5c', NULL, 0, 0, NULL, 1, 0, '111470524');
+-- update SOGIP_Users set Sexo = 1 where Cedula='110280141';
+sp_help sogip_conjunto_ejercicio
+insert into SOGIP_Users values('079f4abe-80b2-43c0-9566-640869ea266a', '110280141', NULL, '2019-04-20 13:42:39.747', 'ALONSO', NULL, 'LEON', 'MENA', '1979-02-11 00:00:00.000', 1, 1, 'alonso.leon@icoder.co.cr', 0, 'AEuLAa53HkMBZx7hobzIRLRXS39d88xPS7n6xrsz5cHxjL/TG9UG+FCkyM0kpQ8mLg==', 'aa379c05-9fe6-4f9f-b0b8-11520a87d019', NULL, 0, 0, NULL, 1, 0, '110280141');
+insert into SOGIP_Users values('09d9e8a1-14e1-43bd-8bc2-75b52378757d', '104670428', NULL, '2019-01-22 16:02:16.563', 'ILEANA', NULL, 'MADRIGAL', 'CECILIANO', '1956-07-18 00:00:00.000', 0, 1, 'ileana.madrigal@icoder.go.cr', 0, 'AC8f7m9SJVC5Hp2EpGB+6RvhzQFyW1HDAHMNtNwFzb9q5SPPst6T6pNXnjS9L3HaKg==', '5535d562-81b7-42a6-9fb4-83e77a4b5e2f', NULL, 0, 0, NULL, 1, 0, '104670428');
+insert into SOGIP_Users values('0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824', '603290698', NULL, '2019-01-22 15:58:20.630', 'YENCI', NULL, 'GONZALEZ', 'RUIZ', '1983-06-04 00:00:00.000', 0, 1, 'yenci.gonzalez@icoder.co.cr', 0, 'ADz1OynzfyQk7xOpalS/Usus/H+jG1ilTFPPbpWOL01+UFKgCPGMK+C5J/hK68OnUw==', 'ba3deaaa-ba69-4a54-9369-8bde2cd1166e', NULL, 0, 0, NULL, 1, 0, '603290698');
+insert into SOGIP_Users values('43002ea0-b75c-44a0-8f29-7d5c0eeffed2', '112530907', NULL, '2019-04-18 16:32:10.283', 'EMMANUEL', 'DAVID', 'CHANTO', 'SEGURA', '1985-08-25 00:00:00.000', 1, 1, 'chanto@chanto.com', 0, 'AOP0cWhiVc+Eot6ruccEtMvhqwrSt6K6bXixvSTtOryoGNt8TP8k7/ETtBrPjlgACA==', 'f24f4272-ceeb-4f08-bf54-611817c49847', NULL, 0, 0, NULL, 1, 0, '112530907');
+insert into SOGIP_Users values('5c48e11d-0abc-4f76-88a5-bc49e83af272', '112600685', NULL, '2019-04-20 13:38:49.550', 'AGUSTIN', NULL, 'HERRERA', 'CORDERO', '1985-11-08 00:00:00.000', 1, 1, 'agustin.herrera@icoder.co.cr', 0, 'AHfDOYBGEabFBynUnXw+nQsQ+n6kTPX1mDeyZdObrVgourKOUmOEvtBoo619B3ALag==', 'b95dd422-32ac-4707-a4c1-b1b9952d2a6f', NULL, 0, 0, NULL, 1, 0, '112600685');
+insert into SOGIP_Users values('6642f3e1-dc3f-43df-9be2-ebff4ee67d56', '104730812', NULL, '2019-01-22 16:00:18.750', 'ARCADIO', NULL, 'QUESADA', 'BARRANTES', '1956-07-21 00:00:00.000', 1, 1, 'arcadio.quesada@icoder.go.cr', 0, 'AOuwdjmySA/PV9y5wcsj0tMAWPkECptnCN2YWRxUFWT1x43RFw2v2NukoVLqFG9c/A==', 'ae5e643c-5830-4ffe-bb91-d1caeb551412', NULL, 0, 0, NULL, 1, 0, '104730812');
+insert into SOGIP_Users values('79a605e5-2900-44bf-9b35-eaf0b419bd17', '302070270', NULL, '2019-01-22 16:04:59.927', 'ALEJANDRA', NULL, 'VALVERDE', 'BRENES', '1955-02-19 00:00:00.000', 0, 1, 'alejandra.valverde@icoder.go.cr', 0, 'AOBW3lc3N/8SxJ34xf0veqxxivER5SDuOPXB2YCU2csvA94Rnj8RgdQaIfAJmfnHZQ==', 'c635327d-8421-431d-bf0b-c10731f7919f', NULL, 0, 0, NULL, 1, 0, '302070270');
+insert into SOGIP_Users values('843f21d4-b301-4847-848b-f4cd20827a6a', '206140354', NULL, '2019-01-22 16:04:20.163', 'FELIPE', NULL, 'BARRANTES', 'MADRIZ', '1956-11-28 00:00:00.000', 1, 1, 'felipe.barrantes@icoder.go.cr', 0, 'AD0ykwUv1mMXpk8O+5xyeXMNH4rdawPru+iAyDqFNoKMJZSoCRTIcHV2oq3apwFEnw==', '1920116b-64f5-4ab9-8ee7-b78986029ce7', NULL, 0, 0, NULL, 1, 0, '206140354');
+insert into SOGIP_Users values('8f9c47bf-edbd-40bf-9b5e-f753dd81a766', '000000000', NULL, '2019-04-19 21:34:58.363', 'SISTEMA', 'OPERATIVO', 'GIMNASIO', 'PESAS', '2000-01-01 00:00:00.000', 0, 1, 'admSOGIP@hotmail.com', 0, 'AG33oMVrb494bn6JdvpIGf2UV1wbopV1ttoNqJP9/LOD8S0PPltbD4XUYzMorUX8mA==', '6508b809-9b26-4f7e-aad6-b550cbe32fa6', NULL, 0, 0, NULL, 1, 0, '000000000');
+insert into SOGIP_Users values('914db4cb-8e02-4476-9e42-31befefd7a0e', '402120310', NULL, '2019-04-18 17:08:56.407', 'ANA', 'MARIA', 'PORRAS', 'LORIA', '1991-09-21 00:00:00.000', 0, 1, 'anaporras@anaporras.com', 0, 'AMJoytp/8v+RwnlaWrtK4MDwxUGWwBdJ+/XNbpQbtRo0bC2eTf3uMs5rX0iHsus1ng==', 'e4a8b6c5-eb52-4c07-aeae-48216b8b286e', NULL, 0, 0, NULL, 1, 0, '402120310');
+insert into SOGIP_Users values('9d9d279f-016a-47e9-bf70-9ed4a4754de5', '110830174', NULL, '2019-04-18 17:07:06.053', 'AARON', 'ANDRES', 'HIDALGO', 'NUÑEZ', '1980-02-10 00:00:00.000', 1, 1, 'aaron@aaron.com', 0, 'AI33t6s1zh79xQNvhIZu+a3ew6AP+qhorBRdp0Q8xFn6bhhU4cemPKEE8t334VC2aA==', 'b8589e3c-e75c-47a0-9dfc-5e56ea5582eb', NULL, 0, 0, NULL, 1, 0, '110830174');
+insert into SOGIP_Users values('b889fe47-541d-4453-8733-022709c1592f', '114070986', NULL, '2019-04-18 15:52:12.557', 'JOSAFAT', 'ANTONIO', 'BARBOZA', 'UMAÑA', '1989-10-06 00:00:00.000', 1, 1, 'josa@josa.com', 0, 'AAAAGb+hoJnZqkFtRi3SDPAQqwviIyybQISr4nF99nLf9cEoygh0rzKIUm2Dx1qYyQ==', 'de3fb782-d243-4a25-8106-623ebfa68fc7', NULL, 0, 0, NULL, 1, 0, '114070986');
+insert into SOGIP_Users values('c6d47fdc-c219-4d7f-b613-0aca0c812a29', '205940271', NULL, '2019-04-20 13:40:26.030', 'JUAN', 'GABRIEL', 'ARCE', 'VIQUEZ', '1984-05-05 00:00:00.000', 1, 1, 'juangabriel.arce@icoder.co.cr', 0, 'AHWWx/H6t/zJVPpbdk115btZWrHz302G3/WQflJUxJzT0o9y9iy9Od1DPZXhfFzp+g==', '3c3063d7-2b23-4248-a070-32fa9d4ced96', NULL, 0, 0, NULL, 1, 0, '205940271');
+insert into SOGIP_Users values('cbbe0afc-dbf4-46b3-ba5f-91ca8531decd', '115280606', NULL, '2019-01-22 15:59:35.137', 'ELIZABETH', NULL, 'CESPEDES', 'VIQUEZ', '1993-02-22 00:00:00.000', 0, 1, 'elizabeth.cespedes@icoder.go.cr', 0, 'AP6Ij6lHC9SYnAsen9j1DUsmbhoSie32VwozIHClTELLOL6XOumpltyGcqJSb4q8Zw==', 'c866e133-79d6-4663-b0e3-a2cd70b92670', NULL, 0, 0, NULL, 1, 0, '115280606');
+insert into SOGIP_Users values('de8b4ac7-40a3-4b23-aa2b-28ae9fcb9253', '402260033', NULL, '2019-04-18 17:13:38.123', 'EMMANUEL', NULL, 'NIÑO', 'VILLALTA', '1995-02-14 00:00:00.000', 1, 1, 'emmanuelnino@emmanuelnino.com', 0, 'AArLIlxJ6VcgWrGQRqlVf8jM1UA7+WoOndCCiMZ3D6bJJQ2KI8MiBLmttJCQSL/3Hg==', '93511ecb-cb2b-4a6c-8191-81dcfdc47ced', NULL, 0, 0, NULL, 1, 0, '402260033');
+insert into SOGIP_Users values('fbb7a9fe-9975-4f17-bff2-d760d267a942', '111470524', NULL, '2019-01-22 16:01:05.007', 'MANUEL', NULL, 'GUZMAN', 'SABORIO', '1982-08-25 00:00:00.000', 1, 1, 'manuel.guzman@icoder.go.cr', 0, 'AB1OFhuEBHK7opKoLmdAMWAMUwkCE7ILUQ+fYYQzayVfvJVOnFrBli6FpM1BxnXK7A==', 'cab480f8-b03d-47aa-9f90-e7c197325e5c', NULL, 0, 0, NULL, 1, 0, '111470524');
 
 insert into SOGIP_UserRoles values('8f9c47bf-edbd-40bf-9b5e-f753dd81a766', 1);
 insert into SOGIP_UserRoles values('b889fe47-541d-4453-8733-022709c1592f', 2);
@@ -268,6 +265,8 @@ insert into SOGIP_UserRoles values('843f21d4-b301-4847-848b-f4cd20827a6a', 7);
 insert into SOGIP_UserRoles values('c6d47fdc-c219-4d7f-b613-0aca0c812a29', 7);
 insert into SOGIP_UserRoles values('cbbe0afc-dbf4-46b3-ba5f-91ca8531decd', 7);
 insert into SOGIP_UserRoles values('fbb7a9fe-9975-4f17-bff2-d760d267a942', 7);
+-- Ana María Porras Loria no tiene rol.
+-- Aaron Andres Hidalgo
 
 insert into SOGIP_Funcionario_ICODER values('b889fe47-541d-4453-8733-022709c1592f', '5c48e11d-0abc-4f76-88a5-bc49e83af272');
 insert into SOGIP_Funcionario_ICODER values('b889fe47-541d-4453-8733-022709c1592f', 'c6d47fdc-c219-4d7f-b613-0aca0c812a29');
@@ -284,21 +283,28 @@ insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Bajar Peso, aumentar
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Bajar porcentaje de grasa', '5c48e11d-0abc-4f76-88a5-bc49e83af272');
 insert into SOGIP_Rutina values('2018-10-09 00:00:00.000', 'Descanso 1 min despues de terminar la serie', 'c6d47fdc-c219-4d7f-b613-0aca0c812a29');
 
--- sp_help SOGIP_Conjunto_Ejercicio
+--select * from sogip_users where cedula='205940271'
+-- select * from sogip_users where id = '991f4235-ab92-4fad-94ca-98b9a6dc503c'
+-- select * from SOGIP_Conjunto_Ejercicio
 
+--Pedro
 insert into SOGIP_Conjunto_Ejercicio values('aperturas maq individual', 3, 10, 60, 3, 12, 60, 3, 12, 70, 'chartreuse', 'Dia1',1);
 insert into SOGIP_Conjunto_Ejercicio values('pull down maquina individual', 3, 10, 90, 3, 12, 90, 3, 90, 100, 'chartreuse', 'Dia1',1);
 insert into SOGIP_Conjunto_Ejercicio values('rodilla a codo opuesto', 3, 20, 0, 3, 25, 0, 3, 30, 0, 'orange', 'Dia1',1);
-insert into SOGIP_Conjunto_Ejercicio values('sentadilla con mancuerda', 3, 10, 15, 3, 12, 15, 3, 12, 20, 'deeppink', 'Dia1',1);
+insert into SOGIP_Conjunto_Ejercicio values('sentadilla con mancuerda', 3, 10, 15, 3, 12, 15, 3, 12, 20,'deeppink', 'Dia1',1);
 insert into SOGIP_Conjunto_Ejercicio values('santadilla+salto cajon', 3, 10, 0, 3, 12, 0, 3, 12, 0, 'deeppink', 'Dia1',1);
 insert into SOGIP_Conjunto_Ejercicio values('abdominales', 3, 25, 0, 3, 27, 0, 3, 30, 0, 'aqua', 'Dia1',1);
 insert into SOGIP_Conjunto_Ejercicio values('lumbares', 3, 20, 0, 3, 25, 0, 3, 30, 0, 'aqua', 'Dia1',1);
+
+--agustin
 insert into SOGIP_Conjunto_Ejercicio values('Press pecho plano', 3, 10, 0, 3, 12, 0, 3, 12, 0, 'chartreuse', 'Dia1',2);
 insert into SOGIP_Conjunto_Ejercicio values('Extension rodilla', 3, 10, 0, 3, 12, 0, 3, 12, 0, 'chartreuse',  'Dia1',2);
 insert into SOGIP_Conjunto_Ejercicio values('Remo individaul polea', 3, 10, 0, 3, 12, 0, 3, 12, 0, 'deeppink','Dia1',2);
 insert into SOGIP_Conjunto_Ejercicio values('Pull down', 3, 10, 0, 3, 12, 0, 3, 12, 0, 'chartreuse', 'Dia2',2);
 insert into SOGIP_Conjunto_Ejercicio values('Flex codo', 3, 10, 0, 3, 12, 0, 3, 12, 0, 'yellow', 'Dia2',2);
 insert into SOGIP_Conjunto_Ejercicio values('Elevacion frontal hombros', 3, 10, 0, 3, 12, 0, 3, 12, 0, 'orange', 'Dia2',2);
+
+--Juan Gabriel
 insert into SOGIP_Conjunto_Ejercicio values('press pecho', 3, 12, 0, 3, 12, 0, 3, 12, 0, 'orange', 'Dia1',3);
 insert into SOGIP_Conjunto_Ejercicio values('Aperturas con polea', 3, 12, 0, 3, 12, 0, 3, 12, 0, 'orange', 'Dia1',3);
 insert into SOGIP_Conjunto_Ejercicio values('Remo Mancuerda', 3, 12, 0, 3, 12, 0, 3, 12, 0, 'chartreuse', 'Dia1',3);
@@ -307,7 +313,7 @@ insert into SOGIP_Conjunto_Ejercicio values('Extension rodilla', 3, 8, 0, 3, 8, 
 insert into SOGIP_Conjunto_Ejercicio values('Peso muerto', 3, 12, 0, 3, 12, 0, 3, 12, 0, 'chartreuse', 'Dia2',3);
 insert into SOGIP_Conjunto_Ejercicio values('Pantorrilla', 3, 8, 0, 3, 12, 0, 3, 12, 0, 'deeppink', 'Dia2',3);
 insert into SOGIP_Conjunto_Ejercicio values('lumbares', 3, 20, 0, 3, 23, 0, 3, 25, 0, 'orange', 'Dia2',3);
- 
+
 
 insert into SOGIP_Cita values(1, 0, '603290698', 'YENCI', 'GONZALEZ', 'RUIZ', '2018-10-24 08:00:00.000', '2018-10-24 08:20:00.000', '0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824');
 insert into SOGIP_Cita values(1, 1, '115280606', 'ELIZABETH', 'CESPEDES', 'VIQUEZ', '2018-10-24 09:00:00.000', '2018-10-24 10:50:00.000', 'cbbe0afc-dbf4-46b3-ba5f-91ca8531decd');
