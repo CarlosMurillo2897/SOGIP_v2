@@ -4,7 +4,6 @@
 @{
     ViewBag.Title = "Registro Manual";
 
-
     List<SelectListItem> Sexo = new List<SelectListItem>();
     Sexo.Add(new SelectListItem
     {
@@ -17,19 +16,12 @@
         Text = "Masculino",
         Value = "true",
     });
-
 }
 
 @Styles.Render("~/Content/manual.css")
+<div class="container">
+    <h2 class="col-md-3">@ViewBag.Title.</h2>
 
-
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-    <div class="container">
     @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {
 
@@ -37,7 +29,7 @@
         @Html.ValidationSummary(true)
         @Html.ValidationSummary(false, "Los siguientes campos obligatorios están vacios: ")
         <div class="container">
-            <h2 style="color: white">Registro Manual</h2>
+
             <div class="card card-default">
                 <div class="form-group">
                     <div class="col-md-10">
@@ -58,27 +50,6 @@
                     </div>
 
                 </div>
-                <div class="col-md-1 col-lg-3">
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            @Html.LabelFor(m => m.Cedula, new { @class = "control-label" })
-                            <br />
-                            Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { @onchange = "cls('10')", id = "CedNa" })
-                            Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { @onclick = "cls('15')", id = "CedEx" })
-                            <br />
-                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", maxLength = "10", placeholder = "Nacional solo números", onpaste= "pegar(event);", onkeypress = "return isNumber(event);" })
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-1 col-lg-3">
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            @Html.LabelFor(m => m.Nombre1, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Nombre1, new { @class = "form-control", id = "Nombre1" })
                 <div class="row">
                     <div class="col-md-10">
                         <h4>DATOS PERSONALES</h4>
@@ -91,18 +62,9 @@
                                 Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { @onchange = "cls('10')", id = "CedNa" })
                                 Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { @onclick = "cls('15')", id = "CedEx" })
                                 <br />
-                                @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", maxLength = "10", placeholder = "Nacional solo números", onkeypress = "isNumber(event);" })
+                                @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", maxLength = "10", placeholder = "Nacional solo números", onpaste = "pegar(event);", onkeypress = "return isNumber(event);" })
                             </div>
 
-                        </div>
-                    </div>
-                    <div class="col-md-1 col-lg-3">
-                        <div class="form-group">
-                            <div class="col-md-10">
-                                <br />
-                                <br />
-                                <input type="button" class="btn btn-warning" id="btn_sub_form" value="Limpiar Cédula" onclick="$('#Cedula').val('');" />
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -132,14 +94,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row row-default">
-                <div class="col-md-1 col-lg-3">
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            @Html.LabelFor(m => m.Fecha_Nacimiento, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Fecha_Nacimiento, new { @class = "form-control", id = "birth", type = "date", @onblur = "brth(1)", @onchange = "brth(2)" })
                     <div class="col-md-1 col-lg-3">
                         <div class="form-group">
                             <div class="col-md-10">
@@ -154,7 +108,7 @@
                         <div class="form-group">
                             <div class="col-md-10">
                                 @Html.LabelFor(m => m.Fecha_Nacimiento, new { @class = "control-label" })
-                                @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:dd-MM-yyyy}", new { @class = "form-control", id = "birth", type = "date", @onblur = "brth(1)", @onchange = "brth(2)" })
+                                @Html.TextBoxFor(m => m.Fecha_Nacimiento, new { @class = "form-control", id = "birth", type = "date", @onblur = "brth(1)", @onchange = "brth(2)" })
                             </div>
                         </div>
                     </div>
@@ -394,10 +348,7 @@
             </div>
         </div>
     }
-        </div>
-</body>
-</html>
-
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

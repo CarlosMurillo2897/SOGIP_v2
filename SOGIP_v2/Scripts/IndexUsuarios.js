@@ -15,7 +15,7 @@
 
         if (idFor.is(':visible')) {
 
-            let index, table = document.getElementById(id);
+            let index, table = document.getElementById("tabla2-"+id);
 
             while (table.rows.length > 8) {
                 table.deleteRow(8);
