@@ -207,19 +207,61 @@ function formulario() {
 
 }
 
-function isNumber(evt) {  // Aceptar solo números en la cédula
+function isNumber(evt) {  // Aceptar solo números y otros comandos en la cédula.
 
     var allow = $("input[name='Nacionalidad']:checked").val();
 
     if (allow == "Nacional") {
-        var ch = String.fromCharCode(evt.which);
-        if (!(/[0-9]/.test(ch))) {
+
+        var key = evt.which || evt.keyCode;
+
+        // Detectar si Ctrl fue ingresado.
+        var ctrl = evt.ctrlKey ? evt.ctrlKey : ((key === 17) ? true : false); 
+
+        // El código a continuación detecta si se va a Pegar(Ctrl + V = 118) algún texto y se valida que sea numérico.
+        if (key == 118 && ctrl) { 
+            pegar(evt);
+        }
+
+         /* 
+         El código a continuación acepta:
+         Retroceso, Tabulación, Fin, Inicio, Izquierda, Arriba, Derecha, Abajo, Suprimir, 
+         Copiar (Ctrl + C = 99), Recargar (Ctrl + R = 114), Cortar (Ctrl + X = 120),
+         Rehacer (Ctrl + Y = 121) Deshacer (Ctrl + Z = 122). 
+         */
+
+        else if (key == 8 || key == 9 || key == 35 || key == 36 || key == 37 || key == 38 || key == 39 || key == 40 || key == 46 ||
+            (key == 99 && ctrl) || (key == 114 && ctrl) || (key == 120 && ctrl) || (key == 121 && ctrl) || (key == 122 && ctrl)) {
+            return
+        }
+
+        let ch = String.fromCharCode(key);
+        if (!(/[0-9]/.test(ch))) { // Detectar por medio de REGEX si es un número lo ingresado.
             evt.preventDefault();
         }
+
+    }
+}
+
+function pegar(event) {
+
+    var allow = $("input[name='Nacionalidad']:checked").val();
+
+    if (allow == "Nacional") {
+
+         // El código a continuación intercpeta lo que se procede a pegar.
+        let data = (event.clipboardData || window.clipboardData).getData('text');
+        let ch = String.fromCharCode(data);
+
+        // El código a continuación valida si lo que se va a pegar es un número.
+        if (isNaN(data)) { 
+            window.alert("Cédula nacional no acepta datos que no sean numéricos.\n Texto a pegar: '" + data + "'.");
+            event.preventDefault();
+        }
+
     }
 
 }
-
 
 function cls(max) { // Limpiar campo de cédula
     $('#Cedula').val('');

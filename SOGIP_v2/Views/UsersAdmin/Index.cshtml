@@ -103,7 +103,7 @@
 
                                 <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
                                     <strong>@item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
-                                    <dl id="new">
+                                    <dl id="tabla1-@item.Id">
                                         <dt>Nombre:</dt>
                                         <dd>@item.Nombre1 @item.Nombre2</dd>
                                         <dt>Apellidos:</dt>
@@ -123,32 +123,13 @@
                                         {
                                             <dd>Femenino</dd>
                                         }
-                                        <dt><strong>Documentos adjuntados:</strong></dt>
-                                        <dt>Nombre:</dt>
-                                        <dd>Tipo:</dd>
-                                        <dt>Documento.pdf</dt>
-                                        <dd>CV</dd>
-                                        <dd>
-                                            <button class="btn btn-sm btn-info" type="button"
-                                                    data-toggle="tooltip"
-                                                    data-original-title="Descargar este documento.">
-                                                Descargar <i class="glyphicon glyphicon-download"></i>
-                                            </button>
-                                        </dd>
-                                        <dt>Prueba de Fuerza.pdf</dt>
-                                        <dd>Prueba de Fuerza</dd>
-                                        <dd>
-                                            <button class="btn btn-sm btn-success" type="button"
-                                                    data-toggle="tooltip"
-                                                    data-original-title="Descargar este documento.">
-                                                Descargar <i class="glyphicon glyphicon-download"></i>
-                                            </button>
-                                        </dd>
+                                        <dt>Documentos adjuntados:</dt>
+                                        
                                     </dl>
                                 </div>
                                 <div class=" col-md-9 col-lg-9 hidden-xs hidden-sm">
                                     <strong>@item.Nombre1</strong><br>
-                                    <table class="table table-user-information" id="@item.Id">
+                                    <table class="table table-user-information" id="tabla2-@item.Id">
                                         <tbody>
                                             <tr>
                                                 <td>Nombre:</td>
@@ -196,25 +177,36 @@
                         </div>
 
                         <div class="panel-footer">
-                            @if (item.Estado == true)
+                            @if (item.Id == "8f9c47bf-edbd-40bf-9b5e-f753dd81a766" || item.Id == "b889fe47-541d-4453-8733-022709c1592f")
                             {
-                                <button class="btn btn-sm btn-danger" type="button" id="disable-@item.Id" onclick="dis('@item.Id', id);"
+                                <button class="btn btn-sm btn-info" type="button" id="predeterminado-@item.Id"
                                         data-toggle="tooltip"
-                                        data-original-title="Deshabilitar este usuario.">
-                                    Deshabilitar <i class="glyphicon glyphicon-remove"></i>
-                                </button>
-                            }else
-                            {
-                                <button class="btn btn-sm btn-success" type="button" id="enable-@item.Id" onclick="dis('@item.Id', id);"
-                                        data-toggle="tooltip"
-                                        data-original-title="Habilitar este usuario.">
-                                    Habilitar <i class="glyphicon glyphicon-check"></i>
+                                        data-original-title="Usuario no puede ser deshabilitado.">
+                                    Predeterminado <i class="glyphicon glyphicon-alert"></i>
                                 </button>
                             }
-
+                            else
+                            {
+                                if (item.Estado == true)
+                                {
+                                    <button class="btn btn-sm btn-danger" type="button" id="disable-@item.Id" onclick="dis('@item.Id', id);"
+                                            data-toggle="tooltip"
+                                            data-original-title="Deshabilitar este usuario.">
+                                        Deshabilitar <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-success" type="button" id="enable-@item.Id" onclick="dis('@item.Id', id);"
+                                            data-toggle="tooltip"
+                                            data-original-title="Habilitar este usuario.">
+                                        Habilitar <i class="glyphicon glyphicon-check"></i>
+                                    </button>
+                                }
+                            }
                             <span class="pull-right">
                                 <a href="/UsersAdmin/Edit/@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
-                                    Editar<i class="glyphicon glyphicon-edit"></i>
+                                    Editar  <i class="glyphicon glyphicon-edit"></i>
                                 </a>
                             </span>
 

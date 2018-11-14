@@ -64,18 +64,9 @@
                             Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { @onchange = "cls('10')", id = "CedNa" })
                             Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { @onclick = "cls('15')", id = "CedEx" })
                             <br />
-                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", maxLength = "10", placeholder = "Nacional solo números", onkeypress = "isNumber(event);" })
+                            @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", maxLength = "10", placeholder = "Nacional solo números", onpaste= "pegar(event);", onkeypress = "return isNumber(event);" })
                         </div>
 
-                    </div>
-                </div>
-                <div class="col-md-1 col-lg-3">
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            <br />
-                            <br />
-                            <input type="button" class="btn btn-warning" id="btn_sub_form" value="Limpiar Cédula" onclick="$('#Cedula').val('');" />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -119,7 +110,7 @@
                     <div class="form-group">
                         <div class="col-md-10">
                             @Html.LabelFor(m => m.Fecha_Nacimiento, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:dd-MM-yyyy}", new { @class = "form-control", id = "birth", type = "date", @onblur = "brth(1)", @onchange = "brth(2)" })
+                            @Html.TextBoxFor(m => m.Fecha_Nacimiento, new { @class = "form-control", id = "birth", type = "date", @onblur = "brth(1)", @onchange = "brth(2)" })
                         </div>
                     </div>
                 </div>
