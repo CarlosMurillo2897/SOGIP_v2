@@ -2,9 +2,17 @@
 
 @{
     ViewBag.Title = "Lista de Rutinas";
+
     @Styles.Render("~/Content/Rutina.css")
+
+    @Styles.Render("~/Content/Detalle_Rutina.css")
+    @Styles.Render("~/Content/manual.css")
+}
 }
 
+<html>
+<body>
+    <div class="container">
 <div class="col-md-10">
 
 </div>
@@ -14,7 +22,8 @@
 <h2>Lista de Rutinas</h2>
 
 @Html.ActionLink("Crear nueva rutina", "Create", null, new { @class = "btn btn-default" })
-
+<br />
+<br />
 <table class="table">
     <tr>
         <th>
@@ -55,3 +64,6 @@
     }
 
 </table>
+        </div>
+    </body>
+</html>

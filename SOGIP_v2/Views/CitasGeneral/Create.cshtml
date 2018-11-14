@@ -7,383 +7,389 @@
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
     @Styles.Render("~/Content/jquery.timepicker.css")
 }
+<html>
+<body>
+    <div class="container">
+        <br />
+        <br />
+        <h2 style="color: white">Calendario de Citas</h2>
+        <div id="calendar"></div>
 
-<h2>Calendario de Citas</h2>
-
-<div id="calendar"></div>
-
-@*MODAL PARA VER O ELIMINAR CITAS*@
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><span id="eventTitle"></span></h4>
+        @*MODAL PARA VER O ELIMINAR CITAS*@
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <button id="btnDelete" class="btn btn-default btn-sm pull-right" style="background-color:#ff4d4d;">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            Eliminar
+                        </button>
+                        <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            Editar
+                        </button>
+                        <p id="pDetails"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
             </div>
-            <div class="modal-body">
-                <button id="btnDelete" class="btn btn-default btn-sm pull-right" style="background-color:#ff4d4d;">
-                    <span class="glyphicon glyphicon-remove"></span>
-                    Eliminar
-                </button>
-                <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
-                    <span class="glyphicon glyphicon-pencil"></span>
-                    Editar
-                </button>
-                <p id="pDetails"></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+
+        @*MODAL PARA EDITAR O CREAR LAS CITAS*@
+        <div id="myModalSave" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content col-md-12" style="align-content:center">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">GUARDAR CITA</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <input type="hidden" id="hdEventID" value="0" />
+                            <div class="form-group">
+                                <label>Fecha de inicio</label>
+                                <div class="input-group date" id="dtp1">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    <input type="text" id="txtStart" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Hora de inicio</label>
+                                <div class="input-group date" id="dtp3">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" id="txtHora" type="text">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>Hora de finalización</label>
+                                <div class="input-group date" id="dtp2">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" id="txtHoraF" type="text" readonly>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="inbodyCheck" checked="checked" />InBody</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="rutinaCheck" checked="checked" />Rutina</label>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="cedUD" style="display:none;">
+                                <label>Cedula de usuario</label>
+                                <div class="input-group" id="cedU">
+                                    <input type="text" id="txtCed" class="form-control" />
+                                </div>
+                            </div>
+                            <br />
+                            <button type="button" id="btnSave" class="btn btn-default" style="background-color:#339966;">Guardar Cambios</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    </body>
+</html>
 
-@*MODAL PARA EDITAR O CREAR LAS CITAS*@
-<div id="myModalSave" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content col-md-12" style="align-content:center">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">GUARDAR CITA</h4>
-            </div>
-            <div class="modal-body">
-                <form class="form-horizontal">
-                    <input type="hidden" id="hdEventID" value="0" />
-                    <div class="form-group">
-                        <label>Fecha de inicio</label>
-                        <div class="input-group date" id="dtp1">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input type="text" id="txtStart" class="form-control" />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Hora de inicio</label>
-                        <div class="input-group date" id="dtp3">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                            <input class="timepicker form-control" id="txtHora" type="text">
-                        </div>
-                    </div>
+        @*------LA PARTE MÁS IMPORTANTE DE ESTE REQUERIMIENTO-------*@
+        @section Scripts {
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+            <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
 
 
-                    <div class="form-group">
-                        <label>Hora de finalización</label>
-                        <div class="input-group date" id="dtp2">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                            <input class="timepicker form-control" id="txtHoraF" type="text" readonly>
-                        </div>
+            @Scripts.Render("~/bundles/jqueryval")
+            @Scripts.Render("~/Scripts/jquery.min.js")
+            @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
+            @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
+            @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
+            @Scripts.Render("~/Scripts/bootstrap.js")
+            @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+            @Scripts.Render("~/Scripts/jquery.timepicker.js")
 
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label><input type="checkbox" id="inbodyCheck" checked="checked" />InBody</label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label><input type="checkbox" id="rutinaCheck" checked="checked" />Rutina</label>
-                        </div>
-                    </div>
+            <script>
+                $(document).ready(function () {
 
-                    <div class="form-group" id="cedUD" style="display:none;">
-                        <label>Cedula de usuario</label>
-                        <div class="input-group" id="cedU">
-                            <input type="text" id="txtCed" class="form-control" />
-                        </div>
-                    </div>
-                    <br />
-                    <button type="button" id="btnSave" class="btn btn-default" style="background-color:#339966;">Guardar Cambios</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                    var events = [];
+                    var selectedEvent = null;
+                    FetchEventAndRenderCalendar();
 
-@*------LA PARTE MÁS IMPORTANTE DE ESTE REQUERIMIENTO-------*@
-@section Scripts {
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
-
-
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/jquery.min.js")
-    @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
-    @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
-    @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
-    @Scripts.Render("~/Scripts/bootstrap.js")
-    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-    @Scripts.Render("~/Scripts/jquery.timepicker.js")
-
-    <script>
-        $(document).ready(function () {
-
-            var events = [];
-            var selectedEvent = null;
-            FetchEventAndRenderCalendar();
-
-            //FUNCIÓN PARA LLENAR Y ACTUALIZAR CALENDARIO
-            function FetchEventAndRenderCalendar() {
-                events = [];
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: "/CitasGeneral/GetEvents",
-                    success: function (data) {
-                        $.each(data, function (i, v) {
-                            events.push({
-                                citaId: v.CitaId,
-                                title: 'CITA',
-                                description1: v.InBody,
-                                description2: v.Otro,
-                                cedula: v.UsuarioCedula,
-                                nombre: v.UsuarioNombre,
-                                apellido1: v.UsuarioApellido1,
-                                apellido2: v.UsuarioApellido2,
-                                start: $.fullCalendar.moment(v.FechaHoraInicio),
-                                end: $.fullCalendar.moment(v.FechaHoraFinal)
-                            });
-                        })
-                        GenerateCalendar(events);
-                    },
-                    error: function (error) {
-                        alert("Fallo");
-                    }
-                })
-            }
-
-            //FUNCIÓN PARA GENERAR EL CALENDARIO
-            function GenerateCalendar(events) {
-                $('#calendar').fullCalendar('destroy');
-                $('#calendar').fullCalendar({
-                    contentHeight: 400,
-                    defaultDate: new Date(),
-                    timeFormat: 'h(:mm)a',
-                    header: {
-                        left: 'prev, next today',
-                        center: 'title',
-                        right: 'month, basicWeek, basicDay, agenda'
-                    },
-                    weekends: false,
-                    eventLimit: true,
-                    eventColor: '#378006',
-                    events: events,
-                    themeSystem: 'jquery-ui',
-                    eventClick: function (calEvent, jsEvent, view) {
-                        selectedEvent = calEvent;
-                        $('#myModal #eventTitle').text(calEvent.title);
-                        var $description = $('<div/>');
-                        $description.append($('<p/>').html('<b>Inicia: </b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
-                        if (calEvent.end != null) {
-                            $description.append($('<p/>').html('<b>Termina: </b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
-                        }
-                        $description.append($('<hr/>'));
-                        $description.append($('<p/>').html('<b>Motivo de la Cita</b>'));
-                        if (calEvent.description1 != false) {
-                            $description.append($('<p/>').html('<b>InBody: </b>' + 'Si'));
-                        }
-                        else {
-                            $description.append($('<p/>').html('<b>InBody: </b>' + 'No'));
-                        }
-
-                        if (calEvent.description2 != false) {
-                            $description.append($('<p/>').html('<b>Rutina: </b>' + 'Si'));
-                        }
-                        else {
-                            $description.append($('<p/>').html('<b>Rutina: </b>' + 'No'));
-                        }
-                        $description.append($('<hr/>'));
-                        $description.append($('<p/>').html('<b>Información del Usuario</b>'));
-                        $description.append($('<p/>').html('<b>Cedula: </b>' + calEvent.cedula));
-                        $description.append($('<p/>').html('<b>Nombre Completo: </b>' + calEvent.nombre + ' ' + calEvent.apellido1 + ' ' + calEvent.apellido2));
-
-                        $('#myModal #pDetails').empty().html($description);
-
-                        $('#myModal').modal();
-                    },
-                    selectable: true,
-                    select: function (start, end) {
-                        var check = start.format("YYYY-MM-DD");
-                        var today = moment().format("YYYY-MM-DD");
-                        if (check < today) {
-
-                        }
-                        else {
-                            selectedEvent = {
-                                citaId: 0,
-                                description1: '',
-                                description2: '',
-                                cedula: '',
-                                nombre: '',
-                                apellido1: '',
-                                apellido2: '',
-                                start: start,
-                                end: end
-
-                            };
-                            openEditForm();
-                            $('calendar').fullCalendar('unselect');
-                        }
-                    },
-                    editable: true,
-                    eventDrop: function (event) {
-                        var data = {
-                            CitaId: event.citaId,
-                            InBody: event.description1,
-                            Otro: event.description2,
-                            FechaHoraInicio: event.start.format('DD-MMM-YYYY HH:mm a'),
-                            FechaHoraFinal: event.end.format('DD-MMM-YYYY HH:mm a')
-                        };
-                        SaveDate(data);
-                    }
-                })
-
-            }
-
-            //EDITAR CITA
-            $('#btnEdit').click(function () {
-                openEditForm();
-            })
-
-            //ELIMINAR CITA
-            $('#btnDelete').click(function () {
-                if (selectedEvent != null && confirm('¿Está seguro que desea eliminar cita?')) {
-                    $.ajax({
-                        type: "POST",
-                        dataType: "JSON",
-                        url: '/CitasGeneral/DeleteEvent',
-                        data: { 'citaId': selectedEvent.citaId },
-                        success: function (data) {
-                            if (data.status) {
-                                //Actualiza el calendario
-                                FetchEventAndRenderCalendar();
-                                $('#myModal').modal('hide');
+                    //FUNCIÓN PARA LLENAR Y ACTUALIZAR CALENDARIO
+                    function FetchEventAndRenderCalendar() {
+                        events = [];
+                        $.ajax({
+                            type: "POST",
+                            dataType: "JSON",
+                            url: "/CitasGeneral/GetEvents",
+                            success: function (data) {
+                                $.each(data, function (i, v) {
+                                    events.push({
+                                        citaId: v.CitaId,
+                                        title: 'CITA',
+                                        description1: v.InBody,
+                                        description2: v.Otro,
+                                        cedula: v.UsuarioCedula,
+                                        nombre: v.UsuarioNombre,
+                                        apellido1: v.UsuarioApellido1,
+                                        apellido2: v.UsuarioApellido2,
+                                        start: $.fullCalendar.moment(v.FechaHoraInicio),
+                                        end: $.fullCalendar.moment(v.FechaHoraFinal)
+                                    });
+                                })
+                                GenerateCalendar(events);
+                            },
+                            error: function (error) {
+                                alert("Fallo");
                             }
-                        },
-                        error: function () {
-                            alert("Fallo");
+                        })
+                    }
+
+                    //FUNCIÓN PARA GENERAR EL CALENDARIO
+                    function GenerateCalendar(events) {
+                        $('#calendar').fullCalendar('destroy');
+                        $('#calendar').fullCalendar({
+                            contentHeight: 400,
+                            defaultDate: new Date(),
+                            timeFormat: 'h(:mm)a',
+                            header: {
+                                left: 'prev, next today',
+                                center: 'title',
+                                right: 'month, basicWeek, basicDay, agenda'
+                            },
+                            weekends: false,
+                            eventLimit: true,
+                            eventColor: '#378006',
+                            events: events,
+                            themeSystem: 'jquery-ui',
+                            eventClick: function (calEvent, jsEvent, view) {
+                                selectedEvent = calEvent;
+                                $('#myModal #eventTitle').text(calEvent.title);
+                                var $description = $('<div/>');
+                                $description.append($('<p/>').html('<b>Inicia: </b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
+                                if (calEvent.end != null) {
+                                    $description.append($('<p/>').html('<b>Termina: </b>' + calEvent.end.format("DD-MMM-YYYY HH:mm a")));
+                                }
+                                $description.append($('<hr/>'));
+                                $description.append($('<p/>').html('<b>Motivo de la Cita</b>'));
+                                if (calEvent.description1 != false) {
+                                    $description.append($('<p/>').html('<b>InBody: </b>' + 'Si'));
+                                }
+                                else {
+                                    $description.append($('<p/>').html('<b>InBody: </b>' + 'No'));
+                                }
+
+                                if (calEvent.description2 != false) {
+                                    $description.append($('<p/>').html('<b>Rutina: </b>' + 'Si'));
+                                }
+                                else {
+                                    $description.append($('<p/>').html('<b>Rutina: </b>' + 'No'));
+                                }
+                                $description.append($('<hr/>'));
+                                $description.append($('<p/>').html('<b>Información del Usuario</b>'));
+                                $description.append($('<p/>').html('<b>Cedula: </b>' + calEvent.cedula));
+                                $description.append($('<p/>').html('<b>Nombre Completo: </b>' + calEvent.nombre + ' ' + calEvent.apellido1 + ' ' + calEvent.apellido2));
+
+                                $('#myModal #pDetails').empty().html($description);
+
+                                $('#myModal').modal();
+                            },
+                            selectable: true,
+                            select: function (start, end) {
+                                var check = start.format("YYYY-MM-DD");
+                                var today = moment().format("YYYY-MM-DD");
+                                if (check < today) {
+
+                                }
+                                else {
+                                    selectedEvent = {
+                                        citaId: 0,
+                                        description1: '',
+                                        description2: '',
+                                        cedula: '',
+                                        nombre: '',
+                                        apellido1: '',
+                                        apellido2: '',
+                                        start: start,
+                                        end: end
+
+                                    };
+                                    openEditForm();
+                                    $('calendar').fullCalendar('unselect');
+                                }
+                            },
+                            editable: true,
+                            eventDrop: function (event) {
+                                var data = {
+                                    CitaId: event.citaId,
+                                    InBody: event.description1,
+                                    Otro: event.description2,
+                                    FechaHoraInicio: event.start.format('DD-MMM-YYYY HH:mm a'),
+                                    FechaHoraFinal: event.end.format('DD-MMM-YYYY HH:mm a')
+                                };
+                                SaveDate(data);
+                            }
+                        })
+
+                    }
+
+                    //EDITAR CITA
+                    $('#btnEdit').click(function () {
+                        openEditForm();
+                    })
+
+                    //ELIMINAR CITA
+                    $('#btnDelete').click(function () {
+                        if (selectedEvent != null && confirm('¿Está seguro que desea eliminar cita?')) {
+                            $.ajax({
+                                type: "POST",
+                                dataType: "JSON",
+                                url: '/CitasGeneral/DeleteEvent',
+                                data: { 'citaId': selectedEvent.citaId },
+                                success: function (data) {
+                                    if (data.status) {
+                                        //Actualiza el calendario
+                                        FetchEventAndRenderCalendar();
+                                        $('#myModal').modal('hide');
+                                    }
+                                },
+                                error: function () {
+                                    alert("Fallo");
+                                }
+                            })
                         }
                     })
-                }
-            })
 
-            //FUNCIÓN PARA ABRIR MODAL DE EDITAR CITA
-            function openEditForm() {
-                if (selectedEvent != null) {
-                    $('#hdEventID').val(selectedEvent.citaId);
-                    $('#txtStart').val(selectedEvent.start.format("DD-MMM-YYYY"));
-                    $('#txtHora').val(selectedEvent.start.format("HH:mm a"));
-                    $('#txtHoraF').val(selectedEvent.end.format("HH:mm a"));
-                    $('#inbodyCheck').prop("checked", selectedEvent.description1 || false);
-                    $('#rutinaCheck').prop("checked", selectedEvent.description2 || false);
-                    $('#inbodyCheck').change();
-                    $('#rutinaCheck').change();
-                }
-                $('#myModal').modal('hide');
-                $('#myModalSave').modal('show');
-            }
-
-            //GUARDA CITA
-            $('#btnSave').click(function () {
-                var data = null;
-                //Validaciones
-                if ($('#txtStart').val().trim() == "") {
-                    alert('Fecha de inicio no puede estar vacio');
-                    return;
-                }
-                if ($('#txtHora').val().trim() == "") {
-                    alert('Hora de Inicio no puede estar vacio');
-                    return;
-                }
-
-                if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == false) {
-                    alert('No ha seleccionado InBody y/o Rutina');
-                    return;
-                }
-
-                else {
-                    var starDate = moment($('#txtStart').val(), "DD-MMM-YYYY HH:mm a").toDate();
-                    var endDate = moment($('#txtEnd').val(), "DD-MMM-YYYY HH:mm a").toDate();
-                    if (starDate > endDate) {
-                        alert('La fecha y hora de finalización es inválido');
-                        return;
-                    }
-
-                }
-
-                //Esta variable almacena la cita sobre la cual se está trabajando
-
-                var startTime = $('#txtHora').timepicker('getTime');
-
-                if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == true) {
-                    var endTime = new Date(startTime.getTime() + 110 * 60000);   // add 30 minutes
-                    $('#txtHoraF').timepicker('setTime', endTime);
-                }
-
-                else if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == true) {
-                    var endTime = new Date(startTime.getTime() + 90 * 60000);   // add 30 minutes
-                    $('#txtHoraF').timepicker('setTime', endTime);
-                }
-
-                else if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == false) {
-                    var endTime = new Date(startTime.getTime() + 20 * 60000);   // add 30 minutes
-                    $('#txtHoraF').timepicker('setTime', endTime);
-                }
-                    data = {
-                        CitaId: $('#hdEventID').val(),
-                        InBody: $('#inbodyCheck').is(':checked'),
-                        Otro: $('#rutinaCheck').is(':checked'),
-                        FechaHoraInicio: $('#txtStart').val().trim() + ' ' + $('#txtHora').val().trim(),
-                        FechaHoraFinal: $('#txtStart').val().trim() + ' ' + $('#txtHoraF').val().trim()
-                    }
-                
-                //Llamando función para enviar cambios
-                SaveDate(data);
-            })
-
-            function SaveDate(data) {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/CitasGeneral/SaveEvent',
-                    data: data,
-                    success: function (data) {
-                        if (data.status) {
-                            //Actualiza el calendario
-                            FetchEventAndRenderCalendar();
-                            $('#myModalSave').modal('hide');
+                    //FUNCIÓN PARA ABRIR MODAL DE EDITAR CITA
+                    function openEditForm() {
+                        if (selectedEvent != null) {
+                            $('#hdEventID').val(selectedEvent.citaId);
+                            $('#txtStart').val(selectedEvent.start.format("DD-MMM-YYYY"));
+                            $('#txtHora').val(selectedEvent.start.format("HH:mm a"));
+                            $('#txtHoraF').val(selectedEvent.end.format("HH:mm a"));
+                            $('#inbodyCheck').prop("checked", selectedEvent.description1 || false);
+                            $('#rutinaCheck').prop("checked", selectedEvent.description2 || false);
+                            $('#inbodyCheck').change();
+                            $('#rutinaCheck').change();
                         }
+                        $('#myModal').modal('hide');
+                        $('#myModalSave').modal('show');
+                    }
+
+                    //GUARDA CITA
+                    $('#btnSave').click(function () {
+                        var data = null;
+                        //Validaciones
+                        if ($('#txtStart').val().trim() == "") {
+                            alert('Fecha de inicio no puede estar vacio');
+                            return;
+                        }
+                        if ($('#txtHora').val().trim() == "") {
+                            alert('Hora de Inicio no puede estar vacio');
+                            return;
+                        }
+
+                        if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == false) {
+                            alert('No ha seleccionado InBody y/o Rutina');
+                            return;
+                        }
+
                         else {
-                            alert("La hora no está disponible");
+                            var starDate = moment($('#txtStart').val(), "DD-MMM-YYYY HH:mm a").toDate();
+                            var endDate = moment($('#txtEnd').val(), "DD-MMM-YYYY HH:mm a").toDate();
+                            if (starDate > endDate) {
+                                alert('La fecha y hora de finalización es inválido');
+                                return;
+                            }
+
                         }
-                    },
-                    error: function () {
-                        alert("Falló");
+
+                        //Esta variable almacena la cita sobre la cual se está trabajando
+
+                        var startTime = $('#txtHora').timepicker('getTime');
+
+                        if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == true) {
+                            var endTime = new Date(startTime.getTime() + 110 * 60000);   // add 30 minutes
+                            $('#txtHoraF').timepicker('setTime', endTime);
+                        }
+
+                        else if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == true) {
+                            var endTime = new Date(startTime.getTime() + 90 * 60000);   // add 30 minutes
+                            $('#txtHoraF').timepicker('setTime', endTime);
+                        }
+
+                        else if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == false) {
+                            var endTime = new Date(startTime.getTime() + 20 * 60000);   // add 30 minutes
+                            $('#txtHoraF').timepicker('setTime', endTime);
+                        }
+                        data = {
+                            CitaId: $('#hdEventID').val(),
+                            InBody: $('#inbodyCheck').is(':checked'),
+                            Otro: $('#rutinaCheck').is(':checked'),
+                            FechaHoraInicio: $('#txtStart').val().trim() + ' ' + $('#txtHora').val().trim(),
+                            FechaHoraFinal: $('#txtStart').val().trim() + ' ' + $('#txtHoraF').val().trim()
+                        }
+
+                        //Llamando función para enviar cambios
+                        SaveDate(data);
+                    })
+
+                    function SaveDate(data) {
+                        $.ajax({
+                            type: "POST",
+                            dataType: "JSON",
+                            url: '/CitasGeneral/SaveEvent',
+                            data: data,
+                            success: function (data) {
+                                if (data.status) {
+                                    //Actualiza el calendario
+                                    FetchEventAndRenderCalendar();
+                                    $('#myModalSave').modal('hide');
+                                }
+                                else {
+                                    alert("La hora no está disponible");
+                                }
+                            },
+                            error: function () {
+                                alert("Falló");
+                            }
+                        })
                     }
-                })
-            }
 
-            var today = new Date();
-            $(function () {
-                $("#dtp1").datepicker({
+                    var today = new Date();
+                    $(function () {
+                        $("#dtp1").datepicker({
+                        });
+                    });
+
+                    $(function () {
+
+                        $('input.timepicker').timepicker({
+                            'disableTimeRanges': [['12am', '6am']],
+                            'maxTime': '7:00pm'
+                        });
+                    });
+
+
+
+
+
+
                 });
-            });
-
-            $(function () {
-
-                $('input.timepicker').timepicker({
-                    'disableTimeRanges': [['12am', '6am']],
-                    'maxTime': '7:00pm'
-                });
-            });
 
 
-
-
-
-
-        });
-
-
-    </script>
-}
+            </script>
+        }

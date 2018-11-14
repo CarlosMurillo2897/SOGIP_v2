@@ -38,6 +38,10 @@ namespace SOGIP_v2.Controllers
 
         public ActionResult Create()
         {
+            //var consulta = from u in db.Users
+            //               where u.Roles.FirstOrDefault().RoleId == "5" || 
+            //               u.Roles.FirstOrDefault().RoleId == "7" ||
+            //               u.Roles.FirstOrDefault().RoleId == "6"
             return View();
         }
         
@@ -234,9 +238,9 @@ namespace SOGIP_v2.Controllers
             return new JsonResult { Data = new { status = status } };
         }
 
-        public ActionResult ListaEjercicio(int ? id, string idUsuario)
+        public ActionResult ListaEjercicio(int? id, string idUsuario)
         {
-          
+
             if (id != null)
             {
                 Rutina rutina = db.Rutinas.Find(id);
@@ -278,6 +282,7 @@ namespace SOGIP_v2.Controllers
                     ViewBag.Conjunto_Ejercicios3 = (getEjercicio3.Count > 0) ? getEjercicio3 : null;
                     ViewBag.Conjunto_Ejercicios4 = (getEjercicio4.Count > 0) ? getEjercicio4 : null;
                     ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
+
                 }
                 else
                 {
@@ -290,6 +295,8 @@ namespace SOGIP_v2.Controllers
             return View();
 
         }
+
+
 
         public ActionResult DetailsEjercicio(int? id)
         {
