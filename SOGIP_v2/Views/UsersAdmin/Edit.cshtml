@@ -41,16 +41,13 @@
                             <div class=" col-md-10 col-lg-15 ">
                                 <ul class="nav nav-tabs" id="edit">
 
-                                    <li class="active"><a href="#perfil" data-toggle="tab">Información Personal</a></li>
-
-                                    <li class="active"><a href="#prof" data-toggle="tab">Inf Personal</a></li>
-
+                                    <li class="active"><a href="#perfil" data-toggle="tab">Información Principal</a></li>
                                     <li><a href="#contacto" data-toggle="tab">Contacto</a></li>
                                     <li><a href="#adicional" data-toggle="tab">Información Adicional</a></li>
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
                                     @*INFORMACIÓN PERSONAL*@
-                                    <div class="tab-pane active in" id="prof">
+                                    <div class="tab-pane active" id="perfil">
                                         <table class="table table-user-information">
                                             <tbody>
                                                 <tr>
@@ -91,7 +88,7 @@
                                                 <tr>
                                                     <td> @Html.LabelFor(model => model.Fecha_Nacimiento, new { @class = "control-label col-md-2" })</td>
                                                     <td>
-                                                        @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:aaaa-MM-dd}", new { @class = "form-control", id = "birth", type = "date", required = "required", @onblur = "brth(1)", @onchange = "brth(2)" })
+                                                        @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "birth", type = "date", required = "required", @onblur = "brth(1)", @onchange = "brth(2)" })
                                                         @Html.ValidationMessageFor(model => model.Fecha_Nacimiento)
                                                         @*Html.TextBoxFor(m => m.Fecha_Nacimiento, new { @class = "form-control", id = "birth", type = "date", @onblur = "brth(1)", @onchange = "brth(2)" })*@
                                                     </td>
@@ -109,7 +106,7 @@
                                         </table>
                                     </div>
                                     @*INFORMACIÓN DE CONTACTO*@
-                                    <div class="tab-pane fade" id="contacto">
+                                    <div class="tab-pane" id="contacto">
                                         <table class="table table-user-information">
                                             <tbody>
 
@@ -140,7 +137,7 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <div class="tab-pane fade" id="adicional">
+                                    <div class="tab-pane" id="adicional">
                                         <table class="table table-user-information">
                                             <tbody>
                                                 <tr hidden id="asociacion">

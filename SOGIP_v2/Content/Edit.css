@@ -2,6 +2,9 @@
     margin-bottom: 14px;
 }
 
+li:hover a {
+    color: inherit;
+}
     .user-row:last-child {
         margin-bottom: 0;
     }
