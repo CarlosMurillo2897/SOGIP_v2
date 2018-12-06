@@ -48,6 +48,8 @@ use "SOGIP_v3"
  select * from SOGIP_UserRoles where RoleId='6';
  select * from SOGIP_Users;
 
+ SELECT * FROM SOGIP_Users WHERE Cedula like(11)
+
  -- Describe los atributos de cualquier tabla. --
 
 		sp_help SOGIP_Users; 

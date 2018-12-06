@@ -1,6 +1,20 @@
 ﻿$(document).ready(function () {
-    $('#selectedRoles').val('Administrador');
-    $('#selectedRoles').change(function () { formulario(); });
+    $('#selectedRoles').val('Atleta');
+    formulario();
+
+    $('#selectedRoles').change(
+        function check() {
+
+            if ($('#selectedRoles').val() == 'Administrador' || $('#selectedRoles').val() == 'Supervisor') {
+                
+                if (!confirm("Está a punto de crear un Administrador o Supervisor. ¿Continuar?")) {
+                    $('#selectedRoles').val('Atleta');
+                    alert('Cambiando a rol tipo Atleta.');
+                }
+            }
+                formulario();
+            
+        });
 
 });
 

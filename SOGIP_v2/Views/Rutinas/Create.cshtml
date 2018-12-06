@@ -1,13 +1,9 @@
 ﻿@model SOGIP_v2.Models.Rutina
 
 @{
-
-    ViewBag.Title = "Registro de Rutinas";
+    ViewBag.Title = "Crear nueva Rutina";
     @Styles.Render("~/Content/manual.css")
 }
-<html>
-<body>
-    @Html.ActionLink("Lista Rutinas", "Index", null, new { @class = "btn btn-default" })
 
     @using (Html.BeginForm("Create", "Rutinas", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
@@ -19,52 +15,77 @@
 
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="container">
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <table>
-                            <tr>
-                                <td><input type="radio" name="Tipo_Cta" id="funcionario" />Funcionario</td>
-                                <td><input type="radio" name="Tipo_Cta" id="atleta" />Atletas</td>
-                            </tr>
-                        </table>
+
+                <br />
+
+                <div class="col-md-12">
+
+                    <h2 class="col-md-3" style="color: black">
+                        <a href="/Rutinas/Index/" class="btn btn-success" type="button">
+                            <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio de Rutinas&nbsp;
+                        </a>
+                    </h2>
+                    <h2 class="col-md-1" style="color: black">
+                        |
+                    </h2>
+                    <h2 class="col-md-5" style="color: black">
+                        Registros > Rutinas > @ViewBag.Title
+                    </h2>
+                    <h2 class="col-md-1" style="color: black">
+                        |
+                    </h2>
+                </div>
+
+                <br />
+                <br />
+                <br />
+                <br />
+
+                <div class="card card-default col-lg-12">
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <table>
+                                <tr>
+                                    <td><input type="radio" name="Tipo_Cta" id="funcionario" />&nbsp;Funcionario&nbsp;&nbsp;</td>
+                                    <td><input type="radio" name="Tipo_Cta" id="atleta" />Atletas</td>
+                                </tr>
+                            </table>
+                            <br>
+                            <form id="myForm">
+                                <label for="usuarioLabel"><b>Usuarios</b></label>
+                                <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
+                            </form>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @Html.Label("Fecha de la Rutina", new { @class = "control-label" })
+                                <div class="input-group">
+                                    <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                                    @Html.EditorFor(model => model.RutinaFecha, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                                    @Html.ValidationMessageFor(model => model.RutinaFecha, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-10">
+                                @Html.Label("Observaciones", new { @class = "control-label" })
+                                <div class="input-group">
+                                    @Html.EditorFor(model => model.RutinaObservaciones, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.RutinaObservaciones, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
                         <br>
-                        <form id="myForm">
-                            <label for="usuarioLabel"><b>Usuarios</b></label>
-                            <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
-                        </form>
-
-                    </div>
-                    <div class="form-group">
                         <div class="col-md-10">
-                            @Html.Label("Fecha de la Rutina", new { @class = "control-label" })
-                            <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon1"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
-                                @Html.EditorFor(model => model.RutinaFecha, new { htmlAttributes = new { @class = "form-control", type = "date" } })
-                                @Html.ValidationMessageFor(model => model.RutinaFecha, "", new { @class = "text-danger" })
-                            </div>
+                            <input type="submit" value="Crear Rutina" class="btn btn-default" />
                         </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-10">
-                            @Html.Label("Observaciones", new { @class = "control-label" })
-                            <div class="input-group">
-                                @Html.EditorFor(model => model.RutinaObservaciones, new { htmlAttributes = new { @class = "form-control" } })
-                                @Html.ValidationMessageFor(model => model.RutinaObservaciones, "", new { @class = "text-danger" })
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="col-md-10">
-                        <input type="submit" value="Crear Rutina" class="btn btn-default" />
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
     }
-</body>
-</html>
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

@@ -9,65 +9,87 @@
 
 @using (Html.BeginForm("Index", "ExpedientesFisicos", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
 {
-    <body>
-        <div class="container">
+<div class="container">
+
+    <br />
+
+    <h2 class="col-md-3" style="color: black">
+        <a href="/Home/Index/" class="btn btn-success" type="button">
+            <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
+        </a>
+    </h2>
+    <h2 class="col-md-1" style="color: black">
+        |
+    </h2>
+    <h2 class="col-md-5" style="color: black">
+        Registros > Expedientes > @ViewBag.Title
+    </h2>
+    <h2 class="col-md-1" style="color: black">
+        |
+    </h2>
+    @*<h2 class="col-md-2" style="color: black">
+        <a href="/UsersAdmin/Create/" class="btn btn-success" type="button">
+            Crear nuevo usuario&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    </h2>*@
+
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div class="card card-default col-lg-12">
+
+        <div class="exp_fis">
+            <h3>Seleccione el tipo de usuario</h3>
+            <table>
+                <tr>
+                    <td><input type="radio" name="Tipo_Cta" id="funcionario" checked />Funcionario&nbsp;&nbsp;</td>
+                    <td><input type="radio" name="Tipo_Cta" id="atleta" />Atletas</td>
+                </tr>
+            </table>
+            <br>
+
+            @*LISTA DE FUNCIONARIOS/ATLETAS*@
+            <form id="myForm" align="center">
+                <label for="usuarioLabel"><b>Usuarios</b></label>
+                <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
+            </form>
+
+            @*EXPEDIENTES PRUEBA DE FUERZA O INBODY*@
             <br />
             <br />
-            <h2 style="color:white">Expediente InBody</h2>
-            <br />
 
-            <div class="card card-default col-lg-12">
+            <div class="row" align="center">
+                <br />
+                <div class="col-md-6" align="center">
+                    <div class="form-group files" align="center">
+                        <label>Seleccione un archivo InBody - Prueba de Fuerza </label>
+                        <input type="file" name="inbody" id="inbody" class="form-control" multiple="">
+                    </div>
+                </div>
 
-                <div class="exp_fis">
-                    <table>
-                        <tr>
-                            <td><input type="radio" name="Tipo_Cta" id="funcionario" checked />Funcionario</td>
-                            <td><input type="radio" name="Tipo_Cta" id="atleta" />Atletas</td>
-                        </tr>
-                    </table>
-                    <br>
-                    @*LISTA DE FUNCIONARIOS/ATLETAS*@
-                    <form id="myForm" align="center">
-                        <label for="usuarioLabel"><b>Usuarios</b></label>
-                        <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
-                    </form>
-
-                    @*EXPEDIENTES PRUEBA DE FUERZA O INBODY*@
-
-                    <br />
-                    <br />
-
-                    <div class="row" align="center">
-                        <br />
-                        <div class="col-md-6" align="center">
-                            <div class="form-group files" align="center">
-                                <label>Seleccione un archivo InBody - Prueba de Fuerza </label>
-                                <input type="file" name="inbody" id="inbody" class="form-control" multiple="">
-                            </div>
-                        </div>
-
-                        @*<div class="col-md-6">
+                @*<div class="col-md-6">
                         <div class="form-group files color">
                             <label> Seleccione una prueba de fuerza </label>
                             <input type="file" name="pruFu" id="pruFu" class="form-control" multiple="">
                         </div>
                     </div>*@
-                    </div>
-                    <br />
-                    <br />
-                    <input type="submit" class="btn btn-default" id="btn_sub_form" value="IMPORTAR" />
-                    <br />
-                </div>
-
             </div>
-            @Html.Raw(TempData["msg"])
+            <br />
+            <br />
+            <input type="submit" class="btn btn-default" id="btn_sub_form" value="Importar" />
+            <br />
+            <br />
         </div>
-        </body>
 
+    </div>
+    @Html.Raw(TempData["msg"])
+</div>
 }
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/expedientes.js")
 
 }
-

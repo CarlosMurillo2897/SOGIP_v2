@@ -17,9 +17,31 @@
 
 @Styles.Render("~/Content/Perfil.css")
 
-<h2>Búsqueda</h2>
 
 <div>
+
+    <br />
+    <br />
+    <br />
+
+    <h2 class="col-md-3" style="color: black">
+        <a href="/Home/Index/" class="btn btn-success" type="button">
+            <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
+        </a>
+    </h2>
+    <h2 class="col-md-1" style="color: black">
+        |
+    </h2>
+    <h2 class="col-md-5" style="color: black">
+        Registros > Buscar > @ViewBag.Title
+    </h2>
+    <h2 class="col-md-1" style="color: black">
+        |
+    </h2>
+
+    <br /><br />
+    <br /><br />
+
     <center>
         <input class="" type="search" placeholder="Buscar por" id="Search">
         @Html.DropDownList("Tipo", Tipo, new { @class = "", id = "SearchBy" })
@@ -27,7 +49,6 @@
     </center>
 </div>
 
-<br><br>
 <br><br>
 
 <div class="container">

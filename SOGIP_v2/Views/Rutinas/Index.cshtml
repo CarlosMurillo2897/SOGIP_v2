@@ -4,66 +4,80 @@
     ViewBag.Title = "Lista de Rutinas";
 
     @Styles.Render("~/Content/Rutina.css")
-
     @Styles.Render("~/Content/Detalle_Rutina.css")
     @Styles.Render("~/Content/manual.css")
 }
-}
 
-<html>
-<body>
-    <div class="container">
-<div class="col-md-10">
+<div class="container">
 
-</div>
-<br />
-<br />
+    <br />
 
-<h2>Lista de Rutinas</h2>
+    <div class="col-md-12">
 
-@Html.ActionLink("Crear nueva rutina", "Create", null, new { @class = "btn btn-default" })
-<br />
-<br />
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Usuario)
-        </th>
-        <th>
-            Fecha de la rutina
-        </th>
-        <th>
-            Observaciones
-        </th>
-        <th></th>
-    </tr>
+        <h2 class="col-md-3" style="color: black">
+            <a href="/Home/Index/" class="btn btn-success" type="button">
+                <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
+            </a>
+        </h2>
+        <h2 class="col-md-1" style="color: black">
+            |
+        </h2>
+        <h2 class="col-md-5" style="color: black">
+            Registros > Rutinas > @ViewBag.Title
+        </h2>
+        <h2 class="col-md-1" style="color: black">
+            |
+        </h2>
+        <h2 class="col-md-2" style="color: black">
+            <a href="/Rutinas/Create/" class="btn btn-success" type="button">
+                Crear nueva rutina&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
+            </a>
+        </h2>
+    </div>
 
-    @foreach (var item in Model)
-    {
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <table class="table">
         <tr>
-            <td>
-
-                @Html.DisplayFor(modelItem => item.Usuario.Cedula)
-                @Html.DisplayFor(modelItem => item.Usuario.Nombre1)
-                @Html.DisplayFor(modelItem => item.Usuario.Apellido1)
-                @Html.DisplayFor(modelItem => item.Usuario.Apellido2)
-            </td>
-            <td>
-
-                @item.RutinaFecha.ToShortDateString()
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RutinaObservaciones)
-            </td>
-            <td>
-                @Html.ActionLink("Editar", "Edit", new { id = item.RutinaId}, new { @style = "color:#000aaa;" }) |
-                @Html.ActionLink("Eliminar", "Delete", new { id = item.RutinaId }, new { @style = "color:#000aaa;" })|
-                @Html.ActionLink("Rutina", "Ejercicio", new { idRutina = item.RutinaId }, new { @style = "color:#000aaa;" })
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.Usuario)
+            </th>
+            <th>
+                Fecha de la rutina
+            </th>
+            <th>
+                Observaciones
+            </th>
+            <th></th>
         </tr>
-    }
 
-</table>
-        </div>
-    </body>
-</html>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.Usuario.Cedula)
+                    @Html.DisplayFor(modelItem => item.Usuario.Nombre1)
+                    @Html.DisplayFor(modelItem => item.Usuario.Apellido1)
+                    @Html.DisplayFor(modelItem => item.Usuario.Apellido2)
+                </td>
+                <td>
+
+                    @item.RutinaFecha.ToShortDateString()
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RutinaObservaciones)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.RutinaId }, new { @style = "color:#000aaa;" }) |
+                    @Html.ActionLink("Eliminar", "Delete", new { id = item.RutinaId }, new { @style = "color:#000aaa;" })|
+                    @Html.ActionLink("Rutina", "Ejercicio", new { idRutina = item.RutinaId }, new { @style = "color:#000aaa;" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

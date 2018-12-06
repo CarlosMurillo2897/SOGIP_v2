@@ -21,9 +21,6 @@
     });
 }
 
-<html>
-<body>
-
 @using (Html.BeginForm("Edit", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
@@ -43,13 +40,13 @@
                         <div class="row">
                             <div class=" col-md-10 col-lg-15 ">
                                 <ul class="nav nav-tabs" id="edit">
-                                    <li class="active"><a href="#perfil" data-toggle="tab">Inf Personal</a></li>
+                                    <li class="active"><a href="#prof" data-toggle="tab">Inf Personal</a></li>
                                     <li><a href="#contacto" data-toggle="tab">Contacto</a></li>
                                     <li><a href="#adicional" data-toggle="tab">Inf Adicional</a></li>
                                 </ul>
                                 <div id="myTabContent" class="tab-content">
                                     @*INFORMACIÓN PERSONAL*@
-                                    <div class="tab-pane active in" id="perfil">
+                                    <div class="tab-pane active in" id="prof">
                                         <table class="table table-user-information">
                                             <tbody>
                                                 <tr>
@@ -94,8 +91,9 @@
                                                 <tr>
                                                     <td> @Html.LabelFor(model => model.Fecha_Nacimiento, new { @class = "control-label col-md-2" })</td>
                                                     <td>
-                                                        @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:yyyy-MM-dd}", new { @class = "form-control", id = "birth", type = "date", required = "required" })
+                                                        @Html.TextBoxFor(m => m.Fecha_Nacimiento, "{0:aaaa-MM-dd}", new { @class = "form-control", id = "birth", type = "date", required = "required", @onblur = "brth(1)", @onchange = "brth(2)" })
                                                         @Html.ValidationMessageFor(model => model.Fecha_Nacimiento)
+                                                        @*Html.TextBoxFor(m => m.Fecha_Nacimiento, new { @class = "form-control", id = "birth", type = "date", @onblur = "brth(1)", @onchange = "brth(2)" })*@
                                                     </td>
                                                 </tr>
 
@@ -261,8 +259,6 @@
 
     </div>
 }
-    </body>
-</html>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -278,9 +274,6 @@
 
 
         });
-        function a() {
-            // alert("holi");
-        }
 
         function EscondeSelecciones() {
             $('#info_atleta_selec').hide();
@@ -293,7 +286,7 @@
         }
 
         function form() {
-            // alert("h");
+
             var rol_selected = $('#rolName').val();
 
 
@@ -330,6 +323,57 @@
                  break;
 
             }
+        }
+
+        function brth(num) {             // 1 = BLUR      |       2 = KEYPRESSED
+
+            var birth = $('#birth').val();
+
+            var now = new Date();
+
+            var yy = now.getFullYear();
+            var month = now.getMonth() + 1;
+            var mm = (month < 10) ? "0" + month : month; // Month - 1
+            var dd = (now.getDate() < 10) ? "0" + now.getDate() : now.getDate();
+
+            var edadMaxima = yy - 80;
+            var edadMinima = yy - 10;
+
+            yy = yy - 10;
+            var date = yy + "-" + mm + "-" + dd;
+
+            if (num == 2) { // Cambio realizado con el teclado.
+
+                // CASO 1 = FECHA MAYOR A LA ACTUAL NO ES PERMITIDA.
+                if (birth >= date) {
+                    $('#birth').val(date);
+                }
+
+            }
+
+            else if (num == 1) { // Campo ya no seleccionado.
+
+                // CASO 2 = FECHA MÁXIMA SON 80 AÑOS.
+                if (birth <= edadMaxima + '-01-01') {
+                    window.alert(" La edad máxima dentro del sistema es de 80 años. ");
+                    $('#birth').val(date);
+                }
+
+                // CASO 3 = FECHA MÍNIMA SON 10 AÑOS.
+                else if (birth >= edadMinima + '-01-01') {
+                    window.alert(" La edad mínima dentro del sistema es de 10 años. ");
+                    $('#birth').val(date);
+                }
+
+                // CASO 4 = Error en el lenguaje.
+                // || birth > '19380-01-01'
+
+            }
+
+            else if (num == 3) {
+
+            }
+
         }
 
 
