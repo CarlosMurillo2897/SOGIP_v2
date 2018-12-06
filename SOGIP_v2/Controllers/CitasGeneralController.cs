@@ -28,6 +28,14 @@ namespace SOGIP_v2.Controllers
 
         }
 
+        public JsonResult GetEventsEx(string id)
+        {
+
+            string userid = HttpContext.User.Identity.GetUserId();
+            var Citas = db.Cita.Where(x => x.UsuarioId_Id.Id != userid).ToList();
+            return new JsonResult { Data = Citas, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
 
         //Actualiza o crea citas        
         [HttpPost]

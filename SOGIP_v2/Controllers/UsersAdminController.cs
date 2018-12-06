@@ -452,7 +452,7 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Cedula,CedulaExtra,Nombre1,Nombre2,Apellido1,Apellido2,Fecha_Nacimiento,Sexo,Email")] EditUserViewModel editUser, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, FormCollection form, HttpPostedFileBase CV)
+        public ActionResult Edit([Bind(Include = "Id,Cedula,Nombre1,Nombre2,Apellido1,Apellido2,Fecha_Nacimiento,Sexo,Email")] EditUserViewModel editUser, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, FormCollection form, HttpPostedFileBase CV)
         {
             // Download(Documento);
             if (ModelState.IsValid)
@@ -464,8 +464,7 @@ namespace SOGIP_v2.Controllers
                 {
                     return HttpNotFound();
                 }
-
-                user.CedulaExtra = editUser.CedulaExtra;
+                
                 user.Email = editUser.Email;
                 user.Nombre1 = editUser.Nombre1;
                 user.Nombre2 = editUser.Nombre2;

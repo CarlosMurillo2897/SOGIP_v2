@@ -177,6 +177,10 @@
                             themeSystem: 'jquery-ui',
                             eventClick: function (calEvent, jsEvent, view) {
                                 selectedEvent = calEvent;
+
+                                var check = calEvent.start.format("YYYY-MM-DD");
+                                var today = moment().format("YYYY-MM-DD");
+
                                 $('#myModal #eventTitle').text(calEvent.title);
                                 var $description = $('<div/>');
                                 $description.append($('<p/>').html('<b>Inicia: </b>' + calEvent.start.format("DD-MMM-YYYY HH:mm a")));
@@ -203,6 +207,16 @@
                                 $description.append($('<p/>').html('<b>Cedula: </b>' + calEvent.cedula));
                                 $description.append($('<p/>').html('<b>Nombre Completo: </b>' + calEvent.nombre + ' ' + calEvent.apellido1 + ' ' + calEvent.apellido2));
 
+                                if (check < today) {
+                                    $('#btnEdit').prop('disabled', true);
+                                    $('#btnDelete').prop('disabled', true);
+
+                                }
+                                else {
+                                    $('#btnEdit').prop('disabled', false);
+                                    $('#btnDelete').prop('disabled', false);
+                                }
+
                                 $('#myModal #pDetails').empty().html($description);
 
                                 $('#myModal').modal();
@@ -212,7 +226,7 @@
                                 var check = start.format("YYYY-MM-DD");
                                 var today = moment().format("YYYY-MM-DD");
                                 if (check < today) {
-
+                                    alert("No se puede realizar la cita en fechas posteriores");
                                 }
                                 else {
                                     selectedEvent = {
@@ -241,7 +255,8 @@
                                     FechaHoraFinal: event.end.format('DD-MMM-YYYY HH:mm a')
                                 };
                                 SaveDate(data);
-                            }
+                            },
+                            
                         })
 
                     }
