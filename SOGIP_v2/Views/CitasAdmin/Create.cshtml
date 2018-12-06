@@ -15,82 +15,97 @@
 
     <div class="container">
         <br />
+
+        <div class="col-md-12">
+            <h2 class="col-md-3" style="color: black">
+                <a href="/Home/Index/" class="btn btn-success" type="button">
+                    <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
+                </a>
+            </h2>
+            <h2 class="col-md-1" style="color: black">
+                |
+            </h2>
+            <h2 class="col-md-5" style="color: black">
+                Registros > Citas > @ViewBag.Title
+            </h2>
+            <h2 class="col-md-1" style="color: black">
+                |
+            </h2>
+        </div>
+
         <br />
-    <h2 style="color: white">Calendario de Citas</h2>
+        <br />
 
-    <div id="calendar"></div>
+        <div id="calendar"></div>
 
-    @*MODAL PARA VER O ELIMINAR CITAS*@
-    <div id="myModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"><span id="eventTitle"></span></h4>
-                </div>
-                <div class="modal-body">
-                    <button id="btnDelete" class="btn btn-default btn-sm pull-right" style="background-color:#ff4d4d;">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        Eliminar
-                    </button>
-                    <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                        Editar
-                    </button>
-                    <p id="pDetails"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        @*MODAL PARA VER O ELIMINAR CITAS*@
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <button id="btnDelete" class="btn btn-default btn-sm pull-right" style="background-color:#ff4d4d;">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            Eliminar
+                        </button>
+                        <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            Editar
+                        </button>
+                        <p id="pDetails"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    @*MODAL PARA EDITAR O CREAR LAS CITAS*@
-    <div id="myModalSave" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content col-md-12" style="align-content:center">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">GUARDAR CITA</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <input type="hidden" id="hdEventID" value="0" />
-                        <div class="form-group">
-                            <label>Fecha de inicio</label>
-                            <div class="input-group date" id="dtp1">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                <input type="text" id="txtStart" class="form-control" />
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Hora de inicio</label>
-                            <div class="input-group date" id="dtp3">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                <input class="timepicker form-control" id="txtHora" type="text">
-                            </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label>Hora de finalización</label>
-                            <div class="input-group date" id="dtp2">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                <input class="timepicker form-control" id="txtHoraF" type="text" readonly>
+        @*MODAL PARA EDITAR O CREAR LAS CITAS*@
+        <div id="myModalSave" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content col-md-12" style="align-content:center">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">GUARDAR CITA</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <input type="hidden" id="hdEventID" value="0" />
+                            <div class="form-group">
+                                <label>Fecha de inicio</label>
+                                <div class="input-group date" id="dtp1">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    <input type="text" id="txtStart" class="form-control" />
+                                </div>
                             </div>
 
-                        </div>
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label><input type="checkbox" id="inbodyCheck" checked="checked" />InBody</label>
+                            <div class="form-group">
+                                <label>Hora de inicio</label>
+                                <div class="input-group date" id="dtp3">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" id="txtHora" type="text">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label><input type="checkbox" id="rutinaCheck" checked="checked" />Rutina</label>
+
+
+                            <div class="form-group">
+                                <label>Hora de finalización</label>
+                                <div class="input-group date" id="dtp2">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" id="txtHoraF" type="text" readonly>
+                                </div>
+
                             </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="inbodyCheck" checked="checked" />InBody</label>
+                                </div>
+                            </div>
+
                         </div>
                         <hr />
                        
@@ -109,17 +124,39 @@
                             <div class="input-group" id="cedU">
                                 @* <input type="text" id="txtCed" class="form-control" />*@
                                 <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
+
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label><input type="checkbox" id="rutinaCheck" checked="checked" />Rutina</label>
+                                </div>
+
                             </div>
-                        </div>
-                        <br />
-                        <button type="button" id="btnSave" class="btn btn-default" style="background-color:#339966;">Guardar Cambios</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    </form>
+                            <hr />
+                            <div class="form-group">
+                                <table>
+                                    <tr>
+                                        <td><input type="radio" name="Tipo_Cta" id="funcionario" checked />Funcionario</td>
+                                        <td><input type="radio" name="Tipo_Cta" id="atleta" />Atletas</td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="form-group" id="cedUD" style="display:none;">
+                                <label>Cedula de usuario</label>
+                                <div class="input-group" id="cedU">
+                                    @* <input type="text" id="txtCed" class="form-control" />*@
+                                    <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
+                                </div>
+                            </div>
+                            <br />
+                            <button type="button" id="btnSave" class="btn btn-default" style="background-color:#339966;">Guardar Cambios</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-        </div>
 
 @*------LA PARTE MÁS IMPORTANTE DE ESTE REQUERIMIENTO-------*@
 @section Scripts {

@@ -6,14 +6,44 @@
 
 @Styles.Render("~/Content/Perfil.css")
 
-<h2>Inicio Usuarios</h2>
-<span class="pull-left">
-    @Html.ActionLink("Crear nuevo usuario", "Create", null, new { @class = "btn btn-default" })
-</span>
-@*<span class="pull-right"> <input class="btn btn-warning" type="button" onclick="cerrarPaneles()" value="Cerrar Paneles"></span>*@
+@*
+<h2 class="col-md-12" style="color: black">
+    <a href="/Home/Index/" class="btn btn-success" type="button">
+        <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
+    </a>
+    | Registros > Usuarios > @ViewBag.Title |
+    <a href="/UsersAdmin/Create/" class="btn btn-success" type="button">
+        Crear nuevo usuario&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
+    </a>
+</h2>
+*@
+    <br />
+    <br />
+    <br />
 
-<br><br>
-<br><br>
+    <h2 class="col-md-3" style="color: black">
+        <a href="/Home/Index/" class="btn btn-success" type="button">
+            <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
+        </a>
+    </h2>
+    <h2 class="col-md-2" style="color: black">
+        |
+    </h2>
+    <h2 class="col-md-3" style="color: black">
+        Registros > Usuarios > @ViewBag.Title
+    </h2>
+    <h2 class="col-md-2" style="color: black">
+        |
+    </h2>
+    <h2 class="col-md-2" style="color: black">
+        <a href="/UsersAdmin/Create/" class="btn btn-success" type="button">
+            Crear nuevo usuario&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    </h2>
+
+    <br />
+    <br />
+
 <div class="container">
 
     <div class="well span8 offset 2">

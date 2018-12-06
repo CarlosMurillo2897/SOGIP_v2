@@ -20,7 +20,34 @@
 
 @Styles.Render("~/Content/manual.css")
 <div class="container">
-    <h2 class="col-md-3">@ViewBag.Title.</h2>
+
+    @*
+        <h2 class="col-md-12" style="color: black">
+            <a href="/UsersAdmin/Index/" class="btn btn-success" type="button">
+                <i class="glyphicon glyphicon-chevron-left"></i>Volver a Lista de Usuarios&nbsp;
+            </a>
+            | Registros > Usuarios > @ViewBag.Title |
+        </h2>*@
+
+    <br />
+
+    <h2 class="col-md-3" style="color: black">
+        <a href="/UsersAdmin/Index/" class="btn btn-success" type="button">
+            <i class="glyphicon glyphicon-chevron-left"></i>Volver a Lista de Usuarios&nbsp;
+        </a>
+    </h2>
+    <h2 class="col-md-1" style="color: black">
+        |
+    </h2>
+    <h2 class="col-md-5" style="color: black">
+        Registros > Usuarios > @ViewBag.Title
+    </h2>
+    <h2 class="col-md-1" style="color: black">
+        |
+    </h2>
+
+    <br />
+    <br />
 
     @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {
@@ -32,9 +59,6 @@
 
             <div class="card card-default">
                 <div class="form-group">
-                    <div class="col-md-10">
-                        @Html.ActionLink("Lista Usuarios", "Index", null, new { @class = "btn btn-default" })
-                    </div>
                     <div class="col-md-10">
                         <label class="control-label">
                             Seleccione el rol del usuario

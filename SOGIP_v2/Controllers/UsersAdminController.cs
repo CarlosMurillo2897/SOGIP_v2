@@ -158,10 +158,10 @@ namespace SOGIP_v2.Controllers
                 {
                     UserName = userViewModel.Cedula,
                     Email = userViewModel.Email,
-                    Nombre1 = userViewModel.Nombre1,
-                    Nombre2 = userViewModel.Nombre2,
-                    Apellido1 = userViewModel.Apellido1,
-                    Apellido2 = userViewModel.Apellido2,
+                    Nombre1 = userViewModel.Nombre1.ToUpper(),
+                    Nombre2 = userViewModel.Nombre2.ToUpper(),
+                    Apellido1 = userViewModel.Apellido1.ToUpper(),
+                    Apellido2 = userViewModel.Apellido2.ToUpper(),
                     Cedula = userViewModel.Cedula,
                     Fecha_Nacimiento = userViewModel.Fecha_Nacimiento,
                     Sexo = userViewModel.Sexo,
@@ -191,7 +191,7 @@ namespace SOGIP_v2.Controllers
                                     Seleccion seleccion = new Seleccion()
                                     {
                                         //Nombre_Seleccion = "Seleccion" + form["sele_n"].ToString() + "de" + form["sele_m"].ToString(),
-                                        Nombre_Seleccion = form["sele_n"].ToString(),
+                                        Nombre_Seleccion = form["sele_n"].ToString().ToUpper(),
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
                                         Deporte_Id = db.Deportes.Single(x => x.DeporteId == SelectedSport),
                                         Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
@@ -233,7 +233,7 @@ namespace SOGIP_v2.Controllers
                                     Atleta atleta = new Atleta()
                                     {
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
-                                        Localidad = form["nombre_localidad"].ToString()
+                                        Localidad = form["nombre_localidad"].ToString().ToUpper()
                                     };
                                     if (Atleta_Tipo == "Selección")
                                     {
@@ -276,8 +276,8 @@ namespace SOGIP_v2.Controllers
                                 {
                                     Asociacion_Deportiva asociacion = new Asociacion_Deportiva()
                                     {
-                                        Localidad = form["nombre_localidad"].ToString(),
-                                        Nombre_DepAso = form["nombre_aso"].ToString(),
+                                        Localidad = form["nombre_localidad"].ToString().ToUpper(),
+                                        Nombre_DepAso = form["nombre_aso"].ToString().ToUpper(),
                                         Usuario = db.Users.Single(x => x.Id == user.Id)
                                     };
 

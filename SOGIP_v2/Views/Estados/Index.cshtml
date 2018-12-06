@@ -8,45 +8,50 @@
     @Styles.Render("~/Content/Detalle_Rutina.css")
 }
 
+<div class="container">
 
+    <h2 class="col-md-3" style="color: black">
+        <a href="/Home/Index/" class="btn btn-success" type="button">
+            <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
+        </a>
+    </h2>
+    <h2 class="col-md-1" style="color: black">
+        |
+    </h2>
+    <h2 class="col-md-5" style="color: black">
+        Registros > Estados > @ViewBag.Title
+    </h2>
+    <h2 class="col-md-1" style="color: black">
+        |
+    </h2>
+    <h2 class="col-md-2" style="color: black">
+        <a href="/Estados/Create/" class="btn btn-success" type="button">
+            Crear nuevo estado&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    </h2>
 
-<html>
-<body>
-    <div class="container">
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th></th>
+        </tr>
 
-        <h2>Inicio Estado</h2>
-
-        <p>
-            @Html.ActionLink("Crear Nuevo", "Create")
-        </p>
-        <table class="table">
+        @foreach (var item in Model)
+        {
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Descripcion)
-                </th>
-                <th></th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Descripcion)
+                </td>
+                <td>
+                    @Html.ActionLink("Editar", "Edit", new { id = item.EstadoId }) |
+                    @Html.ActionLink("Detalles", "Details", new { id = item.EstadoId })
+                </td>
             </tr>
+        }
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Descripcion)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Editar", "Edit", new { id = item.EstadoId }) |
-                        @Html.ActionLink("Detalles", "Details", new { id = item.EstadoId }) |
-                        @Html.ActionLink("Eliminar", "Delete", new { id = item.EstadoId })
-                    </td>
-                </tr>
-            }
-
-        </table>
+    </table>
 
 
-    </div>
-</body>
-</html>
-
-
-
+</div>
