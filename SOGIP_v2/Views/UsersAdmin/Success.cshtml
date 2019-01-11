@@ -1,13 +1,8 @@
 ﻿@{
-    @Html.Partial("/Views/Home/header.cshtml")
     @Styles.Render("~/Content/manual.css")
     @Styles.Render("~/Content/Detalle_Rutina.css")
 }
 
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Success</title>
-</head>
     <div class="container">
         <div class="masivo" id="registro_tabla" name="registro_tabla">
             <br />
@@ -38,7 +33,9 @@
                             <td>@a.Apellido2</td>
                             <td>@a.Email</td>
                             <td>@a.PhoneNumber</td>
+                            
                             <td>@a.Sexo</td>
+
                             <td>@a.Fecha_Nacimiento</td>
                         </tr>
                     }
