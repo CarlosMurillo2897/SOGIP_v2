@@ -12,8 +12,17 @@ use "SOGIP_v3"
 
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
+-- Rol = Selección/Federación	|	 User = 116630668	|	 Password = JuGu1166121996
+-- Rol = Entrenador				|	 User = 112530907	|	 Password = EmCh1125081985
+-- Rol = Atleta					|	 User = 208770327	|	 Password = YuMo2087042006
+-- Rol = Atleta Becado			|	 User = 110830174	|	 Password = AaHi1108021980
+-- Rol = Funcionario ICODER		|	 User = 206140354	|	 Password = FeBa2061111956
+-- Rol = Entidades Públicas		|	 User = 			|	 Password = 
+-- Rol = Asociación/Comité		|	 User = 			|	 Password = 
+-- Rol = Usuario Externo		|	 User = 			|	 Password = 
 
- select SOGIP_Users.Id, Cedula, Nombre1, Nombre2, Fecha_Nacimiento, SOGIP_Roles.Name, SOGIP_Roles.Id
+
+ select SOGIP_Users.Id, Cedula, Nombre1, Nombre2, Apellido1, Fecha_Nacimiento, SOGIP_Roles.Name, SOGIP_Roles.Id
  from 
  SOGIP_Users, SOGIP_UserRoles, SOGIP_Roles
  where 
@@ -21,9 +30,6 @@ use "SOGIP_v3"
  and
  SOGIP_UserRoles.Roleid = SOGIP_Roles.id
  order by SOGIP_Roles.Id;
-
- delete from SOGIP_Users where Email != 'cmb28@hotmail.com';
- delete from SOGIP_Users;
 
  select * from SOGIP_Archivo;
  select * from SOGIP_Asociacion_Deportiva;
@@ -47,6 +53,8 @@ use "SOGIP_v3"
  select * from SOGIP_UserLogins;
  select * from SOGIP_UserRoles where RoleId='6';
  select * from SOGIP_Users;
+
+JoBa1140101989
 
  SELECT * FROM SOGIP_Users WHERE Cedula like(11)
 

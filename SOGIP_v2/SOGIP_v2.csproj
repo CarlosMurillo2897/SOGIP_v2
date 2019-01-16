@@ -199,7 +199,6 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="Controllers\Asociacion_DeportivaController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\CitasGeneralController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
@@ -280,17 +279,13 @@
     <Content Include="Content\Imagenes\fondo_c.png" />
     <Content Include="Content\Imagenes\fondo_d.png" />
     <Content Include="Content\Imagenes\fondo_e.png" />
+    <Content Include="Content\Imagenes\icoder_blanco.png" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
+    <Content Include="Content\Imagenes\logo_white.png" />
     <Content Include="Content\Imagenes\trianglify.png" />
-    <Content Include="Content\Imagenes\W5.png" />
-    <Content Include="Content\Imagenes\W6.png" />
-    <Content Include="Content\Imagenes\W7.png" />
     <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\Imagenes\M.png" />
     <Content Include="Content\Imagenes\W.png" />
-    <Content Include="Content\Imagenes\W2.png" />
-    <Content Include="Content\Imagenes\W3.jpg" />
-    <Content Include="Content\Imagenes\W4.jpg" />
     <Content Include="Content\Imagenes\logo_SOGIP_con_letras.png" />
     <Content Include="Content\Imagenes\logo_SOGIP_sin_letras.png" />
     <Content Include="Content\Login.css" />
@@ -299,7 +294,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site.css" />
     <Content Include="Scripts\administracionHorario.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
@@ -537,11 +531,6 @@
     <Content Include="Views\UsersAdmin\Delete.cshtml" />
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
-    <Content Include="Views\Asociacion_Deportiva\Create.cshtml" />
-    <Content Include="Views\Asociacion_Deportiva\Delete.cshtml" />
-    <Content Include="Views\Asociacion_Deportiva\Details.cshtml" />
-    <Content Include="Views\Asociacion_Deportiva\Edit.cshtml" />
-    <Content Include="Views\Asociacion_Deportiva\Index.cshtml" />
     <Content Include="Views\Estados\Create.cshtml" />
     <Content Include="Views\Estados\Delete.cshtml" />
     <Content Include="Views\Estados\Details.cshtml" />
