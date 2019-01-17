@@ -41,9 +41,11 @@ use "SOGIP_v3"
  select * from SOGIP_Expedientes_Fisicos;
  select * from SOGIP_Funcionario_ICODER;
  select * from SOGIP_Horario;
+ select * from SOGIP_Parametro;
  select * from SOGIP_Roles order by Id asc;
  select * from SOGIP_Rutina;
  select * from SOGIP_Selecciones;
+ select * from SOGIP_Tipo;
  select * from SOGIP_Tipo_Deporte;
  select * from SOGIP_Tipo_Entidad;
  select * from SOGIP_UserClaims;
@@ -64,6 +66,7 @@ use "SOGIP_v3"
  delete from SOGIP_Atletas;
  delete from SOGIP_Categorias;
  delete from SOGIP_Cita;
+ delete from SOGIP_Color;
  delete from SOGIP_Conjunto_Ejercicio;
  delete from SOGIP_Deportes;
  delete from SOGIP_Entidad_Publica;
@@ -71,9 +74,11 @@ use "SOGIP_v3"
  delete from SOGIP_Expedientes_Fisicos;
  delete from SOGIP_Funcionario_ICODER;
  delete from SOGIP_Horario;
+ delete from SOGIP_Parametro;
  delete from SOGIP_Roles;
  delete from SOGIP_Rutina;
  delete from SOGIP_Selecciones;
+ delete from SOGIP_Tipo;
  delete from SOGIP_Tipo_Deporte;
  delete from SOGIP_Tipo_Entidad;
  delete from SOGIP_UserClaims;
@@ -113,6 +118,7 @@ DECLARE @VARIABLEACAMBIAR varchar(100);
 set @VARIABLEACAMBIAR = 'C:\Users\CCM\Documents\GitHub\SOGIP_v2\script_BD'
 -- ************************************************************************************
 -- ************************************************************************************
+
 
 set @sql = 'BULK INSERT SOGIP_Roles FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Roles.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
@@ -158,5 +164,10 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_Cita FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Cita.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
+set @sql = 'BULK INSERT SOGIP_Tipo FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Tipo.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+
+set @sql = 'BULK INSERT SOGIP_Color FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Color.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++
