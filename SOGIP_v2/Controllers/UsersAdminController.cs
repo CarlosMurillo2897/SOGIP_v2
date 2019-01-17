@@ -218,13 +218,6 @@ namespace SOGIP_v2.Controllers
                                         db.Archivo.Add(file);
                                     }
 
-                                    Entrenador entrenador = new Entrenador()
-                                    {
-                                        Usuario = db.Users.Single(x => x.Id == user.Id)
-                                    };
-
-                                    db.Entrenadores.Add(entrenador);
-
                                     break;
                                 }
 

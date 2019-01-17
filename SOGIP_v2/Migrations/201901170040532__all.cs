@@ -3,7 +3,7 @@ namespace SOGIP_v2.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class all : DbMigration
+    public partial class _all : DbMigration
     {
         public override void Up()
         {
@@ -129,17 +129,17 @@ namespace SOGIP_v2.Migrations
                         Nombre_Seleccion = c.String(),
                         Categoria_Id_CategoriaId = c.Int(),
                         Deporte_Id_DeporteId = c.Int(),
-                        Entrenador_Id_EntrenadorId = c.Int(),
+                        Entrenador_Id_Id = c.String(maxLength: 128),
                         Usuario_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.SeleccionId)
                 .ForeignKey("dbo.SOGIP_Categorias", t => t.Categoria_Id_CategoriaId)
                 .ForeignKey("dbo.SOGIP_Deportes", t => t.Deporte_Id_DeporteId)
-                .ForeignKey("dbo.SOGIP_Entrenadores", t => t.Entrenador_Id_EntrenadorId)
+                .ForeignKey("dbo.SOGIP_Users", t => t.Entrenador_Id_Id)
                 .ForeignKey("dbo.SOGIP_Users", t => t.Usuario_Id)
                 .Index(t => t.Categoria_Id_CategoriaId)
                 .Index(t => t.Deporte_Id_DeporteId)
-                .Index(t => t.Entrenador_Id_EntrenadorId)
+                .Index(t => t.Entrenador_Id_Id)
                 .Index(t => t.Usuario_Id);
             
             CreateTable(
@@ -174,17 +174,6 @@ namespace SOGIP_v2.Migrations
                     })
                 .PrimaryKey(t => t.Tipo_DeporteId)
                 .Index(t => t.Descripcion, unique: true);
-            
-            CreateTable(
-                "dbo.SOGIP_Entrenadores",
-                c => new
-                    {
-                        EntrenadorId = c.Int(nullable: false, identity: true),
-                        Usuario_Id = c.String(maxLength: 128),
-                    })
-                .PrimaryKey(t => t.EntrenadorId)
-                .ForeignKey("dbo.SOGIP_Users", t => t.Usuario_Id)
-                .Index(t => t.Usuario_Id);
             
             CreateTable(
                 "dbo.SOGIP_Cita",
@@ -338,8 +327,7 @@ namespace SOGIP_v2.Migrations
             DropForeignKey("dbo.SOGIP_Atletas", "Usuario_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Atletas", "Seleccion_SeleccionId", "dbo.SOGIP_Selecciones");
             DropForeignKey("dbo.SOGIP_Selecciones", "Usuario_Id", "dbo.SOGIP_Users");
-            DropForeignKey("dbo.SOGIP_Selecciones", "Entrenador_Id_EntrenadorId", "dbo.SOGIP_Entrenadores");
-            DropForeignKey("dbo.SOGIP_Entrenadores", "Usuario_Id", "dbo.SOGIP_Users");
+            DropForeignKey("dbo.SOGIP_Selecciones", "Entrenador_Id_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Selecciones", "Deporte_Id_DeporteId", "dbo.SOGIP_Deportes");
             DropForeignKey("dbo.SOGIP_Deportes", "TipoDeporte_Tipo_DeporteId", "dbo.SOGIP_Tipo_Deporte");
             DropForeignKey("dbo.SOGIP_Selecciones", "Categoria_Id_CategoriaId", "dbo.SOGIP_Categorias");
@@ -360,13 +348,12 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_Rutina", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Conjunto_Ejercicio", new[] { "ConjuntoEjercicioRutina_RutinaId" });
             DropIndex("dbo.SOGIP_Cita", new[] { "UsuarioId_Id_Id" });
-            DropIndex("dbo.SOGIP_Entrenadores", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Tipo_Deporte", new[] { "Descripcion" });
             DropIndex("dbo.SOGIP_Deportes", new[] { "TipoDeporte_Tipo_DeporteId" });
             DropIndex("dbo.SOGIP_Deportes", new[] { "Nombre" });
             DropIndex("dbo.SOGIP_Categorias", new[] { "Descripcion" });
             DropIndex("dbo.SOGIP_Selecciones", new[] { "Usuario_Id" });
-            DropIndex("dbo.SOGIP_Selecciones", new[] { "Entrenador_Id_EntrenadorId" });
+            DropIndex("dbo.SOGIP_Selecciones", new[] { "Entrenador_Id_Id" });
             DropIndex("dbo.SOGIP_Selecciones", new[] { "Deporte_Id_DeporteId" });
             DropIndex("dbo.SOGIP_Selecciones", new[] { "Categoria_Id_CategoriaId" });
             DropIndex("dbo.SOGIP_Atletas", new[] { "Usuario_Id" });
@@ -389,7 +376,6 @@ namespace SOGIP_v2.Migrations
             DropTable("dbo.SOGIP_Rutina");
             DropTable("dbo.SOGIP_Conjunto_Ejercicio");
             DropTable("dbo.SOGIP_Cita");
-            DropTable("dbo.SOGIP_Entrenadores");
             DropTable("dbo.SOGIP_Tipo_Deporte");
             DropTable("dbo.SOGIP_Deportes");
             DropTable("dbo.SOGIP_Categorias");

@@ -58,7 +58,6 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Asociacion_Deportiva>().ToTable("SOGIP_Asociacion_Deportiva");
             modelBuilder.Entity<Atleta>().ToTable("SOGIP_Atletas");
             modelBuilder.Entity<Entidad_Publica>().ToTable("SOGIP_Entidad_Publica");
-            modelBuilder.Entity<Entrenador>().ToTable("SOGIP_Entrenadores");
             modelBuilder.Entity<Funcionario_ICODER>().ToTable("SOGIP_Funcionario_ICODER");
             modelBuilder.Entity<Seleccion>().ToTable("SOGIP_Selecciones");
 
@@ -87,8 +86,6 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Tipo_Deporte> Tipo_Deporte { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Deporte> Deportes { get; set; }
-
-        public System.Data.Entity.DbSet<SOGIP_v2.Models.Entrenador> Entrenadores { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Seleccion> Selecciones { get; set; }
 
