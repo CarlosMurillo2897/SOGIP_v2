@@ -116,6 +116,8 @@ namespace SOGIP_v2.Controllers
             return Json(usuario.Estado, JsonRequestBehavior.AllowGet);
         }
 
+       
+
         //
         // GET: /Users/Details/5
         [HttpGet]
@@ -131,7 +133,15 @@ namespace SOGIP_v2.Controllers
 
             return View(user);
         }
+        [HttpPost]
+        public JsonResult getEntrenador()
+        {
 
+            var data = new ApplicationDbContext();
+            var users = data.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("4")).ToList();
+            
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
         //
         // GET: /Users/Create
         //[HttpGet]

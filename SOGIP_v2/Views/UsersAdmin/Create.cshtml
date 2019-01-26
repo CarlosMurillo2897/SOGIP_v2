@@ -20,6 +20,9 @@
 
 @Styles.Render("~/Content/manual.css")
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+
+
 <div class="container">
 
     @*
@@ -249,8 +252,9 @@
                         <td>
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    @Html.Label("Nombre de la selección", new { @class = "control-label" })
-                                    <input type="text" class="sele_n form-control" name="sele_n" id="sele_n" />
+                                    <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar entrenador   <span class="glyphicon glyphicon-search"></span></button>
+                                    @*@Html.Label("Nombre de la selección", new { @class = "control-label" })
+                                        <input type="text" class="sele_n form-control" name="sele_n" id="sele_n" />*@
                                     @* <input class="sele_m" name="sele_m" id="sele_m" /> *@
                                 </div>
                             </div>
@@ -372,10 +376,66 @@
                 </div>
             </div>
         </div>
+
+        @*Modal para las selecciones que muestra entrenadores*@
+        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Búsqueda de Entrenador</h4>
+                    </div>
+                    <div class="modal-body">
+                        @*Tabla de entrenadores*@
+                        <table id="example" class="display" width="100%"></table>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*Modal para entrenadores de funcionarios*@
+
     }
 </div>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/create.js")
+    <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script>
+
+        
+        var dataSet = [];
+
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/UsersAdmin/getEntrenador",
+            success: function (data) {
+                $.each(data, function (i, v) {
+                    dataSet.push([v.Cedula, v.Nombre1, v.Apellido1]);
+                })
+                $('#example').DataTable({
+                    data: dataSet,
+                    columns: [
+                        { title: "Cedula" },
+                        { title: "Nombre" },
+                        { title: "Apellidos" }
+                    ]
+                });
+            },
+
+            error: function (error) {
+                alert("Fallo");
+            }
+        });
+   
+
+    </script>
 }
