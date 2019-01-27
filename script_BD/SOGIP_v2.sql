@@ -34,6 +34,7 @@ use "SOGIP_v3"
  select * from SOGIP_Atletas;
  select * from SOGIP_Categorias;
  select * from SOGIP_Cita;
+ select * from SOGIP_Color;
  select * from SOGIP_Conjunto_Ejercicio;
  select * from SOGIP_Deportes;
  select * from SOGIP_Entidad_Publica;
@@ -152,7 +153,7 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_Selecciones FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Selecciones.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
-set @sql = 'BULK INSERT SOGIP_Atletas FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Atletas.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'', KEEPNULLS);';
+set @sql = 'BULK INSERT SOGIP_Atletas FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Atletas.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
 set @sql = 'BULK INSERT SOGIP_Rutina FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Rutina.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';

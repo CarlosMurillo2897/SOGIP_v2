@@ -14,5 +14,6 @@ namespace SOGIP_v2.Models
         public string Nombre { get; set; }
         [Index(IsUnique = true), MaxLength(60)]
         public string Codigo { get; set; }
+        public bool Seleccionado { get; set; }
     }
 }
