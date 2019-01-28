@@ -21,6 +21,7 @@
 @Styles.Render("~/Content/manual.css")
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css">
 
 
 <div class="container">
@@ -237,28 +238,29 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
-                            <div>
-                                <div class="form-group">
-                                    <div class="col-md-10">
-                                        @Html.Label("Entrenador (cedula)", new { @class = "control-label" })
-                                        <input id="entrenador" type="text" class="id_entrenador form-control" name="id_entrenador" />
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
+                       
                     </tr>
                     <tr hidden id="info_seleccion_nombre">
                         <td>
                             <div class="form-group">
                                 <div class="col-md-10">
                                     <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar entrenador   <span class="glyphicon glyphicon-search"></span></button>
-                                    @*@Html.Label("Nombre de la selección", new { @class = "control-label" })
-                                        <input type="text" class="sele_n form-control" name="sele_n" id="sele_n" />*@
-                                    @* <input class="sele_m" name="sele_m" id="sele_m" /> *@
+                                    
                                 </div>
                             </div>
                         </td>
+                    </tr>
+                    <tr hidden id="info_selec_entre">
+                        <td>
+                        <table>
+                            <thead>
+                                <tr>Cedula</tr>
+                                <tr>Nombre</tr>
+                                <tr>1° Apellido</tr>
+                                <tr>2° Apellido</tr>
+                            </thead>
+                        </table>
+                         </td>
                     </tr>
 
                     @* DATOS DE ENTIDADES PUBLICAS *@
@@ -378,7 +380,7 @@
         </div>
 
         @*Modal para las selecciones que muestra entrenadores*@
-        <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div id="me" class="modal fade bd-example-modal-lg"  role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -387,9 +389,15 @@
                     </div>
                     <div class="modal-body">
                         @*Tabla de entrenadores*@
-                        <table id="example" class="display" width="100%"></table>
+                        <a class="btn btn-info" data-toggle="popover" title="¿Cómo funciona?" data-content="Seleccione el entrenador mediante un click a una casilla perteneciente a la columna acción, luego guarde los cambios">
+                            <span class="glyphicon glyphicon-question-sign"></span> Ayuda
+                        </a>
+                        <hr />
+                        <table id="example" class="display" style="width:100%"></table> 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            <br />
+                            <button type="button" id="btnSave" data-dismiss="modal" class="btn btn-success">Guardar Cambios</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>
@@ -407,10 +415,12 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/create.js")
     <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
     <script>
 
-        
+        var table;
         var dataSet = [];
 
         $.ajax({
@@ -419,15 +429,28 @@
             url: "/UsersAdmin/getEntrenador",
             success: function (data) {
                 $.each(data, function (i, v) {
-                    dataSet.push([v.Cedula, v.Nombre1, v.Apellido1]);
+                    dataSet.push(["",v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
                 })
-                $('#example').DataTable({
+                table= $('#example').DataTable({
                     data: dataSet,
                     columns: [
-                        { title: "Cedula" },
-                        { title: "Nombre" },
-                        { title: "Apellidos" }
-                    ]
+                        { title: "Acción" },
+                        { title: "Cédula"},
+                        { title: "Nombre"},
+                        { title: "1° Apellido"},
+                        { title: "2° Apellido"}
+                    ],
+                    'columnDefs': [
+                        {
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: [0]
+                        }
+                    ],
+                    'select': {
+                        'style': 'os',
+                        'selector': 'td:first-child'
+                    }
                 });
             },
 
@@ -435,7 +458,22 @@
                 alert("Fallo");
             }
         });
-   
+
+        $('#btnSave').click(function () {
+
+            var tblData = table.rows('.selected').data();
+            var tmpData;
+            $.each(tblData, function (i, val) {
+                tmpData = tblData[i]; //jala toda la info
+                alert(tmpData);
+            });
+            
+        });
+
+
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+        });
 
     </script>
 }

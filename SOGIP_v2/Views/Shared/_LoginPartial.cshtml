@@ -35,85 +35,85 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             @if (Request.IsAuthenticated)
             {
-            <ul class="nav navbar-nav">
-                <li>
-                    <a href="~/Home/Index">
-                        <span class="glyphicon glyphicon-home"></span>
-                        Inicio
-                    </a>
-                </li>
-                @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
-                {
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                            <span class="glyphicon glyphicon-menu-down"></span> Registros
-                        </a>
-                        <ul class="dropdown-menu" role="menu" id="myTab">
-                            <li role="presentation">
-                                <a href="~/UsersAdmin/Index/">
-                                    <span class="glyphicon glyphicon-pencil"></span> Manual
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li role="presentation">
-                                <a href="~/UsersAdmin/IndexMasivo/">
-                                    <span class="glyphicon glyphicon-cloud"></span> Masivo
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li role="presentation">
-                                <a href="~/Estados/Index/">
-                                    <span class="glyphicon glyphicon-folder-open"></span> Estados
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li role="presentation">
-                                <a href="~/Rutinas/Index/">
-                                    <span class="glyphicon glyphicon-apple"></span> Rutina
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li role="presentation">
-                                <a href="~/ExpedientesFisicos/Index/">
-                                    <span class="glyphicon glyphicon-file"></span> Expediente
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                <ul class="nav navbar-nav">
                     <li>
-                        <a href="~/CitasAdmin/Create">
-                            <span class="glyphicon glyphicon-calendar"></span> Citas
+                        <a href="~/Home/Index">
+                            <span class="glyphicon glyphicon-home"></span>
+                            Inicio
                         </a>
                     </li>
-                    <li>
-                        <a href="~/Busqueda/Index">
-                            <span class="glyphicon glyphicon-search"></span>
-                            Búsqueda
-                        </a>
-                    </li>
-                }
-                @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
-                {
-                    <li>
-                        <a href="~/CitasGeneral/Create?id=@User.Identity.GetUserId()">
-                            <span class="glyphicon glyphicon-calendar"></span> Citas
-                        </a>
-                    </li>
-                    <li role="presentation">
-                        <a href="~/Rutinas/ListaEjercicio?idUsuario=User.Identity.GetUserId()">
-                            <span class="glyphicon glyphicon-apple"></span> Rutina
-                        </a>
-                    </li>
-                }
-                @if (User.IsInRole("Entrenador"))
-                {
-                    <li role="presentation">
-                        <a href="~/Rutinas/Create">
-                            <span class="glyphicon glyphicon-apple"></span> Rutina
-                        </a>
-                    </li>
-                }
-            </ul>
+                    @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <span class="glyphicon glyphicon-menu-down"></span> Registros
+                            </a>
+                            <ul class="dropdown-menu" role="menu" id="myTab">
+                                <li role="presentation">
+                                    <a href="~/UsersAdmin/Index/">
+                                        <span class="glyphicon glyphicon-pencil"></span> Manual
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="presentation">
+                                    <a href="~/UsersAdmin/IndexMasivo/">
+                                        <span class="glyphicon glyphicon-cloud"></span> Masivo
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="presentation">
+                                    <a href="~/Estados/Index/">
+                                        <span class="glyphicon glyphicon-folder-open"></span> Estados
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="presentation">
+                                    <a href="~/Rutinas/Index/">
+                                        <span class="glyphicon glyphicon-apple"></span> Rutina
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="presentation">
+                                    <a href="~/ExpedientesFisicos/Index/">
+                                        <span class="glyphicon glyphicon-file"></span> Expediente
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="~/CitasAdmin/Create">
+                                <span class="glyphicon glyphicon-calendar"></span> Citas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Busqueda/Index">
+                                <span class="glyphicon glyphicon-search"></span>
+                                Búsqueda
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
+                    {
+                        <li>
+                            <a href="~/CitasGeneral/Create?id=@User.Identity.GetUserId()">
+                                <span class="glyphicon glyphicon-calendar"></span> Citas
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="~/Rutinas/ListaEjercicio?idUsuario=User.Identity.GetUserId()">
+                                <span class="glyphicon glyphicon-apple"></span> Rutina
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Entrenador"))
+                    {
+                        <li role="presentation">
+                            <a href="~/Rutinas/Create">
+                                <span class="glyphicon glyphicon-apple"></span> Rutina
+                            </a>
+                        </li>
+                    }
+                </ul>
             }
             <ul class="nav navbar-nav navbar-right">
                 @if (Request.IsAuthenticated)
@@ -182,3 +182,4 @@
         </div>
     </div>
 </nav>
+

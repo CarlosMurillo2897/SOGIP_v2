@@ -115,7 +115,7 @@ DECLARE @VARIABLEACAMBIAR varchar(100);
 -- *************************** OSEA, @VARIABLEACAMBIAR POR LA DIRECCIÓN *********************************************************
 -- *************************** DONDE ESTÉ EL PROYECTO SOGIP_V2 *********************************************************
 -- *************************** Y DENTRO DE ESTA CARPETA LA CARPETA SCRIPT_BD *********************************************************
-set @VARIABLEACAMBIAR = 'C:\Users\CCM\Documents\GitHub\SOGIP_v2\script_BD'
+set @VARIABLEACAMBIAR = 'C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\script_BD'
 -- ************************************************************************************
 -- ************************************************************************************
 
@@ -152,7 +152,7 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_Selecciones FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Selecciones.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
-set @sql = 'BULK INSERT SOGIP_Atletas FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Atletas.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'', KEEPNULLS);';
+set @sql = 'BULK INSERT SOGIP_Atletas FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Atletas.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
 set @sql = 'BULK INSERT SOGIP_Rutina FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Rutina.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
