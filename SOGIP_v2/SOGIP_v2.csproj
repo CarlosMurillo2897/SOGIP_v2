@@ -199,6 +199,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Controllers\AtletasAsignadosController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\CitasGeneralController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
@@ -458,6 +459,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\administracionHorario.js" />
+    <Content Include="Scripts\atletas_asignados.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -815,6 +817,9 @@
     <Content Include="Views\CitasGeneral\Edit.cshtml" />
     <Content Include="Views\CitasGeneral\Index.cshtml" />
     <Content Include="Views\Busqueda\Index.cshtml" />
+    <Content Include="Views\AtletasAsignados\Index.cshtml" />
+    <Content Include="Views\AtletasAsignados\IndexS.cshtml" />
+    <Content Include="Views\AtletasAsignados\IndexA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
