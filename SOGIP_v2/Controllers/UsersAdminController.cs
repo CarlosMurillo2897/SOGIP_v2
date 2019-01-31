@@ -669,22 +669,7 @@ namespace SOGIP_v2.Controllers
                                 nacimiento = DateTime.Today;
                             }
                         }
-                        catch (Exception)
-                        {
-
-                            string[] valores = terminos.Split('/');
-                            string date = "";
-
-                            // Formato #1: Si es de formato dd/mm/aaaa ó mm/dd/aaaa
-                            string patternDMA = @"(\d\d?)[-.\\/](\d\d?)[-.\\/](\d{4})";
-
-
-
-                            if ((nacimiento.Year < (DateTime.Today.Year - 80)) || (nacimiento.Year > (DateTime.Today.Year - 10)))
-                            {
-                                nacimiento = DateTime.Today;
-                            }
-                        }
+                        
                         catch (Exception)
                         {
 
