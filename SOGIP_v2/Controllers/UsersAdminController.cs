@@ -663,6 +663,7 @@ namespace SOGIP_v2.Controllers
                             terminos = Regex.Replace(nac.ToString(), @"[-.\\]", "/");
                             nacimiento = Convert.ToDateTime(terminos);
 
+
                             if ((nacimiento.Year < (DateTime.Today.Year - 80)) || (nacimiento.Year > (DateTime.Today.Year - 10)))
                             {
                                 nacimiento = DateTime.Today;
@@ -676,6 +677,23 @@ namespace SOGIP_v2.Controllers
 
                             // Formato #1: Si es de formato dd/mm/aaaa ó mm/dd/aaaa
                             string patternDMA = @"(\d\d?)[-.\\/](\d\d?)[-.\\/](\d{4})";
+
+
+
+                            if ((nacimiento.Year < (DateTime.Today.Year - 80)) || (nacimiento.Year > (DateTime.Today.Year - 10)))
+                            {
+                                nacimiento = DateTime.Today;
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            string[] valores = terminos.Split('/');
+                            string date = "";
+
+                            // Formato #1: Si es de formato dd/mm/aaaa ó mm/dd/aaaa
+                            string patternDMA = @"(\d\d?)[-.\\/](\d\d?)[-.\\/](\d{4})";
+
 
                             // Formato #2: Si es de formato aaaa/mm/dd ó aaaa/dd/mm
                             string patternADM = @"(\d{4})[-.\\/](\d\d?)[-.\\/](\d\d?)";
