@@ -9,65 +9,68 @@
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("JavaScript", required: false)
 
+    @*<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+        <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" />
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>*@
 </head>
 <body>
 
-        @Html.Partial("_LoginPartial")
+    @Html.Partial("_LoginPartial")
 
-        <div class="panel-body">
-            @RenderBody()
-        </div>
+    <div class="panel-body">
+        @RenderBody()
+    </div>
 
-        <div class="well" style="background-color: #000000; color:wheat; margin-bottom: 0px;">
-            <div class="col-lg-4">
-                <h3>
-                    <span class="glyphicon glyphicon-map-marker"></span> Dirección
-                </h3>
-                <ul class="list-group list-unstyled">
-                    <li>
-                        San José, Sabana
-                        <a href="http://www.icoder.go.cr/" class="logo">
-                            <img id="logo_SOGIP" src="~/Content/Imagenes/logo_white.png" width="50" height="50" style="margin-top: -29px; margin-left: 15px;">
-                        </a>
-                    </li>
-                    <li>
-                        DERECHOS RESERVADOS &copy; @DateTime.Now.Year - SOGIP
-                    </li>
-                </ul>
-            </div>
-            <div class="col-lg-4">
-                <h3>
-                    <span class="glyphicon glyphicon-briefcase"></span> Acerca de nosotros
-                </h3>
-                <ul class="list-group list-unstyled">
-                    <li>
-                        <span class="glyphicon glyphicon-globe"></span> Un proyecto en compañia de la UNA
-                    </li>
-                    <li>
-                        <span class="glyphicon glyphicon-question-sign"></span>
-                        <a href="#">Conozca a los desarrolladores.</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-lg-3">
-                <h3>
-                    <span class="glyphicon glyphicon-cog"></span> Contáctenos
-                </h3>
-                <ul class="list-group list-unstyled">
-                    <li>
-                        <span class="glyphicon glyphicon-alert"></span> Soporte y Ayuda:
-                        <a href="mailto:admSOGIP@hotmail.com"> admSOGIP@hotmail.com</a>
-                    </li>
-                    <li>
-                        <span class="glyphicon glyphicon-phone-alt"></span>
-                        <abbr title="Oficina Central">
-                            <strong>Contáctenos:</strong>
-                        </abbr> (+506) 2549-0814 (Ext. 214)
-                    </li>
-                </ul>
-            </div>
-            <div style="clear:both"></div>
+    <div class="well" style="background-color: #000000; color:wheat; margin-bottom: 0px;">
+        <div class="col-lg-4">
+            <h3>
+                <span class="glyphicon glyphicon-map-marker"></span> Dirección
+            </h3>
+            <ul class="list-group list-unstyled">
+                <li>
+                    San José, Sabana
+                    <a href="http://www.icoder.go.cr/" class="logo">
+                        <img id="logo_SOGIP" src="~/Content/Imagenes/logo_white.png" width="50" height="50" style="margin-top: -29px; margin-left: 15px;">
+                    </a>
+                </li>
+                <li>
+                    DERECHOS RESERVADOS &copy; @DateTime.Now.Year - SOGIP
+                </li>
+            </ul>
         </div>
+        <div class="col-lg-4">
+            <h3>
+                <span class="glyphicon glyphicon-briefcase"></span> Acerca de nosotros
+            </h3>
+            <ul class="list-group list-unstyled">
+                <li>
+                    <span class="glyphicon glyphicon-globe"></span> Un proyecto en compañia de la UNA
+                </li>
+                <li>
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                    <a href="#">Conozca a los desarrolladores.</a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-3">
+            <h3>
+                <span class="glyphicon glyphicon-cog"></span> Contáctenos
+            </h3>
+            <ul class="list-group list-unstyled">
+                <li>
+                    <span class="glyphicon glyphicon-alert"></span> Soporte y Ayuda:
+                    <a href="mailto:admSOGIP@hotmail.com"> admSOGIP@hotmail.com</a>
+                </li>
+                <li>
+                    <span class="glyphicon glyphicon-phone-alt"></span>
+                    <abbr title="Oficina Central">
+                        <strong>Contáctenos:</strong>
+                    </abbr> (+506) 2549-0814 (Ext. 214)
+                </li>
+            </ul>
+        </div>
+        <div style="clear:both"></div>
+    </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

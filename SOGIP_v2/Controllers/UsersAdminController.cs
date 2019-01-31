@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.UI;
@@ -16,6 +15,8 @@ using System.Data;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Web.Security;
+using OfficeOpenXml;
+using System.Text.RegularExpressions;
 
 namespace SOGIP_v2.Controllers
 {
@@ -24,14 +25,10 @@ namespace SOGIP_v2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public UsersAdminController()
-        {
-        }
+        public UsersAdminController(){}
 
         public static string composicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
         {
-
-
             string mes = "";
 
             if (Nacimiento.Month < 10)
@@ -398,14 +395,6 @@ namespace SOGIP_v2.Controllers
                 if (atleta.Seleccion != null) { ViewBag.var2 = atleta.Seleccion.SeleccionId; }
             }
                
-           
-               
-            
-
-
-            
-
-
             //Entrenador
             //ViewBag.Archivos = db.Archivo.Where(x => x.Usuario == user).ToList();
 
@@ -466,7 +455,7 @@ namespace SOGIP_v2.Controllers
                 Response.End();
             }
         }
-        //
+        
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -542,7 +531,6 @@ namespace SOGIP_v2.Controllers
                         break;
                 }
 
-
             }
             else
             {
@@ -552,105 +540,141 @@ namespace SOGIP_v2.Controllers
             return RedirectToAction("Index");
         }
 
-
-        //
-        // GET: /Users/Delete/5
-        [HttpGet]
-        public async Task<ActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var user = await UserManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
-
-        // POST: /Users/Delete/5
-        [HttpPost]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(string id)
-        {
-            if (ModelState.IsValid)
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                var user = await UserManager.FindByIdAsync(id);
-                if (user == null)
-                {
-                    return HttpNotFound();
-                }
-                var result = await UserManager.DeleteAsync(user);
-                if (!result.Succeeded)
-                {
-                    ModelState.AddModelError("", result.Errors.First());
-                    return View();
-                }
-                return RedirectToAction("Index");
-            }
-            return View();
-        }
-
         public ActionResult IndexMasivo()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<ActionResult> Import(HttpPostedFileBase excelfile)
+        public JsonResult Import(HttpPostedFileBase excelfile)
         {
-            if (excelfile == null || excelfile.ContentLength == 0)
+            var path = Server.MapPath("~/Content/Registros/" + excelfile.FileName);
+            List<ApplicationUser> ls = new List<ApplicationUser>();
+
+            try
             {
-                ViewBag.Error = "Seleccione un archivo Excel para cargar los datos<br/>";
-                return View("IndexMasivo");
-            }
-            else
-            {
-                if (excelfile.FileName.EndsWith("xls") || excelfile.FileName.EndsWith("xlsx"))
+                if (excelfile != null)
                 {
-
-                    int fin;
-                    string terminacion;
-
-                    if (excelfile.FileName.EndsWith("xlsx"))
-                    {
-                        fin = excelfile.FileName.Length - 5;
-                        terminacion = ").xlsx";
-                    }
-                    else
-                    {
-                        fin = excelfile.FileName.Length - 4;
-                        terminacion = ").xls";
-                    }
-
-                    string name = excelfile.FileName.Substring(0, fin);
-                    string path = Server.MapPath("~/Content/Registros/Excel/" + name +
-                                                 "(" + DateTime.Now.Year.ToString() + "-"
-                                                 + DateTime.Now.Month.ToString() + "-"
-                                                 + DateTime.Now.Day.ToString() + ")-("
-                                                 + DateTime.Now.Hour.ToString() + "-"
-                                                 + DateTime.Now.Minute.ToString() + "-"
-                                                 + DateTime.Now.Second.ToString() + terminacion);
-
-                    if (System.IO.File.Exists(path))
-                    {
-                        System.IO.File.Delete(path);
-                    }
                     excelfile.SaveAs(path);
+                }
+                var package = new ExcelPackage(new System.IO.FileInfo(path));
+                int startColumn = 1; 
+                int startRow = 15;
 
-                    Excel.Application application = new Excel.Application();
-                    Excel.Workbook workbook = application.Workbooks.Open(path);
-                    Excel.Worksheet worksheet = workbook.ActiveSheet;
-                    Excel.Range range = worksheet.UsedRange;
+                ExcelWorksheet workSheet = package.Workbook.Worksheets[1]; // Read sheet 1.
+                object ced = null;
 
+                do
+                {
+                    ced = workSheet.Cells[startRow, startColumn].Value;
+                    if(ced == null) { break; }
+                    object n1 = workSheet.Cells[startRow, startColumn + 1].Value;
+                    object n2 = workSheet.Cells[startRow, startColumn + 2].Value;
+                    object a1 = workSheet.Cells[startRow, startColumn + 3].Value; 
+                    object a2 = workSheet.Cells[startRow, startColumn + 4].Value;
+                    object nac = workSheet.Cells[startRow, startColumn + 5].Value;
+                    object email = workSheet.Cells[startRow, startColumn + 6].Value;
+                    object sexo = workSheet.Cells[startRow, startColumn + 7].Value;
+
+                    var genero = (sexo.ToString() == "F" || sexo.ToString() == "Femenino" || sexo.ToString() == "Mujer") ? false : true;
+
+                    ApplicationUser user = new ApplicationUser(){
+                        Cedula = (ced == null) ? "" : ced.ToString(),
+                        Nombre1 = (n1 == null) ? "" : n1.ToString(),
+                        Nombre2 = (n2 == null) ? null : n2.ToString(),
+                        Apellido1 = (a1 == null) ? "" : a1.ToString(),
+                        Apellido2 = (a2 == null) ? "" : a2.ToString(),
+                        Email = (email == null) ? "" : email.ToString(),
+                        // Fecha_Expiracion = DateTime.Now,
+                        // UserName = (ced == null) ? "" : ced.ToString(),
+                        // Estado = true,
+                        Sexo = genero,
+                    };
+
+                    // En caso de que la fecha de nacimiento sea errónea por completo se dispondrá la fecha actual.
+                    var nacimiento = DateTime.Today;
+
+                    if (nac != null)
+                    {
+                        string terminos = "";
+                        try
+                        {
+                            terminos = Regex.Replace(nac.ToString(), @"[-.\\]", "/");
+                            nacimiento = Convert.ToDateTime(terminos);
+
+                            if ((nacimiento.Year < (DateTime.Today.Year - 80)) || (nacimiento.Year > (DateTime.Today.Year - 10)))
+                            {
+                                nacimiento = DateTime.Today;
+                            }
+                        }
+                        catch (Exception)
+                        {
+
+                            string[] valores = terminos.Split('/');
+                            string date = "";
+
+                            // Formato #1: Si es de formato dd/mm/aaaa ó mm/dd/aaaa
+                            string patternDMA = @"(\d\d?)[-.\\/](\d\d?)[-.\\/](\d{4})";
+
+                            // Formato #2: Si es de formato aaaa/mm/dd ó aaaa/dd/mm
+                            string patternADM = @"(\d{4})[-.\\/](\d\d?)[-.\\/](\d\d?)";
+
+                            Match matchDMA = Regex.Match(nac.ToString(), patternDMA);
+                            Match matchADM = Regex.Match(nac.ToString(), patternADM);
+
+                            // Formato #1 (Día, Mes, Año) ó (Mes, Día, Año).
+                            if (matchDMA.Success)
+                            {
+                                date = (Convert.ToInt16(valores[1]) > 12) ? valores[1] + "/" + valores[0] + "/" + valores[2] : valores[0] + "/" + valores[1] + "/" + valores[2];
+                            }
+
+                            // Formato #2 (Año, Mes, Día) ó (Año, Día, Mes).
+                            if (matchADM.Success)
+                            {
+                                date = (Convert.ToInt16(valores[1]) > 12) ? valores[1] + "/" + valores[2] + "/" + valores[0] : valores[2] + "/" + valores[1] + "/" + valores[0];
+                            }
+
+                            try
+                            {
+                                //  Prueba realizada el 24/01/2019.
+                                // Si el año del documento Excel es menor que 1939 (2019 - 80 = 1939) ó el año del documento Excel es < que 2009 (2019 - 10 = 2009).
+                                if ((Convert.ToDateTime(date).Year < (nacimiento.Year - 80)) || (Convert.ToDateTime(date).Year > (nacimiento.Year - 10)))
+                                {
+                                    throw;
+                                }
+                                nacimiento = Convert.ToDateTime(date);
+                            }
+                            catch (Exception)
+                            {
+                                nacimiento = DateTime.Today;
+                            }
+                        }
+                    }
+
+                    user.Fecha_Nacimiento = nacimiento;
+
+                    startRow++;
+
+                    ls.Add(user);
+
+                } while (ced != null);
+
+            }catch (Exception){}
+
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
+
+            return Json(ls, JsonRequestBehavior.AllowGet);
+        }
+    }
+}
+
+
+
+/*
+ 
                     List<ApplicationUser> listUsrs = new List<ApplicationUser>();
 
                     for (int row = 2; row <= range.Rows.Count; row++)
@@ -686,38 +710,4 @@ namespace SOGIP_v2.Controllers
                         listUsrs.Add(user);
 
                     }
-
-                    ViewBag.ListUsrs = listUsrs;
-
-                    workbook.Close();
-
-                    System.Diagnostics.Process[] process = System.Diagnostics.Process.GetProcessesByName("Excel");
-                    foreach (System.Diagnostics.Process p in process)
-                    {
-                        if (!string.IsNullOrEmpty(p.ProcessName))
-                        {
-                            try { p.Kill(); }
-                            catch { }
-                        }
-                    }
-
-                    return View("Success");
-                }
-
-                else
-                {
-                    ViewBag.Error = "El tipo de archivo no es aceptado. <br>";
-                    return View("IndexMasivo");
-                }
-
-            }
-
-        }
-
-        [HttpPost]
-        public ActionResult Guardar()
-        {
-            return View("IndexMasivo");
-        }
-    }
-}
+     */
