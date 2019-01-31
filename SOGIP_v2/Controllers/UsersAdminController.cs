@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using System;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Web.UI;
@@ -16,6 +15,8 @@ using System.Data;
 using System.Web.UI.WebControls;
 using System.Data.SqlClient;
 using System.Web.Security;
+using OfficeOpenXml;
+using System.Text.RegularExpressions;
 
 namespace SOGIP_v2.Controllers
 {
