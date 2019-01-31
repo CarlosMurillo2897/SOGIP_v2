@@ -2,196 +2,89 @@
 
 @{
     ViewBag.Title = "Registro Masivo";
-    @Styles.Render("~/Contents/bootstrap-datepicker.css")
-    @Styles.Render("~/Content/jquery.timepicker.css")
 }
 
-<style>
-    .image-preview-input {
-        position: relative;
-        overflow: hidden;
-        margin: 0px;
-        color: #333;
-        background-color: #fff;
-        border-color: #ccc;
-    }
+@Styles.Render("~/Content/manual.css")
 
-        .image-preview-input input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            margin: 0;
-            padding: 0;
-            cursor: pointer;
-            opacity: 0;
-            filter: alpha(opacity=0);
+@*<div class="container">
+
+    <div class="masivo" id="registro_tabla" name="registro_tabla">
+        <div class="col-md-10">
+
+        </div>
+
+        @using (Html.BeginForm("Import", "UsersAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.Raw(ViewBag.Error)
+
+            <span>Seleccione el archivo Excel a importar: </span><input type="file" name="excelfile" value="Cargar" />
+            <br />
+            <br />
+            <br />
+
+            <input type="submit" value="Importar" />
+
         }
 
-    .image-preview-input-title {
-        margin-left: 2px;
-    }
+    </div>
 
-    .glyphicon-remove {
-        color: red;
-    }
+</div>*@
 
-    #folder {
-        color: #ffe698;
-    }
+@using (Html.BeginForm("Import", "UsersAdmin", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
+{
+    <div class="container">
 
-    .glyphicon-upload {
-        color: limegreen;
-    }
+        <h2 class="col-md-3" style="color: black">
+            <a href="/Home/Index/" class="btn btn-success" type="button">
+                <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
+            </a>
+        </h2>
+        <h2 class="col-md-1" style="color: black">
+            |
+        </h2>
+        <h2 class="col-md-5" style="color: black">
+            Registros > Usuarios > @ViewBag.Title
+        </h2>
+        <h2 class="col-md-1" style="color: black">
+            |
+        </h2>
+        @*<h2 class="col-md-2" style="color: black">
+                <a href="/UsersAdmin/Create/" class="btn btn-success" type="button">
+                    Crear nuevo usuario&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
+                </a>
+            </h2>*@
 
-    #upload {
-        border-radius: 0px 4px 4px 0px;
-    }
+        <br />
+        <br />
 
-    .invent {
-        color: limegreen;
-        cursor: pointer;
-    }
+        <div class="card card-default col-lg-12">
 
-</style>
+            <div class="ing_mas">
 
-<div class="panel panel-body" style="min-height:331px;">
-    <div class="col-md-12" style="margin-bottom: 20px;">
-        <div class="container col-md-6 col-md-offset-3">
-            <div class="input-group image-preview">
-                <input type="text" class="form-control image-preview-filename" disabled="disabled">
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        <span class="hidden-xs">Eliminar</span>
-                    </button>
-                    <span id="upload" class="btn btn-default image-preview-input">
-                        <span id="folder" class="glyphicon glyphicon-folder-open"></span>
-                        <span class="image-preview-input-title hidden-xs"> Buscar </span>
-                        <input type="file" id="excelfile" accept=".xlsx,.xls" />
-                    </span>
-                    <button id="submit" onclick="uploadImage()" class="btn btn-default" style="display: none;">
-                        <span class="glyphicon glyphicon-upload"></span>
-                        <span class="hidden-xs"> Subir </span>
-                    </button>
-                </span>
+                <div class="row" align="center">
+                    <br />
+                    <div class="col-md-6" align="center">
+                        <div class="form-group files" align="center">
+                            <label>Seleccione un archivo tipo Excel para la carga masiva de datos. </label>
+                            <input type="file" name="excelfile" id="masivo" class="form-control" multiple="" value="Cargar">
+                        </div>
+                    </div>
+
+                </div>
+                <br />
+                <br />
+                <input type="submit" class="btn btn-default" id="btn_sub_form" value="Importar" />
+                <br />
+                <br />
             </div>
-        </div>
-    </div>
-    <div id="UpdatePanel">
-        <table class="table table-bordered table-responsive table-striped">
-            <thead>
-                <tr>
-                    <th>Cédula</th>
-                    <th>1° Nombre</th>
-                    <th>2° Nombre</th>
-                    <th>1° Apellido</th>
-                    <th>2° Apellido</th>
-                    <th>E-mail</th>
-                    <th>Nacimiento</th>
-                    <th>Sexo</th>
-                    <th style="text-align: center;">
-                        <span class="glyphicon glyphicon-cog"></span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="tr_1">
-                    <td>402360192</td>
-                    <td>Carlos</td>
-                    <td>Isaias</td>
-                    <td>Murillo</td>
-                    <td>Badilla</td>
-                    <td>cmb28@hotmail.com</td>
-                    <td>28/08/1997</td>
-                    <td>Masculino</td>
-                    <td style="text-align: center;">
-                        <span class="glyphicon glyphicon-pencil invent" data-toggle="modal" onclick="charge(this)" data-target="#myModal"></span>
-                    </td>
-                </tr>
-                <tr id="tr_2">
-                    <td>2342</td>
-                    <td>Susan</td>
-                    <td>MAría</td>
-                    <td>Murillo</td>
-                    <td>Badilla</td>
-                    <td>smurillo_13@hotmail.com</td>
-                    <td>13/09/1993</td>
-                    <td>Femenino</td>
-                    <td style="text-align: center;">
-                        <span class="glyphicon glyphicon-pencil invent" data-toggle="modal" onclick="charge(this)" data-target="#myModal"></span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <a href="#" class="close" data-dismiss="modal">&times;</a>
-                    <h3 class="modal-title">Información de Usuario</h3>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" value="original" id="hidden">
-                    <form id="myForm">
-                        <div class="form-group">
-                            <label>Cédula: </label>
-                            <input type="text" class="form-control" placeholder="Cédula" id="ced" />
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Primer Nombre: </label>
-                                <input type="text" class="form-control" placeholder="Primer Nombre" id="nom1" />
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Segundo Nombre: </label>
-                                <input type="text" class="form-control" placeholder="Segundo Nombre" id="nom2" />
-                            </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Primer Apellido: </label>
-                                <input type="text" class="form-control" placeholder="Primer Apellido" id="apel1" />
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Segundo Apellido: </label>
-                                <input type="text" class="form-control" placeholder="Segundo Apellido" id="apel2" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>E-mail: </label>
-                                <input type="text" class="form-control" placeholder="E-mail" id="email" />
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Nacimiento: </label>
-                                <div class="input-group date" id="dtp">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                    <input class="form-control" type="text" />
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Género: </label>
-                                <select class="form-control" id="sexo">
-                                    <option>Masculino</option>
-                                    <option>Femenino</option>
-                                </select>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
-                    <a href="#" class="btn btn-success" onclick="actualizar()">Guardar</a>
-                </div>
-            </div>
         </div>
+        @Html.Raw(TempData["msg"])
     </div>
-</div>
+}
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/expedientes.js")
+
 }

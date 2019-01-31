@@ -3,7 +3,7 @@ namespace SOGIP_v2.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class ALL : DbMigration
+    public partial class _all : DbMigration
     {
         public override void Up()
         {
@@ -195,19 +195,6 @@ namespace SOGIP_v2.Migrations
                 .Index(t => t.UsuarioId_Id_Id);
             
             CreateTable(
-                "dbo.SOGIP_Color",
-                c => new
-                    {
-                        ColorId = c.Int(nullable: false, identity: true),
-                        Nombre = c.String(maxLength: 60),
-                        Codigo = c.String(maxLength: 60),
-                        Seleccionado = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.ColorId)
-                .Index(t => t.Nombre, unique: true)
-                .Index(t => t.Codigo, unique: true);
-            
-            CreateTable(
                 "dbo.SOGIP_Conjunto_Ejercicio",
                 c => new
                     {
@@ -315,17 +302,6 @@ namespace SOGIP_v2.Migrations
                 .PrimaryKey(t => t.HorarioId);
             
             CreateTable(
-                "dbo.SOGIP_Parametro",
-                c => new
-                    {
-                        ParametroId = c.Int(nullable: false, identity: true),
-                        Nombre = c.String(maxLength: 60),
-                        Valor = c.String(),
-                    })
-                .PrimaryKey(t => t.ParametroId)
-                .Index(t => t.Nombre, unique: true);
-            
-            CreateTable(
                 "dbo.SOGIP_Roles",
                 c => new
                     {
@@ -334,16 +310,6 @@ namespace SOGIP_v2.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Name, unique: true, name: "RoleNameIndex");
-            
-            CreateTable(
-                "dbo.SOGIP_Tipo",
-                c => new
-                    {
-                        TipoId = c.Int(nullable: false, identity: true),
-                        Nombre = c.String(maxLength: 60),
-                    })
-                .PrimaryKey(t => t.TipoId)
-                .Index(t => t.Nombre, unique: true);
             
         }
         
@@ -371,9 +337,7 @@ namespace SOGIP_v2.Migrations
             DropForeignKey("dbo.SOGIP_UserRoles", "UserId", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_UserLogins", "UserId", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_UserClaims", "UserId", "dbo.SOGIP_Users");
-            DropIndex("dbo.SOGIP_Tipo", new[] { "Nombre" });
             DropIndex("dbo.SOGIP_Roles", "RoleNameIndex");
-            DropIndex("dbo.SOGIP_Parametro", new[] { "Nombre" });
             DropIndex("dbo.SOGIP_Funcionario_ICODER", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Funcionario_ICODER", new[] { "Entrenador_Id" });
             DropIndex("dbo.SOGIP_Expedientes_Fisicos", new[] { "Atleta_AtletaId" });
@@ -383,8 +347,6 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_Entidad_Publica", new[] { "Tipo_Entidad_Tipo_EntidadId" });
             DropIndex("dbo.SOGIP_Rutina", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Conjunto_Ejercicio", new[] { "ConjuntoEjercicioRutina_RutinaId" });
-            DropIndex("dbo.SOGIP_Color", new[] { "Codigo" });
-            DropIndex("dbo.SOGIP_Color", new[] { "Nombre" });
             DropIndex("dbo.SOGIP_Cita", new[] { "UsuarioId_Id_Id" });
             DropIndex("dbo.SOGIP_Tipo_Deporte", new[] { "Descripcion" });
             DropIndex("dbo.SOGIP_Deportes", new[] { "TipoDeporte_Tipo_DeporteId" });
@@ -404,9 +366,7 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_UserClaims", new[] { "UserId" });
             DropIndex("dbo.SOGIP_Users", "UserNameIndex");
             DropIndex("dbo.SOGIP_Archivo", new[] { "Usuario_Id" });
-            DropTable("dbo.SOGIP_Tipo");
             DropTable("dbo.SOGIP_Roles");
-            DropTable("dbo.SOGIP_Parametro");
             DropTable("dbo.SOGIP_Horario");
             DropTable("dbo.SOGIP_Funcionario_ICODER");
             DropTable("dbo.SOGIP_Expedientes_Fisicos");
@@ -415,7 +375,6 @@ namespace SOGIP_v2.Migrations
             DropTable("dbo.SOGIP_Entidad_Publica");
             DropTable("dbo.SOGIP_Rutina");
             DropTable("dbo.SOGIP_Conjunto_Ejercicio");
-            DropTable("dbo.SOGIP_Color");
             DropTable("dbo.SOGIP_Cita");
             DropTable("dbo.SOGIP_Tipo_Deporte");
             DropTable("dbo.SOGIP_Deportes");
