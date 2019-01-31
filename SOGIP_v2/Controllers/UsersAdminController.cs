@@ -142,6 +142,16 @@ namespace SOGIP_v2.Controllers
             
             return Json(users, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult getEntrenador2()
+        {
+
+            var data = new ApplicationDbContext();
+            var users = data.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("2")).ToList();
+
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
         //
         // GET: /Users/Create
         //[HttpGet]
@@ -162,16 +172,17 @@ namespace SOGIP_v2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, string selectedRoles, int? SelectedCategory, int? SelectedSport, FormCollection form, HttpPostedFileBase CV)
         {
+            
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
                 {
                     UserName = userViewModel.Cedula,
                     Email = userViewModel.Email,
-                    Nombre1 = userViewModel.Nombre1.ToUpper(),
-                    Nombre2 = userViewModel.Nombre2.ToUpper(),
-                    Apellido1 = userViewModel.Apellido1.ToUpper(),
-                    Apellido2 = userViewModel.Apellido2.ToUpper(),
+                    Nombre1 = (userViewModel.Nombre1==null)?null: userViewModel.Nombre1.ToUpper(),
+                    Nombre2 = (userViewModel.Nombre2 == null) ? null : userViewModel.Nombre2.ToUpper(),
+                    Apellido1 = (userViewModel.Apellido1 == null) ? null : userViewModel.Apellido1.ToUpper(),
+                    Apellido2 = (userViewModel.Apellido2 == null) ? null : userViewModel.Apellido2.ToUpper(),
                     Cedula = userViewModel.Cedula,
                     Fecha_Nacimiento = userViewModel.Fecha_Nacimiento,
                     Sexo = userViewModel.Sexo,
@@ -187,7 +198,7 @@ namespace SOGIP_v2.Controllers
                     if (selectedRoles != null)
                     {
                         var result = await UserManager.AddToRoleAsync(user.Id, selectedRoles);
-
+                        
                         if (selectedRoles == "Atleta Becados")
                         {
                             selectedRoles = "Atleta";
@@ -198,13 +209,16 @@ namespace SOGIP_v2.Controllers
 
                             case "Seleccion/Federacion":
                                 {
+                                    var en = form["hidef"].ToString();
+                                    var deporte = db.Deportes.Single(x => x.DeporteId == SelectedSport);
+                                    var cat = db.Categorias.Single(x => x.CategoriaId == SelectedCategory);
                                     Seleccion seleccion = new Seleccion()
                                     {
-                                        //Nombre_Seleccion = "Seleccion" + form["sele_n"].ToString() + "de" + form["sele_m"].ToString(),
-                                        Nombre_Seleccion = form["sele_n"].ToString().ToUpper(),
+                                        Nombre_Seleccion = "SELECCIÓN" + " " + cat.Descripcion + " " + "DE" + " " + deporte.Nombre,
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
                                         Deporte_Id = db.Deportes.Single(x => x.DeporteId == SelectedSport),
                                         Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
+                                        Entrenador_Id = db.Users.Where(x => x.Cedula == en).FirstOrDefault()
                                     };
 
                                     db.Selecciones.Add(seleccion);
@@ -253,10 +267,11 @@ namespace SOGIP_v2.Controllers
 
                             case "Funcionarios ICODER":
                                 {
+                                    var en = form["hidef"].ToString();
                                     Funcionario_ICODER funcionario = new Funcionario_ICODER()
                                     {
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
-                                        Entrenador = db.Users.Single(x => x.Cedula == "114070986") // Cédula de Josafat, esto es momentáneo.
+                                        Entrenador = db.Users.Single(x => x.Cedula == en) // Cédula de Josafat, esto es momentáneo.
                                     };
 
                                     db.Funcionario_ICODER.Add(funcionario);

@@ -238,29 +238,7 @@
                                 </div>
                             </div>
                         </td>
-                       
-                    </tr>
-                    <tr hidden id="info_seleccion_nombre">
-                        <td>
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar entrenador   <span class="glyphicon glyphicon-search"></span></button>
-                                    
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr hidden id="info_selec_entre">
-                        <td>
-                        <table>
-                            <thead>
-                                <tr>Cedula</tr>
-                                <tr>Nombre</tr>
-                                <tr>1° Apellido</tr>
-                                <tr>2° Apellido</tr>
-                            </thead>
-                        </table>
-                         </td>
+
                     </tr>
 
                     @* DATOS DE ENTIDADES PUBLICAS *@
@@ -358,12 +336,27 @@
                     @*DATOS PARA F.ICODER*@
                     <tr hidden id="title_icoder"><th><h4>ASPECTOS GENERALES DE FUNCIONARIOS ICODER</h4></th></tr>
 
-                    <tr hidden id="info_icoder">
+
+                    @*Selecciones y funcionarios*@
+                    <tr hidden id="btnE">
+                        <td>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar entrenador   <span class="glyphicon glyphicon-search"></span></button>
+
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr hidden id="inpE">
                         <td>
                             <div>
-                                <div class="col-md-10">
-                                    @Html.Label("Entrenador predeterminado", new { @class = "control-label" })
-                                    <input type="text" class="entrenadorF form-control" name="entrenadorF" id="entrenadorF" placeholder="114070986" readonly />
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
+                                        <input type="hidden" class="hidef form-control" name="hidef" id="hidef" readonly />
+                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -393,7 +386,17 @@
                             <span class="glyphicon glyphicon-question-sign"></span> Ayuda
                         </a>
                         <hr />
-                        <table id="example" class="display" style="width:100%"></table> 
+                        <table id="example" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Acción</th>
+                                    <th>Nombre</th>
+                                    <th>1° Apellido</th>
+                                    <th>2° Apellido</th>
+                                </tr>
+                            </thead>
+                        </table> 
                         <div class="modal-footer">
                             <br />
                             <button type="button" id="btnSave" data-dismiss="modal" class="btn btn-success">Guardar Cambios</button>
@@ -418,62 +421,5 @@
     <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
-    <script>
-
-        var table;
-        var dataSet = [];
-
-        $.ajax({
-            type: "POST",
-            dataType: "JSON",
-            url: "/UsersAdmin/getEntrenador",
-            success: function (data) {
-                $.each(data, function (i, v) {
-                    dataSet.push(["",v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
-                })
-                table= $('#example').DataTable({
-                    data: dataSet,
-                    columns: [
-                        { title: "Acción" },
-                        { title: "Cédula"},
-                        { title: "Nombre"},
-                        { title: "1° Apellido"},
-                        { title: "2° Apellido"}
-                    ],
-                    'columnDefs': [
-                        {
-                            orderable: false,
-                            className: 'select-checkbox',
-                            targets: [0]
-                        }
-                    ],
-                    'select': {
-                        'style': 'os',
-                        'selector': 'td:first-child'
-                    }
-                });
-            },
-
-            error: function (error) {
-                alert("Fallo");
-            }
-        });
-
-        $('#btnSave').click(function () {
-
-            var tblData = table.rows('.selected').data();
-            var tmpData;
-            $.each(tblData, function (i, val) {
-                tmpData = tblData[i]; //jala toda la info
-                alert(tmpData);
-            });
-            
-        });
-
-
-        $(document).ready(function () {
-            $('[data-toggle="popover"]').popover();
-        });
-
-    </script>
+   
 }

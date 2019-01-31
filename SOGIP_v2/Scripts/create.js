@@ -18,6 +18,8 @@
 
 });
 
+var direccion;
+
 function formulario() {
     var rol_selected = $('#selectedRoles option:selected').val();
 
@@ -45,6 +47,7 @@ function formulario() {
 
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+            $('#inpE').hide();
 
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
@@ -52,6 +55,7 @@ function formulario() {
 
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
+            $('#btnE').hide();
             break;
 
         case "Atleta":
@@ -68,6 +72,7 @@ function formulario() {
 
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+            $('#inpE').hide();
 
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
@@ -75,6 +80,7 @@ function formulario() {
 
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
+            $('#btnE').hide();
 
             break;
 
@@ -92,6 +98,7 @@ function formulario() {
 
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+            $('#inpE').hide();
 
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
@@ -99,6 +106,7 @@ function formulario() {
 
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
+            $('#btnE').hide();
 
             break;
 
@@ -116,6 +124,7 @@ function formulario() {
 
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+            $('#inpE').hide();
 
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
@@ -123,6 +132,7 @@ function formulario() {
 
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
+            $('#btnE').hide();
             break;
 
         case "Entrenador":
@@ -142,15 +152,20 @@ function formulario() {
 
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+            $('#inpE').hide();
 
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
             $('#info_seleccion_nombre').hide();
+            $('#btnE').hide();
             break;
 
         case "Funcionarios ICODER":
             $('#title_icoder').show();
-            $('#info_icoder').show();
+            $('#btnE').show();
+            $('#inpE').val('');
+            $('#inpE').hide();
+            
 
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
@@ -169,12 +184,18 @@ function formulario() {
 
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
+            $('#info_selec_entre').hide();
+            direccion = "/UsersAdmin/getEntrenador2";
+            fillDT(direccion);
             break;
 
         case "Seleccion/Federacion":
             $('#title_seleccion').show();
             $('#info_seleccion').show();
             $('#info_seleccion_nombre').show();
+            $('#btnE').show();
+            $('#inpE').val('');
+            $('#inpE').hide();
 
             $('#title_aso').hide();
             $('#info_aso').hide();
@@ -189,9 +210,12 @@ function formulario() {
 
             $('#title_icoder').hide();
             $('#info_icoder').hide();
+            $('#info_func').hide();
 
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
+            direccion = "/UsersAdmin/getEntrenador";
+            fillDT(direccion);
             break;
 
         default:
@@ -215,11 +239,108 @@ function formulario() {
 
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
+            $('#btnE').hide();
+            $('#inpE').hide();
             break;
 
     }
 
 }
+
+//Elección de entrenadores
+function dataTable(direccion) {
+    var table;
+    var dataSet = [];
+
+    $.ajax({
+        type: "POST",
+        dataType: "JSON",
+        url: direccion,
+        success: function (data) {
+                $.each(data, function (i, v) {
+                dataSet.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
+            })
+            table = $('#example').DataTable({
+
+                // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+                // "iDisplayLength": 5,
+                "language": {
+                    "lengthMenu": "Mostrando MENU resultados por página.",
+                    "zeroRecords": "No se han encontrado resultados.",
+                    "info": "Mostrando página PAGE de PAGES.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de MAX datos obtenidos).",
+                    "search": "Buscar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                data: dataSet,
+                columns: [
+                    { title: "Acción" },
+                    { title: "Cédula" },
+                    { title: "Nombre" },
+                    { title: "1° Apellido" },
+                    { title: "2° Apellido" }
+                ],
+                'columnDefs': [
+                    {
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets: [0]
+                    }
+                ],
+                'select': {
+                    'style': 'os',
+                    'selector': 'td:first-child'
+                }
+            });
+        },
+
+        error: function (error) {
+            alert("Fallo");
+        }
+    });
+
+    $('#btnSave').click(function () {
+
+        var tblData = table.rows('.selected').data();
+        $.each(tblData, function (i, val) {
+            var r = confirm("Desea realizar el cambio?");
+
+            if (r == true) {
+                $('#inpE').show();
+                document.getElementById("einf").value = val[1] + " " + val[2] + " " + val[3] + " " + val[4];
+                document.getElementById("hidef").value = val[1];
+            }
+            else {
+                $("#me").modal('show');
+
+            }
+
+
+        });
+
+    });
+
+}
+
+function fillDT(direccion) {
+    var isE = $('#example').DataTable();
+    isE.destroy(); //es mejor destruirla para poder incializarla
+    dataTable(direccion);
+  
+
+}
+
+$(document).ready(function () {
+    $('[data-toggle="popover"]').popover();
+});
+
+//******************************************************************************//
 
 function isNumber(evt) {  // Aceptar solo números y otros comandos en la cédula.
 

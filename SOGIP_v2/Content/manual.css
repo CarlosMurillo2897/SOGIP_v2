@@ -135,45 +135,29 @@ select{
     text-align: center;
 }
 /*TABLA DE ENTRENADORES SELECCIÓN Y FUNCIONARIOS*/
-/*#example {
-    border-collapse: collapse;
-    width: 100%;
-    overflow-x: scroll;
-    display: block;
+
+
+#ent {
+    border: 1px solid #656565;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 10px 10px 5px #888888;
+    width: 300px;
+    margin-bottom: 15px;
+    border-spacing: 0;
 }
 
-    #example td, #example th {
-        border: 1px solid #ddd;
-        min-width: 215px;
-        height: 40px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        max-width:215px;
+    #ent thead {
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 5px;
+        background-color: lightgray;
     }
 
-    #example tbody {
-        overflow-y: scroll;
-        overflow-x: hidden;
-        height: 140px;
-        display: block;
-    }
 
-#example th{
-    background-color: #34495e;
-    color: white;
-}
 
-#example tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-#example tr:nth-child(odd) {
-    background-color: #efe599;
-}
-
-#example tr:hover {
-    background-color: #ddd;
-}*/
 
 
 
