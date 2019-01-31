@@ -631,7 +631,8 @@ namespace SOGIP_v2.Controllers
                         terminacion = ").xls";
                     }
 
-                    string name = excelfile.FileName.Substring(0, fin);
+
+                   /* string name = excelfile.FileName.Substring(0, fin);
                     string path = Server.MapPath("~/Content/Registros/Excel/" + name +
                                                  "(" + DateTime.Now.Year.ToString() + "-"
                                                  + DateTime.Now.Month.ToString() + "-"
@@ -654,36 +655,55 @@ namespace SOGIP_v2.Controllers
                     List<ApplicationUser> listUsrs = new List<ApplicationUser>();
 
                     for (int row = 2; row <= range.Rows.Count; row++)
-                    {
+                    {*/
 
-                        var user = new ApplicationUser
-                        {
-                            UserName = ((Excel.Range)range.Cells[row, 1]).Text,
-                            Nombre1 = ((Excel.Range)range.Cells[row, 2]).Text,
-                            Nombre2 = ((Excel.Range)range.Cells[row, 3]).Text,
-                            Apellido1 = ((Excel.Range)range.Cells[row, 4]).Text,
-                            Apellido2 = ((Excel.Range)range.Cells[row, 5]).Text,
-                            Sexo = (((Excel.Range)range.Cells[row, 8]).Text == "M") ? true : false,
-                            Email = ((Excel.Range)range.Cells[row, 11]).Text,
-                            PhoneNumber = ((Excel.Range)range.Cells[row, 12]).Text,
-                            Fecha_Expiracion = DateTime.Now
-                        };
+                    user.Fecha_Nacimiento = nacimiento;
 
-                        string fecha = ((Excel.Range)range.Cells[row, 14]).Text;
-                        string[] campos = fecha.Split('/');
+                    startRow++;
 
-                        user.Fecha_Nacimiento = DateTime.Parse(campos[1] + "/" + campos[0] + "/" + campos[2]);
-                        user.Cedula = user.UserName;
+                    ls.Add(user);
 
-                        var compPass = composicionPassword(user.Nombre1, user.Apellido1, user.Cedula, user.Fecha_Nacimiento);
+                } while (ced != null);
 
-                        var adminresult = await UserManager.CreateAsync(user, compPass);
+            }catch (Exception){}
 
-                        if (adminresult.Succeeded) {
-                            var result = await UserManager.AddToRoleAsync(user.Id, "Atleta");
-                        }
+            if (System.IO.File.Exists(path))
+            {
+                System.IO.File.Delete(path);
+            }
 
-                        listUsrs.Add(user);
+            return Json(ls, JsonRequestBehavior.AllowGet);
+        }
+
+
+        /*public JsonResult CrearMasivo(List<ApplicationUser> users)
+        {
+
+            try
+            {
+                foreach (var item in users)
+                {
+                    db.Users.Add(item);
+                    db.SaveChanges();
+                    item.Roles.Add(new IdentityUserRole{ UserId = item.Id, RoleId = "5" });
+                    /*db.Atletas.Add(new Atleta {
+                        Seleccion = db.Selecciones.SingleOrDefault(x => x.SeleccionId == 1),
+                        Usuario = db.Users.SingleOrDefault(x=>x.Id == item.Id),
+                        Localidad = null, 
+                    });*/
+                }
+                
+                db.SaveChanges();
+            }
+            catch(Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+     //   } 
+
 
                     }
 
@@ -719,5 +739,6 @@ namespace SOGIP_v2.Controllers
         {
             return View("IndexMasivo");
         }
+
     }
 }

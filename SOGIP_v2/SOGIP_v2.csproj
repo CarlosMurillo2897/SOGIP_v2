@@ -444,6 +444,7 @@
     <Content Include="Content\Imagenes\fondo_d.png" />
     <Content Include="Content\Imagenes\fondo_e.png" />
     <Content Include="Content\Imagenes\icoder_blanco.png" />
+    <Content Include="Content\Imagenes\loader.gif" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
     <Content Include="Content\Imagenes\logo_white.png" />
     <Content Include="Content\Imagenes\trianglify.png" />
@@ -772,7 +773,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\UsersAdmin\Create.cshtml" />
-    <Content Include="Views\UsersAdmin\Delete.cshtml" />
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
     <Content Include="Views\Estados\Create.cshtml" />
@@ -781,7 +781,6 @@
     <Content Include="Views\Estados\Edit.cshtml" />
     <Content Include="Views\Estados\Index.cshtml" />
     <Content Include="Views\UsersAdmin\IndexMasivo.cshtml" />
-    <Content Include="Views\UsersAdmin\Success.cshtml" />
     <Content Include="Views\Horario\Create.cshtml" />
     <Content Include="Views\Horario\Delete.cshtml" />
     <Content Include="Views\Horario\Details.cshtml" />

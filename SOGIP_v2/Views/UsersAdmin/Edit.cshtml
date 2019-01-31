@@ -1,10 +1,18 @@
 ﻿@model SOGIP_v2.Models.EditUserViewModel
 @using Microsoft.AspNet.Identity
 @using App.Extensions
+
 @{
     ViewBag.Title = "Editar";
     @Styles.Render("~/Content/Edit.css")
     @Styles.Render("~/Content/manual.css")
+
+    ViewBag.Controller = "Usuarios";
+
+    // // Si existe un Control se dispone el nombre del Control y ícono que se mostrará.
+    ViewBag.Control = "UsersAdmin";
+    ViewBag.ControlIcono = "glyphicon-user";
+
 
 
     List<SelectListItem> Sexo = new List<SelectListItem>();
@@ -28,13 +36,10 @@
     @Html.HiddenFor(model => model.Id)
     <div class="container">
         <div class="row">
-            <br />
-            <br />
-            <div class="col-md-6 col-lg-8  toppad">
+            <div class="col-md-6 col-lg-8 toppad">
                 <div class="panel panel-primary">
                     <div class="panel-heading">
                         <h3 class="panel-title">Información de Usuario</h3>
-
                     </div>
                     <div class="panel-body">
                         <div class="row">

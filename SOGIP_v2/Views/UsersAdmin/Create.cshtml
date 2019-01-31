@@ -4,6 +4,15 @@
 @{
     ViewBag.Title = "Registro Manual";
 
+    ViewBag.Control = "UsersAdmin";
+
+    ViewBag.Controller = "Usuarios";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    ViewBag.Metodo = "Create";
+    ViewBag.MetodoIcono = "glyphicon-pencil";
+
+
     List<SelectListItem> Sexo = new List<SelectListItem>();
     Sexo.Add(new SelectListItem
     {
@@ -23,75 +32,34 @@
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
-
 <div class="container">
 
-    @*
-        <h2 class="col-md-12" style="color: black">
-            <a href="/UsersAdmin/Index/" class="btn btn-success" type="button">
-                <i class="glyphicon glyphicon-chevron-left"></i>Volver a Lista de Usuarios&nbsp;
-            </a>
-            | Registros > Usuarios > @ViewBag.Title |
-        </h2>*@
 
-    <br />
 
-    <h2 class="col-md-3" style="color: black">
-        <a href="/UsersAdmin/Index/" class="btn btn-success" type="button">
-            <i class="glyphicon glyphicon-chevron-left"></i>Volver a Lista de Usuarios&nbsp;
-        </a>
-    </h2>
-    <h2 class="col-md-1" style="color: black">
-        |
-    </h2>
-    <h2 class="col-md-5" style="color: black">
-        Registros > Usuarios > @ViewBag.Title
-    </h2>
-    <h2 class="col-md-1" style="color: black">
-        |
-    </h2>
 
-    <br />
-    <br />
+            @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+            {
 
-    @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-    {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true)
+                @Html.ValidationSummary(false, "Los siguientes campos obligatorios están vacios: ")
+                <div class="container">
 
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true)
-        @Html.ValidationSummary(false, "Los siguientes campos obligatorios están vacios: ")
-        <div class="container">
-
-            <div class="card card-default">
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <label class="control-label">
-                            Seleccione el rol del usuario
-                        </label>
-                        <select id="selectedRoles" name="selectedRoles" class="form-control">
-                            @foreach (var item in (SelectList)ViewBag.RoleId)
-                            {
-                                <option>
-                                    @Html.Label(item.Text, new { @class = "control", id = "selectRol" })
-                                </option>
-                            }
-                        </select>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-10">
-                        <h4>DATOS PERSONALES</h4>
-                    </div>
-                    <div class="col-md-1 col-lg-3">
+                    <div class="card card-default">
                         <div class="form-group">
-                            <div class="col-md-10">
-                                @Html.LabelFor(m => m.Cedula, new { @class = "control-label" })
-                                <br />
-                                Nacional @Html.RadioButton("Nacionalidad", "Nacional", true, new { @onchange = "cls('10')", id = "CedNa" })
-                                Extranjero @Html.RadioButton("Nacionalidad", "Extranjero", false, new { @onclick = "cls('15')", id = "CedEx" })
-                                <br />
-                                @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", id = "Cedula", maxLength = "10", placeholder = "Nacional solo números", onpaste = "pegar(event);", onkeypress = "return isNumber(event);" })
+                            <div class="col-md-4">
+                                <label class="control-label">
+                                    Seleccione el rol del usuario
+                                </label>
+                                <select id="selectedRoles" name="selectedRoles" class="form-control">
+                                    @foreach (var item in (SelectList)ViewBag.RoleId)
+                                    {
+                                        <option>
+                                            @Html.Label(item.Text, new { @class = "control", id = "selectRol" })
+                                        </option>
+                                    }
+                                </select>
+
                             </div>
 
                         </div>

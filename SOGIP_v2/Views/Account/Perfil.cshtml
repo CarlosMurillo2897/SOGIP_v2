@@ -4,16 +4,11 @@
 @{
     ViewBag.Title = "Perfil";
 }
-
 @Styles.Render("~/Content/Perfil.css")
-
-@*src="https://lh5.googleusercontent.com/-b0-k99FZlyE/AAAAAAAAAAI/AAAAAAAAAAA/eu7opA4byxI/photo.jpg?sz=50"*@
 
 @*<span class="pull-right"> <input class="btn btn-warning" type="button" onclick="cerrarPaneles()" value="Cerrar Paneles"></span>*@
 
-<br><br>
-<br><br>
-<div class="container">
+<div class="container" style="min-height: 369px;">
 
     <div class="well span8 offset 2">
 
@@ -223,5 +218,3 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/IndexUsuarios.js")
 }
-
-@*Html.ActionLink("Editar", "Edit", "UsersAdmin", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "editar", @class = "btn btn-warning", @type = "button" })*@

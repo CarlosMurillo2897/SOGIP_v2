@@ -3,6 +3,15 @@
 @{
 
     ViewBag.Title = "Calendario de Citas";
+
+
+    // // Si existe un Control se dispone el nombre del Control y ícono que se mostrará.
+    ViewBag.Control = "CitasAdmin";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
+    ViewBag.Metodo = "Create";
+    ViewBag.MetodoIcono = "glyphicon-edit";
     @Styles.Render("~/Content/fullcalendar.css")
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
     @Styles.Render("~/Content/jquery.timepicker.css")
@@ -17,22 +26,7 @@
 
 <div class="container-fluid">
 
-    @*<div class="col-md-12">
-            <h2 class="col-md-3" style="color: black">
-                <a href="/Home/Index/" class="btn btn-success" type="button">
-                    <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
-                </a>
-            </h2>
-            <h2 class="col-md-1" style="color: black">
-                |
-            </h2>
-            <h2 class="col-md-5" style="color: black">
-                Registros > Citas > @ViewBag.Title
-            </h2>
-            <h2 class="col-md-1" style="color: black">
-                |
-            </h2>
-        </div>*@
+
 
     <br />
     <br />
@@ -62,6 +56,31 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
+        <div id="calendar"></div>
+
+        @*MODAL PARA VER O ELIMINAR CITAS*@
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                        <button id="btnDelete" class="btn btn-default btn-sm pull-right" style="background-color:#ff4d4d;">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            Eliminar
+                        </button>
+                        <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            Editar
+                        </button>
+                        <p id="pDetails"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>

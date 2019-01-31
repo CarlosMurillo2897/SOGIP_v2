@@ -18,6 +18,7 @@ namespace SOGIP_v2.Controllers
         public ActionResult Index()
         {
             var rutina = db.Rutinas.ToList();
+            
             return View(db.Rutinas.Include("Usuario"));
         }
     

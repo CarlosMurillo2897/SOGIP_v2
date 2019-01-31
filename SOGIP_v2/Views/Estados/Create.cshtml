@@ -2,6 +2,15 @@
 
 @{
     ViewBag.Title = "Crear Estado";
+
+    ViewBag.Control = "Estados";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
+    ViewBag.Metodo = "Index";
+    ViewBag.MetodoIcono = "glyphicon-cloud";
+
+
     @Styles.Render("~/Content/Detalle_Rutina.css")
 }
 
@@ -11,25 +20,7 @@
     @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-
-    <br />
-    <br />
-    <div class="col-md-12">
-        <h2 class="col-md-3" style="color: black">
-            <a href="/Estados/Index/" class="btn btn-success" type="button">
-                <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio de Estados&nbsp;
-            </a>
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-        <h2 class="col-md-5" style="color: black">
-            Registros > Estados > @ViewBag.Title
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-    </div>
+  
 
     <br />
     <br />
