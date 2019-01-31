@@ -643,46 +643,25 @@ namespace SOGIP_v2.Controllers
 
             return Json(ls, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult CrearMasivo(List<ApplicationUser> users)
+        {
+
+            try
+            {
+                foreach (var item in users)
+                {
+                    db.Users.Add(item);
+                }
+            }
+            catch(Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
-
-
-
-/*
- 
-                    List<ApplicationUser> listUsrs = new List<ApplicationUser>();
-
-                    for (int row = 2; row <= range.Rows.Count; row++)
-                    {
-
-                        var user = new ApplicationUser
-                        {
-                            UserName = ((Excel.Range)range.Cells[row, 1]).Text,
-                            Nombre1 = ((Excel.Range)range.Cells[row, 2]).Text,
-                            Nombre2 = ((Excel.Range)range.Cells[row, 3]).Text,
-                            Apellido1 = ((Excel.Range)range.Cells[row, 4]).Text,
-                            Apellido2 = ((Excel.Range)range.Cells[row, 5]).Text,
-                            Sexo = (((Excel.Range)range.Cells[row, 8]).Text == "M") ? true : false,
-                            Email = ((Excel.Range)range.Cells[row, 11]).Text,
-                            PhoneNumber = ((Excel.Range)range.Cells[row, 12]).Text,
-                            Fecha_Expiracion = DateTime.Now
-                        };
-
-                        string fecha = ((Excel.Range)range.Cells[row, 14]).Text;
-                        string[] campos = fecha.Split('/');
-
-                        user.Fecha_Nacimiento = DateTime.Parse(campos[1] + "/" + campos[0] + "/" + campos[2]);
-                        user.Cedula = user.UserName;
-
-                        var compPass = composicionPassword(user.Nombre1, user.Apellido1, user.Cedula, user.Fecha_Nacimiento);
-
-                        var adminresult = await UserManager.CreateAsync(user, compPass);
-
-                        if (adminresult.Succeeded) {
-                            var result = await UserManager.AddToRoleAsync(user.Id, "Atleta");
-                        }
-
-                        listUsrs.Add(user);
-
-                    }
-     */

@@ -52,6 +52,49 @@
         cursor: pointer;
     }
 
+    #box {
+        /*width: 500px;*/
+        width: 45%;
+        overflow: hidden;
+        background: #f1f1f1;
+        box-shadow: 0 0 20px black;
+        border-radius: 8px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        padding: 10px;
+        text-align: center;
+            display: none;
+    }
+
+        #box span {
+            display: block;
+            margin: 20px 0;
+        }
+
+        #box h1 {
+            
+            font-size: 22px;
+        }
+
+    .cerrar {
+        font-size: 18px;
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        background: red;
+        display: inline-block;
+        border-radius: 4px;
+    }
+
+    .load{
+        width: 30%;
+    }
+
+
 </style>
 
 <div class="panel panel-body" style="min-height:331px;">
@@ -78,52 +121,18 @@
         </div>
     </div>
     <div id="UpdatePanel">
-        <table class="table table-bordered table-responsive table-striped">
-            <thead>
-                <tr>
-                    <th>Cédula</th>
-                    <th>1° Nombre</th>
-                    <th>2° Nombre</th>
-                    <th>1° Apellido</th>
-                    <th>2° Apellido</th>
-                    <th>E-mail</th>
-                    <th>Nacimiento</th>
-                    <th>Sexo</th>
-                    <th style="text-align: center;">
-                        <span class="glyphicon glyphicon-cog"></span>
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr id="tr_1">
-                    <td>402360192</td>
-                    <td>Carlos</td>
-                    <td>Isaias</td>
-                    <td>Murillo</td>
-                    <td>Badilla</td>
-                    <td>cmb28@hotmail.com</td>
-                    <td>28/08/1997</td>
-                    <td>Masculino</td>
-                    <td style="text-align: center;">
-                        <span class="glyphicon glyphicon-pencil invent" data-toggle="modal" onclick="charge(this)" data-target="#myModal"></span>
-                    </td>
-                </tr>
-                <tr id="tr_2">
-                    <td>2342</td>
-                    <td>Susan</td>
-                    <td>MAría</td>
-                    <td>Murillo</td>
-                    <td>Badilla</td>
-                    <td>smurillo_13@hotmail.com</td>
-                    <td>13/09/1993</td>
-                    <td>Femenino</td>
-                    <td style="text-align: center;">
-                        <span class="glyphicon glyphicon-pencil invent" data-toggle="modal" onclick="charge(this)" data-target="#myModal"></span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+
     </div>
+    <div class="col-md-12" id="registrar">
+        
+    </div>
+
+    <div id="box">
+        <img class="load" src="~/Content/Imagenes/loader.gif" alt="Cargando" />
+        <h1>Cargando..</h1>
+        <button onclick="pop(false)" href="#" class="cerrar">Cerrar &times;</button>
+    </div>
+
     <div class="modal fade" id="myModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
