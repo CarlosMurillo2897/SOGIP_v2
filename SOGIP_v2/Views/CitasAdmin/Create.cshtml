@@ -2,6 +2,15 @@
 
 @{
     ViewBag.Title = "Calendario de Citas";
+
+
+    // // Si existe un Control se dispone el nombre del Control y ícono que se mostrará.
+    ViewBag.Control = "CitasAdmin";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
+    ViewBag.Metodo = "Create";
+    ViewBag.MetodoIcono = "glyphicon-edit";
     @Styles.Render("~/Content/fullcalendar.css")
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
     @Styles.Render("~/Content/jquery.timepicker.css")

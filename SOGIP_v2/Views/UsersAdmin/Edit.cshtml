@@ -7,16 +7,12 @@
     @Styles.Render("~/Content/Edit.css")
     @Styles.Render("~/Content/manual.css")
 
-    // Controller en español.
     ViewBag.Controller = "Usuarios";
 
-    // Nombre original de control y ícono que se mostrará.
+    // // Si existe un Control se dispone el nombre del Control y ícono que se mostrará.
     ViewBag.Control = "UsersAdmin";
     ViewBag.ControlIcono = "glyphicon-user";
 
-    // Nombre del Método en que se encuentra y el ícono que se mostrará.
-    ViewBag.Metodo = "Edit";
-    ViewBag.MetodoIcono = "glyphicon-edit";
 
 
     List<SelectListItem> Sexo = new List<SelectListItem>();

@@ -2,6 +2,15 @@
 
 @{
     ViewBag.Title = "Cambiar ejercicios";
+
+
+
+
+    ViewBag.Control = "Rutinas";
+    ViewBag.ControlIcono = "glyphicon-user";
+    ViewBag.Controller = "Rutinas";
+
+
     @Styles.Render("~/Content/manual.css")
 
     List<SelectListItem> Color = new List<SelectListItem>();
@@ -67,27 +76,6 @@
 
 <div class="container">
 
-    <br />
-    <div class="col-md-12">
-
-        <h2 class="col-md-3" style="color: black">
-            <a href="/Rutinas/Index/" class="btn btn-success" type="button">
-                <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio de Rutinas&nbsp;
-            </a>
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-        <h2 class="col-md-5" style="color: black">
-            Registros > Rutinas > @ViewBag.Title
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-    </div>
-
-    <br />
-    <br />
 
     @using (Html.BeginForm())
     {

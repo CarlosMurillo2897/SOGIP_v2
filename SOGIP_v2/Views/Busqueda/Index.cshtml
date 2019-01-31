@@ -2,6 +2,12 @@
 
 @{
     ViewBag.Title = "Búsqueda";
+    ViewBag.Control = "Busqueda";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
+    ViewBag.Metodo = "Index";
+    ViewBag.MetodoIcono = "glyphicon-edit";
 
     List<SelectListItem> Tipo = new List<SelectListItem>();
 

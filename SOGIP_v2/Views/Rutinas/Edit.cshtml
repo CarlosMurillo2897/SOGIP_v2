@@ -2,37 +2,21 @@
 
 @{
     ViewBag.Title = "Editar Rutina";
+
+    ViewBag.Control = "Rutinas";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    ViewBag.Controller = "Rutinas";
+
+   
+
+
 }
 
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    <br />
-    <br />
-    <br />
-
-    <div class="col-md-12">
-
-        <h2 class="col-md-3" style="color: black">
-            <a href="/Rutinas/Index/" class="btn btn-success" type="button">
-                <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio de Rutinas&nbsp;
-            </a>
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-        <h2 class="col-md-5" style="color: black">
-            Registros > Rutinas > @ViewBag.Title
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-    </div>
-
-    <br />
-    <br />
-    <br />
-
+  
     <div class="form-horizontal">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
