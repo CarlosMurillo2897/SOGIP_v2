@@ -2,249 +2,230 @@
 
 @{
     ViewBag.Title = "Inicio";
+
+    ViewBag.Controller = "Usuarios";
+
+    ViewBag.Control = "UsersAdmin";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    ViewBag.Referencia = "UsersAdmin/Create";
+    ViewBag.Accion = "Crear Usuario";
+
 }
 
 @Styles.Render("~/Content/Perfil.css")
 
-@*
-<h2 class="col-md-12" style="color: black">
-    <a href="/Home/Index/" class="btn btn-success" type="button">
-        <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
-    </a>
-    | Registros > Usuarios > @ViewBag.Title |
-    <a href="/UsersAdmin/Create/" class="btn btn-success" type="button">
-        Crear nuevo usuario&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
-    </a>
-</h2>
-*@
-    <br />
-    <br />
-    <br />
-
-    <h2 class="col-md-3" style="color: black">
-        <a href="/Home/Index/" class="btn btn-success" type="button">
-            <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
-        </a>
-    </h2>
-    <h2 class="col-md-2" style="color: black">
-        |
-    </h2>
-    <h2 class="col-md-3" style="color: black">
-        Registros > Usuarios > @ViewBag.Title
-    </h2>
-    <h2 class="col-md-2" style="color: black">
-        |
-    </h2>
-    <h2 class="col-md-2" style="color: black">
-        <a href="/UsersAdmin/Create/" class="btn btn-success" type="button">
-            Crear nuevo usuario&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
-        </a>
-    </h2>
-
-    <br />
-    <br />
-
 <div class="container">
-
     <div class="well span8 offset 2">
-
+        <table id="tabla">
+            <thead>
+                <tr>
+                    <th>Usuarios</th>
+                </tr>
+            </thead>
+            <tbody>
         @foreach (var item in Model)
         {
+                <tr>
+                    <td>
+                        <div class="row user-row">
 
-            <div class="row user-row">
+                            <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
 
-                <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
-
-                    @if (item.Estado == true)
-                    {
-                        <img class="img-circle" id="Comprobado-@item.Id"
-                             src="~/Content/Imagenes/comprobado.png"
-                             style="width: 50px; height: 50px;"
-                             alt="User Pic">
-                    }
-                    else
-                    {
-                        <img class="img-circle" id="Cancelar-@item.Id"
-                             src="~/Content/Imagenes/cancelar.png"
-                             style="width: 50px; height: 50px;"
-                             alt="User Pic">
-                    }
-
-                </div>
-
-                <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
-                    <strong> @item.Cedula</strong><br>
-                    <strong> @item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
-                    <span class="text-muted">Tipo de Usuario: @ViewData[item.Id]</span>
-                </div>
-
-                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 dropdown-user" data-for=".@item.Id">
-                    <i class="glyphicon glyphicon-chevron-down text-muted"></i>
-                </div>
-
-            </div>
-
-            <div class="row user-infos @item.Id">
-
-                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
-
-                    <div class="panel panel-primary">
-
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Información de Usuario</h3>
-                        </div>
-
-                        <div class="panel-body">
-                            <div class="row">
-
-                                <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
-                                    @if (item.Sexo == true)
-                                    {
-                                        <img class="img-circle"
-                                             src="~/Content/Imagenes/M.png"
-                                             style="width: 100px; height: 100px;"
-                                             alt="User Pic">
-                                    }
-                                    else
-                                    {
-                                        <img class="img-circle"
-                                             src="~/Content/Imagenes/W6.png"
-                                             style="width: 100px; height: 100px; background-color:black;"
-                                             alt="User Pic">
-                                    }
-                                </div>
-
-                                <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
-                                    @if (item.Sexo == true)
-                                    {
-                                        <img class="img-circle"
-                                             src="~/Content/Imagenes/M.png"
-                                             style="width: 50px; height: 50px;"
-                                             alt="User Pic">
-                                    }
-                                    else
-                                    {
-                                        <img class="img-circle"
-                                             src="~/Content/Imagenes/W6.png"
-                                             style="width: 50px; height: 50px; background-color:black;"
-                                             alt="User Pic">
-                                    }
-                                </div>
-
-                                <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
-                                    <strong>@item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
-                                    <dl id="tabla1-@item.Id">
-                                        <dt>Nombre:</dt>
-                                        <dd>@item.Nombre1 @item.Nombre2</dd>
-                                        <dt>Apellidos:</dt>
-                                        <dd>@item.Apellido1 @item.Apellido2</dd>
-                                        <dt>Fecha de Nacimiento:</dt>
-                                        <dd>@item.Fecha_Nacimiento.ToShortDateString()</dd>
-                                        <dt>E-mail:</dt>
-                                        <dd>@item.Email</dd>
-                                        <dt>Localidad:</dt>
-                                        <dd>(vacía)</dd>
-                                        <dt>Género:</dt>
-                                        @if (item.Sexo == true)
-                                        {
-                                            <dd>Masculino</dd>
-                                        }
-                                        else
-                                        {
-                                            <dd>Femenino</dd>
-                                        }
-                                        <dt>Documentos adjuntados:</dt>
-
-                                    </dl>
-                                </div>
-                                <div class=" col-md-9 col-lg-9 hidden-xs hidden-sm">
-                                    <strong>@item.Nombre1</strong><br>
-                                    <table class="table table-user-information" id="tabla2-@item.Id">
-                                        <tbody>
-                                            <tr>
-                                                <td>Nombre:</td>
-                                                <td>@item.Nombre1 @item.Nombre2</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Apellidos:</td>
-                                                <td>@item.Apellido1 @item.Apellido2</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Fecha de Nacimiento:</td>
-                                                <td>@item.Fecha_Nacimiento.ToShortDateString()</td>
-                                            </tr>
-                                            <tr>
-                                                <td>E-mail:</td>
-                                                <td>@item.Email</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Localidad:</td>
-                                                <td>(vacía)</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Género:</td>
-                                                @if (item.Sexo == true)
-                                                {
-                                                    <td>Masculino</td>
-                                                }
-                                                else
-                                                {
-                                                    <td>Femenino</td>
-                                                }
-
-                                            </tr>
-                                            <tr>
-                                                <td><strong>Documentos adjuntados:</strong></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Nombre:</td>
-                                                <td>Tipo:</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="panel-footer">
-                            @if (item.Id == "8f9c47bf-edbd-40bf-9b5e-f753dd81a766" || item.Id == "b889fe47-541d-4453-8733-022709c1592f")
-                            {
-                                <button class="btn btn-sm btn-info" type="button" id="predeterminado-@item.Id"
-                                        data-toggle="tooltip"
-                                        data-original-title="Usuario no puede ser deshabilitado.">
-                                    Predeterminado <i class="glyphicon glyphicon-alert"></i>
-                                </button>
-                            }
-                            else
-                            {
-                                if (item.Estado == true)
+                                @if (item.Estado == true)
                                 {
-                                    <button class="btn btn-sm btn-danger" type="button" id="disable-@item.Id" onclick="dis('@item.Id', id);"
-                                            data-toggle="tooltip"
-                                            data-original-title="Deshabilitar este usuario.">
-                                        Deshabilitar <i class="glyphicon glyphicon-remove"></i>
-                                    </button>
+                                    <img class="img-circle" id="Comprobado-@item.Id"
+                                         src="~/Content/Imagenes/comprobado.png"
+                                         style="width: 50px; height: 50px;"
+                                         alt="User Pic">
                                 }
                                 else
                                 {
-                                    <button class="btn btn-sm btn-success" type="button" id="enable-@item.Id" onclick="dis('@item.Id', id);"
-                                            data-toggle="tooltip"
-                                            data-original-title="Habilitar este usuario.">
-                                        Habilitar <i class="glyphicon glyphicon-check"></i>
-                                    </button>
+                                    <img class="img-circle" id="Cancelar-@item.Id"
+                                         src="~/Content/Imagenes/cancelar.png"
+                                         style="width: 50px; height: 50px;"
+                                         alt="User Pic">
                                 }
-                            }
-                            <span class="pull-right">
-                                <a href="/UsersAdmin/Edit/@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
-                                    Editar  <i class="glyphicon glyphicon-edit"></i>
-                                </a>
-                            </span>
+
+                            </div>
+
+                            <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
+                                <strong> @item.Cedula</strong><br>
+                                <strong> @item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
+                                <span class="text-muted">Tipo de Usuario: @ViewData[item.Id]</span>
+                            </div>
+
+                            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 dropdown-user" data-for=".@item.Id">
+                                <i class="glyphicon glyphicon-chevron-down text-muted"></i>
+                            </div>
 
                         </div>
-                    </div>
-                </div>
-            </div>
+
+                        <div class="row user-infos @item.Id">
+
+                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
+
+                                <div class="panel panel-primary">
+
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title">Información de Usuario</h3>
+                                    </div>
+
+                                    <div class="panel-body">
+                                        <div class="row">
+
+                                            <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
+                                                @if (item.Sexo == true)
+                                                {
+                                                    <img class="img-circle"
+                                                         src="~/Content/Imagenes/M.png"
+                                                         style="width: 100px; height: 100px;"
+                                                         alt="User Pic">
+                                                }
+                                                else
+                                                {
+                                                    <img class="img-circle"
+                                                         src="~/Content/Imagenes/W.png"
+                                                         style="width: 100px; height: 100px;"
+                                                         alt="User Pic">
+                                                }
+                                            </div>
+
+                                            <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
+                                                @if (item.Sexo == true)
+                                                {
+                                                    <img class="img-circle"
+                                                         src="~/Content/Imagenes/M.png"
+                                                         style="width: 50px; height: 50px;"
+                                                         alt="User Pic">
+                                                }
+                                                else
+                                                {
+                                                    <img class="img-circle"
+                                                         src="~/Content/Imagenes/W.png"
+                                                         style="width: 50px; height: 50px;"
+                                                         alt="User Pic">
+                                                }
+                                            </div>
+
+                                            <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
+                                                <strong>@item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
+                                                <dl id="tabla1-@item.Id">
+                                                    <dt>Nombre:</dt>
+                                                    <dd>@item.Nombre1 @item.Nombre2</dd>
+                                                    <dt>Apellidos:</dt>
+                                                    <dd>@item.Apellido1 @item.Apellido2</dd>
+                                                    <dt>Fecha de Nacimiento:</dt>
+                                                    <dd>@item.Fecha_Nacimiento.ToShortDateString()</dd>
+                                                    <dt>E-mail:</dt>
+                                                    <dd>@item.Email</dd>
+                                                    <dt>Localidad:</dt>
+                                                    <dd>(vacía)</dd>
+                                                    <dt>Género:</dt>
+                                                    @if (item.Sexo == true)
+                                                    {
+                                                        <dd>Masculino</dd>
+                                                    }
+                                                    else
+                                                    {
+                                                        <dd>Femenino</dd>
+                                                    }
+                                                    <dt>Documentos adjuntados:</dt>
+
+                                                </dl>
+                                            </div>
+                                            <div class=" col-md-9 col-lg-9 hidden-xs hidden-sm">
+                                                <strong>@item.Nombre1</strong><br>
+                                                <table class="table table-user-information" id="tabla2-@item.Id">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Nombre:</td>
+                                                            <td>@item.Nombre1 @item.Nombre2</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Apellidos:</td>
+                                                            <td>@item.Apellido1 @item.Apellido2</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Fecha de Nacimiento:</td>
+                                                            <td>@item.Fecha_Nacimiento.ToShortDateString()</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>E-mail:</td>
+                                                            <td>@item.Email</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Localidad:</td>
+                                                            <td>(vacía)</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Género:</td>
+                                                            @if (item.Sexo == true)
+                                                            {
+                                                                <td>Masculino</td>
+                                                            }
+                                                            else
+                                                            {
+                                                                <td>Femenino</td>
+                                                            }
+
+                                                        </tr>
+                                                        <tr>
+                                                            <td><strong>Documentos adjuntados:</strong></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Nombre:</td>
+                                                            <td>Tipo:</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-footer">
+                                        @if (item.Roles.Any(x => x.RoleId == "1" || x.RoleId == "2"))
+                                        {
+                                            <button class="btn btn-sm btn-info" type="button" id="predeterminado-@item.Id"
+                                                    data-toggle="tooltip"
+                                                    data-original-title="Usuario no puede ser deshabilitado.">
+                                                Predeterminado <i class="glyphicon glyphicon-alert"></i>
+                                            </button>
+                                        }
+                                        else
+                                        {
+                                            if (item.Estado == true)
+                                            {
+                                                <button class="btn btn-sm btn-danger" type="button" id="disable-@item.Id" onclick="dis('@item.Id', id);"
+                                                        data-toggle="tooltip"
+                                                        data-original-title="Deshabilitar este usuario.">
+                                                    Deshabilitar <i class="glyphicon glyphicon-remove"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button class="btn btn-sm btn-success" type="button" id="enable-@item.Id" onclick="dis('@item.Id', id);"
+                                                        data-toggle="tooltip"
+                                                        data-original-title="Habilitar este usuario.">
+                                                    Habilitar <i class="glyphicon glyphicon-check"></i>
+                                                </button>
+                                            }
+                                        }
+                                        <span class="pull-right">
+                                            <a href="/UsersAdmin/Edit/@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
+                                                Editar  <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
         }
+                </tbody>
+        </table>
     </div>
 </div>
 

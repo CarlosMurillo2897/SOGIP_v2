@@ -4,32 +4,26 @@
 @{
     ViewBag.Title = "Estados";
 
+    // Controller en español.
+    ViewBag.Controller = "Estados";
+
+    // // Si existe un Estados se dispone el nombre del Control y ícono que se mostrará.
+    ViewBag.Control = "Estados";
+    ViewBag.ControlIcono = "glyphicon-book";
+
+    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
+    // ViewBag.Metodo = "Masivo";
+    // ViewBag.MetodoIcono = "glyphicon-cloud";
+
+    // Si se necesita una Acción como crear nuevo usuario, rutina. Se selecciona está opción y el ícono deseado.
+    ViewBag.Referencia = "Estados/Create";
+    ViewBag.Accion = "Crear Estado";
+
     @Styles.Render("~/Content/manual.css")
     @Styles.Render("~/Content/Detalle_Rutina.css")
 }
 
-<div class="container">
-
-    <h2 class="col-md-3" style="color: black">
-        <a href="/Home/Index/" class="btn btn-success" type="button">
-            <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
-        </a>
-    </h2>
-    <h2 class="col-md-1" style="color: black">
-        |
-    </h2>
-    <h2 class="col-md-5" style="color: black">
-        Registros > Estados > @ViewBag.Title
-    </h2>
-    <h2 class="col-md-1" style="color: black">
-        |
-    </h2>
-    <h2 class="col-md-2" style="color: black">
-        <a href="/Estados/Create/" class="btn btn-success" type="button">
-            Crear nuevo estado&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
-        </a>
-    </h2>
-
+<div class="container" style="min-height: 369px;">
     <table class="table">
         <tr>
             <th>

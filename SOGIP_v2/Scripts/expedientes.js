@@ -140,12 +140,14 @@ function uploadImage() {
     if (archivo.size >= 20000000 && !confirm('\n¡Cuidado! Estás intentando subir un archivo de más de 20MB.\n\n ¿Estás seguro de querer subir este archivo?\n\n')) {
         clear();
         archivo = null;
+        throw error;
     }
 
     var ext = archivo.name.split('.').pop();
     if (ext != 'xls' && ext != 'xlsx' && ext != null) {
         if (!confirm('\nEste archivo no parece ser de Excel, recuerde que el sistema solo leerá archivos\n\ntipo Excel e intentar subir cualquier otro archivo puede ser peligroso. ¿Continuar?\n\n')) {
             clear();
+            throw error;
         }
     }
 
@@ -283,7 +285,7 @@ function pop(status) {
 
 function contenidoPop(content) {
     if (content == 0) {
-        $('#box img').attr('src', '/Content/Imagenes/cancelar.gif');
+        $('#box img').attr('src', '/Content/Imagenes/cancelar.png');
         $('#box img').attr('alt', 'Incorrecto');
         $('#box h1').text('¡Error encontrado!');
     }

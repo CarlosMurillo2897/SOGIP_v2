@@ -4,6 +4,15 @@
 @{
     ViewBag.Title = "Registro Manual";
 
+    ViewBag.Control = "UsersAdmin";
+
+    ViewBag.Controller = "Usuarios";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    ViewBag.Metodo = "Create";
+    ViewBag.MetodoIcono = "glyphicon-pencil";
+
+
     List<SelectListItem> Sexo = new List<SelectListItem>();
     Sexo.Add(new SelectListItem
     {
@@ -22,7 +31,7 @@
 
 <div class="panel panel-body">
 
-    <div class="col-md-12">
+    @*<div class="col-md-12">
         <h2 class="col-md-3" style="color: black">
             <a href="/UsersAdmin/Index/" class="btn btn-success" type="button">
                 <i class="glyphicon glyphicon-chevron-left"></i>Volver a Lista de Usuarios&nbsp;
@@ -37,7 +46,8 @@
         <h2 class="col-md-1" style="color: black">
             |
         </h2>
-    </div>
+    </div>*@
+
     <div class="col-md-12">
 
             @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
@@ -50,7 +60,7 @@
 
                     <div class="card card-default">
                         <div class="form-group">
-                            <div class="col-md-10">
+                            <div class="col-md-4">
                                 <label class="control-label">
                                     Seleccione el rol del usuario
                                 </label>

@@ -18,51 +18,22 @@
 @Styles.Render("~/Content/Perfil.css")
 
 
-<div>
-
-    <br />
-    <br />
-    <br />
-
-    <h2 class="col-md-3" style="color: black">
-        <a href="/Home/Index/" class="btn btn-success" type="button">
-            <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
-        </a>
-    </h2>
-    <h2 class="col-md-1" style="color: black">
-        |
-    </h2>
-    <h2 class="col-md-5" style="color: black">
-        Registros > Buscar > @ViewBag.Title
-    </h2>
-    <h2 class="col-md-1" style="color: black">
-        |
-    </h2>
-
-    <br /><br />
-    <br /><br />
-
-    <div class="col-md-12">
-        <div class="col-md-3 col-md-offset-2">
-            <input class="form-control" type="search" placeholder="Buscar por" id="Search">
+<div class="container" style="min-height: 369px;">
+        <div class="row">
+            <div class="col-md-3 col-md-offset-2">
+                <input class="form-control" type="search" placeholder="Buscar por" id="Search">
+            </div>
+            <div class="col-md-3">
+                @Html.DropDownList("Tipo", Tipo, new { @class = "form-control", id = "SearchBy" })
+            </div>
+            <div class="col-md-3">
+                <button id="SearchBtn" class="btn btn-primary" type="submit">Buscar</button>
+            </div>
         </div>
-        <div class="col-md-3">
-            @Html.DropDownList("Tipo", Tipo, new { @class = "form-control", id = "SearchBy" })
+        <div class="row">
+            <div class="well span8 offset 2" id="perfiles">
+            </div>
         </div>
-        <div class="col-md-3">
-            <button id="SearchBtn" class="btn btn-primary" type="submit">Buscar</button>
-        </div>
-    </div>
-
-</div>
-
-<br><br>
-
-<div class="container">
-
-    <div class="well span8 offset 2" id="perfiles">
-
-    </div>
 </div>
 
 @section Scripts {

@@ -652,7 +652,16 @@ namespace SOGIP_v2.Controllers
                 foreach (var item in users)
                 {
                     db.Users.Add(item);
+                    db.SaveChanges();
+                    item.Roles.Add(new IdentityUserRole{ UserId = item.Id, RoleId = "5" });
+                    /*db.Atletas.Add(new Atleta {
+                        Seleccion = db.Selecciones.SingleOrDefault(x => x.SeleccionId == 1),
+                        Usuario = db.Users.SingleOrDefault(x=>x.Id == item.Id),
+                        Localidad = null, 
+                    });*/
                 }
+                
+                db.SaveChanges();
             }
             catch(Exception)
             {

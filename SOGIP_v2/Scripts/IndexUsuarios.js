@@ -3,6 +3,27 @@
     var panelsButton = $('.dropdown-user');
     panels.hide();
 
+    $.noConflict();
+    $('#tabla').DataTable({
+        // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+        // "iDisplayLength": 5,
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ resultados por página.",
+            "zeroRecords": "No se han encontrado resultados.",
+            "info": "Mostrando página _PAGE_ de _PAGES_.",
+            "infoEmpty": "No hay datos para mostrar",
+            "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+            "search": "Buscar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        }
+
+    });
+
     //Click dropdown
     panelsButton.click(function () {
         //get data-for attribute
