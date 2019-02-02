@@ -263,7 +263,6 @@
     <Content Include="Contents\bootstrap-datepicker3.min.css" />
     <Content Include="Contents\bootstrap-datepicker3.standalone.css" />
     <Content Include="Contents\bootstrap-datepicker3.standalone.min.css" />
-    <Content Include="Content\Archivos.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -513,7 +512,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
@@ -538,10 +536,6 @@
     <Content Include="Views\UsersAdmin\Create.cshtml" />
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
-    <Content Include="Views\Estados\Create.cshtml" />
-    <Content Include="Views\Estados\Delete.cshtml" />
-    <Content Include="Views\Estados\Details.cshtml" />
-    <Content Include="Views\Estados\Edit.cshtml" />
     <Content Include="Views\Estados\Index.cshtml" />
     <Content Include="Views\UsersAdmin\IndexMasivo.cshtml" />
     <Content Include="Views\Horario\Create.cshtml" />
@@ -550,13 +544,7 @@
     <Content Include="Views\Horario\Edit.cshtml" />
     <Content Include="Views\Horario\Index.cshtml" />
     <Content Include="Views\CitasAdmin\Create.cshtml" />
-    <Content Include="Views\CitasAdmin\Delete.cshtml" />
-    <Content Include="Views\CitasAdmin\Details.cshtml" />
-    <Content Include="Views\CitasAdmin\Edit.cshtml" />
-    <Content Include="Views\CitasAdmin\Index.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
-    <Content Include="Views\ExpedientesFisicos\Success.cshtml" />
-    <Content Include="Views\ExpedientesFisicos\Success2.cshtml" />
     <Content Include="Views\Account\Perfil.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Create.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Delete.cshtml" />
@@ -574,10 +562,6 @@
     <Content Include="Views\Rutinas\DeleteEjercicio.cshtml" />
     <Content Include="Views\Rutinas\DetailsEjercicio.cshtml" />
     <Content Include="Views\CitasGeneral\Create.cshtml" />
-    <Content Include="Views\CitasGeneral\Delete.cshtml" />
-    <Content Include="Views\CitasGeneral\Details.cshtml" />
-    <Content Include="Views\CitasGeneral\Edit.cshtml" />
-    <Content Include="Views\CitasGeneral\Index.cshtml" />
     <Content Include="Views\Busqueda\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
