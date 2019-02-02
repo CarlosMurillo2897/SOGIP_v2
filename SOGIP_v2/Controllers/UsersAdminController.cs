@@ -113,6 +113,8 @@ namespace SOGIP_v2.Controllers
             return Json(usuario.Estado, JsonRequestBehavior.AllowGet);
         }
 
+       
+
         //
         // GET: /Users/Details/5
         [HttpGet]
@@ -128,7 +130,25 @@ namespace SOGIP_v2.Controllers
 
             return View(user);
         }
+        [HttpPost]
+        public JsonResult getEntrenador()
+        {
 
+            var data = new ApplicationDbContext();
+            var users = data.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("4")).ToList();
+            
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult getEntrenador2()
+        {
+
+            var data = new ApplicationDbContext();
+            var users = data.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("2")).ToList();
+
+            return Json(users, JsonRequestBehavior.AllowGet);
+        }
         //
         // GET: /Users/Create
         //[HttpGet]
@@ -149,16 +169,17 @@ namespace SOGIP_v2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, string selectedRoles, int? SelectedCategory, int? SelectedSport, FormCollection form, HttpPostedFileBase CV)
         {
+            
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
                 {
                     UserName = userViewModel.Cedula,
                     Email = userViewModel.Email,
-                    Nombre1 = userViewModel.Nombre1.ToUpper(),
-                    Nombre2 = userViewModel.Nombre2.ToUpper(),
-                    Apellido1 = userViewModel.Apellido1.ToUpper(),
-                    Apellido2 = userViewModel.Apellido2.ToUpper(),
+                    Nombre1 = (userViewModel.Nombre1==null)?null: userViewModel.Nombre1.ToUpper(),
+                    Nombre2 = (userViewModel.Nombre2 == null) ? null : userViewModel.Nombre2.ToUpper(),
+                    Apellido1 = (userViewModel.Apellido1 == null) ? null : userViewModel.Apellido1.ToUpper(),
+                    Apellido2 = (userViewModel.Apellido2 == null) ? null : userViewModel.Apellido2.ToUpper(),
                     Cedula = userViewModel.Cedula,
                     Fecha_Nacimiento = userViewModel.Fecha_Nacimiento,
                     Sexo = userViewModel.Sexo,
@@ -174,7 +195,7 @@ namespace SOGIP_v2.Controllers
                     if (selectedRoles != null)
                     {
                         var result = await UserManager.AddToRoleAsync(user.Id, selectedRoles);
-
+                        
                         if (selectedRoles == "Atleta Becados")
                         {
                             selectedRoles = "Atleta";
@@ -185,13 +206,16 @@ namespace SOGIP_v2.Controllers
 
                             case "Seleccion/Federacion":
                                 {
+                                    var en = form["hidef"].ToString();
+                                    var deporte = db.Deportes.Single(x => x.DeporteId == SelectedSport);
+                                    var cat = db.Categorias.Single(x => x.CategoriaId == SelectedCategory);
                                     Seleccion seleccion = new Seleccion()
                                     {
-                                        //Nombre_Seleccion = "Seleccion" + form["sele_n"].ToString() + "de" + form["sele_m"].ToString(),
-                                        Nombre_Seleccion = form["sele_n"].ToString().ToUpper(),
+                                        Nombre_Seleccion = "SELECCIÓN" + " " + cat.Descripcion + " " + "DE" + " " + deporte.Nombre,
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
                                         Deporte_Id = db.Deportes.Single(x => x.DeporteId == SelectedSport),
                                         Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
+                                        Entrenador_Id = db.Users.Where(x => x.Cedula == en).FirstOrDefault()
                                     };
 
                                     db.Selecciones.Add(seleccion);
@@ -240,10 +264,11 @@ namespace SOGIP_v2.Controllers
 
                             case "Funcionarios ICODER":
                                 {
+                                    var en = form["hidef"].ToString();
                                     Funcionario_ICODER funcionario = new Funcionario_ICODER()
                                     {
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
-                                        Entrenador = db.Users.Single(x => x.Cedula == "114070986") // Cédula de Josafat, esto es momentáneo.
+                                        Entrenador = db.Users.Single(x => x.Cedula == en) // Cédula de Josafat, esto es momentáneo.
                                     };
 
                                     db.Funcionario_ICODER.Add(funcionario);
@@ -369,7 +394,7 @@ namespace SOGIP_v2.Controllers
                 if (atleta.Asociacion_Deportiva != null) { ViewBag.var1 = atleta.Asociacion_Deportiva.Asociacion_DeportivaId; }
                 if (atleta.Seleccion != null) { ViewBag.var2 = atleta.Seleccion.SeleccionId; }
             }
-               
+
             //Entrenador
             //ViewBag.Archivos = db.Archivo.Where(x => x.Usuario == user).ToList();
 
@@ -390,9 +415,7 @@ namespace SOGIP_v2.Controllers
                 Fecha_Nacimiento = user.Fecha_Nacimiento,
                 Sexo = user.Sexo,
                 Estado = user.Estado
-
             });
-
         }
 
         [HttpPost]
@@ -430,7 +453,7 @@ namespace SOGIP_v2.Controllers
                 Response.End();
             }
         }
-        
+        //
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -505,7 +528,6 @@ namespace SOGIP_v2.Controllers
                         }
                         break;
                 }
-
             }
             else
             {
@@ -513,6 +535,53 @@ namespace SOGIP_v2.Controllers
             }
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+        //
+        // GET: /Users/Delete/5
+        [HttpGet]
+        public async Task<ActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = await UserManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+
+        // POST: /Users/Delete/5
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(string id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+
+                var user = await UserManager.FindByIdAsync(id);
+                if (user == null)
+                {
+                    return HttpNotFound();
+                }
+                var result = await UserManager.DeleteAsync(user);
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", result.Errors.First());
+                    return View();
+                }
+                return RedirectToAction("Index");
+            }
+            return View();
         }
 
         public ActionResult IndexMasivo()
@@ -533,6 +602,7 @@ namespace SOGIP_v2.Controllers
                     excelfile.SaveAs(path);
                 }
                 var package = new ExcelPackage(new System.IO.FileInfo(path));
+
                 int startColumn = 1; 
                 int startRow = 2;
 
@@ -542,10 +612,10 @@ namespace SOGIP_v2.Controllers
                 do
                 {
                     ced = workSheet.Cells[startRow, startColumn].Value;
-                    if(ced == null) { break; }
+                    if (ced == null) { break; }
                     object n1 = workSheet.Cells[startRow, startColumn + 1].Value;
                     object n2 = workSheet.Cells[startRow, startColumn + 2].Value;
-                    object a1 = workSheet.Cells[startRow, startColumn + 3].Value; 
+                    object a1 = workSheet.Cells[startRow, startColumn + 3].Value;
                     object a2 = workSheet.Cells[startRow, startColumn + 4].Value;
                     object nac = workSheet.Cells[startRow, startColumn + 5].Value;
                     object email = workSheet.Cells[startRow, startColumn + 6].Value;
@@ -553,7 +623,8 @@ namespace SOGIP_v2.Controllers
 
                     var genero = (sexo.ToString() == "Femenino") ? false : true;
 
-                    ApplicationUser user = new ApplicationUser(){
+                    ApplicationUser user = new ApplicationUser()
+                    {
                         Cedula = (ced == null) ? "" : ced.ToString(),
                         Nombre1 = (n1 == null) ? "" : n1.ToString(),
                         Nombre2 = n2?.ToString(),
@@ -573,12 +644,12 @@ namespace SOGIP_v2.Controllers
                         {
                             terminos = Regex.Replace(nac.ToString(), @"[-\\]", "/");
                             nacimiento = Convert.ToDateTime(terminos);
-
                             if ((nacimiento.Year < (DateTime.Today.Year - 80)) || (nacimiento.Year > (DateTime.Today.Year - 10)))
                             {
                                 nacimiento = DateTime.Today;
                             }
                         }
+                        
                         catch (Exception)
                         {
 
@@ -587,6 +658,7 @@ namespace SOGIP_v2.Controllers
 
                             // Formato #1: Si es de formato dd/mm/aaaa ó mm/dd/aaaa
                             string patternDMA = @"(\d\d?)[-.\\/](\d\d?)[-.\\/](\d{4})";
+
 
                             // Formato #2: Si es de formato aaaa/mm/dd ó aaaa/dd/mm
                             string patternADM = @"(\d{4})[-.\\/](\d\d?)[-.\\/](\d\d?)";
@@ -631,7 +703,8 @@ namespace SOGIP_v2.Controllers
 
                 } while (ced != null);
 
-            }catch (Exception){}
+            }
+            catch (Exception) { }
 
             if (System.IO.File.Exists(path))
             {
@@ -650,17 +723,17 @@ namespace SOGIP_v2.Controllers
                 {
                     db.Users.Add(item);
                     db.SaveChanges();
-                    item.Roles.Add(new IdentityUserRole{ UserId = item.Id, RoleId = "5" });
+                    item.Roles.Add(new IdentityUserRole { UserId = item.Id, RoleId = "5" });
                     /*db.Atletas.Add(new Atleta {
                         Seleccion = db.Selecciones.SingleOrDefault(x => x.SeleccionId == 1),
                         Usuario = db.Users.SingleOrDefault(x=>x.Id == item.Id),
                         Localidad = null, 
                     });*/
                 }
-                
+
                 db.SaveChanges();
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
@@ -670,4 +743,5 @@ namespace SOGIP_v2.Controllers
         }
 
     }
+
 }

@@ -34,7 +34,6 @@ use "SOGIP_v3"
  select * from SOGIP_Atletas;
  select * from SOGIP_Categorias;
  select * from SOGIP_Cita;
- select * from SOGIP_Color;
  select * from SOGIP_Conjunto_Ejercicio;
  select * from SOGIP_Deportes;
  select * from SOGIP_Entidad_Publica;

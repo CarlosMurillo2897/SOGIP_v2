@@ -47,123 +47,195 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 <span class="glyphicon glyphicon-menu-down"></span> Registros
                             </a>
-                            <ul class="dropdown-menu" role="menu" id="myTab">
-                                <li role="presentation">
-                                    <a href="~/UsersAdmin/Index/">
-                                        <span class="glyphicon glyphicon-pencil"></span> Manual
+                            <p class="hidden-xs" style="display: inline-block;">Sistema Operativo Gimnasio de Pesas</p>
+                            <!-- El siguiente párrafo será mostrado únicamente cuando la pantalla sea extra-small. -->
+                            <p class="hidden-lg hidden-md hidden-sm" style="display: inline-block;"> SOGIP </p>
+                            <!-- El siguiente logo será mostrado únicamente cuando la pantalla sea extra-small. -->
+                            <a href="https://www.icoder.go.cr" class="hidden-lg hidden-md hidden-sm">
+                                <span>
+                                    <img id="logo_SOGIP" src="~/Content/Imagenes/logo_white.png" height="40" width="40">
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="navbar-collapse collapse in" aria-expanded="true" id="navbar">
+                        @if (Request.IsAuthenticated)
+                        {
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="~/Home/Index">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                    Inicio
+                                </a>
+                            </li>
+                            @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
+                            {
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                        <span class="glyphicon glyphicon-menu-down"></span> Registros
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" id="myTab">
+                                        <li role="presentation">
+                                            <a href="~/UsersAdmin/Index/">
+                                                <span class="glyphicon glyphicon-pencil"></span> Manual
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li role="presentation">
+                                            <a href="~/UsersAdmin/IndexMasivo/">
+                                                <span class="glyphicon glyphicon-cloud"></span> Masivo
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li role="presentation">
+                                            <a href="~/Estados/Index/">
+                                                <span class="glyphicon glyphicon-folder-open"></span> Estados
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li role="presentation">
+                                            <a href="~/Rutinas/Index/">
+                                                <span class="glyphicon glyphicon-apple"></span> Rutina
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li role="presentation">
+                                            <a href="~/ExpedientesFisicos/Index/">
+                                                <span class="glyphicon glyphicon-file"></span> Expediente
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="~/CitasAdmin/Create">
+                                        <span class="glyphicon glyphicon-calendar"></span> Citas
                                     </a>
                                 </li>
-                                <li class="divider"></li>
-                                <li role="presentation">
-                                    <a href="~/UsersAdmin/IndexMasivo/">
-                                        <span class="glyphicon glyphicon-cloud"></span> Masivo
+                                <li>
+                                    <a href="~/Busqueda/Index">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                        Búsqueda
                                     </a>
                                 </li>
-                                <li class="divider"></li>
                                 <li role="presentation">
-                                    <a href="~/Estados/Index/">
-                                        <span class="glyphicon glyphicon-folder-open"></span> Estados
+                                    <a href="~/AtletasAsignados/IndexA">
+                                        <span class="glyphicon glyphicon-list-alt"></span> Atletas
                                     </a>
                                 </li>
-                                <li class="divider"></li>
+                            }
+                            @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
+                            {
+                                <li>
+                                    <a href="~/CitasGeneral/Create?id=@User.Identity.GetUserId()">
+                                        <span class="glyphicon glyphicon-calendar"></span> Citas
+                                    </a>
+                                </li>
                                 <li role="presentation">
-                                    <a href="~/Rutinas/Index/">
+                                    <a href="~/Rutinas/ListaEjercicio?idUsuario=User.Identity.GetUserId()">
                                         <span class="glyphicon glyphicon-apple"></span> Rutina
                                     </a>
                                 </li>
-                                <li class="divider"></li>
+                            }
+                            @if (User.IsInRole("Entrenador"))
+                            {
                                 <li role="presentation">
-                                    <a href="~/ExpedientesFisicos/Index/">
-                                        <span class="glyphicon glyphicon-file"></span> Expediente
+                                    <a href="~/Rutinas/Create">
+                                        <span class="glyphicon glyphicon-apple"></span> Rutina
                                     </a>
                                 </li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="~/CitasAdmin/Create">
-                                <span class="glyphicon glyphicon-calendar"></span> Citas
-                            </a>
-                        </li>
-                        <li>
-                            <a href="~/Busqueda/Index">
-                                <span class="glyphicon glyphicon-search"></span>
-                                Búsqueda
-                            </a>
-                        </li>
-                    }
-                    @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
-                    {
-                        <li>
-                            <a href="~/CitasGeneral/Create?id=@User.Identity.GetUserId()">
-                                <span class="glyphicon glyphicon-calendar"></span> Citas
-                            </a>
-                        </li>
-                        <li role="presentation">
-                            <a href="~/Rutinas/ListaEjercicio?idUsuario=User.Identity.GetUserId()">
-                                <span class="glyphicon glyphicon-apple"></span> Rutina
-                            </a>
-                        </li>
-                    }
-                    @if (User.IsInRole("Entrenador"))
-                    {
-                        <li role="presentation">
-                            <a href="~/Rutinas/Create">
-                                <span class="glyphicon glyphicon-apple"></span> Rutina
-                            </a>
-                        </li>
-                    }
-                </ul>
-            }
-            <ul class="nav navbar-nav navbar-right">
-                @if (Request.IsAuthenticated)
-                {
-                    <li class="dropdown">
-                        <form action="/Account/LogOff" method="post" id="logoutForm">
-                            @Html.AntiForgeryToken()
-                        </form>
+                                <li role="presentation">
+                                    <a href="~/AtletasAsignados/Index">
+                                        <span class="glyphicon glyphicon-list-alt"></span> Atletas
+                                    </a>
+                                </li>
+                            }
+                            @if (User.IsInRole("Seleccion/Federacion"))
+                            {
 
-                        @if (User.Identity.GetSexo() == "Sexo: True")
-                        {
-                            <img src="~/Content/Imagenes/M.png" alt="User Pic" style="width:40px; height:40px;">
+                                <li role="presentation">
+                                    <a href="~/AtletasAsignados/IndexS">
+                                        <span class="glyphicon glyphicon-list-alt"></span> Atletas
+                                    </a>
+                                </li>
+                            }
+                        </ul>
                         }
-                        else
-                        {
-                            <img src="~/Content/Imagenes/W.png" alt="User Pic" style="width:40px; height:40px;">
-                        }
-
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="display: inline-block;">
-                            @Html.ViewContext.HttpContext.User.Identity.GetNombre1()
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" role="menu" id="myTab2">
-                            <li role="presentation">
-                                <a href="~/Account/Perfil?id=@User.Identity.GetUserId()">
-                                    <span class="glyphicon glyphicon-user"></span>
-                                    Perfil
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li role="presentation">
-                                <a href="~/Manage/Index">
-                                    <span class="glyphicon glyphicon-cog"></span>
-                                    Ajustes
-                                </a>
-                            </li>
-                            <li class="divider"></li>
-                            <li role="presentation">
-                                <a href="javascript:document.getElementById('logoutForm').submit()">
-                                    <span class="glyphicon glyphicon-log-out"></span>
-                                    Cerrar Sesión
+                        <ul class="nav navbar-nav navbar-right">
+                            @if (Request.IsAuthenticated)
+                            {
+                                <li class="dropdown">
+                                    <form action="/Account/LogOff" method="post" id="logoutForm">
+                                        @Html.AntiForgeryToken()
+                                    </form>
+                                    @if (User.Identity.GetSexo() == "Sexo: True")
+                                    {
+                                        <img src="~/Content/Imagenes/M.png" alt="User Pic" style="width:40px; height:40px;">
+                                    }
+                                    else
+                                    {
+                                        <img src="~/Content/Imagenes/W.png" alt="User Pic" style="width:40px; height:40px;">
+                                    }
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="display: inline-block;">
+                                        @Html.ViewContext.HttpContext.User.Identity.GetNombre1()
+                                        <span class="caret"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" id="myTab2">
+                                        <li role="presentation">
+                                            <a href="~/Account/Perfil?id=@User.Identity.GetUserId()">
+                                                <span class="glyphicon glyphicon-user"></span>
+                                                Perfil
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li role="presentation">
+                                            <a href="~/Manage/Index">
+                                                <span class="glyphicon glyphicon-cog"></span>
+                                                Ajustes
+                                            </a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li role="presentation">
+                                            <a href="javascript:document.getElementById('logoutForm').submit()">
+                                                <span class="glyphicon glyphicon-log-out"></span>
+                                                Cerrar Sesión
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a href="/Account/Login">
+                                        <span class="glyphicon glyphicon-log-in"></span> Iniciar Sesión
+                                    </a>
+                                </li>
+                            }
+                            <li class="hidden-xs" style="margin-top: -9px;">
+                                <a class="navbar-brand" href="https://www.icoder.go.cr">
+                                    <span>
+                                        <img id="logo_SOGIP" src="~/Content/Imagenes/logo_white.png" height="40" width="40">
+                                    </span>
                                 </a>
                             </li>
                         </ul>
-                    </li>
+                    </div>
+                    </div>
+            </nav>
+
+            <style>
+                .nav-link {
+                    color: rgb(157, 157, 157);
+                    font-size: 18px;
                 }
-                else
-                {
-                    <li>
-                        <a href="/Account/Login">
-                            <span class="glyphicon glyphicon-log-in"></span> Iniciar Sesión
+            </style>
+            <div class="container-fluid" style="background-color: rgb(60, 60, 60); padding: 4px 4px;">
+                <div class="nav-scroller shadow-sm">
+                    <nav class="nav nav-divider">
+                        <a class="nav-link active" href="~/Home/Index">
+                            <span class="glyphicon glyphicon-home"></span>
+                            Inicio /
                         </a>
                     </li>
                 }
