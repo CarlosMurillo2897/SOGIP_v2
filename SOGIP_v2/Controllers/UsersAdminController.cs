@@ -534,9 +534,9 @@ namespace SOGIP_v2.Controllers
                 }
                 var package = new ExcelPackage(new System.IO.FileInfo(path));
                 int startColumn = 1; 
-                int startRow = 15;
+                int startRow = 2;
 
-                ExcelWorksheet workSheet = package.Workbook.Worksheets[1]; // Read sheet 1.
+                ExcelWorksheet workSheet = package.Workbook.Worksheets[2]; // Read sheet 1.
                 object ced = null;
 
                 do
@@ -551,18 +551,15 @@ namespace SOGIP_v2.Controllers
                     object email = workSheet.Cells[startRow, startColumn + 6].Value;
                     object sexo = workSheet.Cells[startRow, startColumn + 7].Value;
 
-                    var genero = (sexo.ToString() == "F" || sexo.ToString() == "Femenino" || sexo.ToString() == "Mujer") ? false : true;
+                    var genero = (sexo.ToString() == "Femenino") ? false : true;
 
                     ApplicationUser user = new ApplicationUser(){
                         Cedula = (ced == null) ? "" : ced.ToString(),
                         Nombre1 = (n1 == null) ? "" : n1.ToString(),
-                        Nombre2 = (n2 == null) ? null : n2.ToString(),
+                        Nombre2 = n2?.ToString(),
                         Apellido1 = (a1 == null) ? "" : a1.ToString(),
                         Apellido2 = (a2 == null) ? "" : a2.ToString(),
                         Email = (email == null) ? "" : email.ToString(),
-                        // Fecha_Expiracion = DateTime.Now,
-                        // UserName = (ced == null) ? "" : ced.ToString(),
-                        // Estado = true,
                         Sexo = genero,
                     };
 
@@ -574,7 +571,7 @@ namespace SOGIP_v2.Controllers
                         string terminos = "";
                         try
                         {
-                            terminos = Regex.Replace(nac.ToString(), @"[-.\\]", "/");
+                            terminos = Regex.Replace(nac.ToString(), @"[-\\]", "/");
                             nacimiento = Convert.ToDateTime(terminos);
 
                             if ((nacimiento.Year < (DateTime.Today.Year - 80)) || (nacimiento.Year > (DateTime.Today.Year - 10)))

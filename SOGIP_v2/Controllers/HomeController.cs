@@ -13,13 +13,6 @@ namespace SOGIP_v2.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Sistema Gestor de Usuarios de Gimnasio.";
-
-            return View();
-        }
-
         public ActionResult Contact()
         {
             ViewBag.Message = "Comunicarse al 2549 0700.";

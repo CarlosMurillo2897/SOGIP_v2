@@ -175,15 +175,15 @@ function uploadImage() {
             $.each(list, function (i) {
                 var date = new Date(parseInt(list[i].Fecha_Nacimiento.substr(6)));
                 var sexo = list[i].Sexo == true ? 'Masculino' : 'Femenino';
-                var nom2 = list[i].Nombre2 == null ? '' : list[i].Nombre2;
+                
                 var ap2 = list[i].Apellido2 == null ? '' : list[i].Apellido2;
                 var email = list[i].Email == null ? '' : list[i].Email;
 
                 $body.append(
-                    '<tr>' +
+                    '<tr id="' + i + '">' +
                     '<td>' + list[i].Cedula + '</td>' +
                     '<td>' + list[i].Nombre1 + '</td>' +
-                    '<td>' + nom2 + '</td>' +
+                    '<td>' + list[i].Nombre2 + '</td>' +
                     '<td>' + list[i].Apellido1 + '</td>' +
                     '<td>' + ap2 + '</td>' +
                     '<td>' + email + '</td>' +
