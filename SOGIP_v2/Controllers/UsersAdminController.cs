@@ -619,9 +619,9 @@ namespace SOGIP_v2.Controllers
                 }
                 var package = new ExcelPackage(new System.IO.FileInfo(path));
                 int startColumn = 1;
-                int startRow = 15;
+                int startRow = 2;
 
-                ExcelWorksheet workSheet = package.Workbook.Worksheets[1]; // Read sheet 1.
+                ExcelWorksheet workSheet = package.Workbook.Worksheets[2]; // Read sheet 1.
                 object ced = null;
 
                 do
@@ -660,7 +660,7 @@ namespace SOGIP_v2.Controllers
                         string terminos = "";
                         try
                         {
-                            terminos = Regex.Replace(nac.ToString(), @"[-.\\]", "/");
+                            terminos = Regex.Replace(nac.ToString(), @"[-\\]", "/");
                             nacimiento = Convert.ToDateTime(terminos);
 
 

@@ -17,9 +17,7 @@ namespace SOGIP_v2.Controllers
         // GET: Rutinas
         public ActionResult Index()
         {
-            //var rutina = db.Rutinas.ToList();
-            //ViewBag.Rutinas = db.Rutinas.Include("Usuario");
-            //return View(db.Rutinas.Include("Usuario"));
+           
             return View();
 
         }
@@ -27,7 +25,7 @@ namespace SOGIP_v2.Controllers
         public JsonResult GetRutinas()
         {
 
-            //var Rutinas = db.Rutinas.ToList();
+    
             var Rutinas = db.Rutinas.Include("Usuario").ToList();
             return Json(Rutinas, JsonRequestBehavior.AllowGet);
 

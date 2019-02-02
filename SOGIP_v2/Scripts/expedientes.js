@@ -11,7 +11,7 @@
     });
 
 
-   /* var today = new Date();
+    var today = new Date();
     var min = new Date();
     var max = new Date();
     max.setFullYear(today.getFullYear() - 80);
@@ -25,7 +25,7 @@
             endDate: min,
             daysOfWeekDisabled: false
         });
-    });*/
+    });
 
 });
 
@@ -179,7 +179,7 @@ function uploadImage() {
                 var email = list[i].Email == null ? '' : list[i].Email;
 
                 $body.append(
-                    '<tr>' +
+                    '<tr id="' + list[i].Cedula + '">' + 
                     '<td>' + list[i].Cedula + '</td>' +
                     '<td>' + list[i].Nombre1 + '</td>' +
                     '<td>' + nom2 + '</td>' +

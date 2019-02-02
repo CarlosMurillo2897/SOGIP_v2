@@ -13,171 +13,46 @@
 
     @Styles.Render("~/Content/Rutina.css")
     @Styles.Render("~/Content/Detalle_Rutina.css")
-    @Styles.Render("~/Content/manual.css")
 }
 
-<style>
-    .image-preview-input {
-        position: relative;
-        overflow: hidden;
-        margin: 0px;
-        color: #333;
-        background-color: #fff;
-        border-color: #ccc;
-    }
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
-        .image-preview-input input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            margin: 0;
-            padding: 0;
-            cursor: pointer;
-            opacity: 0;
-            filter: alpha(opacity=0);
-        }
-
-    .image-preview-input-title {
-        margin-left: 2px;
-    }
-
-    .glyphicon-remove {
-        color: red;
-    }
-
-    #folder {
-        color: #ffe698;
-    }
-
-    .glyphicon-upload {
-        color: limegreen;
-    }
-
-    #upload {
-        border-radius: 0px 4px 4px 0px;
-    }
-
-    .invent {
-        color: limegreen;
-        cursor: pointer;
-    }
-</style>
-
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalNew"  >
+    Nuevo
+</button>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalNew" id="editar">
+    Editar 
+</button>
 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalNew">
-    Nueva Rutina
+    Eliminar
 </button>
 <br>
 <br>
-<div id="UpdatePanel">
-    <table id="rutina" class="display" style="width:100%"></table>
-</div>
-@*Modal para crear rutina*@
-<div class="modal fade" id="myModalNew">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h3 class="modal-title">Crear Rutina</h3>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" value="original" id="hidden">
-                <form id="myForm">
-                    <label>Nombre de usuario</label>
-                    <br>
-                    <div class="form-group col-md-2">
-                        <table>
-                            <tr>
-                                <td><input type="radio" name="Tipo_Cta" id="funcionario" checked />Funcionario</td>
-                                <td><input type="radio" name="Tipo_Cta" id="atleta" />Atletas</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <br />
-                    <br />
+<table id="rutina" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Acción</th>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Objetivo</th>
+        </tr>
+    </thead>
+</table>
 
-                    <div class="input-group" id="cedU">
-                        @* <input type="text" id="txtCed" class="form-control" />*@
-                        <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
-                    </div>
-
-                    <br>
-                    <div class="row">
-                        <div class="form-group col-md-3">
-                            <label>Fecha: </label>
-                            <div class="input-group date" id="dtp">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                <input class="form-control" type="text" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Observaciones: </label>
-                            <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
-                <button type="button" id="btnSave" class="btn btn-default" style="background-color:#339966;">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-@*Modal para editar*@
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h3 class="modal-title">Información de Rutina</h3>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" value="original" id="hidden">
-                <form id="myForm">
-                    <div class="form-group">
-                        <label>Usuario: </label>
-                        <input type="text" class="form-control" placeholder="Usuario" id="usu" />
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="form-group col-md-3">
-                            <label>Fecha: </label>
-                            <div class="input-group date" id="dtp">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                <input class="form-control" type="text" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Observaciones: </label>
-                            <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
-                <a href="#" class="btn btn-success" onclick="actualizar()">Guardar</a>
-            </div>
-        </div>
-    </div>
-</div>
 
 @section Scripts {
 
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-    <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
     <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
     <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")
     <script>
         $(document).ready(function () {
 
-            var table;
-            var dataSet = [];
+
             tabla();
             cargaF();
 
@@ -189,10 +64,14 @@
                 cargaA();
             })
 
-
             $('#btnSave').click(function () {
 
             })
+            $('#rutina').on('click', 'tbody th:not(:first-child)', function (e) {
+                alert("Hola");
+            })
+           
+               
             function SaveRutina(data) {
                 $.ajax({
                     type: "POST",
@@ -234,8 +113,7 @@
                     });
                 });
             }
-            var table;
-            var dataSet = [];
+
             var today = new Date();
             $(function () {
                 $("#dtp").datepicker({
@@ -243,6 +121,8 @@
             });
 
             function tabla() {
+                var table;
+                var dataSet = [];
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
@@ -250,16 +130,25 @@
                     success: function (data) {
                         $.each(data, function (i, v) {
                             var date = new Date(parseInt(v.RutinaFecha.substr(6)));
-                            dataSet.push([v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, ""]);
+                            dataSet.push(["", v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones]);
                         })
                         table = $('#rutina').DataTable({
                             data: dataSet,
                             columns: [
+                                {
+                                    orderable: false,
+                                    defaultContent: '',
+                                    className: 'select-checkbox',
+                                },
+                             
                                 { title: "Usuario" },
                                 { title: "Fecha" },
-                                { title: "Objetivo" },
-                                { title: "Acción" },
-                            ]
+                                { title: "Objetivo" }
+                            ],
+                            select: {
+                                style: 'os',
+                                selector: 'td:first-child'
+                            }
                         });
                     },
 
