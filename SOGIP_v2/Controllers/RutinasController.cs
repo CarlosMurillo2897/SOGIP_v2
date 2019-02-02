@@ -17,11 +17,22 @@ namespace SOGIP_v2.Controllers
         // GET: Rutinas
         public ActionResult Index()
         {
-            var rutina = db.Rutinas.ToList();
-            
-            return View(db.Rutinas.Include("Usuario"));
+            //var rutina = db.Rutinas.ToList();
+            //ViewBag.Rutinas = db.Rutinas.Include("Usuario");
+            //return View(db.Rutinas.Include("Usuario"));
+            return View();
+
         }
-    
+
+        public JsonResult GetRutinas()
+        {
+
+            //var Rutinas = db.Rutinas.ToList();
+            var Rutinas = db.Rutinas.Include("Usuario").ToList();
+            return Json(Rutinas, JsonRequestBehavior.AllowGet);
+
+        }
+
         // GET: Rutinas/Details/5
         public ActionResult Details(int? id)
         {

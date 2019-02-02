@@ -178,8 +178,8 @@
 
             var table;
             var dataSet = [];
-            cargaF();
             tabla();
+            cargaF();
 
             $('#funcionario').change(function () {
                 cargaF();
@@ -241,6 +241,7 @@
                 $("#dtp").datepicker({
                 });
             });
+
             function tabla() {
                 $.ajax({
                     type: "POST",
@@ -267,8 +268,6 @@
                     }
                 });
             }
-
-
 
         });
     </script>
