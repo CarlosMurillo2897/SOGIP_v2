@@ -1,5 +1,4 @@
-﻿@model IEnumerable<SOGIP_v2.Models.Rutina>
-
+﻿@model SOGIP_v2.Models.Rutina
 @{
     ViewBag.Title = "Lista de Rutinas";
 
@@ -17,67 +16,261 @@
     @Styles.Render("~/Content/manual.css")
 }
 
-<div class="container" style="min-height: 369px;">
-    @*<div class="col-md-12">
-        <h2 class="col-md-3" style="color: black">
-            <a href="/Home/Index/" class="btn btn-success" type="button">
-                <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
-            </a>
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-        <h2 class="col-md-5" style="color: black">
-            Registros > Rutinas > @ViewBag.Title
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-        <h2 class="col-md-2" style="color: black">
-            <a href="/Rutinas/Create/" class="btn btn-success" type="button">
-                Crear nueva rutina&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
-            </a>
-        </h2>
-    </div>*@
+<style>
+    .image-preview-input {
+        position: relative;
+        overflow: hidden;
+        margin: 0px;
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
 
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th>
-                Fecha de la rutina
-            </th>
-            <th>
-                Observaciones
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-
-                    @Html.DisplayFor(modelItem => item.Usuario.Cedula)
-                    @Html.DisplayFor(modelItem => item.Usuario.Nombre1)
-                    @Html.DisplayFor(modelItem => item.Usuario.Apellido1)
-                    @Html.DisplayFor(modelItem => item.Usuario.Apellido2)
-                </td>
-                <td>
-
-                    @item.RutinaFecha.ToShortDateString()
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RutinaObservaciones)
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.RutinaId }, new { @style = "color:#000aaa;" }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.RutinaId }, new { @style = "color:#000aaa;" })|
-                    @Html.ActionLink("Rutina", "Ejercicio", new { idRutina = item.RutinaId }, new { @style = "color:#000aaa;" })
-                </td>
-            </tr>
+        .image-preview-input input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+            opacity: 0;
+            filter: alpha(opacity=0);
         }
 
-    </table>
+    .image-preview-input-title {
+        margin-left: 2px;
+    }
+
+    .glyphicon-remove {
+        color: red;
+    }
+
+    #folder {
+        color: #ffe698;
+    }
+
+    .glyphicon-upload {
+        color: limegreen;
+    }
+
+    #upload {
+        border-radius: 0px 4px 4px 0px;
+    }
+
+    .invent {
+        color: limegreen;
+        cursor: pointer;
+    }
+</style>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalNew">
+    Nueva Rutina
+</button>
+<br>
+<br>
+<div id="UpdatePanel">
+    <table id="rutina" class="display" style="width:100%"></table>
 </div>
+@*Modal para crear rutina*@
+<div class="modal fade" id="myModalNew">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Crear Rutina</h3>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" value="original" id="hidden">
+                <form id="myForm">
+                    <label>Nombre de usuario</label>
+                    <br>
+                    <div class="form-group col-md-2">
+                        <table>
+                            <tr>
+                                <td><input type="radio" name="Tipo_Cta" id="funcionario" checked />Funcionario</td>
+                                <td><input type="radio" name="Tipo_Cta" id="atleta" />Atletas</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <br />
+                    <br />
+
+                    <div class="input-group" id="cedU">
+                        @* <input type="text" id="txtCed" class="form-control" />*@
+                        <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
+                    </div>
+
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label>Fecha: </label>
+                            <div class="input-group date" id="dtp">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input class="form-control" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Observaciones: </label>
+                            <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                <button type="button" id="btnSave" class="btn btn-default" style="background-color:#339966;">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+@*Modal para editar*@
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Información de Rutina</h3>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" value="original" id="hidden">
+                <form id="myForm">
+                    <div class="form-group">
+                        <label>Usuario: </label>
+                        <input type="text" class="form-control" placeholder="Usuario" id="usu" />
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-md-3">
+                            <label>Fecha: </label>
+                            <div class="input-group date" id="dtp">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input class="form-control" type="text" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Observaciones: </label>
+                            <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                <a href="#" class="btn btn-success" onclick="actualizar()">Guardar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/select/1.2.7/js/dataTables.select.min.js"></script>
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/jquery.timepicker.js")
+    <script>
+        $(document).ready(function () {
+
+            var table;
+            var dataSet = [];
+            cargaF();
+            tabla();
+
+            $('#funcionario').change(function () {
+                cargaF();
+            })
+
+            $('#atleta').change(function () {
+                cargaA();
+            })
+
+
+            $('#btnSave').click(function () {
+
+            })
+            function SaveRutina(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: "",
+                    data: data,
+                    success: function (data) {
+                        tabla();
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+
+
+            function cargaF() {
+                $.getJSON("/Rutinas/getUsuariosF", null, function (data) {
+                    $("#usuariosDropdown").empty() // Remove all <option> child tags.
+                    $.each(data, function (index, item) { // Iterates through a collection
+                        $("#usuariosDropdown").append(
+                            $('<option></option>')
+                                .text(item.cedNomCompleto)
+                                .val(item.idAtleta)
+                        );
+                    });
+                });
+            }
+
+            function cargaA() {
+                $.getJSON("/Rutinas/getUsuariosA", null, function (data) {
+                    $("#usuariosDropdown").empty() // Remove all <option> child tags.
+                    $.each(data, function (index, item) { // Iterates through a collection
+                        $("#usuariosDropdown").append(
+                            $('<option></option>')
+                                .text(item.cedNomCompleto)
+                                .val(item.idAtleta)
+                        );
+                    });
+                });
+            }
+            var table;
+            var dataSet = [];
+            var today = new Date();
+            $(function () {
+                $("#dtp").datepicker({
+                });
+            });
+            function tabla() {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: "/Rutinas/GetRutinas",
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            var date = new Date(parseInt(v.RutinaFecha.substr(6)));
+                            dataSet.push([v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, ""]);
+                        })
+                        table = $('#rutina').DataTable({
+                            data: dataSet,
+                            columns: [
+                                { title: "Usuario" },
+                                { title: "Fecha" },
+                                { title: "Objetivo" },
+                                { title: "Acción" },
+                            ]
+                        });
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
+            }
+
+
+
+        });
+    </script>
+
+}
