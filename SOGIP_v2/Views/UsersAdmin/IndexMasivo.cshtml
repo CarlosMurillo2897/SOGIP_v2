@@ -206,7 +206,7 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
-                    <a href="#" class="btn btn-success" onclick="actualizar()">Guardar</a>
+                    <a href="#" data-dismiss="modal" class="btn btn-success" onclick="actualizar()" >Guardar</a>
                 </div>
             </div>
         </div>
@@ -216,5 +216,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/bootstrap-timepicker.js")
     @Scripts.Render("~/Scripts/expedientes.js")
 }

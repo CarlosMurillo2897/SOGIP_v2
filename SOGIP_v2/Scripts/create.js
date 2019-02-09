@@ -296,6 +296,7 @@ function dataTable(direccion) {
                 'select': {
                     'style': 'os',
                     'selector': 'td:first-child'
+                    
                 }
             });
         },
@@ -304,6 +305,10 @@ function dataTable(direccion) {
             alert("Fallo");
         }
     });
+
+    $('#example').on('click', 'td.select-checkbox', function () { //usar
+        alert("hola");
+    });  
 
     $('#btnSave').click(function () {
 
@@ -326,7 +331,10 @@ function dataTable(direccion) {
 
     });
 
+   
+
 }
+
 
 function fillDT(direccion) {
     var isE = $('#example').DataTable();

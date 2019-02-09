@@ -206,7 +206,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\AtletasAsignadosController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
-    <Compile Include="Controllers\CitasGeneralController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
@@ -564,10 +563,12 @@
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
     <Content Include="Scripts\expedientes.js" />
+    <Content Include="Scripts\fullCalendar\admincalendar.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.min.js" />
     <Content Include="Scripts\fullCalendar\gcal.js" />
     <Content Include="Scripts\fullCalendar\gcal.min.js" />
+    <Content Include="Scripts\fullCalendar\generalcalendar.js" />
     <Content Include="Scripts\fullCalendar\locale\af.js" />
     <Content Include="Scripts\fullCalendar\locale\ar-dz.js" />
     <Content Include="Scripts\fullCalendar\locale\ar-kw.js" />
@@ -792,10 +793,6 @@
     <Content Include="Views\Horario\Edit.cshtml" />
     <Content Include="Views\Horario\Index.cshtml" />
     <Content Include="Views\CitasAdmin\Create.cshtml" />
-    <Content Include="Views\CitasAdmin\Delete.cshtml" />
-    <Content Include="Views\CitasAdmin\Details.cshtml" />
-    <Content Include="Views\CitasAdmin\Edit.cshtml" />
-    <Content Include="Views\CitasAdmin\Index.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Success.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Success2.cshtml" />
@@ -815,15 +812,11 @@
     <Content Include="Views\Rutinas\EditEjercicio.cshtml" />
     <Content Include="Views\Rutinas\DeleteEjercicio.cshtml" />
     <Content Include="Views\Rutinas\DetailsEjercicio.cshtml" />
-    <Content Include="Views\CitasGeneral\Create.cshtml" />
-    <Content Include="Views\CitasGeneral\Delete.cshtml" />
-    <Content Include="Views\CitasGeneral\Details.cshtml" />
-    <Content Include="Views\CitasGeneral\Edit.cshtml" />
-    <Content Include="Views\CitasGeneral\Index.cshtml" />
     <Content Include="Views\Busqueda\Index.cshtml" />
     <Content Include="Views\AtletasAsignados\Index.cshtml" />
     <Content Include="Views\AtletasAsignados\IndexS.cshtml" />
     <Content Include="Views\AtletasAsignados\IndexA.cshtml" />
+    <Content Include="Views\CitasAdmin\Create2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />

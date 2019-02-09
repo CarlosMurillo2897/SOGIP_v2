@@ -11,7 +11,7 @@
     });
 
 
-   /* var today = new Date();
+    var today = new Date();
     var min = new Date();
     var max = new Date();
     max.setFullYear(today.getFullYear() - 80);
@@ -25,7 +25,7 @@
             endDate: min,
             daysOfWeekDisabled: false
         });
-    });*/
+    });
 
 });
 
@@ -179,7 +179,7 @@ function uploadImage() {
                 var email = list[i].Email == null ? '' : list[i].Email;
 
                 $body.append(
-                    '<tr>' +
+                    '<tr id="' + list[i].Cedula + '">' +
                     '<td>' + list[i].Cedula + '</td>' +
                     '<td>' + list[i].Nombre1 + '</td>' +
                     '<td>' + nom2 + '</td>' +
@@ -220,17 +220,18 @@ function cargar(x) {
     $('#hidden').val(tr.attr('id'));
 }
 
-function actualizar() {
-    var tr = $('#' + $('#hidden').val());
-    tr.find('td:eq(0)').text($('#ced').val());
-    tr.find('td:eq(1)').text($('#nom1').val());
-    tr.find('td:eq(2)').text($('#nom2').val());
-    tr.find('td:eq(3)').text($('#apel1').val());
-    tr.find('td:eq(4)').text($('#apel2').val());
-    tr.find('td:eq(5)').text($('#email').val());
-    tr.find('td:eq(6)').text($("#dtp").data('datepicker').getFormattedDate('dd/mm/yyyy'));
-    tr.find('td:eq(7)').text($('#sexo').val());
-}
+
+    function actualizar() {
+        var tr = $('#' + $('#hidden').val());
+        tr.find('td:eq(0)').text($('#ced').val());
+        tr.find('td:eq(1)').text($('#nom1').val());
+        tr.find('td:eq(2)').text($('#nom2').val());
+        tr.find('td:eq(3)').text($('#apel1').val());
+        tr.find('td:eq(4)').text($('#apel2').val());
+        tr.find('td:eq(5)').text($('#email').val());
+        tr.find('td:eq(6)').text($("#dtp").data('datepicker').getFormattedDate('dd/mm/yyyy'));
+        tr.find('td:eq(7)').text($('#sexo').val());
+    }
 
 function registrar() {
     pop(true);

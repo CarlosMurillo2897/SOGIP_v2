@@ -96,7 +96,7 @@
                             @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
                             {
                                 <li>
-                                    <a href="~/CitasGeneral/Create?id=@User.Identity.GetUserId()">
+                                    <a href="~/CitasAdmin/Create2?id=@User.Identity.GetUserId()">
                                         <span class="glyphicon glyphicon-calendar"></span> Citas
                                     </a>
                                 </li>

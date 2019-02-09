@@ -660,7 +660,7 @@ namespace SOGIP_v2.Controllers
                         string terminos = "";
                         try
                         {
-                            terminos = Regex.Replace(nac.ToString(), @"[-.\\]", "/");
+                            terminos = Regex.Replace(nac.ToString(), @"[-\\]", "/");
                             nacimiento = Convert.ToDateTime(terminos);
 
 
