@@ -4,6 +4,19 @@
 @{
     ViewBag.Title = "Registro Manual";
 
+    ViewBag.Controller = "Usuarios";
+
+    ViewBag.Control = "UsersAdmin";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
+    ViewBag.Metodo = "Create";
+    ViewBag.MetodoIcono = "glyphicon-pencil";
+
+    // Si se necesita una Acción como crear nuevo usuario, rutina. Se selecciona está opción y la referencia o ruta del método.
+    // ViewBag.Referencia = "Rutina/Create";
+    // ViewBag.Accion = "Crear Rutina";
+
     List<SelectListItem> Sexo = new List<SelectListItem>();
     Sexo.Add(new SelectListItem
     {
@@ -20,23 +33,8 @@
 
 @Styles.Render("~/Content/manual.css")
 
-@*
-<div class="panel panel-body">
-    <div class="col-md-12">
-
-            @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
-            {
-
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true)
-                @Html.ValidationSummary(false, "Los siguientes campos obligatorios están vacios: ")
-                <div class="container">
-
-                    <div class="card card-default">
-*@
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
-
 
 <div class="container">
     @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
@@ -165,7 +163,7 @@
 
                     @* ASPECTOS GENERALES DE ASOCIACION-COMITÉ *@
                     <tr hidden id="title_aso" class="title_aso">
-                        <th><h4>ASPECTOS GENERALES DE ASOCIACION/COMITE</h4></th>
+                        <th><h4 style="word-break: break-all;">ASPECTOS GENERALES DE ASOCIACION/COMITE</h4></th>
                     </tr>
                     <tr hidden id="info_aso">
                         <td>
@@ -191,7 +189,7 @@
                                     <div class="col-md-8">
                                         @Html.Label("Seleccionar Categoria", new { @class = "control-label" })
                                         <div class="col-md-8">
-                                            <select name="SelectedCategory">
+                                            <select name="SelectedCategory" class="form-control">
                                                 @foreach (var category in (SelectList)ViewBag.Categorias)
                                                 {
                                                     <option value="@category.Value">
@@ -210,7 +208,7 @@
                                     <div class="col-md-10">
                                         @Html.Label("Seleccionar Deporte", new { @class = "control-label" })
                                         <div class="col-md-10">
-                                            <select name="SelectedSport">
+                                            <select name="SelectedSport" class="form-control">
                                                 @foreach (var sport in (SelectList)ViewBag.Deportes)
                                                 {
                                                     <option value="@sport.Value">
@@ -236,7 +234,7 @@
                                 <div class="form-group">
                                     <div class="col-md-10">
                                         @Html.Label("Seleccione la Entidad", new { @class = "control-label" })
-                                        <select name="SelectedEntity">
+                                        <select name="SelectedEntity" class="form-control">
                                             @foreach (var entity in (SelectList)ViewBag.Entidades)
                                             {
                                                 <option value="@entity.Value">
@@ -285,7 +283,7 @@
                                     <div class="col-md-10">
 
                                         @Html.Label("Seleccione la seleccion", new { @class = "control-label" })
-                                        <select name="SelectedS">
+                                        <select name="SelectedS" class="form-control">
                                             @foreach (var sel in (SelectList)ViewBag.Selecciones)
                                             {
                                                 <option value="@sel.Value">
@@ -304,7 +302,7 @@
                                 <div class="form-group">
                                     <div class="col-md-10">
                                         @Html.Label("Seleccione la Asociacion", new { @class = "control-label" })
-                                        <select name="SelectedAsox">
+                                        <select name="SelectedAsox" class="form-control">
                                             @foreach (var asox in (SelectList)ViewBag.Asociaciones)
                                             {
                                                 <option value="@asox.Value">
@@ -319,7 +317,7 @@
                     </tr>
 
                     @*DATOS PARA F.ICODER*@
-                    <tr hidden id="title_icoder"><th><h4>ASPECTOS GENERALES DE FUNCIONARIOS ICODER</h4></th></tr>
+                    <tr hidden id="title_icoder"><th><h4 style="word-break: break-all;">ASPECTOS GENERALES DE FUNCIONARIOS ICODER</h4></th></tr>
 
 
                     @*Selecciones y funcionarios*@
@@ -327,8 +325,10 @@
                         <td>
                             <div class="form-group">
                                 <div class="col-md-10">
-                                    <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar entrenador   <span class="glyphicon glyphicon-search"></span></button>
-
+                                    <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#me">
+                                        Buscar entrenador 
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
                                 </div>
                             </div>
                         </td>
@@ -358,7 +358,7 @@
         </div>
 
         @*Modal para las selecciones que muestra entrenadores*@
-        <div id="me" class="modal fade bd-example-modal-lg" role="dialog">
+        <div id="me" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -382,11 +382,10 @@
                                 </tr>
                             </thead>
                         </table>
-                        <div class="modal-footer">
-                            <br />
-                            <button type="button" id="btnSave" data-dismiss="modal" class="btn btn-success">Guardar Cambios</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnSave" data-dismiss="modal" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
@@ -402,9 +401,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/create.js")
-    <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
-
 }

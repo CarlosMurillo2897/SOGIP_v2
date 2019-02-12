@@ -228,9 +228,13 @@
     <Compile Include="Migrations\201901170040532__all.Designer.cs">
       <DependentUpon>201901170040532__all.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901170310571_Color_Tipo_Parámetro.cs" />
-    <Compile Include="Migrations\201901170310571_Color_Tipo_Parámetro.Designer.cs">
-      <DependentUpon>201901170310571_Color_Tipo_Parámetro.cs</DependentUpon>
+    <Compile Include="Migrations\201902060445148_Tipo_Archivo.cs" />
+    <Compile Include="Migrations\201902060445148_Tipo_Archivo.Designer.cs">
+      <DependentUpon>201902060445148_Tipo_Archivo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902100056571_deleteExtension.cs" />
+    <Compile Include="Migrations\201902100056571_deleteExtension.Designer.cs">
+      <DependentUpon>201902100056571_deleteExtension.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -268,6 +272,7 @@
     <Content Include="Contents\bootstrap-datepicker3.min.css" />
     <Content Include="Contents\bootstrap-datepicker3.standalone.css" />
     <Content Include="Contents\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\Archivos.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -734,6 +739,7 @@
     <Content Include="Scripts\locales\bootstrap-datepicker.vi.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-CN.min.js" />
     <Content Include="Scripts\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Scripts\Masivo.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\fullCalendar\moment.min.js" />
     <Content Include="Scripts\moment-with-locales.js" />
@@ -830,8 +836,11 @@
     <EmbeddedResource Include="Migrations\201901170040532__all.resx">
       <DependentUpon>201901170040532__all.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901170310571_Color_Tipo_Parámetro.resx">
-      <DependentUpon>201901170310571_Color_Tipo_Parámetro.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902060445148_Tipo_Archivo.resx">
+      <DependentUpon>201902060445148_Tipo_Archivo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902100056571_deleteExtension.resx">
+      <DependentUpon>201902100056571_deleteExtension.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

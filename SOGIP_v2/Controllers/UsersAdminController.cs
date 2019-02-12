@@ -131,12 +131,11 @@ namespace SOGIP_v2.Controllers
             return View(user);
         }
         [HttpPost]
-        public JsonResult getEntrenador()
+        public JsonResult getEntrenador(bool rolDeUsuario)
         {
-
-            var data = new ApplicationDbContext();
-            var users = data.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("4")).ToList();
-            
+            // Si es true es un entrenador, si es false es un administrador.
+            string var = rolDeUsuario ? "4" : "2";
+            var users = db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(var)).ToList();
             return Json(users, JsonRequestBehavior.AllowGet);
         }
 
@@ -231,8 +230,7 @@ namespace SOGIP_v2.Controllers
 
                                         Archivo file = new Archivo() {
                                             Nombre = CV.FileName,
-                                            Extension = Path.GetExtension(CV.FileName),
-                                            Tipo = CV.ContentType,
+                                            Tipo = db.Tipos.Where(x=>x.TipoId==1).FirstOrDefault(),
                                             Contenido = buffer,
                                             Usuario = db.Users.Single(x => x.Id == user.Id)
                                         };
@@ -418,16 +416,29 @@ namespace SOGIP_v2.Controllers
             });
         }
 
+            
+
+        public void Down(int archivoId)
+        {
+                var v = db.Archivo.Where(x => x.ArchivoId == archivoId).Include("Tipo").FirstOrDefault();
+                Response.Clear();
+                Response.AddHeader("Content-type", v.Tipo.Nombre);
+                Response.AddHeader("Content-Disposition", "attachment;filename=\"" + v.Nombre + "\"");
+                Response.BinaryWrite(v.Contenido);
+                Response.Flush();
+                Response.End();
+        }
+
         [HttpPost]
         public void Download(int Documento)
         {
-             var v = db.Archivo.Where( x => x.ArchivoId == Documento).FirstOrDefault();
+            var v = db.Archivo.Where( x => x.ArchivoId == Documento).Include("Tipo").FirstOrDefault();
 
             if (v != null)
             {
                 byte[] fileData = v.Contenido;
-                Response.AddHeader("Content-type", v.Tipo);
-                Response.AddHeader("Content-Disposition", "attachment; filename=" + v.Nombre);
+                Response.AddHeader("Content-type", v.Tipo.Nombre);
+                Response.AddHeader("Content-Disposition", "attachment; filename=\"" + v.Nombre + "\"");
 
                 byte[] dataBlock = new byte[0x1000];
                 long fileSize;
@@ -445,6 +456,7 @@ namespace SOGIP_v2.Controllers
                             Response.OutputStream.Write(dataBlock, 0, bytesRead);
 
                             Response.Flush();
+
                             totalsBytesRead += bytesRead;
                         }
 
@@ -507,8 +519,7 @@ namespace SOGIP_v2.Controllers
                             Archivo file = new Archivo()
                             {
                                 Nombre = CV.FileName,
-                                Extension = Path.GetExtension(CV.FileName),
-                                Tipo = CV.ContentType,
+                                Tipo = db.Tipos.Where(x=>x.TipoId==1).FirstOrDefault(),
                                 Contenido = buffer,
                                 Usuario = db.Users.Single(x => x.Id == user.Id)
                             };
@@ -603,7 +614,7 @@ namespace SOGIP_v2.Controllers
                 }
                 var package = new ExcelPackage(new System.IO.FileInfo(path));
 
-                int startColumn = 1; 
+                int startColumn = 1;
                 int startRow = 2;
 
                 ExcelWorksheet workSheet = package.Workbook.Worksheets[2]; // Read sheet 1.

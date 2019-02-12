@@ -15,8 +15,8 @@
 
 @Styles.Render("~/Content/Perfil.css")
 
-<div class="container">
-    <div class="well span8 offset 2">
+<div class="container-fluid">
+    <div class="well">
         <table id="tabla">
             <thead>
                 <tr>
@@ -28,93 +28,63 @@
         {
                 <tr>
                     <td>
-                        <div class="row user-row">
-
+                        <div class="row user-row dropdown-user" style="padding-right: 10px;" data-for=".@item.Id">
                             <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
-
                                 @if (item.Estado == true)
                                 {
-                                    <img class="img-circle" id="Comprobado-@item.Id"
-                                         src="~/Content/Imagenes/comprobado.png"
-                                         style="width: 50px; height: 50px;"
-                                         alt="User Pic">
+                                    <img class="img-circle" id="Comprobado-@item.Id" src="~/Content/Imagenes/comprobado.png" style="width: 50px; height: 50px;" alt="User Pic">
                                 }
                                 else
                                 {
-                                    <img class="img-circle" id="Cancelar-@item.Id"
-                                         src="~/Content/Imagenes/cancelar.png"
-                                         style="width: 50px; height: 50px;"
-                                         alt="User Pic">
+                                    <img class="img-circle" id="Cancelar-@item.Id" src="~/Content/Imagenes/cancelar.png" style="width: 50px; height: 50px;" alt="User Pic">
                                 }
-
                             </div>
-
                             <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
                                 <strong> @item.Cedula</strong><br>
                                 <strong> @item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
                                 <span class="text-muted">Tipo de Usuario: @ViewData[item.Id]</span>
                             </div>
-
-                            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 dropdown-user" data-for=".@item.Id">
+                            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin: 13px 0; padding: 5px; height: 100%;" id="boton-@item.Id">
                                 <i class="glyphicon glyphicon-chevron-down text-muted"></i>
                             </div>
-
                         </div>
-
                         <div class="row user-infos @item.Id">
-
                             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
-
                                 <div class="panel panel-primary">
-
                                     <div class="panel-heading">
                                         <h3 class="panel-title">Información de Usuario</h3>
                                     </div>
-
                                     <div class="panel-body">
                                         <div class="row">
-
                                             <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
                                                 @if (item.Sexo == true)
                                                 {
-                                                    <img class="img-circle"
-                                                         src="~/Content/Imagenes/M.png"
-                                                         style="width: 100px; height: 100px;"
-                                                         alt="User Pic">
+                                                    <img class="img-circle" src="~/Content/Imagenes/M.png" style="width: 100px; height: 100px;" alt="User Pic">
                                                 }
                                                 else
                                                 {
-                                                    <img class="img-circle"
-                                                         src="~/Content/Imagenes/W.png"
-                                                         style="width: 100px; height: 100px;"
-                                                         alt="User Pic">
+                                                    <img class="img-circle" src="~/Content/Imagenes/W.png" style="width: 100px; height: 100px;" alt="User Pic">
                                                 }
                                             </div>
-
                                             <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
                                                 @if (item.Sexo == true)
                                                 {
-                                                    <img class="img-circle"
-                                                         src="~/Content/Imagenes/M.png"
-                                                         style="width: 50px; height: 50px;"
-                                                         alt="User Pic">
+                                                    <img class="img-circle" src="~/Content/Imagenes/M.png" style="width: 40px; height: 40px;" alt="User Pic">
                                                 }
                                                 else
                                                 {
-                                                    <img class="img-circle"
-                                                         src="~/Content/Imagenes/W.png"
-                                                         style="width: 50px; height: 50px;"
-                                                         alt="User Pic">
+                                                    <img class="img-circle" src="~/Content/Imagenes/W.png" style="width: 50px; height: 50px;" alt="User Pic">
                                                 }
                                             </div>
-
                                             <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
-                                                <strong>@item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
+                                                <strong>@item.Nombre1</strong><br>
                                                 <dl id="tabla1-@item.Id">
                                                     <dt>Nombre:</dt>
-                                                    <dd>@item.Nombre1 @item.Nombre2</dd>
+                                                    <dd>@item.Nombre1</dd>
+                                                    <dd>@item.Nombre2</dd>
                                                     <dt>Apellidos:</dt>
-                                                    <dd>@item.Apellido1 @item.Apellido2</dd>
+                                                    <dd>@item.Apellido1</dd>
+                                                    <dd>@item.Apellido2</dd>
                                                     <dt>Fecha de Nacimiento:</dt>
                                                     <dd>@item.Fecha_Nacimiento.ToShortDateString()</dd>
                                                     <dt>E-mail:</dt>
@@ -131,7 +101,6 @@
                                                         <dd>Femenino</dd>
                                                     }
                                                     <dt>Documentos adjuntados:</dt>
-
                                                 </dl>
                                             </div>
                                             <div class=" col-md-9 col-lg-9 hidden-xs hidden-sm">
@@ -168,7 +137,6 @@
                                                             {
                                                                 <td>Femenino</td>
                                                             }
-
                                                         </tr>
                                                         <tr>
                                                             <td><strong>Documentos adjuntados:</strong></td>
@@ -182,14 +150,13 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="panel-footer">
-                                        @if (item.Roles.Any(x => x.RoleId == "1" || x.RoleId == "2"))
+                                        @if ((string)@ViewData[item.Id] == "Supervisor" || (string)@ViewData[item.Id] == "Administrador")
                                         {
                                             <button class="btn btn-sm btn-info" type="button" id="predeterminado-@item.Id"
                                                     data-toggle="tooltip"
                                                     data-original-title="Usuario no puede ser deshabilitado.">
-                                                Predeterminado <i class="glyphicon glyphicon-alert"></i>
+                                                <text class="hidden-xs">Interno</text> <i class="glyphicon glyphicon-alert"></i>
                                             </button>
                                         }
                                         else
@@ -199,7 +166,7 @@
                                                 <button class="btn btn-sm btn-danger" type="button" id="disable-@item.Id" onclick="dis('@item.Id', id);"
                                                         data-toggle="tooltip"
                                                         data-original-title="Deshabilitar este usuario.">
-                                                    Deshabilitar <i class="glyphicon glyphicon-remove"></i>
+                                                    <text class="hidden-xs">Deshabilitar</text> <i class="glyphicon glyphicon-remove"></i>
                                                 </button>
                                             }
                                             else
@@ -207,16 +174,15 @@
                                                 <button class="btn btn-sm btn-success" type="button" id="enable-@item.Id" onclick="dis('@item.Id', id);"
                                                         data-toggle="tooltip"
                                                         data-original-title="Habilitar este usuario.">
-                                                    Habilitar <i class="glyphicon glyphicon-check"></i>
+                                                    <text class="hidden-xs">Habilitar</text> <i class="glyphicon glyphicon-check"></i>
                                                 </button>
                                             }
                                         }
                                         <span class="pull-right">
                                             <a href="/UsersAdmin/Edit/@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
-                                                Editar  <i class="glyphicon glyphicon-edit"></i>
+                                                <text class="hidden-xs">Editar</text>  <i class="glyphicon glyphicon-edit"></i>
                                             </a>
                                         </span>
-
                                     </div>
                                 </div>
                             </div>

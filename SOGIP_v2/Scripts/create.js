@@ -2,20 +2,15 @@
     $('#selectedRoles').val('Atleta');
     formulario();
 
-    $('#selectedRoles').change(
-        function check() {
-
-            if ($('#selectedRoles').val() == 'Administrador' || $('#selectedRoles').val() == 'Supervisor') {
-                
-                if (!confirm("Está a punto de crear un Administrador o Supervisor. ¿Continuar?")) {
-                    $('#selectedRoles').val('Atleta');
-                    alert('Cambiando a rol tipo Atleta.');
-                }
+    $('#selectedRoles').change(function check() {
+        if ($('#selectedRoles').val() === 'Administrador' || $('#selectedRoles').val() === 'Supervisor') {     
+            if (!confirm("Está a punto de crear un Administrador o Supervisor. ¿Continuar?")) {
+                $('#selectedRoles').val('Atleta');
+                alert('Cambiando a rol tipo Atleta.');
             }
-                formulario();
-            
-        });
-
+        }
+        formulario(); 
+    });
 });
 
 var direccion;
@@ -29,7 +24,6 @@ function formulario() {
     $('sele_n').val('');
     $('#CV').val('');
     
-
     switch (rol_selected) {
 
         case "Asociacion/Comite":
@@ -257,25 +251,32 @@ function dataTable(direccion) {
         dataType: "JSON",
         url: direccion,
         success: function (data) {
-                $.each(data, function (i, v) {
+            $.each(data, function (i, v) {
                 dataSet.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
-            })
+            });
             table = $('#example').DataTable({
 
                 // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
                 // "iDisplayLength": 5,
                 "language": {
-                    "lengthMenu": "Mostrando MENU resultados por página.",
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
                     "zeroRecords": "No se han encontrado resultados.",
-                    "info": "Mostrando página PAGE de PAGES.",
+                    "info": "Mostrando página _PAGE_ de _PAGES_.",
                     "infoEmpty": "No hay datos para mostrar",
-                    "infoFiltered": "(filtrado de MAX datos obtenidos).",
-                    "search": "Buscar:",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
                     "paginate": {
                         "first": "Primero",
                         "last": "Ultimo",
                         "next": "Siguiente",
                         "previous": "Anterior"
+                    },
+                    "select": {
+                        "rows": {
+                            _: "%d registros seleccionados.",
+                            0: "Seleccione un cuadrado en la columna 'Acción'.",
+                            1: "1 registro seleccionado."
+                        }
                     }
                 },
                 data: dataSet,
@@ -311,7 +312,7 @@ function dataTable(direccion) {
         $.each(tblData, function (i, val) {
             var r = confirm("Desea realizar el cambio?");
 
-            if (r == true) {
+            if (r === true) {
                 $('#inpE').show();
                 document.getElementById("einf").value = val[1] + " " + val[2] + " " + val[3] + " " + val[4];
                 document.getElementById("hidef").value = val[1];
@@ -346,15 +347,15 @@ function isNumber(evt) {  // Aceptar solo números y otros comandos en la cédul
 
     var allow = $("input[name='Nacionalidad']:checked").val();
 
-    if (allow == "Nacional") {
+    if (allow === "Nacional") {
 
         var key = evt.which || evt.keyCode;
 
         // Detectar si Ctrl fue ingresado.
-        var ctrl = evt.ctrlKey ? evt.ctrlKey : ((key === 17) ? true : false); 
+        var ctrl = evt.ctrlKey ? evt.ctrlKey : key === 17 ? true : false; 
 
         // El código a continuación detecta si se va a Pegar(Ctrl + V = 118) algún texto y se valida que sea numérico.
-        if (key == 118 && ctrl) { 
+        if (key === 118 && ctrl) { 
             pegar(evt);
         }
 
@@ -365,13 +366,13 @@ function isNumber(evt) {  // Aceptar solo números y otros comandos en la cédul
          Rehacer (Ctrl + Y = 121) Deshacer (Ctrl + Z = 122). 
          */
 
-        else if (key == 8 || key == 9 || key == 35 || key == 36 || key == 37 || key == 38 || key == 39 || key == 40 || key == 46 ||
-            (key == 99 && ctrl) || (key == 114 && ctrl) || (key == 120 && ctrl) || (key == 121 && ctrl) || (key == 122 && ctrl)) {
-            return
+        else if (key === 8 || key === 9 || key === 35 || key === 36 || key === 37 || key === 38 || key === 39 || key === 40 || key === 46 ||
+            key === 99 && ctrl || key === 114 && ctrl || key === 120 && ctrl || key === 121 && ctrl || key === 122 && ctrl) {
+            return;
         }
 
         let ch = String.fromCharCode(key);
-        if (!(/[0-9]/.test(ch))) { // Detectar por medio de REGEX si es un número lo ingresado.
+        if (!/[0-9]/.test(ch)) { // Detectar por medio de REGEX si es un número lo ingresado.
             evt.preventDefault();
         }
 
@@ -382,7 +383,7 @@ function pegar(event) {
 
     var allow = $("input[name='Nacionalidad']:checked").val();
 
-    if (allow == "Nacional") {
+    if (allow === "Nacional") {
 
          // El código a continuación intercpeta lo que se procede a pegar.
         let data = (event.clipboardData || window.clipboardData).getData('text');
@@ -411,8 +412,8 @@ function brth(num) {             // 1 = BLUR      |       2 = KEYPRESSED
 
     var yy = now.getFullYear();
     var month = now.getMonth() + 1;
-    var mm = (month < 10) ? "0" + month : month; // Month - 1
-    var dd = (now.getDate() < 10) ? "0" + now.getDate() : now.getDate();
+    var mm = month < 10 ? "0" + month : month; // Month - 1
+    var dd = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
 
     var edadMaxima = yy - 80;
     var edadMinima = yy - 10;
@@ -420,7 +421,7 @@ function brth(num) {             // 1 = BLUR      |       2 = KEYPRESSED
     yy = yy - 10;
     var date = yy + "-" + mm + "-" + dd;
 
-    if (num == 2) { // Cambio realizado con el teclado.
+    if (num === 2) { // Cambio realizado con el teclado.
 
         // CASO 1 = FECHA MAYOR A LA ACTUAL NO ES PERMITIDA.
         if (birth >= date) {
@@ -429,7 +430,7 @@ function brth(num) {             // 1 = BLUR      |       2 = KEYPRESSED
 
     }
 
-    else if (num == 1) { // Campo ya no seleccionado.
+    else if (num === 1) { // Campo ya no seleccionado.
 
         // CASO 2 = FECHA MÁXIMA SON 80 AÑOS.
         if (birth <= edadMaxima + '-01-01') {

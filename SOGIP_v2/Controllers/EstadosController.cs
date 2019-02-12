@@ -17,7 +17,6 @@ namespace SOGIP_v2.Controllers
         // GET: Estados
         public ActionResult Index()
         {
-            
             return View(db.Estados.ToList());
         }
 

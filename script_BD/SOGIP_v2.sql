@@ -45,7 +45,7 @@ use "SOGIP_v3"
  select * from SOGIP_Roles order by Id asc;
  select * from SOGIP_Rutina;
  select * from SOGIP_Selecciones;
- select * from SOGIP_Tipo;
+ select * from SOGIP_Tipo order by TipoId;
  select * from SOGIP_Tipo_Deporte;
  select * from SOGIP_Tipo_Entidad;
  select * from SOGIP_UserClaims;

@@ -1,4 +1,7 @@
-﻿using SOGIP_v2.Models;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using SOGIP_v2.Models;
+using SOGIP_v2.Models.Agrupaciones;
 using System;
 using System.IO;
 using System.Linq;
@@ -10,139 +13,146 @@ namespace SOGIP_v2.Controllers
     public class ExpedientesFisicosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        
+        private ApplicationUserManager _userManager;
+
+        public ExpedientesFisicosController()
+        {
+
+        }
+
+        public ExpedientesFisicosController(ApplicationUserManager userManager)
+        {
+            UserManager = userManager;
+        }
+
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         public ActionResult Index()
         {
-       
-
-            return View();
+            var id = HttpContext.User.Identity.GetUserId();
+            var userRoles = UserManager.GetRoles(id);
+            ViewBag.Role = userRoles.First();
+            var list = db.Archivo.Include("Usuario").Include("Tipo").ToList();
+            return View(list);
         }
 
-
-        public JsonResult getUsuariosF()
+        public JsonResult ObtenerUsuarios()
         {
-
-            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
-            var consulta = //from a in db.Atletas
-                           from u in db.Users
-                           from f in db.Funcionario_ICODER
-                               //where u.Id.Equals(a.Usuario.Id)
-                           where u.Id.Equals(f.Usuario.Id)
-                           orderby u.Nombre1 ascending
-                           select new
-                           {
-                               idAtleta = u.Id,
-                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
-                           };
-
-            var getAtletas = consulta.ToList();
-            return Json(getAtletas, JsonRequestBehavior.AllowGet);
+            var list = db.Users.Where(x => x.Roles.Select(y => y.RoleId == "5" || y.RoleId == "6" || y.RoleId == "7").FirstOrDefault()).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
-
-        public JsonResult getUsuariosA()
+        public JsonResult ObtenerTipos(string role)
         {
-
-            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
-            var consulta = //from a in db.Atletas
-                           from u in db.Users
-                           from f in db.Atletas
-                               //where u.Id.Equals(a.Usuario.Id)
-                           where u.Id.Equals(f.Usuario.Id)
-                           orderby u.Nombre1 ascending
-                           select new
-                           {
-                               idAtleta = u.Id,
-                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
-                           };
-
-            var getAtletas = consulta.ToList();
-            return Json(getAtletas, JsonRequestBehavior.AllowGet);
+            var tipos = (role == "Entrenador") ? db.Tipos.Where(x => x.Nombre == "CV" || x.Nombre == "Prueba de Fuerza" || x.Nombre == "InBody").ToList() : db.Tipos.ToList();
+            return Json(tipos, JsonRequestBehavior.AllowGet);
         }
 
-
-        [HttpPost]
-        public ActionResult Index(HttpPostedFileBase inbody, HttpPostedFileBase pruFu, string usuarioDropdown)
+        public JsonResult SubirArchivo(string id, int select, HttpPostedFileBase archivo, int ArchivoId)
         {
-            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
-            var consulta = //from a in db.Atletas
-                           from u in db.Users
-                           from f in db.Funcionario_ICODER
-                               //where u.Id.Equals(a.Usuario.Id)
-                           where u.Id.Equals(f.Usuario.Id)
-                           orderby u.Nombre1 ascending
-                           select new
-                           {
-                               idAtleta = u.Id,
-                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2
-                           };
-
-            var getAtletas = consulta.ToList();
-            SelectList listaAtletas = new SelectList(getAtletas, "idAtleta", "cedNomCompleto");
-            ViewBag.Atletas = listaAtletas;
-
-
-            if (inbody == null || inbody.ContentLength == 0)
+            Archivo a = null;
+            if (ArchivoId == 0)
             {
-                TempData["msg"] = "<script>alert('No se selecciono ningún archivo');</script>";
-                return View();
-                //ViewBag.Error1 = "No se seleccionó ningún archivo o el archivo InBody está vacío<br/>";
-                //if (pruFu == null || pruFu.ContentLength == 0)
-                //{
-                //    ViewBag.Error2 = "No se seleccionó ningún archivo o el archivo de la Prueba de Fuerza está vacío<br/>";
-                //    return View();
-                //}
-                //else
-                //{
-                //    ViewBag.Error2 = "No se puede subir la Prueba de Fuerza si el archivo InBody no se encuentra<br/>";
-                //    return View();
-                //}
+                try
+                {
+                    BinaryReader br = new BinaryReader(archivo.InputStream);
+                    byte[] buffer = br.ReadBytes(archivo.ContentLength);
+                    // archivo.SaveAs(Server.MapPath("~/Content/Registros/" + archivo.FileName));
+
+                    a = new Archivo
+                    {
+                        Tipo = db.Tipos.Where(x => x.TipoId == select).FirstOrDefault(),
+                        Usuario = db.Users.Where(x => x.Cedula == id).FirstOrDefault(),
+                        Nombre = archivo.FileName,
+                        Contenido = buffer
+                    };
+
+                    db.Archivo.Add(a);
+                    db.SaveChanges();
+                }
+                catch (Exception)
+                {
+                    if (System.IO.File.Exists(Server.MapPath("~/Content/Registros/" + archivo.FileName)))
+                    {
+                        // System.IO.File.Delete(Server.MapPath("~/Content/Registros/" + archivo.FileName));
+                    }
+                    return Json(false, JsonRequestBehavior.AllowGet);
+                }
             }
             else
             {
-                if (inbody != null)
+                try
                 {
-                    BinaryReader br = new BinaryReader(inbody.InputStream);
-                    byte[] buffer = br.ReadBytes(inbody.ContentLength);
-
-                    Archivo file = new Archivo()
+                    var Archivo = db.Archivo.SingleOrDefault(x => x.ArchivoId == ArchivoId);
+                    if (select != 0 && Archivo.Tipo.TipoId != select)
                     {
-                        Nombre = inbody.FileName,
-                        Extension = Path.GetExtension(inbody.FileName),
-                        Tipo = inbody.ContentType,
-                        Contenido = buffer,
-                        Usuario = db.Users.Single(x => x.Id == usuarioDropdown)
-                    };
-                    db.Archivo.Add(file);
+                        Archivo.Tipo = db.Tipos.Where(x => x.TipoId == select).FirstOrDefault();
+                    }
+                    if (id != "" && Archivo.Usuario.Cedula != id)
+                    {
+                        Archivo.Usuario = db.Users.Where(x => x.Cedula == id).FirstOrDefault();
+                    }
+                    if (archivo != null)
+                    {
+                        BinaryReader br = new BinaryReader(archivo.InputStream);
+                        byte[] buffer = br.ReadBytes(archivo.ContentLength);
+                        Archivo.Contenido = buffer;
+                    }
+                    db.SaveChanges();
                 }
-
-                if (pruFu != null)
+                catch (Exception)
                 {
-                    BinaryReader br = new BinaryReader(pruFu.InputStream);
-                    byte[] buffer = br.ReadBytes(pruFu.ContentLength);
-
-                    Archivo pF = new Archivo()
-                    {
-                        Nombre = pruFu.FileName,
-                        Extension = Path.GetExtension(pruFu.FileName),
-                        Tipo = pruFu.ContentType,
-                        Contenido = buffer,
-                        Usuario = db.Users.Single(x => x.Id == usuarioDropdown)
-                    };
-                    db.Archivo.Add(pF);
+                    return Json(false, JsonRequestBehavior.AllowGet);
                 }
-                db.SaveChanges();
-
-                TempData["msg"] = "<script>alert('Archivo se subido correctamente');</script>";
-                return View();
             }
+            
+            // System.IO.File.Delete(Server.MapPath("~/Content/Registros/" + archivo.FileName));
+            
+            return Json(a, JsonRequestBehavior.AllowGet);
         }
 
-        [HttpPost]
-        public ActionResult Regresar()
+        public JsonResult EliminarArchivo(int id)
         {
-            return View("Index");
+            try
+            {
+                var archivo = db.Archivo.Where(x => x.ArchivoId == id).FirstOrDefault();
+                db.Archivo.Remove(archivo);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
+
+        //public JsonResult EditarArchivo(int id, string cedula, )
+        //{
+        //    try
+        //    {
+        //        var archivo = db.Archivo.Single(x => x.ArchivoId == id);
+        //        archivo.Usuario = db.Users.Single(y => y.Cedula == cedula);
+
+        //        db.SaveChanges();
+        //    }
+        //    catch (Exception)
+        //    {
+        //        return Json(false, JsonRequestBehavior.AllowGet);
+        //    }
+
+        //    return Json(true, JsonRequestBehavior.AllowGet);
+
+        //}
     }
 }

@@ -21,98 +21,9 @@
 
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
     @Styles.Render("~/Content/jquery.timepicker.css")
+    @Styles.Render("~/Content/Archivos.css")
 }
 
-<style>
-    .image-preview-input {
-        position: relative;
-        overflow: hidden;
-        margin: 0px;
-        color: #333;
-        background-color: #fff;
-        border-color: #ccc;
-    }
-
-        .image-preview-input input[type=file] {
-            position: absolute;
-            top: 0;
-            right: 0;
-            margin: 0;
-            padding: 0;
-            cursor: pointer;
-            opacity: 0;
-            filter: alpha(opacity=0);
-        }
-
-    .image-preview-input-title {
-        margin-left: 2px;
-    }
-
-    .glyphicon-remove {
-        color: red;
-    }
-
-    #folder {
-        color: #ffe698;
-    }
-
-    .glyphicon-upload {
-        color: limegreen;
-    }
-
-    #upload {
-        border-radius: 0px 4px 4px 0px;
-    }
-
-    .invent {
-        color: limegreen;
-        cursor: pointer;
-    }
-
-    #box {
-        /*width: 500px;*/
-        width: 45%;
-        overflow: hidden;
-        background: #f1f1f1;
-        box-shadow: 0 0 20px black;
-        border-radius: 8px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 9999;
-        padding: 10px;
-        text-align: center;
-        display: none;
-    }
-
-        #box span {
-            display: block;
-            margin: 20px 0;
-        }
-
-        #box h1 {
-            
-            font-size: 22px;
-        }
-
-    .cerrar {
-        font-size: 18px;
-        color: white;
-        text-decoration: none;
-        padding: 10px 20px;
-        cursor: pointer;
-        background: red;
-        display: inline-block;
-        border-radius: 4px;
-    }
-
-    .load{
-        width: 30%;
-    }
-
-
-</style>
 
 <div class="container" style="min-height: 369px;">
     <div class="col-md-12" style="margin-bottom: 20px;">
@@ -219,5 +130,5 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-    @Scripts.Render("~/Scripts/expedientes.js")
+    @Scripts.Render("~/Scripts/Masivo.js")
 }

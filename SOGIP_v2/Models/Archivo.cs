@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SOGIP_v2.Models.Agrupaciones;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,8 +11,7 @@ namespace SOGIP_v2.Models
         public int ArchivoId { get; set; }
         public string Nombre { get; set; }
         public byte[] Contenido { get; set; }
-        public string Tipo { get; set; }
-        public string Extension { get; set; }
+        public Tipo Tipo { get; set; }
         public ApplicationUser Usuario { get; set; }
     }
 }

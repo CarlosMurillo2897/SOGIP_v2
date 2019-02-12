@@ -14,12 +14,12 @@ namespace SOGIP_v2.Models.Agrupaciones
         public string Nombre { get; set; }
         /*
          Tipos de Archivos (Esto agilizará las búsquedas y recolección total de estos datos):
-            1. Fotos de usuarios.
-            2. InBody.
-            3. Prueba de Fuerza.
-            4. PDF.
-            5. Fotos de Actividades.
-            6. ¿?
+            1. Fotos de Actividades.
+            2. Fotos de Usuarios.
+            3. InBody.
+            4. Prueba de Fuerza.
+            5. CV.
+            6. Ingresos Masivos.
          */
     }
 }
