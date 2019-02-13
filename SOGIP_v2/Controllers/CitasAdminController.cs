@@ -124,7 +124,7 @@ namespace SOGIP_v2.Controllers
                 {
                     ApplicationUser User;
                     string userid = HttpContext.User.Identity.GetUserId();
-                    bool role = HttpContext.User.IsInRole("2");
+                    bool role = HttpContext.User.IsInRole("Administrador");
 
                     User = (role) ? db.Users.Single(x => x.Cedula == e.UsuarioCedula) : db.Users.Single(x => x.Id == userid);
 

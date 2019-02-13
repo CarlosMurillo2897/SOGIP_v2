@@ -115,11 +115,11 @@
             dayClick:
                 function (date, allDay, jsEvent, view) {//EVENTOS DEL DÍA
 
-                    timeP(date);
+                    allOpT(date);
 
                 },
             eventClick: function (calEvent, jsEvent, view) { //INFORMACIÓN DEL EVENTO
-                timeP(calEvent.start);
+                allOpT(calEvent.start);
                 if (calEvent.cedula == ced) {
                     selectedEvent = calEvent;
                     var check = calEvent.start.format("YYYY-MM-DD");
@@ -172,17 +172,19 @@
 
     }
 
-    function timeP(date) { //CONTROLAR TIMEPICKER
-        $('input.timepicker').timepicker('remove');
+    function allOpT(date) {
+        timeA(date);
+        timeP(date);
+        timeCal(hours, hours2);
+    }
+
+    function timeA(date) {
+        //$('input.timepicker').timepicker('remove');
+        hours2 = [];
         var nw = new Date(); //para  fechas iguales y horas no inferiores
         var currT = nw;
         nw = moment(nw).format('YYYY-MM-DD');
-        var hours2 = [];
-
-
-        var hours = []; //cualquier fecha
         var date = date.format('YYYY-MM-DD');
-
 
         if (date == nw) { //para fechas iguales
             var h = currT.getHours();
@@ -195,14 +197,21 @@
 
             mi = mi < 10 ? '0' + mi : mi;
             var currentTime = h + ':' + mi + ap;
-
             hours2.push(['6:00am', currentTime]);
+
+
         }
+    }
+
+    function timeP(date) { //CONTROLAR TIMEPICKER
+        hours = [];
+        var date = date.format('YYYY-MM-DD');
+
         $('#calendar').fullCalendar('clientEvents', function (event) { //TODAS LAS HORAS DE LAS CITAS DE UN DÍA "loop"
+
             var start = moment(event.start).format("YYYY-MM-DD");
             var co = new Date(event.start); //hora inicio
             var fi = new Date(event.end); //hora finalización
-
             var hour1 = co.getHours();
             var min1 = co.getMinutes();
             var hour2 = fi.getHours();
@@ -228,24 +237,61 @@
 
             }
 
-            $(function () {
-                var hours3 = hours.concat(hours2);
-                $('input.timepicker').timepicker({
-                    'step': 60,
-                    'disableTimeRanges': hours3,
-                    'minTime': '6:00am',
-                    'maxTime': '7:00pm',
-                     dropdown: true,
-                    'disableTextInput': true
-                });
-            });
-
-
         });
+
     }
 
+    function timeCal(hours, hours2) {
+        $('input.timepicker').timepicker('remove');
 
 
+        if (hours.length != 0 && hours2.length != 0) {
+            var hours3 = hours.concat(hours2);
+            $('input.timepicker').timepicker({
+                'step': 60,
+                'disableTimeRanges': hours3,
+                'minTime': '6:00am',
+                'maxTime': '7:00pm',
+                'disableTextInput': true
+
+            });
+        }
+
+        else if (hours.length != 0 && hours2) {
+
+            $('input.timepicker').timepicker({
+
+                'minTime': '6:00am',
+                'step': 60,
+                'disableTimeRanges': hours,
+                'maxTime': '7:00pm',
+                'disableTextInput': true
+
+            });
+        }
+
+        else if (hours2.length != 0 && hours) {
+            $('input.timepicker').timepicker({
+                'step': 60,
+                'disableTimeRanges': hours2,
+                'minTime': '6:00am',
+                'maxTime': '7:00pm',
+                'disableTextInput': true
+            });
+        }
+
+        else {
+            $('input.timepicker').timepicker({
+                'step': 60,
+                'minTime': '6:00am',
+                'maxTime': '7:00pm',
+                'disableTextInput': true
+
+            });
+        }
+
+
+    }
 
 
     //EDITAR CITA
