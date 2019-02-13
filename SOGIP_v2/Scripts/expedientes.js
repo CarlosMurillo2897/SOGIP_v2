@@ -1,9 +1,21 @@
 ﻿$(document).ready(function () {
+    var x;
+    // Limpiar todos los campos una vez que se recarga la página.
     clear();
-    tablaUsuarios();
     $('#usuario').val('');
-    fillDT();
-    
+
+    llenarTablaArchivos();
+    cargarTipos();
+
+    $('#select').change(function () {
+        if ($(this).val() === '0') {
+            $('#Load_Big').attr('src', '/Content/Imagenes/comprobado.png');
+        }
+        else {
+            $('#Load_Big').attr('src', '/Content/Imagenes/cancelar.png');
+        }
+    });
+    //llenarDataTable();
 });
 
 $(document).on('click', '#close-preview', function () {
@@ -68,66 +80,7 @@ function clear() {
     $("#upload").css("display", "");
 }
 
-function uploadImage() {
-    var archivo = $('#excelfile')[0].files[0];
-
-    if (archivo.size >= 20000000 && !confirm('\n¡Cuidado! Estás intentando subir un archivo de más de 20MB.\n\n ¿Estás seguro de querer subir este archivo?\n\n')) {
-        clear();
-        archivo = null;
-        throw error;
-    }
-
-    var data = new FormData();
-    data.append('excelfile', archivo);
-
-    pop(true);
-    $.ajax({
-        type: "POST",
-        url: "/UsersAdmin/Import",
-        data: data,
-        contentType: false,
-        processData: false,
-        success: function (list) {
-            clear();
-            var $table = $('<table/>').addClass('table table-responsive table-striped table-bordered');
-            var $header = $('<thead/>').html('<tr>><th>Cédula</th><th>1° Nombre</th><th>2° Nombre</th><th>1° Apellido</th><th>2° Apellido</th>' +
-                '<th>E-mail</th><th>Nacimiento</th><th>Sexo</th><th style="text-align: center;"><span class="glyphicon glyphicon-cog"></span></th></tr>'
-            );
-
-            $table.append($header);
-            var $body = $('<tbody/>');
-
-            $.each(list, function (i) {
-                var date = new Date(parseInt(list[i].Fecha_Nacimiento.substr(6)));
-                var sexo = list[i].Sexo === true ? 'Masculino' : 'Femenino';
-                var ap2 = list[i].Apellido2 === null ? '' : list[i].Apellido2;
-                var email = list[i].Email === null ? '' : list[i].Email;
-
-                $body.append(
-                    '<tr id="' + i + '">' +
-                    '<td>' + list[i].Cedula + '</td>' +
-                    '<td>' + list[i].Nombre1 + '</td>' +
-                    '<td>' + list[i].Nombre2 + '</td>' +
-                    '<td>' + list[i].Apellido1 + '</td>' +
-                    '<td>' + ap2 + '</td>' +
-                    '<td>' + email + '</td>' +
-                    '<td>' + date.toLocaleDateString('en-GB') + '</td>' +
-                    '<td>' + sexo + '</td>' +
-                    '<td style="text-align: center;">' +
-                    '<span class="glyphicon glyphicon-pencil invent" data-toggle="modal" onclick="cargar(this)" data-target="#myModal"></span>' +
-                    '</td></tr>');
-            });
-            $table.append($body);
-            $('#UpdatePanel').html($table);
-            $('#registrar').html('<a class="btn btn-block btn-success" onclick="registrar()">Registrar</a>');
-            contenidoPop(1);
-        },
-        error: function (data) {
-            contenidoPop(0);
-        }
-    });
-}
-
+// La función pop nos despliega el modal pequeño de carga, con el cual se indica si se está ejecutando una acción, se completó o no se pudo realizar.
 function pop(status) {
     document.getElementById('box').style.display = status ? "block" : "none";
     if (!status) {
@@ -135,6 +88,7 @@ function pop(status) {
     }
 }
 
+// Este método indica por medio del "pop up" (modal pequeño), si la tarea fue efectiva, incorrecta o si está en proceso.
 function contenidoPop(content) {
     if (content === 0) {
         $('#box img').attr('src', '/Content/Imagenes/cancelar.png');
@@ -153,14 +107,13 @@ function contenidoPop(content) {
     }
 }
 
-function fillDT() {
+function llenarDataTable() {
     var isE = $('#example').DataTable();
-    isE.destroy(); //es mejor destruirla para poder incializarla
-    dataTable();
-    cargarTipos();
+    isE.destroy();
+    tablaUsuarios();
 }
 
-function dataTable() {
+function tablaUsuarios() {
     var table;
     var dataSet = [];
 
@@ -173,8 +126,6 @@ function dataTable() {
                 dataSet.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
             });
             table = $('#example').DataTable({
-                // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
-                // "iDisplayLength": 5,
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
                     "zeroRecords": "No se han encontrado resultados.",
@@ -216,13 +167,18 @@ function dataTable() {
             });
         },
         error: function (error) {
-            alert("Fallo");
+            alert("Error en la carga de usuarios.");
         }
     });
 
+    // Acá indicamos que si tocan un check-box se cambie el valor del input de texto "usuario", tomando céd, nom1, nom2, ap1 y ap2 para indicar quien está seleccionado.
+    // También, otorgamos la propiedad de desplegar la datatable o cerrar la misma al botón naranja.
+    // A su vez, una vez seleccionada una casilla se procederá a cerrar la dataTable con el método "manipularDT();" y a la vez, se cambiará el texto dentro del botón naranja.
     $('#example').on('click', 'td.select-checkbox', function () {
         var td = $(this);
         var tr = td.closest('tr');
+        x = tr;
+
         $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
         manipularDT();
         $('#botón').attr('onclick', 'manipularDT();');
@@ -233,6 +189,8 @@ function dataTable() {
 
 }
 
+// Al hacer uso de slideToggle indicamos que en 400 milisegundos (4segs) se esconda o muestre por el contrario cualquier elemento específicado.
+// En el proceso de esconder o mostrar el elemento tomaremos el texto del botón y lo cambiaremos, así como el ícono que lo acompaña.
 function manipularDT() {
     $('#Tabla_Usuarios').slideToggle(400, function () {
         if ($('#Tabla_Usuarios').is(':visible')) {
@@ -247,7 +205,6 @@ function manipularDT() {
 }
 
 function cargarTipos() {
-
     $.ajax({
         type: "POST",
         data: { role: $('#Role').val() },
@@ -264,6 +221,9 @@ function cargarTipos() {
     });
 }
 
+// Para determinar si el archivo fue subido correctamente haremos uso del popup de carga.
+// Primeramente, antes de proceder al AJAX usaremos el método pop(true), con el cual mostraremos el .gif de carga.
+// Dentro del ajax en caso de ser success mostraremos un check en vez del .gif que se mostró primeramente, en caso contrario mostraremos una X roja.
 function subirArchivo() {
     var select = $("#select option:selected").val();
     var id = $('#usuario').val().split(' ')[0];
@@ -274,19 +234,15 @@ function subirArchivo() {
         archivo = undefined;
     }
 
-    var ext = archivo.name.split('.').pop();
-
-    if (archivo !== undefined && ext === 'dsa' || ext === 'mp3') {
-        alert('Archivos de este tipo son peligrosos para nuestro sistema.');
-        clear();
-        archivo = undefined;
-    }
-
     if (select === '0' || id === '' || archivo === undefined) {
         alert('Error, faltan datos por completar.');
     }
 
     else {
+
+        //*************** Mostramos el pop up.
+        pop(true);
+
         var data = new FormData();
         data.append('archivo', archivo);
         data.append('id', id);
@@ -300,25 +256,39 @@ function subirArchivo() {
             contentType: false,
             processData: false,
             success: function (data) {
+                // Cambiamos la imágen que despliega el pop up (.gif) por un check.
+                contenidoPop(1);
+
                 var table = $('#archivos').DataTable();
-                table.row.add(["", data.Nombre, data.Tipo.Nombre, data.Usuario.Nombre1 + " " + data.Usuario.Nombre2 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, data.ArchivoId]).draw();
-                clear();
-                $('#usuario').val('');
+                table.row.add({
+                    "Nombre": data.Nombre,
+                    "Tipo": data.Tipo.Nombre,
+                    "Usuario": data.Usuario.Cedula + " " + data.Usuario.Nombre1 + " " + data.Usuario.Nombre2 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2,
+                    "Id": data.ArchivoId
+                }).draw();
+
+                x.removeClass('selected');
+                $('#usuario').val('');  
                 $('#select').val(0);
+                clear();
             },
             error: function (data) {
-                alert(data.Nombre + 'Error en los datos.');
-                var table = $('#archivos').DataTable();
-                table.ajax.reload();
+                contenidoPop(1);
+
+                $('#archivos').DataTable().ajax.reload(null, false);
+                x.removeClass('selected');
+                $('#select').val(0);
+                $('#usuario').val('');
+                clear();
             }
         });
     }
 }
 
-function tablaUsuarios() {
+// En este caso, haremos uso de la propiedad AJAX para inyectar directamente a través de una lista los archivos.
+// Tomaremos las propiedades que provengan del controller {Nombre, Tipo, Usuario y Id}. Con el campo Id renderizaremos lo que son 3 botones.
+function llenarTablaArchivos() {
     $('#archivos').DataTable({
-            // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
-            // "iDisplayLength": 5,
             "language": {
                 "lengthMenu": "Mostrando _MENU_ resultados por página.",
                 "zeroRecords": "No se han encontrado registros.",
@@ -331,38 +301,37 @@ function tablaUsuarios() {
                     "last": "Ultimo",
                     "next": "Siguiente",
                     "previous": "Anterior"
-                },
-                "select": {
-                    "rows": {
-                        _: "%d registros seleccionados.",
-                        0: "Seleccione un cuadrado en la columna 'Acción'.",
-                        1: "1 registro seleccionado."
+                }
+            },
+            "ajax": {
+                "url": "/ExpedientesFisicos/ObtenerArchivos",
+                "type": "GET",
+                "dataSrc": ""
+            },
+            columns: [
+                { data: "Nombre" },
+                { data: "Tipo" },
+                { data: "Usuario" },
+                {
+                    data: "Id",
+                    "render": function (Id) {
+                        debugger
+                        return "<a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
+                                    "<text class='hidden-xs'>Eliminar </text>" +
+                                    "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                "</a>" +
+                                "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>" +
+                                    "<text class='hidden-xs'>Editar </text>" +
+                                    "<span class='glyphicon glyphicon-pencil'></span>" +
+                                "</a>" +
+                                "<a class='btn btn-info' href='/UsersAdmin/Down?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
+                                    "<text class='hidden-xs'>Descargar </text>" +
+                                    "<span class='glyphicon glyphicon-download'></span>" +
+                                "</a>";
                     }
                 }
-        }/*,
-        columns: [
-            { title: "Nombre" },
-            { title: "Tipo" },
-            { title: "Usuario" },
-            { title: "Acción" }
-        ]*/
+            ]
     });
-
-    //$('#archivos').on('click', 'td.select-checkbox', function () {
-    //    var td = $(this);
-    //    var tr = td.closest('tr');
-    //    var table = $('#archivos').DataTable();
-    //    var data = table.row(tr).data();
-    //    alert(data[4]);
-        
-        //$('#archivo ').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
-        //manipularDT();
-
-        //if (tr.hasClass('selected')) {
-        //    $('#usuario').val('');
-        //}
-
-    //});
 }
 
 function EliminarArchivo(id) {

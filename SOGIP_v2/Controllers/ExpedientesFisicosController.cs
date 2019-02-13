@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.Owin;
 using SOGIP_v2.Models;
 using SOGIP_v2.Models.Agrupaciones;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -15,10 +16,7 @@ namespace SOGIP_v2.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
 
-        public ExpedientesFisicosController()
-        {
-
-        }
+        public ExpedientesFisicosController(){ }
 
         public ExpedientesFisicosController(ApplicationUserManager userManager)
         {
@@ -42,14 +40,55 @@ namespace SOGIP_v2.Controllers
             var id = HttpContext.User.Identity.GetUserId();
             var userRoles = UserManager.GetRoles(id);
             ViewBag.Role = userRoles.First();
-            var list = db.Archivo.Include("Usuario").Include("Tipo").ToList();
-            return View(list);
+            return View();
         }
 
-        public JsonResult ObtenerUsuarios()
+        public JsonResult ObtenerArchivos()
         {
-            var list = db.Users.Where(x => x.Roles.Select(y => y.RoleId == "5" || y.RoleId == "6" || y.RoleId == "7").FirstOrDefault()).ToList();
-            return Json(list, JsonRequestBehavior.AllowGet);
+                var consulta = from a in db.Archivo
+                    select new
+                    {
+                        Nombre = a.Nombre,
+                        Tipo = a.Tipo.Nombre,
+                        Usuario = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
+                        Id = a.ArchivoId
+                    };
+
+            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ObtenerUsuarios(int select)
+        {
+            switch (select)
+            {
+                case 1:
+                    {
+                        var list = db.Users.Where(x => x.Roles.Select(y => y.RoleId == "5" || y.RoleId == "6" || y.RoleId == "7").FirstOrDefault()).ToList();
+                        var roles = db.Roles.ToList();
+                        return Json(list, JsonRequestBehavior.AllowGet);
+                    }
+                case 2:
+                    {
+                        var list = db.Users.Where(x => x.Roles.Select(y => y.RoleId == "5" || y.RoleId == "6" || y.RoleId == "7").FirstOrDefault()).ToList();
+                        
+                        return Json(list, JsonRequestBehavior.AllowGet);
+                    }
+                case 3:
+                    {
+                        var list = db.Users.Where(x => x.Roles.Select(y => y.RoleId == "5" || y.RoleId == "6" || y.RoleId == "7").FirstOrDefault()).ToList();
+                        return Json(list, JsonRequestBehavior.AllowGet);
+                    }
+                case 4:
+                    {
+                        var list = db.Users.Where(x => x.Roles.Select(y => y.RoleId == "5" || y.RoleId == "6" || y.RoleId == "7").FirstOrDefault()).ToList();
+                        return Json(list, JsonRequestBehavior.AllowGet);
+                    }
+
+                default:
+                    {
+                        return Json(false, JsonRequestBehavior.AllowGet);
+                    }
+            }
         }
 
         public JsonResult ObtenerTipos(string role)
@@ -67,7 +106,6 @@ namespace SOGIP_v2.Controllers
                 {
                     BinaryReader br = new BinaryReader(archivo.InputStream);
                     byte[] buffer = br.ReadBytes(archivo.ContentLength);
-                    // archivo.SaveAs(Server.MapPath("~/Content/Registros/" + archivo.FileName));
 
                     a = new Archivo
                     {
@@ -82,10 +120,6 @@ namespace SOGIP_v2.Controllers
                 }
                 catch (Exception)
                 {
-                    if (System.IO.File.Exists(Server.MapPath("~/Content/Registros/" + archivo.FileName)))
-                    {
-                        // System.IO.File.Delete(Server.MapPath("~/Content/Registros/" + archivo.FileName));
-                    }
                     return Json(false, JsonRequestBehavior.AllowGet);
                 }
             }
@@ -116,8 +150,6 @@ namespace SOGIP_v2.Controllers
                 }
             }
             
-            // System.IO.File.Delete(Server.MapPath("~/Content/Registros/" + archivo.FileName));
-            
             return Json(a, JsonRequestBehavior.AllowGet);
         }
 
@@ -136,23 +168,5 @@ namespace SOGIP_v2.Controllers
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-
-        //public JsonResult EditarArchivo(int id, string cedula, )
-        //{
-        //    try
-        //    {
-        //        var archivo = db.Archivo.Single(x => x.ArchivoId == id);
-        //        archivo.Usuario = db.Users.Single(y => y.Cedula == cedula);
-
-        //        db.SaveChanges();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Json(false, JsonRequestBehavior.AllowGet);
-        //    }
-
-        //    return Json(true, JsonRequestBehavior.AllowGet);
-
-        //}
     }
 }

@@ -454,6 +454,7 @@
     <Content Include="Content\Imagenes\fondo_e.png" />
     <Content Include="Content\Imagenes\icoder_blanco.png" />
     <Content Include="Content\Imagenes\loader.gif" />
+    <Content Include="Content\Imagenes\Load_Big.gif" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
     <Content Include="Content\Imagenes\logo_white.png" />
     <Content Include="Content\Imagenes\trianglify.png" />
