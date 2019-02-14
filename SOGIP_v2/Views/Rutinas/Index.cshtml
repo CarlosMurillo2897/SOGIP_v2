@@ -8,146 +8,411 @@
     ViewBag.Metodo = "Index";
     ViewBag.MetodoIcono = "glyphicon-edit";
 
-    ViewBag.Referencia = "Rutinas/Create";
-    ViewBag.Accion = "Crear Rutina";
-
-    @Styles.Render("~/Content/Rutina.css")
-    @Styles.Render("~/Content/Detalle_Rutina.css")
+    @Styles.Render("~/Contents/bootstrap-datepicker.css")
 }
 
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalNew"  >
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nueva" id="btnNuevo">
     Nuevo
 </button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalNew" id="editar">
-    Editar 
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editar" id="btnEditar">
+    Editar
 </button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModalNew">
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eliminar" id="btnEliminar">
     Eliminar
 </button>
+<button type="button" class="btn btn-primary"  id="btnRutina">
+    Rutina
+</button>
 <br>
 <br>
-<table id="rutina" class="display" style="width:100%">
-    <thead>
-        <tr>
-            <th>Acción</th>
-            <th>Usuario</th>
-            <th>Fecha</th>
-            <th>Objetivo</th>
-        </tr>
-    </thead>
-</table>
+@*Modal Nueva Rutina *@
+<div id="nueva" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Crear nueva Rutina</h4>
+                <br>
+                <label>Fecha Inicio de Rutina: </label>
+                <div class="input-group date" id="fec">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <input class="form-control" type="text" />
+                </div>
 
+                <br>
+                <label>Objetvio de la Rutina: </label>
+                <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
+            </div>
+            <div class="modal-body">
+                @*Tabla de entrenadores*@
+                <a class="btn btn-info" data-toggle="popover" title="¿Cómo funciona?" data-content="Seleccione el entrenador mediante un click a una casilla perteneciente a la columna acción, luego guarde los cambios">
+                    <span class="glyphicon glyphicon-question-sign"></span> Ayuda
+                </a>
+                <hr />
+                <table id="example" class="display" style="width:100%"></table>
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnSave" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Modal para editar*@
+<div id="editar" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Editar Rutina</h4>
+                <br>
+                <tr hidden id="inpE">
+                    <td>
+                        <div>
+                            <div class="form-group">
+                                <div class="col-xs-15">
+                                    <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
+                                    <input type="hidden" class="hidef form-control" name="hidef" id="hidef" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <label>Fecha Inicio de Rutina: </label>
+                <div class="input-group date" id="fecha">
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    <input class="form-control" type="text" />
+                </div>
+                <br>
+                <label>Objetvio de la Rutina: </label>
+                <input type="text" class="form-control" placeholder="Objetivo" id="objetivo" />
+            </div>
+            <div class="modal-body">
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal" >Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*Modal para eliminar*@
+<div id="eliminar" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Eliminar Rutina</h4>
+                <br>
+                <label>Usuario: </label>
+                <tr hidden id="us">
+                    <td>
+                        <div>
+                            <div class="form-group">
+                                <div class="col-xs-15">
+                                    <input type="text" class="einf form-control" name="nombre_aso" id="us1" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <label>Fecha Inicio de Rutina: </label>
+                <tr hidden id="fe">
+                    <td>
+                        <div>
+                            <div class="form-group">
+                                <div class="col-xs-15">
+                                    <input type="text" class="einf form-control" name="nombre_aso" id="fe1" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <label>Objetvio de la Rutina: </label>
+                <tr hidden id="obje">
+                    <td>
+                        <div>
+                            <div class="form-group">
+                                <div class="col-xs-15">
+                                    <input type="text" class="einf form-control" name="nombre_aso" id="obje1" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            <div class="modal-body">
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="eliminar2" class="btn btn-success" data-dismiss="modal">Eliminar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </div>
+@*La tabla principal*@
+<div class="table-responsive">
+    <table id="rutina" class="display" style="width:100%"></table>
+</div>
 
 @section Scripts {
-
-    <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
-    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-    @Scripts.Render("~/Scripts/jquery.timepicker.js")
     <script>
+
         $(document).ready(function () {
-
-
+            var table;
+            var dataSet = [];
+            var table1;
+            var dataSet1 = [];
             tabla();
-            cargaF();
-
-            $('#funcionario').change(function () {
-                cargaF();
+            $('#btnNuevo').click(function () {
+                usuarios();
             })
-
-            $('#atleta').change(function () {
-                cargaA();
+            $('#btnRutina').click(function () {
+                var tblData = table.rows('.selected').data();
+                var idRutina = null;
+                var idUsuario = null;
+                $.each(tblData, function (i, val) {
+                    idUsuario = val[1];
+                    idRutina = val[5];
+                });
+                data = {
+                    idUsuario: idUsuario,
+                        idRutina: idRutina
+                }
+                window.location.href = '/Rutinas/Ejercicio?idRutina=' + idRutina + '& idUsuario=' + idUsuario ; 
+                 
             })
-
+            $('#btnEditar').click(function () {
+                var tblData = table.rows('.selected').data();
+                var n = null;
+                var ob = null;
+                var fec = null;
+                $.each(tblData, function (i, val) {
+                    n = val[1] + " " + val[2];
+                    fec = val[3];
+                    ob = val[4];
+                    idRut = val[5];
+                });
+                $('#inpE').show();
+                document.getElementById("einf").value = n;
+                document.getElementById("hidef").value = n
+                $('#objetivo').val(ob);
+                $('#fecha').datepicker("update", fec);
+                $('#btnEdit').click(function () {
+                   data = {
+                    fecha: $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                    obs:$('#objetivo').val().trim(),
+                    id: idRut
+                    }
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/Rutinas/EditRutina',
+                        data: data,
+                        success: function (data) {
+                            if (data.status) {
+                            }
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
+                })
+            })
+            $('#btnEliminar').click(function () {
+                var tblData = table.rows('.selected').data();
+                var n = null;
+                var ob = null;
+                var fec = null;
+                var id = null;
+                $.each(tblData, function (i, val) {
+                    n = val[1] + " " + val[2];
+                    fec = val[3];
+                    ob = val[4];
+                    idRut = val[5];
+                });
+                $('#us').show();
+                document.getElementById("us1").value = n;
+                $('#fe').show();
+                document.getElementById("fe1").value = fec;
+                $('#obje').show();
+                document.getElementById("obje1").value = ob;
+                $('#eliminar2').click(function () {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/Rutinas/DeleteRutina',
+                        data: { 'rutinaId': idRut },
+                        success: function (data) {
+                            if (data.status) {
+                                table.rows('.selected').remove().draw();
+                            }
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
+                })
+            })
             $('#btnSave').click(function () {
+                var data = null;
+                var objetivo = $('#obj').val();
+                var fecha = $('#fec').data('datepicker').getFormattedDate('dd/mm/yyyy');
+                var tblData = table1.rows('.selected').data();
+                var n = null;
+                $.each(tblData, function (i, val) {
+                    n = val[1];
+                });
+                data = {
+                    fecha: $('#fec').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                    obs: $('#obj').val().trim(),
+                    id: n
+                }
+                SaveDate(data);
 
             })
-            $('#rutina').on('click', 'tbody th:not(:first-child)', function (e) {
-                alert("Hola");
+            var today = new Date();
+            var min = new Date();
+            var max = new Date();
+            max.setFullYear(today.getFullYear() - 5);
+            min.setFullYear(today.getFullYear() + 1);
+            $(function () {
+                $("#fecha").datepicker({
+                    format: 'dd/mm/yyyy',
+                    defaultViewDate: max,
+                    startDate: max,
+                    endDate: min,
+                    daysOfWeekDisabled: false
+                });
             })
-           
-               
-            function SaveRutina(data) {
+            $(function () {
+                $("#fec").datepicker({
+                    format: 'dd/mm/yyyy',
+                    defaultViewDate: max,
+                    startDate: max,
+                    endDate: min,
+                    daysOfWeekDisabled: false
+                });
+            })
+
+            function SaveDate(data) {
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: "",
+                    url: '/Rutinas/SaveRutina',
                     data: data,
                     success: function (data) {
-                        tabla();
+                        var date = new Date(parseInt(v.RutinaFecha.substr(6)));
+                        var table = $('#rutina').DataTable();
+                        table.row.add(["", data.Usuario.Cedula, data.Usuario.Nombre1, data.RutinaFecha, data.RutinaObservaciones, data.RutinaId]).draw();
                     },
                     error: function () {
                         alert("Fallo");
                     }
                 })
             }
-
-
-            function cargaF() {
-                $.getJSON("/Rutinas/getUsuariosF", null, function (data) {
-                    $("#usuariosDropdown").empty() // Remove all <option> child tags.
-                    $.each(data, function (index, item) { // Iterates through a collection
-                        $("#usuariosDropdown").append(
-                            $('<option></option>')
-                                .text(item.cedNomCompleto)
-                                .val(item.idAtleta)
-                        );
-                    });
-                });
-            }
-
-            function cargaA() {
-                $.getJSON("/Rutinas/getUsuariosA", null, function (data) {
-                    $("#usuariosDropdown").empty() // Remove all <option> child tags.
-                    $.each(data, function (index, item) { // Iterates through a collection
-                        $("#usuariosDropdown").append(
-                            $('<option></option>')
-                                .text(item.cedNomCompleto)
-                                .val(item.idAtleta)
-                        );
-                    });
-                });
-            }
-
-            var today = new Date();
-            $(function () {
-                $("#dtp").datepicker({
-                });
-            });
-
             function tabla() {
-                var table;
-                var dataSet = [];
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: "/Rutinas/GetRutinas",
+                    url: '/Rutinas/GetRutinas',
                     success: function (data) {
                         $.each(data, function (i, v) {
                             var date = new Date(parseInt(v.RutinaFecha.substr(6)));
-                            dataSet.push(["", v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones]);
+                            dataSet.push(["", v.Usuario.Cedula, v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, v.RutinaId]);
                         })
                         table = $('#rutina').DataTable({
                             data: dataSet,
                             columns: [
-                                {
-                                    orderable: false,
-                                    defaultContent: '',
-                                    className: 'select-checkbox',
-                                },
-                             
+                                { title: "Acción" },
+                                { title: "Cédula" },
                                 { title: "Usuario" },
                                 { title: "Fecha" },
-                                { title: "Objetivo" }
+                                {title: "Objetivo"},
+                                {
+                                    title: "Id",
+                                    "visible": false,
+                                    "searchable": false}
                             ],
-                            select: {
-                                style: 'os',
-                                selector: 'td:first-child'
+                            'columnDefs': [
+                                {
+                                    orderable: false,
+                                    className: 'select-checkbox',
+                                    targets: [0]
+                                }
+                            ],
+
+                            'select': {
+                                'style': 'os',
+                                'selector': 'td:first-child'
+                            }
+                        });
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
+
+            }
+            function usuarios() {
+
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Rutinas/GetUsuarios',
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            dataSet1.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
+                        })
+                        table1 = $('#example').DataTable({
+
+                            // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+                            // "iDisplayLength": 5,
+                            "language": {
+                                "lengthMenu": "Mostrando MENU resultados por página.",
+                                "zeroRecords": "No se han encontrado resultados.",
+                                "info": "Mostrando página PAGE de PAGES.",
+                                "infoEmpty": "No hay datos para mostrar",
+                                "infoFiltered": "(filtrado de MAX datos obtenidos).",
+                                "search": "Buscar:",
+                                "paginate": {
+                                    "first": "Primero",
+                                    "last": "Ultimo",
+                                    "next": "Siguiente",
+                                    "previous": "Anterior"
+                                }
+                            },
+                            data: dataSet1,
+                            columns: [
+                                { title: "Acción" },
+                                { title: "Cédula" },
+                                { title: "Nombre" },
+                                { title: "1° Apellido" },
+                                { title: "2° Apellido" }
+                            ],
+                            'columnDefs': [
+                                {
+                                    orderable: false,
+                                    className: 'select-checkbox',
+                                    targets: [0]
+                                }
+                            ],
+                            'select': {
+                                'style': 'os',
+                                'selector': 'td:first-child'
                             }
                         });
                     },
@@ -157,7 +422,6 @@
                     }
                 });
             }
-
         });
     </script>
 

@@ -805,9 +805,6 @@
     <Content Include="Views\Conjunto_Ejercicio\Details.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Edit.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Index.cshtml" />
-    <Content Include="Views\Rutinas\Create.cshtml" />
-    <Content Include="Views\Rutinas\Delete.cshtml" />
-    <Content Include="Views\Rutinas\Details.cshtml" />
     <Content Include="Views\Rutinas\Edit.cshtml" />
     <Content Include="Views\Rutinas\Index.cshtml" />
     <Content Include="Views\Rutinas\Ejercicio.cshtml" />

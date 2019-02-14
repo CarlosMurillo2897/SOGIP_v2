@@ -10,7 +10,7 @@
 
     ViewBag.Controller = "Rutinas";
 
- 
+
 
     @Styles.Render("~/Content/Rutina.css")
     @Styles.Render("~/Content/manual.css")
@@ -30,6 +30,9 @@
         <hr />
     </div>
     <div class="col-sm-12">
+        <div class="table-responsive">
+            <table id="ejercicio1" class="display" style="width:100%"></table>
+        </div>
         <table id="rutina" class="table table-bordered table-responsive table-hover">
             <thead>
                 <TR>
@@ -245,10 +248,40 @@
 </div>
 
 @section Scripts {
-@Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
         //Insert new rows into table
         $(document).ready(function () {
+            var table;
+            var dataSet = [];
+            tabla();
+            function tabla() {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Rutinas/GetRutinas',
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            var date = new Date(parseInt(v.RutinaFecha.substr(6)));
+                            dataSet.push([ v.Usuario.Cedula]);
+                        })
+                        table = $('#ejercicio1').DataTable({
+                            data: dataSet,
+                            columns: [
+                                { title: "Acción" }
+                            ],
+                        });
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
+
+            }
+            
             $("#adicional").on('click', function () {
                 var tableRef = document.getElementById('tabla').getElementsByTagName('tbody')[0];
 
