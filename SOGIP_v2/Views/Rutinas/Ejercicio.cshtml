@@ -83,7 +83,7 @@
                             <td>@item1.Peso3</td>
                             <td>@item1.DiaEjercicio</td>
                             <td>
-                               <a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>
+                               <a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarEjercicio(" + @item1.Conjunto_EjercicioId + ")' style='padding: 2px 6px; margin: 2px;'>
                                     <text class='hidden-xs'>Eliminar </text> 
                                     <span class='glyphicon glyphicon-minus-sign'></span> 
                                 </a> 
@@ -118,7 +118,7 @@
                             <td>@item2.Peso3</td>
                             <td>@item2.DiaEjercicio</td>
                             <td>
-                                <a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>
+                                <a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarEjercicio(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>
                                     <text class='hidden-xs'>Eliminar </text>
                                     <span class='glyphicon glyphicon-minus-sign'></span>
                                 </a>
@@ -387,7 +387,21 @@
             $('.table tbody').on('click', '.btn', function () {
                 $(this).closest('tr').remove();
             });
-
+            function EliminarEjercicio(id) {
+                var tr = $('#boton_' + id).closest('tr');
+                alert("hola");
+                //$.ajax({
+                //    type: "POST",
+                //    url: "/ExpedientesFisicos/EliminarArchivo",
+                //    data: { id: id },
+                //    success: function (data) {
+                //        var table = $('#archivos').DataTable().row(tr).remove().draw();
+                //    },
+                //    error: function (data) {
+                //        alert("¡Error!");
+                //    }
+                //});
+            }
 
             //method to send array to controller
             $('#submit').click(function () {
