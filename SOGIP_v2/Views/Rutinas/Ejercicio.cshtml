@@ -83,8 +83,14 @@
                             <td>@item1.Peso3</td>
                             <td>@item1.DiaEjercicio</td>
                             <td>
-                                @Html.ActionLink("Editar", "EditEjercicio", new { id = item1.Conjunto_EjercicioId }) |
-                                @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item1.Conjunto_EjercicioId })
+                               <a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>
+                                    <text class='hidden-xs'>Eliminar </text> 
+                                    <span class='glyphicon glyphicon-minus-sign'></span> 
+                                </a> 
+                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'> 
+                                    <text class='hidden-xs'>Editar </text> 
+                                    <span class='glyphicon glyphicon-pencil'></span> 
+                                </a>
                             </td>
                         </tr>
                     }
@@ -112,8 +118,14 @@
                             <td>@item2.Peso3</td>
                             <td>@item2.DiaEjercicio</td>
                             <td>
-                                @Html.ActionLink("Editar", "EditEjercicio", new { id = item2.Conjunto_EjercicioId }) |
-                                @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item2.Conjunto_EjercicioId })
+                                <a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>
+                                    <text class='hidden-xs'>Eliminar </text>
+                                    <span class='glyphicon glyphicon-minus-sign'></span>
+                                </a>
+                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
+                                    <text class='hidden-xs'>Editar </text>
+                                    <span class='glyphicon glyphicon-pencil'></span>
+                                </a>
                             </td>
                         </tr>
                     }
@@ -141,8 +153,14 @@
                             <td>@item3.Peso3</td>
                             <td>@item3.DiaEjercicio</td>
                             <td>
-                                @Html.ActionLink("Editar", "EditEjercicio", new { id = item3.Conjunto_EjercicioId }) |
-                                @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item3.Conjunto_EjercicioId })
+                                <a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>
+                                    <text class='hidden-xs'>Eliminar </text>
+                                    <span class='glyphicon glyphicon-minus-sign'></span>
+                                </a>
+                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
+                                    <text class='hidden-xs'>Editar </text>
+                                    <span class='glyphicon glyphicon-pencil'></span>
+                                </a>
                             </td>
                         </tr>
                     }
@@ -170,8 +188,14 @@
                             <td>@item4.Peso3</td>
                             <td>@item4.DiaEjercicio</td>
                             <td>
-                                @Html.ActionLink("Editar", "EditEjercicio", new { id = item4.Conjunto_EjercicioId }) |
-                                @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item4.Conjunto_EjercicioId })
+                                <a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>
+                                    <text class='hidden-xs'>Eliminar </text>
+                                    <span class='glyphicon glyphicon-minus-sign'></span>
+                                </a>
+                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
+                                    <text class='hidden-xs'>Editar </text>
+                                    <span class='glyphicon glyphicon-pencil'></span>
+                                </a>
                             </td>
                         </tr>
                     }
@@ -200,8 +224,14 @@
                             <td>@item5.Peso3</td>
                             <td>@item5.DiaEjercicio</td>
                             <td>
-                                @Html.ActionLink("Editar", "EditEjercicio", new { id = item5.Conjunto_EjercicioId }) |
-                                @Html.ActionLink("Eliminar", "DeleteEjercicio", new { id = item5.Conjunto_EjercicioId, })
+                                <a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>
+                                    <text class='hidden-xs'>Eliminar </text>
+                                    <span class='glyphicon glyphicon-minus-sign'></span>
+                                </a>
+                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
+                                    <text class='hidden-xs'>Editar </text>
+                                    <span class='glyphicon glyphicon-pencil'></span>
+                                </a>
                             </td>
                         </tr>
                     }
@@ -254,33 +284,6 @@
     <script>
         //Insert new rows into table
         $(document).ready(function () {
-            var table;
-            var dataSet = [];
-            tabla();
-            function tabla() {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/Rutinas/GetRutinas',
-                    success: function (data) {
-                        $.each(data, function (i, v) {
-                            var date = new Date(parseInt(v.RutinaFecha.substr(6)));
-                            dataSet.push([ v.Usuario.Cedula]);
-                        })
-                        table = $('#ejercicio1').DataTable({
-                            data: dataSet,
-                            columns: [
-                                { title: "Acción" }
-                            ],
-                        });
-                    },
-
-                    error: function (error) {
-                        alert("Fallo");
-                    }
-                });
-
-            }
             
             $("#adicional").on('click', function () {
                 var tableRef = document.getElementById('tabla').getElementsByTagName('tbody')[0];
