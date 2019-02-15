@@ -29,10 +29,10 @@
                         title: 'CITA',
                         description1: v.InBody,
                         description2: v.Otro,
-                        cedula: v.UsuarioCedula,
-                        nombre: v.UsuarioNombre,
-                        apellido1: v.UsuarioApellido1,
-                        apellido2: v.UsuarioApellido2,
+                        cedula: v.UsuarioId_Id.Cedula,
+                        nombre: v.UsuarioId_Id.Nombre1,
+                        apellido1: v.UsuarioId_Id.Apellido1,
+                        apellido2: v.UsuarioId_Id.Apellido2,
                         start: $.fullCalendar.moment(v.FechaHoraInicio),
                         end: $.fullCalendar.moment(v.FechaHoraFinal)
                     });
@@ -391,7 +391,7 @@
                 $('#txtHoraF').timepicker('setTime', endTime);
             }
 
-            data = {
+            data = { 
                 CitaId: $('#hdEventID').val(),
                 InBody: $('#inbodyCheck').is(':checked'),
                 Otro: $('#rutinaCheck').is(':checked'),
@@ -399,6 +399,8 @@
                 FechaHoraInicio: $('#txtStart').val().trim() + ' ' + $('#txtHora').val().trim(),
                 FechaHoraFinal: $('#txtStart').val().trim() + ' ' + $('#txtHoraF').val().trim()
             }
+
+           
         }
 
         else {
@@ -488,6 +490,3 @@
         });
     }
 
-
-
-});

@@ -55,8 +55,8 @@
     </div>
 
     @*MODAL PARA EDITAR O CREAR LAS CITAS*@
-    <div id="myModalSave" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+    <div id="myModalSave" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content col-md-12" style="align-content:center">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -65,30 +65,33 @@
                 <div class="modal-body">
                     <form class="form-horizontal">
                         <input type="hidden" id="hdEventID" value="0" />
-                        <div class="form-group">
+                        <div class="row">
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
                             <label>Fecha de inicio</label>
                             <div class="input-group date" id="dtp1">
                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 <input type="text" id="txtStart" class="form-control" />
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label>Hora de inicio</label>
-                            <div class="input-group date" id="dtp3">
-                                <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                <input class="timepicker form-control" value="" id="txtHora" type="text">
-                               </div>
-                        </div>
-
-
-                        <div class="form-group">
-                            <label>Hora de finalización</label>
-                            <div class="input-group date" id="dtp2">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                <input class="timepicker form-control" value="" id="txtHoraF" type="text" readonly>
                             </div>
 
+                        <div class="row">
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de inicio</label>
+                                <div class="input-group date" id="dtp3">
+                                    <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de finalización</label>
+                                <div class="input-group date" id="dtp2">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHoraF" type="text" readonly>
+                                </div>
+
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="checkbox">
@@ -112,22 +115,19 @@
                                     </tr>
                                 </table>
                             </div> <br />
-                            <br />
-                            <label>Cedula de usuario</label>
-                            <div class="input-group" id="cedU">
-                                @* <input type="text" id="txtCed" class="form-control" />*@
-                                <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
 
-                                <hr />
+                            <table id="example" class="display" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Acción</th>
+                                        <th>Nombre</th>
+                                        <th>1° Apellido</th>
+                                        <th>2° Apellido</th>
+                                    </tr>
+                                </thead>
+                            </table>
 
-                                <div class="form-group" id="cedUD" style="display:none;">
-                                    <label>Cedula de usuario</label>
-                                    <div class="input-group" id="cedU">
-                                        @* <input type="text" id="txtCed" class="form-control" />*@
-                                        <select class="form-control" id="usuariosDropdown" name="usuarioDropdown"></select>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <br />
                         <button type="button" id="btnSave" class="btn btn-default" style="background-color:#339966;">Guardar Cambios</button>

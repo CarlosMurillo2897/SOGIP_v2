@@ -34,7 +34,7 @@ namespace SOGIP_v2.Controllers
         public JsonResult GetEvents()
         {
 
-            var Citas = db.Cita.ToList();
+            var Citas = db.Cita.Include("UsuarioId_Id").ToList();
             return new JsonResult { Data = Citas, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
@@ -85,6 +85,7 @@ namespace SOGIP_v2.Controllers
         [HttpPost]
         public JsonResult SaveEvent(Cita e)
         {
+            
             var status = false;
             using (db)
             {
@@ -125,8 +126,8 @@ namespace SOGIP_v2.Controllers
                     ApplicationUser User;
                     string userid = HttpContext.User.Identity.GetUserId();
                     bool role = HttpContext.User.IsInRole("Administrador");
-
-                    User = (role) ? db.Users.Single(x => x.Cedula == e.UsuarioCedula) : db.Users.Single(x => x.Id == userid);
+                    string a = e.UsuarioId_Id.Cedula;
+                    User = (role) ? db.Users.Single(x => x.Cedula == e.UsuarioId_Id.Cedula) : db.Users.Single(x => x.Id == userid);
 
 
                         var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();
@@ -138,10 +139,6 @@ namespace SOGIP_v2.Controllers
                                 InBody = e.InBody,
                                 Otro = e.Otro,
                                 UsuarioId_Id = User,
-                                UsuarioCedula = User.Cedula,
-                                UsuarioNombre = User.Nombre1,
-                                UsuarioApellido1 = User.Apellido1,
-                                UsuarioApellido2 = User.Apellido2,
                                 FechaHoraInicio = e.FechaHoraInicio,
                                 FechaHoraFinal = e.FechaHoraFinal
                             };

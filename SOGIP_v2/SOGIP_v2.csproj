@@ -231,6 +231,10 @@
     <Compile Include="Migrations\201901170310571_Color_Tipo_Parámetro.Designer.cs">
       <DependentUpon>201901170310571_Color_Tipo_Parámetro.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902132337020_tablaCita.cs" />
+    <Compile Include="Migrations\201902132337020_tablaCita.Designer.cs">
+      <DependentUpon>201902132337020_tablaCita.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -841,6 +845,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901170310571_Color_Tipo_Parámetro.resx">
       <DependentUpon>201901170310571_Color_Tipo_Parámetro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902132337020_tablaCita.resx">
+      <DependentUpon>201902132337020_tablaCita.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
