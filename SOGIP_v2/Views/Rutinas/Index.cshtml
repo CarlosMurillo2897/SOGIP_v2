@@ -375,7 +375,7 @@
                     url: '/Rutinas/GetUsuarios',
                     success: function (data) {
                         $.each(data, function (i, v) {
-                            dataSet1.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
+                            dataSet1.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2,""]);
                         })
                         table1 = $('#example').DataTable({
 
@@ -402,6 +402,7 @@
                                 { title: "Nombre" },
                                 { title: "1° Apellido" },
                                 { title: "2° Apellido" }
+                               
                             ],
                             'columnDefs': [
                                 {
@@ -420,6 +421,52 @@
                     error: function (error) {
                         alert("Fallo");
                     }
+                });
+            }
+            function llenarTablaArchivos() {
+                $('#archivos').DataTable({
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado registros.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Filtrar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
+                    "ajax": {
+                        "url": '/Rutinas/GetUsuarios',
+                        "type": "GET",
+                        "dataSrc": ""
+                    },
+                    columns: [
+                        { data: "Nombre" },
+                        { data: "Tipo" },
+                        { data: "Usuario" },
+                        {
+                            data: "Id",
+                            "render": function (Id) {
+                                debugger
+                                return "<a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
+                                    "<text class='hidden-xs'>Eliminar </text>" +
+                                    "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                    "</a>" +
+                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>" +
+                                    "<text class='hidden-xs'>Editar </text>" +
+                                    "<span class='glyphicon glyphicon-pencil'></span>" +
+                                    "</a>" +
+                                    "<a class='btn btn-info' href='/UsersAdmin/Down?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
+                                    "<text class='hidden-xs'>Descargar </text>" +
+                                    "<span class='glyphicon glyphicon-download'></span>" +
+                                    "</a>";
+                            }
+                        }
+                    ]
                 });
             }
         });
