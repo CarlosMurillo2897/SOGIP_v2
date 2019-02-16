@@ -18,15 +18,6 @@
     Nuevo
 </button>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editar" id="btnEditar">
-    Editar
-</button>
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#eliminar" id="btnEliminar">
-    Eliminar
-</button>
-<button type="button" class="btn btn-primary"  id="btnRutina">
-    Rutina
-</button>
 <br>
 <br>
 @*Modal Nueva Rutina *@
@@ -169,105 +160,107 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
-        function EliminarArchivo(id) {
-            alert(id);
+        function EliminarRut(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#rutina').DataTable().rows(tr).data();
+            var n = null;
+            var ob = null;
+            var fec = null;
+            $.each(table, function (i, val) {
+                n = val[0] + " " + val[1];
+                fec = val[2];
+                ob = val[3];
+                idRut = val[4];
+            });
+            $('#us').show();
+            document.getElementById("us1").value = n;
+            $('#fe').show();
+            document.getElementById("fe1").value = fec;
+            $('#obje').show();
+            document.getElementById("obje1").value = ob;
+            $('#eliminar2').click(function () {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Rutinas/DeleteRutina',
+                    data: { 'rutinaId': idRut },
+                    success: function (data) {
+                        if (data.status) {
+                            var table = $('#rutina').DataTable().row(tr).remove().draw();
+                        }
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            })
+        }
+        function EditarRut(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#rutina').DataTable().rows(tr).data();
+            var n = null;
+            var ob = null;
+            var fec = null;
+            $.each(table, function (i, val) {
+                n = val[0] + " " + val[1];
+                fec = val[2];
+                ob = val[3];
+                idRut = val[4];
+            });
+            $('#inpE').show();
+            document.getElementById("einf").value = n;
+            document.getElementById("hidef").value = n
+            $('#objetivo').val(ob);
+            $('#fecha').datepicker("update", fec);
+            $('#btnEdit').click(function () {
+                data = {
+                    fecha: $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                    obs: $('#objetivo').val().trim(),
+                    id: idRut
+                }
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Rutinas/EditRutina',
+                    data: data,
+                    success: function (data) {
+                        if (data.status) {
+                        }
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            })
+        }
+        function EnviarRut(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#rutina').DataTable().rows(tr).data();
+            var idRutina = null;
+            var idUsuario = null;
+            $.each(table, function (i, val) {
+                idUsuario = val[1];
+                idRutina = val[5];
+            });
+            data = {
+                idUsuario: idUsuario,
+                idRutina: idRutina
+            }
+            window.location.href = '/Rutinas/Ejercicio?idRutina=' + idRutina + '& idUsuario=' + idUsuario; 
+
         }
         $(document).ready(function () {
+            var table1;
+            var dataSet1=[];
             var table;
             var dataSet = [];
-            var table1;
-            var dataSet1 = [];
             tabla();
+         
             $('#btnNuevo').click(function () {
                 usuarios();
             })
-            $('#btnRutina').click(function () {
-                var tblData = table.rows('.selected').data();
-                var idRutina = null;
-                var idUsuario = null;
-                $.each(tblData, function (i, val) {
-                    idUsuario = val[1];
-                    idRutina = val[5];
-                });
-                data = {
-                    idUsuario: idUsuario,
-                        idRutina: idRutina
-                }
-                window.location.href = '/Rutinas/Ejercicio?idRutina=' + idRutina + '& idUsuario=' + idUsuario ; 
-                 
-            })
-            $('#btnEditar').click(function () {
-                var tblData = table.rows('.selected').data();
-                var n = null;
-                var ob = null;
-                var fec = null;
-                $.each(tblData, function (i, val) {
-                    n = val[1] + " " + val[2];
-                    fec = val[3];
-                    ob = val[4];
-                    idRut = val[5];
-                });
-                $('#inpE').show();
-                document.getElementById("einf").value = n;
-                document.getElementById("hidef").value = n
-                $('#objetivo').val(ob);
-                $('#fecha').datepicker("update", fec);
-                $('#btnEdit').click(function () {
-                   data = {
-                    fecha: $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy'),
-                    obs:$('#objetivo').val().trim(),
-                    id: idRut
-                    }
-                    $.ajax({
-                        type: "POST",
-                        dataType: "JSON",
-                        url: '/Rutinas/EditRutina',
-                        data: data,
-                        success: function (data) {
-                            if (data.status) {
-                            }
-                        },
-                        error: function () {
-                            alert("Fallo");
-                        }
-                    })
-                })
-            })
-            $('#btnEliminar').click(function () {
-                var tblData = table.rows('.selected').data();
-                var n = null;
-                var ob = null;
-                var fec = null;
-                var id = null;
-                $.each(tblData, function (i, val) {
-                    n = val[1] + " " + val[2];
-                    fec = val[3];
-                    ob = val[4];
-                    idRut = val[5];
-                });
-                $('#us').show();
-                document.getElementById("us1").value = n;
-                $('#fe').show();
-                document.getElementById("fe1").value = fec;
-                $('#obje').show();
-                document.getElementById("obje1").value = ob;
-                $('#eliminar2').click(function () {
-                    $.ajax({
-                        type: "POST",
-                        dataType: "JSON",
-                        url: '/Rutinas/DeleteRutina',
-                        data: { 'rutinaId': idRut },
-                        success: function (data) {
-                            if (data.status) {
-                                table.rows('.selected').remove().draw();
-                            }
-                        },
-                        error: function () {
-                            alert("Fallo");
-                        }
-                    })
-                })
-            })
+           
+          
             $('#btnSave').click(function () {
                 var data = null;
                 var objetivo = $('#obj').val();
@@ -325,91 +318,72 @@
                     }
                 })
             }
-            //function tabla() {
-            //    $.ajax({
-            //        type: "POST",
-            //        dataType: "JSON",
-            //        url: '/Rutinas/GetRutinas',
-            //        success: function (data) {
-            //            $.each(data, function (i, v) {
-            //                var date = new Date(parseInt(v.RutinaFecha.substr(6)));
-            //                dataSet.push([ v.Usuario.Cedula, v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, v.RutinaId,""]);
-            //            })
-            //            table = $('#rutina').DataTable({
-            //                data: dataSet,
-            //                columns: [
-            //                    { title: "Cédula" },
-            //                    { title: "Usuario" },
-            //                    { title: "Fecha" },
-            //                    {title: "Objetivo"},
-            //                    {
-            //                        title: "Id",
-            //                        "visible": false,
-            //                        "searchable": false
-            //                    },
-            //                    {
-            //                        title: "Acción",
-            //                    }
-            //                ],
-
-            //                'select': {
-            //                    'style': 'os',
-            //                    'selector': 'td:first-child'
-            //                }
-            //            });
-            //        },
-
-            //        error: function (error) {
-            //            alert("Fallo");
-            //        }
-            //    });
-
-            //}
             function tabla() {
-                var date = null;
-                $('#rutina').DataTable({
-                    'ajax': {
-                        'url': '/Rutinas/GetRutinas',
-                        'type': "GET",
-                        'dataSrc': ''
-                    },
-                    columns: [
-                        {title: "Cedula",
-                                data: "Cedula" },
-                        { data: "Usuario" },
-                        { data: "Fecha" },
-                        { data: "Objetivo" },
-                        {
-                            data: "Id",
-                            "render": function (Id) {
-                                debugger
-                                return "<a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")'  data-toggle='modal' data-target='#eliminar' style='padding: 2px 6px; margin: 2px;'>" +
-                                    "<text class='hidden-xs'>Eliminar </text>" +
-                                    "<span class='glyphicon glyphicon-minus-sign'></span>" +
-                                    "</a>" +
-                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal'  onclick='EliminarArchivo(" + Id + ")' data-target='#modalEdición'>" +
-                                    "<text class='hidden-xs'>Editar </text>" +
-                                    "<span class='glyphicon glyphicon-pencil'></span>" +
-                                    "</a>" +
-                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>" +
-                                    "<text class='hidden-xs'>Rutina </text>" +
-                                    "<span class='glyphicon glyphicon-list'></span>" +
-                                    "</a>";
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Rutinas/GetRutinas',
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            var date = new Date(parseInt(v.RutinaFecha.substr(6)));
+                            dataSet.push([v.Usuario.Cedula, v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, v.RutinaId, v.RutinaId]);
+                        })
+                        table = $('#rutina').DataTable({
+                            data: dataSet,
+                            columns: [
+                                { title: "Cédula" },
+                                { title: "Usuario" },
+                                { title: "Fecha" },
+                                {title: "Objetivo"},
+                                {
+                                    title: "Id",
+                                    "visible": false,
+                                    "searchable": false
+                                },
+                                {
+                                    title: "Acción",
+                                "render": function (Id) {
+                                    debugger
+                                    return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarRut(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
+                                        "<text class='hidden-xs'>Eliminar </text>" +
+                                        "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                        "</a>" +
+                                        "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                                        "<text class='hidden-xs'>Editar </text>" +
+                                        "<span class='glyphicon glyphicon-pencil'></span>" +
+                                        "</a>" +
+                                        "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
+                                        "<text class='hidden-xs'>Rutina </text>" +
+                                        "<span class='glyphicon glyphicon-list'></span>" +
+                                        "</a>";
+                                    }
+                                }
+                            ],
+
+                            'select': {
+                                'style': 'os',
+                                'selector': 'td:first-child'
                             }
-                        }]
-                })
+                        });
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
 
             }
            
+           
             function usuarios() {
-
+              
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
                     url: '/Rutinas/GetUsuarios',
                     success: function (data) {
                         $.each(data, function (i, v) {
-                            dataSet1.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2,""]);
+                            dataSet1.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
                         })
                         table1 = $('#example').DataTable({
 
@@ -436,7 +410,6 @@
                                 { title: "Nombre" },
                                 { title: "1° Apellido" },
                                 { title: "2° Apellido" }
-                               
                             ],
                             'columnDefs': [
                                 {
@@ -457,52 +430,7 @@
                     }
                 });
             }
-            function llenarTablaArchivos() {
-                $('#archivos').DataTable({
-                    "language": {
-                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
-                        "zeroRecords": "No se han encontrado registros.",
-                        "info": "Mostrando página _PAGE_ de _PAGES_.",
-                        "infoEmpty": "No hay datos para mostrar",
-                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
-                        "search": "Filtrar:",
-                        "paginate": {
-                            "first": "Primero",
-                            "last": "Ultimo",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        }
-                    },
-                    "ajax": {
-                        "url": '/Rutinas/GetUsuarios',
-                        "type": "GET",
-                        "dataSrc": ""
-                    },
-                    columns: [
-                        { data: "Nombre" },
-                        { data: "Tipo" },
-                        { data: "Usuario" },
-                        {
-                            data: "Id",
-                            "render": function (Id) {
-                                debugger
-                                return "<a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
-                                    "<text class='hidden-xs'>Eliminar </text>" +
-                                    "<span class='glyphicon glyphicon-minus-sign'></span>" +
-                                    "</a>" +
-                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>" +
-                                    "<text class='hidden-xs'>Editar </text>" +
-                                    "<span class='glyphicon glyphicon-pencil'></span>" +
-                                    "</a>" +
-                                    "<a class='btn btn-info' href='/UsersAdmin/Down?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
-                                    "<text class='hidden-xs'>Descargar </text>" +
-                                    "<span class='glyphicon glyphicon-download'></span>" +
-                                    "</a>";
-                            }
-                        }
-                    ]
-                });
-            }
+           
         });
     </script>
 

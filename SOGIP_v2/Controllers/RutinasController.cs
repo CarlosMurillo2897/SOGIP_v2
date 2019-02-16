@@ -25,17 +25,7 @@ namespace SOGIP_v2.Controllers
         {
     
             var Rutinas = db.Rutinas.Include("Usuario").ToList();
-            var rut = from a in Rutinas
-                           select new
-                           {
-                               Cedula = a.Usuario.Cedula,
-                               Usuario =  a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
-                               Fecha = a.RutinaFecha,
-                               Objetivo = a.RutinaObservaciones,
-                               Id = a.RutinaId
-                           };
-
-            return Json(rut.ToList(), JsonRequestBehavior.AllowGet);
+            return Json(Rutinas, JsonRequestBehavior.AllowGet);
 
         }
         public JsonResult GetUsuarios()
@@ -103,12 +93,10 @@ namespace SOGIP_v2.Controllers
                 }
             return new JsonResult { Data = new { status = status } };
         }
-        public JsonResult GetEjercicio()
+        public JsonResult GetEjercicio(int rutinaId)
         {
-
             var Ejercicio = db.Conjunto_Ejercicios.ToList();
             return Json(Ejercicio, JsonRequestBehavior.AllowGet);
-
         }
 
         public ActionResult Ejercicio(int? idRutina, string idUsuario)
