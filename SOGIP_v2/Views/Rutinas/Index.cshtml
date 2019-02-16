@@ -169,7 +169,9 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
-
+        function EliminarArchivo(id) {
+            alert(id);
+        }
         $(document).ready(function () {
             var table;
             var dataSet = [];
@@ -381,11 +383,11 @@
                             data: "Id",
                             "render": function (Id) {
                                 debugger
-                                return "<a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
+                                return "<a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")'  data-toggle='modal' data-target='#eliminar' style='padding: 2px 6px; margin: 2px;'>" +
                                     "<text class='hidden-xs'>Eliminar </text>" +
                                     "<span class='glyphicon glyphicon-minus-sign'></span>" +
                                     "</a>" +
-                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>" +
+                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal'  onclick='EliminarArchivo(" + Id + ")' data-target='#modalEdición'>" +
                                     "<text class='hidden-xs'>Editar </text>" +
                                     "<span class='glyphicon glyphicon-pencil'></span>" +
                                     "</a>" +
@@ -398,9 +400,7 @@
                 })
 
             }
-            function EliminarArchivo(id) {
-                alert(id);
-            }
+           
             function usuarios() {
 
                 $.ajax({
