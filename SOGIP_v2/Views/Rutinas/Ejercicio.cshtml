@@ -83,7 +83,7 @@
                             <td>@item1.Peso3</td>
                             <td>@item1.DiaEjercicio</td>
                             <td>
-                                <a  class='btn btn-danger' id="btnEliminar" onclick="rn();" style='padding: 2px 6px; margin: 2px;'>
+                                <a  class='btn btn-danger' id="mama" onclick="rn()" style='padding: 2px 6px; margin: 2px;'>
                                     <text class='hidden-xs'>Eliminar </text>
                                     <span class='glyphicon glyphicon-minus-sign'></span>
                                 </a>
@@ -95,7 +95,7 @@
                         </tr>
                     }
                 }
-                @if (ViewBag.Conjunto_Ejercicios2 != null)
+                @*@if (ViewBag.Conjunto_Ejercicios2 != null)
                 {
                     var dia = true;
                     foreach (var item2 in ViewBag.Conjunto_Ejercicios2)
@@ -235,7 +235,7 @@
                             </td>
                         </tr>
                     }
-                }
+                }*@
             </tbody>
         </table>
     </div>
@@ -303,7 +303,10 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        //Insert new rows into table
+        function rn() {
+            alert('hi');
+        }
+       //Insert new rows into table
         $(document).ready(function () {
            
             
@@ -409,20 +412,7 @@
             //$('.table tbody').on('click', '.btn', function () {
             //    $(this).closest('tr').remove();
             //});
-            function rn() {
-                alert("hola")
-                //$.ajax({
-                //    type: "POST",
-                //    url: "/ExpedientesFisicos/EliminarArchivo",
-                //    data: { id: id },
-                //    success: function (data) {
-                //        var table = $('#archivos').DataTable().row(tr).remove().draw();
-                //    },
-                //    error: function (data) {
-                //        alert("¡Error!");
-                //    }
-                //});
-            }
+            
 
             //method to send array to controller
             $('#submit').click(function () {
@@ -492,6 +482,6 @@
                         });
 
                     });
-        });
+       });
     </script>
 }

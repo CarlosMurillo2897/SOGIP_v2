@@ -323,48 +323,79 @@
                     }
                 })
             }
+            //function tabla() {
+            //    $.ajax({
+            //        type: "POST",
+            //        dataType: "JSON",
+            //        url: '/Rutinas/GetRutinas',
+            //        success: function (data) {
+            //            $.each(data, function (i, v) {
+            //                var date = new Date(parseInt(v.RutinaFecha.substr(6)));
+            //                dataSet.push([ v.Usuario.Cedula, v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, v.RutinaId,""]);
+            //            })
+            //            table = $('#rutina').DataTable({
+            //                data: dataSet,
+            //                columns: [
+            //                    { title: "Cédula" },
+            //                    { title: "Usuario" },
+            //                    { title: "Fecha" },
+            //                    {title: "Objetivo"},
+            //                    {
+            //                        title: "Id",
+            //                        "visible": false,
+            //                        "searchable": false
+            //                    },
+            //                    {
+            //                        title: "Acción",
+            //                    }
+            //                ],
+
+            //                'select': {
+            //                    'style': 'os',
+            //                    'selector': 'td:first-child'
+            //                }
+            //            });
+            //        },
+
+            //        error: function (error) {
+            //            alert("Fallo");
+            //        }
+            //    });
+
+            //}
             function tabla() {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/Rutinas/GetRutinas',
-                    success: function (data) {
-                        $.each(data, function (i, v) {
-                            var date = new Date(parseInt(v.RutinaFecha.substr(6)));
-                            dataSet.push(["", v.Usuario.Cedula, v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, v.RutinaId]);
-                        })
-                        table = $('#rutina').DataTable({
-                            data: dataSet,
-                            columns: [
-                                { title: "Acción" },
-                                { title: "Cédula" },
-                                { title: "Usuario" },
-                                { title: "Fecha" },
-                                {title: "Objetivo"},
-                                {
-                                    title: "Id",
-                                    "visible": false,
-                                    "searchable": false}
-                            ],
-                            'columnDefs': [
-                                {
-                                    orderable: false,
-                                    className: 'select-checkbox',
-                                    targets: [0]
-                                }
-                            ],
-
-                            'select': {
-                                'style': 'os',
-                                'selector': 'td:first-child'
-                            }
-                        });
+                var date = null;
+                $('#rutina').DataTable({
+                    'ajax': {
+                        'url': '/Rutinas/GetRutinas',
+                        'type': "GET",
+                        'dataSrc': ''
                     },
-
-                    error: function (error) {
-                        alert("Fallo");
-                    }
-                });
+                    columns: [
+                        {title: "Cedula",
+                                data: "Cedula" },
+                        { data: "Usuario" },
+                        { data: "Fecha" },
+                        { data: "Objetivo" },
+                        {
+                            data: "Id",
+                            "render": function (Id) {
+                                debugger
+                                return "<a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
+                                    "<text class='hidden-xs'>Eliminar </text>" +
+                                    "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                    "</a>" +
+                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>" +
+                                    "<text class='hidden-xs'>Editar </text>" +
+                                    "<span class='glyphicon glyphicon-pencil'></span>" +
+                                    "</a>" +
+                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>" +
+                                    "<text class='hidden-xs'>Rutina </text>" +
+                                    "<span class='glyphicon glyphicon-list'></span>" +
+                                    "</a>";
+                            }
+                        }]
+                })
 
             }
             function usuarios() {
