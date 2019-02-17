@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using SOGIP_v2.Models;
 
 namespace SOGIP_v2.Controllers
@@ -20,62 +21,63 @@ namespace SOGIP_v2.Controllers
             return View(db.Cita.ToList());
         }
 
+        [HttpPost]
+        public JsonResult GetCed()
+        {
+            string userid = HttpContext.User.Identity.GetUserId();
+            ApplicationUser User= db.Users.Single(x => x.Id == userid);
+            return new JsonResult { Data=User.Cedula, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
         //Muestra todas las citas en el calendario
         [HttpPost]
         public JsonResult GetEvents()
         {
 
-            var Citas = db.Cita.ToList();
+            var Citas = db.Cita.Include("UsuarioId_Id").ToList();
             return new JsonResult { Data = Citas, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
 
-        public JsonResult getUsuariosF()
-        {
-
-            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
-            var consulta = //from a in db.Atletas
-                           from u in db.Users
-                           from f in db.Funcionario_ICODER
-                               //where u.Id.Equals(a.Usuario.Id)
-                           where u.Id.Equals(f.Usuario.Id)
-                           orderby u.Nombre1 ascending
-                           select new
-                           {
-                               idAtleta = u.Cedula,
-                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
-                           };
-
-            var getAtletas = consulta.ToList();
-            return Json(getAtletas, JsonRequestBehavior.AllowGet);
-        }
-
-
         public JsonResult getUsuariosA()
         {
-
-            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
-            var consulta = //from a in db.Atletas
-                           from u in db.Users
-                           from f in db.Atletas
-                               //where u.Id.Equals(a.Usuario.Id)
-                           where u.Id.Equals(f.Usuario.Id)
-                           orderby u.Nombre1 ascending
+            var consulta1 =
+                           from f in db.Funcionario_ICODER
+                           from u in db.Users.Where(u => u.Id == f.Usuario.Id)
                            select new
                            {
-                               idAtleta = u.Cedula,
-                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
+                               Accion = "",
+                               Cedula = u.Cedula,
+                               Nombre = u.Nombre1,
+                               Apellido1 = u.Apellido1,
+                               Apellido2 = u.Apellido2,
+                               Rol = "Funcionario"
                            };
 
-            var getAtletas = consulta.ToList();
-            return Json(getAtletas, JsonRequestBehavior.AllowGet);
+            var consulta = 
+                           from a in db.Atletas
+                           from u in db.Users.Where(u=>u.Id==a.Usuario.Id) 
+                           select new
+                           {
+                               Accion = "",
+                               Cedula = u.Cedula,
+                               Nombre = u.Nombre1,
+                               Apellido1 = u.Apellido1,
+                               Apellido2 = u.Apellido2,
+                               Rol = "Atleta"
+                           };
+
+            var enume=Enumerable.Union(consulta1,consulta);
+            var usuarios = enume.ToList();
+            return Json(usuarios, JsonRequestBehavior.AllowGet);
         }
 
 
         //Actualiza o crea citas        
         [HttpPost]
-        public JsonResult SaveEvent(Cita e)
+        public JsonResult SaveEvent(Cita e, string cedu)
         {
+            
             var status = false;
             using (db)
             {
@@ -88,46 +90,59 @@ namespace SOGIP_v2.Controllers
 
                         var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();
                         var check2 = db.Cita.Where(x => x.FechaHoraFinal == e.FechaHoraInicio).FirstOrDefault();
-                        if (check==null && check2==null)
+
+
+                        if (check == null && check2 == null)
                         {
                             v.InBody = e.InBody;
                             v.Otro = e.Otro;
                             v.FechaHoraInicio = e.FechaHoraInicio;
                             v.FechaHoraFinal = e.FechaHoraFinal;
                         }
+                        else if (e.FechaHoraInicio == v.FechaHoraInicio)
+                        {
+                            v.InBody = e.InBody;
+                            v.Otro = e.Otro;
+                            v.FechaHoraFinal = e.FechaHoraFinal;
+                        }
                         else
                         {
                             return new JsonResult { Data = new { status = false } };
                         }
-                        
+
                     }
 
                 }
                 else //si la cita no existe en la db, pues la creo
                 {
-                    ApplicationUser User = db.Users.Single(x => x.Cedula == e.UsuarioCedula);
-                    var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();
-                    var check2 = db.Cita.Where(x => x.FechaHoraFinal == e.FechaHoraInicio).FirstOrDefault();
-                    if (check == null && check2 == null)
-                    {
-                        Cita nueva = new Cita()
+                    ApplicationUser User;
+                    string userid = HttpContext.User.Identity.GetUserId();
+                    var ceduser= cedu;
+                    bool role = HttpContext.User.IsInRole("Administrador");
+                    
+                    User = (role) ? db.Users.Single(x => x.Cedula == ceduser) : db.Users.Single(x => x.Id == userid);
+
+
+                        var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();
+                        var check2 = db.Cita.Where(x => x.FechaHoraFinal == e.FechaHoraInicio).FirstOrDefault();
+                        if (check == null && check2 == null) //hora de inicio diferente a la de otra cita, y diferente de la finalización de otra.
                         {
-                            InBody = e.InBody,
-                            Otro = e.Otro,
-                            UsuarioId_Id = User,
-                            UsuarioCedula = e.UsuarioCedula,
-                            UsuarioNombre = User.Nombre1,
-                            UsuarioApellido1 = User.Apellido1,
-                            UsuarioApellido2 = User.Apellido2,
-                            FechaHoraInicio = e.FechaHoraInicio,
-                            FechaHoraFinal = e.FechaHoraFinal
-                        };
-                        db.Cita.Add(nueva);
-                    }
-                    else
-                    {
-                        return new JsonResult { Data = new { status = false } };
-                    }
+                            Cita nueva = new Cita()
+                            {
+                                InBody = e.InBody,
+                                Otro = e.Otro,
+                                UsuarioId_Id = User,
+                                FechaHoraInicio = e.FechaHoraInicio,
+                                FechaHoraFinal = e.FechaHoraFinal
+                            };
+                            db.Cita.Add(nueva);
+                        }
+                        else
+                        {
+                            return new JsonResult { Data = new { status = false } };
+                        }
+                    
+             
   
                 }
                 db.SaveChanges();
@@ -157,23 +172,15 @@ namespace SOGIP_v2.Controllers
         }
 
 
-        // GET: CitasAdmin/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Cita cita = db.Cita.Find(id);
-            if (cita == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cita);
-        }
 
         // GET: CitasAdmin/Create
         public ActionResult Create()
+        {
+            return View();
+        }
+
+        //Citas Generales
+        public ActionResult Create2()
         {
             return View();
         }
@@ -194,63 +201,8 @@ namespace SOGIP_v2.Controllers
 
             return View(cita);
         }
-
-        // GET: CitasAdmin/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Cita cita = db.Cita.Find(id);
-            if (cita == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cita);
-        }
-
-        // POST: CitasAdmin/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CitaId,InBody,Otro")] Cita cita)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cita).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(cita);
-        }
-
-        // GET: CitasAdmin/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Cita cita = db.Cita.Find(id);
-            if (cita == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cita);
-        }
-
-        // POST: CitasAdmin/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Cita cita = db.Cita.Find(id);
-            db.Cita.Remove(cita);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+               
+ 
 
         protected override void Dispose(bool disposing)
         {

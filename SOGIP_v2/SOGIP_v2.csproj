@@ -206,7 +206,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\AtletasAsignadosController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
-    <Compile Include="Controllers\CitasGeneralController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
@@ -235,6 +234,10 @@
     <Compile Include="Migrations\201902100056571_deleteExtension.cs" />
     <Compile Include="Migrations\201902100056571_deleteExtension.Designer.cs">
       <DependentUpon>201902100056571_deleteExtension.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902132337020_tablaCita.cs" />
+    <Compile Include="Migrations\201902132337020_tablaCita.Designer.cs">
+      <DependentUpon>201902132337020_tablaCita.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -569,10 +572,12 @@
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
     <Content Include="Scripts\expedientes.js" />
+    <Content Include="Scripts\fullCalendar\admincalendar.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.min.js" />
     <Content Include="Scripts\fullCalendar\gcal.js" />
     <Content Include="Scripts\fullCalendar\gcal.min.js" />
+    <Content Include="Scripts\fullCalendar\generalcalendar.js" />
     <Content Include="Scripts\fullCalendar\locale\af.js" />
     <Content Include="Scripts\fullCalendar\locale\ar-dz.js" />
     <Content Include="Scripts\fullCalendar\locale\ar-kw.js" />
@@ -810,11 +815,11 @@
     <Content Include="Views\Rutinas\EditEjercicio.cshtml" />
     <Content Include="Views\Rutinas\DeleteEjercicio.cshtml" />
     <Content Include="Views\Rutinas\DetailsEjercicio.cshtml" />
-    <Content Include="Views\CitasGeneral\Create.cshtml" />
     <Content Include="Views\Busqueda\Index.cshtml" />
     <Content Include="Views\AtletasAsignados\Index.cshtml" />
     <Content Include="Views\AtletasAsignados\IndexS.cshtml" />
     <Content Include="Views\AtletasAsignados\IndexA.cshtml" />
+    <Content Include="Views\CitasAdmin\Create2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -842,6 +847,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902100056571_deleteExtension.resx">
       <DependentUpon>201902100056571_deleteExtension.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902132337020_tablaCita.resx">
+      <DependentUpon>201902132337020_tablaCita.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

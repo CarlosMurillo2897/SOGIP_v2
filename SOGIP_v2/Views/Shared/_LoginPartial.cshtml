@@ -79,21 +79,25 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="~/CitasAdmin/Create">
+                            <a href="~/CitasAdmin/Create?id=@User.Identity.GetUserId()">
                                 <span class="glyphicon glyphicon-calendar"></span> Citas
                             </a>
                         </li>
                         <li>
                             <a href="~/Busqueda/Index">
-                                <span class="glyphicon glyphicon-search"></span>
-                                Búsqueda
+                                <span class="glyphicon glyphicon-search"></span> Búsqueda
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/AtletasAsignados/IndexA">
+                                <span class="glyphicon glyphicon-list-alt"></span> Atletas
                             </a>
                         </li>
                     }
                     @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
                     {
                         <li>
-                            <a href="~/CitasGeneral/Create?id=@User.Identity.GetUserId()">
+                            <a href="~/CitasAdmin/Create?id=@User.Identity.GetUserId()">
                                 <span class="glyphicon glyphicon-calendar"></span> Citas
                             </a>
                         </li>
@@ -108,6 +112,19 @@
                         <li role="presentation">
                             <a href="~/Rutinas/Create">
                                 <span class="glyphicon glyphicon-apple"></span> Rutina
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="~/AtletasAsignados/Index">
+                                <span class="glyphicon glyphicon-list-alt"></span> Rutina
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Seleccion/Federacion"))
+                    {
+                        <li role="presentation">
+                            <a href="~/AtletasAsignados/IndexS">
+                                <span class="glyphicon glyphicon-list-alt"></span> Atletas
                             </a>
                         </li>
                     }

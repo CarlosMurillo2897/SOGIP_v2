@@ -26,7 +26,6 @@ function cargarDatos(select) {
 
     // Si el select no se encuentra en la opción de -- Seleccionar --
     if (select !== '0') {
-
         // Creamos la tabla nuevamente, con id, clase y con largo predeterminado, así como un encabezado de la tabla predefinido.
         var table = $('<table/>', {
             id: 'example',
@@ -218,7 +217,6 @@ function tablaUsuarios(id) {
             $('#usuario').val('');
         }
     });
-
 }
 
 // Al hacer uso de slideToggle indicamos que en 400 milisegundos (4segs) se esconda o muestre por el contrario cualquier elemento específicado.
