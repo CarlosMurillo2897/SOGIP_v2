@@ -363,7 +363,7 @@
                     $('#hdEventID').val(selectedEvent.citaId);
                     $('#txtStart').val(selectedEvent.start.format("DD-MMM-YYYY"));
                     $('#txtHora').val(selectedEvent.start.format("HH:mm a"));
-                    $('#txtHoraF').val(selectedEvent.end.format("HH:mm a"));
+                    $('#txtHoraF').CustomFormat = " ";
                     $('#inbodyCheck').prop("checked", selectedEvent.description1 || false);
                     $('#rutinaCheck').prop("checked", selectedEvent.description2 || false);
                     $('#inbodyCheck').change();

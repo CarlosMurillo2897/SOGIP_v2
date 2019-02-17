@@ -6,7 +6,7 @@
     ViewBag.Control = "ExpedientesFisicos";
     ViewBag.ControlIcono = "glyphicon-file";
 
-    ViewBag.Accion = "<a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modal'><text class='hidden-xs'>Cargar </text><span style='color: white;' class='glyphicon glyphicon-upload'></span></a>";
+    ViewBag.Accion = "<a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='CargarModal();'><text class='hidden-xs'>Cargar </text><span style='color: white;' class='glyphicon glyphicon-upload'></span></a>";
 }
 
 @Styles.Render("~/Content/Archivos.css")
@@ -46,8 +46,8 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h2 class="modal-title">
-                        Inserción de Archivos
-                        <img id="Load_Big" class="load" src="~/Content/Imagenes/Load_Big.gif" alt="Cargando" style="width: 30px; height: 30px;" />
+                        <text>Inserción de Archivos</text>
+                        <img id="Load_Big" class="load" src="~/Content/Imagenes/comprobado.png" alt="Cargando" style="width: 30px; height: 30px;" />
                     </h2>
                 </div>
                 <div class="modal-body">
@@ -60,7 +60,7 @@
                             <div class="form-group col-md-6">
                                 <label>Archivo a subir: </label>
                                 <div class="input-group image-preview">
-                                    <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                                    <input id="filename" type="text" class="form-control image-preview-filename" disabled="disabled">
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
                                             <span class="glyphicon glyphicon-remove"></span>
@@ -84,95 +84,13 @@
                             <div class="form-group col-md-6">
                                 <br />
                                 <button id="botón" type="button" class="btn btn-warning btn-block">
-                                    <text id="texto">Seleccionar usuario </text>
+                                    <text id="texto">Seleccione tipo de archivo </text>
                                     <span id="icono" class="glyphicon glyphicon-search"></span>
                                 </button>
                             </div>
                         </div>
-                        <div class="table-responsive" id="Tabla_Usuarios">
-                            <table id="example" style="width: 100%;" class="table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Acción</th>
-                                        <th>Cédula</th>
-                                        <th>Nombre</th>
-                                        <th>1° Apellido</th>
-                                        <th>2° Apellido</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" onclick="subirArchivo();" id="btnSave" class="btn btn-success">Guardar</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal de Edición -->
-    <div id="modalEdición" class="modal fade">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="modal-title">
-                        Editar Archivo
-                    </h2>
-                </div>
-                <div class="modal-body">
-                    <form id="ArchivosForm" enctype="multipart/form-data">
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Tipo de Archivo: </label>
-                                <select id="select" class="form-control"></select>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Archivo a subir: </label>
-                                <div class="input-group image-preview">
-                                    <input type="text" class="form-control image-preview-filename" disabled="disabled">
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                            <span class="hidden-xs">Eliminar</span>
-                                        </button>
-                                        <span id="upload" class="btn btn-default image-preview-input">
-                                            <span id="folder" class="glyphicon glyphicon-folder-open"></span>
-                                            <span class="image-preview-input-title hidden-xs"> Buscar </span>
-                                            <input type="file" id="archivo" accept="" />
-                                        </span>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Seleccione el usuario: </label>
-                                <input type="text" class="form-control" id="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
-                            </div>
-                            <div class="form-group col-md-6">
-                                <br />
-                                <button id="botón" type="button" class="btn btn-warning btn-block">
-                                    <text id="texto">Seleccionar usuario </text>
-                                    <span id="icono" class="glyphicon glyphicon-search"></span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="table-responsive" id="Tabla_Usuarios">
-                            <table id="example" style="width: 100%;" class="table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Acción</th>
-                                        <th>Cédula</th>
-                                        <th>Nombre</th>
-                                        <th>1° Apellido</th>
-                                        <th>2° Apellido</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                        <div class="table-responsive" id="Tabla_Usuarios" >
+                            <!-- Acá va la DataTable de Usuarios. -->
                         </div>
                     </form>
                 </div>

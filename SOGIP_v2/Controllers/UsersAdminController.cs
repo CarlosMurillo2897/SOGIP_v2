@@ -418,7 +418,7 @@ namespace SOGIP_v2.Controllers
 
             
 
-        public void Down(int archivoId)
+        public void Download(int archivoId)
         {
                 var v = db.Archivo.Where(x => x.ArchivoId == archivoId).Include("Tipo").FirstOrDefault();
                 Response.Clear();
@@ -429,6 +429,7 @@ namespace SOGIP_v2.Controllers
                 Response.End();
         }
 
+        /*
         [HttpPost]
         public void Download(int Documento)
         {
@@ -465,7 +466,8 @@ namespace SOGIP_v2.Controllers
                 Response.End();
             }
         }
-        //
+        */
+
         // POST: /Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]

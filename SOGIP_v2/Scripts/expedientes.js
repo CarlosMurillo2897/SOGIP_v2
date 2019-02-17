@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var x;
+    var x, archivoId;
     // Limpiar todos los campos una vez que se recarga la página.
     clear();
     $('#usuario').val('');
@@ -8,15 +8,46 @@
     cargarTipos();
 
     $('#select').change(function () {
-        if ($(this).val() === '0') {
-            $('#Load_Big').attr('src', '/Content/Imagenes/comprobado.png');
-        }
-        else {
-            $('#Load_Big').attr('src', '/Content/Imagenes/cancelar.png');
-        }
+        cargarDatos($(this).val());
     });
-    //llenarDataTable();
 });
+
+function cargarDatos(select) {
+    // Restauramos el modal a su estado original, sin usuario en forma de texto y sin datatables.
+    $('#example').DataTable().destroy();
+    $('#example').remove();
+    $('#usuario').val('');
+
+    $('#Load_Big').attr('src', '/Content/Imagenes/Load_Big.gif');
+
+    // Al botón naranja le daremos el ícono de buscar y le eliminamos el atributo de clickear, ya que más adelante le pondremos otra función a ese click del botón.
+    $('#icono').removeClass('glyphicon-search').removeClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-search');
+    $('#botón').removeAttr('onclick');
+
+    // Si el select no se encuentra en la opción de -- Seleccionar --
+    if (select !== '0') {
+
+        // Creamos la tabla nuevamente, con id, clase y con largo predeterminado, así como un encabezado de la tabla predefinido.
+        var table = $('<table/>', {
+            id: 'example',
+            class: 'table-striped',
+            width: '100%'
+        }).append('<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Rol</th></tr></thead>');
+
+        $('#Tabla_Usuarios').append(table);
+
+        $('#texto').html('Seleccione un Usuario ');
+
+        llenarDataTable(select);
+        // Si la tabla se encuentra escondida muestrela.
+        if ($('#Tabla_Usuarios').is(':hidden')) {
+            $('#Tabla_Usuarios').slideToggle(400);
+        }
+    }
+    else {
+        $('#texto').html('Seleccione tipo de archivo ');
+    }
+}
 
 $(document).on('click', '#close-preview', function () {
     $('.image-preview').popover('hide');
@@ -83,6 +114,7 @@ function clear() {
 // La función pop nos despliega el modal pequeño de carga, con el cual se indica si se está ejecutando una acción, se completó o no se pudo realizar.
 function pop(status) {
     document.getElementById('box').style.display = status ? "block" : "none";
+    $('#Load_Big').attr('src', '/Content/Imagenes/Load_Big.gif');
     if (!status) {
         contenidoPop(2);
     }
@@ -91,11 +123,13 @@ function pop(status) {
 // Este método indica por medio del "pop up" (modal pequeño), si la tarea fue efectiva, incorrecta o si está en proceso.
 function contenidoPop(content) {
     if (content === 0) {
+        $('#Load_Big').attr('src', '/Content/Imagenes/cancelar.png');
         $('#box img').attr('src', '/Content/Imagenes/cancelar.png');
         $('#box img').attr('alt', 'Incorrecto');
         $('#box h1').text('¡Error encontrado!');
     }
     if (content === 1) {
+        $('#Load_Big').attr('src', '/Content/Imagenes/comprobado.png');
         $('#box img').attr('src', '/Content/Imagenes/comprobado.png');
         $('#box img').attr('alt', 'Correcto');
         $('#box h1').text('Finalizado');
@@ -107,23 +141,24 @@ function contenidoPop(content) {
     }
 }
 
-function llenarDataTable() {
-    var isE = $('#example').DataTable();
-    isE.destroy();
-    tablaUsuarios();
+function llenarDataTable(id) {
+    $('#example').DataTable();
+    $('#example').DataTable().destroy();
+    tablaUsuarios(id);
 }
 
-function tablaUsuarios() {
+function tablaUsuarios(id) {
     var table;
     var dataSet = [];
 
     $.ajax({
         type: "POST",
         dataType: "JSON",
+        data: { select: id, role: $('#Role').val() },
         url: "/ExpedientesFisicos/ObtenerUsuarios",
         success: function (data) {
             $.each(data, function (i, v) {
-                dataSet.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
+                dataSet.push(["", v.Cedula, v.Nombre1 + " " + v.Nombre2, v.Apellido1, v.Apellido2, v.Role]);
             });
             table = $('#example').DataTable({
                 "language": {
@@ -148,13 +183,6 @@ function tablaUsuarios() {
                     }
                 },
                 data: dataSet,
-                columns: [
-                    { title: "Acción" },
-                    { title: "Cédula" },
-                    { title: "Nombre" },
-                    { title: "1° Apellido" },
-                    { title: "2° Apellido" }
-                ],
                 'columnDefs': [{
                     orderable: false,
                     className: 'select-checkbox',
@@ -165,6 +193,9 @@ function tablaUsuarios() {
                     'selector': 'td:first-child'
                 }
             });
+
+            $('#Load_Big').attr('src', '/Content/Imagenes/comprobado.png');
+
         },
         error: function (error) {
             alert("Error en la carga de usuarios.");
@@ -180,8 +211,9 @@ function tablaUsuarios() {
         x = tr;
 
         $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
-        manipularDT();
         $('#botón').attr('onclick', 'manipularDT();');
+        manipularDT();
+        
         if (tr.hasClass('selected')) {
             $('#usuario').val('');
         }
@@ -230,8 +262,8 @@ function subirArchivo() {
     var archivo = $('#archivo')[0].files[0];
 
     if (archivo !== undefined && archivo.size >= 20000000 && !confirm('\n¡Cuidado! Estás intentando subir un archivo de más de 20MB.\n\n ¿Estás seguro de querer subir este archivo?\n\n')) {
-        clear();
         archivo = undefined;
+        clear();
     }
 
     if (select === '0' || id === '' || archivo === undefined) {
@@ -247,7 +279,7 @@ function subirArchivo() {
         data.append('archivo', archivo);
         data.append('id', id);
         data.append('select', select);
-        data.append('ArchivoId', 0);
+        data.append('ArchivoId', archivoId);
 
         $.ajax({
             type: "POST",
@@ -271,6 +303,10 @@ function subirArchivo() {
                 $('#usuario').val('');  
                 $('#select').val(0);
                 clear();
+
+                $('#icono').removeClass('glyphicon-search').removeClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-search');
+                $('#texto').html('Seleccione tipo de archivo ');
+                $('#botón').removeAttr('onclick');
             },
             error: function (data) {
                 contenidoPop(1);
@@ -280,6 +316,10 @@ function subirArchivo() {
                 $('#select').val(0);
                 $('#usuario').val('');
                 clear();
+
+                $('#icono').removeClass('glyphicon-search').removeClass('glyphicon-chevron-down').removeClass('glyphicon-chevron-up').addClass('glyphicon-search');
+                $('#texto').html('Seleccione tipo de archivo ');
+                $('#botón').removeAttr('onclick');
             }
         });
     }
@@ -315,16 +355,15 @@ function llenarTablaArchivos() {
                 {
                     data: "Id",
                     "render": function (Id) {
-                        debugger
                         return "<a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
                                     "<text class='hidden-xs'>Eliminar </text>" +
                                     "<span class='glyphicon glyphicon-minus-sign'></span>" +
                                 "</a>" +
-                                "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>" +
+                                "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='EditarModal(this, " + Id + ");'>" +
                                     "<text class='hidden-xs'>Editar </text>" +
                                     "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>" +
-                                "<a class='btn btn-info' href='/UsersAdmin/Down?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
+                                "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
                                     "<text class='hidden-xs'>Descargar </text>" +
                                     "<span class='glyphicon glyphicon-download'></span>" +
                                 "</a>";
@@ -332,6 +371,44 @@ function llenarTablaArchivos() {
                 }
             ]
     });
+}
+
+function CargarModal() {
+    $('#modal h2 text').html('Inserción de Archivos');
+    $('#select').val(0);
+    $('#filename').val('');
+
+    $('#example').DataTable().destroy();
+    $('#example').remove();
+    $('#usuario').val('');
+
+    $('#modal').modal('show');  
+}
+
+function EditarModal(element, id) {
+    var usuario = $(element).closest('tr').find('td:eq(2)').text();
+    $('#modal h2 text').html('Edición de Archivos');
+
+    $('#filename').val($(element).closest('tr').find('td:eq(0)').text());
+    var value = $('#select option').filter(
+        function () {
+            return $(this).html() === $(element).closest('tr').find('td:eq(1)').text();
+        }).val();
+
+    $('#select').val(value);
+
+    cargarDatos(value);
+    $('#botón').attr('onclick', 'manipularDT();');
+    usuario.split(" ")[0];
+
+    $('#usuario').val(usuario);
+
+    $('#icono').removeClass('glyphicon-search').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+    $('#texto').html('Desplegar lista ');
+
+    archivoId = id;
+
+    $('#modal').modal('show');
 }
 
 function EliminarArchivo(id) {
