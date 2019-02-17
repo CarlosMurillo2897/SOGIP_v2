@@ -17,7 +17,6 @@
 
     var viewDataRutina = ViewData["rutina"];
     var viewDataNombre = ViewData["nombre"];
-    var viewDataId = ViewData["idRutina"];
 }
 
 <div class="container">
@@ -28,7 +27,7 @@
         @Html.DisplayFor(model => model.ConjuntoEjercicioRutina.Usuario.Cedula)
 
         <h4 style="color:white"> @viewDataNombre </h4>
-        <h4 style="color:white"> @viewDataId </h4>
+    
         <hr />
     </div>
     <div class="table-responsive">
