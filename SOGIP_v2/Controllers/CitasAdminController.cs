@@ -39,51 +39,43 @@ namespace SOGIP_v2.Controllers
 
         }
 
-        public JsonResult getUsuariosF()
-        {
-
-            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
-            var consulta = //from a in db.Atletas
-                           from u in db.Users
-                           from f in db.Funcionario_ICODER
-                               //where u.Id.Equals(a.Usuario.Id)
-                           where u.Id.Equals(f.Usuario.Id)
-                           orderby u.Nombre1 ascending
-                           select new
-                           {
-                               idAtleta = u.Cedula,
-                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
-                           };
-
-            var getAtletas = consulta.ToList();
-            return Json(getAtletas, JsonRequestBehavior.AllowGet);
-        }
-
-
         public JsonResult getUsuariosA()
         {
-
-            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
-            var consulta = //from a in db.Atletas
-                           from u in db.Users
-                           from f in db.Atletas
-                               //where u.Id.Equals(a.Usuario.Id)
-                           where u.Id.Equals(f.Usuario.Id)
-                           orderby u.Nombre1 ascending
+            var consulta1 =
+                           from f in db.Funcionario_ICODER
+                           from u in db.Users.Where(u => u.Id == f.Usuario.Id)
                            select new
                            {
-                               idAtleta = u.Cedula,
-                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
+                               Accion = "",
+                               Cedula = u.Cedula,
+                               Nombre = u.Nombre1,
+                               Apellido1 = u.Apellido1,
+                               Apellido2 = u.Apellido2,
+                               Rol = "Funcionario"
                            };
 
-            var getAtletas = consulta.ToList();
-            return Json(getAtletas, JsonRequestBehavior.AllowGet);
+            var consulta = 
+                           from a in db.Atletas
+                           from u in db.Users.Where(u=>u.Id==a.Usuario.Id) 
+                           select new
+                           {
+                               Accion = "",
+                               Cedula = u.Cedula,
+                               Nombre = u.Nombre1,
+                               Apellido1 = u.Apellido1,
+                               Apellido2 = u.Apellido2,
+                               Rol = "Atleta"
+                           };
+
+            var enume=Enumerable.Union(consulta1,consulta);
+            var usuarios = enume.ToList();
+            return Json(usuarios, JsonRequestBehavior.AllowGet);
         }
 
 
         //Actualiza o crea citas        
         [HttpPost]
-        public JsonResult SaveEvent(Cita e)
+        public JsonResult SaveEvent(Cita e, string cedu)
         {
             
             var status = false;
@@ -125,9 +117,10 @@ namespace SOGIP_v2.Controllers
                 {
                     ApplicationUser User;
                     string userid = HttpContext.User.Identity.GetUserId();
+                    var ceduser= cedu;
                     bool role = HttpContext.User.IsInRole("Administrador");
-                    string a = e.UsuarioId_Id.Cedula;
-                    User = (role) ? db.Users.Single(x => x.Cedula == e.UsuarioId_Id.Cedula) : db.Users.Single(x => x.Id == userid);
+                    
+                    User = (role) ? db.Users.Single(x => x.Cedula == ceduser) : db.Users.Single(x => x.Id == userid);
 
 
                         var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();

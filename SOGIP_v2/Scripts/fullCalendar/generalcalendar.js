@@ -15,6 +15,7 @@
             url: "/CitasAdmin/GetCed",
             success: function (data) {
                 ced = data;
+                alert(data);
             },
             error: function (error) {
                 alert("Fallo");
@@ -36,10 +37,10 @@
                         title: 'CITA',
                         description1: v.InBody,
                         description2: v.Otro,
-                        cedula: v.UsuarioCedula,
-                        nombre: v.UsuarioNombre,
-                        apellido1: v.UsuarioApellido1,
-                        apellido2: v.UsuarioApellido2,
+                        cedula: v.UsuarioId_Id.Cedula,
+                        nombre: v.UsuarioId_Id.Nombre1,
+                        apellido1: v.UsuarioId_Id.Apellido1,
+                        apellido2: v.UsuarioId_Id.Apellido2,
                         start: $.fullCalendar.moment(v.FechaHoraInicio),
                         end: $.fullCalendar.moment(v.FechaHoraFinal)
                     });
@@ -94,11 +95,12 @@
                 }
             },
             eventAfterRender: function (event, element, view) { //COLOR DE LOS EVENTOS
-
+                
                 if (event.cedula == ced) {
                     element.css('background-color', '#668cff');
                     element.css('border-color', '#668cff');
                 }
+               
             },
             editable: true,
             eventDrop: function (event) {

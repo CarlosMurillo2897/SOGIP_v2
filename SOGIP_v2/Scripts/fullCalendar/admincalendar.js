@@ -1,19 +1,12 @@
 ﻿$(document).ready(function () {
-  
+    var cedu = "";
     var hours2 = [];
     var hours = []; //cualquier fecha
     var events = [];
     var selectedEvent = null;
     FetchEventAndRenderCalendar();
-    cargaF();
+    llenarTabla();
 
-    $('#funcionario').change(function () {
-        cargaF();
-    })
-
-    $('#atleta').change(function () {
-        cargaA();
-    })
 
     //FUNCIÓN PARA LLENAR Y ACTUALIZAR CALENDARIO
     function FetchEventAndRenderCalendar() {
@@ -117,6 +110,9 @@
             dayClick:
                 function (date, allDay, jsEvent, view) {//EVENTOS DEL DÍA
                     allOpT(date);
+                    $('#usuario').val('Seleccione un usuario de la tabla');
+                    $('#infouser').show();
+                    $('#Tabla_Usuarios').hide();
                 },
             eventClick: function (calEvent, jsEvent, view) { //INFORMACIÓN DEL EVENTO
                 allOpT(calEvent.start);
@@ -148,6 +144,7 @@
                 $description.append($('<hr/>'));
                 $description.append($('<p/>').html('<b>Información del Usuario</b>'));
                 $description.append($('<p/>').html('<b>Cedula: </b>' + calEvent.cedula));
+                cedu = calEvent.cedula;
                 $description.append($('<p/>').html('<b>Nombre Completo: </b>' + calEvent.nombre + ' ' + calEvent.apellido1 + ' ' + calEvent.apellido2));
 
                 if (check < today) {
@@ -203,47 +200,47 @@
 
     function timeP(date) { //CONTROLAR TIMEPICKER
         hours = [];
-             var date = date.format('YYYY-MM-DD');
-          
-            $('#calendar').fullCalendar('clientEvents', function (event) { //TODAS LAS HORAS DE LAS CITAS DE UN DÍA "loop"
+        var date = date.format('YYYY-MM-DD');
 
-                var start = moment(event.start).format("YYYY-MM-DD");
-                var co = new Date(event.start); //hora inicio
-                var fi = new Date(event.end); //hora finalización
-                var hour1 = co.getHours();
-                var min1 = co.getMinutes();
-                var hour2 = fi.getHours();
-                var min2 = fi.getMinutes();
+        $('#calendar').fullCalendar('clientEvents', function (event) { //TODAS LAS HORAS DE LAS CITAS DE UN DÍA "loop"
 
-                var ampm = hour1 >= 12 ? 'pm' : 'am';
-                var ampm2 = hour2 >= 12 ? 'pm' : 'am';
+            var start = moment(event.start).format("YYYY-MM-DD");
+            var co = new Date(event.start); //hora inicio
+            var fi = new Date(event.end); //hora finalización
+            var hour1 = co.getHours();
+            var min1 = co.getMinutes();
+            var hour2 = fi.getHours();
+            var min2 = fi.getMinutes();
 
-                hour1 = hour1 % 12;
-                hour1 = hour1 ? hour1 : 12;
+            var ampm = hour1 >= 12 ? 'pm' : 'am';
+            var ampm2 = hour2 >= 12 ? 'pm' : 'am';
 
-                hour2 = hour2 % 12;
-                hour2 = hour2 ? hour2 : 12;
+            hour1 = hour1 % 12;
+            hour1 = hour1 ? hour1 : 12;
 
-                min1 = min1 < 10 ? '0' + min1 : min1;
-                min2 = min2 < 10 ? '0' + min2 : min2;
+            hour2 = hour2 % 12;
+            hour2 = hour2 ? hour2 : 12;
+
+            min1 = min1 < 10 ? '0' + min1 : min1;
+            min2 = min2 < 10 ? '0' + min2 : min2;
 
 
-                var firstT = hour1 + ':' + min1 + ampm;
-                var secondT = hour2 + ':' + min2 + ampm2;
-                if (date == start) {
-                  hours.push([firstT, secondT]);
+            var firstT = hour1 + ':' + min1 + ampm;
+            var secondT = hour2 + ':' + min2 + ampm2;
+            if (date == start) {
+                hours.push([firstT, secondT]);
 
-                }
-                              
-            });
+            }
 
-    } 
+        });
+
+    }
 
     function timeCal(hours, hours2) {
         $('input.timepicker').timepicker('remove');
-        
 
-        if (hours.length != 0 && hours2.length!=0) {
+
+        if (hours.length != 0 && hours2.length != 0) {
             var hours3 = hours.concat(hours2);
             $('input.timepicker').timepicker({
                 'step': 60,
@@ -255,10 +252,10 @@
             });
         }
 
-        else if (hours.length!=0 && hours2) {
+        else if (hours.length != 0 && hours2) {
 
             $('input.timepicker').timepicker({
-                
+
                 'minTime': '6:00am',
                 'step': 60,
                 'disableTimeRanges': hours,
@@ -268,7 +265,7 @@
             });
         }
 
-        else if (hours2.length!=0 && hours) {
+        else if (hours2.length != 0 && hours) {
             $('input.timepicker').timepicker({
                 'step': 60,
                 'disableTimeRanges': hours2,
@@ -288,13 +285,14 @@
             });
         }
 
-       
+
     }
 
     //EDITAR CITA
     $('#btnEdit').click(function () {
         //Abrir modal dialog para editar el evento seleccionado
-        $('#cedUD').hide();
+        $('#infouser').hide();
+        $('#Tabla_Usuarios').hide();
         openEditForm();
     })
 
@@ -332,6 +330,7 @@
             $('#rutinaCheck').prop("checked", selectedEvent.description2 || false);
             $('#inbodyCheck').change();
             $('#rutinaCheck').change();
+            
         }
 
 
@@ -357,6 +356,11 @@
             return;
         }
 
+        if (cedu == "") {
+            alert('No ha seleccionado usuario');
+            return;
+        }
+
         else {
             var starDate = moment($('#txtStart').val(), "DD-MMM-YYYY HH:mm a").toDate();
             var endDate = moment($('#txtEnd').val(), "DD-MMM-YYYY HH:mm a").toDate();
@@ -373,37 +377,8 @@
 
         //Esta variable almacena la cita sobre la cual se está trabajando
 
-        if ($('#cedUD').is(':hidden') == false) {
-            var startTime = $('#txtHora').timepicker('getTime');
+       
 
-            if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == true) {
-                var endTime = new Date(startTime.getTime() + 110 * 60000);   // add 30 minutes
-                $('#txtHoraF').timepicker('setTime', endTime);
-            }
-
-            else if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == true) {
-                var endTime = new Date(startTime.getTime() + 90 * 60000);   // add 30 minutes
-                $('#txtHoraF').timepicker('setTime', endTime);
-            }
-
-            else if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == false) {
-                var endTime = new Date(startTime.getTime() + 20 * 60000);   // add 30 minutes
-                $('#txtHoraF').timepicker('setTime', endTime);
-            }
-
-            data = { 
-                CitaId: $('#hdEventID').val(),
-                InBody: $('#inbodyCheck').is(':checked'),
-                Otro: $('#rutinaCheck').is(':checked'),
-                UsuarioCedula: $('#usuariosDropdown').children("option:selected").val().trim(),
-                FechaHoraInicio: $('#txtStart').val().trim() + ' ' + $('#txtHora').val().trim(),
-                FechaHoraFinal: $('#txtStart').val().trim() + ' ' + $('#txtHoraF').val().trim()
-            }
-
-           
-        }
-
-        else {
 
             var startTime = $('#txtHora').timepicker('getTime');
 
@@ -429,7 +404,7 @@
                 FechaHoraInicio: $('#txtStart').val().trim() + ' ' + $('#txtHora').val().trim(),
                 FechaHoraFinal: $('#txtStart').val().trim() + ' ' + $('#txtHoraF').val().trim()
             }
-        }
+        
         //Llamando función para enviar cambios
         SaveDate(data);
     })
@@ -439,12 +414,13 @@
             type: "POST",
             dataType: "JSON",
             url: '/CitasAdmin/SaveEvent',
-            data: data,
+            data: { 'e': data, 'cedu':cedu},
             success: function (data) {
                 if (data.status) {
                     //Actualiza el calendario
                     FetchEventAndRenderCalendar();
                     $('#myModalSave').modal('hide');
+                    cedu = "";
                 }
                 else {
                     alert("La hora no está disponible");
@@ -463,30 +439,72 @@
     });
 
 
-    //CARGA DE USUARIOS A LA LISTA
-    function cargaF() {
-        $.getJSON("/CitasAdmin/getUsuariosF", null, function (data) {
-            $("#usuariosDropdown").empty() // Remove all <option> child tags.
-            $.each(data, function (index, item) { // Iterates through a collection
-                $("#usuariosDropdown").append(
-                    $('<option></option>')
-                        .text(item.cedNomCompleto)
-                        .val(item.idAtleta)
-                );
-            });
+
+
+
+    //DATATABLE
+
+
+
+    // By Carlillos
+    function llenarTabla() {
+        $('#example').DataTable({
+            "language": {
+                "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                "zeroRecords": "No se han encontrado registros.",
+                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                "infoEmpty": "No hay datos para mostrar",
+                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                "search": "Filtrar:",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "ajax": {
+                "url": "/CitasAdmin/getUsuariosA",
+                "type": "GET",
+                "dataSrc": ""
+            },
+            columns: [
+                { data: "Accion" },
+                { data: "Cedula" },
+                { data: "Nombre" },
+                { data: "Apellido1"},
+                { data: "Apellido2" },
+                { data: "Rol" }
+            ],
+            'columnDefs': [
+                {
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: [0]
+                }
+            ],
+            'select': {
+                'style': 'os',
+                'selector': 'td:first-child'
+
+            }
         });
     }
 
-    function cargaA() {
-        $.getJSON("/CitasAdmin/getUsuariosA", null, function (data) {
-            $("#usuariosDropdown").empty() // Remove all <option> child tags.
-            $.each(data, function (index, item) { // Iterates through a collection
-                $("#usuariosDropdown").append(
-                    $('<option></option>')
-                        .text(item.cedNomCompleto)
-                        .val(item.idAtleta)
-                );
-            });
-        });
-    }
+    //Usar botón para esconder o mostrar datatable
+    $('#botón').click(function () {
+        $('#Tabla_Usuarios').show();
+    });
 
+    //Esconder la tabla al seleccionar por check-box
+    $('#example').on('click', 'td.select-checkbox', function () {
+        var td = $(this);
+        var tr = td.closest('tr');
+      
+        $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
+        cedu=tr.find('td:eq(1)').text();
+        $('#Tabla_Usuarios').hide();
+    });
+
+
+});

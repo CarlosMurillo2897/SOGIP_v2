@@ -23,49 +23,51 @@
 *@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
 <div class="container-fluid">
 
     <div id="calendar"></div>
-        @*MODAL PARA VER O ELIMINAR CITAS*@
-        <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><span id="eventTitle"></span></h4>
-                    </div>
-                    <div class="modal-body">
-                        <button id="btnDelete" class="btn btn-default btn-sm pull-right" style="background-color:#ff4d4d;">
-                            <span class="glyphicon glyphicon-remove"></span>
-                            Eliminar
-                        </button>
-                        <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            Editar
-                        </button>
-                        <p id="pDetails"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    </div>
+    @*MODAL PARA VER O ELIMINAR CITAS*@
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                </div>
+                <div class="modal-body">
+                    <button id="btnDelete" class="btn btn-default btn-sm pull-right" style="background-color:#ff4d4d;">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        Eliminar
+                    </button>
+                    <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Editar
+                    </button>
+                    <p id="pDetails"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    @*MODAL PARA EDITAR O CREAR LAS CITAS*@
-    <div id="myModalSave" class="modal fade bd-example-modal-lg" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content col-md-12" style="align-content:center">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">GUARDAR CITA</h4>
-                </div>
-                <div class="modal-body">
-                    <form class="form-horizontal">
-                        <input type="hidden" id="hdEventID" value="0" />
-                        <div class="row">
+@*MODAL PARA EDITAR O CREAR LAS CITAS*@
+<div id="myModalSave" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content col-md-12" style="align-content:center">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">GUARDAR CITA</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal">
+                    <input type="hidden" id="hdEventID" value="0" />
+                    <div class="row">
                         <div class="form-group col-lg-3 col-md-6 col-sm-6">
                             <label>Fecha de inicio</label>
                             <div class="input-group date" id="dtp1">
@@ -73,73 +75,75 @@
                                 <input type="text" id="txtStart" class="form-control" />
                             </div>
                         </div>
-                            </div>
-
-                        <div class="row">
-                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                <label>Hora de inicio</label>
-                                <div class="input-group date" id="dtp3">
-                                    <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                    <input class="timepicker form-control" value="" id="txtHora" type="text">
-                                </div>
-                            </div>
-
-                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                <label>Hora de finalización</label>
-                                <div class="input-group date" id="dtp2">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                    <input class="timepicker form-control" value="" id="txtHoraF" type="text" readonly>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label><input type="checkbox" id="inbodyCheck" checked="checked" />InBody</label>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <label>Hora de inicio</label>
+                            <div class="input-group date" id="dtp3">
+                                <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                <input class="timepicker form-control" value="" id="txtHora" type="text">
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="checkbox">
-                                <label><input type="checkbox" id="rutinaCheck" checked="checked" />Rutina</label>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <label>Hora de finalización</label>
+                            <div class="input-group date" id="dtp2">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                <input class="timepicker form-control" value="" id="txtHoraF" type="text" readonly>
                             </div>
 
                         </div>
-                        <hr />
-                        <div class="form-group" id="cedUD" style="display:none;">
-                            <div class="form-group col-md-10">
-                                <table>
-                                    <tr>
-                                        <td><input type="radio" name="Tipo_Cta" id="funcionario" checked />Funcionario</td>
-                                        <td><input type="radio" name="Tipo_Cta" id="atleta" />Atletas</td>
-                                    </tr>
-                                </table>
-                            </div> <br />
+                    </div>
 
-                            <table id="example" class="display" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Acción</th>
-                                        <th>Nombre</th>
-                                        <th>1° Apellido</th>
-                                        <th>2° Apellido</th>
-                                    </tr>
-                                </thead>
-                            </table>
-
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="inbodyCheck" checked="checked" />InBody</label>
                         </div>
-                        <br />
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label><input type="checkbox" id="rutinaCheck" checked="checked" />Rutina</label>
+                        </div>
+
+                    </div>
+                    <hr />
+
+                    <div class="row" id="infouser">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <button id="botón" type="button" class="btn btn-warning btn-block">
+                                <text id="texto">Seleccionar usuario</text>
+                                <span id="icono" class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive" id="Tabla_Usuarios" hidden>
+                        <table id="example" style="width: 100%;" class="table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Acción</th>
+                                    <th>Cédula</th>
+                                    <th>Nombre</th>
+                                    <th>1° Apellido</th>
+                                    <th>2° Apellido</th>
+                                    <th>Rol</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <br />
+                    <div class="modal-footer">
                         <button type="button" id="btnSave" class="btn btn-default" style="background-color:#339966;">Guardar Cambios</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-
-
-                    </form>
-                </div>
-
+                    </div>
+                </form>
             </div>
+
         </div>
     </div>
+</div>
 
 
 @*------LA PARTE MÁS IMPORTANTE DE ESTE REQUERIMIENTO-------*@
@@ -154,5 +158,7 @@
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")
     @Scripts.Render("~/Scripts/fullCalendar/admincalendar.js")
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
 
 }
