@@ -93,22 +93,28 @@ namespace SOGIP_v2.Controllers
                 }
             return new JsonResult { Data = new { status = status } };
         }
-        public JsonResult GetEjercicio(int rutinaId)
+        public JsonResult GetEjercicio(string dia)
         {
-            var Ejercicio = db.Conjunto_Ejercicios.ToList();
-            return Json(Ejercicio, JsonRequestBehavior.AllowGet);
+         
+            int d = int.Parse(dia);
+            Rutina rutina = db.Rutinas.SingleOrDefault(x => x.RutinaId == d);
+            //var Ejercicio = db.Conjunto_Ejercicios.Where(x=> x.ConjuntoEjercicioRutina.RutinaId == rutina.RutinaId).ToList();
+            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == rutina.RutinaId).ToList();
+            //var Ejercicio = getEjercicio.Where(x=>x.DiaEjercicio == "Dia1").ToList();
+            return Json(getEjercicio, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Ejercicio(int? idRutina, string idUsuario)
+        public ActionResult Ejercicio(int? idRutina)
         {
+            Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x => x.RutinaId == idRutina);
             if (idRutina != null)
             {
-                Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x=>x.RutinaId ==idRutina);
+               
                 int i = rutina.RutinaId;
                 string n = i.ToString();
                 ViewData["rutina"] = n;
                 string nombre = rutina.Usuario.Cedula + " - "+rutina.Usuario.Nombre1 +" "+ rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2; 
-                ViewData["nombre"] = idUsuario;
+                ViewData["nombre"] = nombre;
 
                 var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina && x.DiaEjercicio == "Dia1").ToList();
                 var getEjercicio2 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina && x.DiaEjercicio == "Dia2").ToList();
@@ -123,11 +129,11 @@ namespace SOGIP_v2.Controllers
                 ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
 
             }
-
+            string idUsuario = rutina.Usuario.Id;
             if (idUsuario != null)
             {
-                Rutina rutina = db.Rutinas.FirstOrDefault(x => x.Usuario.Id == idUsuario);
-                int i = rutina.RutinaId;
+                Rutina rutina1 = db.Rutinas.FirstOrDefault(x => x.Usuario.Id == idUsuario);
+                int i = rutina1.RutinaId;
                 string n = i.ToString();
                 ViewData["rutina"] = n;
 
@@ -137,16 +143,33 @@ namespace SOGIP_v2.Controllers
                 var getEjercicio4 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.Usuario.Id == idUsuario && x.DiaEjercicio == "Dia4").ToList();
                 var getEjercicio5 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.Usuario.Id == idUsuario && x.DiaEjercicio == "Dia5").ToList();
 
-                ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0)? getEjercicio1 : null;
-                ViewBag.Conjunto_Ejercicios2 = (getEjercicio2.Count > 0)? getEjercicio2 : null;
-                ViewBag.Conjunto_Ejercicios3 = (getEjercicio3.Count > 0)? getEjercicio3 : null;
-                ViewBag.Conjunto_Ejercicios4 = (getEjercicio4.Count > 0)? getEjercicio4 : null;
-                ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0)? getEjercicio5 : null;
+                ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
+                ViewBag.Conjunto_Ejercicios2 = (getEjercicio2.Count > 0) ? getEjercicio2 : null;
+                ViewBag.Conjunto_Ejercicios3 = (getEjercicio3.Count > 0) ? getEjercicio3 : null;
+                ViewBag.Conjunto_Ejercicios4 = (getEjercicio4.Count > 0) ? getEjercicio4 : null;
+                ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
 
             }
-            
+
 
             return View();
+
+        }
+        public JsonResult DeleteEjercicio(int ejercicioId)
+        {
+            var status = false;
+            var v = db.Conjunto_Ejercicios.Where(a => a.Conjunto_EjercicioId == ejercicioId).FirstOrDefault();
+            if (v != null)
+            {
+                
+                db.Conjunto_Ejercicios.Remove(v);
+                db.SaveChanges();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+        public JsonResult ObtenerEjer(int ejercicioId)
+        {
 
         }
         //[HttpPost]

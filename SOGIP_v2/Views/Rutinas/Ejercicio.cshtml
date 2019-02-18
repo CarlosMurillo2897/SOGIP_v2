@@ -27,16 +27,12 @@
         @Html.DisplayFor(model => model.ConjuntoEjercicioRutina.Usuario.Cedula)
 
         <h4 style="color:white"> @viewDataNombre </h4>
-    
         <hr />
-    </div>
-    <div class="table-responsive">
-        <table id="rutina" class="display" style="width:100%"></table>
     </div>
     <div class="col-sm-12">
         <div class="table-responsive">
             <table id="ejercicio1" class="display" style="width:100%"></table>
-    </div>
+        </div>
         <table id="rutina" class="table table-bordered table-responsive table-hover">
             <thead>
                 <TR>
@@ -62,188 +58,189 @@
                     <TH></TH>
                 </TR>
             </thead>
-    <tbody>
-    @if (ViewBag.Conjunto_Ejercicios1 != null)
-        {
-            var dia = true;
+            <tbody>
+                @if (ViewBag.Conjunto_Ejercicios1 != null)
+                {
+                    var dia = true;
 
-            foreach (var item1 in ViewBag.Conjunto_Ejercicios1)
-            {
-                if (dia)
-                {
-                    <tr><td>Día 1</td></tr>
-                    dia = false;
-                }
-                <tr style="background-color: @item1.ColorEjercicio">
-                    <td>@item1.NombreEjercicio</td>
-                    <td>@item1.Serie1</td>
-                    <td>@item1.Repeticion1</td>
-                    <td>@item1.Peso1</td>
-                    <td>@item1.Serie2</td>
-                    <td>@item1.Repeticion2</td>
-                    <td>@item1.Peso2</td>
-                    <td>@item1.Serie3</td>
-                    <td>@item1.Repeticion3</td>
-                    <td>@item1.Peso3</td>
-                    <td>@item1.DiaEjercicio</td>
-                    <td>
-                        <a class='btn btn-danger' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='rn(@item1.Conjunto_EjercicioId)' style='padding: 2px 6px; margin: 2px;'>
-                            <text class='hidden-xs'>Eliminar </text>
-                            <span class='glyphicon glyphicon-minus-sign'></span>
-                        </a>
+                    foreach (var item1 in ViewBag.Conjunto_Ejercicios1)
+                    {
+                        if (dia)
+                        {
+                            <tr><td>Día 1</td></tr>
+                            dia = false;
+                        }
+                        <tr style="background-color: @item1.ColorEjercicio">
+                            <td>@item1.NombreEjercicio</td>
+                            <td>@item1.Serie1</td>
+                            <td>@item1.Repeticion1</td>
+                            <td>@item1.Peso1</td>
+                            <td>@item1.Serie2</td>
+                            <td>@item1.Repeticion2</td>
+                            <td>@item1.Peso2</td>
+                            <td>@item1.Serie3</td>
+                            <td>@item1.Repeticion3</td>
+                            <td>@item1.Peso3</td>
+                            <td>@item1.DiaEjercicio</td>
+                            <td>
 
-                        <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#myModal'>
-                            <text class='hidden-xs'>Editar </text>
-                            <span class='glyphicon glyphicon-pencil'></span>
-                        </a>
-                    </td>
-                </tr>
-            }
-        }
-    @*@if (ViewBag.Conjunto_Ejercicios2 != null)
-        {
-            var dia = true;
-            foreach (var item2 in ViewBag.Conjunto_Ejercicios2)
-            {
-                if (dia)
-                {
-                    <tr><td>Día 2</td></tr>
-                    dia = false;
-                }
-                <tr style="background-color: @item2.ColorEjercicio">
-                    <td>@item2.NombreEjercicio</td>
-                    <td>@item2.Serie1</td>
-                    <td>@item2.Repeticion1</td>
-                    <td>@item2.Peso1</td>
-                    <td>@item2.Serie2</td>
-                    <td>@item2.Repeticion2</td>
-                    <td>@item2.Peso2</td>
-                    <td>@item2.Serie3</td>
-                    <td>@item2.Repeticion3</td>
-                    <td>@item2.Peso3</td>
-                    <td>@item2.DiaEjercicio</td>
-                    <td>
-                        <a class='btn btn-danger' id="btnEliminar" onclick="rn();" style='padding: 2px 6px; margin: 2px;'>
-                            <text class='hidden-xs'>Eliminar </text>
-                            <span class='glyphicon glyphicon-minus-sign'></span>
-                        </a>
-                        <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
-                            <text class='hidden-xs'>Editar </text>
-                            <span class='glyphicon glyphicon-pencil'></span>
-                        </a>
-                    </td>
-                </tr>
-            }
-        }
-        @if (ViewBag.Conjunto_Ejercicios3 != null)
-        {
-            var dia = true;
-            foreach (var item3 in ViewBag.Conjunto_Ejercicios3)
-            {
-                if (dia)
-                {
-                    <tr><td>Día 3</td></tr>
-                    dia = false;
-                }
-                <tr style="background-color: @item3.ColorEjercicio">
-                    <td>@item3.NombreEjercicio</td>
-                    <td>@item3.Serie1</td>
-                    <td>@item3.Repeticion1</td>
-                    <td>@item3.Peso1</td>
-                    <td>@item3.Serie2</td>
-                    <td>@item3.Repeticion2</td>
-                    <td>@item3.Peso2</td>
-                    <td>@item3.Serie3</td>
-                    <td>@item3.Repeticion3</td>
-                    <td>@item3.Peso3</td>
-                    <td>@item3.DiaEjercicio</td>
-                    <td>
-                        <a class='btn btn-danger' id="btnEliminar" onclick="rn();" style='padding: 2px 6px; margin: 2px;'>
-                            <text class='hidden-xs'>Eliminar </text>
-                            <span class='glyphicon glyphicon-minus-sign'></span>
-                        </a>
-                        <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
-                            <text class='hidden-xs'>Editar </text>
-                            <span class='glyphicon glyphicon-pencil'></span>
-                        </a>
-                    </td>
-                </tr>
-            }
-        }
-        @if (ViewBag.Conjunto_Ejercicios4 != null)
-        {
-            var dia = true;
-            foreach (var item4 in ViewBag.Conjunto_Ejercicios4)
-            {
-                if (dia)
-                {
-                    <tr><td>Día 4</td></tr>
-                    dia = false;
-                }
-                <tr style="background-color: @item4.ColorEjercicio">
-                    <td>@item4.NombreEjercicio</td>
-                    <td>@item4.Serie1</td>
-                    <td>@item4.Repeticion1</td>
-                    <td>@item4.Peso1</td>
-                    <td>@item4.Serie2</td>
-                    <td>@item4.Repeticion2</td>
-                    <td>@item4.Peso2</td>
-                    <td>@item4.Serie3</td>
-                    <td>@item4.Repeticion3</td>
-                    <td>@item4.Peso3</td>
-                    <td>@item4.DiaEjercicio</td>
-                    <td>
-                        <a class='btn btn-danger' id="btnEliminar" onclick="rn();" style='padding: 2px 6px; margin: 2px;'>
-                            <text class='hidden-xs'>Eliminar </text>
-                            <span class='glyphicon glyphicon-minus-sign'></span>
-                        </a>
-                        <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
-                            <text class='hidden-xs'>Editar </text>
-                            <span class='glyphicon glyphicon-pencil'></span>
-                        </a>
-                    </td>
-                </tr>
-            }
-        }
-        @if (ViewBag.Conjunto_Ejercicios5 != null)
-        {
-            var dia = true;
+                                <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item1.Conjunto_EjercicioId)'>
+                                    <text class='hidden-xs'>Eliminar </text>
+                                    <span class='glyphicon glyphicon-minus-sign'></span>
+                                </a>
 
-            foreach (var item5 in ViewBag.Conjunto_Ejercicios5)
-            {
-                if (dia)
-                {
-                    <tr><td>Día 5</td></tr>
-                    dia = false;
+                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)data-toggle='modal' data-target='#myModal'>
+                                    <text class='hidden-xs'>Editar </text>
+                                    <span class='glyphicon glyphicon-pencil'></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
                 }
-                <tr style="background-color: @item5.ColorEjercicio">
-                    <td>@item5.NombreEjercicio</td>
-                    <td>@item5.Serie1</td>
-                    <td>@item5.Repeticion1</td>
-                    <td>@item5.Peso1</td>
-                    <td>@item5.Serie2</td>
-                    <td>@item5.Repeticion2</td>
-                    <td>@item5.Peso2</td>
-                    <td>@item5.Serie3</td>
-                    <td>@item5.Repeticion3</td>
-                    <td>@item5.Peso3</td>
-                    <td>@item5.DiaEjercicio</td>
-                    <td>
-                        <a class='btn btn-danger' id="btnEliminar" onclick="rn();" style='padding: 2px 6px; margin: 2px;'>
-                            <text class='hidden-xs'>Eliminar </text>
-                            <span class='glyphicon glyphicon-minus-sign'></span>
-                        </a>
-                        <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
-                            <text class='hidden-xs'>Editar </text>
-                            <span class='glyphicon glyphicon-pencil'></span>
-                        </a>
-                    </td>
-                </tr>
-            }
-        }*@
-    </tbody>
-    </table>
-        </div>
+                @*@if (ViewBag.Conjunto_Ejercicios2 != null)
+                    {
+                        var dia = true;
+                        foreach (var item2 in ViewBag.Conjunto_Ejercicios2)
+                        {
+                            if (dia)
+                            {
+                                <tr><td>Día 2</td></tr>
+                                dia = false;
+                            }
+                            <tr style="background-color: @item2.ColorEjercicio">
+                                <td>@item2.NombreEjercicio</td>
+                                <td>@item2.Serie1</td>
+                                <td>@item2.Repeticion1</td>
+                                <td>@item2.Peso1</td>
+                                <td>@item2.Serie2</td>
+                                <td>@item2.Repeticion2</td>
+                                <td>@item2.Peso2</td>
+                                <td>@item2.Serie3</td>
+                                <td>@item2.Repeticion3</td>
+                                <td>@item2.Peso3</td>
+                                <td>@item2.DiaEjercicio</td>
+                                <td>
+                                    <a class='btn btn-danger' id="btnEliminar" onclick="rn();" style='padding: 2px 6px; margin: 2px;'>
+                                        <text class='hidden-xs'>Eliminar </text>
+                                        <span class='glyphicon glyphicon-minus-sign'></span>
+                                    </a>
+                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
+                                        <text class='hidden-xs'>Editar </text>
+                                        <span class='glyphicon glyphicon-pencil'></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @if (ViewBag.Conjunto_Ejercicios3 != null)
+                    {
+                        var dia = true;
+                        foreach (var item3 in ViewBag.Conjunto_Ejercicios3)
+                        {
+                            if (dia)
+                            {
+                                <tr><td>Día 3</td></tr>
+                                dia = false;
+                            }
+                            <tr style="background-color: @item3.ColorEjercicio">
+                                <td>@item3.NombreEjercicio</td>
+                                <td>@item3.Serie1</td>
+                                <td>@item3.Repeticion1</td>
+                                <td>@item3.Peso1</td>
+                                <td>@item3.Serie2</td>
+                                <td>@item3.Repeticion2</td>
+                                <td>@item3.Peso2</td>
+                                <td>@item3.Serie3</td>
+                                <td>@item3.Repeticion3</td>
+                                <td>@item3.Peso3</td>
+                                <td>@item3.DiaEjercicio</td>
+                                <td>
+                                    <a class='btn btn-danger' id="btnEliminar" onclick="rn();" style='padding: 2px 6px; margin: 2px;'>
+                                        <text class='hidden-xs'>Eliminar </text>
+                                        <span class='glyphicon glyphicon-minus-sign'></span>
+                                    </a>
+                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
+                                        <text class='hidden-xs'>Editar </text>
+                                        <span class='glyphicon glyphicon-pencil'></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @if (ViewBag.Conjunto_Ejercicios4 != null)
+                    {
+                        var dia = true;
+                        foreach (var item4 in ViewBag.Conjunto_Ejercicios4)
+                        {
+                            if (dia)
+                            {
+                                <tr><td>Día 4</td></tr>
+                                dia = false;
+                            }
+                            <tr style="background-color: @item4.ColorEjercicio">
+                                <td>@item4.NombreEjercicio</td>
+                                <td>@item4.Serie1</td>
+                                <td>@item4.Repeticion1</td>
+                                <td>@item4.Peso1</td>
+                                <td>@item4.Serie2</td>
+                                <td>@item4.Repeticion2</td>
+                                <td>@item4.Peso2</td>
+                                <td>@item4.Serie3</td>
+                                <td>@item4.Repeticion3</td>
+                                <td>@item4.Peso3</td>
+                                <td>@item4.DiaEjercicio</td>
+                                <td>
+                                    <a class='btn btn-danger' id="btnEliminar" onclick="rn();" style='padding: 2px 6px; margin: 2px;'>
+                                        <text class='hidden-xs'>Eliminar </text>
+                                        <span class='glyphicon glyphicon-minus-sign'></span>
+                                    </a>
+                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
+                                        <text class='hidden-xs'>Editar </text>
+                                        <span class='glyphicon glyphicon-pencil'></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    @if (ViewBag.Conjunto_Ejercicios5 != null)
+                    {
+                        var dia = true;
+
+                        foreach (var item5 in ViewBag.Conjunto_Ejercicios5)
+                        {
+                            if (dia)
+                            {
+                                <tr><td>Día 5</td></tr>
+                                dia = false;
+                            }
+                            <tr style="background-color: @item5.ColorEjercicio">
+                                <td>@item5.NombreEjercicio</td>
+                                <td>@item5.Serie1</td>
+                                <td>@item5.Repeticion1</td>
+                                <td>@item5.Peso1</td>
+                                <td>@item5.Serie2</td>
+                                <td>@item5.Repeticion2</td>
+                                <td>@item5.Peso2</td>
+                                <td>@item5.Serie3</td>
+                                <td>@item5.Repeticion3</td>
+                                <td>@item5.Peso3</td>
+                                <td>@item5.DiaEjercicio</td>
+                                <td>
+                                    <a class='btn btn-danger' id="btnEliminar" onclick="rn();" style='padding: 2px 6px; margin: 2px;'>
+                                        <text class='hidden-xs'>Eliminar </text>
+                                        <span class='glyphicon glyphicon-minus-sign'></span>
+                                    </a>
+                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' data-target='#modalEdición'>
+                                        <text class='hidden-xs'>Editar </text>
+                                        <span class='glyphicon glyphicon-pencil'></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }*@
+            </tbody>
+        </table>
+    </div>
 
     <section>
         <table id="tabla" class="table table-bordered table-responsive table-hover">
@@ -280,119 +277,180 @@
         </div>
     </section>
     @*Modal para Ejercicio*@
-    <div class="modal fade" id="myModal">
+    <div id="editar" class="modal fade bd-example-modal-lg" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <a href="#" class="close" data-dismiss="modal">&times;</a>
-                    <h3 class="modal-title">Información de Usuario</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Ejercicio</h4>
+                    <br>
+                    <label>Nombre Ejercicio: </label>
+                    <input type="text" class="form-control" placeholder="Objetivo" id="serie  " />
                 </div>
-                <div class="modal-body">
-                    <input type="hidden" value="original" id="hidden">
-                    <form id="myForm">
-
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Ejercicio: </label>
-                                <input type="text" class="form-control" id="ejer" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Día: </label>
-                                <input type="text" class="form-control" id="dia" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Color: </label>
-                                <input type="text" class="form-control" id="col" />
-                            </div>
-                        </div>
-                        <br>
-                        <div class="form-group">
-                            <label>Semana 1-2: </label>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Serie: </label>
-                                <input type="text" class="form-control" id="s1" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Repeticion: </label>
-                                <input type="text" class="form-control" id="r1" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Peso: </label>
-                                <input type="text" class="form-control" id="p1" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Semana 3-4: </label>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Serie: </label>
-                                <input type="text" class="form-control" id="s2" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Repeticion: </label>
-                                <input type="text" class="form-control" id="r2" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Peso: </label>
-                                <input type="text" class="form-control" id="p2" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Semana 5-6: </label>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Serie: </label>
-                                <input type="text" class="form-control" id="s3" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Repeticion: </label>
-                                <input type="text" class="form-control" id="r3" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Peso: </label>
-                                <input type="text" class="form-control" id="p3" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                <label>Objetvio de la Rutina: </label>
+                <input type="text" class="form-control" placeholder="Objetivo" id="objetivo" />
+            </div>
+            <div class="modal-body">
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
-                    <a href="#" class="btn btn-success" onclick="actualizar()">Guardar</a>
+                    <br />
+                    <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+</div>
+@*Modal para Ejercicio*@
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Información de Usuario</h3>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" value="original" id="hidden">
+                <form id="myForm">
 
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>Ejercicio: </label>
+                            <input type="text" class="form-control" id="ejer" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Día: </label>
+                            <br>
+                            <select required="" id="dia">
+                                <option>Dia1</option>
+                                <option>Dia2</option>
+                                <option>Dia3</option>
+                                <option>Dia4</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Color: </label>
+                            <br>
+                            <select required="" id="color">
+                                <option>Blanco</option>
+                                <option>Rosado</option>
+                                <option>Celeste</option>
+                                <option>Morado</option>
+                                <option>Naranja</option>
+                                <option>Verde</option>
+                                <option>Amarrillo</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label>Semana 1-2: </label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>Serie: </label>
+                            <input type="text" class="form-control" id="s1" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Repeticion: </label>
+                            <input type="text" class="form-control" id="r1" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Peso: </label>
+                            <input type="text" class="form-control" id="p1" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Semana 3-4: </label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>Serie: </label>
+                            <input type="text" class="form-control" id="s2" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Repeticion: </label>
+                            <input type="text" class="form-control" id="r2" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Peso: </label>
+                            <input type="text" class="form-control" id="p2" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Semana 5-6: </label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            <label>Serie: </label>
+                            <input type="text" class="form-control" id="s3" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Repeticion: </label>
+                            <input type="text" class="form-control" id="r3" />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label>Peso: </label>
+                            <input type="text" class="form-control" id="p3" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-body">
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
+        function EliminarEjer(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Rutinas/DeleteEjercicio',
+                data: { 'ejercicioId': id },
+                success: function (data) {
+                    if (data.status) {
+                        var table = $('#rutina').DataTable().row(tr).remove().draw();
+                    }
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+        }
+        function EditarEjer(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#rutina').DataTable().rows(tr).data();
+        }
         function rn(id) {
             var tr = $('#boton_'+ id).closest('tr');
             var dia = $('#rutina').parents(tr).find("td")[11].innerHTML;
             var ejer = $('#rutina').parents(tr).find("td")[1].innerHTML;
-            //var s = $('#rutina').parents(tr).find("td")[2].innerHTML;
-            //var r = $('#rutina').parents(tr).find("td")[3].innerHTML;
-            //var p = $('#rutina').parents(tr).find("td")[4].innerHTML;
-            //var s1 = $('#rutina').parents(tr).find("td")[5].innerHTML;
-            //var r1 = $('#rutina').parents(tr).find("td")[6].innerHTML;
-            //var p1 = $('#rutina').parents(tr).find("td")[7].innerHTML;
-            //var s2 = $('#rutina').parents(tr).find("td")[8].innerHTML;
-            //var r2 = $('#rutina').parents(tr).find("td")[9].innerHTML;
-            //var p2 = $('#rutina').parents(tr).find("td")[10].innerHTML;
+            var s = $('#rutina').parents(tr).find("td")[2].innerHTML;
+            var r = $('#rutina').parents(tr).find("td")[3].innerHTML;
+            var p = $('#rutina').parents(tr).find("td")[4].innerHTML;
+            var s1 = $('#rutina').parents(tr).find("td")[5].innerHTML;
+            var r1 = $('#rutina').parents(tr).find("td")[6].innerHTML;
+            var p1 = $('#rutina').parents(tr).find("td")[7].innerHTML;
+            var s2 = $('#rutina').parents(tr).find("td")[8].innerHTML;
+            var r2 = $('#rutina').parents(tr).find("td")[9].innerHTML;
+            var p2 = $('#rutina').parents(tr).find("td")[10].innerHTML;
 
-            alert(ejer);
+            alert(id);
         }
        //Insert new rows into table
         $(document).ready(function () {
-            var table;
-            var dataSet = [];
-            tabla();
+
 
             $("#adicional").on('click', function () {
                 var tableRef = document.getElementById('tabla').getElementsByTagName('tbody')[0];
@@ -491,61 +549,7 @@
                 document.getElementsByClassName("input").required;
 
             });
-            function tabla() {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/Rutinas/GetRutinas',
-                    success: function (data) {
-                        $.each(data, function (i, v) {
-                            var date = new Date(parseInt(v.RutinaFecha.substr(6)));
-                            dataSet.push([v.Usuario.Cedula, v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, v.RutinaId, v.RutinaId]);
-                        })
-                        table = $('#rutina').DataTable({
-                            data: dataSet,
-                            columns: [
-                                { title: "Cédula" },
-                                { title: "Usuario" },
-                                { title: "Fecha" },
-                                { title: "Objetivo" },
-                                {
-                                    title: "Id",
-                                    "visible": false,
-                                    "searchable": false
-                                },
-                                {
-                                    title: "Acción",
-                                    "render": function (Id) {
-                                        debugger
-                                        return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarRut(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
-                                            "<text class='hidden-xs'>Eliminar </text>" +
-                                            "<span class='glyphicon glyphicon-minus-sign'></span>" +
-                                            "</a>" +
-                                            "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
-                                            "<text class='hidden-xs'>Editar </text>" +
-                                            "<span class='glyphicon glyphicon-pencil'></span>" +
-                                            "</a>" +
-                                            "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
-                                            "<text class='hidden-xs'>Rutina </text>" +
-                                            "<span class='glyphicon glyphicon-list'></span>" +
-                                            "</a>";
-                                    }
-                                }
-                            ],
 
-                            'select': {
-                                'style': 'os',
-                                'selector': 'td:first-child'
-                            }
-                        });
-                    },
-
-                    error: function (error) {
-                        alert("Fallo");
-                    }
-                });
-
-            }
             //Delete rows in tha table
             $('.table tbody').on('click', '.btn', function () {
                 $(this).closest('tr').remove();
