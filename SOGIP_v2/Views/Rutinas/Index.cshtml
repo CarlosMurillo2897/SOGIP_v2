@@ -1,5 +1,7 @@
 ﻿@model SOGIP_v2.Models.Rutina
 @{
+    /**/
+
     ViewBag.Title = "Lista de Rutinas";
 
     ViewBag.Control = "Rutinas";
@@ -8,7 +10,10 @@
     ViewBag.Metodo = "Index";
     ViewBag.MetodoIcono = "glyphicon-edit";
 
-    @Styles.Render("~/Contents/bootstrap-datepicker.css")
+ 
+    ViewBag.Accion = "Crear Rutina";
+
+                @Styles.Render("~/Contents/bootstrap-datepicker.css")
 }
 
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
@@ -86,7 +91,7 @@
             <div class="modal-body">
                 <div class="modal-footer">
                     <br />
-                    <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal" >Guardar Cambios</button>
+                    <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -137,17 +142,17 @@
                         </div>
                     </td>
                 </tr>
-            <div class="modal-body">
-                <div class="modal-footer">
-                    <br />
-                    <button type="button" id="eliminar2" class="btn btn-success" data-dismiss="modal">Eliminar</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <div class="modal-body">
+                    <div class="modal-footer">
+                        <br />
+                        <button type="button" id="eliminar2" class="btn btn-success" data-dismiss="modal">Eliminar</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-    </div>
 @*La tabla principal*@
 <div class="table-responsive">
     <table id="rutina" class="display" style="width:100%"></table>
@@ -183,7 +188,7 @@
                     type: "POST",
                     dataType: "JSON",
                     url: '/Rutinas/DeleteRutina',
-                    data: { 'rutinaId': idRut },
+                    data: { 'rutinaId': id },
                     success: function (data) {
                         if (data.status) {
                             var table = $('#rutina').DataTable().row(tr).remove().draw();
@@ -246,21 +251,21 @@
                 idUsuario: idUsuario,
                 idRutina: idRutina
             }
-            window.location.href = '/Rutinas/Ejercicio?idRutina=' + idRutina; 
+            window.location.href = '/Rutinas/Ejercicio?idRutina=' + idRutina;
 
         }
         $(document).ready(function () {
             var table1;
-            var dataSet1=[];
+            var dataSet1 = [];
             var table;
             var dataSet = [];
             tabla();
-         
+
             $('#btnNuevo').click(function () {
                 usuarios();
             })
-           
-          
+
+
             $('#btnSave').click(function () {
                 var data = null;
                 var objetivo = $('#obj').val();
@@ -334,7 +339,7 @@
                                 { title: "Cédula" },
                                 { title: "Usuario" },
                                 { title: "Fecha" },
-                                {title: "Objetivo"},
+                                { title: "Objetivo" },
                                 {
                                     title: "Id",
                                     "visible": false,
@@ -342,20 +347,20 @@
                                 },
                                 {
                                     title: "Acción",
-                                "render": function (Id) {
-                                    debugger
-                                    return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarRut(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
-                                        "<text class='hidden-xs'>Eliminar </text>" +
-                                        "<span class='glyphicon glyphicon-minus-sign'></span>" +
-                                        "</a>" +
-                                        "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
-                                        "<text class='hidden-xs'>Editar </text>" +
-                                        "<span class='glyphicon glyphicon-pencil'></span>" +
-                                        "</a>" +
-                                        "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
-                                        "<text class='hidden-xs'>Rutina </text>" +
-                                        "<span class='glyphicon glyphicon-list'></span>" +
-                                        "</a>";
+                                    "render": function (Id) {
+                                        debugger
+                                        return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarRut(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
+                                            "<text class='hidden-xs'>Eliminar </text>" +
+                                            "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                            "</a>" +
+                                            "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                                            "<text class='hidden-xs'>Editar </text>" +
+                                            "<span class='glyphicon glyphicon-pencil'></span>" +
+                                            "</a>" +
+                                            "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
+                                            "<text class='hidden-xs'>Rutina </text>" +
+                                            "<span class='glyphicon glyphicon-list'></span>" +
+                                            "</a>";
                                     }
                                 }
                             ],
@@ -373,10 +378,10 @@
                 });
 
             }
-           
-           
+
+
             function usuarios() {
-              
+
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
@@ -430,7 +435,7 @@
                     }
                 });
             }
-           
+
         });
     </script>
 

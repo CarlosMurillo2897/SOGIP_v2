@@ -170,6 +170,31 @@ namespace SOGIP_v2.Controllers
         }
         public JsonResult ObtenerEjer(int ejercicioId)
         {
+            var ejercicio = db.Conjunto_Ejercicios.Where(a => a.Conjunto_EjercicioId == ejercicioId).FirstOrDefault();
+            return Json(ejercicio, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult EditEjer(Conjunto_Ejercicio data)
+        {
+            var status = false;
+            Conjunto_Ejercicio ejer = db.Conjunto_Ejercicios.Where(a => a.Conjunto_EjercicioId == data.Conjunto_EjercicioId).FirstOrDefault();
+            if(ejer != null)
+            {
+                ejer.NombreEjercicio = data.NombreEjercicio;
+                ejer.Serie1 = data.Serie1;
+                ejer.Repeticion1 = data.Repeticion1;
+                ejer.Peso1 = data.Peso1;
+                ejer.Serie2 = data.Serie2;
+                ejer.Repeticion2 = data.Repeticion2;
+                ejer.Peso2 = data.Peso2;
+                ejer.Serie3 = data.Serie3;
+                ejer.Repeticion3 = data.Repeticion3;
+                ejer.Peso3 = data.Peso3;
+                ejer.DiaEjercicio = data.DiaEjercicio;
+                ejer.ColorEjercicio = data.ColorEjercicio;
+                db.SaveChanges();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
 
         }
         //[HttpPost]
@@ -334,88 +359,44 @@ namespace SOGIP_v2.Controllers
 
 
 
-        public ActionResult DetailsEjercicio(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+        
 
-            Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Find(id);
-            if (conjunto_Ejercicio == null)
-            {
-                return HttpNotFound();
-            }
-            return RedirectToAction("Index");
-        }
+        //public ActionResult EditEjercicio(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Include("ConjuntoEjercicioRutina").SingleOrDefault(x => x.Conjunto_EjercicioId == id);
+        //    int n = conjunto_Ejercicio.ConjuntoEjercicioRutina.RutinaId;
+        //    Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x => x.RutinaId == n);
+        //    if (conjunto_Ejercicio == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
 
-        public ActionResult EditEjercicio(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Include("ConjuntoEjercicioRutina").SingleOrDefault(x => x.Conjunto_EjercicioId == id);
-            int n = conjunto_Ejercicio.ConjuntoEjercicioRutina.RutinaId;
-            Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x => x.RutinaId == n);
-            if (conjunto_Ejercicio == null)
-            {
-                return HttpNotFound();
-            }
+        //    string nombre = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
 
-            string nombre = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
+        //    ViewData["nombre"] = nombre;
+        //    ViewData["idRutina"] = rutina.RutinaId;
 
-            ViewData["nombre"] = nombre;
-            ViewData["idRutina"] = rutina.RutinaId;
+        //    return View(conjunto_Ejercicio);
+        //}
 
-            return View(conjunto_Ejercicio);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult EditEjercicio([Bind(Include = "Conjunto_EjercicioId,NombreEjercicio,Serie1,Repeticion1,Peso1,Serie2,Repeticion2,Peso2,Serie3,Repeticion3,Peso3,ColorEjercicio, diaEjercicio")] Conjunto_Ejercicio conjunto_Ejercicio, int idRutina)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(conjunto_Ejercicio).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Ejercicio", new { idRutina} );
+        //    }
+        //    return View(conjunto_Ejercicio);
+        //}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditEjercicio([Bind(Include = "Conjunto_EjercicioId,NombreEjercicio,Serie1,Repeticion1,Peso1,Serie2,Repeticion2,Peso2,Serie3,Repeticion3,Peso3,ColorEjercicio, diaEjercicio")] Conjunto_Ejercicio conjunto_Ejercicio, int idRutina)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(conjunto_Ejercicio).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Ejercicio", new { idRutina} );
-            }
-            return View(conjunto_Ejercicio);
-        }
-
-        // GET: Conjunto_Ejercicio/Delete/5
-        public ActionResult DeleteEjercicio(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Include("ConjuntoEjercicioRutina").SingleOrDefault(x => x.Conjunto_EjercicioId == id);
-            int n = conjunto_Ejercicio.ConjuntoEjercicioRutina.RutinaId;
-            Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x => x.RutinaId == n);
-            if (conjunto_Ejercicio == null)
-            {
-                return HttpNotFound();
-            }
-            string nombre = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
-            ViewData["nombre"] = nombre;
-            return View(conjunto_Ejercicio);
-        }
-
-        // POST: Conjunto_Ejercicio/Delete/5
-        [HttpPost, ActionName("DeleteEjercicio")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmedEjercicio(int id)
-        {
-            
-            Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Include("ConjuntoEjercicioRutina").SingleOrDefault(x => x.Conjunto_EjercicioId == id); ;
-            int idRutina = conjunto_Ejercicio.ConjuntoEjercicioRutina.RutinaId;
-            db.Conjunto_Ejercicios.Remove(conjunto_Ejercicio);
-            db.SaveChanges();
-            return RedirectToAction("Ejercicio", new { idRutina });
-        }
-
+      
     [HttpPost]
         public ActionResult Create(string usuarioDropdown,Rutina rutinaCreate)
         {
