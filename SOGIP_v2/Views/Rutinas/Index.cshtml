@@ -269,6 +269,7 @@
             var dataSet1 = [];
             var table;
             var dataSet = [];
+            var cedu  = null;
             tabla();
 
             $('#btnNuevo').click(function () {
@@ -279,16 +280,11 @@
             $('#btnSave').click(function () {
                 var data = null;
                 var objetivo = $('#obj').val();
-                var fecha = $('#fec').data('datepicker').getFormattedDate('dd/mm/yyyy');
-                var tblData = table1.rows('.selected').data();
-                var n = null;
-                $.each(tblData, function (i, val) {
-                    n = val[1];
-                });
+                var fecha = $('#fec').data('datepicker').getFormattedDate('dd/mm/yyyy');             
                 data = {
                     fecha: $('#fec').data('datepicker').getFormattedDate('dd/mm/yyyy'),
                     obs: $('#obj').val().trim(),
-                    id: n
+                    id: cedu
                 }
                 SaveDate(data);
 
@@ -327,7 +323,7 @@
                     success: function (data) {
                         var date = new Date(parseInt(v.RutinaFecha.substr(6)));
                         var table = $('#rutina').DataTable();
-                        table.row.add(["", data.Usuario.Cedula, data.Usuario.Nombre1, data.RutinaFecha, data.RutinaObservaciones, data.RutinaId]).draw();
+                        table.row.add([data.Usuario.Cedula, data.Usuario.Nombre1, data.RutinaFecha, data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
                     },
                     error: function () {
                         alert("Fallo");
@@ -345,6 +341,20 @@
                             dataSet.push([v.Usuario.Cedula, v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, v.RutinaId, v.RutinaId]);
                         })
                         table = $('#rutina').DataTable({
+                            "language": {
+                                "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                                "zeroRecords": "No se han encontrado registros.",
+                                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                                "infoEmpty": "No hay datos para mostrar",
+                                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                                "search": "Filtrar:",
+                                "paginate": {
+                                    "first": "Primero",
+                                    "last": "Ultimo",
+                                    "next": "Siguiente",
+                                    "previous": "Anterior"
+                                }
+                            },
                             data: dataSet,
                             columns: [
                                 { title: "Cédula" },

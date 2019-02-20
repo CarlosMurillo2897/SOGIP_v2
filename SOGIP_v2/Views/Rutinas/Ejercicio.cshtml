@@ -482,7 +482,8 @@
                     url: '/Rutinas/EditEjer',
                     data: data,
                     success: function (data) {
-                        if (data.status) {    
+                        if (data.status) {  
+                            location.reload();
                         }
                     },
                     error: function () {
@@ -660,7 +661,7 @@
                             success: function (result) {
                                 alert('Ejercicios Registrados');
                                 location.reload();
-
+                             
                             },
                             error: function (request) {
                                 alert('Hubo un error');
