@@ -382,56 +382,45 @@
 
             function usuarios() {
 
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/Rutinas/GetUsuarios',
-                    success: function (data) {
-                        $.each(data, function (i, v) {
-                            dataSet1.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
-                        })
-                        table1 = $('#example').DataTable({
-
-                            // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
-                            // "iDisplayLength": 5,
-                            "language": {
-                                "lengthMenu": "Mostrando MENU resultados por página.",
-                                "zeroRecords": "No se han encontrado resultados.",
-                                "info": "Mostrando página PAGE de PAGES.",
-                                "infoEmpty": "No hay datos para mostrar",
-                                "infoFiltered": "(filtrado de MAX datos obtenidos).",
-                                "search": "Buscar:",
-                                "paginate": {
-                                    "first": "Primero",
-                                    "last": "Ultimo",
-                                    "next": "Siguiente",
-                                    "previous": "Anterior"
-                                }
-                            },
-                            data: dataSet1,
-                            columns: [
-                                { title: "Acción" },
-                                { title: "Cédula" },
-                                { title: "Nombre" },
-                                { title: "1° Apellido" },
-                                { title: "2° Apellido" }
-                            ],
-                            'columnDefs': [
-                                {
-                                    orderable: false,
-                                    className: 'select-checkbox',
-                                    targets: [0]
-                                }
-                            ],
-                            'select': {
-                                'style': 'os',
-                                'selector': 'td:first-child'
-                            }
-                        });
+                $('#example').DataTable({
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado registros.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Filtrar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
                     },
+                    "ajax": {
+                        "url": "/Rutinas/GetUsuarios",
+                        "type": "GET",
+                        "dataSrc": ""
+                    },
+                    columns: [
+                        { data: "Accion" },
+                        { data: "Cedula" },
+                        { data: "Nombre" },
+                        { data: "Apellido1" },
+                        { data: "Apellido2" },
+                        { data: "Rol" }
+                    ],
+                    'columnDefs': [
+                        {
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: [0]
+                        }
+                    ],
+                    'select': {
+                        'style': 'os',
+                        'selector': 'td:first-child'
 
-                    error: function (error) {
-                        alert("Fallo");
                     }
                 });
             }

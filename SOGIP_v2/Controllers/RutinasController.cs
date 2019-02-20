@@ -31,8 +31,35 @@ namespace SOGIP_v2.Controllers
         public JsonResult GetUsuarios()
         {
 
-            var users = db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("7")).ToList();
-            return Json(users, JsonRequestBehavior.AllowGet);
+            var consulta1 =
+                            from f in db.Funcionario_ICODER
+                            from u in db.Users.Where(u => u.Id == f.Usuario.Id)
+                            select new
+                            {
+                                Accion = "",
+                                Cedula = u.Cedula,
+                                Nombre = u.Nombre1,
+                                Apellido1 = u.Apellido1,
+                                Apellido2 = u.Apellido2,
+                                Rol = "Funcionario"
+                            };
+
+            var consulta =
+                           from a in db.Atletas
+                           from u in db.Users.Where(u => u.Id == a.Usuario.Id)
+                           select new
+                           {
+                               Accion = "",
+                               Cedula = u.Cedula,
+                               Nombre = u.Nombre1,
+                               Apellido1 = u.Apellido1,
+                               Apellido2 = u.Apellido2,
+                               Rol = "Atleta"
+                           };
+
+            var enume = Enumerable.Union(consulta1, consulta);
+            var usuarios = enume.ToList();
+            return Json(usuarios, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult SaveRutina(DateTime fecha, string obs, string id)
