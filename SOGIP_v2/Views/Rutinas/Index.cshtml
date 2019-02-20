@@ -272,7 +272,7 @@
             tabla();
 
             $('#btnNuevo').click(function () {
-               
+                usuarios();
             })
 
 
@@ -293,19 +293,7 @@
                 SaveDate(data);
 
             })
-            $('#example').on('click', 'td.select-checkbox', function () {
-                var td = $(this);
-                var tr = td.closest('tr');
-
-                $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
-                cedu = tr.find('td:eq(1)').text();
-                $('#Tabla_Usuarios').hide();
-            });
-
-            $('#botón').click(function () {
-                $('#example').show();
-                
-            });
+          
             var today = new Date();
             var min = new Date();
             var max = new Date();
@@ -447,6 +435,19 @@
                     }
                 });
             }
+            $('#example').on('click', 'td.select-checkbox', function () {
+                var td = $(this);
+                var tr = td.closest('tr');
+
+                $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
+                cedu = tr.find('td:eq(1)').text();
+                $('#Tabla_Usuarios').hide();
+            });
+
+            $('#botón').click(function () {
+                $('#Tabla_Usuarios').show();
+
+            });
 
         });
     </script>
