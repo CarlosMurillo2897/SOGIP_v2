@@ -805,13 +805,9 @@
     <Content Include="Views\Conjunto_Ejercicio\Details.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Edit.cshtml" />
     <Content Include="Views\Conjunto_Ejercicio\Index.cshtml" />
-    <Content Include="Views\Rutinas\Edit.cshtml" />
     <Content Include="Views\Rutinas\Index.cshtml" />
     <Content Include="Views\Rutinas\Ejercicio.cshtml" />
     <Content Include="Views\Rutinas\ListaEjercicio.cshtml" />
-    <Content Include="Views\Rutinas\EditEjercicio.cshtml" />
-    <Content Include="Views\Rutinas\DeleteEjercicio.cshtml" />
-    <Content Include="Views\Rutinas\DetailsEjercicio.cshtml" />
     <Content Include="Views\CitasGeneral\Create.cshtml" />
     <Content Include="Views\CitasGeneral\Delete.cshtml" />
     <Content Include="Views\CitasGeneral\Details.cshtml" />
