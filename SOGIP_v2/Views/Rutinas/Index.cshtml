@@ -41,7 +41,7 @@
                     <label>Fecha Inicio de Rutina: </label>
                     <div class="input-group date" id="fec">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        <input class="form-control" type="text" />
+                        <input class="form-control" type="text"  id="este"/>
                     </div>
 
                     <br>
@@ -282,13 +282,13 @@
             var dataSet = [];
             var cedu = null;
             tabla();
-
+           
             $('#btnNuevo').click(function () {
-               
                 usuarios();
-             
-               
-
+                $('#usuario').val('');
+                $('#obj').val('');
+                $('#este').val('');
+         
             })
             
            
@@ -345,7 +345,7 @@
                         //$('#nueva').modal('hide');
                         //$('body').removeClass('modal-open');
                         //$('.modal-backdrop').remove();
-                        //eliminar();
+                        eliminar();
                         alert("Rutina registrada");
                     },
                     error: function () {
