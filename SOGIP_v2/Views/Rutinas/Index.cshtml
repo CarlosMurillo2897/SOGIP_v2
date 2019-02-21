@@ -67,8 +67,8 @@
                     </div>
                     <div class="modal-footer">
                         <br />
-                        <button type="button" id="btnSave" class="btn btn-success"data-dismiss="modal">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" id="cerrar" data-dismiss="modal">Cerrar</button>
+                        <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" id="cerrar" data-dismiss="modal" >Cerrar</button>
                     </div>
                 </div>
             </div>
@@ -106,7 +106,7 @@
                 <div class="modal-body">
                     <div class="modal-footer">
                         <br />
-                        <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
+                        <button type="button" id="btnEdit" class="btn btn-success" >Guardar Cambios</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
@@ -181,7 +181,10 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
-     
+        function eliminar() {
+            var des = $('#example').DataTable();
+            des.destroy();
+        }
 
         function EliminarRut(id) {
             var tr = $('#boton_' + id).closest('tr');
@@ -283,9 +286,12 @@
             $('#btnNuevo').click(function () {
                
                 usuarios();
+             
+               
 
             })
-          
+            
+           
             $('#btnSave').click(function () {
                 var data = null;
                 var objetivo = $('#obj').val();
@@ -300,8 +306,6 @@
                     }
                     SaveDate(data);
                 }
-
-
             })
 
             var today = new Date();
@@ -335,16 +339,20 @@
                     url: '/Rutinas/SaveRutina',
                     data: data,
                     success: function (data) {
-                        var date = new Date(parseInt(v.RutinaFecha.substr(6)));
-                        var table = $('#rutina').DataTable();
-                        table.row.add([data.Usuario.Cedula, data.Usuario.Nombre1, data.RutinaFecha, data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
-                        $('#nueva').modal('hide');
-                       
+                        //var date = new Date(parseInt(v.RutinaFecha.substr(6)));
+                        //var table = $('#rutina').DataTable();
+                        //table.row.add([data.Usuario.Cedula, data.Usuario.Nombre1, data.RutinaFecha, data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
+                        //$('#nueva').modal('hide');
+                        //$('body').removeClass('modal-open');
+                        //$('.modal-backdrop').remove();
+                        //eliminar();
+                        alert("Rutina registrada");
                     },
                     error: function () {
                         alert("Fallo");
                     }
                 })
+               
             }
             function tabla() {
                 $.ajax({
