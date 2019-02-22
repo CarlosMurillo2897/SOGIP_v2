@@ -32,7 +32,6 @@ function cargarDatos(select) {
             class: 'table-striped',
             width: '100%'
         }).append('<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Rol</th></tr></thead>');
-
         $('#Tabla_Usuarios').append(table);
 
         $('#texto').html('Seleccione un Usuario ');

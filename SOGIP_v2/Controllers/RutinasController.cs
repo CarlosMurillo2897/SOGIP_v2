@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using SOGIP_v2.Models;
 using System.Text.RegularExpressions;
+
 namespace SOGIP_v2.Controllers
 {
     public class RutinasController : Controller
@@ -17,14 +18,12 @@ namespace SOGIP_v2.Controllers
         // GET: Rutinas
         public ActionResult Index()
         {
-
             return View();
-
         }
-
+        
         public JsonResult GetRutinas()
         {
-
+    
             var Rutinas = db.Rutinas.Include("Usuario").ToList();
             return Json(Rutinas, JsonRequestBehavior.AllowGet);
 
@@ -32,13 +31,40 @@ namespace SOGIP_v2.Controllers
         public JsonResult GetUsuarios()
         {
 
-            var users = db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("7")).ToList();
-            return Json(users, JsonRequestBehavior.AllowGet);
+            var consulta1 =
+                            from f in db.Funcionario_ICODER
+                            from u in db.Users.Where(u => u.Id == f.Usuario.Id)
+                            select new
+                            {
+                                Accion = "",
+                                Cedula = u.Cedula,
+                                Nombre = u.Nombre1,
+                                Apellido1 = u.Apellido1,
+                                Apellido2 = u.Apellido2,
+                                Rol = "Funcionario"
+                            };
+
+            var consulta =
+                           from a in db.Atletas
+                           from u in db.Users.Where(u => u.Id == a.Usuario.Id)
+                           select new
+                           {
+                               Accion = "",
+                               Cedula = u.Cedula,
+                               Nombre = u.Nombre1,
+                               Apellido1 = u.Apellido1,
+                               Apellido2 = u.Apellido2,
+                               Rol = "Atleta"
+                           };
+
+            var enume = Enumerable.Union(consulta1, consulta);
+            var usuarios = enume.ToList();
+            return Json(usuarios, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult SaveRutina(DateTime fecha, string obs, string id)
         {
-            Rutina nueva = new Rutina();
+            Rutina nueva = new Rutina(); 
             try
             {
                 ApplicationUser User = db.Users.Single(x => x.Cedula == id);
@@ -57,117 +83,59 @@ namespace SOGIP_v2.Controllers
             }
             return Json(nueva, JsonRequestBehavior.AllowGet);
         }
-        //public JsonResult EditRutina(DateTime fecha, string obs, string id)
-        //{
-        //    try
-        //    {
-        //        Rutina rutina = db.Rutinas.Single(x => x.RutinaId == id);
-        //        if (User != null)
-        //        {
-        //            nueva.Usuario = User;
-        //            nueva.RutinaFecha = fecha;
-        //            nueva.RutinaObservaciones = obs;
-        //            db.Rutinas.Add(nueva);
-        //        }
-        //        db.SaveChanges();
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return Json(false, JsonRequestBehavior.AllowGet);
-        //    }
-        //    return Json(nueva, JsonRequestBehavior.AllowGet);
-        //}
+        public JsonResult EditRutina(DateTime fecha, string obs, int id)
+        {
+            Rutina rutina = db.Rutinas.Single(x => x.RutinaId == id);
+            try
+            {
+                if (rutina != null)
+                {
+                    rutina.RutinaFecha = fecha;
+                    rutina.RutinaObservaciones = obs;
+                }
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(rutina, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult DeleteRutina(int rutinaId)
         {
             var status = false;
-            var v = db.Rutinas.Where(a => a.RutinaId == rutinaId).FirstOrDefault();
-            if (v != null)
-            {
-                var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == rutinaId).ToList();
-                foreach (var n in getEjercicio)
+                var v = db.Rutinas.Where(a => a.RutinaId == rutinaId).FirstOrDefault();
+                if (v != null)
                 {
-                    int i = n.Conjunto_EjercicioId;
-                    Conjunto_Ejercicio conjunto = db.Conjunto_Ejercicios.Find(i);
-                    db.Conjunto_Ejercicios.Remove(conjunto);
+                    var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == rutinaId).ToList();
+                    foreach (var n in getEjercicio)
+                    {
+                        int i = n.Conjunto_EjercicioId;
+                        Conjunto_Ejercicio conjunto = db.Conjunto_Ejercicios.Find(i);
+                        db.Conjunto_Ejercicios.Remove(conjunto);
+                    }
+                    db.Rutinas.Remove(v);
+                    db.SaveChanges();
+                    status = true;
                 }
-                //Rutina rutina = db.Rutinas.Find(rutinaId);
-                db.Rutinas.Remove(v);
-                db.SaveChanges();
-                status = true;
-            }
             return new JsonResult { Data = new { status = status } };
         }
-        // GET: Rutinas/Details/5
-        public ActionResult Details(int? id)
+        public JsonResult GetEjercicio(string dia)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Rutina rutina = db.Rutinas.Find(id);
-            if (rutina == null)
-            {
-                return HttpNotFound();
-            }
-            return View(rutina);
+         
+            int d = int.Parse(dia);
+            Rutina rutina = db.Rutinas.SingleOrDefault(x => x.RutinaId == d);
+            //var Ejercicio = db.Conjunto_Ejercicios.Where(x=> x.ConjuntoEjercicioRutina.RutinaId == rutina.RutinaId).ToList();
+            var getEjercicio = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == rutina.RutinaId).ToList();
+            //var Ejercicio = getEjercicio.Where(x=>x.DiaEjercicio == "Dia1").ToList();
+            return Json(getEjercicio, JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult Create()
+        
+        public ActionResult Ejercicio(int? idRutina)
         {
-            //var consulta = from u in db.Users
-            //               where u.Roles.FirstOrDefault().RoleId == "5" || 
-            //               u.Roles.FirstOrDefault().RoleId == "7" ||
-            //               u.Roles.FirstOrDefault().RoleId == "6"
-            return View();
-        }
-
-        public JsonResult getUsuariosF()
-        {
-            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
-            var consulta = //from a in db.Atletas
-                           from u in db.Users
-                           from f in db.Funcionario_ICODER
-                               //where u.Id.Equals(a.Usuario.Id)
-                           where u.Id.Equals(f.Usuario.Id)
-                           orderby u.Nombre1 ascending
-                           select new
-                           {
-                               idAtleta = u.Id,
-                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
-                           };
-
-            var getAtletas = consulta.ToList();
-            return Json(getAtletas, JsonRequestBehavior.AllowGet);
-        }
-
-
-        public JsonResult getUsuariosA()
-        {
-
-            // Consulta que obtiene la cédula, el primer y segundo nombre y el primer y segundo apellido de los atletas en la BD.
-            var consulta = //from a in db.Atletas
-                           from u in db.Users
-                           from f in db.Atletas
-                               //where u.Id.Equals(a.Usuario.Id)
-                           where u.Id.Equals(f.Usuario.Id)
-                           orderby u.Nombre1 ascending
-                           select new
-                           {
-                               idAtleta = u.Id,
-                               cedNomCompleto = u.Cedula + " - " + u.Nombre1 + " " + u.Apellido1 + " " + u.Apellido2
-                           };
-
-            var getAtletas = consulta.ToList();
-            return Json(getAtletas, JsonRequestBehavior.AllowGet);
-        }
-
-
-
-        public ActionResult Ejercicio(int? idRutina, string idUsuario)
-        {
+            Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x => x.RutinaId == idRutina);
             if (idRutina != null)
             {
-                Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x => x.RutinaId == idRutina);
                 int i = rutina.RutinaId;
                 string n = i.ToString();
                 ViewData["rutina"] = n;
@@ -187,11 +155,11 @@ namespace SOGIP_v2.Controllers
                 ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
 
             }
-
+            string idUsuario = rutina.Usuario.Id;
             if (idUsuario != null)
             {
-                Rutina rutina = db.Rutinas.FirstOrDefault(x => x.Usuario.Id == idUsuario);
-                int i = rutina.RutinaId;
+                Rutina rutina1 = db.Rutinas.FirstOrDefault(x => x.Usuario.Id == idUsuario);
+                int i = rutina1.RutinaId;
                 string n = i.ToString();
                 ViewData["rutina"] = n;
 
@@ -211,6 +179,48 @@ namespace SOGIP_v2.Controllers
 
 
             return View();
+
+        }
+        public JsonResult DeleteEjercicio(int ejercicioId)
+        {
+            var status = false;
+            var v = db.Conjunto_Ejercicios.Where(a => a.Conjunto_EjercicioId == ejercicioId).FirstOrDefault();
+            if (v != null)
+            {
+                
+                db.Conjunto_Ejercicios.Remove(v);
+                db.SaveChanges();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
+        }
+        public JsonResult ObtenerEjer(int ejercicioId)
+        {
+            var ejercicio = db.Conjunto_Ejercicios.Where(a => a.Conjunto_EjercicioId == ejercicioId).FirstOrDefault();
+            return Json(ejercicio, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult EditEjer(Conjunto_Ejercicio data)
+        {
+            var status = false;
+            Conjunto_Ejercicio ejer = db.Conjunto_Ejercicios.Where(a => a.Conjunto_EjercicioId == data.Conjunto_EjercicioId).FirstOrDefault();
+            if(ejer != null)
+            {
+                ejer.NombreEjercicio = data.NombreEjercicio;
+                ejer.Serie1 = data.Serie1;
+                ejer.Repeticion1 = data.Repeticion1;
+                ejer.Peso1 = data.Peso1;
+                ejer.Serie2 = data.Serie2;
+                ejer.Repeticion2 = data.Repeticion2;
+                ejer.Peso2 = data.Peso2;
+                ejer.Serie3 = data.Serie3;
+                ejer.Repeticion3 = data.Repeticion3;
+                ejer.Peso3 = data.Peso3;
+                ejer.DiaEjercicio = data.DiaEjercicio;
+                ejer.ColorEjercicio = data.ColorEjercicio;
+                db.SaveChanges();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
 
         }
         //[HttpPost]
@@ -375,90 +385,44 @@ namespace SOGIP_v2.Controllers
 
 
 
-        public ActionResult DetailsEjercicio(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+        
 
-            Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Find(id);
-            if (conjunto_Ejercicio == null)
-            {
-                return HttpNotFound();
-            }
-            return RedirectToAction("Index");
-        }
+        //public ActionResult EditEjercicio(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Include("ConjuntoEjercicioRutina").SingleOrDefault(x => x.Conjunto_EjercicioId == id);
+        //    int n = conjunto_Ejercicio.ConjuntoEjercicioRutina.RutinaId;
+        //    Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x => x.RutinaId == n);
+        //    if (conjunto_Ejercicio == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
 
-        public ActionResult EditEjercicio(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Include("ConjuntoEjercicioRutina").SingleOrDefault(x => x.Conjunto_EjercicioId == id);
-            int n = conjunto_Ejercicio.ConjuntoEjercicioRutina.RutinaId;
-            Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x => x.RutinaId == n);
-            if (conjunto_Ejercicio == null)
-            {
-                return HttpNotFound();
-            }
+        //    string nombre = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
+        //    ViewData["nombre"] = nombre;
+        //    ViewData["idRutina"] = rutina.RutinaId;
+        //    return View(conjunto_Ejercicio);
+        //}
 
-            string nombre = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult EditEjercicio([Bind(Include = "Conjunto_EjercicioId,NombreEjercicio,Serie1,Repeticion1,Peso1,Serie2,Repeticion2,Peso2,Serie3,Repeticion3,Peso3,ColorEjercicio, diaEjercicio")] Conjunto_Ejercicio conjunto_Ejercicio, int idRutina)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Entry(conjunto_Ejercicio).State = EntityState.Modified;
+        //        db.SaveChanges();
+        //        return RedirectToAction("Ejercicio", new { idRutina} );
+        //    }
+        //    return View(conjunto_Ejercicio);
+        //}
 
-            ViewData["nombre"] = nombre;
-            ViewData["idRutina"] = rutina.RutinaId;
-
-            return View(conjunto_Ejercicio);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult EditEjercicio([Bind(Include = "Conjunto_EjercicioId,NombreEjercicio,Serie1,Repeticion1,Peso1,Serie2,Repeticion2,Peso2,Serie3,Repeticion3,Peso3,ColorEjercicio, diaEjercicio")] Conjunto_Ejercicio conjunto_Ejercicio, int idRutina)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(conjunto_Ejercicio).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Ejercicio", new { idRutina });
-            }
-            return View(conjunto_Ejercicio);
-        }
-
-        // GET: Conjunto_Ejercicio/Delete/5
-        public ActionResult DeleteEjercicio(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Include("ConjuntoEjercicioRutina").SingleOrDefault(x => x.Conjunto_EjercicioId == id);
-            int n = conjunto_Ejercicio.ConjuntoEjercicioRutina.RutinaId;
-            Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x => x.RutinaId == n);
-            if (conjunto_Ejercicio == null)
-            {
-                return HttpNotFound();
-            }
-            string nombre = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
-            ViewData["nombre"] = nombre;
-            return View(conjunto_Ejercicio);
-        }
-
-        // POST: Conjunto_Ejercicio/Delete/5
-        [HttpPost, ActionName("DeleteEjercicio")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmedEjercicio(int id)
-        {
-
-            Conjunto_Ejercicio conjunto_Ejercicio = db.Conjunto_Ejercicios.Include("ConjuntoEjercicioRutina").SingleOrDefault(x => x.Conjunto_EjercicioId == id); ;
-            int idRutina = conjunto_Ejercicio.ConjuntoEjercicioRutina.RutinaId;
-            db.Conjunto_Ejercicios.Remove(conjunto_Ejercicio);
-            db.SaveChanges();
-            return RedirectToAction("Ejercicio", new { idRutina });
-        }
-
-        [HttpPost]
-        public ActionResult Create(string usuarioDropdown, Rutina rutinaCreate)
+      
+    [HttpPost]
+        public ActionResult Create(string usuarioDropdown,Rutina rutinaCreate)
         {
 
             ApplicationUser user = new ApplicationUser();
