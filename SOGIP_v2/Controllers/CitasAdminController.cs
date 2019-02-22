@@ -41,9 +41,10 @@ namespace SOGIP_v2.Controllers
 
         public JsonResult getUsuariosA()
         {
-            var consulta = from u in db.Users
+                     var consulta = 
+                           from u in db.Users
                            from r in db.Roles
-                           where (u.Roles.FirstOrDefault().RoleId == "5" || u.Roles.FirstOrDefault().RoleId == "6" || u.Roles.FirstOrDefault().RoleId == "7")
+                           where (u.Roles.FirstOrDefault().RoleId =="5" || u.Roles.FirstOrDefault().RoleId == "6" || u.Roles.FirstOrDefault().RoleId == "7")
                            && u.Roles.FirstOrDefault().RoleId.Equals(r.Id)
                            select new
                            {
@@ -54,7 +55,6 @@ namespace SOGIP_v2.Controllers
                                Apellido2 = u.Apellido2,
                                Rol = r.Name
                            };
-
             return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
         }
 
@@ -70,14 +70,37 @@ namespace SOGIP_v2.Controllers
                 if (e.CitaId > 0) //si existe dicha cita, solo edito los campos
 
                 {
+                    ApplicationUser User = db.Users.Single(x => x.Cedula == cedu);
                     var v = db.Cita.Where(a => a.CitaId == e.CitaId).FirstOrDefault();
-                    if (v != null)
+                    var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();
+                    var check2 = db.Cita.Where(x => x.FechaHoraFinal == e.FechaHoraInicio).FirstOrDefault();
+
+
+                    if (v != null && User != null)
                     {
+                        if (check == null && check2 == null)
+                        {
+                            v.InBody = e.InBody;
+                            v.Otro = e.Otro;
+                            v.UsuarioId_Id = User;
+                            v.FechaHoraInicio = e.FechaHoraInicio;
+                            v.FechaHoraFinal = e.FechaHoraFinal;
+                        }
+                        else if (e.FechaHoraInicio == v.FechaHoraInicio)
+                        {
+                            v.InBody = e.InBody;
+                            v.Otro = e.Otro;
+                            v.UsuarioId_Id = User;
+                            v.FechaHoraFinal = e.FechaHoraFinal;
+                        }
+                        else
+                        {
+                            return new JsonResult { Data = new { status = false } };
+                        }
+                    }
 
-                        var check = db.Cita.Where(b => b.FechaHoraInicio == e.FechaHoraInicio).FirstOrDefault();
-                        var check2 = db.Cita.Where(x => x.FechaHoraFinal == e.FechaHoraInicio).FirstOrDefault();
-
-
+                   else if (v != null)
+                    {
                         if (check == null && check2 == null)
                         {
                             v.InBody = e.InBody;
@@ -97,8 +120,9 @@ namespace SOGIP_v2.Controllers
                         }
 
                     }
-
+                  
                 }
+               
                 else //si la cita no existe en la db, pues la creo
                 {
                     ApplicationUser User;

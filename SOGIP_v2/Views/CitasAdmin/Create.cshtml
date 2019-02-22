@@ -23,6 +23,7 @@
 *@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
+<link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
@@ -35,21 +36,24 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                    <h4 class="modal-title"><b><span id="eventTitle"></span></b></h4>
                 </div>
                 <div class="modal-body">
-                    <button id="btnDelete" class="btn btn-default btn-sm pull-right" style="background-color:#ff4d4d;">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        Eliminar
-                    </button>
-                    <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                        Editar
-                    </button>
+                    
                     <p id="pDetails"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                   
+                    <button id="btnDelete" class="btn btn-warning  mr-auto">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        Eliminar
+                    </button>
+                    <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Editar
+                    </button>
+                      
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -62,7 +66,7 @@
         <div class="modal-content col-md-12" style="align-content:center">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">GUARDAR CITA</h4>
+                <h4 class="modal-title" style="font-weight:bold;">GUARDAR CITA</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
@@ -106,6 +110,12 @@
 
                     </div>
                     <hr />
+                    <div class="row" id="chgUs">
+                        <button type="button" class="btn btn-warning" id="btnUs">
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            Cambiar de usuario
+                        </button>
+                    </div>
 
                     <div class="row" id="infouser">
                         <div class="form-group col-lg-6 col-md-6 col-sm-6">
@@ -135,8 +145,8 @@
 
                     <br />
                     <div class="modal-footer">
-                        <button type="button" id="btnSave" class="btn btn-default" style="background-color:#339966;">Guardar Cambios</button>
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                        <button type="button" id="btnSave" class="btn btn-primary">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
                 </form>
             </div>
@@ -158,6 +168,7 @@
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")
     @Scripts.Render("~/Scripts/fullCalendar/admincalendar.js")
+    @Scripts.Render("~/Scripts/bootbox.min.js")
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
 }
