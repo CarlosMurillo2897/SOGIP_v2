@@ -14,13 +14,24 @@ namespace SOGIP_v2.Migrations
                         ArchivoId = c.Int(nullable: false, identity: true),
                         Nombre = c.String(),
                         Contenido = c.Binary(),
-                        Tipo = c.String(),
-                        Extension = c.String(),
+                        Tipo_TipoId = c.Int(),
                         Usuario_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.ArchivoId)
+                .ForeignKey("dbo.SOGIP_Tipo", t => t.Tipo_TipoId)
                 .ForeignKey("dbo.SOGIP_Users", t => t.Usuario_Id)
+                .Index(t => t.Tipo_TipoId)
                 .Index(t => t.Usuario_Id);
+            
+            CreateTable(
+                "dbo.SOGIP_Tipo",
+                c => new
+                    {
+                        TipoId = c.Int(nullable: false, identity: true),
+                        Nombre = c.String(maxLength: 60),
+                    })
+                .PrimaryKey(t => t.TipoId)
+                .Index(t => t.Nombre, unique: true);
             
             CreateTable(
                 "dbo.SOGIP_Users",
@@ -182,10 +193,6 @@ namespace SOGIP_v2.Migrations
                         CitaId = c.Int(nullable: false, identity: true),
                         InBody = c.Boolean(nullable: false),
                         Otro = c.Boolean(nullable: false),
-                        UsuarioCedula = c.String(),
-                        UsuarioNombre = c.String(),
-                        UsuarioApellido1 = c.String(),
-                        UsuarioApellido2 = c.String(),
                         FechaHoraInicio = c.DateTime(nullable: false),
                         FechaHoraFinal = c.DateTime(nullable: false),
                         UsuarioId_Id_Id = c.String(maxLength: 128),
@@ -193,6 +200,19 @@ namespace SOGIP_v2.Migrations
                 .PrimaryKey(t => t.CitaId)
                 .ForeignKey("dbo.SOGIP_Users", t => t.UsuarioId_Id_Id)
                 .Index(t => t.UsuarioId_Id_Id);
+            
+            CreateTable(
+                "dbo.SOGIP_Color",
+                c => new
+                    {
+                        ColorId = c.Int(nullable: false, identity: true),
+                        Nombre = c.String(maxLength: 60),
+                        Codigo = c.String(maxLength: 60),
+                        Seleccionado = c.Boolean(nullable: false),
+                    })
+                .PrimaryKey(t => t.ColorId)
+                .Index(t => t.Nombre, unique: true)
+                .Index(t => t.Codigo, unique: true);
             
             CreateTable(
                 "dbo.SOGIP_Conjunto_Ejercicio",
@@ -302,6 +322,17 @@ namespace SOGIP_v2.Migrations
                 .PrimaryKey(t => t.HorarioId);
             
             CreateTable(
+                "dbo.SOGIP_Parametro",
+                c => new
+                    {
+                        ParametroId = c.Int(nullable: false, identity: true),
+                        Nombre = c.String(maxLength: 60),
+                        Valor = c.String(),
+                    })
+                .PrimaryKey(t => t.ParametroId)
+                .Index(t => t.Nombre, unique: true);
+            
+            CreateTable(
                 "dbo.SOGIP_Roles",
                 c => new
                     {
@@ -337,7 +368,9 @@ namespace SOGIP_v2.Migrations
             DropForeignKey("dbo.SOGIP_UserRoles", "UserId", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_UserLogins", "UserId", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_UserClaims", "UserId", "dbo.SOGIP_Users");
+            DropForeignKey("dbo.SOGIP_Archivo", "Tipo_TipoId", "dbo.SOGIP_Tipo");
             DropIndex("dbo.SOGIP_Roles", "RoleNameIndex");
+            DropIndex("dbo.SOGIP_Parametro", new[] { "Nombre" });
             DropIndex("dbo.SOGIP_Funcionario_ICODER", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Funcionario_ICODER", new[] { "Entrenador_Id" });
             DropIndex("dbo.SOGIP_Expedientes_Fisicos", new[] { "Atleta_AtletaId" });
@@ -347,6 +380,8 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_Entidad_Publica", new[] { "Tipo_Entidad_Tipo_EntidadId" });
             DropIndex("dbo.SOGIP_Rutina", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Conjunto_Ejercicio", new[] { "ConjuntoEjercicioRutina_RutinaId" });
+            DropIndex("dbo.SOGIP_Color", new[] { "Codigo" });
+            DropIndex("dbo.SOGIP_Color", new[] { "Nombre" });
             DropIndex("dbo.SOGIP_Cita", new[] { "UsuarioId_Id_Id" });
             DropIndex("dbo.SOGIP_Tipo_Deporte", new[] { "Descripcion" });
             DropIndex("dbo.SOGIP_Deportes", new[] { "TipoDeporte_Tipo_DeporteId" });
@@ -365,8 +400,11 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_UserLogins", new[] { "UserId" });
             DropIndex("dbo.SOGIP_UserClaims", new[] { "UserId" });
             DropIndex("dbo.SOGIP_Users", "UserNameIndex");
+            DropIndex("dbo.SOGIP_Tipo", new[] { "Nombre" });
             DropIndex("dbo.SOGIP_Archivo", new[] { "Usuario_Id" });
+            DropIndex("dbo.SOGIP_Archivo", new[] { "Tipo_TipoId" });
             DropTable("dbo.SOGIP_Roles");
+            DropTable("dbo.SOGIP_Parametro");
             DropTable("dbo.SOGIP_Horario");
             DropTable("dbo.SOGIP_Funcionario_ICODER");
             DropTable("dbo.SOGIP_Expedientes_Fisicos");
@@ -375,6 +413,7 @@ namespace SOGIP_v2.Migrations
             DropTable("dbo.SOGIP_Entidad_Publica");
             DropTable("dbo.SOGIP_Rutina");
             DropTable("dbo.SOGIP_Conjunto_Ejercicio");
+            DropTable("dbo.SOGIP_Color");
             DropTable("dbo.SOGIP_Cita");
             DropTable("dbo.SOGIP_Tipo_Deporte");
             DropTable("dbo.SOGIP_Deportes");
@@ -386,6 +425,7 @@ namespace SOGIP_v2.Migrations
             DropTable("dbo.SOGIP_UserLogins");
             DropTable("dbo.SOGIP_UserClaims");
             DropTable("dbo.SOGIP_Users");
+            DropTable("dbo.SOGIP_Tipo");
             DropTable("dbo.SOGIP_Archivo");
         }
     }

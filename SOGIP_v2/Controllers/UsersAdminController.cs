@@ -45,7 +45,7 @@ namespace SOGIP_v2.Controllers
                               Cedula.Substring(0, 4) +
                               mes +
                               Nacimiento.Year;
-            return password;
+                return password;
         }
 
         public UsersAdminController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
@@ -101,7 +101,6 @@ namespace SOGIP_v2.Controllers
             List<Archivo> archivos = db.Archivo.Where(x => x.Usuario.Id == usuarioId).ToList();
             return Json(archivos, JsonRequestBehavior.AllowGet);
         }
-
         
         public JsonResult InhabilitarUsuario(string usuarioId, bool estado) // estado = true -> usuario.Estado = 0 / estado = false -> usuario.Estado = 1
         {
@@ -176,9 +175,9 @@ namespace SOGIP_v2.Controllers
                     UserName = userViewModel.Cedula,
                     Email = userViewModel.Email,
                     Nombre1 = (userViewModel.Nombre1==null)?null: userViewModel.Nombre1.ToUpper(),
-                    Nombre2 = (userViewModel.Nombre2 == null) ? null : userViewModel.Nombre2.ToUpper(),
+                    Nombre2 = (userViewModel.Nombre2 == null) ? " " : userViewModel.Nombre2.ToUpper(),
                     Apellido1 = (userViewModel.Apellido1 == null) ? null : userViewModel.Apellido1.ToUpper(),
-                    Apellido2 = (userViewModel.Apellido2 == null) ? null : userViewModel.Apellido2.ToUpper(),
+                    Apellido2 = (userViewModel.Apellido2 == null) ? " " : userViewModel.Apellido2.ToUpper(),
                     Cedula = userViewModel.Cedula,
                     Fecha_Nacimiento = userViewModel.Fecha_Nacimiento,
                     Sexo = userViewModel.Sexo,
@@ -186,8 +185,7 @@ namespace SOGIP_v2.Controllers
                     Estado = true
             };
                 
-                var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));                
-
+                var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
                 {
@@ -245,7 +243,7 @@ namespace SOGIP_v2.Controllers
                                     Atleta atleta = new Atleta()
                                     {
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
-                                        Localidad = form["nombre_localidad"].ToString().ToUpper()
+                                        Localidad = (form["nombre_localidad"].ToString() == null) ? null : form["nombre_localidad"].ToString().ToUpper(),
                                     };
                                     if (Atleta_Tipo == "Selección")
                                     {
@@ -266,7 +264,7 @@ namespace SOGIP_v2.Controllers
                                     Funcionario_ICODER funcionario = new Funcionario_ICODER()
                                     {
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
-                                        Entrenador = db.Users.Single(x => x.Cedula == en) // Cédula de Josafat, esto es momentáneo.
+                                        Entrenador = db.Users.Single(x => x.Cedula == en)
                                     };
 
                                     db.Funcionario_ICODER.Add(funcionario);
@@ -289,8 +287,8 @@ namespace SOGIP_v2.Controllers
                                 {
                                     Asociacion_Deportiva asociacion = new Asociacion_Deportiva()
                                     {
-                                        Localidad = form["nombre_localidad"].ToString().ToUpper(),
-                                        Nombre_DepAso = form["nombre_aso"].ToString().ToUpper(),
+                                        Localidad = (form["nombre_localidad"].ToString() == null) ? null : form["nombre_localidad"].ToString().ToUpper(),
+                                        Nombre_DepAso = (form["nombre_aso"].ToString() == null) ? null : form["nombre_aso"].ToString().ToUpper(),
                                         Usuario = db.Users.Single(x => x.Id == user.Id)
                                     };
 
@@ -301,7 +299,6 @@ namespace SOGIP_v2.Controllers
 
                         db.SaveChanges();
 
-                        //ViewBag.Message = "El usuario " + user.Cedula + " se ha registrado correctamente";
                         if (!result.Succeeded)
                         {
                             ModelState.AddModelError("", result.Errors.First());
@@ -344,6 +341,11 @@ namespace SOGIP_v2.Controllers
             ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Id", "Name");
 
             return View();
+        }
+
+        public async void func()
+        {
+            await UserManager.UpdateSecurityStampAsync("8d30625f-4e2e-4c3b-b588-6ccbcfcc0a67");
         }
 
         // GET: /Users/Edit/1
@@ -485,10 +487,10 @@ namespace SOGIP_v2.Controllers
                 }
                 
                 user.Email = editUser.Email;
-                user.Nombre1 = editUser.Nombre1;
-                user.Nombre2 = editUser.Nombre2;
-                user.Apellido1 = editUser.Apellido1;
-                user.Apellido2 = editUser.Apellido2;
+                user.Nombre1 = (editUser.Nombre1 == null) ? null : editUser.Nombre1.ToUpper();
+                user.Nombre2 = (editUser.Nombre2 == null) ? " " : editUser.Nombre2.ToUpper();
+                user.Apellido1 = (editUser.Apellido1 == null) ? null : editUser.Apellido1.ToUpper();
+                user.Apellido2 = (editUser.Apellido2 == null) ? " " : editUser.Apellido2.ToUpper();
                 user.Fecha_Nacimiento = editUser.Fecha_Nacimiento;
                 user.Sexo = editUser.Sexo;
 
@@ -501,11 +503,11 @@ namespace SOGIP_v2.Controllers
                 {
                     case "Seleccion/Federacion":
                         var sele = db.Selecciones.Single(x => x.Usuario.Id == editUser.Id);
-                        sele.Nombre_Seleccion = form["sele_n"].ToString();
+                        sele.Nombre_Seleccion = (form["sele_n"].ToString() == null) ? null : form["sele_n"].ToString().ToUpper();
                         break;
                     case "Asociacion/Comite":
                         var aso = db.Asociacion_Deportiva.Single(x => x.Usuario.Id == editUser.Id);
-                        aso.Nombre_DepAso = form["nombre_aso"].ToString();
+                        aso.Nombre_DepAso = (form["nombre_aso"].ToString() == null) ? null : form["nombre_aso"].ToString().ToUpper();
                         break;
                     case "Entidades Publicas":
                         var ent = db.Entidad_Publica.Single(x => x.Usuario.Id == editUser.Id);
@@ -544,57 +546,10 @@ namespace SOGIP_v2.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Something failed.");
+                ModelState.AddModelError("", "Algo falló, favor revisar.");
             }
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-
-        //
-        // GET: /Users/Delete/5
-        [HttpGet]
-        public async Task<ActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var user = await UserManager.FindByIdAsync(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
-            return View(user);
-        }
-
-        // POST: /Users/Delete/5
-        [HttpPost]
-        [ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(string id)
-        {
-            if (ModelState.IsValid)
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-
-                var user = await UserManager.FindByIdAsync(id);
-                if (user == null)
-                {
-                    return HttpNotFound();
-                }
-                var result = await UserManager.DeleteAsync(user);
-                if (!result.Succeeded)
-                {
-                    ModelState.AddModelError("", result.Errors.First());
-                    return View();
-                }
-                return RedirectToAction("Index");
-            }
-            return View();
         }
 
         public ActionResult IndexMasivo()
@@ -602,11 +557,45 @@ namespace SOGIP_v2.Controllers
             return View();
         }
 
+        public JsonResult ObtenerUsuarios()
+        {
+            var selex = from u in db.Users
+                       from s in db.Selecciones
+                       where
+                       u.Id.Equals(s.Usuario.Id)
+                       select new
+                       {
+                           Acción = "",
+                           Cédula = u.Cedula,
+                           Nombre = u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2,
+                           Entidad = s.Nombre_Seleccion,
+                           Rol = "Seleccion/Federacion"
+                       };
+
+            var asox = from u in db.Users
+                       from a in db.Asociacion_Deportiva
+                       where
+                       u.Id.Equals(a.Usuario.Id)
+                       select new
+                       {
+                           Acción = "",
+                           Cédula = u.Cedula,
+                           Nombre = u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2,
+                           Entidad = a.Nombre_DepAso,
+                           Rol = "Asociacion/Comite"
+                       };
+
+            var entidades = Enumerable.Union(selex, asox).ToList();
+
+            return Json(entidades, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult Import(HttpPostedFileBase excelfile)
         {
             var path = Server.MapPath("~/Content/Registros/" + excelfile.FileName);
             List<ApplicationUser> ls = new List<ApplicationUser>();
+            // List<object> lista = new List<object>();
 
             try
             {
@@ -619,7 +608,8 @@ namespace SOGIP_v2.Controllers
                 int startColumn = 1;
                 int startRow = 2;
 
-                ExcelWorksheet workSheet = package.Workbook.Worksheets[2]; // Read sheet 1.
+                ExcelWorksheet workSheet = package.Workbook.Worksheets[2];
+                
                 object ced = null;
 
                 do
@@ -638,13 +628,13 @@ namespace SOGIP_v2.Controllers
 
                     ApplicationUser user = new ApplicationUser()
                     {
-                        Cedula = (ced == null) ? "" : ced.ToString(),
-                        Nombre1 = (n1 == null) ? "" : n1.ToString(),
-                        Nombre2 = n2?.ToString(),
-                        Apellido1 = (a1 == null) ? "" : a1.ToString(),
-                        Apellido2 = (a2 == null) ? "" : a2.ToString(),
+                        Cedula = (ced == null) ? "" : ced.ToString().ToUpper(),
+                        Nombre1 = (n1 == null) ? "" : n1.ToString().ToUpper(),
+                        Nombre2 = (n2 == null) ? " " : n2.ToString().ToUpper(),
+                        Apellido1 = (a1 == null) ? "" : a1.ToString().ToUpper(),
+                        Apellido2 = (a2 == null) ? " " : a2.ToString().ToUpper(),
                         Email = (email == null) ? "" : email.ToString(),
-                        Sexo = genero,
+                        Sexo = genero
                     };
 
                     // En caso de que la fecha de nacimiento sea errónea por completo se dispondrá la fecha actual.
@@ -708,11 +698,39 @@ namespace SOGIP_v2.Controllers
                         }
                     }
 
-                    user.Fecha_Nacimiento = nacimiento;
+                    //string[] msg = new string[5];
+                    //if (db.Users.Any(x => x.Cedula == (string)ced))
+                    //{
+                    //    msg[msg.Length] = "Usuario repetido, ya se encuentra en el sistema.";
+                    //}
+                    //else if (n1 == null)
+                    //{
+                    //    msg[msg.Length] = "Primer NOMBRE es obligatorio para el registro.";
+                    //}
+                    //else if (a1 == null)
+                    //{
+                    //    msg[msg.Length] = "Primer APELLIDO es obligatorio para el registro.";
+                    //}
 
+                    //object usuario = new
+                    //{
+                    //    Cedula = (ced == null) ? "" : ced.ToString().ToUpper(),
+                    //    Nombre1 = (n1 == null) ? "" : n1.ToString().ToUpper(),
+                    //    Nombre2 = (n2 == null) ? " " : n2.ToString().ToUpper(),
+                    //    Apellido1 = (a1 == null) ? "" : a1.ToString().ToUpper(),
+                    //    Apellido2 = (a2 == null) ? " " : a2.ToString().ToUpper(),
+                    //    Fecha_Nacimiento = nacimiento,
+                    //    Email = (email == null) ? "" : email.ToString(),
+                    //    Sexo = genero,
+                    //    Error = false,
+                    //    Message = msg
+                    //};
+
+                    user.Fecha_Nacimiento = nacimiento;
                     startRow++;
 
                     ls.Add(user);
+                    // lista.Add(usuario);
 
                 } while (ced != null);
 
@@ -727,34 +745,50 @@ namespace SOGIP_v2.Controllers
             return Json(ls, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult CrearMasivo(List<ApplicationUser> users)
+        public JsonResult CrearMasivo(List<ApplicationUser> users, string usuario, string rol)
         {
-
             try
             {
                 foreach (var item in users)
                 {
+                    string pass = UserManager.PasswordHasher.HashPassword(composicionPassword(item.Nombre1, item.Apellido1, item.Cedula, item.Fecha_Nacimiento));
+                    item.PasswordHash = pass;
+                    item.Roles.Add(new IdentityUserRole { UserId = item.Id, RoleId = "5" });
+                    item.SecurityStamp = Guid.NewGuid().ToString();
+
                     db.Users.Add(item);
                     db.SaveChanges();
-                    item.Roles.Add(new IdentityUserRole { UserId = item.Id, RoleId = "5" });
-                    /*db.Atletas.Add(new Atleta {
-                        Seleccion = db.Selecciones.SingleOrDefault(x => x.SeleccionId == 1),
-                        Usuario = db.Users.SingleOrDefault(x=>x.Id == item.Id),
-                        Localidad = null, 
-                    });*/
-                }
 
-                db.SaveChanges();
+                    if (rol == "Asociacion/Comite")
+                    {
+                        db.Atletas.Add(new Atleta
+                        {
+                            Asociacion_Deportiva = db.Asociacion_Deportiva.SingleOrDefault(x => x.Usuario.Cedula == usuario),
+                            Usuario = db.Users.SingleOrDefault(x => x.Id == item.Id),
+                            Localidad = " ",
+                            Seleccion = null
+                        });
+                    }
+                    else if (rol == "Seleccion/Federacion")
+                    {
+                        db.Atletas.Add(new Atleta
+                        {
+                            Seleccion = db.Selecciones.SingleOrDefault(x => x.Usuario.Cedula == usuario),
+                            Usuario = db.Users.SingleOrDefault(x => x.Id == item.Id),
+                            Localidad = " ",
+                            Asociacion_Deportiva = null
+                        });
+                    }
+                    db.SaveChanges();
+                }
             }
             catch (Exception)
             {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-
-
             return Json(true, JsonRequestBehavior.AllowGet);
         }
-
     }
 
 }

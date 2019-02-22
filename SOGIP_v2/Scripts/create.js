@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    $('#selectedRoles').val('Atleta');
+    //$('#selectedRoles').val('Atleta');
     formulario();
 
     $('#selectedRoles').change(function check() {

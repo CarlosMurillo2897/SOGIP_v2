@@ -1,6 +1,4 @@
-﻿@model SOGIP_v2.Models.ApplicationUser
-
-@{
+﻿@{
     ViewBag.Title = "Registro Masivo";
 
     // Controller en español.
@@ -24,8 +22,26 @@
     @Styles.Render("~/Content/Archivos.css")
 }
 
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
 <div class="container" style="min-height: 369px;">
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label>Seleccione el usuario: </label>
+            <input type="text" class="form-control" id="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+        </div>
+        <div class="form-group col-md-6">
+            <br />
+            <button id="botón" type="button" class="btn btn-warning btn-block">
+                <text id="texto">Seleccione el usuario deseado </text>
+                <span id="icono" class="glyphicon glyphicon-search"></span>
+            </button>
+        </div>
+        <div class="col-md-12 table-responsive" id="Tabla_Usuarios">
+
+        </div>
+    </div>
     <div class="col-md-12" style="margin-bottom: 20px;">
         <div class="container col-md-6 col-md-offset-3">
             <div class="input-group image-preview">
@@ -48,7 +64,7 @@
             </div>
         </div>
     </div>
-    <div id="UpdatePanel">
+    <div id="UpdatePanel" class="col-md-12 table-responsive">
 
     </div>
     <div class="col-md-12" id="registrar">
@@ -128,6 +144,8 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/Masivo.js")

@@ -10,13 +10,7 @@ namespace SOGIP_v2.Controllers
 {
     public class AtletasAsignadosController : Controller
     {
-
-
-
         private ApplicationDbContext db = new ApplicationDbContext();
-
-
-
 
         [HttpPost]
         public JsonResult getAtletas()
@@ -44,7 +38,6 @@ namespace SOGIP_v2.Controllers
             return Json(getAtletas, JsonRequestBehavior.AllowGet); 
         }
 
-
         [HttpPost]
         public JsonResult getAtletasS()
         {
@@ -64,8 +57,6 @@ namespace SOGIP_v2.Controllers
                            Apellido1 = u.Apellido1,
                            Apellido2 = u.Apellido2
                        };
-
-
 
             var getAtletas = consulta.ToList();
             return Json(getAtletas, JsonRequestBehavior.AllowGet);
@@ -91,7 +82,6 @@ namespace SOGIP_v2.Controllers
                           Apellido1 = u.Apellido1,
                           Apellido2 = u.Apellido2
                       };
-
 
             var getAtletas = consulta.ToList();
             return Json(getAtletas, JsonRequestBehavior.AllowGet);

@@ -54,10 +54,18 @@
                         <select id="selectedRoles" name="selectedRoles" class="form-control">
                             @foreach (var item in (SelectList)ViewBag.RoleId)
                             {
-                                <option>
-                                    @Html.Label(item.Text, new { @class = "control", id = "selectRol" })
-                                </option>
-                            }
+                                if (item.Text == "Atleta")
+                                {
+                                    <option selected>
+                                        @Html.Label(item.Text, new { @class = "control", id = "selectRol" })
+                                    </option>
+                                }
+                                else {
+                                    <option>
+                                        @Html.Label(item.Text, new { @celse = "control", id = "selectRol" })
+                                    </option>
+                                }
+                             }
                         </select>
                     </div>
 

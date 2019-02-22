@@ -41,9 +41,10 @@ namespace SOGIP_v2.Controllers
 
         public JsonResult getUsuariosA()
         {
-            var consulta1 =
-                           from f in db.Funcionario_ICODER
-                           from u in db.Users.Where(u => u.Id == f.Usuario.Id)
+            var consulta = from u in db.Users
+                           from r in db.Roles
+                           where (u.Roles.FirstOrDefault().RoleId == "5" || u.Roles.FirstOrDefault().RoleId == "6" || u.Roles.FirstOrDefault().RoleId == "7")
+                           && u.Roles.FirstOrDefault().RoleId.Equals(r.Id)
                            select new
                            {
                                Accion = "",
@@ -51,25 +52,10 @@ namespace SOGIP_v2.Controllers
                                Nombre = u.Nombre1,
                                Apellido1 = u.Apellido1,
                                Apellido2 = u.Apellido2,
-                               Rol = "Funcionario"
+                               Rol = r.Name
                            };
 
-            var consulta = 
-                           from a in db.Atletas
-                           from u in db.Users.Where(u=>u.Id==a.Usuario.Id) 
-                           select new
-                           {
-                               Accion = "",
-                               Cedula = u.Cedula,
-                               Nombre = u.Nombre1,
-                               Apellido1 = u.Apellido1,
-                               Apellido2 = u.Apellido2,
-                               Rol = "Atleta"
-                           };
-
-            var enume=Enumerable.Union(consulta1,consulta);
-            var usuarios = enume.ToList();
-            return Json(usuarios, JsonRequestBehavior.AllowGet);
+            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
         }
 
 

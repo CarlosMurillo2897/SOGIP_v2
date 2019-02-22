@@ -52,6 +52,8 @@ use "SOGIP_v3"
  select * from SOGIP_UserLogins;
  select * from SOGIP_UserRoles where RoleId='6';
  select * from SOGIP_Users;
+ 
+ delete from sogip_users where Cedula='402360192' or Cedula='DP56878FK78';
 
  -- Describe los atributos de cualquier tabla. --
 
@@ -107,7 +109,6 @@ create trigger fecha_expiracion on SOGIP_Users
  ++++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++++
 */
 
-
 DECLARE @sql varchar(200);
 DECLARE @VARIABLEACAMBIAR varchar(100);
 
@@ -125,11 +126,9 @@ exec (@sql)
 
 set @sql = 'BULK INSERT SOGIP_Estados FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Estados.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
-
-SET IDENTITY_INSERT SOGIP_Categorias OFF
+ 
 set @sql = 'BULK INSERT SOGIP_Categorias FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Categorias.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
-SET IDENTITY_INSERT SOGIP_Categorias ON
 
 set @sql = 'BULK INSERT SOGIP_Tipo_Deporte FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Tipo_Deporte.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
@@ -149,7 +148,9 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_Funcionario_ICODER FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Funcionario_ICODER.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
+SET IDENTITY_INSERT SOGIP_SELECCIONES ON
 set @sql = 'BULK INSERT SOGIP_Selecciones FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Selecciones.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+SET IDENTITY_INSERT SOGIP_SELECCIONES OFF
 exec (@sql)
 
 set @sql = 'BULK INSERT SOGIP_Atletas FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Atletas.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'');';
@@ -161,8 +162,8 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_Conjunto_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Conjunto_Ejercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
--- set @sql = 'BULK INSERT SOGIP_Cita FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Cita.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
--- exec (@sql)
+set @sql = 'BULK INSERT SOGIP_Cita FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Cita.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
 
 set @sql = 'BULK INSERT SOGIP_Tipo FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Tipo.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)

@@ -223,21 +223,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901170040532__all.cs" />
-    <Compile Include="Migrations\201901170040532__all.Designer.cs">
-      <DependentUpon>201901170040532__all.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902060445148_Tipo_Archivo.cs" />
-    <Compile Include="Migrations\201902060445148_Tipo_Archivo.Designer.cs">
-      <DependentUpon>201902060445148_Tipo_Archivo.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902100056571_deleteExtension.cs" />
-    <Compile Include="Migrations\201902100056571_deleteExtension.Designer.cs">
-      <DependentUpon>201902100056571_deleteExtension.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902132337020_tablaCita.cs" />
-    <Compile Include="Migrations\201902132337020_tablaCita.Designer.cs">
-      <DependentUpon>201902132337020_tablaCita.cs</DependentUpon>
+    <Compile Include="Migrations\201902171910335__all.cs" />
+    <Compile Include="Migrations\201902171910335__all.Designer.cs">
+      <DependentUpon>201902171910335__all.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -839,17 +827,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201901170040532__all.resx">
-      <DependentUpon>201901170040532__all.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902060445148_Tipo_Archivo.resx">
-      <DependentUpon>201902060445148_Tipo_Archivo.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902100056571_deleteExtension.resx">
-      <DependentUpon>201902100056571_deleteExtension.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902132337020_tablaCita.resx">
-      <DependentUpon>201902132337020_tablaCita.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201902171910335__all.resx">
+      <DependentUpon>201902171910335__all.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

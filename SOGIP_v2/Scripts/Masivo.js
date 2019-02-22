@@ -1,6 +1,9 @@
 ﻿$(document).ready(function () {
-
+    var selected, role;
+    $('#usuario').val('');
     clear();
+
+    cargarUsuarios();
 
     var today = new Date();
     var min = new Date();
@@ -84,6 +87,90 @@ function clear() {
     $("#submit").css("display", "none");
 }
 
+function cargarUsuarios() {
+
+    var table = $('<table/>', {
+        id: 'Entidades',
+        class: 'table-striped',
+        width: '100%'
+    }).append('<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>Entidad</th><th>Rol</th></tr></thead>');
+
+    $('#Tabla_Usuarios').append(table);
+
+        table = $('#Entidades').DataTable({
+            "language": {
+                "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                "zeroRecords": "No se han encontrado registros.",
+                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                "infoEmpty": "No hay datos para mostrar",
+                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                "search": "Filtrar:",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": {
+                        _: "%d registros seleccionados.",
+                        0: "Seleccione un cuadrado en la columna 'Acción'.",
+                        1: "1 registro seleccionado."
+                    }
+                }
+            },
+            "ajax": {
+                "url": "/UsersAdmin/ObtenerUsuarios",
+                "type": "GET",
+                "dataSrc": ""
+            },
+            'columnDefs': [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: [0]
+            }],
+            'select': {
+                'style': 'os',
+                'selector': 'td:first-child'
+            },
+            columns: [
+                { data: "Acción" },
+                { data: "Cédula" },
+                { data: "Nombre" },
+                { data: "Entidad" },
+                { data: "Rol" },
+            ],
+    });
+
+    $('#Entidades').on('click', 'td.select-checkbox', function () {
+        var td = $(this);
+        var tr = td.closest('tr');
+        x = tr;
+        $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text());
+        role = tr.find('td:eq(4)').text();
+
+        $('#botón').attr('onclick', 'manipularDT();');
+        manipularDT();
+
+        if (tr.hasClass('selected')) {
+            $('#usuario').val('');
+        }
+    });
+}
+
+function manipularDT() {
+    $('#Tabla_Usuarios').slideToggle(400, function () {
+        if ($('#Tabla_Usuarios').is(':visible')) {
+            $('#icono').removeClass('glyphicon-search').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+            $('#texto').html('Cerrar lista ');
+        }
+        else {
+            $('#icono').removeClass('glyphicon-search').removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+            $('#texto').html('Desplegar lista ');
+        }
+    });
+}
+
 function uploadImage() {
     var archivo = $('#excelfile')[0].files[0];
 
@@ -112,12 +199,14 @@ function uploadImage() {
         processData: false,
         success: function (list) {
             clear();
-            var $table = $('<table/>').addClass('table table-responsive table-striped table-bordered');
-            var $header = $('<thead/>').html('<tr>><th>Cédula</th><th>1° Nombre</th><th>2° Nombre</th><th>1° Apellido</th><th>2° Apellido</th>' +
-                '<th>E-mail</th><th>Nacimiento</th><th>Sexo</th><th style="text-align: center;"><span class="glyphicon glyphicon-cog"></span></th></tr>'
+            var $table = $('<table/>', {
+                class: 'table table-striped table-bordered',
+                id: 'UsuariosExcel'
+            }).append('<thead><tr><th>Cédula</th><th>1° Nombre</th><th>2° Nombre</th><th>1° Apellido</th><th>2° Apellido</th>' +
+                '<th>E-mail</th><th>Nacimiento</th><th>Sexo</th><th style="text-align: center;"><span class="glyphicon glyphicon-cog"></span></th></tr></thead>'
             );
 
-            $table.append($header);
+            // $table.append($header);
             var $body = $('<tbody/>');
 
             $.each(list, function (i) {
@@ -141,7 +230,7 @@ function uploadImage() {
                     '</td></tr>');
             });
             $table.append($body);
-            $('#UpdatePanel').html($table);
+            $('#UpdatePanel').append($table);
             $('#registrar').html('<a class="btn btn-block btn-success" onclick="registrar()">Registrar</a>');
             contenidoPop(1);
         },
@@ -166,55 +255,64 @@ function cargar(x) {
 
 function actualizar() {
     var tr = $('#' + $('#hidden').val());
-    tr.find('td:eq(0)').text($('#ced').val());
-    tr.find('td:eq(1)').text($('#nom1').val());
-    tr.find('td:eq(2)').text($('#nom2').val());
-    tr.find('td:eq(3)').text($('#apel1').val());
-    tr.find('td:eq(4)').text($('#apel2').val());
+    tr.find('td:eq(0)').text($('#ced').val().toUpperCase());
+    tr.find('td:eq(1)').text($('#nom1').val().toUpperCase());
+    tr.find('td:eq(2)').text($('#nom2').val().toUpperCase());
+    tr.find('td:eq(3)').text($('#apel1').val().toUpperCase());
+    tr.find('td:eq(4)').text($('#apel2').val().toUpperCase());
     tr.find('td:eq(5)').text($('#email').val());
     tr.find('td:eq(6)').text($("#dtp").data('datepicker').getFormattedDate('dd/mm/yyyy'));
     tr.find('td:eq(7)').text($('#sexo').val());
 }
 
 function registrar() {
-    pop(true);
-    var array = [];
+    if ($('#usuario').val() === '') {
+        alert('Favor seleccione un Usuario de la tabla.');
+    }
+    else {
+        pop(true);
+        var array = [];
 
-    $('tbody tr').each(function () {
-        var tr = $(this).closest('tr');
-        array.push({
-            Cedula: tr.find('td:eq(0)').text(),
-            UserName: tr.find('td:eq(0)').text(),
-            Nombre1: tr.find('td:eq(1)').text(),
-            Nombre2: tr.find('td:eq(2)').text(),
-            Apellido1: tr.find('td:eq(3)').text(),
-            Apellido2: tr.find('td:eq(4)').text(),
-            Email: tr.find('td:eq(5)').text(),
-            Fecha_Nacimiento: tr.find('td:eq(6)').text(),
-            Sexo: tr.find('td:eq(7)').text() === 'Masculino' ? true : false,
-            Estado: true,
-            Fecha_Expiracion: new Date()
+        $('#UsuariosExcel tbody tr').each(function () {
+            var tr = $(this).closest('tr');
+            array.push({
+                Cedula: tr.find('td:eq(0)').text(),
+                UserName: tr.find('td:eq(0)').text(),
+                Nombre1: tr.find('td:eq(1)').text(),
+                Nombre2: tr.find('td:eq(2)').text(),
+                Apellido1: tr.find('td:eq(3)').text(),
+                Apellido2: tr.find('td:eq(4)').text(),
+                Email: tr.find('td:eq(5)').text(),
+                Fecha_Nacimiento: tr.find('td:eq(6)').text(),
+                Sexo: tr.find('td:eq(7)').text() === 'Masculino' ? true : false,
+                Estado: true,
+                Fecha_Expiracion: new Date()
+            });
         });
-    });
 
-    var datos = {
-        'users': array
-    };
+        var datos = {
+            'users': array,
+            'usuario': $('#usuario').val().split(" ")[0],
+            'rol': role
+        };
 
-    $.ajax({
-        url: '/UsersAdmin/CrearMasivo',
-        dataType: 'JSON',
-        type: 'POST',
-        data: JSON.stringify(datos), //agregar el campo para el id de la rutina
-        contentType: 'application/json; charset=utf-8',
-        success: function (result) {
-            $('#UpdatePanel').remove('.table');
-            contenidoPop(1);
-        },
-        error: function (result) {
-            contenidoPop(0);
-        }
-    });
+        $.ajax({
+            url: '/UsersAdmin/CrearMasivo',
+            dataType: 'JSON',
+            type: 'POST',
+            data: JSON.stringify(datos), //agregar el campo para el id de la rutina
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                $('#UpdatePanel').remove('#UsuariosExcel');
+                x.removeClass('selected');
+                $('#Usuario').val('');
+                contenidoPop(1);
+            },
+            error: function (data) {
+                contenidoPop(0);
+            }
+        });
+    }
 }
 
 function pop(status) {
