@@ -4,6 +4,19 @@
 @{
     ViewBag.Title = "Registro Manual";
 
+    ViewBag.Controller = "Usuarios";
+
+    ViewBag.Control = "UsersAdmin";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
+    ViewBag.Metodo = "Create";
+    ViewBag.MetodoIcono = "glyphicon-pencil";
+
+    // Si se necesita una Acción como crear nuevo usuario, rutina. Se selecciona está opción y la referencia o ruta del método.
+    // ViewBag.Referencia = "Rutina/Create";
+    // ViewBag.Accion = "Crear Rutina";
+
     List<SelectListItem> Sexo = new List<SelectListItem>();
     Sexo.Add(new SelectListItem
     {
@@ -19,36 +32,11 @@
 }
 
 @Styles.Render("~/Content/manual.css")
+
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
+
 <div class="container">
-
-    @*
-        <h2 class="col-md-12" style="color: black">
-            <a href="/UsersAdmin/Index/" class="btn btn-success" type="button">
-                <i class="glyphicon glyphicon-chevron-left"></i>Volver a Lista de Usuarios&nbsp;
-            </a>
-            | Registros > Usuarios > @ViewBag.Title |
-        </h2>*@
-
-    <br />
-
-    <h2 class="col-md-3" style="color: black">
-        <a href="/UsersAdmin/Index/" class="btn btn-success" type="button">
-            <i class="glyphicon glyphicon-chevron-left"></i>Volver a Lista de Usuarios&nbsp;
-        </a>
-    </h2>
-    <h2 class="col-md-1" style="color: black">
-        |
-    </h2>
-    <h2 class="col-md-5" style="color: black">
-        Registros > Usuarios > @ViewBag.Title
-    </h2>
-    <h2 class="col-md-1" style="color: black">
-        |
-    </h2>
-
-    <br />
-    <br />
-
     @using (Html.BeginForm("Create", "UsersAdmin", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
     {
 
@@ -66,10 +54,18 @@
                         <select id="selectedRoles" name="selectedRoles" class="form-control">
                             @foreach (var item in (SelectList)ViewBag.RoleId)
                             {
-                                <option>
-                                    @Html.Label(item.Text, new { @class = "control", id = "selectRol" })
-                                </option>
-                            }
+                                if (item.Text == "Atleta")
+                                {
+                                    <option selected>
+                                        @Html.Label(item.Text, new { @class = "control", id = "selectRol" })
+                                    </option>
+                                }
+                                else {
+                                    <option>
+                                        @Html.Label(item.Text, new { @celse = "control", id = "selectRol" })
+                                    </option>
+                                }
+                             }
                         </select>
                     </div>
 
@@ -175,7 +171,7 @@
 
                     @* ASPECTOS GENERALES DE ASOCIACION-COMITÉ *@
                     <tr hidden id="title_aso" class="title_aso">
-                        <th><h4>ASPECTOS GENERALES DE ASOCIACION/COMITE</h4></th>
+                        <th><h4 style="word-break: break-all;">ASPECTOS GENERALES DE ASOCIACION/COMITE</h4></th>
                     </tr>
                     <tr hidden id="info_aso">
                         <td>
@@ -201,7 +197,7 @@
                                     <div class="col-md-8">
                                         @Html.Label("Seleccionar Categoria", new { @class = "control-label" })
                                         <div class="col-md-8">
-                                            <select name="SelectedCategory">
+                                            <select name="SelectedCategory" class="form-control">
                                                 @foreach (var category in (SelectList)ViewBag.Categorias)
                                                 {
                                                     <option value="@category.Value">
@@ -220,7 +216,7 @@
                                     <div class="col-md-10">
                                         @Html.Label("Seleccionar Deporte", new { @class = "control-label" })
                                         <div class="col-md-10">
-                                            <select name="SelectedSport">
+                                            <select name="SelectedSport" class="form-control">
                                                 @foreach (var sport in (SelectList)ViewBag.Deportes)
                                                 {
                                                     <option value="@sport.Value">
@@ -233,27 +229,7 @@
                                 </div>
                             </div>
                         </td>
-                        <td>
-                            <div>
-                                <div class="form-group">
-                                    <div class="col-md-10">
-                                        @Html.Label("Entrenador (cedula)", new { @class = "control-label" })
-                                        <input id="entrenador" type="text" class="id_entrenador form-control" name="id_entrenador" />
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr hidden id="info_seleccion_nombre">
-                        <td>
-                            <div class="form-group">
-                                <div class="col-md-10">
-                                    @Html.Label("Nombre de la selección", new { @class = "control-label" })
-                                    <input type="text" class="sele_n form-control" name="sele_n" id="sele_n" />
-                                    @* <input class="sele_m" name="sele_m" id="sele_m" /> *@
-                                </div>
-                            </div>
-                        </td>
+
                     </tr>
 
                     @* DATOS DE ENTIDADES PUBLICAS *@
@@ -266,7 +242,7 @@
                                 <div class="form-group">
                                     <div class="col-md-10">
                                         @Html.Label("Seleccione la Entidad", new { @class = "control-label" })
-                                        <select name="SelectedEntity">
+                                        <select name="SelectedEntity" class="form-control">
                                             @foreach (var entity in (SelectList)ViewBag.Entidades)
                                             {
                                                 <option value="@entity.Value">
@@ -315,7 +291,7 @@
                                     <div class="col-md-10">
 
                                         @Html.Label("Seleccione la seleccion", new { @class = "control-label" })
-                                        <select name="SelectedS">
+                                        <select name="SelectedS" class="form-control">
                                             @foreach (var sel in (SelectList)ViewBag.Selecciones)
                                             {
                                                 <option value="@sel.Value">
@@ -334,7 +310,7 @@
                                 <div class="form-group">
                                     <div class="col-md-10">
                                         @Html.Label("Seleccione la Asociacion", new { @class = "control-label" })
-                                        <select name="SelectedAsox">
+                                        <select name="SelectedAsox" class="form-control">
                                             @foreach (var asox in (SelectList)ViewBag.Asociaciones)
                                             {
                                                 <option value="@asox.Value">
@@ -349,14 +325,31 @@
                     </tr>
 
                     @*DATOS PARA F.ICODER*@
-                    <tr hidden id="title_icoder"><th><h4>ASPECTOS GENERALES DE FUNCIONARIOS ICODER</h4></th></tr>
+                    <tr hidden id="title_icoder"><th><h4 style="word-break: break-all;">ASPECTOS GENERALES DE FUNCIONARIOS ICODER</h4></th></tr>
 
-                    <tr hidden id="info_icoder">
+
+                    @*Selecciones y funcionarios*@
+                    <tr hidden id="btnE">
+                        <td>
+                            <div class="form-group">
+                                <div class="col-md-10">
+                                    <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#me">
+                                        Buscar entrenador 
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr hidden id="inpE">
                         <td>
                             <div>
-                                <div class="col-md-10">
-                                    @Html.Label("Entrenador predeterminado", new { @class = "control-label" })
-                                    <input type="text" class="entrenadorF form-control" name="entrenadorF" id="entrenadorF" placeholder="114070986" readonly />
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
+                                        <input type="hidden" class="hidef form-control" name="hidef" id="hidef" readonly />
+                                    </div>
                                 </div>
                             </div>
                         </td>
@@ -371,10 +364,51 @@
                 </div>
             </div>
         </div>
+
+        @*Modal para las selecciones que muestra entrenadores*@
+        <div id="me" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Búsqueda de Entrenador</h4>
+                    </div>
+                    <div class="modal-body">
+                        @*Tabla de entrenadores*@
+                        <a class="btn btn-info" data-toggle="popover" title="¿Cómo funciona?" data-content="Seleccione el entrenador mediante un click a una casilla perteneciente a la columna acción, luego guarde los cambios">
+                            <span class="glyphicon glyphicon-question-sign"></span> Ayuda
+                        </a>
+                        <hr />
+                        <table id="example" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Acción</th>
+                                    <th>Nombre</th>
+                                    <th>1° Apellido</th>
+                                    <th>2° Apellido</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnSave" data-dismiss="modal" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*Modal para entrenadores de funcionarios*@
+
     }
 </div>
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/create.js")
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
 }

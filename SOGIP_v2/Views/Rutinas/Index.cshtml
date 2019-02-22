@@ -1,83 +1,488 @@
-﻿@model IEnumerable<SOGIP_v2.Models.Rutina>
+﻿@model SOGIP_v2.Models.Rutina
 
 @{
+    /**/
+
     ViewBag.Title = "Lista de Rutinas";
 
-    @Styles.Render("~/Content/Rutina.css")
-    @Styles.Render("~/Content/Detalle_Rutina.css")
-    @Styles.Render("~/Content/manual.css")
+    ViewBag.Control = "Rutinas";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    ViewBag.Metodo = "Index";
+    ViewBag.MetodoIcono = "glyphicon-edit";
+
+
+    ViewBag.Accion = "Crear Rutina";
+
+    @Styles.Render("~/Contents/bootstrap-datepicker.css")
 }
 
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
 <div class="container">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nueva" id="btnNuevo">
+        Nuevo
+    </button>
 
-    <br />
+    <br>
+    <br>
+    @*Modal Nueva Rutina *@
+    <div id="nueva" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Crear nueva Rutina</h4>
+                    <br>
+                    <label>Fecha Inicio de Rutina: </label>
+                    <div class="input-group date" id="fec">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        <input class="form-control" type="text"  id="este"/>
+                    </div>
 
-    <div class="col-md-12">
-
-        <h2 class="col-md-3" style="color: black">
-            <a href="/Home/Index/" class="btn btn-success" type="button">
-                <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
-            </a>
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-        <h2 class="col-md-5" style="color: black">
-            Registros > Rutinas > @ViewBag.Title
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-        <h2 class="col-md-2" style="color: black">
-            <a href="/Rutinas/Create/" class="btn btn-success" type="button">
-                Crear nueva rutina&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
-            </a>
-        </h2>
+                    <br>
+                    <label>Objetvio de la Rutina: </label>
+                    <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
+                </div>
+                <div class="modal-body">
+                    @*Tabla de entrenadores*@
+                    <div class="row" id="infouser">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <button id="botón" type="button" class="btn btn-warning btn-block">
+                                <text id="texto">Seleccionar usuario</text>
+                                <span id="icono" class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="table-responsive" id="Tabla_Usuarios" hidden>
+                        <table id="example" class="display" style="width:100%"></table>
+                    </div>
+                    <div class="modal-footer">
+                        <br />
+                        <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" id="cerrar" data-dismiss="modal" >Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <br />
-    <br />
-    <br />
-    <br />
-
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Usuario)
-            </th>
-            <th>
-                Fecha de la rutina
-            </th>
-            <th>
-                Observaciones
-            </th>
-            <th></th>
-        </tr>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-
-                    @Html.DisplayFor(modelItem => item.Usuario.Cedula)
-                    @Html.DisplayFor(modelItem => item.Usuario.Nombre1)
-                    @Html.DisplayFor(modelItem => item.Usuario.Apellido1)
-                    @Html.DisplayFor(modelItem => item.Usuario.Apellido2)
-                </td>
-                <td>
-
-                    @item.RutinaFecha.ToShortDateString()
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RutinaObservaciones)
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.RutinaId }, new { @style = "color:#000aaa;" }) |
-                    @Html.ActionLink("Eliminar", "Delete", new { id = item.RutinaId }, new { @style = "color:#000aaa;" })|
-                    @Html.ActionLink("Rutina", "Ejercicio", new { idRutina = item.RutinaId }, new { @style = "color:#000aaa;" })
-                </td>
-            </tr>
+    @*Modal para editar*@
+    <div id="editar" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Rutina</h4>
+                    <br>
+                    <tr hidden id="inpE">
+                        <td>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
+                                        <input type="hidden" class="hidef form-control" name="hidef" id="hidef" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <label>Fecha Inicio de Rutina: </label>
+                    <div class="input-group date" id="fecha">
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                        <input class="form-control" type="text" />
+                    </div>
+                    <br>
+                    <label>Objetvio de la Rutina: </label>
+                    <input type="text" class="form-control" placeholder="Objetivo" id="objetivo" />
+                </div>
+                <div class="modal-body">
+                    <div class="modal-footer">
+                        <br />
+                        <button type="button" id="btnEdit" class="btn btn-success" >Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Modal para eliminar*@
+    <div id="eliminar" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Eliminar Rutina</h4>
+                    <br>
+                    <label>Usuario: </label>
+                    <tr hidden id="us">
+                        <td>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="us1" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <label>Fecha Inicio de Rutina: </label>
+                    <tr hidden id="fe">
+                        <td>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="fe1" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <label>Objetvio de la Rutina: </label>
+                    <tr hidden id="obje">
+                        <td>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="obje1" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <div class="modal-body">
+                        <div class="modal-footer">
+                            <br />
+                            <button type="button" id="eliminar2" class="btn btn-success" data-dismiss="modal">Eliminar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*La tabla principal*@
+    <div class="table-responsive">
+        <table id="rutina" class="display" style="width:100%"></table>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/bootstrap.js")
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+    <script>
+        function eliminar() {
+            var des = $('#example').DataTable();
+            des.destroy();
         }
 
-    </table>
-</div>
+        function EliminarRut(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#rutina').DataTable().rows(tr).data();
+            var n = null;
+            var ob = null;
+            var fec = null;
+            $.each(table, function (i, val) {
+                n = val[0] + " " + val[1];
+                fec = val[2];
+                ob = val[3];
+                idRut = val[4];
+            });
+            $('#us').show();
+            document.getElementById("us1").value = n;
+            $('#fe').show();
+            document.getElementById("fe1").value = fec;
+            $('#obje').show();
+            document.getElementById("obje1").value = ob;
+            $('#eliminar2').click(function () {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Rutinas/DeleteRutina',
+                    data: { 'rutinaId': id },
+                    success: function (data) {
+                        if (data.status) {
+                            var table = $('#rutina').DataTable().row(tr).remove().draw();
+                        }
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            })
+        }
+        function EditarRut(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#rutina').DataTable().rows(tr).data();
+            var n = null;
+            var ob = null;
+            var fec = null;
+            $.each(table, function (i, val) {
+                n = val[0] + " " + val[1];
+                fec = val[2];
+                ob = val[3];
+                idRut = val[4];
+            });
+            $('#inpE').show();
+            document.getElementById("einf").value = n;
+            document.getElementById("hidef").value = n
+            $('#objetivo').val(ob);
+            $('#fecha').datepicker("update", fec);
+            $('#btnEdit').click(function () {
+                data = {
+                    fecha: $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                    obs: $('#objetivo').val().trim(),
+                    id: idRut
+                }
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Rutinas/EditRutina',
+                    data: data,
+                    success: function (data) {
+                        if (data.status) {
+                        }
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            })
+        }
+        function EnviarRut(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#rutina').DataTable().rows(tr).data();
+            var idRutina = null;
+            var idUsuario = null;
+            $.each(table, function (i, val) {
+                idUsuario = val[1];
+                idRutina = val[5];
+            });
+            data = {
+                idUsuario: idUsuario,
+                idRutina: idRutina
+            }
+            window.location.href = '/Rutinas/Ejercicio?idRutina=' + idRutina;
+
+        }
+        $(document).ready(function () {
+            var table1;
+            var dataSet1 = [];
+            var table;
+            var dataSet = [];
+            var cedu = null;
+            tabla();
+           
+            $('#btnNuevo').click(function () {
+                usuarios();
+                $('#usuario').val('');
+                $('#obj').val('');
+                $('#este').val('');
+         
+            })
+            
+           
+            $('#btnSave').click(function () {
+                var data = null;
+                var objetivo = $('#obj').val();
+                var fecha1 = $('#fec').data('datepicker').getFormattedDate('dd/mm/yyyy');
+                if (cedu == null || fecha1 == "") {
+                    alert("Faltan Datos de Usuario o Fecha");
+                } else {
+                    data = {
+                        fecha: $('#fec').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                        obs: $('#obj').val().trim(),
+                        id: cedu
+                    }
+                    SaveDate(data);
+                }
+            })
+
+            var today = new Date();
+            var min = new Date();
+            var max = new Date();
+            max.setFullYear(today.getFullYear() - 5);
+            min.setFullYear(today.getFullYear() + 1);
+            $(function () {
+                $("#fecha").datepicker({
+                    format: 'dd/mm/yyyy',
+                    defaultViewDate: max,
+                    startDate: max,
+                    endDate: min,
+                    daysOfWeekDisabled: false
+                });
+            })
+            $(function () {
+                $("#fec").datepicker({
+                    format: 'dd/mm/yyyy',
+                    defaultViewDate: max,
+                    startDate: max,
+                    endDate: min,
+                    daysOfWeekDisabled: false
+                });
+            })
+
+            function SaveDate(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Rutinas/SaveRutina',
+                    data: data,
+                    success: function (data) {
+                        //var date = new Date(parseInt(v.RutinaFecha.substr(6)));
+                        //var table = $('#rutina').DataTable();
+                        //table.row.add([data.Usuario.Cedula, data.Usuario.Nombre1, data.RutinaFecha, data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
+                        //$('#nueva').modal('hide');
+                        //$('body').removeClass('modal-open');
+                        //$('.modal-backdrop').remove();
+                        eliminar();
+                        alert("Rutina registrada");
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            function tabla() {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Rutinas/GetRutinas',
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            var date = new Date(parseInt(v.RutinaFecha.substr(6)));
+                            dataSet.push([v.Usuario.Cedula, v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, v.RutinaId, v.RutinaId]);
+                        })
+                        table = $('#rutina').DataTable({
+                            "language": {
+                                "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                                "zeroRecords": "No se han encontrado registros.",
+                                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                                "infoEmpty": "No hay datos para mostrar",
+                                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                                "search": "Filtrar:",
+                                "paginate": {
+                                    "first": "Primero",
+                                    "last": "Ultimo",
+                                    "next": "Siguiente",
+                                    "previous": "Anterior"
+                                }
+                            },
+                            data: dataSet,
+                            columns: [
+                                { title: "Cédula" },
+                                { title: "Usuario" },
+                                { title: "Fecha" },
+                                { title: "Objetivo" },
+                                {
+                                    title: "Id",
+                                    "visible": false,
+                                    "searchable": false
+                                },
+                                {
+                                    title: "Acción",
+                                    "render": function (Id) {
+                                        debugger
+                                        return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarRut(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
+                                            "<text class='hidden-xs'>Eliminar </text>" +
+                                            "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                            "</a>" +
+                                            "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                                            "<text class='hidden-xs'>Editar </text>" +
+                                            "<span class='glyphicon glyphicon-pencil'></span>" +
+                                            "</a>" +
+                                            "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
+                                            "<text class='hidden-xs'>Rutina </text>" +
+                                            "<span class='glyphicon glyphicon-list'></span>" +
+                                            "</a>";
+                                    }
+                                }
+                            ],
+
+                            'select': {
+                                'style': 'os',
+                                'selector': 'td:first-child'
+                            }
+                        });
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
+            }
+
+            function usuarios() {
+
+                $('#example').DataTable({
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado registros.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Filtrar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
+                    "ajax": {
+                        "url": "/Rutinas/GetUsuarios",
+                        "type": "GET",
+                        "dataSrc": ""
+                    },
+                    columns: [
+                        { data: "Accion" },
+                        { data: "Cedula" },
+                        { data: "Nombre" },
+                        { data: "Apellido1" },
+                        { data: "Apellido2" },
+                        { data: "Rol" }
+                    ],
+                    'columnDefs': [
+                        {
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: [0]
+                        }
+                    ],
+                    'select': {
+                        'style': 'os',
+                        'selector': 'td:first-child'
+
+                    }
+                });
+            }
+            $('#example').on('click', 'td.select-checkbox', function () {
+                var td = $(this);
+                var tr = td.closest('tr');
+
+                $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
+                cedu = tr.find('td:eq(1)').text();
+                $('#Tabla_Usuarios').hide();
+            });
+
+            $('#botón').click(function () {
+                $('#Tabla_Usuarios').show();
+
+            });
+
+        });
+    </script>
+
+}

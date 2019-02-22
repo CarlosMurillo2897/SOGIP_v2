@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SOGIP_v2.Models.Agrupaciones;
 
 namespace SOGIP_v2.Models
 {
@@ -58,7 +59,6 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Asociacion_Deportiva>().ToTable("SOGIP_Asociacion_Deportiva");
             modelBuilder.Entity<Atleta>().ToTable("SOGIP_Atletas");
             modelBuilder.Entity<Entidad_Publica>().ToTable("SOGIP_Entidad_Publica");
-            modelBuilder.Entity<Entrenador>().ToTable("SOGIP_Entrenadores");
             modelBuilder.Entity<Funcionario_ICODER>().ToTable("SOGIP_Funcionario_ICODER");
             modelBuilder.Entity<Seleccion>().ToTable("SOGIP_Selecciones");
 
@@ -73,6 +73,12 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Rutina>().ToTable("SOGIP_Rutina");
             modelBuilder.Entity<ExpedienteFisico>().ToTable("SOGIP_Expedientes_Fisicos");
             modelBuilder.Entity<Archivo>().ToTable("SOGIP_Archivo");
+
+            modelBuilder.Entity<Color>().ToTable("SOGIP_Color");
+            modelBuilder.Entity<Tipo>().ToTable("SOGIP_Tipo");
+            modelBuilder.Entity<Parametro>().ToTable("SOGIP_Parametro");
+
+
         }
 
         public static ApplicationDbContext Create()
@@ -87,8 +93,6 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Tipo_Deporte> Tipo_Deporte { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Deporte> Deportes { get; set; }
-
-        public System.Data.Entity.DbSet<SOGIP_v2.Models.Entrenador> Entrenadores { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Seleccion> Selecciones { get; set; }
 
@@ -113,6 +117,12 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Archivo> Archivo { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.ExpedienteFisico> Expedientes_Fisicos { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Parametro> Parametros { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Color> Colores { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Agrupaciones.Tipo> Tipos { get; set; }
 
     }
 }

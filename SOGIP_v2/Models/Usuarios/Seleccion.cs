@@ -12,6 +12,6 @@ namespace SOGIP_v2.Models
         public ApplicationUser Usuario { get; set; }
         public Deporte Deporte_Id { get; set; }
         public Categoria Categoria_Id { get; set; }
-        public Entrenador Entrenador_Id { get; set; }
+        public ApplicationUser Entrenador_Id { get; set; }
     }
 }

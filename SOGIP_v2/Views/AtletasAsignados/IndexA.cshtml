@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "IndexA";
+}
+
+@Styles.Render("~/Content/manual.css")
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="~/Scripts/jquery.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
+<br /><br />
+<div class="container" style="width:100%; height:auto; padding-top:70px;">
+    <table id="example" class="display" style="width:100%"></table>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @*@Scripts.Render("~/Scripts/atletas_asignados.js")*@
+    <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+
+    <script>
+
+
+        var table;
+        var dataSet = [];
+
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/AtletasAsignados/getAtletasA",
+            success: function (data) {
+                $.each(data, function (i, v) {
+                    dataSet.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
+                })
+                table = $('#example').DataTable({
+
+                    // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+                    // "iDisplayLength": 5,
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado resultados.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Buscar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
+                    data: dataSet,
+                    columns: [
+                        { title: "Acción" },
+                        { title: "Cédula" },
+                        { title: "Nombre" },
+                        { title: "1° Apellido" },
+                        { title: "2° Apellido" }
+                    ],
+                    'columnDefs': [
+                        {
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: [0]
+                        }
+                    ],
+                    'select': {
+                        'style': 'os',
+                        'selector': 'td:first-child'
+                    }
+                });
+            },
+
+            error: function (error) {
+                alert("Fallo");
+            }
+        });
+
+    </script>
+}
+

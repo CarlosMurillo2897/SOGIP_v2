@@ -134,3 +134,24 @@ select{
     text-transform: capitalize;
     text-align: center;
 }
+/*TABLA DE ENTRENADORES SELECCIÓN Y FUNCIONARIOS*/
+
+
+#ent {
+    border: 1px solid #656565;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 10px 10px 5px #888888;
+    width: 300px;
+    margin-bottom: 15px;
+    border-spacing: 0;
+}
+
+    #ent thead {
+        border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 5px;
+        background-color: lightgray;
+    }

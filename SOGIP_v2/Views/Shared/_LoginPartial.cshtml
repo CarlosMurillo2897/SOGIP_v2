@@ -1,155 +1,235 @@
 ﻿@using Microsoft.AspNet.Identity
 @using App.Extensions
 
-@{
-    @Styles.Render("~/Content/Site.css")
-
-}
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-</head>
-<body>
+<nav class="navbar navbar-inverse" style="margin-bottom:0px;">
     <div class="container-fluid">
-        <div class="header">
-            <div class="header-right">
-                <a href="http://www.icoder.go.cr/" class="logo">
-                    <img id="logo_SOGIP" src="~/Content/Imagenes/logo_png_header.png">
-                  </a>
-            </div>
-            <div class="header-left">
-                <a href="~/Home/Index" class="logo">
-                    <img id="logo_SOGIP" src="~/Content/Imagenes/logo_SOGIP_sin_letras.png">
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand" style="margin-top: -9px;">
+                <a href="~/Home/Index">
+                    <span>
+                        <img id="logo_SOGIP" src="~/Content/Imagenes/logo_SOGIP_sin_letras.png" height="40" width="40">
+                    </span>
+                </a>
+                <p class="hidden-xs" style="display: inline-block;">Sistema Operativo Gimnasio de Pesas</p>
+
+                <!-- El siguiente párrafo será mostrado únicamente cuando la pantalla sea *extra-small*. -->
+                <p class="hidden-lg hidden-md hidden-sm" style="display: inline-block;"> SOGIP </p>
+
+                <!-- El siguiente logo será mostrado únicamente cuando la pantalla sea *extra-small*. -->
+                <a href="https://www.icoder.go.cr" class="hidden-lg hidden-md hidden-sm">
+                    <span>
+                        <img id="logo_SOGIP" src="~/Content/Imagenes/logo_white.png" height="40" width="40">
+                    </span>
                 </a>
             </div>
-            <div class="header-center">
-                <h1 class="auto-style1">
-                    SISTEMA OPERATIVO GIMNASIO DE PESAS
-                </h1>
-            </div>
+        </div>
 
+        <div class="navbar-collapse collapse in" aria-expanded="true" id="navbar">
+            @if (Request.IsAuthenticated)
+            {
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="~/Home/Index">
+                            <span class="glyphicon glyphicon-home"></span>
+                            Inicio
+                        </a>
+                    </li>
+                    @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                                <span class="glyphicon glyphicon-menu-down"></span> Registros
+                            </a>
+                            <ul class="dropdown-menu" role="menu" id="myTab">
+                                <li role="presentation">
+                                    <a href="~/UsersAdmin/Index/">
+                                        <span class="glyphicon glyphicon-pencil"></span> Manual
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="presentation">
+                                    <a href="~/UsersAdmin/IndexMasivo/">
+                                        <span class="glyphicon glyphicon-cloud"></span> Masivo
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="presentation">
+                                    <a href="~/Estados/Index/">
+                                        <span class="glyphicon glyphicon-folder-open"></span> Estados
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="presentation">
+                                    <a href="~/Rutinas/Index/">
+                                        <span class="glyphicon glyphicon-apple"></span> Rutina
+                                    </a>
+                                </li>
+                                <li class="divider"></li>
+                                <li role="presentation">
+                                    <a href="~/ExpedientesFisicos/Index/">
+                                        <span class="glyphicon glyphicon-file"></span> Expediente
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="~/CitasAdmin/Create?id=@User.Identity.GetUserId()">
+                                <span class="glyphicon glyphicon-calendar"></span> Citas
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/Busqueda/Index">
+                                <span class="glyphicon glyphicon-search"></span> Búsqueda
+                            </a>
+                        </li>
+                        <li>
+                            <a href="~/AtletasAsignados/IndexA">
+                                <span class="glyphicon glyphicon-list-alt"></span> Atletas
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
+                    {
+                        <li>
+                            <a href="~/CitasAdmin/Create?id=@User.Identity.GetUserId()">
+                                <span class="glyphicon glyphicon-calendar"></span> Citas
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="~/Rutinas/ListaEjercicio?idUsuario=User.Identity.GetUserId()">
+                                <span class="glyphicon glyphicon-apple"></span> Rutina
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Entrenador"))
+                    {
+                        <li role="presentation">
+                            <a href="~/Rutinas/Create">
+                                <span class="glyphicon glyphicon-apple"></span> Rutina
+                            </a>
+                        </li>
+                        <li role="presentation">
+                            <a href="~/AtletasAsignados/Index">
+                                <span class="glyphicon glyphicon-list-alt"></span> Rutina
+                            </a>
+                        </li>
+                    }
+                    @if (User.IsInRole("Seleccion/Federacion"))
+                    {
+                        <li role="presentation">
+                            <a href="~/AtletasAsignados/IndexS">
+                                <span class="glyphicon glyphicon-list-alt"></span> Atletas
+                            </a>
+                        </li>
+                    }
+                </ul>
+            }
+            <ul class="nav navbar-nav navbar-right">
+                @if (Request.IsAuthenticated)
+                {
+                    <li class="dropdown">
+                        <form action="/Account/LogOff" method="post" id="logoutForm">
+                            @Html.AntiForgeryToken()
+                        </form>
+
+                        @if (User.Identity.GetSexo() == "Sexo: True")
+                        {
+                            <img src="~/Content/Imagenes/M.png" alt="User Pic" style="width:40px; height:40px;">
+                        }
+                        else
+                        {
+                            <img src="~/Content/Imagenes/W.png" alt="User Pic" style="width:40px; height:40px;">
+                        }
+
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="display: inline-block;">
+                            @Html.ViewContext.HttpContext.User.Identity.GetNombre1()
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" id="myTab2">
+                            <li role="presentation">
+                                <a href="~/Account/Perfil?id=@User.Identity.GetUserId()">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    Perfil
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li role="presentation">
+                                <a href="~/Manage/Index">
+                                    <span class="glyphicon glyphicon-cog"></span>
+                                    Ajustes
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li role="presentation">
+                                <a href="javascript:document.getElementById('logoutForm').submit()">
+                                    <span class="glyphicon glyphicon-log-out"></span>
+                                    Cerrar Sesión
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/Account/Login">
+                            <span class="glyphicon glyphicon-log-in"></span> Iniciar Sesión
+                        </a>
+                    </li>
+                }
+                <li class="hidden-xs" style="margin-top: -9px;">
+                    <a class="navbar-brand" href="https://www.icoder.go.cr">
+                        <span>
+                            <img id="logo_SOGIP" src="~/Content/Imagenes/logo_white.png" height="40" width="40">
+                        </span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
-    @if (Request.IsAuthenticated)
-    {
+</nav>
 
-        <div class="container-fluid">
-            <nav class="navbar" id="navbar" role="navigation">
-
-                <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    </div>
-
-                    <div class="collapse navbar-collapse" id="myNavbar">
-                        <ul class="nav navbar-nav navbar-center">
-                            <li><a href="~/Home/Index" class="active"> <i class="fa fa-home"></i> INICIO</a></li>
-
-                            @if (User.IsInRole("Administrador") || User.IsInRole("Supervisor"))
-                            {
-                                <li class="dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">REGISTROS <span class="caret"></span></a>
-                                    <div class="dropdown-menu">
-                                        @Html.ActionLink("MANUAL", "Index", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "manual" })
-                                        @Html.ActionLink("MASIVO", "IndexMasivo", "UsersAdmin", routeValues: null, htmlAttributes: new { id = "masivo" })
-                                        @Html.ActionLink("ESTADOS", "Index", "Estados", routeValues: null, htmlAttributes: new { id = "estado" })
-                                        @Html.ActionLink("RUTINA", "Index", "Rutinas", routeValues: null, htmlAttributes: new { id = "rutina" })
-                                        @Html.ActionLink("EXPEDIENTE", "Index", "ExpedientesFisicos", routeValues: null, htmlAttributes: new { id = "expedientesF" })
-                                    </div>
-                                </li>
-
-                                <li>@Html.ActionLink("CITAS", "Create", "CitasAdmin", routeValues: null, htmlAttributes: new { id = "citas" })</li>
-
-
-
-                                <li>@Html.ActionLink("BUSCAR", "Index", "Busqueda", routeValues: null, htmlAttributes: new { id = "buscar" })</li>
-                            }
-
-                            @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
-                            {
-                                <li>@Html.ActionLink("CITAS", "Create", "CitasGeneral", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "citas" })</li>
-                                <li>@Html.ActionLink("RUTINA", "ListaEjercicio", "Rutinas", routeValues: new { idUsuario = User.Identity.GetUserId() }, htmlAttributes: new { id = "rutina" })</li>
-                            }
-
-                            @if (User.IsInRole("Entrenador"))
-                            {
-                                <li>@Html.ActionLink("RUTINAS", "Create", "Rutinas", routeValues: null, htmlAttributes: new { id = "rutina" })</li>
-
-                            }
-                        </ul>
-                        <ul class="nav navbar-right">
-                                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        <li class="dropdown" id="xyz">
-                                            @if (User.Identity.GetSexo() == "Sexo: True")
-                                            {
-                                                <img class="img-circle" src="~/Content/Imagenes/M.png" alt="User Pic" , style="width:50px;height:50px;">
-                                            }
-                                            else
-                                            {
-                                                <img class="img-circle" src="~/Content/Imagenes/W6.png" alt="User Pic" , style="width:50px;height:50px; background-color:black;">
-                                            }
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@Html.ViewContext.HttpContext.User.Identity.GetNombre1()<span class="caret"></span></a>
-
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <div class="navbar-content">
-                                                            <div class="row">
-                                                                <div class="col-md-7">
-                                                                    @Html.ActionLink("PERFIL", "Perfil", "Account", routeValues: new { id = User.Identity.GetUserId() }, htmlAttributes: new { id = "perfil" })
-                                                                    @Html.ActionLink("AJUSTES", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                        <hr />
-                                                        <div class="navbar-footer">
-                                                            <div class="navbar-footer-content">
-                                                                <div class="row">
-                                                                    <div class="col-md-10">
-                                                                        <a href="javascript:document.getElementById('logoutForm').submit()"><span class="glyphicon glyphicon-log-in"></span> CERRAR SESIÓN</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                        </li>
-                                    }
-                            </ul>
-                           
-                        </div>
-                    </div>
-            </nav>
-        </div>
- 
-
-
-
-
-
- 
+<style>
+    .nav-link {
+        color: rgb(157, 157, 157);
+        font-size: 18px;
     }
-
-
-    else
-    { @***************************** Menú de LogIn ******************************@
-    <nav class="navbar" id="navbar" role="navigation">
-        <ul class="nav navbar-right">
-            <li>@Html.ActionLink("Iniciar Sesión", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>@*, @class = "btn btn-default" })</li>*@
-        </ul>
-    </nav>
-}
-
-
-
-</body>
-</html>
+</style>
+<div class="container-fluid" style="background-color: rgb(60, 60, 60); padding: 4px 4px;">
+    <div class="nav-scroller shadow-sm">
+        <nav class="nav nav-divider">
+            <a class="nav-link active" href="~/Home/Index">
+                <span class="glyphicon glyphicon-home"></span>
+                Inicio /
+            </a>
+            @if (@ViewBag.Controller != null)
+            {
+                <a class="nav-link" href="~/@ViewBag.Control/Index">
+                    <span class="glyphicon @ViewBag.ControlIcono"></span>
+                    @ViewBag.Controller /
+                </a>
+            }
+            @if (@ViewBag.Metodo != null)
+            {
+                <a class="nav-link" href="~/@ViewBag.Control/@ViewBag.Metodo">
+                    <span class="glyphicon @ViewBag.MetodoIcono"></span>
+                    @ViewBag.Metodo /
+                </a>
+            }
+            @if (@ViewBag.Accion != null)
+            {
+                @Html.Raw(ViewBag.Accion)
+                @*<a class="btn btn-success pull-right" style="padding: 2px 6px;" href="~/@ViewBag.Referencia">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    @ViewBag.Accion
+                </a>*@
+            }
+        </nav>
+    </div>
+</div>

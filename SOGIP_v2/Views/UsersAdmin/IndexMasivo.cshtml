@@ -1,90 +1,152 @@
-﻿@model SOGIP_v2.Models.ApplicationUser
-
-@{
+﻿@{
     ViewBag.Title = "Registro Masivo";
+
+    // Controller en español.
+    ViewBag.Controller = "Usuarios";
+
+    // // Si existe un Control se dispone el nombre del Control y ícono que se mostrará.
+    ViewBag.Control = "UsersAdmin";
+    ViewBag.ControlIcono = "glyphicon-user";
+
+    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
+    ViewBag.Metodo = "IndexMasivo";
+    ViewBag.MetodoIcono = "glyphicon-cloud";
+
+    // Si se necesita una Acción como crear nuevo usuario, rutina. Se selecciona está opción y la referencia o ruta del método.
+    // ViewBag.Referencia = "Rutina/Create";
+    // ViewBag.Accion = "Crear Rutina";
+
+
+    @Styles.Render("~/Contents/bootstrap-datepicker.css")
+    @Styles.Render("~/Content/jquery.timepicker.css")
+    @Styles.Render("~/Content/Archivos.css")
 }
 
-@Styles.Render("~/Content/manual.css")
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
-@*<div class="container">
-
-    <div class="masivo" id="registro_tabla" name="registro_tabla">
-        <div class="col-md-10">
+<div class="container" style="min-height: 369px;">
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label>Seleccione el usuario: </label>
+            <input type="text" class="form-control" id="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+        </div>
+        <div class="form-group col-md-6">
+            <br />
+            <button id="botón" type="button" class="btn btn-warning btn-block">
+                <text id="texto">Seleccione el usuario deseado </text>
+                <span id="icono" class="glyphicon glyphicon-search"></span>
+            </button>
+        </div>
+        <div class="col-md-12 table-responsive" id="Tabla_Usuarios">
 
         </div>
-
-        @using (Html.BeginForm("Import", "UsersAdmin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
-            @Html.Raw(ViewBag.Error)
-
-            <span>Seleccione el archivo Excel a importar: </span><input type="file" name="excelfile" value="Cargar" />
-            <br />
-            <br />
-            <br />
-
-            <input type="submit" value="Importar" />
-
-        }
-
     </div>
-
-</div>*@
-
-@using (Html.BeginForm("Import", "UsersAdmin", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
-{
-    <div class="container">
-
-        <h2 class="col-md-3" style="color: black">
-            <a href="/Home/Index/" class="btn btn-success" type="button">
-                <i class="glyphicon glyphicon-chevron-left"></i>Volver al Inicio&nbsp;
-            </a>
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-        <h2 class="col-md-5" style="color: black">
-            Registros > Usuarios > @ViewBag.Title
-        </h2>
-        <h2 class="col-md-1" style="color: black">
-            |
-        </h2>
-        @*<h2 class="col-md-2" style="color: black">
-                <a href="/UsersAdmin/Create/" class="btn btn-success" type="button">
-                    Crear nuevo usuario&nbsp;<i class="glyphicon glyphicon-chevron-right"></i>
-                </a>
-            </h2>*@
-
-        <br />
-        <br />
-
-        <div class="card card-default col-lg-12">
-
-            <div class="ing_mas">
-
-                <div class="row" align="center">
-                    <br />
-                    <div class="col-md-6" align="center">
-                        <div class="form-group files" align="center">
-                            <label>Seleccione un archivo tipo Excel para la carga masiva de datos. </label>
-                            <input type="file" name="excelfile" id="masivo" class="form-control" multiple="" value="Cargar">
-                        </div>
-                    </div>
-
-                </div>
-                <br />
-                <br />
-                <input type="submit" class="btn btn-default" id="btn_sub_form" value="Importar" />
-                <br />
-                <br />
+    <div class="col-md-12" style="margin-bottom: 20px;">
+        <div class="container col-md-6 col-md-offset-3">
+            <div class="input-group image-preview">
+                <input type="text" class="form-control image-preview-filename" disabled="disabled">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        <span class="hidden-xs">Eliminar</span>
+                    </button>
+                    <span id="upload" class="btn btn-default image-preview-input">
+                        <span id="folder" class="glyphicon glyphicon-folder-open"></span>
+                        <span class="image-preview-input-title hidden-xs"> Buscar </span>
+                        <input type="file" id="excelfile" accept=".xlsx,.xls" />
+                    </span>
+                    <button id="submit" onclick="uploadImage()" class="btn btn-default" style="display: none;">
+                        <span class="glyphicon glyphicon-upload"></span>
+                        <span class="hidden-xs"> Subir </span>
+                    </button>
+                </span>
             </div>
-
         </div>
-        @Html.Raw(TempData["msg"])
     </div>
-}
+    <div id="UpdatePanel" class="col-md-12 table-responsive">
+
+    </div>
+    <div class="col-md-12" id="registrar">
+
+    </div>
+
+    <div id="box">
+        <img class="load" src="~/Content/Imagenes/loader.gif" alt="Cargando" />
+        <h1>Cargando..</h1>
+        <button onclick="pop(false)" href="#" class="cerrar">Cerrar &times;</button>
+    </div>
+
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Información de Usuario</h3>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="original" id="hidden">
+                    <form id="myForm">
+                        <div class="form-group">
+                            <label>Cédula: </label>
+                            <input type="text" class="form-control" placeholder="Cédula" id="ced" />
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Primer Nombre: </label>
+                                <input type="text" class="form-control" placeholder="Primer Nombre" id="nom1" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Segundo Nombre: </label>
+                                <input type="text" class="form-control" placeholder="Segundo Nombre" id="nom2" />
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Primer Apellido: </label>
+                                <input type="text" class="form-control" placeholder="Primer Apellido" id="apel1" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Segundo Apellido: </label>
+                                <input type="text" class="form-control" placeholder="Segundo Apellido" id="apel2" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>E-mail: </label>
+                                <input type="text" class="form-control" placeholder="E-mail" id="email" />
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Nacimiento: </label>
+                                <div class="input-group date" id="dtp">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    <input class="form-control" type="text" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Género: </label>
+                                <select class="form-control" id="sexo">
+                                    <option>Masculino</option>
+                                    <option>Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                    <a href="#" class="btn btn-success" data-dismiss="modal" onclick="actualizar()">Guardar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/expedientes.js")
-
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/Masivo.js")
 }

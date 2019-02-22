@@ -3,27 +3,44 @@
     var panelsButton = $('.dropdown-user');
     panels.hide();
 
+    $.noConflict();
+    $('#tabla').DataTable({
+        // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
+        // "iDisplayLength": 5,
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ resultados por página.",
+            "zeroRecords": "No se han encontrado resultados.",
+            "info": "Mostrando página _PAGE_ de _PAGES_.",
+            "infoEmpty": "No hay datos para mostrar",
+            "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+            "search": "Buscar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        }
+
+    });
+
     //Click dropdown
     panelsButton.click(function () {
         //get data-for attribute
         var dataFor = $(this).attr('data-for');
         var idFor = $(dataFor);
-
         //current button
-        var currentButton = $(this);
         var id = dataFor.slice(1);
+        var currentButton = $('#boton-' + id);
 
         if (idFor.is(':visible')) {
-
             let index, table = document.getElementById("tabla2-"+id);
 
             while (table.rows.length > 8) {
                 table.deleteRow(8);
             }
-
         }
         else {
-
             $.get("/UsersAdmin/ArchivosUsuario", { usuarioId: id }, function (data) {
                 $.each(data, function (index, row) {
                     index = index + 1;
@@ -58,24 +75,20 @@
             else {
                 currentButton.html('<i class="glyphicon glyphicon-chevron-down text-muted"></i>');
             }
-        })
+        });
     });
-
-
-    $('[data-toggle="tooltip"]').tooltip();
-
 });
 
 function dis(id, DI) {
 
     var clase = document.getElementById(DI).className;
 
-    var status = (clase == 'btn btn-sm btn-danger')? true : false;
+    var status = clase === 'btn btn-sm btn-danger'? true : false;
 
     var datos = {
         'usuarioId': id,
         'estado': status
-    }
+    };
 
     $.ajax({
         url: '/UsersAdmin/InhabilitarUsuario',
@@ -84,31 +97,27 @@ function dis(id, DI) {
         data: JSON.stringify(datos),
         contentType: 'application/json; charset=utf-8',
         success: function (result) {
-
-            if (result == true) {
+            if (result === true) {
                 $('#Comprobado-' + id).attr('src', "/Content/Imagenes/comprobado.png");
                 $('#Cancelar-' + id).attr('src', "/Content/Imagenes/comprobado.png");
 
                 $('#disable-' + id).attr('class', 'btn btn-sm btn-danger');
                 $('#enable-' + id).attr('class', 'btn btn-sm btn-danger');
 
-                $('#disable-' + id).attr('data-toggle', 'tooltip');
-                $('#enable-' + id).attr('data-toggle', 'tooltip');
+                let icono = $("<i/>", { class: "glyphicon glyphicon-remove" });
+                let msg = $("<text/>", { text: "Deshabilitar ", class: "hidden-xs" });
 
-                $('#disable-' + id).attr('data-original-title', 'Deshabilitar este usuario.');
-                $('#enable-' + id).attr('data-original-title', 'Deshabilitar este usuario.');
-
-                let icono = document.createElement('icon');
-
-                icono.setAttribute("class", "glyphicon glyphicon-remove");
-
-                $('#disable-' + id).html("Deshabilitar ");
-                $('#enable-' + id).html("Deshabilitar ");
-
-                $('#disable-' + id).append(icono);
+                $('#enable-' + id).children('text').remove();
+                $('#enable-' + id).children('i').remove();
+                $('#enable-' + id).append(msg);
                 $('#enable-' + id).append(icono);
 
-                window.alert('¡Usuario habilitado!')
+                $('#disable-' + id).children('i').remove();
+                $('#disable-' + id).children('text').remove();
+                $('#disable-' + id).append(msg);
+                $('#disable-' + id).append(icono);
+
+                window.alert('¡Usuario habilitado!');
 
             } else {
 
@@ -118,33 +127,23 @@ function dis(id, DI) {
                 $('#disable-' + id).attr('class', 'btn btn-sm btn-success');
                 $('#enable-' + id).attr('class', 'btn btn-sm btn-success');
 
-                $('#disable-' + id).attr('data-toggle', 'tooltip');
-                $('#enable-' + id).attr('data-toggle', 'tooltip');
+                let icono = $("<i/>", { class: "glyphicon glyphicon-check" });
+                let msg = $("<text/>", { text: "Habilitar ", class: "hidden-xs" });
 
-                $('#disable-' + id).attr('data-original-title', 'Habilitar este usuario.');
-                $('#enable-' + id).attr('data-original-title', 'Habilitar este usuario.');
-
-                let icono = document.createElement('icon');
-
-                icono.setAttribute("class", "glyphicon glyphicon-check");
-
-                $('#disable-' + id).html("Habilitar ");
-                $('#enable-' + id).html("Habilitar ");
-
-                $('#disable-' + id).append(icono);
+                $('#enable-' + id).children('text').remove();
+                $('#enable-' + id).children('i').remove();
+                $('#enable-' + id).append(msg);
                 $('#enable-' + id).append(icono);
 
-                window.alert('Usuario deshabilitado.');
+                $('#disable-' + id).children('i').remove();
+                $('#disable-' + id).children('text').remove();
+                $('#disable-' + id).append(msg);
+                $('#disable-' + id).append(icono);
 
+                window.alert('Usuario deshabilitado.');
             }
                 
         }
     });
 
 }
-
-// Se le adhiere un vector con todos los usuarios id y que elimine los tablas de todos.
-//function cerrarPaneles() {
-//    var panels = $('.user-infos');
-//    panels.hide();
-//}
