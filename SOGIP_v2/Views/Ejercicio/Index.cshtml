@@ -1,0 +1,122 @@
+﻿@model SOGIP_v2.Models.Ejercicio
+@{
+
+    ViewBag.Title = "Lista de ejercicios";
+}
+
+<div class="container">
+    <button type="button" class="btn btn-primary" data-toggle="modal" id="btnNuevo">
+        Nuevo
+    </button>
+    @*Modal para Crear*@
+    <div id="nueva" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Tipo de Ejercicio</h4>
+                    <br>
+                    <label>Nombre del Tipo de Ejercicio: </label>
+                    <input type="text" class="form-control" placeholder="Nombre" id="nomb" />
+                </div>
+                <div class="modal-body">
+                    <div class="modal-footer">
+                        <br />
+                        <button type="button" id="btnGuardar" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*La tabla principal*@
+    <div class="table-responsive">
+        <table id="tablePrin" class="display" style="width:100%"></table>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.min.js")
+    @Scripts.Render("~/Scripts/bootstrap.js")
+    <script>
+        $(document).ready(function () {
+            var table;
+            var dataSet = [];
+            tabla();
+            $('#btnNuevo').click(function () {
+                $('#nueva').modal('show');
+            })
+            $('#btnGuardar').click(function () {
+                var data = null;
+                var nom = $('#nomb').val();
+                if (nom == "") {
+                    alert("Falta el nombre");
+                } else {
+                    data = {
+                        nombre: $('#nomb').val()
+                    }
+                    Save(data);
+                }
+            })
+            function Save(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Ejercicio/SaveEjercicio',
+                    data: data,
+                    success: function (data) {
+                        $('#nueva').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            function tabla() {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Ejercicio/GetTipos',
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            dataSet.push([v.Descripcion]);
+                        })
+                        table = $('#tablePrin').DataTable({
+                            "language": {
+                                "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                                "zeroRecords": "No se han encontrado registros.",
+                                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                                "infoEmpty": "No hay datos para mostrar",
+                                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                                "search": "Filtrar:",
+                                "paginate": {
+                                    "first": "Primero",
+                                    "last": "Ultimo",
+                                    "next": "Siguiente",
+                                    "previous": "Anterior"
+                                }
+                            },
+                            data: dataSet,
+                            columns: [
+                                { title: "Tipo" }
+
+                            ],
+
+                            'select': {
+                                'style': 'os',
+                                'selector': 'td:first-child'
+                            }
+                        });
+                    },
+
+                    error: function (error) {
+                        alert("No hay Elementos");
+                    }
+                });
+            }
+        });
+    </script>
+}

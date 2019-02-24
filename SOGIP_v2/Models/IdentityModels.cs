@@ -77,6 +77,8 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Color>().ToTable("SOGIP_Color");
             modelBuilder.Entity<Tipo>().ToTable("SOGIP_Tipo");
             modelBuilder.Entity<Parametro>().ToTable("SOGIP_Parametro");
+            modelBuilder.Entity<Maquina>().ToTable("SOGIP_Maquina");
+            modelBuilder.Entity<Ejercicio>().ToTable("SOGIP_Ejercicio");
 
 
         }
@@ -123,6 +125,10 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Color> Colores { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Agrupaciones.Tipo> Tipos { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Maquina> Maquina { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Ejercicio> Ejercicio { get; set; }
 
     }
 }

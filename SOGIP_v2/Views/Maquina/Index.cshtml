@@ -1,0 +1,181 @@
+﻿@model SOGIP_v2.Models.Maquina
+@{
+
+    ViewBag.Title = "Lista de Maquinas";
+}
+
+<div class="container">
+    <button type="button" class="btn btn-primary" data-toggle="modal" id="btnNuevo">
+        Nuevo
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTipo">
+        Nuevo Tipo
+    </button>
+
+    @*Modal Nueva Maquina *@
+    <div id="nueva" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Crear Maquina</h4>
+                    <br>
+                    <label>Nombre de Maquina: </label>
+                    <input type="text" class="form-control" placeholder="Nombre" id="obj" />
+                </div>
+                <div class="modal-body">
+                    @*Tabla de Tipos*@
+                    <div class="row" id="infouser">
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+                        </div>
+                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <button id="botón" type="button" class="btn btn-warning btn-block">
+                                <text id="texto">Tipo de Máquina </text>
+                                <span id="icono" class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="table-responsive" id="Tabla_Usuarios" hidden>
+                        <table id="tablePrin" class="display" style="width:100%"></table>
+                    </div>
+                    <div class="modal-footer">
+                        <br />
+                        <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" id="cerrar" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Modal para Crear Tipos*@
+    <div id="nuevaTipo" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Tipo de Máquina</h4>
+                    <br>
+                    <label>Nombre del Tipo de Máquina: </label>
+                    <input type="text" class="form-control" placeholder="Nombre" id="nomb" />
+                </div>
+                <div class="modal-body">
+                    <div class="modal-footer">
+                        <br />
+                        <button type="button" id="btnGuardar" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*La tabla principal*@
+    <div class="table-responsive">
+        <table id="prin" class="display" style="width:100%"></table>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.min.js")
+    @Scripts.Render("~/Scripts/bootstrap.js")
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table;
+            var dataSet = [];
+            tabla();
+            $('#btnNuevo').click(function () {
+                tabla();
+                $('#nueva').modal('show');
+            })
+            $('#btnTipo').click(function () {
+                tabla();
+                $('#nuevaTipo').modal('show');
+            })
+            $('#btnGuardar').click(function () {
+                var data = null;
+                var nom = $('#nomb').val();
+                if (nom == "") {
+                    alert("Falta el nombre");
+                } else {
+                    data = {
+                        nombre: $('#nomb').val()
+                    }
+                    Save(data);
+                }
+            })
+            $('#botón').click(function () {
+                $('#Tabla_Usuarios').show();
+
+            });
+            function Save(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Maquina/SaveMaquina',
+                    data: data,
+                    success: function (data) {
+                        $('#nueva').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            function tabla() {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Maquina/GetTipos',
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            dataSet.push([v.Id,v.Descripcion]);
+                        })
+                        table = $('#tablePrin').DataTable({
+                            "language": {
+                                "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                                "zeroRecords": "No se han encontrado registros.",
+                                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                                "infoEmpty": "No hay datos para mostrar",
+                                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                                "search": "Filtrar:",
+                                "paginate": {
+                                    "first": "Primero",
+                                    "last": "Ultimo",
+                                    "next": "Siguiente",
+                                    "previous": "Anterior"
+                                }
+                            },
+                            data: dataSet,
+                            columns: [
+                                {tile: "Accion"},
+                                { title: "Tipo" }
+                                
+                            ],
+                            'columnDefs': [
+                                {
+                                    orderable: false,
+                                    className: 'select-checkbox',
+                                    targets: [0]
+                                }
+                            ],
+                            'select': {
+                                'style': 'os',
+                                'selector': 'td:first-child'
+                            }
+                        });
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
+            }
+        });
+    </script>
+}
