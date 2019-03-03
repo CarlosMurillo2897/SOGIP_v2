@@ -21,6 +21,40 @@ namespace SOGIP_v2.Controllers
         {
             return View();
         }
+        public ActionResult ListaEjercicios(int? id)
+        {
+            Maquina maquina = db.Maquina.SingleOrDefault(x => x.Id == id);
+            if (maquina != null)
+            {
+                string idn = id.ToString();
+                ViewData["id"] = idn;
+                string nombre = maquina.Descripcion;
+                ViewData["nombre"] = nombre;
+            }
+                return View();
+        }
+        public JsonResult SaveMaquinaEjercicio(string nom, int ejer)
+        {
+            int n = int.Parse(nom);
+            Ejercicio ejercicio = db.Ejercicio.Single(x => x.Id == ejer);
+            Maquina maquina = db.Maquina.Single(x => x.Id == n);
+            MaquinaEjercicio maquinaEjercicio = new MaquinaEjercicio();
+            try
+            {
+                if(ejercicio != null || maquina != null)
+                {
+                    maquinaEjercicio.Maquina = maquina;
+                    maquinaEjercicio.Ejercicio = ejercicio;
+                    db.MaquinaEjercicio.Add(maquinaEjercicio);
+                }
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(maquinaEjercicio, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult SaveMaquina(string Nombre,int Tipo)
         {
             Maquina maquina = db.Maquina.Single(x => x.Id == Tipo);
@@ -167,6 +201,48 @@ namespace SOGIP_v2.Controllers
             var maquinas = data.ToList();
             return Json(maquinas, JsonRequestBehavior.AllowGet);
 
+        }
+        public JsonResult GetEjercicios()
+        {
+            var data = from a in db.Ejercicio
+                       where a.EjercicioId != 0
+                       select new
+                       {
+                           Accion = "",
+                           Tipo = db.Ejercicio.Where(x => x.Id == a.EjercicioId).Select(y => y.Nombre).FirstOrDefault(),
+                           Nombre = a.Nombre,
+                           Id = a.Id
+
+                       };
+            var ejercicio = data.ToList();
+            return Json(ejercicio, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetEjerciciosA()
+        {
+
+            var data = from a in db.MaquinaEjercicio.Include("Ejercicio")
+                       select new
+                       {
+                           Tipo = db.Ejercicio.Where(x => x.Id == a.Ejercicio.EjercicioId).Select(y => y.Nombre).FirstOrDefault(),
+                           Nombre = a.Ejercicio.Nombre,
+                           Id = a.Id
+
+                       };
+            var Maquina = data.ToList();
+            return Json(Maquina, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult EliminarMaquEjer(int id)
+        {
+            var status = false;
+            var v = db.MaquinaEjercicio.Where(a => a.Id == id).FirstOrDefault();
+            if (v != null)
+            {
+                db.MaquinaEjercicio.Remove(v);
+                db.SaveChanges();
+                status = true;
+            }
+            return new JsonResult { Data = new { status = status } };
         }
     }
 }

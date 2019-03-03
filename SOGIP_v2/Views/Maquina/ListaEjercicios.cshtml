@@ -1,0 +1,232 @@
+﻿@model SOGIP_v2.Models.MaquinaEjercicio
+@{
+    ViewBag.Title = "ListaEjercicios";
+    var viewDataNombre = ViewData["nombre"];
+    var viewDataId = ViewData["id"];
+}
+
+<h4> @viewDataNombre </h4>
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
+<div class="container">
+    <button type="button" class="btn btn-primary" id="btnNuevo">
+        Agregar Ejercicio
+    </button>
+    <br>
+    <br>
+    @*Modal Nueva Maquina *@
+    <div id="nueva" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" id="cerrar">&times;</button>
+                    <h4 class="modal-title">Agregar Ejercicio</h4>
+                    <br>
+                    <div class="modal-body">
+                        @*Tabla de Tipos*@
+                        <div class="row" id="infouser">
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione Ejercicio." readonly />
+                            </div>
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <button id="botón" type="button" class="btn btn-warning btn-block">
+                                    <text id="texto">Ejercicio</text>
+                                    <span id="icono" class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="table-responsive" id="Tabla_Prin" hidden>
+                            <table id="tablePrin" class="display" style="width:100%"></table>
+                        </div>
+                        <div class="modal-footer">
+                            <br />
+                            <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                            <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="prin" class="display" style="width:100%"></table>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/bootstrap.js")
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+    <script>
+        function EliminarMaq(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#tablaTipo').DataTable().rows(tr).data();
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Maquina/EliminarMaquEjer',
+                data: { 'id': id },
+                success: function (data) {
+                    var table = $('#prin').DataTable().row(tr).remove().draw();
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+        }
+        $(document).ready(function () {
+            tabla();
+            var idEjer = null;
+            $('#btnNuevo').click(function () {
+                tablaPrincipal();
+                $('#nueva').modal('show');
+            })
+            $('#btnSave').click(function () {
+                var n = @viewDataId;
+                if (idEjer == null) {
+                    alert("Faltan Seleccionar Ejercicio");
+                }
+                else {
+                    data = {
+                        nom: n,
+                        ejer: idEjer
+                    }
+                    SaveMaquinaEjercicio(data);
+                }
+            })
+            function SaveMaquinaEjercicio(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Maquina/SaveMaquinaEjercicio',
+                    data: data,
+                    success: function (data) {
+                        $('#nueva').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            $('#cerrar').click(function () {
+                $('#nueva').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            })
+            $('#cerrar1').click(function () {
+                $('#nueva').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            })
+            function tablaPrincipal() {
+                $('#tablePrin').dataTable({
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado registros.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Filtrar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
+                    "ajax": {
+                        "url": "/Maquina/GetEjercicios",
+                        "type": "GET",
+                        "dataSrc": ""
+                    },
+                    columns: [
+                        { data: "Accion" },
+                        { data: "Tipo" },
+                        {data:"Nombre"},
+                        { data: "Id" }
+                    ],
+                    'columnDefs': [
+                        {
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: [0]
+                        }
+                    ],
+                    'select': {
+                        'style': 'os',
+                        'selector': 'td:first-child'
+
+                    }
+                });
+            }
+            function tabla() {
+                $('#prin').dataTable({
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado registros.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Filtrar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
+                    "ajax": {
+                        "url": "/Maquina/GetEjerciciosA",
+                        "type": "GET",
+                        "dataSrc": ""
+                    },
+                    columns: [
+                        {
+                            title: "Tipo de Ejercicio",
+                            data: "Tipo"
+                        },
+                        {
+                            title: "Nombre de Ejercicio",
+                            data: "Nombre"
+                        },
+                        {
+
+                            title: "Acción",
+                            data: "Id",
+                            "render": function (Id) {
+                                debugger
+                                return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarMaq(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
+                                    "<text class='hidden-xs'>Eliminar </text>" +
+                                    "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                    "</a>";
+                            }
+                        }
+                    ],
+                    'select': {
+                        'style': 'os',
+                        'selector': 'td:first-child'
+
+                    }
+                });
+            }
+            $('#tablePrin').on('click', 'td.select-checkbox', function () {
+                var td = $(this);
+                var tr = td.closest('tr');
+                $('#usuario').val(tr.find('td:eq(2)').text());
+                idEjer = tr.find('td:eq(3)').text();
+                $('#Tabla_Prin').hide();
+            });
+
+            $('#botón').click(function () {
+                $('#Tabla_Prin').show();
+
+            });
+        });
+    </script>
+}

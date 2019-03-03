@@ -79,6 +79,7 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Parametro>().ToTable("SOGIP_Parametro");
             modelBuilder.Entity<Maquina>().ToTable("SOGIP_Maquina");
             modelBuilder.Entity<Ejercicio>().ToTable("SOGIP_Ejercicio");
+            modelBuilder.Entity<MaquinaEjercicio>().ToTable("SOGIP_MaquinaEjercicio");
 
 
         }
@@ -129,6 +130,8 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Maquina> Maquina { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Ejercicio> Ejercicio { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.MaquinaEjercicio> MaquinaEjercicio { get; set; }
 
     }
 }

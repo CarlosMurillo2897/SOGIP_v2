@@ -186,6 +186,9 @@
             var des = $('#tablePrin').DataTable();
             des.destroy();
         }
+        function EnviarMaq(id) {
+            window.location.href = '/Maquina/ListaEjercicios?id=' + id;
+        }
         function EditarMaq(id) {
             var tr = $('#boton_' + id).closest('tr');
             var table = $('#tablaTipo').DataTable().rows(tr).data();
@@ -366,7 +369,7 @@
                                     "<text class='hidden-xs'>Editar </text>" +
                                     "<span class='glyphicon glyphicon-pencil'></span>" +
                                     "</a>" +
-                                    "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
+                                    "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarMaq(" + Id + ")''>" +
                                     "<text class='hidden-xs'>Ejercicios </text>" +
                                     "<span class='glyphicon glyphicon-list'></span>" +
                                     "</a>";
