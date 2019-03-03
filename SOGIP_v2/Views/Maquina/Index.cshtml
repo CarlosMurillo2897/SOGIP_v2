@@ -2,32 +2,35 @@
 @{
 
     ViewBag.Title = "Lista de Maquinas";
+
+    ViewBag.Referencia = "Maquina/TipoMaquina";
+    ViewBag.Accion = "<a class='btn btn-success pull-right' href='/Maquina/TipoMaquina' style='padding: 2px 6px; margin: 2px;'><text class='hidden-xs'>Nuevo Tipo Máquina </text><span style='color: white;' class='glyphicon glyphicon-plus-sign'></span></a>";
 }
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
 <div class="container">
-    <button type="button" class="btn btn-primary" data-toggle="modal" id="btnNuevo">
-        Nuevo
+    <button type="button" class="btn btn-primary" id="btnNuevo">
+        Nuevo Máquina
     </button>
-    <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTipo">
-        Nuevo Tipo
-    </button>
-
+    <br>
+    <br>
     @*Modal Nueva Maquina *@
     <div id="nueva" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Crear Maquina</h4>
+                    <button type="button" class="close" id="cerrar">&times;</button>
+                    <h4 class="modal-title">Crear Máquina</h4>
                     <br>
-                    <label>Nombre de Maquina: </label>
-                    <input type="text" class="form-control" placeholder="Nombre" id="obj" />
+                    <label>Nombre de Máquina: </label>
+                    <input type="text" class="form-control" placeholder="Nombre" id="nomMaq" />
                 </div>
                 <div class="modal-body">
                     @*Tabla de Tipos*@
                     <div class="row" id="infouser">
                         <div class="form-group col-lg-6 col-md-6 col-sm-6">
-                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione Tipo de Máquina." readonly />
                         </div>
                         <div class="form-group col-lg-3 col-md-6 col-sm-6">
                             <button id="botón" type="button" class="btn btn-warning btn-block">
@@ -37,35 +40,89 @@
                         </div>
                     </div>
                     <hr />
-                    <div class="table-responsive" id="Tabla_Usuarios" hidden>
+                    <div class="table-responsive" id="Tabla_Prin" hidden>
                         <table id="tablePrin" class="display" style="width:100%"></table>
                     </div>
                     <div class="modal-footer">
                         <br />
                         <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" id="cerrar" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    @*Modal para Crear Tipos*@
-    <div id="nuevaTipo" class="modal fade bd-example-modal-lg" role="dialog">
+    @*Modal Eliminar Tipo*@
+    <div id="eliminar" class="modal fade bd-example-modal-lg" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Tipo de Máquina</h4>
+                    <h4 class="modal-title">Eliminar  Máquina</h4>
                     <br>
-                    <label>Nombre del Tipo de Máquina: </label>
-                    <input type="text" class="form-control" placeholder="Nombre" id="nomb" />
+                    <br>
+                    <label>Tipo de Máquina: </label>
+                    <tr hidden id="fe">
+                        <td>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="fe1" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <label>Nombre de Máquina: </label>
+                    <tr hidden id="ne">
+                        <td>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="ne1" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
                 </div>
-                <div class="modal-body">
-                    <div class="modal-footer">
-                        <br />
-                        <button type="button" id="btnGuardar" class="btn btn-success">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    </div>
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnEliminar" class="btn btn-success">Eliminar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Modal Editar Tipo*@
+    <div id="editar" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar  Máquina</h4>
+                    <br>
+                    <br>
+                    <label>Tipo de Máquina: </label>
+                    <tr hidden id="no">
+                        <td>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="no1" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <label>Nombre del Tipo de Máquina: </label>
+                    <input type="text" class="form-control" placeholder="Nombre" id="nombEditar" />
+                </div>
+                
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnEditar" class="btn btn-success">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -79,39 +136,175 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/jquery.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/bootstrap.js")
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
+        function tabla() {
+            $('#tablePrin').dataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                    "zeroRecords": "No se han encontrado registros.",
+                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                "ajax": {
+                    "url": "/Maquina/GetTipo",
+                    "type": "GET",
+                    "dataSrc": ""
+                },
+                columns: [
+                    { data: "Accion" },
+                    { data: "Descripcion" },
+                    { data: "Id" }
+
+                ],
+                'columnDefs': [
+                    {
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets: [0]
+                    }
+                ],
+                'select': {
+                    'style': 'os',
+                    'selector': 'td:first-child'
+
+                }
+            });
+        }
+        function eliminar() {
+            var des = $('#tablePrin').DataTable();
+            des.destroy();
+        }
+        function EditarMaq(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#tablaTipo').DataTable().rows(tr).data();
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Maquina/ObtenerMaquina',
+                data: { 'id': id },
+                success: function (data) {
+                    $('#no').show();
+                    document.getElementById("no1").value = data.Tipo;
+                    $('#nombEditar').val(data.Nombre); 
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+            $('#btnEditar').click(function () {
+                if ($('#nombEditar').val().trim() == "") {
+                    alert("Falta el nombre");
+                } else {
+                    data = {
+                        id: id,
+                        nombre: $('#nombEditar').val().trim()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/Maquina/EditTipo',
+                        data: data,
+                        success: function (data) {
+                            $('#editar').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
+                }
+            })
+        }
+        function EliminarMaq(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#tablaTipo').DataTable().rows(tr).data();
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Maquina/ObtenerMaquina',
+                data: { 'id': id },
+                success: function (data) {
+                    $('#fe').show();
+                    document.getElementById("fe1").value = data.Tipo; 
+                    $('#ne').show();
+                    document.getElementById("ne1").value = data.Nombre; 
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+            $('#btnEliminar').click(function () {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Maquina/DeleteMaquina',
+                    data: { 'id': id },
+                    success: function (data) {
+                        if (data.status) {
+                            var table = $('#prin').DataTable().row(tr).remove().draw();
+                            $('#eliminar').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                        }
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            })
+
+        }
+       
         $(document).ready(function () {
             var table;
             var dataSet = [];
-            tabla();
+            var Id;
+            tablaPrincipal();
+            var idTipo = null;
             $('#btnNuevo').click(function () {
                 tabla();
                 $('#nueva').modal('show');
             })
-            $('#btnTipo').click(function () {
-                tabla();
-                $('#nuevaTipo').modal('show');
+            $('#cerrar').click(function () {
+                eliminar();
+                $('#nueva').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
             })
-            $('#btnGuardar').click(function () {
+            $('#cerrar1').click(function () {
+                eliminar();
+                $('#nueva').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            })
+            $('#btnSave').click(function () {
                 var data = null;
-                var nom = $('#nomb').val();
-                if (nom == "") {
-                    alert("Falta el nombre");
+                var nom = $('#nomMaq').val();
+                if (nom == "" || idTipo == null) {
+                    alert("Faltan Nombre  o Tipo");
                 } else {
                     data = {
-                        nombre: $('#nomb').val()
+                        Nombre: nom,
+                        Tipo: idTipo
                     }
-                    Save(data);
+                    SaveMaquina(data);
                 }
             })
-            $('#botón').click(function () {
-                $('#Tabla_Usuarios').show();
-
-            });
-            function Save(data) {
+            
+            function SaveMaquina(data) {
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
@@ -127,55 +320,79 @@
                     }
                 })
             }
-            function tabla() {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/Maquina/GetTipos',
-                    success: function (data) {
-                        $.each(data, function (i, v) {
-                            dataSet.push([v.Id,v.Descripcion]);
-                        })
-                        table = $('#tablePrin').DataTable({
-                            "language": {
-                                "lengthMenu": "Mostrando _MENU_ resultados por página.",
-                                "zeroRecords": "No se han encontrado registros.",
-                                "info": "Mostrando página _PAGE_ de _PAGES_.",
-                                "infoEmpty": "No hay datos para mostrar",
-                                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
-                                "search": "Filtrar:",
-                                "paginate": {
-                                    "first": "Primero",
-                                    "last": "Ultimo",
-                                    "next": "Siguiente",
-                                    "previous": "Anterior"
-                                }
-                            },
-                            data: dataSet,
-                            columns: [
-                                {tile: "Accion"},
-                                { title: "Tipo" }
-                                
-                            ],
-                            'columnDefs': [
-                                {
-                                    orderable: false,
-                                    className: 'select-checkbox',
-                                    targets: [0]
-                                }
-                            ],
-                            'select': {
-                                'style': 'os',
-                                'selector': 'td:first-child'
-                            }
-                        });
+            
+           
+            function tablaPrincipal() {
+                $('#prin').dataTable({
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado registros.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Filtrar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
                     },
+                    "ajax": {
+                        "url": "/Maquina/GetMaquinas",
+                        "type": "GET",
+                        "dataSrc": ""
+                    },
+                    columns: [
+                        {
+                            title: "Tipo de Maquina",
+                            data: "Tipo"
+                        },
+                        {
+                            title: "Nombre de Maquina",
+                            data: "Nombre"
+                        },
+                        {
+                             
+                            title: "Acción",
+                            data:"Id",
+                            "render": function (Id) {
+                                debugger
+                                return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarMaq(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
+                                    "<text class='hidden-xs'>Eliminar </text>" +
+                                    "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                    "</a>" +
+                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarMaq(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                                    "<text class='hidden-xs'>Editar </text>" +
+                                    "<span class='glyphicon glyphicon-pencil'></span>" +
+                                    "</a>" +
+                                    "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
+                                    "<text class='hidden-xs'>Ejercicios </text>" +
+                                    "<span class='glyphicon glyphicon-list'></span>" +
+                                    "</a>";
+                            }
+                        }
+                    ],
+                    'select': {
+                        'style': 'os',
+                        'selector': 'td:first-child'
 
-                    error: function (error) {
-                        alert("Fallo");
                     }
                 });
             }
+           
+            $('#tablePrin').on('click', 'td.select-checkbox', function () {
+                var td = $(this);
+                var tr = td.closest('tr');
+                $('#usuario').val(tr.find('td:eq(1)').text());
+                idTipo = tr.find('td:eq(2)').text();
+                $('#Tabla_Prin').hide();
+            });
+
+            $('#botón').click(function () {
+                $('#Tabla_Prin').show();
+
+            });
         });
     </script>
 }

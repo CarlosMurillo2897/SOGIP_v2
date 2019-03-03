@@ -859,6 +859,8 @@
     <Content Include="webfonts\fa-brands-400.eot" />
     <Content Include="Views\Maquina\Index.cshtml" />
     <Content Include="Views\Ejercicio\Index.cshtml" />
+    <Content Include="Views\Maquina\TipoMaquina.cshtml" />
+    <Content Include="Views\Ejercicio\TipoEjercicio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
