@@ -3,7 +3,7 @@ namespace SOGIP_v2.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class reservacion : DbMigration
+    public partial class reservaciones : DbMigration
     {
         public override void Up()
         {

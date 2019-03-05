@@ -80,7 +80,6 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Maquina>().ToTable("SOGIP_Maquina");
             modelBuilder.Entity<Ejercicio>().ToTable("SOGIP_Ejercicio");
             modelBuilder.Entity<MaquinaEjercicio>().ToTable("SOGIP_MaquinaEjercicio");
-
             modelBuilder.Entity<Reservacion>().ToTable("SOGIP_Reservacion");
 
 
