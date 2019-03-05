@@ -244,5 +244,22 @@ namespace SOGIP_v2.Controllers
             }
             return new JsonResult { Data = new { status = status } };
         }
+        public JsonResult GetEjerciciosB(string nom)
+        {
+
+            int n = int.Parse(nom);
+            var data = from a in db.MaquinaEjercicio.Include("Ejercicio")
+                       where a.Maquina.Id == n
+                       select new
+                       {
+                           Tipo = db.Ejercicio.Where(x => x.Id == a.Ejercicio.EjercicioId).Select(y => y.Nombre).FirstOrDefault(),
+                           Nombre = a.Ejercicio.Nombre,
+                           Id = a.Id
+
+                       };
+            var Maquina = data.ToList();
+            return Json(Maquina, JsonRequestBehavior.AllowGet);
+        }
+       
     }
 }

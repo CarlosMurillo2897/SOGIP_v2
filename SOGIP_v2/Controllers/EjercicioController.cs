@@ -149,7 +149,10 @@ namespace SOGIP_v2.Controllers
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            return Json(ejercicio2, JsonRequestBehavior.AllowGet);
+            var nom = ejercicio2.Nombre;
+            var tipo = db.Ejercicio.Where(x => x.Id == ejercicio2.EjercicioId).Select(y => y.Nombre).FirstOrDefault();
+            var data = new { Nombre = nom, Tipo = tipo, Id=ejercicio2.Id };
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetEjercicios()
         {

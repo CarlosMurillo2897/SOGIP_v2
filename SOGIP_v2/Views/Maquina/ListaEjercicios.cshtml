@@ -124,7 +124,7 @@
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
             })
-            function tablaPrincipal() {
+            function tablaPrincipal() { 
                 $('#tablePrin').dataTable({
                     "language": {
                         "lengthMenu": "Mostrando _MENU_ resultados por página.",
@@ -166,6 +166,10 @@
                 });
             }
             function tabla() {
+                  var n = @viewDataId;
+                data = {
+                    nom: n,
+                }
                 $('#prin').dataTable({
                     "language": {
                         "lengthMenu": "Mostrando _MENU_ resultados por página.",
@@ -182,8 +186,9 @@
                         }
                     },
                     "ajax": {
-                        "url": "/Maquina/GetEjerciciosA",
+                        "url": "/Maquina/GetEjerciciosB",
                         "type": "GET",
+                        "data": data,
                         "dataSrc": ""
                     },
                     columns: [

@@ -89,7 +89,7 @@
                 </div>
                 <div class="modal-footer">
                     <br />
-                    <button type="button" id="btnEliminar" class="btn btn-success">Eliminar</button>
+                    <button type="button" id="btnEliminar" class="btn btn-success" data-dismiss="modal">Eliminar</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -230,6 +230,7 @@
             })
         }
         function EliminarMaq(id) {
+     
             var tr = $('#boton_' + id).closest('tr');
             var table = $('#tablaTipo').DataTable().rows(tr).data();
             $.ajax({
@@ -256,9 +257,7 @@
                     success: function (data) {
                         if (data.status) {
                             var table = $('#prin').DataTable().row(tr).remove().draw();
-                            $('#eliminar').modal('hide');
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
+                           
                         }
                     },
                     error: function () {
@@ -266,7 +265,6 @@
                     }
                 })
             })
-
         }
 
         $(document).ready(function () {
@@ -312,6 +310,8 @@
                     url: '/Ejercicio/SaveEjercicio',
                     data: data,
                     success: function (data) {
+                        var table = $('#prin').DataTable();
+                        table.row.add(data.Tipo, data.Nombre,data.Id).draw();
                         $('#nueva').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
@@ -324,7 +324,7 @@
 
 
             function tablaPrincipal() {
-                $('#prin').dataTable({
+                $('#prin').DataTable({
                     "language": {
                         "lengthMenu": "Mostrando _MENU_ resultados por página.",
                         "zeroRecords": "No se han encontrado registros.",
