@@ -151,7 +151,7 @@ namespace SOGIP_v2.Controllers
             }
             var nom = ejercicio2.Nombre;
             var tipo = db.Ejercicio.Where(x => x.Id == ejercicio2.EjercicioId).Select(y => y.Nombre).FirstOrDefault();
-            var data = new { Nombre = nom, Tipo = tipo, Id=ejercicio2.Id };
+            var data = new { Tipo = tipo,Nombre = nom, Id=ejercicio2.Id };
             return Json(data, JsonRequestBehavior.AllowGet);
         }
         public JsonResult GetEjercicios()

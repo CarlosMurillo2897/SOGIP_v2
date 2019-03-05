@@ -166,7 +166,8 @@
                 columns: [
                     { data: "Accion" },
                     { data: "Descripcion" },
-                    { data: "Id" }
+                    {
+                        data: "Id"}
 
                 ],
                 'columnDefs': [
@@ -311,7 +312,11 @@
                     data: data,
                     success: function (data) {
                         var table = $('#prin').DataTable();
-                        table.row.add(data.Tipo, data.Nombre,data.Id).draw();
+                        //table.row.add({
+                        //    data: "Tipo",
+                        //    data: "Nombre",
+                        //    data:"Id"
+                        //}).draw();
                         $('#nueva').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
@@ -382,7 +387,8 @@
                 var td = $(this);
                 var tr = td.closest('tr');
                 $('#usuario').val(tr.find('td:eq(1)').text());
-                idTipo = tr.find('td:eq(2)').text();
+                idTipo = tr.find('td:visible').eq(2).text();
+                alert(idTipo);
                 $('#Tabla_Prin').hide();
             });
 
