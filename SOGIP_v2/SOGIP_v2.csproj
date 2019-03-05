@@ -233,6 +233,7 @@
     <Compile Include="Migrations\201902260346593_reservacion.cs" />
     <Compile Include="Migrations\201902260346593_reservacion.Designer.cs">
       <DependentUpon>201902260346593_reservacion.cs</DependentUpon>
+	</Compile>
     <Compile Include="Migrations\201902240200241_maquina.cs" />
     <Compile Include="Migrations\201902240200241_maquina.Designer.cs">
       <DependentUpon>201902240200241_maquina.cs</DependentUpon>
@@ -893,6 +894,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902260346593_reservacion.resx">
       <DependentUpon>201902260346593_reservacion.cs</DependentUpon>
+	  </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902240200241_maquina.resx">
       <DependentUpon>201902240200241_maquina.cs</DependentUpon>
     </EmbeddedResource>
