@@ -12,8 +12,6 @@
     ViewBag.MetodoIcono = "glyphicon-edit";
 
 
-    ViewBag.Accion = "Crear Rutina";
-
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
 }
 
@@ -26,8 +24,8 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
 <div class="container">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#nueva" id="btnNuevo">
-        Nuevo
+    <button type="button" class="btn btn-primary" data-toggle="modal"  id="btnNuevo">
+        Nueva Rutina
     </button>
 
     <br>
@@ -108,7 +106,7 @@
                 <div class="modal-body">
                     <div class="modal-footer">
                         <br />
-                        <button type="button" id="btnEdit" class="btn btn-success" >Guardar Cambios</button>
+                        <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal" >Guardar Cambios</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
@@ -253,6 +251,10 @@
                     data: data,
                     success: function (data) {
                         if (data.status) {
+                            var date = new Date(parseInt(data.RutinaFecha.substr(6)));
+                            var table = $('#rutina').DataTable();
+                            table.row(tr).add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
+                            //var table = $('#rutina').DataTable().row(tr).draw
                         }
                     },
                     error: function () {
@@ -286,6 +288,7 @@
             tabla();
            
             $('#btnNuevo').click(function () {
+                $('#nueva').modal('show');
                 usuarios();
                 $('#usuario').val('');
                 $('#obj').val('');
@@ -341,14 +344,15 @@
                     url: '/Rutinas/SaveRutina',
                     data: data,
                     success: function (data) {
-                        //var date = new Date(parseInt(v.RutinaFecha.substr(6)));
-                        //var table = $('#rutina').DataTable();
-                        //table.row.add([data.Usuario.Cedula, data.Usuario.Nombre1, data.RutinaFecha, data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
-                        //$('#nueva').modal('hide');
-                        //$('body').removeClass('modal-open');
-                        //$('.modal-backdrop').remove();
+                        var date = new Date(parseInt(data.RutinaFecha.substr(6)));
+                        var table = $('#rutina').DataTable();
+                        table.row.add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
+                        $('#nueva').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                        
                         eliminar();
-                        alert("Rutina registrada");
+                        
                     },
                     error: function () {
                         alert("Fallo");

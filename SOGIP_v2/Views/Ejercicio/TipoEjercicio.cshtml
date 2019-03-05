@@ -1,0 +1,268 @@
+﻿@model SOGIP_v2.Models.Ejercicio
+@{
+
+    ViewBag.Title = "TipoEjercicio";
+
+}
+
+
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
+
+<div class="container">
+    <button type="button" class="btn btn-primary" id="btnNuevo">
+        Nuevo Tipo Ejercicio
+    </button>
+    <br>
+    <br>
+    @*Modal Crear Tipo*@
+    <div id="nueva" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Crear Tipo de Ejercicio</h4>
+                    <br>
+                    <label>Nombre del Tipo de Ejercicio: </label>
+                    <input type="text" class="form-control" placeholder="Nombre" id="nomb" />
+                </div>
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnGuardar" class="btn btn-success">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Modal Editar Tipo*@
+    <div id="editar" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Editar Tipo de Ejercicio</h4>
+                    <br>
+                    <label>Nombre del Tipo de Ejercico: </label>
+                    <input type="text" class="form-control" placeholder="Nombre" id="nombEditar" />
+                </div>
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnEditar" class="btn btn-success">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*Modal Eliminar Tipo*@
+    <div id="eliminar" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Eliminar Tipo de Ejercicio</h4>
+                    <label>Se elimina todos los Ejercicios asociadas a este Tipo de Ejercicio  </label>
+                    <br>
+                    <br>
+                    <label>Nombre del Tipo de Ejercicio: </label>
+                    <tr hidden id="fe">
+                        <td>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="fe1" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </div>
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnEliminar" class="btn btn-success">Eliminar</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table id="tablaTipo" class="display" style="width:100%"></table>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/bootstrap.js")
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+    <script>
+        function EliminarTipo(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#tablaTipo').DataTable().rows(tr).data();
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Ejercicio/ObtenerTipo',
+                data: { 'id': id },
+                success: function (data) {
+                    $('#fe').show();
+                    document.getElementById("fe1").value = data.Descripcion;
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+            $('#btnEliminar').click(function () {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Ejercicio/DeleteEjercicioTipo',
+                    data: { 'id': id },
+                    success: function (data) {
+                        if (data.status) {
+                            var table = $('#tablaTipo').DataTable().row(tr).remove().draw();
+                            $('#eliminar').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                        }
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            })
+        }
+        function EditarTipo(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            var table = $('#tablaTipo').DataTable().rows(tr).data();
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Ejercicio/ObtenerTipo',
+                data: { 'id': id },
+                success: function (data) {
+                    $('#nombEditar').val(data.Descripcion);
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+            $('#btnEditar').click(function () {
+                if ($('#nombEditar').val().trim() == "") {
+                    alert("Falta el nombre");
+                } else {
+
+                    data = {
+                        id: id,
+                        nombre: $('#nombEditar').val().trim()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/Ejercicio/EditTipo',
+                        data: data,
+                        success: function (data) {
+                            $('#editar').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
+                }
+            })
+
+        }
+        $(document).ready(function () {
+            tablaTipos();
+            $('#btnNuevo').click(function () {
+                $('#nueva').modal('show');
+            })
+            $('#btnGuardar').click(function () {
+                var data = null;
+                var nom = $('#nomb').val();
+                if (nom == "") {
+                    alert("Falta el nombre");
+                } else {
+                    data = {
+                        nombre: $('#nomb').val()
+                    }
+                    Save(data);
+                }
+            })
+
+            function Save(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Ejercicio/SaveEjercicioTipo',
+                    data: data,
+                    success: function (data) {
+                        //var table = $('#tablaTipo').DataTable();
+                        //table.row(tr).add([data.Descripcion, data.Id]).draw();
+                        $('#nueva').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            function tablaTipos() {
+                $('#tablaTipo').dataTable({
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado registros.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Filtrar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
+                    "ajax": {
+                        "url": "/Ejercicio/GetTipos",
+                        "type": "GET",
+                        "dataSrc": ""
+                    },
+                    columns: [
+                        {
+                            title: "Nombre",
+                            data: "Descripcion"
+                        },
+                        {
+
+                            title: "Acción",
+                            data: "Id",
+                            "render": function (Id) {
+                                debugger
+                                return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarTipo(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
+                                    "<text class='hidden-xs'>Eliminar </text>" +
+                                    "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                    "</a>" +
+                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarTipo(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                                    "<text class='hidden-xs'>Editar </text>" +
+                                    "<span class='glyphicon glyphicon-pencil'></span>" +
+                                    "</a>";
+                            }
+                        }
+                    ],
+                    'select': {
+                        'style': 'os',
+                        'selector': 'td:first-child'
+
+                    }
+                });
+            }
+        });
+    </script>
+}
+
+
