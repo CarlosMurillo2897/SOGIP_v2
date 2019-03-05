@@ -78,6 +78,8 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Tipo>().ToTable("SOGIP_Tipo");
             modelBuilder.Entity<Parametro>().ToTable("SOGIP_Parametro");
 
+            modelBuilder.Entity<Reservacion>().ToTable("SOGIP_Reservacion");
+
 
         }
 
@@ -123,6 +125,8 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Color> Colores { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Agrupaciones.Tipo> Tipos { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Reservacion> Reservacion { get; set; }
 
     }
 }

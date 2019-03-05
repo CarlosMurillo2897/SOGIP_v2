@@ -99,27 +99,27 @@ namespace SOGIP_v2.Controllers
                         }
                     }
 
-                   else if (v != null)
-                    {
-                        if (check == null && check2 == null)
-                        {
-                            v.InBody = e.InBody;
-                            v.Otro = e.Otro;
-                            v.FechaHoraInicio = e.FechaHoraInicio;
-                            v.FechaHoraFinal = e.FechaHoraFinal;
-                        }
-                        else if (e.FechaHoraInicio == v.FechaHoraInicio)
-                        {
-                            v.InBody = e.InBody;
-                            v.Otro = e.Otro;
-                            v.FechaHoraFinal = e.FechaHoraFinal;
-                        }
-                        else
-                        {
-                            return new JsonResult { Data = new { status = false } };
-                        }
+                   //else if (v != null)
+                   // {
+                   //     if (check == null && check2 == null)
+                   //     {
+                   //         v.InBody = e.InBody;
+                   //         v.Otro = e.Otro;
+                   //         v.FechaHoraInicio = e.FechaHoraInicio;
+                   //         v.FechaHoraFinal = e.FechaHoraFinal;
+                   //     }
+                   //     else if (e.FechaHoraInicio == v.FechaHoraInicio)
+                   //     {
+                   //         v.InBody = e.InBody;
+                   //         v.Otro = e.Otro;
+                   //         v.FechaHoraFinal = e.FechaHoraFinal;
+                   //     }
+                   //     else
+                   //     {
+                   //         return new JsonResult { Data = new { status = false } };
+                   //     }
 
-                    }
+                   // }
                   
                 }
                

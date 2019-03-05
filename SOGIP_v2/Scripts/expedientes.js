@@ -378,7 +378,7 @@ function CargarModal() {
     $('#example').DataTable().destroy();
     $('#example').remove();
     $('#usuario').val('');
-
+    archivoId = 0;
     $('#modal').modal('show');  
 }
 
