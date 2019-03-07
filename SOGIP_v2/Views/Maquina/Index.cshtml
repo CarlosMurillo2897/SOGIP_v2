@@ -88,7 +88,7 @@
                 </div>
                 <div class="modal-footer">
                     <br />
-                    <button type="button" id="btnEliminar" class="btn btn-success">Eliminar</button>
+                    <button type="button" id="btnEliminar" class="btn btn-success" data-dismiss="modal">Eliminar</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -165,7 +165,9 @@
                 columns: [
                     { data: "Accion" },
                     { data: "Descripcion" },
-                    { data: "Id" }
+                    {
+                        data: "Id",
+                        visible: false}
 
                 ],
                 'columnDefs': [
@@ -223,6 +225,8 @@
                             $('#editar').modal('hide');
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();
+                            alert('Registrado');
+                            location.reload();
                         },
                         error: function () {
                             alert("Fallo");
@@ -258,9 +262,7 @@
                     success: function (data) {
                         if (data.status) {
                             var table = $('#prin').DataTable().row(tr).remove().draw();
-                            $('#eliminar').modal('hide');
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
+                           
                         }
                     },
                     error: function () {
@@ -294,17 +296,30 @@
                 $('.modal-backdrop').remove();
             })
             $('#btnSave').click(function () {
-                var data = null;
-                var nom = $('#nomMaq').val();
-                if (nom == "" || idTipo == null) {
-                    alert("Faltan Nombre  o Tipo");
-                } else {
-                    data = {
-                        Nombre: nom,
-                        Tipo: idTipo
+                var n = null;
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Maquina/maquina',
+                    data: { "nombre": idTipo },
+                    success: function (data) {
+                        n = data.Id;
+                        var data = null;
+                        var nom = $('#nomMaq').val();
+                        if (nom == "" || n == null) {
+                            alert("Faltan Nombre  o Tipo");
+                        } else {
+                            data = {
+                                Nombre: nom,
+                                Tipo: n
+                            }
+                            SaveMaquina(data);
+                        }
+                    },
+                    error: function () {
+                        alert("Fallo");
                     }
-                    SaveMaquina(data);
-                }
+                })
             })
             
             function SaveMaquina(data) {
@@ -317,6 +332,8 @@
                         $('#nueva').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
+                        alert('Registrado');
+                        location.reload();
                     },
                     error: function () {
                         alert("Fallo");
@@ -388,7 +405,7 @@
                 var td = $(this);
                 var tr = td.closest('tr');
                 $('#usuario').val(tr.find('td:eq(1)').text());
-                idTipo = tr.find('td:eq(2)').text();
+                idTipo = tr.find('td:eq(1)').text();
                 $('#Tabla_Prin').hide();
             });
 

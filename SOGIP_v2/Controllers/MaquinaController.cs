@@ -260,6 +260,13 @@ namespace SOGIP_v2.Controllers
             var Maquina = data.ToList();
             return Json(Maquina, JsonRequestBehavior.AllowGet);
         }
-       
+        public JsonResult maquina(string nombre)
+        {
+            Maquina maquina = db.Maquina.Single(x => x.Descripcion == nombre);
+            var data = new { Id = maquina.Id };
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 }

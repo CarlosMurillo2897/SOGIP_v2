@@ -35,7 +35,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" id="cerrar">&times;</button>
                     <h4 class="modal-title">Crear nueva Rutina</h4>
                     <br>
                     <label>Fecha Inicio de Rutina: </label>
@@ -68,7 +68,7 @@
                     <div class="modal-footer">
                         <br />
                         <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" id="cerrar" data-dismiss="modal" >Cerrar</button>
+                        <button type="button" class="btn btn-danger" id="cerrar1" >Cerrar</button>
                     </div>
                 </div>
             </div>
@@ -251,10 +251,11 @@
                     data: data,
                     success: function (data) {
                         if (data.status) {
-                            var date = new Date(parseInt(data.RutinaFecha.substr(6)));
-                            var table = $('#rutina').DataTable();
-                            table.row(tr).add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
+                            //var date = new Date(parseInt(data.RutinaFecha.substr(6)));
+                            //var table = $('#rutina').DataTable();
+                            //table.row(tr).add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
                             //var table = $('#rutina').DataTable().row(tr).draw
+                            location.reload();
                         }
                     },
                     error: function () {
@@ -295,7 +296,18 @@
                 $('#este').val('');
          
             })
-            
+            $('#cerrar').click(function () {
+                eliminar();
+                $('#nueva').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            })
+            $('#cerrar1').click(function () {
+                eliminar();
+                $('#nueva').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            })
            
             $('#btnSave').click(function () {
                 var data = null;
@@ -350,7 +362,6 @@
                         $('#nueva').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
-                        
                         eliminar();
                         
                     },

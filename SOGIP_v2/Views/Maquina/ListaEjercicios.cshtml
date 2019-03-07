@@ -62,6 +62,10 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
+        function eliminar() {
+            var des = $('#tablePrin').DataTable();
+            des.destroy();
+        }
         function EliminarMaq(id) {
             var tr = $('#boton_' + id).closest('tr');
             var table = $('#tablaTipo').DataTable().rows(tr).data();
@@ -87,16 +91,29 @@
             })
             $('#btnSave').click(function () {
                 var n = @viewDataId;
-                if (idEjer == null) {
-                    alert("Faltan Seleccionar Ejercicio");
-                }
-                else {
-                    data = {
-                        nom: n,
-                        ejer: idEjer
+                var n1 = null;
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Ejercicio/ejercicio',
+                    data: { "nombre": idEjer },
+                    success: function (data) {
+                        n1 = data.Id;
+                        var data = null;
+                        if (n1 == null) {
+                            alert("Faltan Seleccionar Ejercicio");
+                        } else {
+                            data = {
+                                nom: n,
+                                ejer: n1
+                            }
+                            SaveMaquinaEjercicio(data);
+                        }
+                    },
+                    error: function () {
+                        alert("Fallo");
                     }
-                    SaveMaquinaEjercicio(data);
-                }
+                })
             })
             function SaveMaquinaEjercicio(data) {
                 $.ajax({
@@ -108,6 +125,9 @@
                         $('#nueva').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
+                        alert('Registrado');
+                        location.reload();
+                        eliminar();
                     },
                     error: function () {
                         alert("Fallo");
@@ -118,11 +138,13 @@
                 $('#nueva').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
+                eliminar();
             })
             $('#cerrar1').click(function () {
                 $('#nueva').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
+                eliminar();
             })
             function tablaPrincipal() { 
                 $('#tablePrin').dataTable({
@@ -149,7 +171,9 @@
                         { data: "Accion" },
                         { data: "Tipo" },
                         {data:"Nombre"},
-                        { data: "Id" }
+                        {
+                            data: "Id",
+                        visible:false}
                     ],
                     'columnDefs': [
                         {
@@ -224,7 +248,7 @@
                 var td = $(this);
                 var tr = td.closest('tr');
                 $('#usuario').val(tr.find('td:eq(2)').text());
-                idEjer = tr.find('td:eq(3)').text();
+                idEjer = tr.find('td:eq(2)').text();
                 $('#Tabla_Prin').hide();
             });
 

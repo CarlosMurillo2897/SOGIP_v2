@@ -78,7 +78,7 @@
                 </div>
                 <div class="modal-footer">
                     <br />
-                    <button type="button" id="btnEliminar" class="btn btn-success">Eliminar</button>
+                    <button type="button" id="btnEliminar" class="btn btn-success" data-dismiss="modal">Eliminar</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                 data: { 'id': id },
                 success: function (data) {
                     $('#fe').show();
-                    document.getElementById("fe1").value = data.Descripcion;
+                    document.getElementById("fe1").value = data.Nombre;
                 },
                 error: function () {
                     alert("Fallo");
@@ -122,9 +122,7 @@
                     success: function (data) {
                         if (data.status) {
                             var table = $('#tablaTipo').DataTable().row(tr).remove().draw();
-                            $('#eliminar').modal('hide');
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
+                         
                         }
                     },
                     error: function () {
@@ -142,7 +140,8 @@
                 url: '/Ejercicio/ObtenerTipo',
                 data: { 'id': id },
                 success: function (data) {
-                    $('#nombEditar').val(data.Descripcion);
+                    $('#nombEditar').val(data.Nombre);
+                   
                 },
                 error: function () {
                     alert("Fallo");
@@ -166,6 +165,8 @@
                             $('#editar').modal('hide');
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();
+                             alert('Registrado');
+                        location.reload();
                         },
                         error: function () {
                             alert("Fallo");
@@ -205,6 +206,8 @@
                         $('#nueva').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
+                        alert('Registrado');
+                        location.reload();
                     },
                     error: function () {
                         alert("Fallo");

@@ -170,5 +170,12 @@ namespace SOGIP_v2.Controllers
             return Json(Maquina, JsonRequestBehavior.AllowGet);
 
         }
+        public JsonResult ejercicio(string nombre)
+        {
+            Ejercicio ejercicio = db.Ejercicio.Single(x => x.Nombre == nombre);
+            var data = new {Id = ejercicio.Id};
+            return Json(data, JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

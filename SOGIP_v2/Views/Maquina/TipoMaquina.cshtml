@@ -46,7 +46,7 @@
                 </div>
                 <div class="modal-footer">
                     <br />
-                    <button type="button" id="btnEditar" class="btn btn-success">Guardar Cambios</button>
+                    <button type="button" id="btnEditar" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                 </div>
                 <div class="modal-footer">
                     <br />
-                    <button type="button" id="btnEliminar" class="btn btn-success">Eliminar</button>
+                    <button type="button" id="btnEliminar" class="btn btn-success" data-dismiss="modal">Eliminar</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
@@ -121,9 +121,6 @@
                         success: function (data) {
                             if (data.status) {
                                 var table = $('#tablaTipo').DataTable().row(tr).remove().draw();
-                                $('#eliminar').modal('hide');
-                                $('body').removeClass('modal-open');
-                                $('.modal-backdrop').remove();
                             }
                         },
                         error: function () {
@@ -165,6 +162,8 @@
                             $('#editar').modal('hide');
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();
+                            alert('Registrado');
+                            location.reload();
                         },
                         error: function () {
                             alert("Fallo");
@@ -199,11 +198,11 @@
                     url: '/Maquina/SaveMaquinaTipo',
                     data: data,
                     success: function (data) {
-                        //var table = $('#tablaTipo').DataTable();
-                        //table.row(tr).add([data.Descripcion, data.Id]).draw();
                         $('#nueva').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
+                        alert('Registrado');
+                        location.reload();
                     },
                     error: function () {
                         alert("Fallo");
