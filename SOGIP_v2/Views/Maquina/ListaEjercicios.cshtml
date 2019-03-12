@@ -6,6 +6,8 @@
 }
 
 <h4> @viewDataNombre </h4>
+<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 <div class="container">
@@ -146,7 +148,7 @@
                 $('.modal-backdrop').remove();
                 eliminar();
             })
-            function tablaPrincipal() { 
+            function tablaPrincipal() {
                 $('#tablePrin').dataTable({
                     "language": {
                         "lengthMenu": "Mostrando _MENU_ resultados por página.",

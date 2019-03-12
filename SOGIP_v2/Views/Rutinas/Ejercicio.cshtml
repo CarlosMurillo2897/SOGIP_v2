@@ -74,14 +74,15 @@
         Value = "Dia4"
     });
 }
-
+<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
 <div class="container">
 
     <div class="col-md-12">
         <hr />
-        <h4 >Usuario</h4>
-        
-        <h4 > @viewDataNombre </h4>
+        <h4>Usuario</h4>
+
+        <h4> @viewDataNombre </h4>
         <hr />
     </div>
     <div class="col-sm-12">
@@ -144,7 +145,7 @@
                                     <span class='glyphicon glyphicon-minus-sign'></span>
                                 </a>
 
-                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)'data-toggle='modal' data-target='#myModal'>
+                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
                                     <text class='hidden-xs'>Editar </text>
                                     <span class='glyphicon glyphicon-pencil'></span>
                                 </a>
@@ -153,114 +154,114 @@
                     }
                 }
                 @if (ViewBag.Conjunto_Ejercicios2 != null)
+                {
+                    var dia = true;
+                    foreach (var item2 in ViewBag.Conjunto_Ejercicios2)
                     {
-                        var dia = true;
-                        foreach (var item2 in ViewBag.Conjunto_Ejercicios2)
+                        if (dia)
                         {
-                            if (dia)
-                            {
-                                <tr><td>Día 2</td></tr>
-                                dia = false;
-                            }
-                            <tr style="background-color: @item2.ColorEjercicio">
-                                <td>@item2.NombreEjercicio</td>
-                                <td>@item2.Serie1</td>
-                                <td>@item2.Repeticion1</td>
-                                <td>@item2.Peso1</td>
-                                <td>@item2.Serie2</td>
-                                <td>@item2.Repeticion2</td>
-                                <td>@item2.Peso2</td>
-                                <td>@item2.Serie3</td>
-                                <td>@item2.Repeticion3</td>
-                                <td>@item2.Peso3</td>
-                                <td>@item2.DiaEjercicio</td>
-                                <td>
-                                    <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item2.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item2.Conjunto_EjercicioId)'>
-                                        <text class='hidden-xs'>Eliminar </text>
-                                        <span class='glyphicon glyphicon-minus-sign'></span>
-                                    </a>
-
-                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item2.Conjunto_EjercicioId + "' onclick='EditarEjer(@item2.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
-                                        <text class='hidden-xs'>Editar </text>
-                                        <span class='glyphicon glyphicon-pencil'></span>
-                                    </a>
-                                </td>
-                            </tr>
+                            <tr><td>Día 2</td></tr>
+                            dia = false;
                         }
+                        <tr style="background-color: @item2.ColorEjercicio">
+                            <td>@item2.NombreEjercicio</td>
+                            <td>@item2.Serie1</td>
+                            <td>@item2.Repeticion1</td>
+                            <td>@item2.Peso1</td>
+                            <td>@item2.Serie2</td>
+                            <td>@item2.Repeticion2</td>
+                            <td>@item2.Peso2</td>
+                            <td>@item2.Serie3</td>
+                            <td>@item2.Repeticion3</td>
+                            <td>@item2.Peso3</td>
+                            <td>@item2.DiaEjercicio</td>
+                            <td>
+                                <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item2.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item2.Conjunto_EjercicioId)'>
+                                    <text class='hidden-xs'>Eliminar </text>
+                                    <span class='glyphicon glyphicon-minus-sign'></span>
+                                </a>
+
+                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item2.Conjunto_EjercicioId + "' onclick='EditarEjer(@item2.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
+                                    <text class='hidden-xs'>Editar </text>
+                                    <span class='glyphicon glyphicon-pencil'></span>
+                                </a>
+                            </td>
+                        </tr>
                     }
-                    @if (ViewBag.Conjunto_Ejercicios3 != null)
+                }
+                @if (ViewBag.Conjunto_Ejercicios3 != null)
+                {
+                    var dia = true;
+                    foreach (var item3 in ViewBag.Conjunto_Ejercicios3)
                     {
-                        var dia = true;
-                        foreach (var item3 in ViewBag.Conjunto_Ejercicios3)
+                        if (dia)
                         {
-                            if (dia)
-                            {
-                                <tr><td>Día 3</td></tr>
-                                dia = false;
-                            }
-                            <tr style="background-color: @item3.ColorEjercicio">
-                                <td>@item3.NombreEjercicio</td>
-                                <td>@item3.Serie1</td>
-                                <td>@item3.Repeticion1</td>
-                                <td>@item3.Peso1</td>
-                                <td>@item3.Serie2</td>
-                                <td>@item3.Repeticion2</td>
-                                <td>@item3.Peso2</td>
-                                <td>@item3.Serie3</td>
-                                <td>@item3.Repeticion3</td>
-                                <td>@item3.Peso3</td>
-                                <td>@item3.DiaEjercicio</td>
-                                <td>
-                                    <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item3.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item3.Conjunto_EjercicioId)'>
-                                        <text class='hidden-xs'>Eliminar </text>
-                                        <span class='glyphicon glyphicon-minus-sign'></span>
-                                    </a>
-
-                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item3.Conjunto_EjercicioId + "' onclick='EditarEjer(@item3.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
-                                        <text class='hidden-xs'>Editar </text>
-                                        <span class='glyphicon glyphicon-pencil'></span>
-                                    </a>
-                                </td>
-                            </tr>
+                            <tr><td>Día 3</td></tr>
+                            dia = false;
                         }
+                        <tr style="background-color: @item3.ColorEjercicio">
+                            <td>@item3.NombreEjercicio</td>
+                            <td>@item3.Serie1</td>
+                            <td>@item3.Repeticion1</td>
+                            <td>@item3.Peso1</td>
+                            <td>@item3.Serie2</td>
+                            <td>@item3.Repeticion2</td>
+                            <td>@item3.Peso2</td>
+                            <td>@item3.Serie3</td>
+                            <td>@item3.Repeticion3</td>
+                            <td>@item3.Peso3</td>
+                            <td>@item3.DiaEjercicio</td>
+                            <td>
+                                <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item3.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item3.Conjunto_EjercicioId)'>
+                                    <text class='hidden-xs'>Eliminar </text>
+                                    <span class='glyphicon glyphicon-minus-sign'></span>
+                                </a>
+
+                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item3.Conjunto_EjercicioId + "' onclick='EditarEjer(@item3.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
+                                    <text class='hidden-xs'>Editar </text>
+                                    <span class='glyphicon glyphicon-pencil'></span>
+                                </a>
+                            </td>
+                        </tr>
                     }
-                    @if (ViewBag.Conjunto_Ejercicios4 != null)
+                }
+                @if (ViewBag.Conjunto_Ejercicios4 != null)
+                {
+                    var dia = true;
+                    foreach (var item4 in ViewBag.Conjunto_Ejercicios4)
                     {
-                        var dia = true;
-                        foreach (var item4 in ViewBag.Conjunto_Ejercicios4)
+                        if (dia)
                         {
-                            if (dia)
-                            {
-                                <tr><td>Día 4</td></tr>
-                                dia = false;
-                            }
-                            <tr style="background-color: @item4.ColorEjercicio">
-                                <td>@item4.NombreEjercicio</td>
-                                <td>@item4.Serie1</td>
-                                <td>@item4.Repeticion1</td>
-                                <td>@item4.Peso1</td>
-                                <td>@item4.Serie2</td>
-                                <td>@item4.Repeticion2</td>
-                                <td>@item4.Peso2</td>
-                                <td>@item4.Serie3</td>
-                                <td>@item4.Repeticion3</td>
-                                <td>@item4.Peso3</td>
-                                <td>@item4.DiaEjercicio</td>
-                                <td>
-                                    <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item4.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item4.Conjunto_EjercicioId)'>
-                                        <text class='hidden-xs'>Eliminar </text>
-                                        <span class='glyphicon glyphicon-minus-sign'></span>
-                                    </a>
-
-                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item4.Conjunto_EjercicioId + "' onclick='EditarEjer(@item4.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
-                                        <text class='hidden-xs'>Editar </text>
-                                        <span class='glyphicon glyphicon-pencil'></span>
-                                    </a>
-                                </td>
-                            </tr>
+                            <tr><td>Día 4</td></tr>
+                            dia = false;
                         }
+                        <tr style="background-color: @item4.ColorEjercicio">
+                            <td>@item4.NombreEjercicio</td>
+                            <td>@item4.Serie1</td>
+                            <td>@item4.Repeticion1</td>
+                            <td>@item4.Peso1</td>
+                            <td>@item4.Serie2</td>
+                            <td>@item4.Repeticion2</td>
+                            <td>@item4.Peso2</td>
+                            <td>@item4.Serie3</td>
+                            <td>@item4.Repeticion3</td>
+                            <td>@item4.Peso3</td>
+                            <td>@item4.DiaEjercicio</td>
+                            <td>
+                                <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item4.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item4.Conjunto_EjercicioId)'>
+                                    <text class='hidden-xs'>Eliminar </text>
+                                    <span class='glyphicon glyphicon-minus-sign'></span>
+                                </a>
+
+                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item4.Conjunto_EjercicioId + "' onclick='EditarEjer(@item4.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
+                                    <text class='hidden-xs'>Editar </text>
+                                    <span class='glyphicon glyphicon-pencil'></span>
+                                </a>
+                            </td>
+                        </tr>
                     }
-                   
+                }
+
             </tbody>
         </table>
     </div>
@@ -299,116 +300,116 @@
             <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear </button>
         </div>
     </section>
-   
-@*Modal para Ejercicio*@
-<div class="modal fade" id="myModal">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <a href="#" class="close" data-dismiss="modal">&times;</a>
-                <h3 class="modal-title">Información de Usuario</h3>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" value="original" id="hidden">
-                <form id="myForm">
 
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <label>Ejercicio: </label>
-                            <input type="text" class="form-control" id="ejer" />
+    @*Modal para Ejercicio*@
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Información de Usuario</h3>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="original" id="hidden">
+                    <form id="myForm">
+
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>Ejercicio: </label>
+                                <input type="text" class="form-control" id="ejer" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Día: </label>
+                                <br>
+                                @Html.DropDownList("Dia", new SelectListItem[]
+                  { new SelectListItem() { Text = "Día 1", Value = "Dia1" },
+                  new SelectListItem() { Text = "Día 2", Value = "Dia2" },
+                  new SelectListItem() { Text = "Día 3", Value = "Dia3" },
+                  new SelectListItem() { Text = "Día 4", Value = "Dia4" },
+                  },
+                  new { @onchange="CallChangefunc(this.value)" })
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Color: </label>
+                                <br>
+
+                                @Html.DropDownList("Color", new SelectListItem[]
+                                { new SelectListItem() { Text = "Blanco", Value = "white" },
+                                new SelectListItem() { Text = "Rosado", Value = "deeppink" },
+                                new SelectListItem() { Text = "Celeste", Value = "aqua" },
+                                new SelectListItem() { Text = "Morado", Value = "mediumpurple" },
+                                new SelectListItem() { Text = "Naranja", Value = "orange" },
+                                new SelectListItem() { Text = "Verde", Value = "chartreuse" },
+                                new SelectListItem() { Text = "Amarillo", Value = "yellow" },
+                                },
+                                new { @onchange="CallChangefunc(this.value)" })
+
+                            </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label>Día: </label>
-                            <br>
-                            @Html.DropDownList("Dia", new SelectListItem[]
-              { new SelectListItem() { Text = "Día 1", Value = "Dia1" },
-              new SelectListItem() { Text = "Día 2", Value = "Dia2" },
-              new SelectListItem() { Text = "Día 3", Value = "Dia3" },
-              new SelectListItem() { Text = "Día 4", Value = "Dia4" },
-              },
-              new { @onchange="CallChangefunc(this.value)" })
+                        <br>
+                        <div class="form-group">
+                            <label>Semana 1-2: </label>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label>Color: </label>
-                            <br>
-                        
-               @Html.DropDownList("Color", new SelectListItem[]
-               { new SelectListItem() { Text = "Blanco", Value = "white" },
-               new SelectListItem() { Text = "Rosado", Value = "deeppink" },
-               new SelectListItem() { Text = "Celeste", Value = "aqua" },
-               new SelectListItem() { Text = "Morado", Value = "mediumpurple" },
-               new SelectListItem() { Text = "Naranja", Value = "orange" },
-               new SelectListItem() { Text = "Verde", Value = "chartreuse" },
-               new SelectListItem() { Text = "Amarillo", Value = "yellow" },
-               },
-               new { @onchange="CallChangefunc(this.value)" })
-                           
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>Serie: </label>
+                                <input type="text" class="form-control" id="s1" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Repeticion: </label>
+                                <input type="text" class="form-control" id="r1" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Peso: </label>
+                                <input type="text" class="form-control" id="p1" />
+                            </div>
                         </div>
+                        <div class="form-group">
+                            <label>Semana 3-4: </label>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>Serie: </label>
+                                <input type="text" class="form-control" id="s2" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Repeticion: </label>
+                                <input type="text" class="form-control" id="r2" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Peso: </label>
+                                <input type="text" class="form-control" id="p2" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Semana 5-6: </label>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>Serie: </label>
+                                <input type="text" class="form-control" id="s3" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Repeticion: </label>
+                                <input type="text" class="form-control" id="r3" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Peso: </label>
+                                <input type="text" class="form-control" id="p3" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-footer">
+                        <br />
+                        <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
-                    <br>
-                    <div class="form-group">
-                        <label>Semana 1-2: </label>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <label>Serie: </label>
-                            <input type="text" class="form-control" id="s1" />
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Repeticion: </label>
-                            <input type="text" class="form-control" id="r1" />
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Peso: </label>
-                            <input type="text" class="form-control" id="p1" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Semana 3-4: </label>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <label>Serie: </label>
-                            <input type="text" class="form-control" id="s2" />
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Repeticion: </label>
-                            <input type="text" class="form-control" id="r2" />
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Peso: </label>
-                            <input type="text" class="form-control" id="p2" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Semana 5-6: </label>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <label>Serie: </label>
-                            <input type="text" class="form-control" id="s3" />
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Repeticion: </label>
-                            <input type="text" class="form-control" id="r3" />
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label>Peso: </label>
-                            <input type="text" class="form-control" id="p3" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-body">
-                <div class="modal-footer">
-                    <br />
-                    <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 @section Scripts {
@@ -472,14 +473,14 @@
                     DiaEjercicio: $('#Dia').val(),
                     ColorEjercicio: $('#Color').val()
                 }
-                
+
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
                     url: '/Rutinas/EditEjer',
                     data: data,
                     success: function (data) {
-                        if (data.status) {  
+                        if (data.status) {
                             location.reload();
                         }
                     },
@@ -489,7 +490,7 @@
                 })
             })
         }
-      
+
        //Insert new rows into table
         $(document).ready(function () {
 
@@ -658,7 +659,7 @@
                             success: function (result) {
                                 alert('Ejercicios Registrados');
                                 location.reload();
-                             
+
                             },
                             error: function (request) {
                                 alert('Hubo un error');
