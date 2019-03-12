@@ -17,98 +17,103 @@
     @Styles.Render("~/Content/jquery.timepicker.css")
 }
 
-    <div class="container">
+<div class="container">
 
-        <div id="calendar"></div>
+    <div id="calendar"></div>
 
-        @*MODAL PARA VER O ELIMINAR CITAS*@
-        <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title"><span id="eventTitle"></span></h4>
-                    </div>
-                    <div class="modal-body">
-                        <button id="btnDelete" class="btn btn-default btn-sm pull-right" style="background-color:#ff4d4d;">
-                            <span class="glyphicon glyphicon-remove"></span>
-                            Eliminar
-                        </button>
-                        <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            Editar
-                        </button>
-                        <p id="pDetails"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    </div>
+    @*MODAL PARA VER O ELIMINAR CITAS*@
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><span id="eventTitle"></span></h4>
+                </div>
+                <div class="modal-body">
+                   
+                    <p id="pDetails"></p>
+                </div>
+                <div class="modal-footer">
+
+                    <button id="btnDelete" class="btn btn-warning  mr-auto">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        Eliminar
+                    </button>
+                    <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Editar
+                    </button>
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        @*MODAL PARA EDITAR O CREAR LAS CITAS*@
-        <div id="myModalSave" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content col-md-12" style="align-content:center">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">GUARDAR CITA</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal">
-                            <input type="hidden" id="hdEventID" value="0" />
-                            <div class="form-group">
+    @*MODAL PARA EDITAR O CREAR LAS CITAS*@
+    <div id="myModalSave" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content col-md-12" style="align-content:center">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">GUARDAR CITA</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <input type="hidden" id="hdEventID" value="0" />
+                        <div class="row">
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
                                 <label>Fecha de inicio</label>
                                 <div class="input-group date" id="dtp1">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     <input type="text" id="txtStart" class="form-control" />
                                 </div>
                             </div>
-
-                            <div class="form-group">
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
                                 <label>Hora de inicio</label>
                                 <div class="input-group date" id="dtp3">
-                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                    <input class="timepicker form-control" id="txtHora" type="text">
+                                    <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text">
                                 </div>
                             </div>
 
-
-                            <div class="form-group">
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
                                 <label>Hora de finalización</label>
                                 <div class="input-group date" id="dtp2">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                    <input class="timepicker form-control" id="txtHoraF" type="text" readonly>
+                                    <input class="timepicker form-control" value="" id="txtHoraF" type="text" readonly>
                                 </div>
 
                             </div>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label><input type="checkbox" id="inbodyCheck" checked="checked" />InBody</label>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="inbodyCheck" checked="checked" />InBody</label>
                             </div>
-                            <div class="form-group">
-                                <div class="checkbox">
-                                    <label><input type="checkbox" id="rutinaCheck" checked="checked" />Rutina</label>
-                                </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label><input type="checkbox" id="rutinaCheck" checked="checked" />Rutina</label>
                             </div>
+                        </div>
 
-                            <div class="form-group" id="cedUD" style="display:none;">
-                                <label>Cedula de usuario</label>
-                                <div class="input-group" id="cedU">
-                                    <input type="text" id="txtCed" class="form-control" />
-                                </div>
+                        <div class="form-group" id="cedUD" style="display:none;">
+                            <label>Cedula de usuario</label>
+                            <div class="input-group" id="cedU">
+                                <input type="text" id="txtCed" class="form-control" />
                             </div>
-                            <br />
-                            <button type="button" id="btnSave" class="btn btn-default" style="background-color:#339966;">Guardar Cambios</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                        </form>
-                    </div>
+                        </div>
+                        <br />
+                        <div class="modal-footer">
+                            <button type="button" id="btnSave" class="btn btn-primary">Guardar Cambios</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
 @*------LA PARTE MÁS IMPORTANTE DE ESTE REQUERIMIENTO-------*@
@@ -128,5 +133,6 @@
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")
     @Scripts.Render("~/Scripts/fullCalendar/generalcalendar.js")
+    @Scripts.Render("~/Scripts/bootbox.min.js")
 
-       }
+}

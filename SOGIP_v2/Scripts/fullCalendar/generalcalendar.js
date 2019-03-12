@@ -1,11 +1,13 @@
 ﻿$(document).ready(function () {
 
     var ced;
+    $('#inbodyCheck').val(this.checked);
+    $('#rutinaCheck').val(this.checked);
     var events = [];
     var selectedEvent = null;
-
     FetchEventAndRenderCalendar();
     cedus();
+    checks();
 
     function cedus() {
 
@@ -15,7 +17,6 @@
             url: "/CitasAdmin/GetCed",
             success: function (data) {
                 ced = data;
-                alert(data);
             },
             error: function (error) {
                 alert("Fallo");
@@ -303,24 +304,43 @@
 
     //ELIMINAR CITA
     $('#btnDelete').click(function () {
-        if (selectedEvent != null && confirm('¿Está seguro que desea eliminar cita?')) {
-            $.ajax({
-                type: "POST",
-                dataType: "JSON",
-                url: '/CitasGeneral/DeleteEvent',
-                data: { 'citaId': selectedEvent.citaId },
-                success: function (data) {
-                    if (data.status) {
-                        //Actualiza el calendario
-                        FetchEventAndRenderCalendar();
-                        $('#myModal').modal('hide');
-                    }
+
+        bootbox.confirm({
+            title: 'CITA',
+            size: 'small',
+            message: '<p><i class="fa fa-exclamation-triangle"></i> ¿Está seguro de que deseea eliminar la cita?</p>',
+            buttons: {
+                confirm: {
+                    label: 'Si',
+                    className: 'btn-primary'
                 },
-                error: function () {
-                    alert("Fallo");
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
                 }
-            })
-        }
+            },
+            callback: function (result) {
+                if (result && selectedEvent != null) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/CitasAdmin/DeleteEvent',
+                        data: { 'citaId': selectedEvent.citaId },
+                        success: function (data) {
+                            if (data.status) {
+                                bootbox1(" Eliminando Cita");
+                                FetchEventAndRenderCalendar();
+                                $('#myModal').modal('hide');
+                            }
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
+                }
+            }
+        });
+
     })
 
     //FUNCIÓN PARA ABRIR MODAL DE EDITAR CITA
@@ -344,16 +364,16 @@
         var data = null;
         //Validaciones
         if ($('#txtStart').val().trim() == "") {
-            alert('Fecha de inicio no puede estar vacio');
+            bootbox2(' Fecha de inicio no puede estar vacio');
             return;
         }
         if ($('#txtHora').val().trim() == "") {
-            alert('Hora de Inicio no puede estar vacio');
+            bootbox2(' Hora de Inicio no puede estar vacio');
             return;
         }
 
         if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == false) {
-            alert('No ha seleccionado InBody y/o Rutina');
+            bootbox2(' No ha seleccionado InBody y/o Rutina');
             return;
         }
 
@@ -361,30 +381,12 @@
             var starDate = moment($('#txtStart').val(), "DD-MMM-YYYY HH:mm a").toDate();
             var endDate = moment($('#txtEnd').val(), "DD-MMM-YYYY HH:mm a").toDate();
             if (starDate > endDate) {
-                alert('La fecha y hora de finalización es inválido');
+                bootbox2(' La fecha y hora de finalización es inválido');
                 return;
             }
 
         }
 
-        //Esta variable almacena la cita sobre la cual se está trabajando
-
-        var startTime = $('#txtHora').timepicker('getTime');
-
-        if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == true) {
-            var endTime = new Date(startTime.getTime() + 110 * 60000);   // add 30 minutes
-            $('#txtHoraF').timepicker('setTime', endTime);
-        }
-
-        else if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == true) {
-            var endTime = new Date(startTime.getTime() + 90 * 60000);   // add 30 minutes
-            $('#txtHoraF').timepicker('setTime', endTime);
-        }
-
-        else if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == false) {
-            var endTime = new Date(startTime.getTime() + 20 * 60000);   // add 30 minutes
-            $('#txtHoraF').timepicker('setTime', endTime);
-        }
         data = {
             CitaId: $('#hdEventID').val(),
             InBody: $('#inbodyCheck').is(':checked'),
@@ -397,15 +399,45 @@
         SaveDate(data);
     })
 
+    function checks() {
+        $('#inbodyCheck, #rutinaCheck ').change(function () {
+            var startTime = $('#txtHora').timepicker('getTime');
+
+            if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == true) {
+                var endTime = new Date(startTime.getTime() + 110 * 60000);   // add 30 minutes
+                $('#txtHoraF').timepicker('setTime', endTime);
+            }
+
+            else if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == true) {
+                var endTime = new Date(startTime.getTime() + 90 * 60000);   // add 30 minutes
+                $('#txtHoraF').timepicker('setTime', endTime);
+            }
+
+            else if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == false) {
+                var endTime = new Date(startTime.getTime() + 20 * 60000);   // add 30 minutes
+                $('#txtHoraF').timepicker('setTime', endTime);
+            }
+            else {
+                $('#txtHoraF').timepicker('setTime', null);
+                $('#txtHora').timepicker('setTime', null);
+            }
+            $('#inbodyCheck').val($(this).is(':checked'));
+            $('#rutinaCheck').val($(this).is(':checked'));
+
+        });
+
+    }
+
     function SaveDate(data) {
         $.ajax({
             type: "POST",
             dataType: "JSON",
             url: '/CitasAdmin/SaveEvent',
-            data: data,
+            data: { 'e': data, 'cedu': ced },
             success: function (data) {
                 if (data.status) {
                     //Actualiza el calendario
+                    bootbox1(" Guardando cita...");
                     FetchEventAndRenderCalendar();
                     $('#myModalSave').modal('hide');
                 }
@@ -414,15 +446,46 @@
                 }
             },
             error: function () {
-                alert("Falló");
+                bootbox2("Hubo un ERROR");
             }
         })
     }
 
     $(function () {
         $("#dtp1").datepicker({
+            format: "dd/mm/yy"
         });
     });
+
+
+
+    //----------------------------------------BOOTBOX
+    function bootbox1(message) {
+        var dialog = bootbox.dialog({//para cargas
+            title: 'CITA',
+            size: 'small',
+            closeButton: false,
+            message: '<p><i class="fa fa-spin fa-spinner"></i>' + message + '</p>'
+        });
+        dialog.init(function () {
+            setTimeout(function () {
+                dialog.modal('hide');
+            }, 3000);
+
+        });
+
+    }
+
+    function bootbox2(message) {//para errores
+        bootbox.alert({
+            title: 'CITA',
+            size: 'small',
+            closeButton: false,
+            message: '<p><i class="fa fa-exclamation-triangle"></i>' + message + '</p>'
+        });
+
+    }
+
 
 
 });

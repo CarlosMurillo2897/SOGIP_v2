@@ -207,10 +207,13 @@
     <Compile Include="Controllers\AtletasAsignadosController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
+    <Compile Include="Controllers\EjercicioController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
     <Compile Include="Controllers\ExpedientesFisicosController.cs" />
     <Compile Include="Controllers\OpcionesController.cs" />
+    <Compile Include="Controllers\ReservacionController.cs" />
+    <Compile Include="Controllers\MaquinaController.cs" />
     <Compile Include="Controllers\RutinasController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Generales.cs" />
@@ -224,14 +227,34 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902171910335__all.cs" />
+    <Compile Include="Migrations\201902171910335__all.Designer.cs">
+      <DependentUpon>201902171910335__all.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902240200241_maquina.cs" />
+    <Compile Include="Migrations\201902240200241_maquina.Designer.cs">
+      <DependentUpon>201902240200241_maquina.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903031837270_maquinaejercicio.cs" />
+    <Compile Include="Migrations\201903031837270_maquinaejercicio.Designer.cs">
+      <DependentUpon>201903031837270_maquinaejercicio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903051827029_reservaciones.cs" />
+    <Compile Include="Migrations\201903051827029_reservaciones.Designer.cs">
+      <DependentUpon>201903051827029_reservaciones.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Agrupaciones\Tipo.cs" />
     <Compile Include="Models\Cita.cs" />
     <Compile Include="Models\Color.cs" />
+    <Compile Include="Models\Ejercicio.cs" />
     <Compile Include="Models\Horario.cs" />
+    <Compile Include="Models\Maquina.cs" />
+    <Compile Include="Models\MaquinaEjercicio.cs" />
     <Compile Include="Models\Parametro.cs" />
+    <Compile Include="Models\Reservacion.cs" />
     <Compile Include="Models\Rutina\Conjunto_Ejercicio.cs" />
     <Compile Include="Models\Rutina\Rutina.cs" />
     <Compile Include="Models\ExpedienteFisico.cs" />
@@ -663,6 +686,7 @@
     <Content Include="Scripts\fullCalendar\locale\vi.js" />
     <Content Include="Scripts\fullCalendar\locale\zh-cn.js" />
     <Content Include="Scripts\fullCalendar\locale\zh-tw.js" />
+    <Content Include="Scripts\fullCalendar\reservacioncalendar.js" />
     <Content Include="Scripts\IndexUsuarios.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -823,11 +847,6 @@
     <Content Include="Views\Rutinas\Index.cshtml" />
     <Content Include="Views\Rutinas\Ejercicio.cshtml" />
     <Content Include="Views\Rutinas\ListaEjercicio.cshtml" />
-    <Content Include="Views\CitasGeneral\Create.cshtml" />
-    <Content Include="Views\CitasGeneral\Delete.cshtml" />
-    <Content Include="Views\CitasGeneral\Details.cshtml" />
-    <Content Include="Views\CitasGeneral\Edit.cshtml" />
-    <Content Include="Views\CitasGeneral\Index.cshtml" />
     <Content Include="Views\Busqueda\Index.cshtml" />
     <Content Include="Views\AtletasAsignados\Index.cshtml" />
     <Content Include="Views\AtletasAsignados\IndexS.cshtml" />
@@ -848,6 +867,12 @@
     <Content Include="webfonts\fa-brands-400.woff" />
     <Content Include="webfonts\fa-brands-400.ttf" />
     <Content Include="webfonts\fa-brands-400.eot" />
+    <Content Include="Views\Reservacion\Create.cshtml" />
+    <Content Include="Views\Maquina\Index.cshtml" />
+    <Content Include="Views\Ejercicio\Index.cshtml" />
+    <Content Include="Views\Maquina\TipoMaquina.cshtml" />
+    <Content Include="Views\Ejercicio\TipoEjercicio.cshtml" />
+    <Content Include="Views\Maquina\ListaEjercicios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -866,6 +891,20 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201902171910335__all.resx">
+      <DependentUpon>201902171910335__all.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902240200241_maquina.resx">
+      <DependentUpon>201902240200241_maquina.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903031837270_maquinaejercicio.resx">
+      <DependentUpon>201903031837270_maquinaejercicio.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903051827029_reservaciones.resx">
+      <DependentUpon>201903051827029_reservaciones.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
