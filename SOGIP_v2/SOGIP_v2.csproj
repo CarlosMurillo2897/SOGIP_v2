@@ -210,6 +210,7 @@
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\HorarioController.cs" />
     <Compile Include="Controllers\ExpedientesFisicosController.cs" />
+    <Compile Include="Controllers\OpcionesController.cs" />
     <Compile Include="Controllers\RutinasController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Generales.cs" />
@@ -223,10 +224,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902171910335__all.cs" />
-    <Compile Include="Migrations\201902171910335__all.Designer.cs">
-      <DependentUpon>201902171910335__all.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
@@ -239,6 +236,7 @@
     <Compile Include="Models\Rutina\Rutina.cs" />
     <Compile Include="Models\ExpedienteFisico.cs" />
     <Compile Include="Models\Archivo.cs" />
+    <Compile Include="Models\Usuarios\SubSeleccion.cs" />
     <Compile Include="Models\Usuarios\Asociacion_Deportiva.cs" />
     <Compile Include="Models\Usuarios\Atleta.cs" />
     <Compile Include="Models\Agrupaciones\Categoria.cs" />
@@ -769,6 +767,7 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Content\Rutina.css" />
+    <Content Include="Scripts\Perfil.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -853,6 +852,7 @@
   <ItemGroup>
     <Folder Include="Content\Registros\" />
     <Folder Include="Migrations\App_Data\" />
+    <Folder Include="Views\Opciones\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -866,11 +866,6 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902171910335__all.resx">
-      <DependentUpon>201902171910335__all.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

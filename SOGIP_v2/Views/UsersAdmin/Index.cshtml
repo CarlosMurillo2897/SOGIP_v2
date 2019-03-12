@@ -41,7 +41,23 @@
                             </div>
                             <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
                                 <strong> @item.Cedula</strong><br>
-                                <strong> @item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
+                                @if((string)ViewData[item.Id] == "Seleccion/Federacion" || (string)ViewData[item.Id] == "Asociacion/Comite")
+                                {
+                                    if (ViewData["Asociación" + item.Id] != null)
+                                    {
+                                        <strong>@ViewData["Asociación" + item.Id]</strong><br>
+                                    }
+                                    if (ViewData["Selección" + item.Id] != null)
+                                    {
+                                        <strong>@ViewData["Selección" + item.Id]</strong><br>
+                                    }
+                                    @*if (ViewData["Selección" + item.Id] == null && ViewData["Asociación" + item.Id] == null)*@
+                                }
+                                else
+                                {
+                                    <strong> @item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
+                                }
+
                                 <span class="text-muted">Tipo de Usuario: @ViewData[item.Id]</span>
                             </div>
                             <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin: 13px 0; padding: 5px; height: 100%;" id="boton-@item.Id">
@@ -79,6 +95,27 @@
                                             <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
                                                 <strong>@item.Nombre1</strong><br>
                                                 <dl id="tabla1-@item.Id">
+                                                    @if (ViewData["Selección" + item.Id] != null)
+                                                    {
+                                                        <dt>Selección: </dt>
+                                                        <dd>@ViewData["Selección" + item.Id]</dd>
+                                                    }
+                                                    
+                                                    @if (ViewData["SubSelección" + item.Id] != null)
+                                                    {
+
+                                                        foreach (var sub in (IEnumerable<string>)ViewData["SubSelección" + item.Id]) {
+                                                            <dt>Categoría: </dt>
+                                                            <dd>@sub</dd>
+                                                         }
+
+                                                    }
+                                                    @if (ViewData["Asociación" + item.Id] != null)
+                                                    {
+                                                        <dt>Asociación: </dt>
+                                                        <dd>@ViewData["Asociación" + item.Id]</dd>
+                                                    }
+
                                                     <dt>Nombre:</dt>
                                                     <dd>@item.Nombre1</dd>
                                                     <dd>@item.Nombre2</dd>
@@ -107,6 +144,31 @@
                                                 <strong>@item.Nombre1</strong><br>
                                                 <table class="table table-user-information" id="tabla2-@item.Id">
                                                     <tbody>
+                                                        @if (ViewData["Selección" + item.Id] != null)
+                                                        {
+                                                            <tr>
+                                                                <td>Selección/Federación: </td>
+                                                                <td>@ViewData["Selección" + item.Id]</td>
+                                                            </tr>
+                                                        }
+                                                        @if (ViewData["SubSelección" + item.Id] != null)
+                                                        {
+                                                            foreach (var sub in (IEnumerable<string>)ViewData["SubSelección" + item.Id])
+                                                            {
+                                                            <tr>
+                                                                <td>Categoría: </td>
+                                                                <td>@sub</td>
+                                                            </tr>
+                                                            }
+                                                        }
+                                                        @if (ViewData["Asociación" + item.Id] != null)
+                                                        {
+                                                            <tr>
+                                                                <td>Asociación/Comité: </td>
+                                                                <td>@ViewData["Asociación" + item.Id]</td>
+                                                            </tr>
+                                                        }
+
                                                         <tr>
                                                             <td>Nombre:</td>
                                                             <td>@item.Nombre1 @item.Nombre2</td>
@@ -153,7 +215,7 @@
                                     <div class="panel-footer">
                                         @if ((string)@ViewData[item.Id] == "Supervisor" || (string)@ViewData[item.Id] == "Administrador")
                                         {
-                                            <button class="btn btn-sm btn-info" type="button" id="predeterminado-@item.Id"
+                                            <button class="btn btn-sm btn-warning" type="button" id="predeterminado-@item.Id"
                                                     data-toggle="tooltip"
                                                     data-original-title="Usuario no puede ser deshabilitado.">
                                                 <text class="hidden-xs">Interno</text> <i class="glyphicon glyphicon-alert"></i>
