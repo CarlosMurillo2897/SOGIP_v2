@@ -9,6 +9,7 @@ namespace SOGIP_v2.Models
     {
         public int ReservacionId { get; set; }
         public Estado Estado { get; set; }
+        public int Cantidad { get; set; }
         public DateTime FechaHoraInicio { get; set; }
         public DateTime FechaHoraFinal { get; set; }
         public ApplicationUser UsuarioId { get; set; }

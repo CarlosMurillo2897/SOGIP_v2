@@ -103,19 +103,8 @@
                 }
                
             },
-            editable: true,
-            eventDrop: function (event) {
-
-                var data = {
-                    CitaId: event.citaId,
-                    InBody: event.description1,
-                    Otro: event.description2,
-                    FechaHoraInicio: event.start.format('DD-MMM-YYYY HH:mm a'),
-                    FechaHoraFinal: event.end.format('DD-MMM-YYYY HH:mm a')
-                };
-                SaveDate(data);
-            },
-            dayClick:
+            editable: false,
+             dayClick:
                 function (date, allDay, jsEvent, view) {//EVENTOS DEL DÍA
 
                     allOpT(date);
@@ -347,7 +336,7 @@
     function openEditForm() {
         if (selectedEvent != null) {
             $('#hdEventID').val(selectedEvent.citaId);
-            $('#txtStart').val(selectedEvent.start.format("DD-MMM-YYYY"));
+            $('#txtStart').val(selectedEvent.start.format("DD-MM-YYYY"));
             $('#txtHora').val(selectedEvent.start.format("HH:mm a"));
             $('#txtHoraF').val(selectedEvent.end.format("HH:mm a"));
             $('#inbodyCheck').prop("checked", selectedEvent.description1 || false);
@@ -391,8 +380,8 @@
             CitaId: $('#hdEventID').val(),
             InBody: $('#inbodyCheck').is(':checked'),
             Otro: $('#rutinaCheck').is(':checked'),
-            FechaHoraInicio: $('#txtStart').val().trim() + ' ' + $('#txtHora').val().trim(),
-            FechaHoraFinal: $('#txtStart').val().trim() + ' ' + $('#txtHoraF').val().trim()
+            FechaHoraInicio: $('#txtStart').val()+ ' ' + $('#txtHora').val(),
+            FechaHoraFinal: $('#txtStart').val() + ' ' + $('#txtHoraF').val()
         }
 
         //Llamando función para enviar cambios
@@ -450,14 +439,6 @@
             }
         })
     }
-
-    $(function () {
-        $("#dtp1").datepicker({
-            format: "dd/mm/yy"
-        });
-    });
-
-
 
     //----------------------------------------BOOTBOX
     function bootbox1(message) {

@@ -10,222 +10,265 @@
     @Styles.Render("~/Content/jquery.timepicker.css")
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
     <script src="~/Scripts/bootstrap.min.js"></script>
 }
 
-    <div class="container-fluid">
-        @*botón de reservaciones*@
-        <div class="row">
-            <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                <button id="botón" type="button" class="btn btn-warning btn-block">
-                    <text id="texto">Hacer Reservaciones</text>
-                    <span id="icono" class="glyphicon glyphicon-search"></span>
-                </button>
-            </div>
+<div class="container-fluid">
+    @*botón de reservaciones*@
+    <div class="row">
+        <div class="form-group col-lg-3 col-md-6 col-sm-6">
+            <button id="botón" type="button" class="btn btn-warning btn-block">
+                <text id="texto">Hacer Reservaciones</text>
+                <span id="icono" class="glyphicon glyphicon-search"></span>
+            </button>
         </div>
-
-        @*Calendario*@
-        <div id="calendar"></div>
-
-        @*modal de reservaciones*@
-        <div id="myModalSave" class="modal fade bd-example-modal-lg" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content col-md-12" style="align-content:center">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title" style="font-weight:bold;">GUARDAR RESERVACIÓN</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal">
-                            <input type="hidden" id="hdEventID" value="0" />
-
-                            @*rango de días*@
-                            <label>Selecciones los días</label><br />
-
-                            <div class="checkbox-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="1" name="c">
-                                <label class="form-check-label" for="inlineCheckbox1">Lunes</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="2" name="c">
-                                <label class="form-check-label" for="inlineCheckbox2">Martes</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="3" name="c">
-                                <label class="form-check-label" for="inlineCheckbox2">Miércoles</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="4" name="c">
-                                <label class="form-check-label" for="inlineCheckbox2">Jueves</label>
-                            </div>
-                            <div class="checkbox-inline">
-                                <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="5" name="c">
-                                <label class="form-check-label" for="inlineCheckbox2">Viernes</label>
-                            </div>
-
-
-                            <div class="form-group">
-                                <br />
-                                <br />
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <button id="botón2" type="button" class="btn btn-success btn-block" disabled>
-                                        <text id="texto">Agregar Horarios</text>
-                                        <span id="icono" class="glyphicon glyphicon-plus"></span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <hr />
-                            @*rango de fechas*@
-                            <div class="row">
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Fecha inicial</label>
-                                    <div class="input-group date" id="dtp1">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        <input type="text" id="txtStart" class="form-control" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Fecha final</label>
-                                    <div class="input-group date" id="dtp2">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        <input type="text" id="txtEnd" class="form-control" />
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="modal-footer">
-                                <button type="button" id="btnSave" class="btn btn-primary">Guardar Cambios</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        @*MODAL PARA HORARIOS*@
-
-        <div id="myModalSave2" class="modal fade bd-example-modal-lg" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content col-md-12" style="align-content:center">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title" style="font-weight:bold;">GUARDAR HORARIOS</h4>
-                    </div>
-                    <div class="modal-body">
-                        <form class="form-horizontal">
-                            <input type="hidden" id="hdEventID" value="0" />
-
-                            @*rango de horas*@
-                            <div class="row" id="1" hidden name="d">
-                                <label>LUNES</label><br />
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Hora de inicio</label>
-                                    <div class="input-group date" id="dtp3">
-                                        <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        <input class="timepicker form-control" value="" id="txtHora" type="text" name="1">
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Hora de finalización</label>
-                                    <div class="input-group date" id="dtp2">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        <input class="timepicker form-control" value="" id="txtHora" type="text" name="1">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row" id="2" hidden name="d">
-                                <label>MARTES</label><br />
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Hora de inicio</label>
-                                    <div class="input-group date" id="dtp3">
-                                        <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        <input class="timepicker form-control" value="" id="txtHora" type="text" name="2">
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Hora de finalización</label>
-                                    <div class="input-group date" id="dtp2">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        <input class="timepicker form-control" value="" id="txtHora" type="text" name="2">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row" id="3" hidden name="d">
-                                <label>MIÉRCOLES</label><br />
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Hora de inicio</label>
-                                    <div class="input-group date" id="dtp3">
-                                        <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        <input class="timepicker form-control" value="" id="txtHora" type="text" name="3">
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Hora de finalización</label>
-                                    <div class="input-group date" id="dtp2">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        <input class="timepicker form-control" value="" id="txtHora" type="text" name="3">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row" id="4" hidden name="d">
-                                <label>JUEVES</label><br />
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Hora de inicio</label>
-                                    <div class="input-group date" id="dtp3">
-                                        <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        <input class="timepicker form-control" value="" id="txtHora" type="text" name="4">
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Hora de finalización</label>
-                                    <div class="input-group date" id="dtp2">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        <input class="timepicker form-control" value="" id="txtHora" type="text" name="4">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row" id="5" hidden name="d">
-                                <label>VIERNES</label><br />
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Hora de inicio</label>
-                                    <div class="input-group date" id="dtp3">
-                                        <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        <input class="timepicker form-control" value="" id="txtHora" type="text" name="5">
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <label>Hora de finalización</label>
-                                    <div class="input-group date" id="dtp2">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-                                        <input class="timepicker form-control" value="" id="txtHora" type="text" name="5">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <br />
-                            <div class="modal-footer">
-                                <button type="button" id="btnSave2" class="btn btn-primary"data-dismiss="modal">Guardar</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
+
+    @*Calendario*@
+    <div id="calendar"></div>
+
+    @*MODAL PARA VER O ELIMINAR CITAS*@
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><b><span id="eventTitle"></span></b></h4>
+                </div>
+                <div class="modal-body">
+
+                    <p id="pDetails"></p>
+                </div>
+                <div class="modal-footer">
+
+                    <button id="btnDelete" class="btn btn-warning  mr-auto">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        Eliminar
+                    </button>
+                    <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                        Editar
+                    </button>
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*modal de reservaciones*@
+    <div id="myModalSave" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content col-md-12" style="align-content:center">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="font-weight:bold;">GUARDAR RESERVACIÓN</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <input type="hidden" id="hdEventID" value="0" />
+
+                        @*rango de días*@
+                        <label>Selecciones los días</label><br />
+
+                        <div class="checkbox-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="1" name="c">
+                            <label class="form-check-label" for="inlineCheckbox1">Lunes</label>
+                        </div>
+                        <div class="checkbox-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="2" name="c">
+                            <label class="form-check-label" for="inlineCheckbox2">Martes</label>
+                        </div>
+                        <div class="checkbox-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="3" name="c">
+                            <label class="form-check-label" for="inlineCheckbox2">Miércoles</label>
+                        </div>
+                        <div class="checkbox-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox4" value="4" name="c">
+                            <label class="form-check-label" for="inlineCheckbox2">Jueves</label>
+                        </div>
+                        <div class="checkbox-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox5" value="5" name="c">
+                            <label class="form-check-label" for="inlineCheckbox2">Viernes</label>
+                        </div>
+
+
+                        <div class="form-group">
+                            <br />
+                            <br />
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <button id="botón2" type="button" class="btn btn-success btn-block" disabled>
+                                    <text id="texto">Agregar Horarios</text>
+                                    <span id="icono" class="glyphicon glyphicon-plus"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group">
+                            <label>Seleccione la cantidad miníma de asistentes</label>
+                            <select class="cantidad" id="cantidad">
+                                <option value="5" selected>5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                                <option value="20">20</option>
+                                <option value="25">25</option>
+                                <option value="30">30</option>
+                                <option value="35">35</option>
+                                <option value="40">45</option>
+                            </select>
+                        </div>
+                        <hr />
+                        @*rango de fechas*@
+                        <div class="row">
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Fecha inicial</label>
+                                <div class="input-group date" id="dtp1">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    <input type="text" id="txtStart" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Fecha final</label>
+                                <div class="input-group date" id="dtp2">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    <input type="text" id="txtEnd" class="form-control" />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="modal-footer">
+                            <button type="button" id="btnSave" class="btn btn-primary">Guardar Cambios</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*MODAL PARA HORARIOS*@
+
+    <div id="myModalSave2" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content col-md-12" style="align-content:center">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="font-weight:bold;">GUARDAR HORARIOS</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <input type="hidden" id="hdEventID" value="0" />
+
+                        @*rango de horas*@
+                        <div class="row" id="1" hidden name="d">
+                            <label>LUNES</label><br />
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de inicio</label>
+                                <div class="input-group date" id="dtp3">
+                                    <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text" name="1">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de finalización</label>
+                                <div class="input-group date" id="dtp2">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text" name="1">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="2" hidden name="d">
+                            <label>MARTES</label><br />
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de inicio</label>
+                                <div class="input-group date" id="dtp3">
+                                    <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text" name="2">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de finalización</label>
+                                <div class="input-group date" id="dtp2">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text" name="2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="3" hidden name="d">
+                            <label>MIÉRCOLES</label><br />
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de inicio</label>
+                                <div class="input-group date" id="dtp3">
+                                    <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text" name="3">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de finalización</label>
+                                <div class="input-group date" id="dtp2">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text" name="3">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="4" hidden name="d">
+                            <label>JUEVES</label><br />
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de inicio</label>
+                                <div class="input-group date" id="dtp3">
+                                    <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text" name="4">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de finalización</label>
+                                <div class="input-group date" id="dtp2">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text" name="4">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" id="5" hidden name="d">
+                            <label>VIERNES</label><br />
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de inicio</label>
+                                <div class="input-group date" id="dtp3">
+                                    <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text" name="5">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <label>Hora de finalización</label>
+                                <div class="input-group date" id="dtp2">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                    <input class="timepicker form-control" value="" id="txtHora" type="text" name="5">
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <div class="modal-footer">
+                            <button type="button" id="btnSave2" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -233,9 +276,11 @@
     @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
     @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
     @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
-    @Scripts.Render("~/Scripts/fullCalendar/reservacioncalendar.js")
+    @Scripts.Render("~/Scripts/fullCalendar/reservacionvariante.js")
     @Scripts.Render("~/Scripts/bootstrap.js")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")
     @Scripts.Render("~/Scripts/bootbox.min.js")
+
+
 }

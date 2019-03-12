@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using SOGIP_v2.Models;
 using System;
 using System.Collections;
@@ -29,6 +30,28 @@ namespace SOGIP_v2.Controllers
         public ActionResult Create()
         {
             return View();
+           
+        }
+        //ROL
+        [HttpPost]
+        public JsonResult GetRol()
+        {
+            
+            string userid = HttpContext.User.Identity.GetUserId();
+            ApplicationUser User = db.Users.Single(x => x.Id == userid);
+            ApplicationUserManager userManager=new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+
+            var rol = userManager.GetRoles(User.Id);
+
+            return new JsonResult { Data = rol, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        //CÉDULA
+        [HttpPost]
+        public JsonResult GetCed()
+        {
+            string userid = HttpContext.User.Identity.GetUserId();
+            ApplicationUser User = db.Users.Single(x => x.Id == userid);
+            return new JsonResult { Data = User.Cedula, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         //LISTA DE RESERVACIONES
@@ -39,7 +62,7 @@ namespace SOGIP_v2.Controllers
             return new JsonResult { Data = Reservacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
-        public void Add(List<string> dias, List<string> horas, ApplicationUser u)
+        public void Add(List<string> dias, List<string> horas, ApplicationUser u, int cantidad)
         {
             if (dias.Count > 0)
             {
@@ -56,6 +79,7 @@ namespace SOGIP_v2.Controllers
                 {
                     FechaHoraInicio = d1,
                     FechaHoraFinal= d2,
+                    Cantidad=cantidad,
                     UsuarioId=u
                 };
                 db.Reservacion.Add(reservacion);
@@ -63,12 +87,12 @@ namespace SOGIP_v2.Controllers
                 dias.RemoveAt(0);
                 horas.RemoveAt(0);
                 horas.RemoveAt(0);
-                Add(dias,horas,u);
+                Add(dias,horas,u, cantidad);
             }
         }
 
         //INGRESO DE RESERVACIONES
-        [HttpPost] public JsonResult saveReser(string[] dias, string[] horas)
+        [HttpPost] public JsonResult saveReser(string[] dias, string[] horas, int cantidad)
         {
             
             var status = false;
@@ -79,8 +103,8 @@ namespace SOGIP_v2.Controllers
             List<string> dia = new List<string>(dias);
             List<string> hora = new List<string>(horas);
 
-            Add(dia, hora, User);
-
+            Add(dia, hora, User, cantidad);
+            //Holi :3
             db.SaveChanges();
 
             return new JsonResult { Data = new { status = status } };

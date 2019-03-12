@@ -1,10 +1,13 @@
 ﻿$(document).ready(function () {
 
     //variables
+    var ced;
     var cantidad;
     var events = [];
-    var   ar = [];
-    
+    var ar = [];
+    cedus();
+    roles();
+
     FetchEventAndRenderCalendar();
     $('#txtStart').datepicker();
     $('#txtEnd').datepicker();
@@ -19,20 +22,52 @@
     //---habilitar/deshabilitar
     $("input[type=checkbox]").click(function () {
         hours();
-        if ($("input[type=checkbox]").is(":checked")) {          
+        if ($("input[type=checkbox]").is(":checked")) {
             $('#botón2').prop("disabled", false);
             console.log(ar);
         }
         else {
             $('#botón2').prop("disabled", true);
-             console.log(ar);
+            console.log(ar);
         }
     });
 
-   
- 
 
-//----FUNCIONES
+    function roles() {
+
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/Reservacion/GetRol",
+            success: function (data) {
+                alert(data);
+            },
+            error: function (error) {
+                alert("Fallo");
+            }
+        })
+    }
+
+
+
+    //----FUNCIONES
+
+    //obtener la cédula del usuario actual
+    function cedus() {
+
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/Reservacion/GetCed",
+            success: function (data) {
+                ced = data;
+            },
+            error: function (error) {
+                alert("Fallo");
+            }
+        })
+    }
+
     //guardar días para habilitar horas del modal
     function hours() {
         $("input:checkbox").each(function () {
@@ -63,7 +98,7 @@
             ablehour(a);
         }
     }
-    
+
     function FetchEventAndRenderCalendar() {
         events = [];
         $.ajax({
@@ -137,39 +172,41 @@
                 }
             },
             eventClick: function (calEvent, jsEvent, view) { //INFORMACIÓN DEL EVENTO
-               
-                selectedEvent = calEvent;
-                var check = calEvent.start.format("YYYY-MM-DD");
-                var today = moment().format("YYYY-MM-DD");
+
+                if (calEvent.cedula == ced) {
+                    selectedEvent = calEvent;
+                    var check = calEvent.start.format("YYYY-MM-DD");
+                    var today = moment().format("YYYY-MM-DD");
 
 
-                $('#myModal #eventTitle').text(calEvent.title);
+                    $('#myModal #eventTitle').text(calEvent.title);
 
-                var $description = $('<div/>');
-                $description.append($('<p/>').html('<b>Fecha: </b>' + calEvent.start.format("DD-MM-YYYY")));
-                $description.append($('<p/>').html('<b>Hora: </b>' + calEvent.start.format("HH:mm a") + " - "+calEvent.end.format("HH:mm a")));
-                
-                $description.append($('<hr/>'));
-                $description.append($('<p/>').html('<h4><b>Cantidad de asistentes</b></h4>'));
-                $description.append($('<hr/>'));
-                $description.append($('<p/>').html('<h4><b>Solicitante</b></h4>'));
-                $description.append($('<p/>').html('<b>Cédula: </b>' + calEvent.cedula));
-                cedu = calEvent.cedula;
-                $description.append($('<p/>').html('<b>Nombre Completo: </b>' + calEvent.nombre + ' ' + calEvent.apellido1 + ' ' + calEvent.apellido2));
+                    var $description = $('<div/>');
+                    $description.append($('<p/>').html('<b>Fecha: </b>' + calEvent.start.format("DD-MM-YYYY")));
+                    $description.append($('<p/>').html('<b>Hora: </b>' + calEvent.start.format("HH:mm a") + " - " + calEvent.end.format("HH:mm a")));
 
-                if (check < today) {
-                    $('#btnEdit').prop('disabled', true);
-                    $('#btnDelete').prop('disabled', true);
+                    $description.append($('<hr/>'));
+                    $description.append($('<p/>').html('<h4><b>Cantidad de asistentes</b></h4>'));
+                    $description.append($('<hr/>'));
+                    $description.append($('<p/>').html('<h4><b>Solicitante</b></h4>'));
+                    $description.append($('<p/>').html('<b>Cédula: </b>' + calEvent.cedula));
+                    cedu = calEvent.cedula;
+                    $description.append($('<p/>').html('<b>Nombre Completo: </b>' + calEvent.nombre + ' ' + calEvent.apellido1 + ' ' + calEvent.apellido2));
 
+                    if (check < today) {
+                        $('#btnEdit').prop('disabled', true);
+                        $('#btnDelete').prop('disabled', true);
+
+                    }
+                    else {
+                        $('#btnEdit').prop('disabled', false);
+                        $('#btnDelete').prop('disabled', false);
+                    }
+
+                    $('#myModal #pDetails').empty().html($description);
+
+                    $('#myModal').modal();
                 }
-                else {
-                    $('#btnEdit').prop('disabled', false);
-                    $('#btnDelete').prop('disabled', false);
-                }
-
-                $('#myModal #pDetails').empty().html($description);
-
-                $('#myModal').modal();
             }
         })
 
@@ -179,8 +216,8 @@
     //----BOTONES
     $('#botón2').click(function () {
         hours();
-        $("div[name=d]").each(function () {          
-                this.hidden = true;
+        $("div[name=d]").each(function () {
+            this.hidden = true;
         });
         ablehour(ar);
         $("div[name=d]").each(function () {
@@ -192,8 +229,8 @@
         $('#myModalSave2').modal('show');
     });
     //array.shift() sirve para remover el primer elemento
-    $('#botón').click(function () { $('#myModalSave').modal('show');});
-    $('#btnSave').click(function () { 
+    $('#botón').click(function () { $('#myModalSave').modal('show'); });
+    $('#btnSave').click(function () {
         var array3 = [];
         function checkhours() {
             $('input.timepicker').each(function () {
@@ -218,31 +255,31 @@
             arr = [];
 
 
- //recursivo 1
-     function dateof(currentDate, day) {
-         var date = new Date(currentDate);
-         if (currentDate > end) {
-               return arr;             
+        //recursivo 1
+        function dateof(currentDate, day) {
+            var date = new Date(currentDate);
+            if (currentDate > end) {
+                return arr;
             }
 
-         if (date.getDay() == day) {
-           
+            if (date.getDay() == day) {
 
-             arr.push(moment(new Date(date)).format("DD-MM-YYYY HH:mm a"));  
 
-             $('input.timepicker').each(function () {
-                 if ((this).value.length != 0 && this.name == day && !this.hidden) {
-                     array2.push((this).value);
-                 }
-             })
+                arr.push(moment(new Date(date)).format("DD-MM-YYYY HH:mm a"));
 
-         }
-            return dateof(date.setDate(date.getDate() + 1),day);
-         }
+                $('input.timepicker').each(function () {
+                    if ((this).value.length != 0 && this.name == day && !this.hidden) {
+                        array2.push((this).value);
+                    }
+                })
 
- //recursivo 2      
+            }
+            return dateof(date.setDate(date.getDate() + 1), day);
+        }
+
+        //recursivo 2      
         function days(array) {
-             
+
             if (array.length > 0) {
                 dateof(currentDate, array[0]);
                 array.shift();
@@ -257,7 +294,7 @@
         if ($('#botón2').is(':disabled')) {//no ha seleccionado dias
             bootbox2("No ha seleccionado los días");
         }
-        if (array3.length < 2 ) {//no ha ingresado horas
+        if (array3.length < 2) {//no ha ingresado horas
             bootbox2("Los horarios se encuentran vacíos");
         }
         if (arr.length == 0) { //no ha ingresado fechas
@@ -270,7 +307,7 @@
                 type: "POST",
                 dataType: "JSON",
                 url: '/Reservacion/saveReser',
-                data: { 'dias': arr, 'horas': array2, 'cantidad': cantidad},
+                data: { 'dias': arr, 'horas': array2, 'cantidad': cantidad },
                 success: function (data) {
 
                     $('#myModalSave').modal('hide');
@@ -313,4 +350,4 @@
 
     }
 
-    })
+})

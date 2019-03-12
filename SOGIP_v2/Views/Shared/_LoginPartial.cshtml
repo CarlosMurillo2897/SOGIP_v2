@@ -90,17 +90,25 @@
                             </li>
                         </ul>
                     </li>
-					
-                    <li>
-                        <a href="~/CitasAdmin/Create?id=@User.Identity.GetUserId()">
-                            <span class="glyphicon glyphicon-calendar"></span> Citas
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <span class="glyphicon glyphicon-menu-down"></span> Calendarios
                         </a>
+                        <ul class="dropdown-menu" role="menu" id="myTab">
+                            <li>
+                                <a href="~/CitasAdmin/Create?id=@User.Identity.GetUserId()">
+                                    <span class="glyphicon glyphicon-calendar"></span> Citas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/Reservacion/Create?id=@User.Identity.GetUserId()">
+                                    <span class="glyphicon glyphicon-calendar"></span> Reservaciones
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li>
-                        <a href="~/Reservacion/Create?id=@User.Identity.GetUserId()">
-                            <span class="glyphicon glyphicon-calendar"></span> Reservaciones
-                        </a>
-                    </li>
+
                     <li>
                         <a href="~/Busqueda/Index">
                             <span class="glyphicon glyphicon-search"></span> Búsqueda
@@ -114,10 +122,22 @@
                 }
                 @if (User.IsInRole("Atleta") || User.IsInRole("Atleta Becados") || User.IsInRole("Funcionarios ICODER"))
                 {
-                    <li>
-                        <a href="~/CitasAdmin/Create2?id=@User.Identity.GetUserId()">
-                            <span class="glyphicon glyphicon-calendar"></span> Citas
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <span class="glyphicon glyphicon-menu-down"></span> Calendarios
                         </a>
+                        <ul class="dropdown-menu" role="menu" id="myTab">
+                            <li>
+                                <a href="~/CitasAdmin/Create2?id=@User.Identity.GetUserId()">
+                                    <span class="glyphicon glyphicon-calendar"></span> Citas
+                                </a>
+                            </li>
+                            <li>
+                                <a href="~/Reservacion/Create?id=@User.Identity.GetUserId()">
+                                    <span class="glyphicon glyphicon-calendar"></span> Reservaciones
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li role="presentation">
                         <a href="~/Rutinas/ListaEjercicio?idUsuario=User.Identity.GetUserId()">

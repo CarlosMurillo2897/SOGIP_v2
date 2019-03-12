@@ -84,17 +84,8 @@
                     $('calendar').fullCalendar('unselect');
                 }
             },
-            editable: true, //para editar
-            eventDrop: function (event) { //MOVER EVENTOS
-                var data = {
-                    CitaId: event.citaId,
-                    InBody: event.description1,
-                    Otro: event.description2,
-                    FechaHoraInicio: event.start.format('DD-MMM-YYYY HH:mm a'),
-                    FechaHoraFinal: event.end.format('DD-MMM-YYYY HH:mm a')
-                };
-                SaveDate(data);
-            },
+            editable: false, //para editar
+            disableDragging: true,
             eventAfterRender: function (event, element, view) { //COLOR DE LOS EVENTOS
 
                 var date = event.start.format("YYYY-MM-DD");
@@ -372,7 +363,7 @@
         if (selectedEvent != null) {
 
             $('#hdEventID').val(selectedEvent.citaId);
-            $('#txtStart').val(selectedEvent.start.format("DD-MMM-YYYY"));
+            $('#txtStart').val(selectedEvent.start.format("DD/MM/YYYY"));
             $('#txtHora').val(selectedEvent.start.format("HH:mm a"));
             $('#txtHoraF').val(selectedEvent.end.format("HH:mm a"));
             $('#inbodyCheck').prop("checked", selectedEvent.description1 || false);
@@ -411,16 +402,17 @@
         }
 
         else {
-            var starDate = moment($('#txtStart').val(), "DD-MMM-YYYY HH:mm a").toDate();
-            var endDate = moment($('#txtEnd').val(), "DD-MMM-YYYY HH:mm a").toDate();
+            
+            var starDate = moment(new Date($('#txtStart').val())).format("DD-MM-YYYY HH:mm a");
+            var endDate = moment(new Date($('#txtEnd').val())).format("DD-MM-YYYY HH:mm a");
             if (starDate > endDate) {
                 bootbox2(' La fecha y hora de finalización es inválido');
                 return;
             }
 
-            else if (!starDate.getMonth()) {
-                alert("No existe");
-            }
+            //else if (!starDate.getMonth()) {
+            //    alert("No existe");
+            //}
 
         }
         //Esta variable almacena la cita sobre la cual se está trabajando
@@ -429,8 +421,8 @@
                 CitaId: $('#hdEventID').val(),
                 InBody: $('#inbodyCheck').is(':checked'),
                 Otro: $('#rutinaCheck').is(':checked'),
-                FechaHoraInicio: $('#txtStart').val().trim() + ' ' + $('#txtHora').val().trim(),
-                FechaHoraFinal: $('#txtStart').val().trim() + ' ' + $('#txtHoraF').val().trim()
+                FechaHoraInicio: $('#txtStart').val() + ' ' + $('#txtHora').val(),
+                FechaHoraFinal: $('#txtStart').val() + ' ' + $('#txtHoraF').val()
             }
         
         //Llamando función para enviar cambios
@@ -488,15 +480,12 @@
             },
             error: function () {
                 bootbox2("Hubo un ERROR");
+                console.log($('#txtStart').val() + ' ' + $('#txtHora').val());
             }
         })
     }
     //--------------------------------------------------
-    var today = new Date();
-    $(function () {
-        $("#dtp1").datepicker({
-        });
-    });
+    
 
 
     //-----------------------------------------DATATABLE

@@ -7,13 +7,13 @@ namespace SOGIP_v2.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class reservaciones : IMigrationMetadata
+    public sealed partial class reservacion : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(reservaciones));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(reservacion));
         
         string IMigrationMetadata.Id
         {
-            get { return "201903051827029_reservaciones"; }
+            get { return "201903110027177_reservacion"; }
         }
         
         string IMigrationMetadata.Source

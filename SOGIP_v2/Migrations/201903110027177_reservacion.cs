@@ -3,7 +3,7 @@ namespace SOGIP_v2.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class reservaciones : DbMigration
+    public partial class reservacion : DbMigration
     {
         public override void Up()
         {
@@ -12,6 +12,7 @@ namespace SOGIP_v2.Migrations
                 c => new
                     {
                         ReservacionId = c.Int(nullable: false, identity: true),
+                        Cantidad = c.Int(nullable: false),
                         FechaHoraInicio = c.DateTime(nullable: false),
                         FechaHoraFinal = c.DateTime(nullable: false),
                         Estado_EstadoId = c.Int(),
