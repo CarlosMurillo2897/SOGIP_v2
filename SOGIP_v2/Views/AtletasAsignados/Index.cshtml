@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNet.Identity
+@using App.Extensions
+@{
     ViewBag.Title = "Index";
 }
 
@@ -6,8 +8,10 @@
 
 <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+
 <div class="container">
     <div class="well">
+        <input type="hidden" id="ced" value="@User.Identity.GetUserId()" />
         <h3>Usuarios Asignados</h3>
         <br />
         <input type="hidden" id="role" value="@ViewBag.Role" />
@@ -32,13 +36,12 @@
     <script>
         $(document).ready(function () {
             var url = "";
-            alert($('#role').val());
+            var ced = $('#ced').val();
             var col = [
                 { data: "Cedula" },
                 { data: "Nombre" },
                 { data: "Apellido1" },
                 { data: "Apellido2" },
-                
             ];
 
             var head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr>';
@@ -92,7 +95,8 @@
                 "ajax": {
                     "url": url,
                     "type": "GET",
-                    "dataSrc": ""
+                    "dataSrc": "",
+                    "data": { usuarioId: ced }
                 },
                 columns: col
             });

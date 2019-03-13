@@ -358,7 +358,7 @@ namespace SOGIP_v2.Controllers
                     string n = i.ToString();
                     ViewData["rutina"] = n;
 
-                    var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.DiaEjercicio == "Dia1").ToList();
+                    var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && (x.DiaEjercicio == "Dia1" || x.DiaEjercicio == "Dia2" || x.DiaEjercicio == "Dia3" || x.DiaEjercicio == "Dia4" || x.DiaEjercicio == "Dia5")).ToList();
                     var getEjercicio2 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.DiaEjercicio == "Dia2").ToList();
                     var getEjercicio3 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.DiaEjercicio == "Dia3").ToList();
                     var getEjercicio4 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.DiaEjercicio == "Dia4").ToList();
