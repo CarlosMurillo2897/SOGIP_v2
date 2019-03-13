@@ -6,6 +6,8 @@
     ViewBag.Referencia = "Maquina/TipoMaquina";
     ViewBag.Accion = "<a class='btn btn-success pull-right' href='/Maquina/TipoMaquina' style='padding: 2px 6px; margin: 2px;'><text class='hidden-xs'>Nuevo Tipo Máquina </text><span style='color: white;' class='glyphicon glyphicon-plus-sign'></span></a>";
 }
+<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
@@ -118,7 +120,7 @@
                     <label>Nombre del Tipo de Máquina: </label>
                     <input type="text" class="form-control" placeholder="Nombre" id="nombEditar" />
                 </div>
-                
+
                 <div class="modal-footer">
                     <br />
                     <button type="button" id="btnEditar" class="btn btn-success">Guardar Cambios</button>
@@ -167,7 +169,8 @@
                     { data: "Descripcion" },
                     {
                         data: "Id",
-                        visible: false}
+                        visible: false
+                    }
 
                 ],
                 'columnDefs': [
@@ -202,7 +205,7 @@
                 success: function (data) {
                     $('#no').show();
                     document.getElementById("no1").value = data.Tipo;
-                    $('#nombEditar').val(data.Nombre); 
+                    $('#nombEditar').val(data.Nombre);
                 },
                 error: function () {
                     alert("Fallo");
@@ -245,9 +248,9 @@
                 data: { 'id': id },
                 success: function (data) {
                     $('#fe').show();
-                    document.getElementById("fe1").value = data.Tipo; 
+                    document.getElementById("fe1").value = data.Tipo;
                     $('#ne').show();
-                    document.getElementById("ne1").value = data.Nombre; 
+                    document.getElementById("ne1").value = data.Nombre;
                 },
                 error: function () {
                     alert("Fallo");
@@ -262,7 +265,7 @@
                     success: function (data) {
                         if (data.status) {
                             var table = $('#prin').DataTable().row(tr).remove().draw();
-                           
+
                         }
                     },
                     error: function () {
@@ -272,7 +275,7 @@
             })
 
         }
-       
+
         $(document).ready(function () {
             var table;
             var dataSet = [];
@@ -321,7 +324,7 @@
                     }
                 })
             })
-            
+
             function SaveMaquina(data) {
                 $.ajax({
                     type: "POST",
@@ -340,8 +343,8 @@
                     }
                 })
             }
-            
-           
+
+
             function tablaPrincipal() {
                 $('#prin').dataTable({
                     "language": {
@@ -373,9 +376,9 @@
                             data: "Nombre"
                         },
                         {
-                             
+
                             title: "Acción",
-                            data:"Id",
+                            data: "Id",
                             "render": function (Id) {
                                 debugger
                                 return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarMaq(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
@@ -400,7 +403,7 @@
                     }
                 });
             }
-           
+
             $('#tablePrin').on('click', 'td.select-checkbox', function () {
                 var td = $(this);
                 var tr = td.closest('tr');

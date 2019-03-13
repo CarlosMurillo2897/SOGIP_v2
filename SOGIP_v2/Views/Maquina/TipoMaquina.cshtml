@@ -2,9 +2,11 @@
 @{
     ViewBag.Title = "TipoMaquina";
 
-  
+
 
 }
+<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
@@ -60,8 +62,8 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Eliminar Tipo de Máquina</h4>
                     <label>Se elimina todas los Maquinas asociadas a este Tipo de Máquina  </label>
-                    <br >
-                        <br>
+                    <br>
+                    <br>
                     <label>Nombre del Tipo de Máquina: </label>
                     <tr hidden id="fe">
                         <td>
@@ -106,28 +108,28 @@
                 data: { 'id': id },
                 success: function (data) {
                     $('#fe').show();
-                   document.getElementById("fe1").value = data.Descripcion; 
+                    document.getElementById("fe1").value = data.Descripcion;
                 },
                 error: function () {
                     alert("Fallo");
                 }
-                })
-               $('#btnEliminar').click(function() {
-                    $.ajax({
-                        type: "POST",
-                        dataType: "JSON",
-                        url: '/Maquina/DeleteMaquinaTipo',
-                        data: { 'id': id },
-                        success: function (data) {
-                            if (data.status) {
-                                var table = $('#tablaTipo').DataTable().row(tr).remove().draw();
-                            }
-                        },
-                        error: function () {
-                            alert("Fallo");
+            })
+            $('#btnEliminar').click(function () {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Maquina/DeleteMaquinaTipo',
+                    data: { 'id': id },
+                    success: function (data) {
+                        if (data.status) {
+                            var table = $('#tablaTipo').DataTable().row(tr).remove().draw();
                         }
-                    })
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
                 })
+            })
         }
         function EditarTipo(id) {
             var tr = $('#boton_' + id).closest('tr');
@@ -148,10 +150,10 @@
                 if ($('#nombEditar').val().trim() == "") {
                     alert("Falta el nombre");
                 } else {
-               
-                data = {
-                    id: id,
-                    nombre: $('#nombEditar').val().trim()
+
+                    data = {
+                        id: id,
+                        nombre: $('#nombEditar').val().trim()
                     }
                     $.ajax({
                         type: "POST",
@@ -171,7 +173,7 @@
                     })
                 }
             })
-          
+
         }
         $(document).ready(function () {
             tablaTipos();
@@ -190,7 +192,7 @@
                     Save(data);
                 }
             })
-          
+
             function Save(data) {
                 $.ajax({
                     type: "POST",

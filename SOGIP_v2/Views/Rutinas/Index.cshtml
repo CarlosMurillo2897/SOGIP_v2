@@ -14,7 +14,8 @@
 
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
 }
-
+<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
@@ -24,7 +25,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
 <div class="container">
-    <button type="button" class="btn btn-primary" data-toggle="modal"  id="btnNuevo">
+    <button type="button" class="btn btn-primary" data-toggle="modal" id="btnNuevo">
         Nueva Rutina
     </button>
 
@@ -41,11 +42,11 @@
                     <label>Fecha Inicio de Rutina: </label>
                     <div class="input-group date" id="fec">
                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        <input class="form-control" type="text"  id="este"/>
+                        <input class="form-control" type="text" id="este" />
                     </div>
 
                     <br>
-                    <label>Objetvio de la Rutina: </label>
+                    <label>Objetivo de la Rutina: </label>
                     <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
                 </div>
                 <div class="modal-body">
@@ -68,7 +69,7 @@
                     <div class="modal-footer">
                         <br />
                         <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" id="cerrar1" >Cerrar</button>
+                        <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
                     </div>
                 </div>
             </div>
@@ -100,13 +101,13 @@
                         <input class="form-control" type="text" />
                     </div>
                     <br>
-                    <label>Objetvio de la Rutina: </label>
+                    <label>Objetivo de la Rutina: </label>
                     <input type="text" class="form-control" placeholder="Objetivo" id="objetivo" />
                 </div>
                 <div class="modal-body">
                     <div class="modal-footer">
                         <br />
-                        <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal" >Guardar Cambios</button>
+                        <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
@@ -145,7 +146,7 @@
                             </div>
                         </td>
                     </tr>
-                    <label>Objetvio de la Rutina: </label>
+                    <label>Objetivo de la Rutina: </label>
                     <tr hidden id="obje">
                         <td>
                             <div>
@@ -287,14 +288,14 @@
             var dataSet = [];
             var cedu = null;
             tabla();
-           
+
             $('#btnNuevo').click(function () {
                 $('#nueva').modal('show');
                 usuarios();
                 $('#usuario').val('');
                 $('#obj').val('');
                 $('#este').val('');
-         
+
             })
             $('#cerrar').click(function () {
                 eliminar();
@@ -308,7 +309,7 @@
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
             })
-           
+
             $('#btnSave').click(function () {
                 var data = null;
                 var objetivo = $('#obj').val();

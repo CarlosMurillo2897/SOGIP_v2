@@ -1,12 +1,13 @@
 ﻿@model SOGIP_v2.Models.Ejercicio
 @{
-   
+
 
     ViewBag.Title = "Lista de ejercicios";
     ViewBag.Referencia = "Ejercicio/TipoEjercicio";
     ViewBag.Accion = "<a class='btn btn-success pull-right' href='/Ejercicio/TipoEjercicio' style='padding: 2px 6px; margin: 2px;'><text class='hidden-xs'>Nuevo Tipo Ejercicio </text><span style='color: white;' class='glyphicon glyphicon-plus-sign'></span></a>";
 }
-
+<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
+<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
@@ -142,9 +143,9 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
-       
+
         function EliminarMaq(id) {
-     
+
             var tr = $('#boton_' + id).closest('tr');
             var table = $('#tablaTipo').DataTable().rows(tr).data();
             $.ajax({
@@ -171,7 +172,7 @@
                     success: function (data) {
                         if (data.status) {
                             var table = $('#prin').DataTable().row(tr).remove().draw();
-                           
+
                         }
                     },
                     error: function () {
@@ -270,7 +271,7 @@
                         alert("Fallo");
                     }
                 })
-                
+
             })
 
             function SaveMaquina(data) {
@@ -348,69 +349,69 @@
                     }
                 });
             }
-             function tabla() {
-            table = $('#tablePrin').dataTable({
-                "language": {
-                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
-                    "zeroRecords": "No se han encontrado registros.",
-                    "info": "Mostrando página _PAGE_ de _PAGES_.",
-                    "infoEmpty": "No hay datos para mostrar",
-                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
-                    "search": "Filtrar:",
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Ultimo",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
-                },
-                "ajax": {
-                    "url": "/Ejercicio/GetTipo",
-                    "type": "GET",
-                    "dataSrc": ""
-                },
-                columns: [
-                    { data: "Accion" },
-                    {
-                        data: "Descripcion",
-                        targets: [1]
-                    
-                       },
-                    {
-                        data: "Id",
-                        targets: [2],
-                        visible: false
+            function tabla() {
+                table = $('#tablePrin').dataTable({
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado registros.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Filtrar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
+                    "ajax": {
+                        "url": "/Ejercicio/GetTipo",
+                        "type": "GET",
+                        "dataSrc": ""
+                    },
+                    columns: [
+                        { data: "Accion" },
+                        {
+                            data: "Descripcion",
+                            targets: [1]
+
+                        },
+                        {
+                            data: "Id",
+                            targets: [2],
+                            visible: false
                         }
 
-                ],
-                'columnDefs': [
-                    {
-                        orderable: false,
-                        className: 'select-checkbox',
-                        targets: [0]
-                    }
-                ],
-                'select': {
-                    'style': 'os',
-                    'selector': 'td:first-child'
+                    ],
+                    'columnDefs': [
+                        {
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: [0]
+                        }
+                    ],
+                    'select': {
+                        'style': 'os',
+                        'selector': 'td:first-child'
 
-                }
-            });
-        }
-        function eliminar() {
-            var des = $('#tablePrin').DataTable();
-            des.destroy();
-        }
-       
+                    }
+                });
+            }
+            function eliminar() {
+                var des = $('#tablePrin').DataTable();
+                des.destroy();
+            }
+
 
             $('#tablePrin').on('click', 'td.select-checkbox', function () {
                 var td = $(this);
                 var tr = td.closest('tr');
                 $('#usuario').val(tr.find('td:eq(1)').text());
                 $('#Tabla_Prin').hide();
-                var valor = tr.find('td:eq(1)').text() 
+                var valor = tr.find('td:eq(1)').text()
                 idTipo = valor;
-             
+
             });
 
             $('#botón').click(function () {

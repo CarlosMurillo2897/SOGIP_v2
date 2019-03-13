@@ -1,17 +1,27 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+@using App.Extensions
 @{
     ViewBag.Title = "Index";
 }
 
 @Styles.Render("~/Content/manual.css")
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="~/Scripts/jquery.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
-<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
-<br /><br />
-<div class="container" style="width:100%; height:auto; padding-top:70px;">
-    <table id="example" class="display" style="width:100%"></table>
+<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="well">
+        <input type="hidden" id="ced" value="@User.Identity.GetUserId()" />
+        <h3>Usuarios Asignados</h3>
+        <br />
+        <input type="hidden" id="role" value="@ViewBag.Role" />
+        <div class="table-responsive">
+            <table id="example" class="table table-striped table-bordered dt-responsive nowrap">
+                <thead>
+
+                </thead>
+            </table>
+        </div>
+    </div>
 </div>
 
 
@@ -24,7 +34,17 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
 
     <script>
+        $(document).ready(function () {
+            var url = "";
+            var ced = $('#ced').val();
+            var col = [
+                { data: "Cedula" },
+                { data: "Nombre" },
+                { data: "Apellido1" },
+                { data: "Apellido2" },
+            ];
 
+            var head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr>';
 
         var table;
         var dataSet = [];
@@ -74,12 +94,15 @@
                         'style': 'os',
                         'selector': 'td:first-child'
                     }
-                });
-            },
-
-            error: function (error) {
-                alert("Fallo");
-            }
+                },
+                "ajax": {
+                    "url": url,
+                    "type": "GET",
+                    "dataSrc": "",
+                    "data": { usuarioId: ced }
+                },
+                columns: col
+            });
         });
 
     </script>
