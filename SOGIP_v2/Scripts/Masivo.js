@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var selected, role;
+    var selected, role, value, x;
     $('#usuario').val('');
     clear();
 
@@ -20,7 +20,6 @@
             daysOfWeekDisabled: false
         });
     });
-
 });
 
 $(document).on('click', '#close-preview', function () {
@@ -91,71 +90,74 @@ function cargarUsuarios() {
 
     var table = $('<table/>', {
         id: 'Entidades',
-        class: 'table-striped',
+        class: 'table table-striped table-bordered dt-responsive nowrap',
         width: '100%'
-    }).append('<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>Entidad</th><th>Rol</th></tr></thead>');
+    }).append('<thead><tr><th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Rol</th><th>Acción</th></tr></thead>');
 
     $('#Tabla_Usuarios').append(table);
 
-        table = $('#Entidades').DataTable({
-            "language": {
-                "lengthMenu": "Mostrando _MENU_ resultados por página.",
-                "zeroRecords": "No se han encontrado registros.",
-                "info": "Mostrando página _PAGE_ de _PAGES_.",
-                "infoEmpty": "No hay datos para mostrar",
-                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
-                "search": "Filtrar:",
-                "paginate": {
-                    "first": "Primero",
-                    "last": "Ultimo",
-                    "next": "Siguiente",
-                    "previous": "Anterior"
-                },
-                "select": {
-                    "rows": {
-                        _: "%d registros seleccionados.",
-                        0: "Seleccione un cuadrado en la columna 'Acción'.",
-                        1: "1 registro seleccionado."
-                    }
+    table = $('#Entidades').DataTable({
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ resultados por página.",
+            "zeroRecords": "No se han encontrado registros.",
+            "info": "Mostrando página _PAGE_ de _PAGES_.",
+            "infoEmpty": "No hay datos para mostrar",
+            "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+            "search": "Filtrar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+            "select": {
+                "rows": {
+                    _: "%d registros seleccionados.",
+                    0: "Seleccione un cuadrado en la columna 'Acción'.",
+                    1: "1 registro seleccionado."
                 }
-            },
-            "ajax": {
-                "url": "/UsersAdmin/ObtenerUsuarios",
-                "type": "GET",
-                "dataSrc": ""
-            },
-            'columnDefs': [{
-                orderable: false,
-                className: 'select-checkbox',
-                targets: [0]
-            }],
-            'select': {
-                'style': 'os',
-                'selector': 'td:first-child'
-            },
-            columns: [
-                { data: "Acción" },
-                { data: "Cédula" },
-                { data: "Nombre" },
-                { data: "Entidad" },
-                { data: "Rol" },
-            ],
+            }
+        },
+        "ajax": {
+            "url": "/UsersAdmin/ObtenerUsuarios",
+            "type": "GET",
+            "dataSrc": ""
+        },
+        columns: [
+            { data: "Entidad" },
+            { data: "Cédula" },
+            { data: "Nombre" },
+            { data: "Rol" },
+            {
+                data: function (data, type, dataToSet) {
+                    var opciones = "";
+                    if (data.Categoria.length !== 0) {
+                        $.each(data.Categoria, function (i) {
+                            opciones = opciones + "<option value='" + data.Categoria[i].CategoriaId + "'>" + data.Categoria[i].Descripcion + "</option>";
+                        });
+                    } else {
+                        opciones = "<option value='1'>SELECCIONADA</option>";
+                    }
+                    return '<select style="display: inline-block; width: 200px;" id="selectDT_' + data.Cédula + '_' + data.Entidad + '" class="selectDT form-control" ><option value="0">-- Cambiar --</option>' + opciones + '</select>';
+                }
+            }
+        ]
     });
 
-    $('#Entidades').on('click', 'td.select-checkbox', function () {
-        var td = $(this);
-        var tr = td.closest('tr');
-        x = tr;
-        $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text());
-        role = tr.find('td:eq(4)').text();
+    $('#Entidades').on('change', '.selectDT', function () {
+        value = $(this).val();
+
+        value === '0' ? $('#usuario').val('') : $('#usuario').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
+        role = $(this).closest('tr').find('td:eq(3)').text();
+        
+        $('.selectDT').val(0);
+        $(this).val(value);
 
         $('#botón').attr('onclick', 'manipularDT();');
         manipularDT();
 
-        if (tr.hasClass('selected')) {
-            $('#usuario').val('');
-        }
     });
+
 }
 
 function manipularDT() {
@@ -170,6 +172,7 @@ function manipularDT() {
         }
     });
 }
+
 
 function uploadImage() {
     var archivo = $('#excelfile')[0].files[0];
@@ -190,7 +193,12 @@ function uploadImage() {
     var data = new FormData();
     data.append('excelfile', archivo);
 
+
     pop(true);
+
+    $('#UpdatePanel').empty();
+    $('#registrar').empty();
+
     $.ajax({
         type: "POST",
         url: "/UsersAdmin/Import",
@@ -206,7 +214,6 @@ function uploadImage() {
                 '<th>E-mail</th><th>Nacimiento</th><th>Sexo</th><th style="text-align: center;"><span class="glyphicon glyphicon-cog"></span></th></tr></thead>'
             );
 
-            // $table.append($header);
             var $body = $('<tbody/>');
 
             $.each(list, function (i) {
@@ -215,9 +222,27 @@ function uploadImage() {
                 var ap2 = list[i].Apellido2 === null ? '' : list[i].Apellido2;
                 var email = list[i].Email === null ? '' : list[i].Email;
 
+                var p, clase;
+                if (list[i].Message.length !== 0) {
+                    p = "<p style='color: red;'><br />";
+                    $.each(list[i].Message, function (x) {
+                        p = p + "\u23FA Error n°" + (x + 1) + ": " + list[i].Message[x] + "<br /><br />";
+                        clase = "btn btn-danger";
+                    });
+                }
+                
+                else {
+                    p = "<p style='color: green;'> \u23FA Todo en orden.";
+                    clase = "btn btn-success";
+                }
+                p = p + "</p>";
+                
+
                 $body.append(
                     '<tr id="' + i + '">' +
-                    '<td>' + list[i].Cedula + '</td>' +
+                    '<td>' +
+                    '<a tabindex="0" class="' + clase + '" title="<strong>Estado</strong> (para cerrar oprima fuera del cuadro)." data-trigger="focus" data-html="true" data-container="body" data-toggle="popover" data-placement="bottom" data-content="' + p + '">' + list[i].Cedula + '</a>' +
+                    '</td>' +
                     '<td>' + list[i].Nombre1 + '</td>' +
                     '<td>' + list[i].Nombre2 + '</td>' +
                     '<td>' + list[i].Apellido1 + '</td>' +
@@ -228,11 +253,18 @@ function uploadImage() {
                     '<td style="text-align: center;">' +
                     '<span class="glyphicon glyphicon-pencil invent" data-toggle="modal" onclick="cargar(this)" data-target="#myModal"></span>' +
                     '</td></tr>');
+
             });
             $table.append($body);
             $('#UpdatePanel').append($table);
-            $('#registrar').html('<a class="btn btn-block btn-success" onclick="registrar()">Registrar</a>');
+            $('#registrar').html('<a id="reg" class="btn btn-block btn-success" onclick="registrar()">Registrar</a>');
             contenidoPop(1);
+
+            var title = '<strong>Estado</strong>';
+            $('#btn_1').attr('data-content', title);
+
+            $('[data-toggle="popover"]').popover();
+
         },
         error: function (data) {
             contenidoPop(0);
@@ -292,7 +324,8 @@ function registrar() {
 
         var datos = {
             'users': array,
-            'usuario': $('#usuario').val().split(" ")[0],
+            'usuario': $('#usuario').val().split("- ")[1],
+            'value': value,
             'rol': role
         };
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -255,28 +257,67 @@ namespace SOGIP_v2.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Perfil(string id)
+        public ActionResult Perfil(string id)
         {
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var user = await UserManager.FindByIdAsync(id);
+
+            var user = db.Users.Where(x => x.Id == id).FirstOrDefault();
+            var rol = UserManager.GetRoles(id);
 
             if (user == null)
             {
                 return HttpNotFound();
             }
 
-            var userRoles = await UserManager.GetRolesAsync(user.Id);
+            if (rol.FirstOrDefault() == "Seleccion/Federacion")
+            {
+                ViewBag.Entidad = db.Selecciones.Where(x => x.Usuario.Id == id).Select(s => s.Nombre_Seleccion).FirstOrDefault();
+            }
+            if (rol.FirstOrDefault() == "Asociacion/Comite")
+            {
+                ViewBag.Entidad = db.Asociacion_Deportiva.Where(x => x.Usuario.Id == id).Select(a => a.Nombre_DepAso).FirstOrDefault();
+            }
+            if (rol.FirstOrDefault() == "Entidades Publicas")
+            {
+                ViewBag.Entidad = db.Entidad_Publica.Where(x => x.Usuario.Id == id).Select(e => e.Tipo_Entidad.Descripcion).FirstOrDefault();
+            }
+            if (rol.FirstOrDefault() == "Entrenador")
+            {
+                ViewBag.Entidad = db.SubSeleccion.Where(x => x.Entrenador.Id == id).Select(s => s.Seleccion.Nombre_Seleccion).FirstOrDefault();
+                ViewBag.Categoria = db.SubSeleccion.Where(x => x.Entrenador.Id == id).Select(s => s.Categoria_Id.Descripcion).FirstOrDefault();
+            }
+            if (rol.FirstOrDefault() == "Atleta" || rol.FirstOrDefault() == "Atleta Becados")
+            {
+                ViewBag.Entidad = db.Atletas.Where(a => a.Usuario.Id == id).Select(s => s.SubSeleccion.Seleccion.Nombre_Seleccion).FirstOrDefault();
+                if(ViewBag.Entidad == null)
+                {
+                    ViewBag.Entidad = db.Atletas.Where(a => a.Usuario.Id == id).Select(a => a.Asociacion_Deportiva.Nombre_DepAso).FirstOrDefault();
+                }
+                ViewBag.Categoria = db.Atletas.Where(a => a.Usuario.Id == id).Select(s => s.SubSeleccion.Categoria_Id.Descripcion).FirstOrDefault();
+            }
 
-            ViewBag.Archivos = db.Archivo.ToList();
-            ViewBag.Archivos = db.Archivo.Where(x => x.Usuario.Id == user.Id);
-            ViewBag.rol = userRoles.First();
-            ViewBag.Usuario = user;
 
-            return View();
+            ViewBag.Role = rol.FirstOrDefault();
 
+            return View(new EditUserViewModel()
+            {
+                Id = user.Id,
+                Email = user.Email,
+                UserName = user.UserName,
+                Cedula = user.Cedula,
+                CedulaExtra = user.CedulaExtra,
+                Nombre1 = user.Nombre1,
+                Nombre2 = user.Nombre2,
+                Apellido1 = user.Apellido1,
+                Apellido2 = user.Apellido2,
+                Fecha_Nacimiento = user.Fecha_Nacimiento,
+                Sexo = user.Sexo,
+                Estado = user.Estado
+            });
         }
 
         //
