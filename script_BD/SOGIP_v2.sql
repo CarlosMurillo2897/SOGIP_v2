@@ -56,7 +56,12 @@ use "SOGIP_v3"
  select * from sogip_atletas where atletaid > 11;
  select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol where u.Id=r.Userid and r.roleid=rol.id and (r.roleid='6' or r.roleid='5');
 
-		sp_help SOGIP_Users; 
+ 1: 914db4cb-8e02-4476-9e42-31befefd7a0e
+ 2: de8b4ac7-40a3-4b23-aa2b-28ae9fcb9253
+ 3: 137feecf-2c48-4e86-8b79-5906b0057c70
+ 4: 9d9d279f-016a-47e9-bf70-9ed4a4754de5
+ 5: 7440f3c4-3528-4606-9bc8-501ad8f15b51
+ 6: 377e1527-58bb-40dc-a873-f88d4a1c1fcf
 
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
@@ -135,6 +140,7 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_Deportes FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Deportes.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
+-- 77 rows
 set @sql = 'BULK INSERT SOGIP_Tipo_Entidad FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Tipo_Entidad.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
@@ -144,13 +150,21 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_UserRoles FROM '''+@VARIABLEACAMBIAR+'\SOGIP_UserRoles.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
+-- 11 rows
 set @sql = 'BULK INSERT SOGIP_Funcionario_ICODER FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Funcionario_ICODER.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+
+set @sql = 'BULK INSERT SOGIP_Asociacion_Deportiva FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Asociacion.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
 SET IDENTITY_INSERT SOGIP_SELECCIONES ON
 set @sql = 'BULK INSERT SOGIP_Selecciones FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Selecciones.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 SET IDENTITY_INSERT SOGIP_SELECCIONES OFF
 exec (@sql)
+
+set @sql = 'BULK INSERT SOGIP_SubSeleccion FROM '''+@VARIABLEACAMBIAR+'\SOGIP_SubSeleccion.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+-- 10 rows
 
 set @sql = 'BULK INSERT SOGIP_Atletas FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Atletas.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
