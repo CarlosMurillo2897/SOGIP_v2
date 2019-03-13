@@ -359,6 +359,7 @@
                 <div class="form-group">
                     <div class="col-md-10">
                         <input type="submit" class="btn btn-default" id="btn_sub_form" value="Crear" />
+                        <input type="button" class="btn btn-warning" id="btn_limpiar_general" value="Limpiar Todo" onclick="$('#selectedRoles').prop('selectedIndex', 0);$('#CedNa').prop('checked', true);$('#CedEx').prop('checked', false);$('#Cedula').val('');$('#Nombre1').val('');$('#Nombre2').val('');$('#Apellido1').val('');$('#Apellido2').val('');$('#birth').val('');$('#Sexo').get(0).selectedIndex = 0;$('#Email').val('');$('#localidad').val('');$('#nombre_aso').val('');$('#SelectedCategory').prop('selectedIndex', 0);$('#SelectedSport').prop('selectedIndex', 0);$('#entrenador').val('');$('#sele_n').val('');$('#SelectedEntity').prop('selectedIndex', 0);$('#Aso').prop('checked', true);$('#Sel').prop('checked', false);$('#SelectedS').prop('selectedIndex', 0);$('#SelectedAsox').prop('selectedIndex', 0);$('#entrenadorF').val('');" />
                     </div>
                 </div>
             </div>
@@ -378,9 +379,17 @@
                             <span class="glyphicon glyphicon-question-sign"></span> Ayuda
                         </a>
                         <hr />
-                        <div class="table-responsive" id="Tabla">
-
-                        </div>
+                        <table id="example" class="display" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Acción</th>
+                                    <th>Nombre</th>
+                                    <th>1° Apellido</th>
+                                    <th>2° Apellido</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="btnSave" data-dismiss="modal" class="btn btn-success">Guardar Cambios</button>

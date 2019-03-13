@@ -22,8 +22,8 @@
     @Styles.Render("~/Content/Archivos.css")
 }
 
-<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
 <div class="container" style="min-height: 369px;">
     <div class="row">
@@ -51,8 +51,7 @@
                         <span class="glyphicon glyphicon-remove"></span>
                         <span class="hidden-xs">Eliminar</span>
                     </button>
-                    <span id="upload" class="btn btn-default image-preview-input ">
-                       
+                    <span id="upload" class="btn btn-default image-preview-input">
                         <span id="folder" class="glyphicon glyphicon-folder-open"></span>
                         <span class="image-preview-input-title hidden-xs"> Buscar </span>
                         <input type="file" id="excelfile" accept=".xlsx,.xls" />
@@ -145,12 +144,8 @@
 </div>
 
 @section Scripts {
-
-    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
-
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/Masivo.js")

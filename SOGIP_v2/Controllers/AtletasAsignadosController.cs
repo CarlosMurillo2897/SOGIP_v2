@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using SOGIP_v2.Models;
 using System;
 using System.Collections.Generic;
@@ -13,105 +12,168 @@ namespace SOGIP_v2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        private ApplicationUserManager _userManager;
-
-        public AtletasAsignadosController() { }
-
-        public AtletasAsignadosController(ApplicationUserManager userManager)
+        [HttpPost]
+        public JsonResult getAtletas()
         {
-            UserManager = userManager;
+            ApplicationUser us;
+            string userid = HttpContext.User.Identity.GetUserId();
+            us = db.Users.Single(x => x.Id == userid);
+            var seleccion = db.Selecciones.Single(x => x.Entrenador_Id.Id == us.Id);
+            var consulta = //from a in db.Atletas
+                       from u in db.Users
+                       from a in db.Atletas
+                           //where u.Id.Equals(a.Usuario.Id)
+                       where u.Id.Equals(a.Usuario.Id) && a.Seleccion.SeleccionId.Equals(seleccion.SeleccionId)
+                       select new
+                       {
+                           Cedula = u.Cedula,
+                           Nombre1 = u.Nombre1,
+                           Apellido1 = u.Apellido1,
+                           Apellido2 = u.Apellido2
+                       };
+
+
+
+            var getAtletas = consulta.ToList();
+            return Json(getAtletas, JsonRequestBehavior.AllowGet); 
         }
 
-        public ApplicationUserManager UserManager
+        [HttpPost]
+        public JsonResult getAtletasS()
         {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+            ApplicationUser us;
+            string userid = HttpContext.User.Identity.GetUserId();
+            us = db.Users.Single(x => x.Id == userid);
+            var seleccion = db.Selecciones.Single(x => x.Usuario.Id == us.Id);
+            var consulta = //from a in db.Atletas
+                       from u in db.Users
+                       from a in db.Atletas
+                           //where u.Id.Equals(a.Usuario.Id)
+                       where u.Id.Equals(a.Usuario.Id) && a.Seleccion.SeleccionId.Equals(seleccion.SeleccionId)
+                       select new
+                       {
+                           Cedula = u.Cedula,
+                           Nombre1 = u.Nombre1,
+                           Apellido1 = u.Apellido1,
+                           Apellido2 = u.Apellido2
+                       };
+
+            var getAtletas = consulta.ToList();
+            return Json(getAtletas, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public JsonResult getAtletasA()
+        {
+            ApplicationUser us;
+            string userid = HttpContext.User.Identity.GetUserId();
+            us = db.Users.Single(x => x.Id == userid);
+            
+
+            var consulta = //from a in db.Atletas
+                      from u in db.Users
+                      from a in db.Funcionario_ICODER
+                          //where u.Id.Equals(a.Usuario.Id)
+                       where u.Id.Equals(a.Usuario.Id) && a.Entrenador.Id.Equals(us.Id)
+                      select new
+                      {
+                          Cedula = u.Cedula,
+                          Nombre1 = u.Nombre1,
+                          Apellido1 = u.Apellido1,
+                          Apellido2 = u.Apellido2
+                      };
+
+            var getAtletas = consulta.ToList();
+            return Json(getAtletas, JsonRequestBehavior.AllowGet);
+        }
+
 
         // GET: AtletasAsignados
-        [Authorize(Roles = "Administrador,Entrenador,Seleccion/Federacion,Asociacion/Comite")]
         public ActionResult Index()
         {
-            string userid = HttpContext.User.Identity.GetUserId();
-            var userRoles = UserManager.GetRoles(userid);
-            ViewBag.Role = userRoles.First();
             return View();
         }
 
-        public JsonResult GetAtletasAsociacion(string usuarioId)
+        public ActionResult IndexS()
         {
-            var consulta = (from a in db.Atletas
-                           where a.Asociacion_Deportiva.Usuario.Id == usuarioId
-                           select new
-                           {
-                               Cedula = a.Usuario.Cedula,
-                               Nombre = a.Usuario.Nombre1 + " " + a.Usuario.Nombre2,
-                               Apellido1 = a.Usuario.Apellido1,
-                               Apellido2 = a.Usuario.Apellido2,
-                               Id = a.Usuario.Id
-                           }).ToList();
-            var aux = consulta;
-            return Json(consulta, JsonRequestBehavior.AllowGet); 
+            return View();
         }
 
-        public JsonResult GetUsuariosSeleccion(string usuarioId)
+        public ActionResult IndexA()
         {
-                var consulta = from a in db.Atletas
-                               from sub in db.SubSeleccion
-                               from c in db.Categorias
-                               where (sub.Seleccion.Usuario.Id == usuarioId && a.SubSeleccion.SubSeleccionId == sub.SubSeleccionId && sub.Categoria_Id.CategoriaId == c.CategoriaId)
-                               select new
-                               {
-                                   Cedula = a.Usuario.Cedula,
-                                   Nombre = a.Usuario.Nombre1 + " " + a.Usuario.Nombre2,
-                                   Apellido1 = a.Usuario.Apellido1,
-                                   Apellido2 = a.Usuario.Apellido2,
-                                   Id = a.Usuario.Id,
-                                   Seleccion = sub.Seleccion.Nombre_Seleccion,
-                                   Categoria = c.Descripcion
-                                   // Categoria = sub.Categoria_Id.Descripcion
-                               };
-            var aux = consulta.ToList();
-            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+            return View();
         }
 
-        public JsonResult GetUsuariosEntrenador(string usuarioId)
+        // GET: AtletasAsignados/Details/5
+        public ActionResult Details(int id)
         {
-                var consulta = from a in db.Atletas
-                               where (a.SubSeleccion.Entrenador.Id == usuarioId)
-                               select new
-                               {
-                                   Cedula = a.Usuario.Cedula,
-                                   Nombre = a.Usuario.Nombre1 + " " + a.Usuario.Nombre2,
-                                   Apellido1 = a.Usuario.Apellido1,
-                                   Apellido2 = a.Usuario.Apellido2,
-                                   Id = a.Usuario.Id
-                               };
-            var aux = consulta.ToList();
-            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+            return View();
         }
 
-        public JsonResult GetAtletasAdministrador(string usuarioId)
+        // GET: AtletasAsignados/Create
+        public ActionResult Create()
         {
-            var consulta = (from f in db.Funcionario_ICODER
-                           where f.Entrenador.Id == usuarioId
-                           select new
-                           {
-                               Cedula = f.Usuario.Cedula,
-                               Nombre = f.Usuario.Nombre1 + " " + f.Usuario.Nombre2,
-                               Apellido1 = f.Usuario.Apellido1,
-                               Apellido2 = f.Usuario.Apellido2,
-                               Id = f.Usuario.Id
-                           }).ToList();
-            var aux = consulta;
-            return Json(consulta, JsonRequestBehavior.AllowGet);
+            return View();
         }
 
+        // POST: AtletasAsignados/Create
+        [HttpPost]
+        public ActionResult Create(FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add insert logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: AtletasAsignados/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: AtletasAsignados/Edit/5
+        [HttpPost]
+        public ActionResult Edit(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: AtletasAsignados/Delete/5
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        // POST: AtletasAsignados/Delete/5
+        [HttpPost]
+        public ActionResult Delete(int id, FormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
+        }
     }
 }

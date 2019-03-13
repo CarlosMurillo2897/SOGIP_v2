@@ -157,21 +157,22 @@
                             <span class="glyphicon glyphicon-calendar"></span> Reservaciones
                         </a>
                     </li>
+                    <li role="presentation">
+                        <a href="~/AtletasAsignados/Index">
+                            <span class="glyphicon glyphicon-list-alt"></span> Atletas
+                        </a>
+                    </li>
                 }
-                    
-                
-                 
-                    @if (User.IsInRole("Seleccion/Federacion") || User.IsInRole("Asociacion/Comite") || User.IsInRole("Entrenador"))
-                    {
-                        <li role="presentation">
-                            <a href="~/AtletasAsignados/Index">
-                                <span class="glyphicon glyphicon-list-alt"></span> Atletas
-                            </a>
-                        </li>
-                    }
-                </ul>
+                @if (User.IsInRole("Seleccion/Federacion"))
+                {
+                    <li role="presentation">
+                        <a href="~/AtletasAsignados/IndexS">
+                            <span class="glyphicon glyphicon-list-alt"></span> Atletas
+                        </a>
+                    </li>
+                }
+            </ul>
             }
-                
             <ul class="nav navbar-nav navbar-right">
                 @if (Request.IsAuthenticated)
                 {

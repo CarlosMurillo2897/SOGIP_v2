@@ -1,407 +1,220 @@
-﻿@model SOGIP_v2.Models.EditUserViewModel
-@using Microsoft.AspNet.Identity
+﻿@using Microsoft.AspNet.Identity
 @using App.Extensions
 
 @{
     ViewBag.Title = "Perfil";
-
-    @Styles.Render("~/Contents/bootstrap-datepicker.css")
-    @Styles.Render("~/Content/jquery.timepicker.css")
-    @Styles.Render("~/Content/Perfil.css")
-
-
-        List<SelectListItem> Sexo = new List<SelectListItem>();
-        Sexo.Add(new SelectListItem
-        {
-            Text = "Femenino",
-            Value = "false",
-        });
-
-        Sexo.Add(new SelectListItem
-        {
-            Text = "Masculino",
-            Value = "true",
-        });
-
-        var aux = "";
-
-        if (ViewBag.Role == "Administrador")
-        {
-            aux = "Funcionarios";
-        }
-        if (ViewBag.Role == "Asociacion/Comite" || ViewBag.Role == "Seleccion/Federacion")
-        {
-            aux = "Atletas";
-        }
 }
+@Styles.Render("~/Content/Perfil.css")
 
-    <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+@*<span class="pull-right"> <input class="btn btn-warning" type="button" onclick="cerrarPaneles()" value="Cerrar Paneles"></span>*@
 
-    <style>
-        li {
-            overflow-wrap: break-word;
-        }
+<div class="container" style="min-height: 369px;">
 
-        .recargar {
-            cursor: pointer;
-            font-size: 30px;
-        }
-    </style>
-    <div class="container-fluid" style="min-height: 369px;">
-        <div class="well">
-            <div class="row">
-                <div class="col-sm-3">
-                    <ul class="list-group">
-                        <li class="list-group-item text-center">
-                            <img class="img-circle" id="Comprobado-1" src="~/Content/Imagenes/M.png" style="width: 90px; height: 90px;" alt="User Pic">
-                        </li>
-                        <li class="list-group-item text-right">
-                            <span class="pull-left">
-                                <strong>Cédula</strong>
-                            </span>
-                            @Model.Cedula
-                        </li>
-                        <li class="list-group-item text-right">
-                            <span class="pull-left">
-                                <strong>Rol</strong>
-                            </span>
-                            @ViewBag.Role
-                            <input type="hidden" id="role" value="@ViewBag.Role" />
-                        </li>
-                        @if (ViewBag.Entidad != null) {
-                            <li class="list-group-item text-right">
-                                <span class="pull-left">
-                                    <strong>Entidad</strong>
-                                </span>
-                                @ViewBag.Entidad
-                            </li>
-                        }
-                        @if (ViewBag.Categoria != null) {
-                            <li class="list-group-item text-right">
-                                <span class="pull-left">
-                                    <strong>Categoría</strong>
-                                </span>
-                                @ViewBag.Categoria
-                            </li>
-                        }
+    <div class="well span8 offset 2">
 
-                        <li class="list-group-item text-right">
-                            <span class="pull-left">
-                                <strong>Nombre</strong>
-                            </span>
-                            @Model.Nombre1 @Model.Nombre2
-                        </li>
-                        <li class="list-group-item text-right">
-                            <span class="pull-left">
-                                <strong>Apellido</strong>
-                            </span>
-                            @Model.Apellido1 @Model.Apellido2
-                        </li>
-                        <li class="list-group-item text-right">
-                            <span class="pull-left">
-                                <strong>E-mail</strong>
-                            </span>
-                            @Model.Email
-                        </li>
-                    </ul>
-                    @*
-                        <ul class="list-group">
-                            <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                            <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-                            <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-                            <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-                            <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
-                        </ul>
-                    *@
+            <div class="row user-row">
 
-                </div><!--/col-3-->
-                <div class="col-sm-9">
-                    <ul class="nav nav-tabs" id="myTab">
-                        <li class="active">
-                            <a href="#Información" class="seco" data-toggle="tab" title="Información">
-                                <text class="hidden-xs">Información</text>
-                                <span class="glyphicon glyphicon-user"></span>
-                            </a>
-                        </li>
-                        @if (ViewBag.Role == "Atleta" || ViewBag.Role == "Atleta Becados" || ViewBag.Role == "Funcionarios ICODER")
-                        {
-                            <li>
-                                <a href="#Rutinas" class="seco" data-toggle="tab" title="Rutinas">
-                                    <text class="hidden-xs">Rutinas </text>
-                                    <span class="glyphicon glyphicon-apple"></span>
-                                </a>
-                            </li>
-                        }
+                <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
 
-                        <li>
-                            <a href="#Archivos" class="seco" data-toggle="tab" title="Archivos" onclick="cargarArchivos('@Model.Id'); $(this).removeAttr('onclick');">
-                                <text class="hidden-xs">Archivos</text>
-                                <span class="glyphicon glyphicon-file"></span>
-                            </a>
-                        </li>
-                        <li>
-                            @if(aux != ""){
-                            <a href="#Atletas" class="seco" data-toggle="tab" title="Usuarios Asignados" onclick="cargarAtletas('@Model.Id'); $(this).removeAttr('onclick');">
-                                <text class="hidden-xs">@aux</text>
-                                <span class="glyphicon glyphicon-list"></span>
-                            </a>
-                            }
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane" id="Rutinas">
-                            <h2>
-                                Rutinas
-                                <span class="pull-right">
-                                    <a class="glyphicon glyphicon-refresh"></a>
-                                </span>
-                            </h2>
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Label 1</th>
-                                            <th>Label 2</th>
-                                            <th>Label 3</th>
-                                            <th>Label </th>
-                                            <th>Label </th>
-                                            <th>Label </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="items">
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <hr>
-                            </div><!--/table-resp-->
-                            <hr>
-                        </div><!--/tab-pane-->
+                    @if (ViewBag.Usuario.Estado == true)
+                    {
+                        <img class="img-circle" id="Comprobado-@ViewBag.Usuario.Id"
+                             src="~/Content/Imagenes/comprobado.png"
+                             style="width: 50px; height: 50px;"
+                             alt="User Pic">
+                    }
+                    else
+                    {
+                        <img class="img-circle" id="Cancelar-@ViewBag.Usuario.Id"
+                             src="~/Content/Imagenes/cancelar.png"
+                             style="width: 50px; height: 50px;"
+                             alt="User Pic">
+                    }
 
-                        <div class="tab-pane" id="Archivos">
-                            <h2>
-                                Archivos
-                                <span class="pull-right">
-                                    <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarArchivos('@Model.Id')"></span>
-                                </span>
-                            </h2>
-                            <hr />
-                            @*<ul class="list-group">
-                                    <li class="list-group-item text-muted">Inbox</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                </ul>*@
-                            <div class="table-responsive" id="files">
+                </div>
 
-                            </div>
+                <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
+                    <strong> @ViewBag.Usuario.Cedula</strong><br>
+                    <strong> @ViewBag.Usuario.Nombre1 @ViewBag.Usuario.Nombre2 @ViewBag.Usuario.Apellido1 @ViewBag.Usuario.Apellido2</strong><br>
+                    <span class="text-muted">Tipo de Usuario: @ViewBag.rol</span>
+                </div>
 
-                        </div><!--/tab-pane-->
-                        <div class="tab-pane" id="Atletas">
-                            @if (aux != "")
-                            {
-                                <h2>
-                                    @aux
-                                    <span class="pull-right">
-                                        <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarAtletas('@Model.Id')"></span>
-                                    </span>
-                                </h2>
-                            }
-                            <hr />
-                            @*<ul class="list-group">
-            <li class="list-group-item text-muted">Inbox</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-        </ul>*@
-                            <div class="table-responsive" id="athletes">
+                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1 dropdown-user" data-for=".@ViewBag.Usuario.Id">
+                    <i class="glyphicon glyphicon-chevron-down text-muted"></i>
+                </div>
 
-                            </div>
+            </div>
 
-                        </div><!--/tab-pane-->
+            <div class="row user-infos @ViewBag.Usuario.Id">
 
-                        <div class="tab-pane active" id="Información">
-                            <h2>
-                                Información Personal
-                                <span id="infoP" class="pull-right glyphicon glyphicon-ok-sign recargar" style="color: rgb(92, 184, 92);" data-toggle="popover" data-html="true" title="<strong>Estado de los datos.</strong>" data-placement="left" data-content="<text style='color: green'>Todos los datos se encuentran correctos.</text>"></span>
-                            </h2>
-                            <hr>
-                            <form id="signupForm1" method="post" action="" novalidate="novalidate">
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <!--label class="control-label" for="ced">Cédula</label-->
-                                        <h4>Cédula</h4>
-                                        <div class="afect">
-                                            @*Html.TextBoxFor(m => m.Nombre1, new { @class="form-control", @id="firstname1", @name="firstname1", @placeholder="First name" })*@
-                                            <input type="text" class="form-control" id="ced" name="ced" placeholder="Digite su cédula." value="@Model.Cedula">
-                                        </div>
-                                    </div>
+                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
+
+                    <div class="panel panel-primary">
+
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Información de Usuario</h3>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="row">
+
+                                <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
+                                    @if (ViewBag.Usuario.Sexo == true)
+                                    {
+                                        <img class="img-circle"
+                                             src="~/Content/Imagenes/M.png"
+                                             style="width: 100px; height: 100px;"
+                                             alt="User Pic">
+                                    }
+                                    else
+                                    {
+                                        <img class="img-circle"
+                                             src="~/Content/Imagenes/W6.png"
+                                             style="width: 100px; height: 100px; background-color:black;"
+                                             alt="User Pic">
+                                    }
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <h4>Primer Nombre</h4>
-                                        <div class="afect">
-                                            <input type="text" class="form-control" id="nom1" name="nom1" placeholder="Digite su primer nombre." value="@Model.Nombre1">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <h4>Segundo Nombre</h4>
-                                        <div class="afect">
-                                            <input type="text" class="form-control" id="nom2" name="nom2" placeholder="Digite su segundo nombre, si posee." value="@Model.Nombre2">
-                                        </div>
-                                    </div>
+
+                                <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
+                                    @if (ViewBag.Usuario.Sexo == true)
+                                    {
+                                        <img class="img-circle"
+                                             src="~/Content/Imagenes/M.png"
+                                             style="width: 50px; height: 50px;"
+                                             alt="User Pic">
+                                    }
+                                    else
+                                    {
+                                        <img class="img-circle"
+                                             src="~/Content/Imagenes/W6.png"
+                                             style="width: 50px; height: 50px; background-color:black;"
+                                             alt="User Pic">
+                                    }
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <h4>Primer Apellido</h4>
-                                        <div class="afect">
-                                            <input type="text" class="form-control" id="ape1" name="ape1" placeholder="Digite su primer apellido." value="@Model.Apellido1">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <h4>Segundo Apellido</h4>
-                                        <div class="afect">
-                                            <input type="text" class="form-control" id="ape2" name="ape2" placeholder="Digite su segundo apellido, si posee." value="@Model.Apellido2">
-                                        </div>
-                                    </div>
+
+                                <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
+                                    <strong>@ViewBag.Usuario.Nombre1 @ViewBag.Usuario.Nombre2 @ViewBag.Usuario.Apellido1 @ViewBag.Usuario.Apellido2</strong><br>
+                                    <dl id="tabla1-@ViewBag.Usuario.Id">
+                                        <dt>Nombre:</dt>
+                                        <dd>@ViewBag.Usuario.Nombre1 @ViewBag.Usuario.Nombre2</dd>
+                                        <dt>Apellidos:</dt>
+                                        <dd>@ViewBag.Usuario.Apellido1 @ViewBag.Usuario.Apellido2</dd>
+                                        <dt>Fecha de Nacimiento:</dt>
+                                        <dd>@ViewBag.Usuario.Fecha_Nacimiento.ToShortDateString()</dd>
+                                        <dt>E-mail:</dt>
+                                        <dd>@ViewBag.Usuario.Email</dd>
+                                        <dt>Localidad:</dt>
+                                        <dd>(vacía)</dd>
+                                        <dt>Género:</dt>
+                                        @if (ViewBag.Usuario.Sexo == true)
+                                        {
+                                            <dd>Masculino</dd>
+                                        }
+                                        else
+                                        {
+                                            <dd>Femenino</dd>
+                                        }
+                                        <dt>Documentos adjuntados: </dt>
+
+                                    </dl>
                                 </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <h4>Email</h4>
-                                        <div class="afect">
-                                            <input type="text" class="form-control" id="email1" name="email1" placeholder="Email" value="@Model.Email">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <h4>Fecha de nacimiento </h4>
-                                        <div class="afect">
-                                            <div class="input-group date" id="dtp">
-                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                <input class="form-control" type="text" id="nac" name="nac" value="@Model.Fecha_Nacimiento.ToShortDateString()" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-3">
-                                        <h4>Género</h4>
-                                        <div class="afect">
-                                            <select class="form-control" id="gender" name="gender" required>
-                                                <option value="">-- Seleccionar --</option>
-                                                @if (Model.Sexo == false)
+                                <div class=" col-md-9 col-lg-9 hidden-xs hidden-sm">
+                                    <strong>@ViewBag.Usuario.Nombre1</strong><br>
+                                    <table class="table table-user-information" id="tabla2-@ViewBag.Usuario.Id">
+                                        <tbody>
+                                            <tr>
+                                                <td>Nombre:</td>
+                                                <td>@ViewBag.Usuario.Nombre1 @ViewBag.Usuario.Nombre2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Apellidos:</td>
+                                                <td>@ViewBag.Usuario.Apellido1 @ViewBag.Usuario.Apellido2</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fecha de Nacimiento:</td>
+                                                <td>@ViewBag.Usuario.Fecha_Nacimiento.ToShortDateString()</td>
+                                            </tr>
+                                            <tr>
+                                                <td>E-mail:</td>
+                                                <td>@ViewBag.Usuario.Email</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Localidad:</td>
+                                                <td>(vacía)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Género:</td>
+                                                @if (ViewBag.Usuario.Sexo == true)
                                                 {
-                                                    <option value="0" selected>Femenino</option>
-                                                    <option value="1">Masculino</option>
+                                                    <td>Masculino</td>
                                                 }
                                                 else
                                                 {
-                                                    <option value="0">Femenino</option>
-                                                    <option value="1" selected>Masculino</option>
+                                                    <td>Femenino</td>
                                                 }
 
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <h4>Contraseña</h4>
-                                        <div class="afect">
-                                            <input type="password" class="form-control" id="password1" name="password1" placeholder="Contraseña">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-5">
-                                        <h4>Restaurar contraseña predeterminada</h4>
-                                        <div class="afect">
-                                            <button class="btn btn-block btn-info">
-                                                Restaurar valor inicial <span class="glyphicon glyphicon-retweet"></span>
-                                            </button>
-                                        </div>
-                                    </div>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Documentos adjuntados:</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Nombre:</td>
+                                                <td>Tipo:</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
-                                <br />
-                                <div class="row">
-                                    <div class="form-group">
-                                        <div class="col-md-6 col-md-offset-4">
-                                            <button type="submit" class="btn btn-lg btn-success" name="signup1" value="Sign up">
-                                                <text class="hidden-xs">Guardar</text>
-                                                <span class="glyphicon glyphicon-ok"></span>
-                                            </button>
-                                            <button type="reset" class="btn btn-lg btn-warning" name="reset" value="Reset">
-                                                <text class="hidden-xs">Limpiar</text>
-                                                <span class="glyphicon glyphicon-refresh"></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                            </div>
                         </div>
-                    </div><!--/tab-pane-->
-                </div><!--/tab-content-->
+
+                        <div class="panel-footer">
+                            @if (ViewBag.Usuario.Id == "8f9c47bf-edbd-40bf-9b5e-f753dd81a766" || ViewBag.Usuario.Id == "b889fe47-541d-4453-8733-022709c1592f")
+                            {
+                                <button class="btn btn-sm btn-info" type="button" id="predeterminado-@ViewBag.Usuario.Id"
+                                        data-toggle="tooltip"
+                                        data-original-title="Usuario no puede ser deshabilitado.">
+                                    Predeterminado <i class="glyphicon glyphicon-alert"></i>
+                                </button>
+                            }
+                            else
+                            {
+                                if (ViewBag.Usuario.Estado == true)
+                                {
+                                    <button class="btn btn-sm btn-danger" type="button" id="disable-@ViewBag.Usuario.Id"
+                                            data-toggle="tooltip"
+                                            data-original-title="Deshabilitar este usuario.">
+                                        Deshabilitar <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-sm btn-success" type="button" id="enable-@ViewBag.Usuario.Id"
+                                            data-toggle="tooltip"
+                                            data-original-title="Habilitar este usuario.">
+                                        Habilitar <i class="glyphicon glyphicon-check"></i>
+                                    </button>
+                                }
+                            }
+
+
+                            <a href="/Manage/ChangePassword/@ViewBag.Usuario.Id" class="btn btn-sm btn-warning" type="button" data-toggle="tooltip" data-original-title="Cambiar contraseña.">
+                                Cambiar contraseña <i class="glyphicon glyphicon-cog"></i>
+                            </a>
+
+                            <span class="pull-right">
+                                <a href="/UsersAdmin/Edit/@ViewBag.Usuario.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
+                                    Editar  <i class="glyphicon glyphicon-edit"></i>
+                                </a>
+                            </span>
+
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
     </div>
+</div>
 
-    @section Scripts {
-        <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
-
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-        @Scripts.Render("~/Scripts/Perfil.js")
-    }
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/IndexUsuarios.js")
+}
