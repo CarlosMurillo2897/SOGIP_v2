@@ -15,64 +15,7 @@
     var viewDataRutina = ViewData["rutina"];
     var viewDataNombre = ViewData["nombre"];
 
-    List<SelectListItem> Color = new List<SelectListItem>();
-    Color.Add(new SelectListItem
-    {
-        Text = "Blanco",
-        Value = "white"
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Rosado",
-        Value = "deeppink",
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Celeste",
-        Value = "aqua"
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Morado",
-        Value = "mediumpurple"
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Naranja",
-        Value = "orange"
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Verde",
-        Value = "chartreuse"
-    });
-    Color.Add(new SelectListItem
-    {
-        Text = "Amarillo",
-        Value = "yellow"
-    });
-
-    List<SelectListItem> Dia = new List<SelectListItem>();
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 1",
-        Value = "Dia1"
-    });
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 2",
-        Value = "Dia2"
-    });
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 3",
-        Value = "Dia3"
-    });
-    Dia.Add(new SelectListItem
-    {
-        Text = "Día 4",
-        Value = "Dia4"
-    });
+   
 }
 <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
 <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
@@ -307,7 +250,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <a href="#" class="close" data-dismiss="modal">&times;</a>
-                    <h3 class="modal-title">Información de Usuario</h3>
+                    <h3 class="modal-title">Información de Ejercicio</h3>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" value="original" id="hidden">
@@ -327,7 +270,7 @@
                   new SelectListItem() { Text = "Día 3", Value = "Dia3" },
                   new SelectListItem() { Text = "Día 4", Value = "Dia4" },
                   },
-                  new { @onchange="CallChangefunc(this.value)" })
+                  new { @onchange="CallChangefunc(this.value)" ,@class="form-control"})
                             </div>
                             <div class="form-group col-md-4">
                                 <label>Color: </label>
@@ -335,14 +278,14 @@
 
                                 @Html.DropDownList("Color", new SelectListItem[]
                                 { new SelectListItem() { Text = "Blanco", Value = "white" },
-                                new SelectListItem() { Text = "Rosado", Value = "deeppink" },
-                                new SelectListItem() { Text = "Celeste", Value = "aqua" },
-                                new SelectListItem() { Text = "Morado", Value = "mediumpurple" },
-                                new SelectListItem() { Text = "Naranja", Value = "orange" },
-                                new SelectListItem() { Text = "Verde", Value = "chartreuse" },
-                                new SelectListItem() { Text = "Amarillo", Value = "yellow" },
+                                new SelectListItem() { Text = "Rosado", Value = "LightPink" },
+                                new SelectListItem() { Text = "Celeste", Value = "LightBlue" },
+                                new SelectListItem() { Text = "Morado", Value = "Lavender" },
+                                new SelectListItem() { Text = "Naranja", Value = "NavajoWhite" },
+                                new SelectListItem() { Text = "Verde", Value = "PaleGreen" },
+                                new SelectListItem() { Text = "Amarillo", Value = "LightYellow" },
                                 },
-                                new { @onchange="CallChangefunc(this.value)" })
+                                new { @onchange="CallChangefunc(this.value)", @class = "form-control" })
 
                             </div>
                         </div>
@@ -547,7 +490,7 @@
                 input10.type = "text";
 
                 var colores = ["Blanco", "Rosado", "Celeste", "Morado", "Naranja", "Verde", "Amarillo"];
-                var colors = ["white", "deeppink", "aqua", "mediumpurple", "orange", "chartreuse", "yellow"];
+                var colors = ["white", "LightPink", "LightBlue", "Lavender", "NavajoWhite", "PaleGreen", "LightYellow"];
                 var c = document.createElement('select');
                 c.type = 'select';
 
