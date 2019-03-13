@@ -15,10 +15,11 @@ use "SOGIP_v3"
  Rol = Atleta					|	 User = 208770327	|	 Password = YuMo2087042006	|	Id =
  Rol = Atleta Becado			|	 User = 110830174	|	 Password = AaHi1108021980	|	Id =
  Rol = Funcionario ICODER		|	 User = 206140354	|	 Password = FeBa2061111956	|	Id =
+ Rol = Funcionario ICODER		|	 User = 205940271	|	 Password = JuAr2059051984	|	Id =
  Rol = Entidades Públicas		|	 User = 			|	 Password =					|	Id =
  Rol = Asociación/Comité		|	 User = 123456789	|	 Password = KiDí1234081997	|	Id = 0aed3613-00da-4867-b2b5-9a46569590bb
  Rol = Usuario Externo			|	 User = 			|	 Password =					|	Id =
-
+		
 
  select SOGIP_Users.Id, Cedula, Nombre1, Nombre2, Apellido1, Fecha_Nacimiento, SOGIP_Roles.Name, SOGIP_Roles.Id
  from 
@@ -33,6 +34,7 @@ use "SOGIP_v3"
  select * from SOGIP_Asociacion_Deportiva;
  select * from SOGIP_Atletas;
  select * from SOGIP_Categorias;
+ select * from SOGIP_Color;
  select * from SOGIP_Cita;
  select * from SOGIP_Conjunto_Ejercicio;
  select * from SOGIP_Deportes;
@@ -55,7 +57,6 @@ use "SOGIP_v3"
 		where RoleId='5';
  select * from SOGIP_Users order by Cedula;
  select * from sogip_atletas where atletaid > 11;
-
  select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol where u.Id=r.Userid and r.roleid=rol.id and (r.roleid='6' or r.roleid='5');
 
 1: 914db4cb-8e02-4476-9e42-31befefd7a0e
