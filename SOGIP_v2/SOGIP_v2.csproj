@@ -226,21 +226,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201902171910335__all.cs" />
-    <Compile Include="Migrations\201902171910335__all.Designer.cs">
-      <DependentUpon>201902171910335__all.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902240200241_maquina.cs" />
-    <Compile Include="Migrations\201902240200241_maquina.Designer.cs">
-      <DependentUpon>201902240200241_maquina.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903031837270_maquinaejercicio.cs" />
-    <Compile Include="Migrations\201903031837270_maquinaejercicio.Designer.cs">
-      <DependentUpon>201903031837270_maquinaejercicio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903110027177_reservacion.cs" />
-    <Compile Include="Migrations\201903110027177_reservacion.Designer.cs">
-      <DependentUpon>201903110027177_reservacion.cs</DependentUpon>
+    <Compile Include="Migrations\201903130459341__all.cs" />
+    <Compile Include="Migrations\201903130459341__all.Designer.cs">
+      <DependentUpon>201903130459341__all.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -890,17 +878,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201902171910335__all.resx">
-      <DependentUpon>201902171910335__all.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902240200241_maquina.resx">
-      <DependentUpon>201902240200241_maquina.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903031837270_maquinaejercicio.resx">
-      <DependentUpon>201903031837270_maquinaejercicio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903110027177_reservacion.resx">
-      <DependentUpon>201903110027177_reservacion.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903130459341__all.resx">
+      <DependentUpon>201903130459341__all.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
