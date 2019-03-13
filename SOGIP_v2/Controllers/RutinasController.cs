@@ -31,8 +31,7 @@ namespace SOGIP_v2.Controllers
         public JsonResult GetUsuarios()
         {
 
-            var consulta1 =
-                            from f in db.Funcionario_ICODER
+            var consulta1 = from f in db.Funcionario_ICODER
                             from u in db.Users.Where(u => u.Id == f.Usuario.Id)
                             select new
                             {
@@ -44,8 +43,7 @@ namespace SOGIP_v2.Controllers
                                 Rol = "Funcionario"
                             };
 
-            var consulta =
-                           from a in db.Atletas
+            var consulta = from a in db.Atletas
                            from u in db.Users.Where(u => u.Id == a.Usuario.Id)
                            select new
                            {
