@@ -1,102 +1,68 @@
-﻿
-@model IEnumerable<SOGIP_v2.Models.Conjunto_Ejercicio>
+﻿@model IEnumerable<SOGIP_v2.Models.Conjunto_Ejercicio>
 
 @{
     ViewBag.Title = "Ejercicios";
-}
-
-
-<h3 style="color: white">Rutina</h3>
-
-@{
     var viewDataRutina = ViewData["rutina"];
-}
-
-@Html.Hidden("data", viewDataRutina)
-
-@{
     var viewDataMensaje = ViewData["mensaje"];
 }
-<h4>@ViewData["mensaje"]</h4>
-<div class="row">
-    <div class="col-sm-12">
-        <table id="proveedores" class="table table-bordered table-responsive table-hover">
-            <thead style="background-color:#337ab7;border-color:#2e6da4;color:#fff;">
+@Html.Hidden("data", viewDataRutina)
 
-                <TR>
-                    <TH COLSPAN=1>Ejercicio</TH>
-                    <TH COLSPAN=3>Semana 1-2</TH>
-                    <TH COLSPAN=3>Semana 3-4</TH>
-                    <TH COLSPAN=3>Semana 5-6</TH>
-
-                </TR>
-
-                <TR>
-
-                    <TH></TH>
-                    <TH>S</TH>
-                    <TH>R</TH>
-                    <TH>P</TH>
-                    <TH>S</TH>
-                    <TH>R</TH>
-                    <TH>P</TH>
-                    <TH>S</TH>
-                    <TH>R</TH>
-                    <TH>P</TH>
-                </TR>
-            </thead>
-            <tbody>
-                @if (ViewBag.Conjunto_Ejercicios1 != null)
-                {
-                    var dia = "";
-
-                    foreach (var item1 in ViewBag.Conjunto_Ejercicios1)
+<div class="container">
+    <div class="well">
+        <h4>Usuario</h4>
+        <h4>@ViewBag.Usuario</h4>
+        <h4>@ViewData["mensaje"]</h4>
+        <div class="table-responsive">
+            <table id="proveedores" class="table table-bordered table-responsive table-hover">
+                <thead style="background-color:#337ab7;border-color:#2e6da4;color:#fff;">
+                    <TR>
+                        <TH COLSPAN=1>Ejercicio</TH>
+                        <TH COLSPAN=3>Semana 1-2</TH>
+                        <TH COLSPAN=3>Semana 3-4</TH>
+                        <TH COLSPAN=3>Semana 5-6</TH>
+                    </TR>
+                    <TR>
+                        <TH></TH>
+                        <TH>S</TH>
+                        <TH>R</TH>
+                        <TH>P</TH>
+                        <TH>S</TH>
+                        <TH>R</TH>
+                        <TH>P</TH>
+                        <TH>S</TH>
+                        <TH>R</TH>
+                        <TH>P</TH>
+                    </TR>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Conjunto_Ejercicios1 != null)
                     {
-                        if (dia != item1.DiaEjercicio)
-                        {
-                            <tr><td>@item1.DiaEjercicio</td></tr>
-                        }
+                        var dia = "";
 
-                        <tr style="background-color: @item1.ColorEjercicio">
-                            <td>@item1.NombreEjercicio</td>
-                            <td>@item1.Serie1</td>
-                            <td>@item1.Repeticion1</td>
-                            <td>@item1.Peso1</td>
-                            <td>@item1.Serie2</td>
-                            <td>@item1.Repeticion2</td>
-                            <td>@item1.Peso2</td>
-                            <td>@item1.Serie3</td>
-                            <td>@item1.Repeticion3</td>
-                            <td>@item1.Peso3</td>
-                        </tr>
-                    }
-                }
-                @if (ViewBag.Conjunto_Ejercicios2 != null)
-                {
-                    var dia = true;
-                    foreach (var item2 in ViewBag.Conjunto_Ejercicios2)
-                    {
-                        if (dia)
+                        foreach (var item1 in ViewBag.Conjunto_Ejercicios1)
                         {
-                            <tr><td>Día 2</td></tr>
-                            dia = false;
-                        }
+                            if (dia != item1.DiaEjercicio)
+                            {
+                                dia = item1.DiaEjercicio;
+                                <tr><td>@item1.DiaEjercicio</td></tr>
+                            }
 
-                        <tr style="background-color: @item2.ColorEjercicio">
-                            <td>@item2.NombreEjercicio</td>
-                            <td>@item2.Serie1</td>
-                            <td>@item2.Repeticion1</td>
-                            <td>@item2.Peso1</td>
-                            <td>@item2.Serie2</td>
-                            <td>@item2.Repeticion2</td>
-                            <td>@item2.Peso2</td>
-                            <td>@item2.Serie3</td>
-                            <td>@item2.Repeticion3</td>
-                            <td>@item2.Peso3</td>
-                        </tr>
+                            <tr style="background-color: @item1.ColorEjercicio">
+                                <td>@item1.NombreEjercicio</td>
+                                <td>@item1.Serie1</td>
+                                <td>@item1.Repeticion1</td>
+                                <td>@item1.Peso1</td>
+                                <td>@item1.Serie2</td>
+                                <td>@item1.Repeticion2</td>
+                                <td>@item1.Peso2</td>
+                                <td>@item1.Serie3</td>
+                                <td>@item1.Repeticion3</td>
+                                <td>@item1.Peso3</td>
+                            </tr>
+                        }
                     }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

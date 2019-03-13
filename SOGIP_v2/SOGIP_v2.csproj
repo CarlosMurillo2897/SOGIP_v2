@@ -209,7 +209,6 @@
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EjercicioController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
-    <Compile Include="Controllers\HorarioController.cs" />
     <Compile Include="Controllers\ExpedientesFisicosController.cs" />
     <Compile Include="Controllers\ReservacionController.cs" />
     <Compile Include="Controllers\MaquinaController.cs" />
@@ -811,11 +810,6 @@
     <Content Include="Views\UsersAdmin\Index.cshtml" />
     <Content Include="Views\Estados\Index.cshtml" />
     <Content Include="Views\UsersAdmin\IndexMasivo.cshtml" />
-    <Content Include="Views\Horario\Create.cshtml" />
-    <Content Include="Views\Horario\Delete.cshtml" />
-    <Content Include="Views\Horario\Details.cshtml" />
-    <Content Include="Views\Horario\Edit.cshtml" />
-    <Content Include="Views\Horario\Index.cshtml" />
     <Content Include="Views\CitasAdmin\Create.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
     <Content Include="Views\Account\Perfil.cshtml" />
@@ -829,8 +823,6 @@
     <Content Include="Views\Rutinas\ListaEjercicio.cshtml" />
     <Content Include="Views\Busqueda\Index.cshtml" />
     <Content Include="Views\AtletasAsignados\Index.cshtml" />
-    <Content Include="Views\AtletasAsignados\IndexS.cshtml" />
-    <Content Include="Views\AtletasAsignados\IndexA.cshtml" />
     <Content Include="Views\CitasAdmin\Create2.cshtml" />
     <Content Include="webfonts\fa-brands-400.svg" />
     <Content Include="webfonts\fa-regular-400.svg" />
@@ -853,6 +845,7 @@
     <Content Include="Views\Maquina\TipoMaquina.cshtml" />
     <Content Include="Views\Ejercicio\TipoEjercicio.cshtml" />
     <Content Include="Views\Maquina\ListaEjercicios.cshtml" />
+    <Content Include="Views\Opciones\Avanzadas.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />

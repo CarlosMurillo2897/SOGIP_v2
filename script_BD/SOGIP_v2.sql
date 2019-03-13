@@ -9,16 +9,15 @@ use "SOGIP_v3"
  +++++++ RECONSTRUIR BASE DE DATOS CON LOS CAMBIOS RESPECTIVOS ++++++++++
 
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
-
- Rol = Selección/Federación	|	 User = 116630668	|	 Password = JuGu1166121996
- Rol = Entrenador				|	 User = 112530907	|	 Password = EmCh1125081985
- Rol = Atleta					|	 User = 208770327	|	 Password = YuMo2087042006
- Rol = Atleta Becado			|	 User = 110830174	|	 Password = AaHi1108021980
- Rol = Funcionario ICODER		|	 User = 206140354	|	 Password = FeBa2061111956
- Rol = Entidades Públicas		|	 User = 			|	 Password = 
- Rol = Asociación/Comité		|	 User = 			|	 Password = 
- Rol = Usuario Externo			|	 User = 			|	 Password = 
-
+ Rol = Selección/Federación		|	 User = 116630668	|	 Password = JuGu1166121996	|	Id =
+ Rol = Entrenador				|	 User = 112530907	|	 Password = EmCh1125081985	|	Id =
+ Rol = Atleta					|	 User = 208770327	|	 Password = YuMo2087042006	|	Id =
+ Rol = Atleta Becado			|	 User = 110830174	|	 Password = AaHi1108021980	|	Id =
+ Rol = Funcionario ICODER		|	 User = 206140354	|	 Password = FeBa2061111956	|	Id =
+ Rol = Funcionario ICODER		|	 User = 205940271	|	 Password = JuAr2059051984	|	Id =
+ Rol = Entidades Públicas		|	 User = 			|	 Password =					|	Id =
+ Rol = Asociación/Comité		|	 User = 123456789	|	 Password = KiDí1234081997	|	Id = 0aed3613-00da-4867-b2b5-9a46569590bb
+ Rol = Usuario Externo			|	 User = 			|	 Password =					|	Id =
 
  select SOGIP_Users.Id, Cedula, Nombre1, Nombre2, Apellido1, Fecha_Nacimiento, SOGIP_Roles.Name, SOGIP_Roles.Id
  from 
@@ -33,6 +32,7 @@ use "SOGIP_v3"
  select * from SOGIP_Asociacion_Deportiva;
  select * from SOGIP_Atletas;
  select * from SOGIP_Categorias;
+ select * from SOGIP_Color;
  select * from SOGIP_Cita;
  select * from SOGIP_Conjunto_Ejercicio;
  select * from SOGIP_Deportes;
@@ -50,12 +50,11 @@ use "SOGIP_v3"
  select * from SOGIP_Tipo_Entidad;
  select * from SOGIP_UserClaims;
  select * from SOGIP_UserLogins;
- select * from SOGIP_UserRoles where RoleId='6';
- select * from SOGIP_Users;
- 
- delete from sogip_users where Cedula='402360192' or Cedula='DP56878FK78';
-
- -- Describe los atributos de cualquier tabla. --
+ select * from SOGIP_UserRoles
+		where RoleId='5';
+ select * from SOGIP_Users order by Cedula;
+ select * from sogip_atletas where atletaid > 11;
+ select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol where u.Id=r.Userid and r.roleid=rol.id and (r.roleid='6' or r.roleid='5');
 
 		sp_help SOGIP_Users; 
 
