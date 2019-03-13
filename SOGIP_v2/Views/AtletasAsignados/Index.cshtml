@@ -1,16 +1,28 @@
+<<<<<<< HEAD
 ﻿@using Microsoft.AspNet.Identity
 @using App.Extensions
 @{
+=======
+﻿@{
+>>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
     ViewBag.Title = "Index";
 }
 
 @Styles.Render("~/Content/manual.css")
+<<<<<<< HEAD
 <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 
 <div class="container">
     <div class="well">
         <input type="hidden" id="ced" value="@User.Identity.GetUserId()" />
+=======
+
+<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<div class="container">
+    <div class="well">
+>>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
         <h3>Usuarios Asignados</h3>
         <br />
         <input type="hidden" id="role" value="@ViewBag.Role" />
@@ -27,83 +39,93 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @*@Scripts.Render("~/Scripts/atletas_asignados.js")*@
-    <script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
-    <script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
 
     <script>
         $(document).ready(function () {
             var url = "";
+<<<<<<< HEAD
             var ced = $('#ced').val();
+=======
+            alert($('#role').val());
+>>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
             var col = [
                 { data: "Cedula" },
                 { data: "Nombre" },
                 { data: "Apellido1" },
                 { data: "Apellido2" },
+<<<<<<< HEAD
+            ];
+
+            var head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr>';
+=======
+                
             ];
 
             var head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr>';
 
-        var table;
-        var dataSet = [];
+            if ($('#role').val() == "Administrador") {
+                url = "/AtletasAsignados/GetAtletasAdministrador";
+            }
+            else if ($('#role').val() == "Seleccion/Federacion") {
+                url = "/AtletasAsignados/GetUsuariosSeleccion";
+                head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Categoría</td><td>Acción</td></tr>';
+                col[col.length] = { data: "Categoria" };
+            }
+            else if ($('#role').val() == "Asociacion/Comite") {
+                url = "/AtletasAsignados/GetAtletasAsociacion";
+            }
+            else if ($('#role').val() == "Entrenador") {
+                url = "/AtletasAsignados/GetUsuariosEntrenador";
+            }
+>>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
 
-        $.ajax({
-            type: "POST",
-            dataType: "JSON",
-            url: "/AtletasAsignados/getAtletas",
-            success: function (data) {
-                $.each(data, function (i, v) {
-                    dataSet.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
-                })
-                table = $('#example').DataTable({
+            col[col.length] = {
+                data: "Id",
+                "render": function (Id) {
+                    return "<a class='btn btn-warning' href='/Account/Perfil?id=" + Id + "' style='padding: 2px 6px; margin:2px;'>" +
+                        "<text class=''> Ver en detalle </text>" +
+                        "<span class='glyphicon glyphicon-user'></span>" +
+                        "</a>";
+                    /*"<a class='btn btn-success' style='padding: 2px 6px; margin:2px;' data-toggle='modal' onclick='EditarModal(this, " + Id + ");'>" +
+                            "<text class='hidden-xs'>Crear Rutina </text>" +
+                            "<span class='glyphicon glyphicon-pencil'></span>" +
+                        "</a>" +*/
+                }
+            };
 
-                    // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
-                    // "iDisplayLength": 5,
-                    "language": {
-                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
-                        "zeroRecords": "No se han encontrado resultados.",
-                        "info": "Mostrando página _PAGE_ de _PAGES_.",
-                        "infoEmpty": "No hay datos para mostrar",
-                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
-                        "search": "Buscar:",
-                        "paginate": {
-                            "first": "Primero",
-                            "last": "Ultimo",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        }
-                    },
-                    data: dataSet,
-                    columns: [
-                        { title: "Acción" },
-                        { title: "Cédula" },
-                        { title: "Nombre" },
-                        { title: "1° Apellido" },
-                        { title: "2° Apellido" }
-                    ],
-                    'columnDefs': [
-                        {
-                            orderable: false,
-                            className: 'select-checkbox',
-                            targets: [0]
-                        }
-                    ],
-                    'select': {
-                        'style': 'os',
-                        'selector': 'td:first-child'
+            $('#example thead').append(head);
+
+            $('#example').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                    "zeroRecords": "No se han encontrado registros.",
+                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
                     }
                 },
                 "ajax": {
                     "url": url,
                     "type": "GET",
+<<<<<<< HEAD
                     "dataSrc": "",
                     "data": { usuarioId: ced }
+=======
+                    "dataSrc": ""
+>>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
                 },
                 columns: col
             });
         });
-
     </script>
 }

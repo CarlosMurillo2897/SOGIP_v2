@@ -9,15 +9,26 @@ use "SOGIP_v3"
  +++++++ RECONSTRUIR BASE DE DATOS CON LOS CAMBIOS RESPECTIVOS ++++++++++
 
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
+<<<<<<< HEAD
+=======
+
+>>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
  Rol = Selección/Federación		|	 User = 116630668	|	 Password = JuGu1166121996	|	Id =
  Rol = Entrenador				|	 User = 112530907	|	 Password = EmCh1125081985	|	Id =
  Rol = Atleta					|	 User = 208770327	|	 Password = YuMo2087042006	|	Id =
  Rol = Atleta Becado			|	 User = 110830174	|	 Password = AaHi1108021980	|	Id =
  Rol = Funcionario ICODER		|	 User = 206140354	|	 Password = FeBa2061111956	|	Id =
+<<<<<<< HEAD
  Rol = Funcionario ICODER		|	 User = 205940271	|	 Password = JuAr2059051984	|	Id =
  Rol = Entidades Públicas		|	 User = 			|	 Password =					|	Id =
  Rol = Asociación/Comité		|	 User = 123456789	|	 Password = KiDí1234081997	|	Id = 0aed3613-00da-4867-b2b5-9a46569590bb
  Rol = Usuario Externo			|	 User = 			|	 Password =					|	Id =
+=======
+ Rol = Entidades Públicas		|	 User = 			|	 Password =					|	Id =
+ Rol = Asociación/Comité		|	 User = 123456789	|	 Password = KiDí1234081997	|	Id = 0aed3613-00da-4867-b2b5-9a46569590bb
+ Rol = Usuario Externo			|	 User = 			|	 Password =					|	Id =
+
+>>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
 
  select SOGIP_Users.Id, Cedula, Nombre1, Nombre2, Apellido1, Fecha_Nacimiento, SOGIP_Roles.Name, SOGIP_Roles.Id
  from 
@@ -39,12 +50,13 @@ use "SOGIP_v3"
  select * from SOGIP_Entidad_Publica;
  select * from SOGIP_Estados;
  select * from SOGIP_Expedientes_Fisicos;
- select * from SOGIP_Funcionario_ICODER;
+ select * from SOGIP_Funcionario_ICODER as f, sogip_users as u where f.usuario_id=u.id and u.Sexo=0;
  select * from SOGIP_Horario;
  select * from SOGIP_Parametro;
  select * from SOGIP_Roles order by Id asc;
  select * from SOGIP_Rutina;
  select * from SOGIP_Selecciones;
+ select * from SOGIP_SubSeleccion;
  select * from SOGIP_Tipo order by TipoId;
  select * from SOGIP_Tipo_Deporte;
  select * from SOGIP_Tipo_Entidad;
@@ -54,6 +66,7 @@ use "SOGIP_v3"
 		where RoleId='5';
  select * from SOGIP_Users order by Cedula;
  select * from sogip_atletas where atletaid > 11;
+<<<<<<< HEAD
  select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol where u.Id=r.Userid and r.roleid=rol.id and (r.roleid='6' or r.roleid='5');
 
  1: 914db4cb-8e02-4476-9e42-31befefd7a0e
@@ -62,6 +75,17 @@ use "SOGIP_v3"
  4: 9d9d279f-016a-47e9-bf70-9ed4a4754de5
  5: 7440f3c4-3528-4606-9bc8-501ad8f15b51
  6: 377e1527-58bb-40dc-a873-f88d4a1c1fcf
+=======
+
+ select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol where u.Id=r.Userid and r.roleid=rol.id and (r.roleid='6' or r.roleid='5');
+
+1: 914db4cb-8e02-4476-9e42-31befefd7a0e
+2: de8b4ac7-40a3-4b23-aa2b-28ae9fcb9253
+3: 137feecf-2c48-4e86-8b79-5906b0057c70
+4: 9d9d279f-016a-47e9-bf70-9ed4a4754de5
+5: 7440f3c4-3528-4606-9bc8-501ad8f15b51
+6: 377e1527-58bb-40dc-a873-f88d4a1c1fcf
+>>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
 
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
@@ -91,8 +115,7 @@ use "SOGIP_v3"
  delete from SOGIP_UserLogins;
  delete from SOGIP_UserRoles;
  delete from SOGIP_Users;
- 
- 
+
  ++++++++++++++++++++++++++++ Delete's ++++++++++++++++++++++++++++
 
  ++++++++++++++++++++++++++ Trigger's ++++++++++++++++++++++++++
@@ -121,6 +144,7 @@ DECLARE @VARIABLEACAMBIAR varchar(100);
 -- *************************** DONDE ESTÉ EL PROYECTO SOGIP_V2 *********************************************************
 -- *************************** Y DENTRO DE ESTA CARPETA LA CARPETA SCRIPT_BD *********************************************************
 set @VARIABLEACAMBIAR = 'C:\Users\CCM\Documents\GitHub\SOGIP_v2\script_BD'
+
 -- ************************************************************************************
 -- ************************************************************************************
 
@@ -168,20 +192,26 @@ exec (@sql)
 
 set @sql = 'BULK INSERT SOGIP_Atletas FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Atletas.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+-- 10 rows
 
 set @sql = 'BULK INSERT SOGIP_Rutina FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Rutina.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+-- 6 rows
 
 set @sql = 'BULK INSERT SOGIP_Conjunto_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Conjunto_Ejercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+-- 33 rows
 
 set @sql = 'BULK INSERT SOGIP_Cita FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Cita.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+-- 18 rows
 
 set @sql = 'BULK INSERT SOGIP_Tipo FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Tipo.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+-- 6 rows
 
 set @sql = 'BULK INSERT SOGIP_Color FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Color.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+-- 7 rows
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++

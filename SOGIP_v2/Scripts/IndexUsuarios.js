@@ -1,12 +1,11 @@
 ﻿$(document).ready(function () {
+
     var panels = $('.user-infos');
     var panelsButton = $('.dropdown-user');
     panels.hide();
 
     $.noConflict();
     $('#tabla').DataTable({
-        // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
-        // "iDisplayLength": 5,
         "language": {
             "lengthMenu": "Mostrando _MENU_ resultados por página.",
             "zeroRecords": "No se han encontrado resultados.",
@@ -36,35 +35,37 @@
         if (idFor.is(':visible')) {
             let index, table = document.getElementById("tabla2-"+id);
 
-            while (table.rows.length > 8) {
-                table.deleteRow(8);
-            }
+            //while (table.rows.length > 8) {
+                //table.deleteRow(8);
+            //}
+
+            //alert(document.getElementById("tabla2-" + id).filter('.supr').length);
+            $('.supr').remove();
+            
         }
         else {
             $.get("/UsersAdmin/ArchivosUsuario", { usuarioId: id }, function (data) {
                 $.each(data, function (index, row) {
                     index = index + 1;
 
-                    $("#tabla1-" + id).append('<dt>Nombre: </dt><dd>' + index + '. ' + row.Nombre + '</dd>' +
-                        '<dt>Tipo: </dt><dd>' + row.Tipo + '</dd><dd>' +
-                        '<form action="/UsersAdmin/Download" method="post" enctype="multipart/form-data">' +
-                        '<input type="hidden" name="Documento" value="' + row.ArchivoId + '" />' +
-                        '<button class="btn btn-sm btn-success" type="submit" data-toggle="tooltip" data-original-title="Descargar este documento.">' +
-                        'Descargar <i class="glyphicon glyphicon-download"></i>' +
-                        '</button></form>' +
+                    $("#tabla1-" + id).append('<dt class="supr">Nombre: </dt><dd class="supr">' + index + '. ' + row.Nombre + '</dd>' +
+                        '<dt class="supr">Tipo: </dt></dd>' + row.Tipo + '</dd>' +
+                            '<dd class="supr">' + 
+                                '<a class="btn btn-info" href="/UsersAdmin/Download?archivoId=' + row.ArchivoId + '" style="padding: 2px 6px; margin: 2px;">' +
+                                    '<text class="hidden-xs">Descargar </text>' +
+                                    '<span class="glyphicon glyphicon-download"></span>' +
+                                '</a>' +
                         '</dd>');
 
-                    $("#tabla2-" + id).append('<tr><td>' + index + '. ' + row.Nombre + '</td><td>' + row.Tipo + '</td><td>' +
-                        '<form action="/UsersAdmin/Download" method="post" enctype="multipart/form-data">' +
-                        '<input type="hidden" name="Documento" value="'+row.ArchivoId+'" />' +
-                        '<button class="btn btn-sm btn-success" type="submit" data-toggle="tooltip" data-original-title="Descargar este documento.">' +
-                        'Descargar <i class="glyphicon glyphicon-download"></i>' +
-                        '</button></form>' +
+                    $("#tabla2-" + id).append('<tr class="supr"><td>' + index + '. ' + row.Nombre + '</td><td>' + row.Tipo + '</td><td>' +
+                            '<a class="btn btn-info" href="/UsersAdmin/Download?archivoId=' + row.ArchivoId + '" style="padding: 2px 6px; margin: 2px;">' +
+                                '<text class="hidden-xs">Descargar </text>' +
+                                '<span class="glyphicon glyphicon-download"></span>' +
+                            '</a>' +
                         '</td></tr>');
+
                 });
-
             });
-
         }
         
         idFor.slideToggle(400, function () {
@@ -77,6 +78,7 @@
             }
         });
     });
+
 });
 
 function dis(id, DI) {
@@ -145,5 +147,72 @@ function dis(id, DI) {
                 
         }
     });
+
+}
+
+function cargaArchivos(id) {
+
+    $.ajax({
+        url: "/UsersAdmin/ArchivosUsuario",
+        type: "GET",
+        data: { UsuarioId: id },
+        success: function (data) {
+            alert('Todo en orden.');
+
+            /*ArchivoId = a.ArchivoId,
+                Nombre = a.Nombre,
+                Tipo = t.Nombre*/
+        },
+        error: function () {
+            alert('Error desconocido.');
+        }
+
+    });
+
+    /*$.each(data, function (index, row) {*/
+    $('#archivos').DataTable({
+            "language": {
+                "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                "zeroRecords": "No se han encontrado registros.",
+                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                "infoEmpty": "No hay datos para mostrar",
+                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                "search": "Filtrar:",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "ajax": {
+                "url": "/ExpedientesFisicos/ObtenerArchivos",
+                "type": "GET",
+                "dataSrc": ""
+            },
+            columns: [
+                { data: "Nombre" },
+                { data: "Tipo" },
+                { data: "Usuario" },
+                {
+                    data: "Id",
+                    "render": function (Id) {
+                        return "<a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
+                                    "<text class='hidden-xs'>Eliminar </text>" +
+                                    "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                "</a>" +
+                                "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='EditarModal(this, " + Id + ");'>" +
+                                    "<text class='hidden-xs'>Editar </text>" +
+                                    "<span class='glyphicon glyphicon-pencil'></span>" +
+                                "</a>" +
+                                "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
+                                    "<text class='hidden-xs'>Descargar </text>" +
+                                    "<span class='glyphicon glyphicon-download'></span>" +
+                                "</a>";
+                    }
+                }
+            ]
+    });
+      
 
 }

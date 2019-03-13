@@ -19,11 +19,7 @@
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="~/Scripts/jquery.min.js"></script>
-<script src="~/Scripts/bootstrap.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-<link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
+
 <div class="container">
     <button type="button" class="btn btn-primary" data-toggle="modal" id="btnNuevo">
         Nueva Rutina
@@ -182,6 +178,7 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
+
         function eliminar() {
             var des = $('#example').DataTable();
             des.destroy();
@@ -288,7 +285,12 @@
             var dataSet = [];
             var cedu = null;
             tabla();
+<<<<<<< HEAD
 
+=======
+            usuarios();
+           
+>>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
             $('#btnNuevo').click(function () {
                 $('#nueva').modal('show');
                 usuarios();
@@ -364,7 +366,6 @@
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
                         eliminar();
-                        
                     },
                     error: function () {
                         alert("Fallo");
@@ -492,6 +493,7 @@
                 cedu = tr.find('td:eq(1)').text();
                 $('#Tabla_Usuarios').hide();
             });
+
 
             $('#botón').click(function () {
                 $('#Tabla_Usuarios').show();

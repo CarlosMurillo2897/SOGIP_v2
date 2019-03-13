@@ -27,11 +27,14 @@ function cargarDatos(select) {
     // Si el select no se encuentra en la opción de -- Seleccionar --
     if (select !== '0') {
         // Creamos la tabla nuevamente, con id, clase y con largo predeterminado, así como un encabezado de la tabla predefinido.
+        var header = select === '6' ? '<thead><tr><th>Acción</th><th>Cédula</th><th>Entidad</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Rol</th></tr></thead>' : '<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Rol</th></tr></thead>';
+
         var table = $('<table/>', {
             id: 'example',
             class: 'table-striped',
             width: '100%'
-        }).append('<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Rol</th></tr></thead>');
+        }).append(header);
+
         $('#Tabla_Usuarios').append(table);
 
         $('#texto').html('Seleccione un Usuario ');
@@ -156,7 +159,12 @@ function tablaUsuarios(id) {
         url: "/ExpedientesFisicos/ObtenerUsuarios",
         success: function (data) {
             $.each(data, function (i, v) {
-                dataSet.push(["", v.Cedula, v.Nombre1 + " " + v.Nombre2, v.Apellido1, v.Apellido2, v.Role]);
+                if (id === '6') {
+                    dataSet.push(["", v.Cedula, v.Entidad, v.Nombre1 + " " + v.Nombre2, v.Apellido1, v.Apellido2, v.Role]);
+                }
+                else {
+                    dataSet.push(["", v.Cedula, v.Nombre1 + " " + v.Nombre2, v.Apellido1, v.Apellido2, v.Role]);
+                }
             });
             table = $('#example').DataTable({
                 "language": {

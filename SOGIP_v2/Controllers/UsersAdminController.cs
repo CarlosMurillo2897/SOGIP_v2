@@ -25,9 +25,9 @@ namespace SOGIP_v2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public UsersAdminController(){}
+        public UsersAdminController() { }
 
-        public static string composicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
+        public static string ComposicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
         {
             string mes = "";
 
@@ -45,7 +45,7 @@ namespace SOGIP_v2.Controllers
                               Cedula.Substring(0, 4) +
                               mes +
                               Nacimiento.Year;
-                return password;
+            return password;
         }
 
         public UsersAdminController(ApplicationUserManager userManager, ApplicationRoleManager roleManager)
@@ -83,6 +83,7 @@ namespace SOGIP_v2.Controllers
         //
         // GET: /Users/
         [HttpGet]
+        [Authorize(Roles = "Administrador,Supervisor")]
         public async Task<ActionResult> Index()
         {
             var usuarios = await UserManager.Users.ToListAsync();
@@ -91,6 +92,43 @@ namespace SOGIP_v2.Controllers
             {
                 var rol = await UserManager.GetRolesAsync(usuario.Id);
                 ViewData[usuario.Id] = rol.First();
+
+                if (rol.First() == "Atleta" || rol.First() == "Atleta Becados")
+                {
+                    /* Usuarios deben pertenecer a una Selección o bien, */
+                    var s = db.Atletas.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.SubSeleccion.Seleccion.Nombre_Seleccion).FirstOrDefault();
+
+                    var sub = (from a in db.Atletas
+                               from c in db.Categorias
+                               where (a.Usuario.Id == usuario.Id && a.SubSeleccion.Categoria_Id.CategoriaId == c.CategoriaId)
+                               select c.Descripcion).ToList();
+
+                    /* los Usuarios deben pertenecer a una Asociación. */
+                    var aso = db.Atletas.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Asociacion_Deportiva.Nombre_DepAso).FirstOrDefault();
+
+                    if (aso != null) { ViewData["Asociación" + usuario.Id] = aso; }
+                    if (s != null) { ViewData["Selección" + usuario.Id] = s; }
+                    if (sub.Count != 0) { ViewData["SubSelección" + usuario.Id] = sub; }
+
+                }
+                else if (rol.First() == "Seleccion/Federacion") {
+
+                    var s = db.Selecciones.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Nombre_Seleccion).FirstOrDefault();
+
+                    var sub = (from sss in db.SubSeleccion
+                               from c in db.Categorias
+                               where (sss.Seleccion.Usuario.Id == usuario.Id && sss.Categoria_Id.CategoriaId == c.CategoriaId)
+                               select c.Descripcion).ToList();
+
+                    if (sub.Count != 0) { ViewData["SubSelección" + usuario.Id] = sub; }
+                    if (s != null) { ViewData["Selección" + usuario.Id] = s; }
+                }
+                else if (rol.First() == "Asociacion/Comite")
+                {
+                    var aso = db.Asociacion_Deportiva.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Nombre_DepAso).FirstOrDefault();
+                    if (aso != null) { ViewData["Asociación" + usuario.Id] = aso; }
+                }
+
             }
 
             return View(usuarios);
@@ -98,58 +136,102 @@ namespace SOGIP_v2.Controllers
 
         public JsonResult ArchivosUsuario(string usuarioId)
         {
-            List<Archivo> archivos = db.Archivo.Where(x => x.Usuario.Id == usuarioId).ToList();
-            return Json(archivos, JsonRequestBehavior.AllowGet);
+            var archivos = from a in db.Archivo
+                           from t in db.Tipos
+                           where a.Usuario.Id == usuarioId && a.Tipo.TipoId == t.TipoId
+                           select new
+                           {
+                               ArchivoId = a.ArchivoId,
+                               Nombre = a.Nombre,
+                               Tipo = t.Nombre
+                           };
+
+            return Json(archivos.ToList(), JsonRequestBehavior.AllowGet);
         }
-        
+
         public JsonResult InhabilitarUsuario(string usuarioId, bool estado) // estado = true -> usuario.Estado = 0 / estado = false -> usuario.Estado = 1
         {
             var usuario = db.Users.Where(x => x.Id == usuarioId).SingleOrDefault();
-                
-                usuario.Estado = (estado)? false : true;
-                db.SaveChanges();
+
+            usuario.Estado = (estado) ? false : true;
+            db.SaveChanges();
 
             return Json(usuario.Estado, JsonRequestBehavior.AllowGet);
         }
 
-       
-
-        //
-        // GET: /Users/Details/5
-        [HttpGet]
-        public async Task<ActionResult> Details(string id)
+        public JsonResult getEntrenador(int tipo)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            try {
+                // Si es true es un entrenador, si es false es un administrador.
+                string var = tipo == 2 ? "2" : "4";
+
+                // var users = db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(var)).ToList();
+                var users = (from u in db.Users
+                             where u.Roles.FirstOrDefault().RoleId == var
+                             select new
+                             {
+                                 Cedula = u.Cedula,
+                                 Nombre1 = u.Nombre1,
+                                 Apellido1 = u.Apellido1,
+                                 Apellido2 = u.Apellido2
+                             }).ToList();
+
+                return Json(users, JsonRequestBehavior.AllowGet);
             }
-            var user = await UserManager.FindByIdAsync(id);
-
-            ViewBag.RoleNames = await UserManager.GetRolesAsync(user.Id);
-
-            return View(user);
+            catch (Exception)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
-        [HttpPost]
-        public JsonResult getEntrenador(bool rolDeUsuario)
+
+        public JsonResult getEntidades(int tipo)
         {
-            // Si es true es un entrenador, si es false es un administrador.
-            string var = rolDeUsuario ? "4" : "2";
-            var users = db.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains(var)).ToList();
-            return Json(users, JsonRequestBehavior.AllowGet);
+            try
+            {
+                var selex = from u in db.Users
+                            from s in db.Selecciones
+                            where
+                            u.Id.Equals(s.Usuario.Id)
+                            select new
+                            {
+                                Cedula = u.Cedula,
+                                Nombre1 = u.Nombre1,
+                                Nombre2 = u.Nombre2,
+                                Apellido1 = u.Apellido1,
+                                Apellido2 = u.Apellido2,
+                                Entidad = s.Nombre_Seleccion,
+                                Role = "Seleccion/Federacion"
+                            };
+
+                var asox = from u in db.Users
+                           from a in db.Asociacion_Deportiva
+                           where
+                           u.Id.Equals(a.Usuario.Id)
+                           select new
+                           {
+                               Cedula = u.Cedula,
+                               Nombre1 = u.Nombre1,
+                               Nombre2 = u.Nombre2,
+                               Apellido1 = u.Apellido1,
+                               Apellido2 = u.Apellido2,
+                               Entidad = a.Nombre_DepAso,
+                               Role = "Asociacion/Comite"
+                           };
+
+                var list = Enumerable.Union(selex, asox).ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
         }
 
-        [HttpPost]
-        public JsonResult getEntrenador2()
-        {
-
-            var data = new ApplicationDbContext();
-            var users = data.Users.Where(x => x.Roles.Select(y => y.RoleId).Contains("2")).ToList();
-
-            return Json(users, JsonRequestBehavior.AllowGet);
-        }
-        //
         // GET: /Users/Create
         //[HttpGet]
+        [Authorize(Roles = "Administrador,Supervisor")]
         public async Task<ActionResult> Create()
         {
             ViewBag.Entidades = new SelectList(db.Tipo_Entidad.ToList(), "Tipo_EntidadId", "Descripcion");
@@ -165,9 +247,8 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, string selectedRoles, int? SelectedCategory, int? SelectedSport, FormCollection form, HttpPostedFileBase CV)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, string selectedRoles, int? SelectedCategory, int? SelectedSport, FormCollection form, HttpPostedFileBase CV, string nombre_aso)
         {
-            
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -185,7 +266,7 @@ namespace SOGIP_v2.Controllers
                     Estado = true
             };
                 
-                var adminresult = await UserManager.CreateAsync(user, composicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));
+                var adminresult = await UserManager.CreateAsync(user, ComposicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
                 {
@@ -208,14 +289,22 @@ namespace SOGIP_v2.Controllers
                                     var cat = db.Categorias.Single(x => x.CategoriaId == SelectedCategory);
                                     Seleccion seleccion = new Seleccion()
                                     {
-                                        Nombre_Seleccion = "SELECCIÓN" + " " + cat.Descripcion + " " + "DE" + " " + deporte.Nombre,
+                                        Nombre_Seleccion = "SELECCIÓN DE " + deporte.Nombre,
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
                                         Deporte_Id = db.Deportes.Single(x => x.DeporteId == SelectedSport),
-                                        Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
-                                        Entrenador_Id = db.Users.Where(x => x.Cedula == en).FirstOrDefault()
+                                        // Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
+                                        // Entrenador_Id = db.Users.Where(x => x.Cedula == en).FirstOrDefault()
                                     };
 
                                     db.Selecciones.Add(seleccion);
+                                    db.SaveChanges();
+                                    SubSeleccion subSeleccion = new SubSeleccion()
+                                    {
+                                        Seleccion = seleccion,
+                                        Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
+                                        Entrenador = db.Users.Where(x => x.Cedula == en).FirstOrDefault()
+                                    };
+                                    db.SubSeleccion.Add(subSeleccion);
                                     break;
                                 }
 
@@ -243,11 +332,11 @@ namespace SOGIP_v2.Controllers
                                     Atleta atleta = new Atleta()
                                     {
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
-                                        Localidad = (form["nombre_localidad"].ToString() == null) ? null : form["nombre_localidad"].ToString().ToUpper(),
+                                        // Localidad = (form["nombre_localidad"].ToString() == null) ? null : form["nombre_localidad"].ToString().ToUpper(),
                                     };
                                     if (Atleta_Tipo == "Selección")
                                     {
-                                        atleta.Seleccion = db.Selecciones.Single(x => x.SeleccionId == selectedS);
+                                        atleta.SubSeleccion = db.SubSeleccion.Single(x => x.Seleccion.SeleccionId == selectedS);
                                     }
                                     else
                                     {
@@ -288,8 +377,8 @@ namespace SOGIP_v2.Controllers
                                     Asociacion_Deportiva asociacion = new Asociacion_Deportiva()
                                     {
                                         Localidad = (form["nombre_localidad"].ToString() == null) ? null : form["nombre_localidad"].ToString().ToUpper(),
-                                        Nombre_DepAso = (form["nombre_aso"].ToString() == null) ? null : form["nombre_aso"].ToString().ToUpper(),
-                                        Usuario = db.Users.Single(x => x.Id == user.Id)
+                                        Usuario = db.Users.Single(x => x.Id == user.Id),
+                                        Nombre_DepAso = (nombre_aso == null) ? null : nombre_aso.ToString().ToUpper()
                                     };
 
                                     db.Asociacion_Deportiva.Add(asociacion);
@@ -343,11 +432,6 @@ namespace SOGIP_v2.Controllers
             return View();
         }
 
-        public async void func()
-        {
-            await UserManager.UpdateSecurityStampAsync("8d30625f-4e2e-4c3b-b588-6ccbcfcc0a67");
-        }
-
         // GET: /Users/Edit/1
         [HttpGet]
         public async Task<ActionResult> Edit(string id)
@@ -366,8 +450,6 @@ namespace SOGIP_v2.Controllers
 
             var userRoles = await UserManager.GetRolesAsync(user.Id);
 
-
-
             //Comite/Aso *****
             ViewBag.Asociaciones = new SelectList(db.Asociacion_Deportiva.ToList(), "Asociacion_DeportivaId", "Nombre_DepAso");
             var comite = db.Asociacion_Deportiva.Where(x => x.Usuario.Id == user.Id).FirstOrDefault();
@@ -378,7 +460,6 @@ namespace SOGIP_v2.Controllers
             ViewBag.Entidades = new SelectList(db.Tipo_Entidad.ToList(), "Tipo_EntidadId", "Descripcion");
             var entidad = db.Entidad_Publica.Where(x => x.Usuario.Id == user.Id).FirstOrDefault();
             if (entidad != null) { ViewBag.entidad = entidad.Tipo_Entidad.Tipo_EntidadId; }
-
 
             //Usuario
             ViewBag.genero = user.Sexo;
@@ -392,7 +473,7 @@ namespace SOGIP_v2.Controllers
             if (atleta != null)
             {
                 if (atleta.Asociacion_Deportiva != null) { ViewBag.var1 = atleta.Asociacion_Deportiva.Asociacion_DeportivaId; }
-                if (atleta.Seleccion != null) { ViewBag.var2 = atleta.Seleccion.SeleccionId; }
+                if (atleta.SubSeleccion != null) { ViewBag.var2 = atleta.SubSeleccion.Seleccion.SeleccionId; }
             }
 
             //Entrenador
@@ -418,8 +499,6 @@ namespace SOGIP_v2.Controllers
             });
         }
 
-            
-
         public void Download(int archivoId)
         {
                 var v = db.Archivo.Where(x => x.ArchivoId == archivoId).Include("Tipo").FirstOrDefault();
@@ -430,45 +509,6 @@ namespace SOGIP_v2.Controllers
                 Response.Flush();
                 Response.End();
         }
-
-        /*
-        [HttpPost]
-        public void Download(int Documento)
-        {
-            var v = db.Archivo.Where( x => x.ArchivoId == Documento).Include("Tipo").FirstOrDefault();
-
-            if (v != null)
-            {
-                byte[] fileData = v.Contenido;
-                Response.AddHeader("Content-type", v.Tipo.Nombre);
-                Response.AddHeader("Content-Disposition", "attachment; filename=\"" + v.Nombre + "\"");
-
-                byte[] dataBlock = new byte[0x1000];
-                long fileSize;
-                int bytesRead;
-                long totalsBytesRead = 0;
-
-                using (Stream st = new MemoryStream(fileData))
-                {
-                    fileSize = st.Length;
-                    while (totalsBytesRead < fileSize)
-                    {
-                        if (Response.IsClientConnected)
-                        {
-                            bytesRead = st.Read(dataBlock, 0, dataBlock.Length);
-                            Response.OutputStream.Write(dataBlock, 0, bytesRead);
-
-                            Response.Flush();
-
-                            totalsBytesRead += bytesRead;
-                        }
-
-                    }
-                }
-                Response.End();
-            }
-        }
-        */
 
         // POST: /Users/Edit/5
         [HttpPost]
@@ -535,7 +575,7 @@ namespace SOGIP_v2.Controllers
                         var atleta = db.Atletas.Single(x=>x.Usuario.Id==editUser.Id);
                         if (Atleta_Tipo == "Selección")
                         {
-                            atleta.Seleccion = db.Selecciones.Single(x => x.SeleccionId == selectedS);
+                            atleta.SubSeleccion = db.SubSeleccion.Single(x => x.Seleccion.SeleccionId == selectedS);
                         }
                         else
                         {
@@ -552,6 +592,7 @@ namespace SOGIP_v2.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "Administrador,Supervisor")]
         public ActionResult IndexMasivo()
         {
             return View();
@@ -560,17 +601,20 @@ namespace SOGIP_v2.Controllers
         public JsonResult ObtenerUsuarios()
         {
             var selex = from u in db.Users
-                       from s in db.Selecciones
-                       where
-                       u.Id.Equals(s.Usuario.Id)
-                       select new
-                       {
-                           Acción = "",
-                           Cédula = u.Cedula,
-                           Nombre = u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2,
-                           Entidad = s.Nombre_Seleccion,
-                           Rol = "Seleccion/Federacion"
-                       };
+                        from s in db.Selecciones
+                        where
+                        u.Id.Equals(s.Usuario.Id)
+                        select new
+                        {
+                            Cédula = u.Cedula,
+                            Nombre = u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2,
+                            Entidad = s.Nombre_Seleccion,
+                            Rol = "Seleccion/Federacion",
+                            Categoria = db.SubSeleccion.Where(x => x.Seleccion.SeleccionId == s.SeleccionId).Select(ss => ss.Categoria_Id).ToList()
+                        };
+
+            var sex = selex.ToList();
+            List<Categoria> str = new List<Categoria>();
 
             var asox = from u in db.Users
                        from a in db.Asociacion_Deportiva
@@ -578,12 +622,12 @@ namespace SOGIP_v2.Controllers
                        u.Id.Equals(a.Usuario.Id)
                        select new
                        {
-                           Acción = "",
                            Cédula = u.Cedula,
                            Nombre = u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2,
                            Entidad = a.Nombre_DepAso,
-                           Rol = "Asociacion/Comite"
-                       };
+                           Rol = "Asociacion/Comite",
+                           Categoria = str
+            };
 
             var entidades = Enumerable.Union(selex, asox).ToList();
 
@@ -594,8 +638,7 @@ namespace SOGIP_v2.Controllers
         public JsonResult Import(HttpPostedFileBase excelfile)
         {
             var path = Server.MapPath("~/Content/Registros/" + excelfile.FileName);
-            List<ApplicationUser> ls = new List<ApplicationUser>();
-            // List<object> lista = new List<object>();
+             List<object> ls = new List<object>();
 
             try
             {
@@ -625,17 +668,6 @@ namespace SOGIP_v2.Controllers
                     object sexo = workSheet.Cells[startRow, startColumn + 7].Value;
 
                     var genero = (sexo.ToString() == "Femenino") ? false : true;
-
-                    ApplicationUser user = new ApplicationUser()
-                    {
-                        Cedula = (ced == null) ? "" : ced.ToString().ToUpper(),
-                        Nombre1 = (n1 == null) ? "" : n1.ToString().ToUpper(),
-                        Nombre2 = (n2 == null) ? " " : n2.ToString().ToUpper(),
-                        Apellido1 = (a1 == null) ? "" : a1.ToString().ToUpper(),
-                        Apellido2 = (a2 == null) ? " " : a2.ToString().ToUpper(),
-                        Email = (email == null) ? "" : email.ToString(),
-                        Sexo = genero
-                    };
 
                     // En caso de que la fecha de nacimiento sea errónea por completo se dispondrá la fecha actual.
                     var nacimiento = DateTime.Today;
@@ -698,42 +730,41 @@ namespace SOGIP_v2.Controllers
                         }
                     }
 
-                    //string[] msg = new string[5];
-                    //if (db.Users.Any(x => x.Cedula == (string)ced))
-                    //{
-                    //    msg[msg.Length] = "Usuario repetido, ya se encuentra en el sistema.";
-                    //}
-                    //else if (n1 == null)
-                    //{
-                    //    msg[msg.Length] = "Primer NOMBRE es obligatorio para el registro.";
-                    //}
-                    //else if (a1 == null)
-                    //{
-                    //    msg[msg.Length] = "Primer APELLIDO es obligatorio para el registro.";
-                    //}
+                    List<string> msg = new List<string>();
+                    ced = (ced == null) ? "" : Regex.Replace(ced.ToString(), @"\-", "");
+                    string cedula = Convert.ToString(ced);
 
-                    //object usuario = new
-                    //{
-                    //    Cedula = (ced == null) ? "" : ced.ToString().ToUpper(),
-                    //    Nombre1 = (n1 == null) ? "" : n1.ToString().ToUpper(),
-                    //    Nombre2 = (n2 == null) ? " " : n2.ToString().ToUpper(),
-                    //    Apellido1 = (a1 == null) ? "" : a1.ToString().ToUpper(),
-                    //    Apellido2 = (a2 == null) ? " " : a2.ToString().ToUpper(),
-                    //    Fecha_Nacimiento = nacimiento,
-                    //    Email = (email == null) ? "" : email.ToString(),
-                    //    Sexo = genero,
-                    //    Error = false,
-                    //    Message = msg
-                    //};
+                    if (db.Users.Any(x => x.Cedula == cedula))
+                    {
+                        msg.Add("Usuario repetido, ya se encuentra en el sistema.");
+                    }
+                    if (n1 == null)
+                    {
+                        msg.Add("Primer NOMBRE es obligatorio para el registro.");
+                    }
+                    if (a1 == null)
+                    { 
+                        msg.Add("Primer APELLIDO es obligatorio para el registro.");
+                    }
 
-                    user.Fecha_Nacimiento = nacimiento;
+                    object usuario = new
+                    {
+                        Cedula = (ced == null) ? "" : ced.ToString().ToUpper(),
+                        Nombre1 = (n1 == null) ? "" : n1.ToString().ToUpper(),
+                        Nombre2 = (n2 == null) ? " " : n2.ToString().ToUpper(),
+                        Apellido1 = (a1 == null) ? "" : a1.ToString().ToUpper(),
+                        Apellido2 = (a2 == null) ? " " : a2.ToString().ToUpper(),
+                        Fecha_Nacimiento = nacimiento,
+                        Email = (email == null) ? "" : email.ToString(),
+                        Sexo = genero,
+                        Error = false,
+                        Message = msg
+                    };
+
                     startRow++;
-
-                    ls.Add(user);
-                    // lista.Add(usuario);
+                    ls.Add(usuario);
 
                 } while (ced != null);
-
             }
             catch (Exception) { }
 
@@ -745,18 +776,26 @@ namespace SOGIP_v2.Controllers
             return Json(ls, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult CrearMasivo(List<ApplicationUser> users, string usuario, string rol)
+        public JsonResult CrearMasivo(List<ApplicationUser> users, string usuario, string rol, int value)
         {
             try
             {
                 foreach (var item in users)
                 {
-                    string pass = UserManager.PasswordHasher.HashPassword(composicionPassword(item.Nombre1, item.Apellido1, item.Cedula, item.Fecha_Nacimiento));
+                    string pass = UserManager.PasswordHasher.HashPassword(ComposicionPassword(item.Nombre1, item.Apellido1, item.Cedula, item.Fecha_Nacimiento));
                     item.PasswordHash = pass;
                     item.Roles.Add(new IdentityUserRole { UserId = item.Id, RoleId = "5" });
                     item.SecurityStamp = Guid.NewGuid().ToString();
 
-                    db.Users.Add(item);
+                    if (db.Users.Any(x => x.Cedula == item.Cedula))
+                    {
+
+                    }
+                    else
+                    {
+                        db.Users.Add(item);
+                    }
+
                     db.SaveChanges();
 
                     if (rol == "Asociacion/Comite")
@@ -765,17 +804,15 @@ namespace SOGIP_v2.Controllers
                         {
                             Asociacion_Deportiva = db.Asociacion_Deportiva.SingleOrDefault(x => x.Usuario.Cedula == usuario),
                             Usuario = db.Users.SingleOrDefault(x => x.Id == item.Id),
-                            Localidad = " ",
-                            Seleccion = null
+                            SubSeleccion = null
                         });
                     }
                     else if (rol == "Seleccion/Federacion")
                     {
                         db.Atletas.Add(new Atleta
                         {
-                            Seleccion = db.Selecciones.SingleOrDefault(x => x.Usuario.Cedula == usuario),
+                            SubSeleccion = db.SubSeleccion.SingleOrDefault(x => x.Seleccion.Usuario.Cedula == usuario && x.Categoria_Id.CategoriaId == value),
                             Usuario = db.Users.SingleOrDefault(x => x.Id == item.Id),
-                            Localidad = " ",
                             Asociacion_Deportiva = null
                         });
                     }

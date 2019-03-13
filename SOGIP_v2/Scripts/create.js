@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
     //$('#selectedRoles').val('Atleta');
     formulario();
+    $('[data-toggle="popover"]').popover();
 
     $('#selectedRoles').change(function check() {
         if ($('#selectedRoles').val() === 'Administrador' || $('#selectedRoles').val() === 'Supervisor') {     
@@ -12,8 +13,6 @@
         formulario(); 
     });
 });
-
-var direccion;
 
 function formulario() {
     var rol_selected = $('#selectedRoles option:selected').val();
@@ -75,6 +74,7 @@ function formulario() {
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
             $('#btnE').hide();
+            fillDT(1);
 
             break;
 
@@ -101,6 +101,7 @@ function formulario() {
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
             $('#btnE').hide();
+            fillDT(1);
 
             break;
 
@@ -179,8 +180,7 @@ function formulario() {
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
             $('#info_selec_entre').hide();
-            direccion = "/UsersAdmin/getEntrenador2";
-            fillDT(direccion);
+            fillDT(2);
             break;
 
         case "Seleccion/Federacion":
@@ -208,8 +208,7 @@ function formulario() {
 
             $('#title_entrenador').hide();
             $('#info_entrenador').hide();
-            direccion = "/UsersAdmin/getEntrenador";
-            fillDT(direccion);
+            fillDT(3);
             break;
 
         default:
@@ -241,23 +240,124 @@ function formulario() {
 
 }
 
+
+function fillDT(tipo) {
+    $('#example').DataTable();
+    $('#example').DataTable().destroy();
+    $('#example').remove();
+    /*Cedula = u.Cedula,
+                                Nombre1 = u.Nombre1,
+                                Nombre2 = u.Nombre2,
+                                Apellido1 = u.Apellido1,
+                                Apellido2 = u.Apellido2,
+                                Entidad = s.Nombre_Seleccion,
+                                Role = "Seleccion/Federacion"*/
+    var header = tipo === 1 ? '<thead><tr><th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Rol</th><th>Acción</th></tr></thead>' :'<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th></tr></thead>';
+    var table = $('<table/>', {
+        id: 'example',
+        class: 'table table-striped table-bordered dt-responsive nowrap',
+        width: '100%'
+    }).append(header);
+
+    $('#Tabla').append(table);
+
+    // { 1: Asox y Selex, 2: Admin, 3: Entrenador }
+    if (tipo === 1) {
+        // dataTableEntidad(tipo);
+    } else {
+        dataTable(tipo);
+    }
+}
+
+function dataTableEntidad(tipo) {
+        var glob = true;
+
+        var table = $('<table/>', {
+            id: 'Entidades',
+            class: 'table table-striped table-bordered dt-responsive nowrap',
+            width: '100%'
+        }).append('<thead><tr><th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Rol</th><th>Acción</th></tr></thead>');
+
+        $('#Tabla_Usuarios').append(table);
+
+        table = $('#Entidades').DataTable({
+            "language": {
+                "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                "zeroRecords": "No se han encontrado registros.",
+                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                "infoEmpty": "No hay datos para mostrar",
+                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                "search": "Filtrar:",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                },
+                "select": {
+                    "rows": {
+                        _: "%d registros seleccionados.",
+                        0: "Seleccione un cuadrado en la columna 'Acción'.",
+                        1: "1 registro seleccionado."
+                    }
+                }
+            },
+            "ajax": {
+                "url": "/UsersAdmin/ObtenerUsuarios",
+                "type": "GET",
+                "dataSrc": ""
+            },
+            columns: [
+                { data: "Entidad" },
+                { data: "Cédula" },
+                { data: "Nombre" },
+                { data: "Rol" },
+                {
+                    data: function (data, type, dataToSet) {
+                        var opciones = "";
+                        if (data.Categoria.length !== 0) {
+                            $.each(data.Categoria, function (i) {
+                                opciones = opciones + "<option value='" + data.Categoria[i].CategoriaId + "'>" + data.Categoria[i].Descripcion + "</option>";
+                            });
+                        } else {
+                            opciones = "<option value='1'>SELECCIONADA</option>";
+                        }
+                        return '<select style="display: inline-block; width: 200px;" id="selectDT_' + data.Cédula + '_' + data.Entidad + '" class="selectDT form-control" ><option value="0">-- Cambiar --</option>' + opciones + '</select>';
+                    }
+                }
+            ]
+        });
+
+        $('#Entidades').on('change', '.selectDT', function () {
+            value = $(this).val();
+
+            value === '0' ? $('#usuario').val('') : $('#usuario').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
+            role = $(this).closest('tr').find('td:eq(3)').text();
+
+            $('.selectDT').val(0);
+            $(this).val(value);
+
+            $('#botón').attr('onclick', 'manipularDT();');
+            manipularDT();
+
+        });
+}
+
 //Elección de entrenadores
-function dataTable(direccion) {
+function dataTable(tipo) {
     var table;
     var dataSet = [];
 
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: direccion,
+        data: { tipo: tipo },
+        url: "/UsersAdmin/getEntrenador",
         success: function (data) {
             $.each(data, function (i, v) {
                 dataSet.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);
             });
             table = $('#example').DataTable({
-
-                // "aLengthMenu": [[25, 50, 75, -1], [25, 50, 75, "All"]],
-                // "iDisplayLength": 5,
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
                     "zeroRecords": "No se han encontrado resultados.",
@@ -280,13 +380,6 @@ function dataTable(direccion) {
                     }
                 },
                 data: dataSet,
-                columns: [
-                    { title: "Acción" },
-                    { title: "Cédula" },
-                    { title: "Nombre" },
-                    { title: "1° Apellido" },
-                    { title: "2° Apellido" }
-                ],
                 'columnDefs': [
                     {
                         orderable: false,
@@ -297,25 +390,19 @@ function dataTable(direccion) {
                 'select': {
                     'style': 'os',
                     'selector': 'td:first-child'
-                    
                 }
             });
         },
-
         error: function (error) {
-            alert("Fallo");
+            alert("Error desconocido, contacte a soporte en breve.");
         }
     });
 
-    $('#example').on('click', 'td.select-checkbox', function () { //usar
-        alert("hola");
-    });
-
     $('#btnSave').click(function () {
-
         var tblData = table.rows('.selected').data();
+
         $.each(tblData, function (i, val) {
-            var r = confirm("Desea realizar el cambio?");
+            var r = confirm("¿Desea realizar la transacción?");
 
             if (r === true) {
                 $('#inpE').show();
@@ -324,30 +411,10 @@ function dataTable(direccion) {
             }
             else {
                 $("#me").modal('show');
-
             }
-
-
         });
-
     });
-
-   
-
 }
-
-
-function fillDT(direccion) {
-    var isE = $('#example').DataTable();
-    isE.destroy(); //es mejor destruirla para poder incializarla
-    dataTable(direccion);
-  
-
-}
-
-$(document).ready(function () {
-    $('[data-toggle="popover"]').popover();
-});
 
 //******************************************************************************//
 

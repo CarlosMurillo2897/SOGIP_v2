@@ -151,12 +151,18 @@
                             <span class="glyphicon glyphicon-calendar"></span> Reservaciones
                         </a>
                     </li>
+<<<<<<< HEAD
                     <li role="presentation">
                         <a href="~/AtletasAsignados/Index">
                             <span class="glyphicon glyphicon-list-alt"></span> Atletas
                         </a>
                     </li>
                 }               
+=======
+                }
+                    
+                
+>>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
                  
                     @if (User.IsInRole("Seleccion/Federacion") || User.IsInRole("Asociacion/Comite") || User.IsInRole("Entrenador"))
                     {
@@ -168,6 +174,7 @@
                     }
                 </ul>
             }
+                
             <ul class="nav navbar-nav navbar-right">
                 @if (Request.IsAuthenticated)
                 {

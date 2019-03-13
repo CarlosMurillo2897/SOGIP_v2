@@ -134,9 +134,25 @@ namespace SOGIP_v2.Controllers
                     }*/
                 case 6:
                     {
-                        var list = from u in db.Users
-                                   from r in db.Roles
-                                   where (u.Roles.FirstOrDefault().RoleId == "3" || u.Roles.FirstOrDefault().RoleId == "9") && u.Roles.FirstOrDefault().RoleId.Equals(r.Id)
+                        var selex = from u in db.Users
+                                    from s in db.Selecciones
+                                    where
+                                    u.Id.Equals(s.Usuario.Id)
+                                    select new
+                                    {
+                                        Cedula = u.Cedula,
+                                        Nombre1 = u.Nombre1,
+                                        Nombre2 = u.Nombre2,
+                                        Apellido1 = u.Apellido1,
+                                        Apellido2 = u.Apellido2,
+                                        Entidad = s.Nombre_Seleccion,
+                                        Role = "Seleccion/Federacion"
+                                    };
+
+                        var asox = from u in db.Users
+                                   from a in db.Asociacion_Deportiva
+                                   where
+                                   u.Id.Equals(a.Usuario.Id)
                                    select new
                                    {
                                        Cedula = u.Cedula,
@@ -144,9 +160,14 @@ namespace SOGIP_v2.Controllers
                                        Nombre2 = u.Nombre2,
                                        Apellido1 = u.Apellido1,
                                        Apellido2 = u.Apellido2,
-                                       Role = r.Name
+                                       Entidad = a.Nombre_DepAso,
+                                       Role = "Asociacion/Comite"
                                    };
-                        return Json(list.ToList(), JsonRequestBehavior.AllowGet);
+
+                        var list = Enumerable.Union(selex, asox).ToList();
+
+
+                        return Json(list, JsonRequestBehavior.AllowGet);
                     }
 
                 default:
