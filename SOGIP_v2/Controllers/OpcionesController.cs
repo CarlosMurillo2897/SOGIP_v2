@@ -12,6 +12,7 @@ namespace SOGIP_v2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        [Authorize(Roles = "Administrador,Supervisor")]
         public ActionResult Index()
         {
             return View();

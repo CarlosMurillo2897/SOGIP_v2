@@ -142,45 +142,21 @@ namespace SOGIP_v2.Controllers
                 string nombre = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
                 ViewData["nombre"] = nombre;
 
-                var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina && x.DiaEjercicio == "Dia1").ToList();
-                var getEjercicio2 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina && x.DiaEjercicio == "Dia2").ToList();
-                var getEjercicio3 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina && x.DiaEjercicio == "Dia3").ToList();
-                var getEjercicio4 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina && x.DiaEjercicio == "Dia4").ToList();
-                var getEjercicio5 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina && x.DiaEjercicio == "Dia5").ToList();
+                var getEjercicio1 = db.Conjunto_Ejercicios
+                    .Where(x => x.ConjuntoEjercicioRutina.RutinaId == idRutina 
+                    && (x.DiaEjercicio == "Dia1" 
+                    || x.DiaEjercicio == "Dia2" 
+                    || x.DiaEjercicio == "Dia3" 
+                    || x.DiaEjercicio == "Dia4" 
+                    || x.DiaEjercicio == "Dia5")).ToList();
 
                 ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
-                ViewBag.Conjunto_Ejercicios2 = (getEjercicio2.Count > 0) ? getEjercicio2 : null;
-                ViewBag.Conjunto_Ejercicios3 = (getEjercicio3.Count > 0) ? getEjercicio3 : null;
-                ViewBag.Conjunto_Ejercicios4 = (getEjercicio4.Count > 0) ? getEjercicio4 : null;
-                ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
 
             }
-            string idUsuario = rutina.Usuario.Id;
-            if (idUsuario != null)
-            {
-                Rutina rutina1 = db.Rutinas.FirstOrDefault(x => x.Usuario.Id == idUsuario);
-                int i = rutina1.RutinaId;
-                string n = i.ToString();
-                ViewData["rutina"] = n;
-
-                var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.Usuario.Id == idUsuario && x.DiaEjercicio == "Dia1").ToList();
-                var getEjercicio2 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.Usuario.Id == idUsuario && x.DiaEjercicio == "Dia2").ToList();
-                var getEjercicio3 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.Usuario.Id == idUsuario && x.DiaEjercicio == "Dia3").ToList();
-                var getEjercicio4 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.Usuario.Id == idUsuario && x.DiaEjercicio == "Dia4").ToList();
-                var getEjercicio5 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.Usuario.Id == idUsuario && x.DiaEjercicio == "Dia5").ToList();
-
-                ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
-                ViewBag.Conjunto_Ejercicios2 = (getEjercicio2.Count > 0) ? getEjercicio2 : null;
-                ViewBag.Conjunto_Ejercicios3 = (getEjercicio3.Count > 0) ? getEjercicio3 : null;
-                ViewBag.Conjunto_Ejercicios4 = (getEjercicio4.Count > 0) ? getEjercicio4 : null;
-                ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
-
-            }
-
 
             return View();
-
         }
+
         public JsonResult DeleteEjercicio(int ejercicioId)
         {
             var status = false;
@@ -327,7 +303,6 @@ namespace SOGIP_v2.Controllers
 
         public ActionResult ListaEjercicio(int? id, string idUsuario)
         {
-
             if (id != null)
             {
                 Rutina rutina = db.Rutinas.Find(id);
@@ -335,52 +310,45 @@ namespace SOGIP_v2.Controllers
                 string n = i.ToString();
                 ViewData["rutina"] = n;
 
-                var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.DiaEjercicio == "Dia1").ToList();
-                var getEjercicio2 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.DiaEjercicio == "Dia2").ToList();
-                var getEjercicio3 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.DiaEjercicio == "Dia3").ToList();
-                var getEjercicio4 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.DiaEjercicio == "Dia4").ToList();
-                var getEjercicio5 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == id && x.DiaEjercicio == "Dia5").ToList();
+                var getEjercicio1 = db.Conjunto_Ejercicios
+                    .Where(x => x.ConjuntoEjercicioRutina.RutinaId == id &&
+                    (x.DiaEjercicio == "Dia1" 
+                    || x.DiaEjercicio == "Dia2" 
+                    || x.DiaEjercicio == "Dia3" 
+                    || x.DiaEjercicio == "Dia4" 
+                    || x.DiaEjercicio == "Dia5")).ToList();
 
                 ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
-                ViewBag.Conjunto_Ejercicios2 = (getEjercicio2.Count > 0) ? getEjercicio2 : null;
-                ViewBag.Conjunto_Ejercicios3 = (getEjercicio3.Count > 0) ? getEjercicio3 : null;
-                ViewBag.Conjunto_Ejercicios4 = (getEjercicio4.Count > 0) ? getEjercicio4 : null;
-                ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
-
             }
 
             if (idUsuario != null)
             {
-                Rutina rutina = db.Rutinas.FirstOrDefault(x => x.Usuario.Id == idUsuario);
+                Rutina rutina = db.Rutinas.Include("Usuario").FirstOrDefault(x => x.Usuario.Id == idUsuario);
+                ViewBag.Usuario = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Nombre2 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
+
                 if (rutina != null)
                 {
                     int i = rutina.RutinaId;
                     string n = i.ToString();
                     ViewData["rutina"] = n;
 
-                    var getEjercicio1 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && (x.DiaEjercicio == "Dia1" || x.DiaEjercicio == "Dia2" || x.DiaEjercicio == "Dia3" || x.DiaEjercicio == "Dia4" || x.DiaEjercicio == "Dia5")).ToList();
-                    var getEjercicio2 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.DiaEjercicio == "Dia2").ToList();
-                    var getEjercicio3 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.DiaEjercicio == "Dia3").ToList();
-                    var getEjercicio4 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.DiaEjercicio == "Dia4").ToList();
-                    var getEjercicio5 = db.Conjunto_Ejercicios.Where(x => x.ConjuntoEjercicioRutina.RutinaId == i && x.DiaEjercicio == "Dia5").ToList();
+                    var getEjercicio1 = db.Conjunto_Ejercicios
+                        .Where(x => x.ConjuntoEjercicioRutina.RutinaId == i &&
+                        (x.DiaEjercicio == "Dia1" 
+                        || x.DiaEjercicio == "Dia2" 
+                        || x.DiaEjercicio == "Dia3" 
+                        || x.DiaEjercicio == "Dia4" 
+                        || x.DiaEjercicio == "Dia5")).ToList();
 
                     ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
-                    ViewBag.Conjunto_Ejercicios2 = (getEjercicio2.Count > 0) ? getEjercicio2 : null;
-                    ViewBag.Conjunto_Ejercicios3 = (getEjercicio3.Count > 0) ? getEjercicio3 : null;
-                    ViewBag.Conjunto_Ejercicios4 = (getEjercicio4.Count > 0) ? getEjercicio4 : null;
-                    ViewBag.Conjunto_Ejercicios5 = (getEjercicio5.Count > 0) ? getEjercicio5 : null;
-
                 }
                 else
                 {
                     string men = "No tiene rutina";
                     ViewData["mensaje"] = men;
-                    return View();
                 }
             }
-
             return View();
-
         }
 
 
