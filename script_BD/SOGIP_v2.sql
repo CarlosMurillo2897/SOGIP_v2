@@ -124,6 +124,8 @@ drop database "SOGIP_v3"
 
 create database "SOGIP_v3"
 use "SOGIP_v3"
+
+
  SELECT * FROM SOGIP_SUBSELECCION
 */
 
@@ -157,11 +159,11 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_Tipo_Entidad FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Tipo_Entidad.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
--- 46 rows
+-- 45 rows
 set @sql = 'BULK INSERT SOGIP_Users FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Users.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
--- 46 rows
+-- 45 rows
 set @sql = 'BULK INSERT SOGIP_UserRoles FROM '''+@VARIABLEACAMBIAR+'\SOGIP_UserRoles.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
@@ -192,7 +194,7 @@ set @sql = 'BULK INSERT SOGIP_Conjunto_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SO
 exec (@sql)
 -- 33 rows
 
-set @sql = 'BULK INSERT SOGIP_Cita FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Cita.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+set @sql = 'BULK INSERT SOGIP_Cita FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Cita.csv'' WITH(firstrow=2, fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 -- 18 rows
 
@@ -202,15 +204,17 @@ exec (@sql)
 
 set @sql = 'BULK INSERT SOGIP_Color FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Color.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+
 -- 7 rows
 set @sql = 'BULK INSERT SOGIP_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Ejercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
+-- 6 rows
 set @sql = 'BULK INSERT SOGIP_Maquina FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Maquina.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
+-- 2 rows
 set @sql = 'BULK INSERT SOGIP_MaquinaEjercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_MaquinaEjercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
-SELECT * FROM SOGIP_COLOR
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++
