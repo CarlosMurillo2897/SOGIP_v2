@@ -247,7 +247,7 @@ namespace SOGIP_v2.Controllers
         // POST: /Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, int? selectedS, int? SelectedAsox, int? SelectedEntity, string selectedRoles, int? SelectedCategory, int? SelectedSport, FormCollection form, HttpPostedFileBase CV, string nombre_aso)
+        public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, string hidef, string hideEntidadS, int? hideCategory, int? selectedS, int? SelectedAsox, int? SelectedEntity, string selectedRoles, int? SelectedCategory, int? SelectedSport, FormCollection form, HttpPostedFileBase CV, string nombre_aso)
         {
             if (ModelState.IsValid)
             {
@@ -284,20 +284,18 @@ namespace SOGIP_v2.Controllers
 
                             case "Seleccion/Federacion":
                                 {
-                                    var en = form["hidef"].ToString();
+                                    var en = hidef;
                                     var deporte = db.Deportes.Single(x => x.DeporteId == SelectedSport);
-                                    var cat = db.Categorias.Single(x => x.CategoriaId == SelectedCategory);
                                     Seleccion seleccion = new Seleccion()
                                     {
                                         Nombre_Seleccion = "SELECCIÓN DE " + deporte.Nombre,
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
-                                        Deporte_Id = db.Deportes.Single(x => x.DeporteId == SelectedSport),
-                                        // Categoria_Id = db.Categorias.Single(x => x.CategoriaId == SelectedCategory),
-                                        // Entrenador_Id = db.Users.Where(x => x.Cedula == en).FirstOrDefault()
+                                        Deporte_Id = db.Deportes.Single(x => x.DeporteId == SelectedSport)
                                     };
 
                                     db.Selecciones.Add(seleccion);
                                     db.SaveChanges();
+
                                     SubSeleccion subSeleccion = new SubSeleccion()
                                     {
                                         Seleccion = seleccion,
@@ -334,13 +332,13 @@ namespace SOGIP_v2.Controllers
                                         Usuario = db.Users.Single(x => x.Id == user.Id),
                                         // Localidad = (form["nombre_localidad"].ToString() == null) ? null : form["nombre_localidad"].ToString().ToUpper(),
                                     };
-                                    if (Atleta_Tipo == "Selección")
+                                    if (Atleta_Tipo == "Seleccion/Federacion")
                                     {
-                                        atleta.SubSeleccion = db.SubSeleccion.Single(x => x.Seleccion.SeleccionId == selectedS);
+                                        atleta.SubSeleccion = db.SubSeleccion.Single(x => x.Seleccion.Usuario.Cedula == hideEntidadS && x.Categoria_Id.CategoriaId == hideCategory);
                                     }
-                                    else
+                                    else if(Atleta_Tipo == "Asociacion/Comite")
                                     {
-                                        atleta.Asociacion_Deportiva = db.Asociacion_Deportiva.Single(x => x.Asociacion_DeportivaId == SelectedAsox);
+                                        atleta.Asociacion_Deportiva = db.Asociacion_Deportiva.Single(x => x.Usuario.Cedula == hideEntidadS);
                                     }
 
                                     db.Atletas.Add(atleta);

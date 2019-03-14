@@ -10,7 +10,7 @@
     ViewBag.ControlIcono = "glyphicon-user";
 
     // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
-    ViewBag.Metodo = "Crear";
+    ViewBag.Metodo = "Create";
     ViewBag.MetodoIcono = "glyphicon-pencil";
 
     // Si se necesita una Acción como crear nuevo usuario, rutina. Se selecciona está opción y la referencia o ruta del método.
@@ -286,13 +286,15 @@
                         </td>
 
                     </tr>
-                    <tr id="info_atleta_selec" hidden>
+                    <tr id="info_atleta_selec">
                         <td>
                             <div>
                                 <div class="form-group">
-                                    <div class="col-xs-15">
-                                        <input type="text" class="einf form-control" name="nombre_aso" id="entidadSelec" readonly />
-                                        <input type="hidden" class="hidef form-control" name="hidef" id="hideEntidadSelec" readonly />
+                                    <div class="col-md-12">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="entidadSelec" required readonly />
+                                        <input type="hidden" class="hidef form-control" name="hideEntidadS" id="hideEntidadSelec" readonly />
+                                        <input type="hidden" class="hidef form-control" name="hideCategory" id="hideCategory" readonly />
+                                        <input type="hidden" class="hidef form-control" name="Atleta_Tipo" id="Atleta_Tipo" readonly />
                                     </div>
                                 </div>
                             </div>
@@ -336,13 +338,12 @@
                             </div>
                         </td>
                     </tr>
-
-                    <tr hidden id="inpE">
+                    <tr id="inpE"> @*hidden*@
                         <td>
                             <div>
                                 <div class="form-group">
                                     <div class="col-xs-15">
-                                        <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
+                                        <input type="text" class="einf form-control" name="einf" id="einf" value="got it" required readonly>
                                         <input type="hidden" class="hidef form-control" name="hidef" id="hidef" readonly />
                                     </div>
                                 </div>
@@ -413,8 +414,6 @@
 
     }
 </div>
-
-
 
 @section Scripts {
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>

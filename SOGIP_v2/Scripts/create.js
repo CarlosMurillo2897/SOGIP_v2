@@ -10,7 +10,6 @@
                 alert('Cambiando a rol tipo Atleta.');
             }
         }
-        
         formulario(); 
     });
 
@@ -21,7 +20,7 @@
             var r = confirm("¿Desea realizar la transacción?");
 
             if (r === true) {
-                $('#inpE').show();
+                // $('#inpE').show();
                 document.getElementById("einf").value = val[1] + " " + val[2] + " " + val[3] + " " + val[4];
                 document.getElementById("hidef").value = val[1];
             }
@@ -90,7 +89,7 @@ function formulario() {
         case "Atleta":
             $('#title_atleta').show();
             $('#info_atleta_tipo').show();
-            $('#info_atleta_selec').hide();
+            $('#info_atleta_selec').show();
             $('#info_atleta_aso').show();
 
             $('#title_aso').hide();
@@ -117,7 +116,7 @@ function formulario() {
         case "Atleta Becados":
             $('#title_atleta').show();
             $('#info_atleta_tipo').show();
-            $('#info_atleta_selec').hide();
+            $('#info_atleta_selec').show();
             $('#info_atleta_aso').show();
 
             $('#title_aso').hide();
@@ -149,7 +148,7 @@ function formulario() {
             $('#info_aso').hide();
 
             $('#title_atleta').hide();
-            $('#info_atleta_tipo').hide(); //selección o asociación
+            $('#info_atleta_tipo').hide();
             $('#info_atleta_selec').hide();
             $('#info_atleta_aso').hide();
 
@@ -194,9 +193,7 @@ function formulario() {
         case "Funcionarios ICODER":
             $('#title_icoder').show();
             $('#btnE').show();
-            $('#inpE').val('');
-            $('#inpE').hide();
-            
+            $('#inpE').show();
 
             $('#title_seleccion').hide();
             $('#info_seleccion').hide();
@@ -224,8 +221,8 @@ function formulario() {
             $('#info_seleccion').show();
             $('#info_seleccion_nombre').show();
             $('#btnE').show();
-            $('#inpE').val('');
-            $('#inpE').hide();
+            
+            $('#inpE').show();
 
             $('#title_aso').hide();
             $('#info_aso').hide();
@@ -354,7 +351,7 @@ function dataTableEntidad(tipo) {
                         } else {
                             opciones = "<option value='1'>SELECCIONADA</option>";
                         }
-                        return '<select style="display: inline-block; width: 200px;" id="selectDT_' + data.Cédula + '_' + data.Entidad + '" class="selectDT form-control" ><option value="0">-- Cambiar --</option>' + opciones + '</select>';
+                        return '<select style="display: inline-block; width: 200px;" id="selectDT_' + data.Cédula + '_' + data.Entidad + '_' + data.Rol + '" class="selectDT form-control" ><option value="0">-- Cambiar --</option>' + opciones + '</select>';
                     }
                 }
             ]
@@ -364,9 +361,11 @@ function dataTableEntidad(tipo) {
             value = $(this).val();
 
             value === '0' ? $('#entidadSelec').val('') : $('#entidadSelec').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
-            value === '0' ? $('#hideEntidadSelec').val('') : $('#hideEntidadSelec').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
+            value === '0' ? $('#hideCategory').val('') : $('#hideCategory').val(value);
+            value === '0' ? $('#hideEntidadSelec').val('') : $('#hideEntidadSelec').val($(this).attr('id').split('_')[1]);
+            value === '0' ? $('#Atleta_Tipo').val('') : $('#Atleta_Tipo').val($(this).attr('id').split('_')[3]);
 
-            alert($('#entidadSelec').val());
+            //alert($('#hideCategory').val());
             $('.selectDT').val(0);
             $(this).val(value);
     });
