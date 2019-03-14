@@ -62,7 +62,7 @@ use "SOGIP_v3"
  delete from sogip_users where Cedula='0000000001'
 
  select * from sogip_atletas where atletaid > 11;
- select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol where u.Id=r.Userid and r.roleid=rol.id and (r.roleid='20' or r.roleid='3');
+ select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol where u.Id=r.Userid and r.roleid=rol.id and (r.roleid='5' or r.roleid='6');
 
  1: 914db4cb-8e02-4476-9e42-31befefd7a0e
  2: de8b4ac7-40a3-4b23-aa2b-28ae9fcb9253
@@ -125,8 +125,6 @@ drop database "SOGIP_v3"
 create database "SOGIP_v3"
 use "SOGIP_v3"
 
-
- SELECT * FROM SOGIP_SUBSELECCION
 */
 
 DECLARE @sql varchar(200);
@@ -172,13 +170,14 @@ set @sql = 'BULK INSERT SOGIP_Funcionario_ICODER FROM '''+@VARIABLEACAMBIAR+'\SO
 exec (@sql)
 
 -- 1 row
-set @sql = 'BULK INSERT SOGIP_Asociacion_Deportiva FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Asociacion.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'');';
+set @sql = 'BULK INSERT SOGIP_Asociacion_Deportiva FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Asociacion.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
+-- 10 rows
 set @sql = 'BULK INSERT SOGIP_Selecciones FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Selecciones.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
-set @sql = 'BULK INSERT SOGIP_SubSeleccion FROM '''+@VARIABLEACAMBIAR+'\SOGIP_SubSeleccion.csv'' WITH(firstrow = 2, datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'');';
+set @sql = 'BULK INSERT SOGIP_SubSeleccion FROM '''+@VARIABLEACAMBIAR+'\SOGIP_SubSeleccion.csv'' WITH(firstrow = 2, datafiletype=''char'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 -- 11 rows
 
@@ -190,22 +189,24 @@ set @sql = 'BULK INSERT SOGIP_Rutina FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Rutina.c
 exec (@sql)
 -- 6 rows
 
-set @sql = 'BULK INSERT SOGIP_Conjunto_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Conjunto_Ejercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+set @sql = 'BULK INSERT SOGIP_Conjunto_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Conjunto_Ejercicio.csv'' WITH(firstrow = 2, fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 -- 33 rows
+-- select * from sogip_conjunto_ejercicio
 
 set @sql = 'BULK INSERT SOGIP_Cita FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Cita.csv'' WITH(firstrow=2, fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
--- 18 rows
+-- 17 rows
 
-set @sql = 'BULK INSERT SOGIP_Tipo FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Tipo.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
-exec (@sql)
 -- 6 rows
-
-set @sql = 'BULK INSERT SOGIP_Color FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Color.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+set @sql = 'BULK INSERT SOGIP_Tipo FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Tipo.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
 -- 7 rows
+set @sql = 'BULK INSERT SOGIP_Color FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Color.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+
+-- 6 rows
 set @sql = 'BULK INSERT SOGIP_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Ejercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
