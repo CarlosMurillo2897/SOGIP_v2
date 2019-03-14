@@ -76,7 +76,7 @@
                 var check = start.format("YYYY-MM-DD");
                 var today = moment().format("YYYY-MM-DD");
                 if (check < today) {
-                    alert("No se puede realizar la cita en fechas posteriores");
+                    bootbox2("No se puede realizar la cita en fechas anteriores");
                 }
                 else {
                     selectedEvent = {

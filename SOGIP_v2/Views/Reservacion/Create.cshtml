@@ -1,9 +1,27 @@
 ﻿@model SOGIP_v2.Models.Reservacion
 
 @{
-    /**/
 
-    ViewBag.Title = "Create";
+
+    ViewBag.Title = "Reservaciones";
+
+    var rol = ViewBag.role;
+    var url = "";
+
+    if (rol == "Administrador")
+    {
+        url = "~/Scripts/fullCalendar/reservacioncalendar.js";
+    }
+    else if (rol=="Entrenador" || rol=="Seleccion/Federacion")
+    {
+        url = "~/Scripts/fullCalendar/reservacionvariante.js";
+    }
+    else if (rol=="Atleta" || rol=="Atleta Becados" || rol=="Funcionarios ICODER")
+    {
+        url = "~/Scripts/fullCalendar/reservacionunico.js";
+    }
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/fullcalendar.css")
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
@@ -42,14 +60,14 @@
                 </div>
                 <div class="modal-footer">
 
-                    <button id="btnDelete" class="btn btn-warning  mr-auto">
+                    @*<button id="btnDelete" class="btn btn-warning  mr-auto">
                         <span class="glyphicon glyphicon-remove"></span>
                         Eliminar
                     </button>
                     <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
                         <span class="glyphicon glyphicon-pencil"></span>
                         Editar
-                    </button>
+                    </button>*@
 
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
@@ -105,7 +123,7 @@
                             </div>
                         </div>
                         <hr />
-                        <div class="form-group">
+                        <div class="form-group" id="cant">
                             <label>Seleccione la cantidad miníma de asistentes</label>
                             <select class="cantidad" id="cantidad">
                                 <option value="5" selected>5</option>
@@ -276,7 +294,7 @@
     @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
     @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
     @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
-    @Scripts.Render("~/Scripts/fullCalendar/reservacionvariante.js")
+    @Scripts.Render(url)
     @Scripts.Render("~/Scripts/bootstrap.js")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")

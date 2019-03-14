@@ -6,7 +6,8 @@
     var events = [];
     var ar = [];
     cedus();
-    roles();
+
+    $('#cant').show();
 
     FetchEventAndRenderCalendar();
     $('#txtStart').datepicker();
@@ -31,24 +32,6 @@
             console.log(ar);
         }
     });
-
-
-    function roles() {
-
-        $.ajax({
-            type: "POST",
-            dataType: "JSON",
-            url: "/Reservacion/GetRol",
-            success: function (data) {
-                alert(data);
-            },
-            error: function (error) {
-                alert("Fallo");
-            }
-        })
-    }
-
-
 
     //----FUNCIONES
 
@@ -111,6 +94,7 @@
                         reservacionId: v.ReservacionId,
                         title: 'RESERVACION',
                         estado: v.Estado,
+                        cantidad: v.Cantidad,
                         cedula: v.UsuarioId.Cedula,
                         nombre: v.UsuarioId.Nombre1,
                         apellido1: v.UsuarioId.Apellido1,
@@ -158,18 +142,11 @@
             },
             eventAfterRender: function (event, element, view) { //COLOR DE LOS EVENTOS
 
-                var date = event.start.format("YYYY-MM-DD");
-                var today = moment().format("YYYY-MM-DD");
 
-                if (date > today) {
-                    //event.color = "#FFB347"; //Em andamento
-                    element.css('background-color', '#668cff');
-                    element.css('border-color', '#668cff');
-                } else if (date < today) {
-                    //event.color = "#77DD77"; //Concluído OK
-                    element.css('background-color', '#ff4d4d');
-                    element.css('border-color', '#ff4d4d');
-                }
+                if (event.cedula == ced) {
+                    element.css('background-color', '#b30000');
+                    element.css('border-color', '#b30000');
+                } 
             },
             eventClick: function (calEvent, jsEvent, view) { //INFORMACIÓN DEL EVENTO
 
@@ -187,6 +164,7 @@
 
                     $description.append($('<hr/>'));
                     $description.append($('<p/>').html('<h4><b>Cantidad de asistentes</b></h4>'));
+                    $description.append($('<p/>').html(calEvent.cantidad));
                     $description.append($('<hr/>'));
                     $description.append($('<p/>').html('<h4><b>Solicitante</b></h4>'));
                     $description.append($('<p/>').html('<b>Cédula: </b>' + calEvent.cedula));
@@ -293,12 +271,15 @@
         checkhours();
         if ($('#botón2').is(':disabled')) {//no ha seleccionado dias
             bootbox2("No ha seleccionado los días");
+            return;
         }
-        if (array3.length < 2) {//no ha ingresado horas
+        if (array2.length < 2) {//no ha ingresado horas
             bootbox2("Los horarios se encuentran vacíos");
+            return;
         }
         if (arr.length == 0) { //no ha ingresado fechas
             bootbox2("El rango de fecha está vacío");
+            return;
         }
 
         else {
@@ -311,7 +292,7 @@
                 success: function (data) {
 
                     $('#myModalSave').modal('hide');
-                    bootbox1(" Guardando cita...");
+                    bootbox1(" Guardando reservación...");
                     FetchEventAndRenderCalendar();
 
 

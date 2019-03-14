@@ -29,22 +29,15 @@ namespace SOGIP_v2.Controllers
         // GET: Reservacion/Create
         public ActionResult Create()
         {
+            string userid = HttpContext.User.Identity.GetUserId();
+            ApplicationUser User = db.Users.Single(x => x.Id == userid);
+            ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
+            var rol = userManager.GetRoles(User.Id);
+            ViewBag.role = rol.First();
             return View();
            
         }
-        //ROL
-        [HttpPost]
-        public JsonResult GetRol()
-        {
-            
-            string userid = HttpContext.User.Identity.GetUserId();
-            ApplicationUser User = db.Users.Single(x => x.Id == userid);
-            ApplicationUserManager userManager=new ApplicationUserManager(new UserStore<ApplicationUser>(db));
-
-            var rol = userManager.GetRoles(User.Id);
-
-            return new JsonResult { Data = rol, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        }
+     
         //CÉDULA
         [HttpPost]
         public JsonResult GetCed()
