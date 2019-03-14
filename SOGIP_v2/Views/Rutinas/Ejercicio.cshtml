@@ -246,7 +246,8 @@
                 data: { 'ejercicioId': id },
                 success: function (data) {
                     if (data.status) {
-                        var table = $('#rutina').DataTable().row(tr).remove().draw();
+                        location.reload();
+                        //var table = $('#rutina').DataTable().row(tr).remove().draw();
                     }
                 },
                 error: function () {
