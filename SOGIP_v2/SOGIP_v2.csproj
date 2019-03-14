@@ -668,6 +668,7 @@
     <Content Include="Scripts\fullCalendar\locale\zh-cn.js" />
     <Content Include="Scripts\fullCalendar\locale\zh-tw.js" />
     <Content Include="Scripts\fullCalendar\reservacioncalendar.js" />
+    <Content Include="Scripts\fullCalendar\reservacionunico.js" />
     <Content Include="Scripts\fullCalendar\reservacionvariante.js" />
     <Content Include="Scripts\IndexUsuarios.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />

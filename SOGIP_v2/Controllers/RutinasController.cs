@@ -258,10 +258,11 @@ namespace SOGIP_v2.Controllers
             if (idUsuario != null)
             {
                 Rutina rutina = db.Rutinas.Include("Usuario").FirstOrDefault(x => x.Usuario.Id == idUsuario);
-                ViewBag.Usuario = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Nombre2 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
+                
 
                 if (rutina != null)
                 {
+                    ViewBag.Usuario = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Nombre2 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
                     int i = rutina.RutinaId;
                     string n = i.ToString();
                     ViewData["rutina"] = n;
