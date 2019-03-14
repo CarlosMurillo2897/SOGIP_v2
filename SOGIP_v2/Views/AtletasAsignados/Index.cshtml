@@ -1,28 +1,17 @@
-<<<<<<< HEAD
 ﻿@using Microsoft.AspNet.Identity
 @using App.Extensions
 @{
-=======
-﻿@{
->>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
     ViewBag.Title = "Index";
 }
 
 @Styles.Render("~/Content/manual.css")
-<<<<<<< HEAD
+
 <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 
 <div class="container">
     <div class="well">
         <input type="hidden" id="ced" value="@User.Identity.GetUserId()" />
-=======
-
-<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
-<div class="container">
-    <div class="well">
->>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
         <h3>Usuarios Asignados</h3>
         <br />
         <input type="hidden" id="role" value="@ViewBag.Role" />
@@ -47,22 +36,12 @@
     <script>
         $(document).ready(function () {
             var url = "";
-<<<<<<< HEAD
             var ced = $('#ced').val();
-=======
-            alert($('#role').val());
->>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
             var col = [
                 { data: "Cedula" },
                 { data: "Nombre" },
                 { data: "Apellido1" },
-                { data: "Apellido2" },
-<<<<<<< HEAD
-            ];
-
-            var head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr>';
-=======
-                
+                { data: "Apellido2" }         
             ];
 
             var head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr>';
@@ -81,7 +60,6 @@
             else if ($('#role').val() == "Entrenador") {
                 url = "/AtletasAsignados/GetUsuariosEntrenador";
             }
->>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
 
             col[col.length] = {
                 data: "Id",
@@ -90,10 +68,6 @@
                         "<text class=''> Ver en detalle </text>" +
                         "<span class='glyphicon glyphicon-user'></span>" +
                         "</a>";
-                    /*"<a class='btn btn-success' style='padding: 2px 6px; margin:2px;' data-toggle='modal' onclick='EditarModal(this, " + Id + ");'>" +
-                            "<text class='hidden-xs'>Crear Rutina </text>" +
-                            "<span class='glyphicon glyphicon-pencil'></span>" +
-                        "</a>" +*/
                 }
             };
 
@@ -117,12 +91,8 @@
                 "ajax": {
                     "url": url,
                     "type": "GET",
-<<<<<<< HEAD
                     "dataSrc": "",
                     "data": { usuarioId: ced }
-=======
-                    "dataSrc": ""
->>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
                 },
                 columns: col
             });

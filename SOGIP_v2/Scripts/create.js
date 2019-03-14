@@ -10,8 +10,40 @@
                 alert('Cambiando a rol tipo Atleta.');
             }
         }
+        
         formulario(); 
     });
+
+    $('#btnSave').click(function () {
+        var tblData = $('#example').DataTable().rows('.selected').data();
+
+        $.each(tblData, function (i, val) {
+            var r = confirm("¿Desea realizar la transacción?");
+
+            if (r === true) {
+                $('#inpE').show();
+                document.getElementById("einf").value = val[1] + " " + val[2] + " " + val[3] + " " + val[4];
+                document.getElementById("hidef").value = val[1];
+            }
+            else {
+                $("#me").modal('show');
+            }
+        });
+    });
+
+    $('#btnSaveEntidad').click(function () {
+        var r = confirm("¿Desea realizar la transacción?");
+
+        if (r === true) {
+            $('#info_atleta_selec').show();
+        }
+        else {
+            $('#entidadSelec').val('');
+            $('#hideEntidadSelec').val('');
+            $("#modalAtletas").modal('show');
+        }
+    });
+
 });
 
 function formulario() {
@@ -22,6 +54,10 @@ function formulario() {
     $('#nombre_aso').val('');
     $('sele_n').val('');
     $('#CV').val('');
+    $('#einf').val('');
+    $('#hidef').val('');
+    $('#entidadSelec').val('');
+    $('#hideEntidadSelec').val('');
     
     switch (rol_selected) {
 
@@ -245,17 +281,15 @@ function fillDT(tipo) {
     $('#example').DataTable();
     $('#example').DataTable().destroy();
     $('#example').remove();
-    /*Cedula = u.Cedula,
-                                Nombre1 = u.Nombre1,
-                                Nombre2 = u.Nombre2,
-                                Apellido1 = u.Apellido1,
-                                Apellido2 = u.Apellido2,
-                                Entidad = s.Nombre_Seleccion,
-                                Role = "Seleccion/Federacion"*/
-    var header = tipo === 1 ? '<thead><tr><th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Rol</th><th>Acción</th></tr></thead>' :'<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th></tr></thead>';
+
+    $('#Entidades').DataTable().destroy();
+    $('#Entidades').remove();
+
+    var header = tipo === 1 ? '<thead><tr><th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Rol</th><th>Acción</th></tr></thead>' :
+        '<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th></tr></thead>';
     var table = $('<table/>', {
         id: 'example',
-        class: 'table table-striped table-bordered dt-responsive nowrap',
+        class: 'table',
         width: '100%'
     }).append(header);
 
@@ -263,22 +297,21 @@ function fillDT(tipo) {
 
     // { 1: Asox y Selex, 2: Admin, 3: Entrenador }
     if (tipo === 1) {
-        // dataTableEntidad(tipo);
+        dataTableEntidad(tipo);
     } else {
         dataTable(tipo);
     }
 }
 
 function dataTableEntidad(tipo) {
-        var glob = true;
-
+    var value = "";
         var table = $('<table/>', {
             id: 'Entidades',
             class: 'table table-striped table-bordered dt-responsive nowrap',
-            width: '100%'
-        }).append('<thead><tr><th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Rol</th><th>Acción</th></tr></thead>');
+            width: '80%'
+        }).append('<thead><tr><th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Acción</th></tr></thead>');
 
-        $('#Tabla_Usuarios').append(table);
+        $('#TablaEntidad').append(table);
 
         table = $('#Entidades').DataTable({
             "language": {
@@ -311,7 +344,6 @@ function dataTableEntidad(tipo) {
                 { data: "Entidad" },
                 { data: "Cédula" },
                 { data: "Nombre" },
-                { data: "Rol" },
                 {
                     data: function (data, type, dataToSet) {
                         var opciones = "";
@@ -331,16 +363,13 @@ function dataTableEntidad(tipo) {
         $('#Entidades').on('change', '.selectDT', function () {
             value = $(this).val();
 
-            value === '0' ? $('#usuario').val('') : $('#usuario').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
-            role = $(this).closest('tr').find('td:eq(3)').text();
+            value === '0' ? $('#entidadSelec').val('') : $('#entidadSelec').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
+            value === '0' ? $('#hideEntidadSelec').val('') : $('#hideEntidadSelec').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
 
+            alert($('#entidadSelec').val());
             $('.selectDT').val(0);
             $(this).val(value);
-
-            $('#botón').attr('onclick', 'manipularDT();');
-            manipularDT();
-
-        });
+    });
 }
 
 //Elección de entrenadores
@@ -396,23 +425,6 @@ function dataTable(tipo) {
         error: function (error) {
             alert("Error desconocido, contacte a soporte en breve.");
         }
-    });
-
-    $('#btnSave').click(function () {
-        var tblData = table.rows('.selected').data();
-
-        $.each(tblData, function (i, val) {
-            var r = confirm("¿Desea realizar la transacción?");
-
-            if (r === true) {
-                $('#inpE').show();
-                document.getElementById("einf").value = val[1] + " " + val[2] + " " + val[3] + " " + val[4];
-                document.getElementById("hidef").value = val[1];
-            }
-            else {
-                $("#me").modal('show');
-            }
-        });
     });
 }
 
@@ -523,7 +535,6 @@ function brth(num) {             // 1 = BLUR      |       2 = KEYPRESSED
          // || birth > '19380-01-01'
 
     }
-
 }
 
 function EscondeSelecciones() {

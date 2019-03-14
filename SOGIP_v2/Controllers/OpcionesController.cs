@@ -12,12 +12,9 @@ namespace SOGIP_v2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-<<<<<<< HEAD
+
         [Authorize(Roles = "Administrador,Supervisor")]
         public ActionResult Avanzadas()
-=======
-        public ActionResult Index()
->>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
         {
             return View();
         }

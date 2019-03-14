@@ -166,7 +166,6 @@ function cargarAtletas(ced) {
     $('#asignados').remove();
 
     var url = "";
-    alert($('#role').val());
     var col = [
         { data: "Cedula" },
         { data: "Nombre" },

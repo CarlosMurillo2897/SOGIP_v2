@@ -1,182 +1,194 @@
 ﻿@model SOGIP_v2.Models.Rutina
 
 @{
-    /**/
-
     ViewBag.Title = "Lista de Rutinas";
 
+    ViewBag.Controller = "Rutinas";
+
     ViewBag.Control = "Rutinas";
-    ViewBag.ControlIcono = "glyphicon-user";
-
-    ViewBag.Metodo = "Index";
-    ViewBag.MetodoIcono = "glyphicon-edit";
-
+    ViewBag.ControlIcono = "glyphicon-apple";
 
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
 }
-<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
 
 <div class="container">
-    <button type="button" class="btn btn-primary" data-toggle="modal" id="btnNuevo">
-        Nueva Rutina
-    </button>
+    <div class="well">
+        <button type="button" class="btn btn-primary" data-toggle="modal" id="btnNuevo">
+            Nueva Rutina
+        </button>
 
-    <br>
-    <br>
-    @*Modal Nueva Rutina *@
-    <div id="nueva" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" id="cerrar">&times;</button>
-                    <h4 class="modal-title">Crear nueva Rutina</h4>
-                    <br>
-                    <label>Fecha Inicio de Rutina: </label>
-                    <div class="input-group date" id="fec">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        <input class="form-control" type="text" id="este" />
-                    </div>
+        <br>
+        <br>
+        @*La tabla principal*@
+        <div class="table-responsive">
+            <table id="rutina" class="display table table-striped table-bordered table-hover " style="width:100%"></table>
+        </div>
 
-                    <br>
-                    <label>Objetivo de la Rutina: </label>
-                    <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
-                </div>
-                <div class="modal-body">
-                    @*Tabla de entrenadores*@
-                    <div class="row" id="infouser">
-                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
-                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+        @*Modal Nueva Rutina *@
+        <div id="nueva" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" id="cerrar">&times;</button>
+                        <h4 class="modal-title">Crear nueva Rutina</h4>
+                        <br>
+                        <label>Fecha Inicio de Rutina: </label>
+                        <div class="input-group date" id="fec">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input class="form-control" type="text" id="este" />
                         </div>
-                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                            <button id="botón" type="button" class="btn btn-warning btn-block">
-                                <text id="texto">Seleccionar usuario</text>
-                                <span id="icono" class="glyphicon glyphicon-search"></span>
-                            </button>
+
+                        <br>
+                        <label>Objetivo de la Rutina: </label>
+                        <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
+                    </div>
+                    <div class="modal-body">
+                        @*Tabla de entrenadores*@
+                        <div class="row" id="infouser">
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+                            </div>
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <button id="botón" type="button" class="btn btn-warning btn-block">
+                                    <text id="texto">Seleccionar usuario</text>
+                                    <span id="icono" class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <hr />
-                    <div class="table-responsive" id="Tabla_Usuarios" hidden>
-                        <table id="example" class="display" style="width:100%"></table>
-                    </div>
-                    <div class="modal-footer">
-                        <br />
-                        <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
+                        <hr />
+                        <div class="table-responsive" id="Tabla_Usuarios" hidden>
+                            <table id="example" class="display table table-bordered table-hover table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <td>Acción</td>
+                                        <td>Cédula</td>
+                                        <td>Nombre</td>
+                                        <td>Apellido1</td>
+                                        <td>Apellido2</td>
+                                        <td>Rol</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <br />
+                            <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                            <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    @*Modal para editar*@
-    <div id="editar" class="modal fade bd-example-modal-lg" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Editar Rutina</h4>
-                    <br>
-                    <tr hidden id="inpE">
-                        <td>
-                            <div>
-                                <div class="form-group">
-                                    <div class="col-xs-15">
-                                        <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
-                                        <input type="hidden" class="hidef form-control" name="hidef" id="hidef" readonly />
+        @*Modal para editar*@
+        <div id="editar" class="modal fade bd-example-modal-lg" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Editar Rutina</h4>
+                        <br>
+                        <tr hidden id="inpE">
+                            <td>
+                                <div>
+                                    <div class="form-group">
+                                        <div class="col-xs-15">
+                                            <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
+                                            <input type="hidden" class="hidef form-control" name="hidef" id="hidef" readonly />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <label>Fecha Inicio de Rutina: </label>
-                    <div class="input-group date" id="fecha">
-                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                        <input class="form-control" type="text" />
+                            </td>
+                        </tr>
+                        <label>Fecha Inicio de Rutina: </label>
+                        <div class="input-group date" id="fecha">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input class="form-control" type="text" />
+                        </div>
+                        <br>
+                        <label>Objetivo de la Rutina: </label>
+                        <input type="text" class="form-control" placeholder="Objetivo" id="objetivo" />
                     </div>
-                    <br>
-                    <label>Objetivo de la Rutina: </label>
-                    <input type="text" class="form-control" placeholder="Objetivo" id="objetivo" />
-                </div>
-                <div class="modal-body">
-                    <div class="modal-footer">
-                        <br />
-                        <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    @*Modal para eliminar*@
-    <div id="eliminar" class="modal fade bd-example-modal-lg" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Eliminar Rutina</h4>
-                    <br>
-                    <label>Usuario: </label>
-                    <tr hidden id="us">
-                        <td>
-                            <div>
-                                <div class="form-group">
-                                    <div class="col-xs-15">
-                                        <input type="text" class="einf form-control" name="nombre_aso" id="us1" readonly />
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <label>Fecha Inicio de Rutina: </label>
-                    <tr hidden id="fe">
-                        <td>
-                            <div>
-                                <div class="form-group">
-                                    <div class="col-xs-15">
-                                        <input type="text" class="einf form-control" name="nombre_aso" id="fe1" readonly />
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <label>Objetivo de la Rutina: </label>
-                    <tr hidden id="obje">
-                        <td>
-                            <div>
-                                <div class="form-group">
-                                    <div class="col-xs-15">
-                                        <input type="text" class="einf form-control" name="nombre_aso" id="obje1" readonly />
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
                     <div class="modal-body">
                         <div class="modal-footer">
                             <br />
-                            <button type="button" id="eliminar2" class="btn btn-success" data-dismiss="modal">Eliminar</button>
+                            <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    @*La tabla principal*@
-    <div class="table-responsive">
-        <table id="rutina" class="display" style="width:100%"></table>
+        @*Modal para eliminar*@
+        <div id="eliminar" class="modal fade bd-example-modal-lg" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Eliminar Rutina</h4>
+                        <br>
+                        <label>Usuario: </label>
+                        <tr hidden id="us">
+                            <td>
+                                <div>
+                                    <div class="form-group">
+                                        <div class="col-xs-15">
+                                            <input type="text" class="einf form-control" name="nombre_aso" id="us1" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <label>Fecha Inicio de Rutina: </label>
+                        <tr hidden id="fe">
+                            <td>
+                                <div>
+                                    <div class="form-group">
+                                        <div class="col-xs-15">
+                                            <input type="text" class="einf form-control" name="nombre_aso" id="fe1" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <label>Objetivo de la Rutina: </label>
+                        <tr hidden id="obje">
+                            <td>
+                                <div>
+                                    <div class="form-group">
+                                        <div class="col-xs-15">
+                                            <input type="text" class="einf form-control" name="nombre_aso" id="obje1" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <div class="modal-body">
+                            <div class="modal-footer">
+                                <br />
+                                <button type="button" id="eliminar2" class="btn btn-success" data-dismiss="modal">Eliminar</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
+
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/jquery.min.js")
-    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-    @Scripts.Render("~/Scripts/bootstrap.js")
+
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+
     <script>
 
         function eliminar() {
@@ -284,13 +296,10 @@
             var table;
             var dataSet = [];
             var cedu = null;
-            tabla();
-<<<<<<< HEAD
 
-=======
-            usuarios();
-           
->>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
+            // <<<<<<<<<<<< POSIBLE PROBLEMA.
+            tabla();
+
             $('#btnNuevo').click(function () {
                 $('#nueva').modal('show');
                 usuarios();
@@ -411,7 +420,6 @@
                                 {
                                     title: "Acción",
                                     "render": function (Id) {
-                                        debugger
                                         return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarRut(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
                                             "<text class='hidden-xs'>Eliminar </text>" +
                                             "<span class='glyphicon glyphicon-minus-sign'></span>" +

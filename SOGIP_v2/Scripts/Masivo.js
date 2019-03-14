@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    var selected, role, value, x;
+    var selected, role, value;
     $('#usuario').val('');
     clear();
 
@@ -337,7 +337,6 @@ function registrar() {
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 $('#UpdatePanel').remove('#UsuariosExcel');
-                x.removeClass('selected');
                 $('#Usuario').val('');
                 contenidoPop(1);
             },

@@ -226,32 +226,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-<<<<<<< HEAD
-    <Compile Include="Migrations\201903131831415__all.cs" />
-    <Compile Include="Migrations\201903131831415__all.Designer.cs">
-      <DependentUpon>201903131831415__all.cs</DependentUpon>
-=======
-
-    <Compile Include="Migrations\201902171910335__all.cs" />
-    <Compile Include="Migrations\201902171910335__all.Designer.cs">
-      <DependentUpon>201902171910335__all.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201902240200241_maquina.cs" />
-    <Compile Include="Migrations\201902240200241_maquina.Designer.cs">
-      <DependentUpon>201902240200241_maquina.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903031837270_maquinaejercicio.cs" />
-    <Compile Include="Migrations\201903031837270_maquinaejercicio.Designer.cs">
-      <DependentUpon>201903031837270_maquinaejercicio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903110027177_reservacion.cs" />
-    <Compile Include="Migrations\201903110027177_reservacion.Designer.cs">
-      <DependentUpon>201903110027177_reservacion.cs</DependentUpon>
-	</Compile>
-    <Compile Include="Migrations\201903121816427__all.cs" />
-    <Compile Include="Migrations\201903121816427__all.Designer.cs">
-      <DependentUpon>201903121816427__all.cs</DependentUpon>
->>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
+    <Compile Include="Migrations\201903131942275__all.cs" />
+    <Compile Include="Migrations\201903131942275__all.Designer.cs">
+      <DependentUpon>201903131942275__all.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -876,7 +853,6 @@
   <ItemGroup>
     <Folder Include="Content\Registros\" />
     <Folder Include="Migrations\App_Data\" />
-    <Folder Include="Views\Opciones\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -892,25 +868,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-    <EmbeddedResource Include="Migrations\201903131831415__all.resx">
-      <DependentUpon>201903131831415__all.cs</DependentUpon>
-=======
-    <EmbeddedResource Include="Migrations\201902171910335__all.resx">
-      <DependentUpon>201902171910335__all.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201902240200241_maquina.resx">
-      <DependentUpon>201902240200241_maquina.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903031837270_maquinaejercicio.resx">
-      <DependentUpon>201903031837270_maquinaejercicio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903110027177_reservacion.resx">
-      <DependentUpon>201903110027177_reservacion.cs</DependentUpon>
-	   </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903121816427__all.resx">
-      <DependentUpon>201903121816427__all.cs</DependentUpon>
->>>>>>> parent of 1daa7ee... Revert "Merge remote-tracking branch 'origin/Merge_Sprint3' into canelones"
+    <EmbeddedResource Include="Migrations\201903131942275__all.resx">
+      <DependentUpon>201903131942275__all.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
