@@ -29,7 +29,7 @@
     {
         aux = "Funcionarios";
     }
-    if (ViewBag.Role == "Asociacion/Comite" || ViewBag.Role == "Seleccion/Federacion")
+    if (ViewBag.Role == "Asociacion/Comite" || ViewBag.Role == "Seleccion/Federacion" || ViewBag.Role == "Entrenador")
     {
         aux = "Atletas";
     }
@@ -53,9 +53,16 @@
         <div class="row">
             <div class="col-sm-3">
                 <ul class="list-group">
+                    @if (Model.Sexo == true) {
                     <li class="list-group-item text-center">
                         <img class="img-circle" id="Comprobado-1" src="~/Content/Imagenes/M.png" style="width: 90px; height: 90px;" alt="User Pic">
                     </li>
+                    }
+                    else {
+                    <li class="list-group-item text-center">
+                        <img class="img-circle" id="Comprobado-1" src="~/Content/Imagenes/W.png" style="width: 90px; height: 90px;" alt="User Pic">
+                    </li>
+                    }
                     <li class="list-group-item text-right">
                         <span class="pull-left">
                             <strong>Cédula</strong>
