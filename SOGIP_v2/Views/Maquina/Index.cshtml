@@ -381,13 +381,8 @@
 
                             title: "Acción",
                             data: "Id",
-                            "render": function (Id) {
-                                debugger
-                                return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarMaq(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
-                                    "<text class='hidden-xs'>Eliminar </text>" +
-                                    "<span class='glyphicon glyphicon-minus-sign'></span>" +
-                                    "</a>" +
-                                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarMaq(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                            "render": function (Id) {              
+                                return  "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarMaq(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
                                     "<text class='hidden-xs'>Editar </text>" +
                                     "<span class='glyphicon glyphicon-pencil'></span>" +
                                     "</a>" +

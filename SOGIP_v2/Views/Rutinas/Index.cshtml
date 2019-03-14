@@ -115,7 +115,7 @@
                     <div class="modal-body">
                         <div class="modal-footer">
                             <br />
-                            <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
+                            <button type="button" id="btnEdit" class="btn btn-success">Guardar Cambios</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
@@ -248,30 +248,34 @@
             document.getElementById("hidef").value = n
             $('#objetivo').val(ob);
             $('#fecha').datepicker("update", fec);
+
             $('#btnEdit').click(function () {
-                data = {
-                    fecha: $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy'),
-                    obs: $('#objetivo').val().trim(),
-                    id: idRut
-                }
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/Rutinas/EditRutina',
-                    data: data,
-                    success: function (data) {
-                        if (data.status) {
-                            //var date = new Date(parseInt(data.RutinaFecha.substr(6)));
-                            //var table = $('#rutina').DataTable();
-                            //table.row(tr).add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
-                            //var table = $('#rutina').DataTable().row(tr).draw
-                            location.reload();
-                        }
-                    },
-                    error: function () {
-                        alert("Fallo");
+                if ($('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy') == "") {
+                    alert("Faltan  Fecha");
+                } else {
+                    data = {
+                        fecha: $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                        obs: $('#objetivo').val().trim(),
+                        id: idRut
                     }
-                })
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/Rutinas/EditRutina',
+                        data: data,
+                        success: function (data) {
+                         
+                                $('#editar').modal('hide');
+                                $('body').removeClass('modal-open');
+                                $('.modal-backdrop').remove();
+                                location.reload();
+                            
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
+                }
             })
         }
         function EnviarRut(id) {
@@ -420,11 +424,7 @@
                                 {
                                     title: "Acción",
                                     "render": function (Id) {
-                                        return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarRut(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
-                                            "<text class='hidden-xs'>Eliminar </text>" +
-                                            "<span class='glyphicon glyphicon-minus-sign'></span>" +
-                                            "</a>" +
-                                            "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                                        return  "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
                                             "<text class='hidden-xs'>Editar </text>" +
                                             "<span class='glyphicon glyphicon-pencil'></span>" +
                                             "</a>" +
