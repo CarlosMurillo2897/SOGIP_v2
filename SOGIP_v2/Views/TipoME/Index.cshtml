@@ -10,6 +10,9 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTipo" data-target='#nuevoTipo'>
         Nuevo Tipo
     </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTipo1" data-target='#nuevoTipo1'>
+        Nuevo Tipo
+    </button>
     <div id="nuevo" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -42,23 +45,57 @@
                         <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
 
                     </div>
-                    </tr>
-                    <div class="modal-body">
-                        <label>Nombre de Categoria: </label>
-                        <input type="text" class="form-control" placeholder="Categoria" id="cat1" />
+                </tr>
+                <div class="modal-body">
+                    <label>Nombre de Categoria: </label>
+                    <input type="text" class="form-control" placeholder="Categoria" id="cat1" />
+                </div>
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnSave1" class="btn btn-success">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="nuevoTipo1" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Crear nuevo Tipo de Categoria</h4>
+                </div>
+                <br>
+                <tr hidden id="us2">
+                    <div class="col-xs-10">
+                        <input type="text" class="einf form-control" name="nombre_aso" id="einf2" readonly />
+
                     </div>
-                    <div class="modal-footer">
-                        <br />
-                        <button type="button" id="btnSave1" class="btn btn-success">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                    </div>
+                </tr>
+                <div class="modal-body">
+                    <label>Nombre de Categoria: </label>
+                    <input type="text" class="form-control" placeholder="Categoria" id="cat2" />
+                </div>
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnSave2" class="btn btn-success">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
     <br>
     <br>
-    <select name="categoria" id="categoria"></select>
-    <select name="categoria1" id="categoria1"></select>
+    <select name="categoria" id="categoria">
+        <option value="">Seleccione </option>
+        
+    </select>
+    <select name="categoria1" id="categoria1">
+        <option value="">Seleccione </option>
+    </select>
+    <select name="categoria2" id="categoria2">
+        <option value="">Seleccione </option>
+    </select>
 </div>
 @section Scripts {
 
@@ -71,9 +108,45 @@
     <script>
         $(document).ready(function () {
             tabla();
-            tabla1();
             $('#btnNuevo').click(function () {
                 $('#nuevo').modal('show');
+            })
+            $("#categoria").change(function () {
+                $("#categoria1").empty();
+                $("#categori2").selectedindex = -1;  
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/TipoME/getCategorias1',
+                    data: { 'n': $("#categoria").val() },
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            $('#categoria1').append('<option value="' + v.Id + '">' + v.nombre + '</option>');
+                        })
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
+            })
+            $("#categoria1").change(function () {
+                $("#categoria2").empty(); 
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/TipoME/getCategorias1',
+                    data: { 'n': $("#categoria1").val() },
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            $('#categoria2').append('<option value="' + v.Id + '">' + v.nombre + '</option>');
+                        })
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
             })
            
             $("#btnSave").click(function () {
@@ -124,6 +197,26 @@
                 })
 
             })
+            $('#btnTipo1').click(function () {
+                var valor = $("#categoria1 option:selected").text();
+                var id = $("#categoria1").val();
+                $('#us2').show();
+                document.getElementById("einf2").value = valor;
+                $("#btnSave2").click(function () {
+                    var data = null;
+                    var categoria = $('#cat2').val();
+                    if (categoria == "") {
+                        alert("Falta el Nombre");
+                    } else {
+                        data = {
+                            id: $("#categoria1").val(),
+                            categoria: $('#cat2').val()
+                        }
+                        SaveCategoria2(data);
+                    }
+                })
+
+            })
             function SaveCategoria1(data) {
                 $.ajax({
                     type: "POST",
@@ -132,6 +225,22 @@
                     data: data,
                     success: function (data) {
                         $('#nuevoTipo').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            function SaveCategoria2(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/TipoME/SaveCategoria1',
+                    data: data,
+                    success: function (data) {
+                        $('#nuevoTipo1').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
                     },
@@ -156,22 +265,7 @@
                     }
                 });
             }
-            function tabla1() {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/TipoME/getCategorias',
-                    success: function (data) {
-                        $.each(data, function (i, v) {
-                            $('#categoria1').append('<option value="' + v.Id + '">' + v.nombre + '</option>');
-                        })
-                    },
-
-                    error: function (error) {
-                        alert("Fallo");
-                    }
-                });
-            }
+           
         });
     </script>
 

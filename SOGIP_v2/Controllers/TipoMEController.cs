@@ -58,7 +58,12 @@ namespace SOGIP_v2.Controllers
         }
         public JsonResult getCategorias()
         {
-            var consulta = db.TipoME.ToList();
+            var consulta = db.TipoME.Where(x=>x.TipoId==0).ToList();
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult getCategorias1(int n)
+        {
+            var consulta = db.TipoME.Where(x => x.TipoId == n).ToList();
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
 
