@@ -207,13 +207,12 @@
     <Compile Include="Controllers\AtletasAsignadosController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
-    <Compile Include="Controllers\EjercicioController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\ExpedientesFisicosController.cs" />
     <Compile Include="Controllers\OpcionesController.cs" />
     <Compile Include="Controllers\ReservacionController.cs" />
-    <Compile Include="Controllers\MaquinaController.cs" />
     <Compile Include="Controllers\RutinasController.cs" />
+    <Compile Include="Controllers\TipoMEController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Generales.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -229,6 +228,10 @@
     <Compile Include="Migrations\201903131942275__all.cs" />
     <Compile Include="Migrations\201903131942275__all.Designer.cs">
       <DependentUpon>201903131942275__all.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903162135051_tip.cs" />
+    <Compile Include="Migrations\201903162135051_tip.Designer.cs">
+      <DependentUpon>201903162135051_tip.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -246,6 +249,7 @@
     <Compile Include="Models\Rutina\Rutina.cs" />
     <Compile Include="Models\ExpedienteFisico.cs" />
     <Compile Include="Models\Archivo.cs" />
+    <Compile Include="Models\TipoME.cs" />
     <Compile Include="Models\Usuarios\SubSeleccion.cs" />
     <Compile Include="Models\Usuarios\Asociacion_Deportiva.cs" />
     <Compile Include="Models\Usuarios\Atleta.cs" />
@@ -844,12 +848,8 @@
     <Content Include="webfonts\fa-brands-400.ttf" />
     <Content Include="webfonts\fa-brands-400.eot" />
     <Content Include="Views\Reservacion\Create.cshtml" />
-    <Content Include="Views\Maquina\Index.cshtml" />
-    <Content Include="Views\Ejercicio\Index.cshtml" />
-    <Content Include="Views\Maquina\TipoMaquina.cshtml" />
-    <Content Include="Views\Ejercicio\TipoEjercicio.cshtml" />
-    <Content Include="Views\Maquina\ListaEjercicios.cshtml" />
     <Content Include="Views\Opciones\Avanzadas.cshtml" />
+    <Content Include="Views\TipoME\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -871,6 +871,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903131942275__all.resx">
       <DependentUpon>201903131942275__all.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903162135051_tip.resx">
+      <DependentUpon>201903162135051_tip.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

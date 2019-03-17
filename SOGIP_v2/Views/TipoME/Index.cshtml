@@ -1,0 +1,178 @@
+﻿@model SOGIP_v2.Models.TipoME
+
+@{
+    ViewBag.Title = "Tipo";
+}
+<div class="container">
+    <button type="button" class="btn btn-primary" data-toggle="modal" id="btnNuevo">
+        Nuevo Tipo
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTipo" data-target='#nuevoTipo'>
+        Nuevo Tipo
+    </button>
+    <div id="nuevo" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Crear nuevo Tipo de Categoria</h4>
+                </div>
+                <div class="modal-body">
+                    <label>Nombre de Categoria: </label>
+                    <input type="text" class="form-control" placeholder="Categoria" id="cat" />
+                </div>
+                <div class="modal-footer">
+                    <br />
+                    <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="nuevoTipo" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Crear nuevo Tipo de Categoria</h4>
+                </div>
+                <br>
+                <tr hidden id="us">
+                    <div class="col-xs-10">
+                        <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
+
+                    </div>
+                    </tr>
+                    <div class="modal-body">
+                        <label>Nombre de Categoria: </label>
+                        <input type="text" class="form-control" placeholder="Categoria" id="cat1" />
+                    </div>
+                    <div class="modal-footer">
+                        <br />
+                        <button type="button" id="btnSave1" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <select name="categoria" id="categoria"></select>
+    <select name="categoria1" id="categoria1"></select>
+</div>
+@section Scripts {
+
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+
+    <script>
+        $(document).ready(function () {
+            tabla();
+            tabla1();
+            $('#btnNuevo').click(function () {
+                $('#nuevo').modal('show');
+            })
+           
+            $("#btnSave").click(function () {
+                var data = null;
+                var categoria = $('#cat').val();
+                if (categoria == "") {
+                    alert("Falta el nombre");
+                } else {
+                    data = {
+                        categoria: $('#cat').val()
+                    }
+                    SaveCategoria(data);
+                }
+            })
+            function SaveCategoria(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/TipoME/SaveCategoria',
+                    data: data,
+                    success: function (data) {
+                        $('#nuevo').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            $('#btnTipo').click(function () {
+                var valor = $("#categoria option:selected").text();
+                var id = $("#categoria").val();
+                $('#us').show();
+                document.getElementById("einf").value = valor;
+                $("#btnSave1").click(function () {
+                    var data = null;
+                    var categoria = $('#cat1').val();
+                    if (categoria == "") {
+                        alert("Falta el Nombre");
+                    } else {
+                        data = {
+                            id: id,
+                            categoria: $('#cat1').val()
+                        }
+                        SaveCategoria1(data);
+                    }
+                })
+
+            })
+            function SaveCategoria1(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/TipoME/SaveCategoria1',
+                    data: data,
+                    success: function (data) {
+                        $('#nuevoTipo').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            function tabla(){
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/TipoME/getCategorias',
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            $('#categoria').append('<option value="' + v.Id + '">' + v.nombre + '</option>');
+                        })
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
+            }
+            function tabla1() {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/TipoME/getCategorias',
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            $('#categoria1').append('<option value="' + v.Id + '">' + v.nombre + '</option>');
+                        })
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
+            }
+        });
+    </script>
+
+}

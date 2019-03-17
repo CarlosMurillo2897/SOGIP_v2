@@ -8,7 +8,7 @@ namespace SOGIP_v2.Models
     public class Maquina
     {
         public int Id { get; set; }
-        public int MaquinaId { get; set; }
-        public string Descripcion { get; set; }
+        public TipoME TipoId { get; set; }
+        public string Nombre { get; set; }
     }
 }

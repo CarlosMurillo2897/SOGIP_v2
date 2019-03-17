@@ -5,11 +5,10 @@ using System.Web;
 
 namespace SOGIP_v2.Models
 {
-    public class Ejercicio
+    public class TipoME
     {
         public int Id { get; set; }
-        public TipoME TipoId { get; set; }
-        public string Nombre { get; set; }
-        public string Descripcion { get; set; }
+        public int TipoId { get; set; }
+        public string nombre { get; set; }
     }
 }
