@@ -204,6 +204,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Controllers\ActividadController.cs" />
     <Compile Include="Controllers\AtletasAsignadosController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
@@ -226,12 +227,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903131942275__all.cs" />
-    <Compile Include="Migrations\201903131942275__all.Designer.cs">
-      <DependentUpon>201903131942275__all.cs</DependentUpon>
+    <Compile Include="Migrations\201903240320241__all.cs" />
+    <Compile Include="Migrations\201903240320241__all.Designer.cs">
+      <DependentUpon>201903240320241__all.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Actividad.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Agrupaciones\Tipo.cs" />
     <Compile Include="Models\Cita.cs" />
@@ -850,6 +852,7 @@
     <Content Include="Views\Ejercicio\TipoEjercicio.cshtml" />
     <Content Include="Views\Maquina\ListaEjercicios.cshtml" />
     <Content Include="Views\Opciones\Avanzadas.cshtml" />
+    <Content Include="Views\Actividad\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -869,8 +872,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903131942275__all.resx">
-      <DependentUpon>201903131942275__all.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903240320241__all.resx">
+      <DependentUpon>201903240320241__all.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

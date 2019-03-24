@@ -8,6 +8,17 @@ namespace SOGIP_v2.Migrations
         public override void Up()
         {
             CreateTable(
+                "dbo.SOGIP_Actividad",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Titulo = c.String(nullable: false),
+                        Descripcion = c.String(),
+                        Lugar = c.String(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.SOGIP_Archivo",
                 c => new
                     {
@@ -336,11 +347,14 @@ namespace SOGIP_v2.Migrations
                 "dbo.SOGIP_Horario",
                 c => new
                     {
-                        HorarioId = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         FechaHoraInicio = c.DateTime(nullable: false),
                         FechaHoraFinal = c.DateTime(nullable: false),
+                        IdActividad_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.HorarioId);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.SOGIP_Actividad", t => t.IdActividad_Id)
+                .Index(t => t.IdActividad_Id);
             
             CreateTable(
                 "dbo.SOGIP_Maquina",
@@ -413,6 +427,7 @@ namespace SOGIP_v2.Migrations
             DropForeignKey("dbo.SOGIP_Reservacion", "Estado_EstadoId", "dbo.SOGIP_Estados");
             DropForeignKey("dbo.SOGIP_MaquinaEjercicio", "Maquina_Id", "dbo.SOGIP_Maquina");
             DropForeignKey("dbo.SOGIP_MaquinaEjercicio", "Ejercicio_Id", "dbo.SOGIP_Ejercicio");
+            DropForeignKey("dbo.SOGIP_Horario", "IdActividad_Id", "dbo.SOGIP_Actividad");
             DropForeignKey("dbo.SOGIP_Funcionario_ICODER", "Usuario_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Funcionario_ICODER", "Entrenador_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Expedientes_Fisicos", "Atleta_AtletaId", "dbo.SOGIP_Atletas");
@@ -442,6 +457,7 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_Parametro", new[] { "Nombre" });
             DropIndex("dbo.SOGIP_MaquinaEjercicio", new[] { "Maquina_Id" });
             DropIndex("dbo.SOGIP_MaquinaEjercicio", new[] { "Ejercicio_Id" });
+            DropIndex("dbo.SOGIP_Horario", new[] { "IdActividad_Id" });
             DropIndex("dbo.SOGIP_Funcionario_ICODER", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Funcionario_ICODER", new[] { "Entrenador_Id" });
             DropIndex("dbo.SOGIP_Expedientes_Fisicos", new[] { "Atleta_AtletaId" });
@@ -504,6 +520,7 @@ namespace SOGIP_v2.Migrations
             DropTable("dbo.SOGIP_Users");
             DropTable("dbo.SOGIP_Tipo");
             DropTable("dbo.SOGIP_Archivo");
+            DropTable("dbo.SOGIP_Actividad");
         }
     }
 }

@@ -84,6 +84,8 @@ namespace SOGIP_v2.Models
 
             modelBuilder.Entity<SubSeleccion>().ToTable("SOGIP_SubSeleccion");
 
+            modelBuilder.Entity<Actividad>().ToTable("SOGIP_Actividad");
+
 
         }
 
@@ -139,6 +141,8 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Ejercicio> Ejercicio { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.MaquinaEjercicio> MaquinaEjercicio { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Actividad> Actividad { get; set; }
 
     }
 
