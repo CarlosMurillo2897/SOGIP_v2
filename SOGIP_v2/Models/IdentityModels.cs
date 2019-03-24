@@ -83,6 +83,12 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Reservacion>().ToTable("SOGIP_Reservacion");
 
             modelBuilder.Entity<SubSeleccion>().ToTable("SOGIP_SubSeleccion");
+            modelBuilder.Entity<EstadosPagos>().ToTable("SOGIP_EstadosPagos");
+            modelBuilder.Entity<CategoriaMonto>().ToTable("SOGIP_CategoriaMonto");
+            modelBuilder.Entity<TotalPagos>().ToTable("SOGIP_TotalPagos");
+            
+           
+           
 
 
         }
@@ -139,6 +145,12 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Ejercicio> Ejercicio { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.MaquinaEjercicio> MaquinaEjercicio { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.CategoriaMonto> CategoriaMontos { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.EstadosPagos> EstadosPagos { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.TotalPagos> TotalPagos { get; set; }
 
     }
 

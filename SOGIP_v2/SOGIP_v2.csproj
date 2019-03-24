@@ -206,6 +206,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="Controllers\AtletasAsignadosController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
+    <Compile Include="Controllers\CategoriaMontoController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EjercicioController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
@@ -230,16 +231,23 @@
     <Compile Include="Migrations\201903131942275__all.Designer.cs">
       <DependentUpon>201903131942275__all.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903240404151_pagos.cs" />
+    <Compile Include="Migrations\201903240404151_pagos.Designer.cs">
+      <DependentUpon>201903240404151_pagos.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Agrupaciones\Tipo.cs" />
+    <Compile Include="Models\PagosUsuarios\CategoriaMonto.cs" />
     <Compile Include="Models\Cita.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Models\Ejercicio.cs" />
+    <Compile Include="Models\PagosUsuarios\EstadosPagos.cs" />
     <Compile Include="Models\Horario.cs" />
     <Compile Include="Models\Maquina.cs" />
     <Compile Include="Models\MaquinaEjercicio.cs" />
+    <Compile Include="Models\PagosUsuarios\TotalPagos.cs" />
     <Compile Include="Models\Parametro.cs" />
     <Compile Include="Models\Reservacion.cs" />
     <Compile Include="Models\Rutina\Conjunto_Ejercicio.cs" />
@@ -850,6 +858,7 @@
     <Content Include="Views\Ejercicio\TipoEjercicio.cshtml" />
     <Content Include="Views\Maquina\ListaEjercicios.cshtml" />
     <Content Include="Views\Opciones\Avanzadas.cshtml" />
+    <Content Include="Views\CategoriaMonto\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -871,6 +880,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903131942275__all.resx">
       <DependentUpon>201903131942275__all.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903240404151_pagos.resx">
+      <DependentUpon>201903240404151_pagos.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
