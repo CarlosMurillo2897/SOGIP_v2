@@ -744,6 +744,10 @@ namespace SOGIP_v2.Controllers
                     { 
                         msg.Add("Primer APELLIDO es obligatorio para el registro.");
                     }
+                    if (email == null)
+                    { 
+                        msg.Add("E-mail es obligatorio para el registro.");
+                    }
 
                     object usuario = new
                     {
@@ -772,6 +776,11 @@ namespace SOGIP_v2.Controllers
             }
 
             return Json(ls, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CedulaRepetida(string ced)
+        {
+            return Json(db.Users.Any(x => x.Cedula == ced), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CrearMasivo(List<ApplicationUser> users, string usuario, string rol, int value)

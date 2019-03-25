@@ -20,6 +20,11 @@
             daysOfWeekDisabled: false
         });
     });
+
+    $('#tosh').on('click', function ()
+    {
+        $('tr.supr').remove();
+    });
 });
 
 $(document).on('click', '#close-preview', function () {
@@ -237,7 +242,6 @@ function uploadImage() {
                 }
                 p = p + "</p>";
                 
-
                 $body.append(
                     '<tr id="' + i + '">' +
                     '<td>' +
@@ -305,7 +309,7 @@ function registrar() {
         pop(true);
         var array = [];
 
-        $('#UsuariosExcel tbody tr').each(function () {
+        $('#UsuariosExcel tbody tr .btn-success').each(function () {
             var tr = $(this).closest('tr');
             array.push({
                 Cedula: tr.find('td:eq(0)').text(),
@@ -321,6 +325,7 @@ function registrar() {
                 Fecha_Expiracion: new Date()
             });
         });
+        console.log(array);
 
         var datos = {
             'users': array,
@@ -336,7 +341,7 @@ function registrar() {
             data: JSON.stringify(datos), //agregar el campo para el id de la rutina
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                $('#UpdatePanel').remove('#UsuariosExcel');
+                $('#UsuariosExcel tbody td .btn-success').closest('tr').remove();
                 $('#Usuario').val('');
                 contenidoPop(1);
             },
