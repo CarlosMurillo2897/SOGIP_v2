@@ -1,10 +1,7 @@
-﻿@model SOGIP_v2.Models.CategoriaMonto
+﻿@model SOGIP_v2.Models.EstadosPagos
 @{
-
-    ViewBag.Title = "Categoria Monto";
-
+    ViewBag.Title = "View";
 }
-
 <div class="container">
     <button type="button" class="btn btn-primary" id="btnNuevo">
         Nueva Categoria Monto
@@ -51,6 +48,10 @@
         <option value="">Seleccione </option>
 
     </select>
+    <select name="categoria2" id="categoria2">
+        <option value="">Seleccione </option>
+
+    </select>
 </div>
 @section Scripts {
 
@@ -66,12 +67,12 @@
             $('#btnNuevo').click(function () {
                 $('#nuevo').modal('show');
             })
-            
-            function tabla(){
+
+            function tabla() {
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: '/CategoriaMonto/GetCategorias',
+                    url: '/EstadosPagos/GetRoles',
                     success: function (data) {
                         $.each(data, function (i, v) {
                             $('#categoria').append('<option value="' + v.Id + '">' + v.Name + '</option>');
@@ -88,3 +89,4 @@
     </script>
 
 }
+

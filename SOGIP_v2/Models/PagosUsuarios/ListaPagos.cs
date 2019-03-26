@@ -6,11 +6,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 namespace SOGIP_v2.Models
 {
-    public class TotalPagos
+    public class ListaPagos
     {
         [Key]
-        public int IdPagos { get; set; }
-        public EstadosPagos IdEst { get; set; }
-        public DateTime fecha { get; set; }
+        public int Id { get; set; }
+        public EstadosPagos IdEsPago { get; set; }
+        public DateTime Fecha { get; set; }
     }
 }

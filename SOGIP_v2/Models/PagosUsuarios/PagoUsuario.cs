@@ -5,10 +5,10 @@ using System.Web;
 
 namespace SOGIP_v2.Models
 {
-    public class CategoriaMonto
+    public class PagoUsuario
     {
         public int Id { get; set; }
-        public RoleViewModel  IdCategoria { get; set; }
-        public int monto { get; set; }
+        public EstadosPagos  IdEsPago { get; set; }
+        public ApplicationUser Usuario { get; set; }
     }
 }

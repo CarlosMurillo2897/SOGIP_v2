@@ -10,9 +10,13 @@ namespace SOGIP_v2.Models
     public class EstadosPagos
     {
         [Key]
-        public int IdEsPago { get; set; }
+        public int Id { get; set; }
         public ApplicationUser Usuario { get; set; }
         public DateTime FechaPago { get; set; }
-        public Boolean estado { get; set; }
+        public int Cantidad { get; set; }
+        public float Monto { get; set; }
+        public float Total { get; set; }
+        public int Estado { get; set; }
+        public TipoPago IdPago { get; set; }
     }
 }
