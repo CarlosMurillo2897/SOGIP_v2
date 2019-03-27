@@ -861,6 +861,7 @@
     <Content Include="Views\Opciones\Avanzadas.cshtml" />
     <Content Include="Views\EstadosPagos\Index.cshtml" />
     <Content Include="Views\EstadosPagos\TipoPago.cshtml" />
+    <Content Include="Views\EstadosPagos\Pagos.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />

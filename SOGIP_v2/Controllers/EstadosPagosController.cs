@@ -41,6 +41,32 @@ namespace SOGIP_v2.Controllers
             }
             return Json(tipo, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult SaveEstado(string usuario, DateTime fecha,int cantidad,int monto,int mensualidad)
+        {
+            EstadosPagos nueva = new EstadosPagos();
+            try
+            {
+                ApplicationUser User = db.Users.Single(x => x.Id == usuario);
+                TipoPago Tipo = db.TipoPago.Single(x => x.Id == mensualidad);
+                if (User != null || Tipo != null)
+                {
+                    nueva.Usuario = User;
+                    nueva.FechaPago = fecha;
+                    nueva.Cantidad = cantidad;
+                    nueva.Monto = monto;
+                    nueva.Total = cantidad * monto;
+                    nueva.Estado = 1;
+                    nueva.IdPago = Tipo;
+                    db.EstadosPagos.Add(nueva);
+                }
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(nueva, JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetRoles()
         {
             var roles = (from f in db.Roles
@@ -52,6 +78,140 @@ namespace SOGIP_v2.Controllers
                             }).ToList();
             var aux = roles;
             return Json(aux, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetEstados()
+        {
+            var roles = (from f in db.EstadosPagos
+                         select new
+                         {
+                           Usuario = f.Usuario.Nombre1,
+                           Fecha = f.FechaPago,
+                           Cantidad = f.Cantidad,
+                           Monto = f.Monto,
+                           Total = f.Total,
+                           Estado = f.Estado,
+                           TipoPago = f.IdPago.Descripcion,
+                           Id = f.Id
+
+                         }).ToList();
+            var aux = roles;
+            return Json(aux, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetMensualidad()
+        {
+            var roles = (from f in db.TipoPago
+                         select new
+                         {
+                             Id = f.Id,
+                             Name = f.Descripcion
+                         }).ToList();
+            var aux = roles;
+            return Json(aux, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetUsuarios(string n)
+        {
+            var consulta = (from f in db.Selecciones
+                            select new
+                            {
+                                Id = f.Usuario.Id,
+                                Name = f.Nombre_Seleccion
+                            }).ToList();
+    
+            //switch (n)
+            //{
+            //    case "3":
+            //        consulta = (from f in db.Selecciones
+            //                        select new
+            //                        {
+            //                            Id = f.Usuario.Id,
+            //                            Name = f.Nombre_Seleccion
+            //                        }).ToList();
+            //        break;
+            //    case "9":
+            //         consulta = (from f in db.Asociacion_Deportiva
+            //                    select new
+            //                    {
+            //                        Id = f.Usuario.Id,
+            //                        Name = f.Nombre_DepAso
+            //                    }).ToList();
+            //        break;
+            //    case "5":
+            //        consulta = (from f in db.Atletas
+            //                    select new
+            //                    {
+            //                        Id = f.Usuario.Id,
+            //                        Name = f.Usuario.Nombre1 + " " +f.Usuario.Apellido1 +" "+f.Usuario.Apellido2
+            //                    }).ToList();
+            //        break;
+            //    case "8":
+            //        consulta = (from f in db.Entidad_Publica
+            //                    select new
+            //                    {
+            //                        Id = f.Usuario.Id,
+            //                        Name = f.Usuario.Nombre1 + " " + f.Usuario.Apellido1 + " " + f.Usuario.Apellido2
+            //                    }).ToList();
+            //        break;
+            //}
+
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Pagos(int? id)
+        {
+            EstadosPagos estados = db.EstadosPagos.Include("Usuario").SingleOrDefault(x => x.Id == id);
+            if (estados != null)
+            {
+                string nombre = estados.Usuario.Nombre1;
+                ViewData["nombre"] = nombre;
+                string n = id.ToString();
+                ViewData["pago"] = n;
+
+            }
+
+            return View();
+
+        }
+        public JsonResult fechaProxima(string n)
+        {
+           
+            int id = int.Parse(n);
+            EstadosPagos estados = db.EstadosPagos.Include("Usuario").SingleOrDefault(x => x.Id == id);
+            var lista = db.ListaPagos.SingleOrDefault(x => x.Id == id);
+            ListaPagos lis = db.ListaPagos.LastOrDefault(x => x.Id == id);
+             var f = lis.Fecha;
+            var fecha = db.ListaPagos.OrderByDescending(x =>x.Id == id).First().Fecha;
+            //if (lista != null)
+            //{
+            //    f = estados.FechaPago;
+            //}
+            //else
+            //{
+            //    ListaPagos lis = db.ListaPagos.LastOrDefault(x => x.Id == idR);
+            //    f = lis.Fecha;
+            //    //f = estados.FechaPago.AddMonths(6);
+            //}
+            return Json(fecha, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SaveListaPagos(string n,string Fecha)
+        {
+            int id = int.Parse(n);
+            EstadosPagos estados = db.EstadosPagos.Include("Usuario").SingleOrDefault(x => x.Id == id);
+            ListaPagos lista = new ListaPagos();
+            lista.IdEsPago = estados;
+            lista.Fecha = Convert.ToDateTime(Fecha);
+            db.ListaPagos.Add(lista);
+            db.SaveChanges();
+            return Json(lista, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetListas()
+        {
+            var lista = (from f in db.ListaPagos
+                         select new
+                         {
+                             Fecha = f.Fecha
+                         }).ToList();
+            var aux = lista;
+            return Json(aux, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

@@ -1,0 +1,145 @@
+﻿@model SOGIP_v2.Models.EstadosPagos
+@{
+    ViewBag.Title = "Pagos";
+    var viewDataNombre = ViewData["nombre"];
+    var viewDataPago = ViewData["pago"];
+}
+<div class="container">
+    <div class="well">
+        <h4>Usuario</h4>
+        <h4> @viewDataNombre </h4>
+  
+            <br>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label>Proxima Fecha de Pago: </label>
+                    <tr hidden id="inpE">
+                        <td>
+                            <div>
+                                <div class="form-group">
+                                    <div class="col-xs-15">
+                                        <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
+                                        <input type="hidden" class="hidef form-control" name="hidef" id="hidef" readonly />
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </div>
+                <br>
+                <button type="button" id="btnSave" class="btn btn-success">Guardar Pago</button>
+            </div>
+
+        <div class="table-responsive">
+            <table id="pagos" class="display table table-striped table-bordered table-hover " style="width:100%"></table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/jquery.timepicker.js")
+
+    <script>
+        $(document).ready(function () {
+            fecha();
+            lista();
+            function fecha() {
+                var n = @viewDataPago;
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    data: { 'n':n },
+                    url: '/EstadosPagos/fechaProxima',
+                    success: function (data) {
+                        var date = new Date(parseInt(data.substr(6)));
+                        $('#inpE').show();
+                        document.getElementById("einf").value = date.toLocaleDateString("en-GB");
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
+            }
+            $('#btnSave').click(function () {
+                var data = null;
+                if (document.getElementById("einf").value == "") {
+                    alert("Faltan Fecha");
+                } else {
+                    data = {
+                        n : @viewDataPago,
+                        Fecha: document.getElementById("einf").value
+                    }
+                    SaveListapagos(data);
+                }
+            })
+            function SaveListapagos(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/EstadosPagos/SaveListaPagos',
+                    data: data,
+                    success: function (data) {
+                        alert('Registrado');
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            var table;
+            var dataSet = [];
+            function lista() {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/EstadosPagos/GetListas',
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            var date = new Date(parseInt(v.Fecha.substr(6)));
+                            dataSet.push([ date.toLocaleDateString("en-GB")]);
+                        })
+                        table = $('#pagos').DataTable({
+                            "language": {
+                                "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                                "zeroRecords": "No se han encontrado registros.",
+                                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                                "infoEmpty": "No hay datos para mostrar",
+                                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                                "search": "Filtrar:",
+                                "paginate": {
+                                    "first": "Primero",
+                                    "last": "Ultimo",
+                                    "next": "Siguiente",
+                                    "previous": "Anterior"
+                                }
+                            },
+                            data: dataSet,
+                            columns: [
+                                { title: "Fecha" }
+                            ],
+
+                            'select': {
+                                'style': 'os',
+                                'selector': 'td:first-child'
+                            }
+                        });
+                    },
+
+                    error: function (error) {
+                        alert("Fallo");
+                    }
+                });
+            }
+        });
+    </script>
+
+}
+
+
+
