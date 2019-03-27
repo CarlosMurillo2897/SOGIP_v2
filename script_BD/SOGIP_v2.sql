@@ -33,8 +33,9 @@ use "SOGIP_v3"
  select * from SOGIP_Asociacion_Deportiva;
  select * from SOGIP_Atletas;
 
-delete from SOGIP_TipoPago
-
+delete from SOGIP_EstadosPagos
+select * from SOGIP_ListaPagos
+select * from SOGIP_EstadosPagos
  select * from SOGIP_Categorias;
  select * from SOGIP_Color;
  select * from SOGIP_Cita;
