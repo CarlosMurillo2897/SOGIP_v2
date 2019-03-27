@@ -16,7 +16,7 @@ namespace SOGIP_v2.Models
         public int Cantidad { get; set; }
         public float Monto { get; set; }
         public float Total { get; set; }
-        public int Estado { get; set; }
+        public String Estado { get; set; }
         public TipoPago IdPago { get; set; }
     }
 }
