@@ -55,8 +55,9 @@ namespace SOGIP_v2.Controllers
                     nueva.Cantidad = cantidad;
                     nueva.Monto = monto;
                     nueva.Total = cantidad * monto;
-                    nueva.Estado = 1;
+                    nueva.Estado = "Pendiente";
                     nueva.IdPago = Tipo;
+                    nueva.FechaProxima = fecha;
                     db.EstadosPagos.Add(nueva);
                 }
                 db.SaveChanges();
@@ -82,9 +83,11 @@ namespace SOGIP_v2.Controllers
         public JsonResult GetEstados()
         {
             var roles = (from f in db.EstadosPagos
+                         from u in db.Selecciones
+                         where(f.Usuario.Id == u.Usuario.Id)
                          select new
                          {
-                           Usuario = f.Usuario.Nombre1,
+                           Usuario = u.Nombre_Seleccion,
                            Fecha = f.FechaPago,
                            Cantidad = f.Cantidad,
                            Monto = f.Monto,
@@ -116,7 +119,7 @@ namespace SOGIP_v2.Controllers
                                 Id = f.Usuario.Id,
                                 Name = f.Nombre_Seleccion
                             }).ToList();
-    
+
             //switch (n)
             //{
             //    case "3":
@@ -152,15 +155,16 @@ namespace SOGIP_v2.Controllers
             //                    }).ToList();
             //        break;
             //}
-
-            return Json(consulta, JsonRequestBehavior.AllowGet);
+            var aux = consulta;
+            return Json(aux, JsonRequestBehavior.AllowGet);
         }
         public ActionResult Pagos(int? id)
         {
             EstadosPagos estados = db.EstadosPagos.Include("Usuario").SingleOrDefault(x => x.Id == id);
+            Seleccion sel = db.Selecciones.Include("Usuario").SingleOrDefault(x=>x.Usuario.Id == estados.Usuario.Id);
             if (estados != null)
             {
-                string nombre = estados.Usuario.Nombre1;
+                string nombre = sel.Nombre_Seleccion;
                 ViewData["nombre"] = nombre;
                 string n = id.ToString();
                 ViewData["pago"] = n;
@@ -172,23 +176,9 @@ namespace SOGIP_v2.Controllers
         }
         public JsonResult fechaProxima(string n)
         {
-           
             int id = int.Parse(n);
             EstadosPagos estados = db.EstadosPagos.Include("Usuario").SingleOrDefault(x => x.Id == id);
-            var lista = db.ListaPagos.SingleOrDefault(x => x.Id == id);
-            ListaPagos lis = db.ListaPagos.LastOrDefault(x => x.Id == id);
-             var f = lis.Fecha;
-            var fecha = db.ListaPagos.OrderByDescending(x =>x.Id == id).First().Fecha;
-            //if (lista != null)
-            //{
-            //    f = estados.FechaPago;
-            //}
-            //else
-            //{
-            //    ListaPagos lis = db.ListaPagos.LastOrDefault(x => x.Id == idR);
-            //    f = lis.Fecha;
-            //    //f = estados.FechaPago.AddMonths(6);
-            //}
+            var fecha = estados.FechaProxima;
             return Json(fecha, JsonRequestBehavior.AllowGet);
         }
         public JsonResult SaveListaPagos(string n,string Fecha)
@@ -198,13 +188,17 @@ namespace SOGIP_v2.Controllers
             ListaPagos lista = new ListaPagos();
             lista.IdEsPago = estados;
             lista.Fecha = Convert.ToDateTime(Fecha);
+            estados.FechaProxima = estados.FechaProxima.AddMonths(1);
             db.ListaPagos.Add(lista);
             db.SaveChanges();
+            
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetListas()
+        public JsonResult GetListas(string n)
         {
+            int id = int.Parse(n);
             var lista = (from f in db.ListaPagos
+                         where f.IdEsPago.Id == id
                          select new
                          {
                              Fecha = f.Fecha

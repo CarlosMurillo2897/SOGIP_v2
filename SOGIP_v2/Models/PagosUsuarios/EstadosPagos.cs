@@ -13,6 +13,7 @@ namespace SOGIP_v2.Models
         public int Id { get; set; }
         public ApplicationUser Usuario { get; set; }
         public DateTime FechaPago { get; set; }
+        public DateTime FechaProxima { get; set; }
         public int Cantidad { get; set; }
         public float Monto { get; set; }
         public float Total { get; set; }

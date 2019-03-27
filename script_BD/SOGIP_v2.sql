@@ -33,7 +33,7 @@ use "SOGIP_v3"
  select * from SOGIP_Asociacion_Deportiva;
  select * from SOGIP_Atletas;
 
-
+delete from SOGIP_TipoPago
 
  select * from SOGIP_Categorias;
  select * from SOGIP_Color;
@@ -217,5 +217,17 @@ exec (@sql)
 -- 2 rows
 set @sql = 'BULK INSERT SOGIP_MaquinaEjercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_MaquinaEjercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+
+-- 6 rows
+set @sql = 'BULK INSERT SOGIP_TipoPago FROM '''+@VARIABLEACAMBIAR+'\SOGIP_TipoPago.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+
+set @sql = 'BULK INSERT SOGIP_EstadosPagos FROM '''+@VARIABLEACAMBIAR+'\SOGIP_EstadosPagos.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+
+set @sql = 'BULK INSERT SOGIP_ListaPagos FROM '''+@VARIABLEACAMBIAR+'\SOGIP_ListaPagos.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+
+
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++

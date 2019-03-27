@@ -49,11 +49,12 @@
             fecha();
             lista();
             function fecha() {
-                var n = @viewDataPago;
+               
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    data: { 'n':n },
+                    data: {
+                        'n':  @viewDataPago },
                     url: '/EstadosPagos/fechaProxima',
                     success: function (data) {
                         var date = new Date(parseInt(data.substr(6)));
@@ -86,6 +87,7 @@
                     data: data,
                     success: function (data) {
                         alert('Registrado');
+                        location.reload();
                     },
                     error: function () {
                         alert("Fallo");
@@ -95,9 +97,11 @@
             var table;
             var dataSet = [];
             function lista() {
+               var n = @viewDataPago;
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
+                    data: { 'n': n },
                     url: '/EstadosPagos/GetListas',
                     success: function (data) {
                         $.each(data, function (i, v) {

@@ -44,23 +44,23 @@
                         @*Tabla de Usuarios*@
                         <label>Seleccione al Usuario: </label>
                         <select name="categoria" id="categoria"></select>
-                        <select name="categoria2" id="categoria2"></select>
+                        @*<select name="categoria2" id="categoria2"></select>*@
                         <br>
-                        <div class="row" id="infouser">
+                        @*<div class="row" id="infouser">
                             <div class="form-group col-lg-6 col-md-6 col-sm-6">
                                 <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
-                            </div>
+                            </div>*@
                             @*<div class="form-group col-lg-3 col-md-6 col-sm-6">
                                     <button id="botón" type="button" class="btn btn-warning btn-block">
                                         <text id="texto">Seleccionar usuario</text>
                                         <span id="icono" class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </div>*@
-                        </div>
+                        @*</div>
                         <hr />
                         <div class="table-responsive" id="Tabla_Usuarios">
                             <table id="example" class="display table table-bordered table-hover table-striped" style="width:100%"></table>
-                        </div>
+                        </div>*@
                         <div class="modal-footer">
                             <br />
                             <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
@@ -94,29 +94,10 @@
                 $('#btnNuevo').click(function () {
                     $('#nueva').modal('show');
                 })
-                $("#categoria2").change(function () {
-                 
-                })
-                $("#categoria").change(function () {
-                    $.ajax({
-                        type: "POST",
-                        dataType: "JSON",
-                        url: '/EstadosPagos/GetUsuarios',
-                        data: { 'n': $("#categoria").val() },
-                        success: function (data) {
-                            $.each(data, function (i, v) {
-                                $('#categoria2').append('<option value="' + v.Id + '">' + v.Name + '</option>');
-                            })
-                        },
-                        error: function (error) {
-                            alert("Fallo");
-                        }
-                    });
-
-                })
+               
                 $('#btnSave').click(function () {
                     var data = null;
-                    var usuario = $("#categoria2").val();
+                    var usuario = $("#categoria").val();
                     var fecha = $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy');
                     var cantidad = $("#cantidad").val();
                     var monto = $('#monto').val();
@@ -144,6 +125,7 @@
                             $('#nueva').modal('hide');
                             $('body').removeClass('modal-open');
                             alert('Registrado');
+                            location.reload();
                         },
                         error: function () {
                             alert("Fallo");
@@ -155,7 +137,7 @@
                     $.ajax({
                         type: "POST",
                         dataType: "JSON",
-                        url: '/EstadosPagos/GetRoles',
+                        url: '/EstadosPagos/GetUsuarios',
                         success: function (data) {
                             $.each(data, function (i, v) {
                                 $('#categoria').append('<option value="' + v.Id + '">' + v.Name + '</option>');
@@ -167,6 +149,7 @@
                         }
                     });
                 }
+
                 function mensualidad() {
                     $.ajax({
                         type: "POST",
