@@ -273,6 +273,7 @@
     <Content Include="Contents\bootstrap-datepicker3.min.css" />
     <Content Include="Contents\bootstrap-datepicker3.standalone.css" />
     <Content Include="Contents\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\actividades.css" />
     <Content Include="Content\Archivos.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -592,6 +593,7 @@
     <Content Include="Scripts\fontawesome\solid.min.js" />
     <Content Include="Scripts\fontawesome\v4-shims.js" />
     <Content Include="Scripts\fontawesome\v4-shims.min.js" />
+    <Content Include="Scripts\fullCalendar\actividades.js" />
     <Content Include="Scripts\fullCalendar\admincalendar.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.min.js" />
