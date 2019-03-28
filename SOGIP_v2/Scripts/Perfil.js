@@ -180,7 +180,8 @@ function cargarAtletas(ced) {
     }
     else if ($('#role').val() == "Seleccion/Federacion") {
         url = "/AtletasAsignados/GetUsuariosSeleccion";
-        head = '<thead><tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Categoría</td><td>Acción</td></tr></thead>';
+        head = '<thead><tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Rol</td><td>Categoría</td><td>Acción</td></tr></thead>';
+        col[col.length] = { data: "Rol" };
         col[col.length] = { data: "Categoria" };
     }
     else if ($('#role').val() == "Asociacion/Comite") {
@@ -202,7 +203,7 @@ function cargarAtletas(ced) {
 
     var table = $('<table/>', {
         id: 'asignados',
-        class: 'table table-striped table-bordered dt-responsive nowrap',
+        class: 'table table-striped table-bordered dt-responsive',
         width: '100%'
     }).append(head);
 
