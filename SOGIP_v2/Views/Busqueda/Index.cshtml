@@ -2,47 +2,61 @@
 
 @{
     ViewBag.Title = "Búsqueda";
+    ViewBag.Controller = "Busqueda";
     ViewBag.Control = "Busqueda";
-    ViewBag.ControlIcono = "glyphicon-user";
-
-    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
-    ViewBag.Metodo = "Index";
-    ViewBag.MetodoIcono = "glyphicon-edit";
-
-    List<SelectListItem> Tipo = new List<SelectListItem>();
-
-    Tipo.Add(new SelectListItem { Text = "Cédula", Value = "0" });
-    Tipo.Add(new SelectListItem { Text = "Nombre", Value = "1" });
-    Tipo.Add(new SelectListItem { Text = "Apellido", Value = "2" });
-    @*Tipo.Add(new SelectListItem { Text = "Sexo", Value = "3" });
-        Tipo.Add(new SelectListItem { Text = "Asociación/Comité", Value = "4" });
-        Tipo.Add(new SelectListItem { Text = "Selección/Federación", Value = "5" });
-        Tipo.Add(new SelectListItem { Text = "Atleta", Value = "6" });
-        Tipo.Add(new SelectListItem { Text = "Atleta Alto Rendimiento", Value = "7" });*@
+    ViewBag.ControlIcono = "glyphicon-search";
 }
 
 @Styles.Render("~/Content/Perfil.css")
 
+<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/select.bootstrap4.min.css" rel="stylesheet" />
 
-<div class="container" style="min-height: 369px;">
+<div class="container-fluid" style="min-height: 369px;">
+    <div class="well" style="min-height: 400px;">
         <div class="row">
-            <div class="col-md-3 col-md-offset-2">
-                <input class="form-control" type="search" placeholder="Buscar por" id="Search">
+            <div class="col-md-8 col-md-offset-4">
+                <h1>¿Qué desea buscar?</h1>
             </div>
-            <div class="col-md-3">
-                @Html.DropDownList("Tipo", Tipo, new { @class = "form-control", id = "SearchBy" })
+            <div class="col-md-4">
+                <select id="Tipo" class="form-control" style="text-align: center">
+                    <option value="0">-- Seleccione --</option>
+                    <option value="1">Usuarios</option>
+                    <option value="2">Archivos</option>
+                    <option value="3">Ejercicios</option>
+                    <option value="4">Máquinas</option>
+                    <option value="5">Actividades</option>
+                </select>
             </div>
-            <div class="col-md-3">
-                <button id="SearchBtn" class="btn btn-primary" type="submit">Buscar</button>
+            <div class="col-md-4">
+                <select id="Filtro" class="form-control" style="text-align: center">
+                    <option value="0">-- Seleccione --</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button id="Buscar" class="btn btn-block btn-success" type="submit">
+                    Buscar
+                    <span class="glyphicon glyphicon-search"></span>
+                </button>
             </div>
         </div>
+        <br />
         <div class="row">
-            <div class="well span8 offset 2" id="perfiles">
+            <div id="Resultados" class="table-responsive">
+
             </div>
         </div>
+    </div>
 </div>
 
 @section Scripts {
+    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/Busquedas.js")
 }

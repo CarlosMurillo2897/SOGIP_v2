@@ -10,29 +10,37 @@
     @Styles.Render("~/Content/Perfil.css")
 
 
-        List<SelectListItem> Sexo = new List<SelectListItem>();
-        Sexo.Add(new SelectListItem
-        {
-            Text = "Femenino",
-            Value = "false",
-        });
+    List<SelectListItem> Sexo = new List<SelectListItem>();
+    Sexo.Add(new SelectListItem
+    {
+        Text = "Femenino",
+        Value = "false",
+    });
 
-        Sexo.Add(new SelectListItem
-        {
-            Text = "Masculino",
-            Value = "true",
-        });
+    Sexo.Add(new SelectListItem
+    {
+        Text = "Masculino",
+        Value = "true",
+    });
 
-        var aux = "";
+    var aux = "";
 
-        if (ViewBag.Role == "Administrador")
-        {
-            aux = "Funcionarios";
-        }
-        if (ViewBag.Role == "Asociacion/Comite" || ViewBag.Role == "Seleccion/Federacion")
-        {
-            aux = "Atletas";
-        }
+    if (ViewBag.Role == "Administrador")
+    {
+        aux = "Funcionarios";
+    }
+    else if (ViewBag.Role == "Asociacion/Comite" || ViewBag.Role == "Seleccion/Federacion" || ViewBag.Role == "Entrenador")
+    {
+        aux = "Atletas";
+    }
+    
+    var dis = "";
+    var inactivo = false;
+    if (ViewBag.usuario_Actual != "Administrador" && ViewBag.usuario_Actual != "Supervisor")
+    {
+        dis = "disabled";
+        inactivo = true;
+    }
 }
 
     <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
@@ -47,8 +55,14 @@
             cursor: pointer;
             font-size: 30px;
         }
+        /*
+        .inactivo {
+            cursor: not-allowed;
+            pointer-events: none;
+        }*/
     </style>
     <div class="container-fluid" style="min-height: 369px;">
+        
         <div class="well">
             <div class="row">
                 <div class="col-sm-3">
@@ -68,8 +82,10 @@
                             </span>
                             @ViewBag.Role
                             <input type="hidden" id="role" value="@ViewBag.Role" />
+                            <input type="hidden" id="invalid" value="@inactivo" />
                         </li>
-                        @if (ViewBag.Entidad != null) {
+                        @if (ViewBag.Entidad != null)
+                        {
                             <li class="list-group-item text-right">
                                 <span class="pull-left">
                                     <strong>Entidad</strong>
@@ -77,7 +93,8 @@
                                 @ViewBag.Entidad
                             </li>
                         }
-                        @if (ViewBag.Categoria != null) {
+                        @if (ViewBag.Categoria != null)
+                        {
                             <li class="list-group-item text-right">
                                 <span class="pull-left">
                                     <strong>Categoría</strong>
@@ -106,13 +123,13 @@
                         </li>
                     </ul>
                     @*
-                        <ul class="list-group">
-                            <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                            <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-                            <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-                            <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-                            <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
-                        </ul>
+                    <ul class="list-group">
+                        <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
+                        <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+                    </ul>
                     *@
 
                 </div><!--/col-3-->
@@ -141,11 +158,12 @@
                             </a>
                         </li>
                         <li>
-                            @if(aux != ""){
-                            <a href="#Atletas" class="seco" data-toggle="tab" title="Usuarios Asignados" onclick="cargarAtletas('@Model.Id'); $(this).removeAttr('onclick');">
-                                <text class="hidden-xs">@aux</text>
-                                <span class="glyphicon glyphicon-list"></span>
-                            </a>
+                            @if (aux != "")
+                            {
+                                <a href="#Atletas" class="seco" data-toggle="tab" title="Usuarios Asignados" onclick="cargarAtletas('@Model.Id'); $(this).removeAttr('onclick');">
+                                    <text class="hidden-xs">@aux</text>
+                                    <span class="glyphicon glyphicon-list"></span>
+                                </a>
                             }
                         </li>
                     </ul>
@@ -232,16 +250,16 @@
                             </h2>
                             <hr />
                             @*<ul class="list-group">
-                                    <li class="list-group-item text-muted">Inbox</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                    <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                </ul>*@
+                                <li class="list-group-item text-muted">Inbox</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                            </ul>*@
                             <div class="table-responsive" id="files">
 
                             </div>
@@ -259,16 +277,16 @@
                             }
                             <hr />
                             @*<ul class="list-group">
-            <li class="list-group-item text-muted">Inbox</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-            <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-        </ul>*@
+                                <li class="list-group-item text-muted">Inbox</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                            </ul>*@
                             <div class="table-responsive" id="athletes">
 
                             </div>
@@ -288,7 +306,7 @@
                                         <h4>Cédula</h4>
                                         <div class="afect">
                                             @*Html.TextBoxFor(m => m.Nombre1, new { @class="form-control", @id="firstname1", @name="firstname1", @placeholder="First name" })*@
-                                            <input type="text" class="form-control" id="ced" name="ced" placeholder="Digite su cédula." value="@Model.Cedula">
+                                            <input type="text" class="form-control" id="ced" name="ced" placeholder="Digite su cédula." value="@Model.Cedula" @dis>
                                         </div>
                                     </div>
                                 </div>
@@ -296,13 +314,13 @@
                                     <div class="form-group col-md-6">
                                         <h4>Primer Nombre</h4>
                                         <div class="afect">
-                                            <input type="text" class="form-control" id="nom1" name="nom1" placeholder="Digite su primer nombre." value="@Model.Nombre1">
+                                            <input type="text" class="form-control" id="nom1" name="nom1" placeholder="Digite su primer nombre." value="@Model.Nombre1" @dis>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <h4>Segundo Nombre</h4>
                                         <div class="afect">
-                                            <input type="text" class="form-control" id="nom2" name="nom2" placeholder="Digite su segundo nombre, si posee." value="@Model.Nombre2">
+                                            <input type="text" class="form-control" id="nom2" name="nom2" placeholder="Digite su segundo nombre, si posee." value="@Model.Nombre2" @dis>
                                         </div>
                                     </div>
                                 </div>
@@ -310,13 +328,13 @@
                                     <div class="form-group col-md-6">
                                         <h4>Primer Apellido</h4>
                                         <div class="afect">
-                                            <input type="text" class="form-control" id="ape1" name="ape1" placeholder="Digite su primer apellido." value="@Model.Apellido1">
+                                            <input type="text" class="form-control" id="ape1" name="ape1" placeholder="Digite su primer apellido." value="@Model.Apellido1" @dis>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <h4>Segundo Apellido</h4>
                                         <div class="afect">
-                                            <input type="text" class="form-control" id="ape2" name="ape2" placeholder="Digite su segundo apellido, si posee." value="@Model.Apellido2">
+                                            <input type="text" class="form-control" id="ape2" name="ape2" placeholder="Digite su segundo apellido, si posee." value="@Model.Apellido2" @dis>
                                         </div>
                                     </div>
                                 </div>
@@ -324,7 +342,7 @@
                                     <div class="form-group col-md-6">
                                         <h4>Email</h4>
                                         <div class="afect">
-                                            <input type="text" class="form-control" id="email1" name="email1" placeholder="Email" value="@Model.Email">
+                                            <input type="text" class="form-control" id="email1" name="email1" placeholder="Email" value="@Model.Email" @dis>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
@@ -332,7 +350,7 @@
                                         <div class="afect">
                                             <div class="input-group date" id="dtp">
                                                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                <input class="form-control" type="text" id="nac" name="nac" value="@Model.Fecha_Nacimiento.ToShortDateString()" />
+                                                <input class="form-control" type="text" id="nac" name="nac" value="@Model.Fecha_Nacimiento.ToShortDateString()" @dis/>
                                             </div>
                                         </div>
                                     </div>
@@ -341,7 +359,7 @@
                                     <div class="form-group col-md-3">
                                         <h4>Género</h4>
                                         <div class="afect">
-                                            <select class="form-control" id="gender" name="gender" required>
+                                            <select class="form-control" id="gender" name="gender" required @dis>
                                                 <option value="">-- Seleccionar --</option>
                                                 @if (Model.Sexo == false)
                                                 {
@@ -360,13 +378,13 @@
                                     <div class="form-group col-md-4">
                                         <h4>Contraseña</h4>
                                         <div class="afect">
-                                            <input type="password" class="form-control" id="password1" name="password1" placeholder="Contraseña">
+                                            <input type="password" class="form-control" id="password1" name="password1" placeholder="Contraseña" @dis>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-5">
                                         <h4>Restaurar contraseña predeterminada</h4>
                                         <div class="afect">
-                                            <button class="btn btn-block btn-info">
+                                            <button class="btn btn-block btn-info" @dis>
                                                 Restaurar valor inicial <span class="glyphicon glyphicon-retweet"></span>
                                             </button>
                                         </div>
@@ -376,11 +394,11 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-6 col-md-offset-4">
-                                            <button type="submit" class="btn btn-lg btn-success" name="signup1" value="Sign up">
+                                            <button type="submit" class="btn btn-lg btn-success" name="signup1" value="Sign up" @dis>
                                                 <text class="hidden-xs">Guardar</text>
                                                 <span class="glyphicon glyphicon-ok"></span>
                                             </button>
-                                            <button type="reset" class="btn btn-lg btn-warning" name="reset" value="Reset">
+                                            <button type="reset" class="btn btn-lg btn-warning" name="reset" value="Reset" @dis>
                                                 <text class="hidden-xs">Limpiar</text>
                                                 <span class="glyphicon glyphicon-refresh"></span>
                                             </button>

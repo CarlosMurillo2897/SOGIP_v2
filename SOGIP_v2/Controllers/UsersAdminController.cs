@@ -128,6 +128,11 @@ namespace SOGIP_v2.Controllers
                     var aso = db.Asociacion_Deportiva.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Nombre_DepAso).FirstOrDefault();
                     if (aso != null) { ViewData["Asociación" + usuario.Id] = aso; }
                 }
+                else if (rol.First() == "Entidades Publicas")
+                {
+                    var entidad = db.Entidad_Publica.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Tipo_Entidad.Descripcion).FirstOrDefault();
+                    if (entidad != null) { ViewData["Entidad" + usuario.Id] = entidad; }
+                }
 
             }
 
@@ -825,6 +830,110 @@ namespace SOGIP_v2.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult GetUsuarios()
+        {
+            List<object> lista = new List<object>();
+            var usuarios = (from u in db.Users
+                           from r in db.Roles
+                           where u.Roles.FirstOrDefault().RoleId == r.Id
+                           select new{
+                               u.Id,
+                               u.Cedula,
+                               Nom = u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2,
+                               u.Email,
+                               u.Sexo,
+                               u.Fecha_Nacimiento,
+                               u.Estado,
+                               r.Name
+                           }).ToList();
+            
+            foreach (var usuario in usuarios)
+            {
+                var rol = usuario.Name;
+                var entidad = "Asociado ICODER";
+
+                if (rol == "Atleta" || rol == "Atleta Becados" || rol == "Entrenador")
+                {
+                    var seleccion = "";
+                    var categoria = "";
+
+                    /* Usuarios deben pertenecer a una Selección o bien, */
+                    if (rol == "Entrenador")
+                    {
+                        seleccion = db.SubSeleccion.Where(x => x.Entrenador.Id == usuario.Id).Select(x => x.Seleccion.Nombre_Seleccion).FirstOrDefault();
+                        categoria = (from a in db.SubSeleccion
+                                         where a.Entrenador.Id == usuario.Id
+                                         select a.Categoria_Id.Descripcion).FirstOrDefault();
+                    }
+                    else { 
+                        seleccion = db.Atletas.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.SubSeleccion.Seleccion.Nombre_Seleccion).FirstOrDefault();
+                        categoria = (from a in db.Atletas
+                                         from c in db.Categorias
+                                         where (a.Usuario.Id == usuario.Id && a.SubSeleccion.Categoria_Id.CategoriaId == c.CategoriaId)
+                                         select c.Descripcion).FirstOrDefault();
+                    }
+
+
+                    var selex = "";
+                    if (categoria != null) {
+                        foreach(var p in seleccion.Split(' '))
+                        {
+                            if (p == "DE")
+                            {
+                                selex = selex + " " + categoria;
+                            }
+
+                            selex = selex + " " + p;
+
+                        }
+                        entidad = selex;//"SELECCIÓN " + categoria + " DE " + seleccion.Substring(28);
+                    }
+
+                    /* los Usuarios deben pertenecer a una Asociación. */
+                    if (entidad == "Asociado ICODER" && rol != "Entrenador") {
+                        entidad = db.Atletas.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Asociacion_Deportiva.Nombre_DepAso).FirstOrDefault();
+                    }
+
+                }
+                else if (rol == "Seleccion/Federacion")
+                {
+                    entidad = db.Selecciones.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Nombre_Seleccion).FirstOrDefault();
+                }
+                else if (rol == "Asociacion/Comite")
+                {
+                    entidad = db.Asociacion_Deportiva.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Nombre_DepAso).FirstOrDefault();
+                }
+                else if (rol == "Entidades Publicas")
+                {
+                    entidad = db.Entidad_Publica.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Tipo_Entidad.Descripcion).FirstOrDefault();
+                }
+
+                object usr = new
+                {
+                    Cedula = usuario.Cedula,
+                    Nombre = usuario.Nom,
+                    Sexo = usuario.Sexo,
+                    Email = usuario.Email,
+                    Nacimiento = usuario.Fecha_Nacimiento,
+                    Estado = usuario.Estado,
+                    Rol = usuario.Name,
+                    Entidad = entidad,
+                    Id = usuario.Id
+                };
+                lista.Add(usr);
+            }
+
+                return Json(lista, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ObtenerRoles()
+        {
+            var roles = from r in db.Roles select new { Id = r.Id, Rol = r.Name };
+            var rol = roles.ToList();
+            return Json(roles.ToList(), JsonRequestBehavior.AllowGet);
         }
     }
 

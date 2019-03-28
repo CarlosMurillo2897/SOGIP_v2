@@ -6,17 +6,18 @@ drop database "SOGIP_v3"
 create database "SOGIP_v3"
 use "SOGIP_v3"
 
+
  +++++++ RECONSTRUIR BASE DE DATOS CON LOS CAMBIOS RESPECTIVOS ++++++++++
 
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
- Rol = Selección/Federación		|	 User = 116630668	|	 Password = JuGu1166121996	|	Id =
- Rol = Entrenador				|	 User = 112530907	|	 Password = EmCh1125081985	|	Id =
- Rol = Atleta					|	 User = 208770327	|	 Password = YuMo2087042006	|	Id =
- Rol = Atleta Becado			|	 User = 110830174	|	 Password = AaHi1108021980	|	Id =
- Rol = Funcionario ICODER		|	 User = 206140354	|	 Password = FeBa2061111956	|	Id =
- Rol = Funcionario ICODER		|	 User = 205940271	|	 Password = JuAr2059051984	|	Id =
- Rol = Entidades Públicas		|	 User = 			|	 Password =					|	Id =
+ Rol = Selección/Federación		|	 User = 116630668	|	 Password = JuGu1166121996	|	Id = 0b925665-1c93-42d2-80b0-29c6423daf66
+ Rol = Entrenador				|	 User = 112530907	|	 Password = EmCh1125081985	|	Id = 43002ea0-b75c-44a0-8f29-7d5c0eeffed2
+ Rol = Atleta					|	 User = 208770327	|	 Password = YuMo2087042006	|	Id = 516c294e-14c2-4bfd-887a-59e763956a54
+ Rol = Atleta Becado			|	 User = 118860905	|	 Password = FrMo1188032003	|	Id = 1dd72422-a344-407d-aec6-783907e73164
+ Rol = Funcionario ICODER		|	 User = 206140354	|	 Password = FeBa2061111956	|	Id = 843f21d4-b301-4847-848b-f4cd20827a6a
+ Rol = Funcionario ICODER		|	 User = 205940271	|	 Password = JuAr2059051984	|	Id = c6d47fdc-c219-4d7f-b613-0aca0c812a29
+ Rol = Entidades Públicas		|	 User = 110530938	|	 Password =	AlNa1105111979	|	Id = 31788f50-c82b-4a6a-9cf5-1a5a4d721e2b
  Rol = Asociación/Comité		|	 User = 123456789	|	 Password = KiDí1234081997	|	Id = 0aed3613-00da-4867-b2b5-9a46569590bb
  Rol = Usuario Externo			|	 User = 			|	 Password =					|	Id =
 
@@ -31,7 +32,7 @@ use "SOGIP_v3"
 
  select * from SOGIP_Archivo;
  select * from SOGIP_Asociacion_Deportiva;
- select * from SOGIP_Atletas;
+ select * from SOGIP_Atletas where usuario_id=;
  select * from SOGIP_Categorias;
  select * from SOGIP_Color;
  select * from SOGIP_Cita;
@@ -53,8 +54,10 @@ use "SOGIP_v3"
  select * from SOGIP_UserClaims;
  select * from SOGIP_UserLogins;
  select * from SOGIP_UserRoles
-		where RoleId='5';
- select * from SOGIP_Users order by Cedula;
+		where RoleId='4';
+
+
+ select * from SOGIP_Users where Id='0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824' order by Cedula;
  select * from sogip_atletas where atletaid > 11;
  select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol where u.Id=r.Userid and r.roleid=rol.id and (r.roleid='6' or r.roleid='5');
 
@@ -64,6 +67,7 @@ use "SOGIP_v3"
  4: 9d9d279f-016a-47e9-bf70-9ed4a4754de5
  5: 7440f3c4-3528-4606-9bc8-501ad8f15b51
  6: 377e1527-58bb-40dc-a873-f88d4a1c1fcf
+ 7: 2f3a289f-6370-4524-a21a-c72d5f5699e4 // Desconocido
 
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
 
