@@ -17,7 +17,7 @@
 
 <div class="container-fluid">
     <div class="well">
-        <table id="tabla">
+        <table id="tabla" class="table table-striped">
             <thead>
                 <tr>
                     <th>Usuarios</th>
@@ -115,6 +115,11 @@
                                                         <dt>Asociación: </dt>
                                                         <dd>@ViewData["Asociación" + item.Id]</dd>
                                                     }
+                                                    @if (ViewData["Entidad" + item.Id] != null)
+                                                    {
+                                                        <dt>Entidad Pública: </dt>
+                                                        <dd>@ViewData["Entidad" + item.Id]</dd>
+                                                    }
 
                                                     <dt>Nombre:</dt>
                                                     <dd>@item.Nombre1</dd>
@@ -166,6 +171,13 @@
                                                             <tr>
                                                                 <td>Asociación/Comité: </td>
                                                                 <td>@ViewData["Asociación" + item.Id]</td>
+                                                            </tr>
+                                                        }
+                                                        @if (ViewData["Entidad" + item.Id] != null)
+                                                        {
+                                                            <tr>
+                                                                <td>Entidad Pública: </td>
+                                                                <td>@ViewData["Entidad" + item.Id]</td>
                                                             </tr>
                                                         }
 
@@ -241,8 +253,8 @@
                                             }
                                         }
                                         <span class="pull-right">
-                                            <a href="/UsersAdmin/Edit/@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
-                                                <text class="hidden-xs">Editar</text>  <i class="glyphicon glyphicon-edit"></i>
+                                            <a href="/Account/Perfil?id=@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
+                                                <text class="hidden-xs">Ver en detalle</text>  <i class="glyphicon glyphicon-user"></i>
                                             </a>
                                         </span>
                                     </div>

@@ -128,7 +128,11 @@ namespace SOGIP_v2.Controllers
                     var aso = db.Asociacion_Deportiva.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Nombre_DepAso).FirstOrDefault();
                     if (aso != null) { ViewData["Asociación" + usuario.Id] = aso; }
                 }
-
+                else if (rol.First() == "Entidades Publicas")
+                {
+                    var entidad = db.Entidad_Publica.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Tipo_Entidad.Descripcion).FirstOrDefault();
+                    if (entidad != null) { ViewData["Entidad" + usuario.Id] = entidad; }
+                }
             }
 
             return View(usuarios);
@@ -315,7 +319,7 @@ namespace SOGIP_v2.Controllers
 
                                         Archivo file = new Archivo() {
                                             Nombre = CV.FileName,
-                                            Tipo = db.Tipos.Where(x=>x.TipoId==1).FirstOrDefault(),
+                                            Tipo = db.Tipos.Where(x => x.Nombre == "Curriculum" || x.Nombre == "CV").FirstOrDefault(),
                                             Contenido = buffer,
                                             Usuario = db.Users.Single(x => x.Id == user.Id)
                                         };

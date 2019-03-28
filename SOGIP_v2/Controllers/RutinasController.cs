@@ -146,7 +146,9 @@ namespace SOGIP_v2.Controllers
                     || x.DiaEjercicio == "Dia2" 
                     || x.DiaEjercicio == "Dia3" 
                     || x.DiaEjercicio == "Dia4" 
-                    || x.DiaEjercicio == "Dia5")).ToList();
+                    || x.DiaEjercicio == "Dia5"))
+                    .OrderBy(x => x.DiaEjercicio)
+                    .ToList();
 
                 ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
 
@@ -250,7 +252,9 @@ namespace SOGIP_v2.Controllers
                     || x.DiaEjercicio == "Dia2" 
                     || x.DiaEjercicio == "Dia3" 
                     || x.DiaEjercicio == "Dia4" 
-                    || x.DiaEjercicio == "Dia5")).ToList();
+                    || x.DiaEjercicio == "Dia5"))
+                    .OrderBy(x => x.DiaEjercicio)
+                    .ToList();
 
                 ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
             }

@@ -31,7 +31,7 @@ function cargarDatos(select) {
 
         var table = $('<table/>', {
             id: 'example',
-            class: 'table-striped',
+            class: 'table table-bordered table-striped',
             width: '100%'
         }).append(header);
 

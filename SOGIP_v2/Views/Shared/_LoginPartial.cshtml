@@ -2,7 +2,7 @@
 @using App.Extensions
 
 <nav class="navbar navbar-inverse" style="margin-bottom:0px;">
-    <div class="container-fluid">
+    <div class="container-fluid" style="padding: 2px 2px;">
         <div class="navbar-header">
             <button class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="true" aria-controls="navbar">
                 <span class="sr-only">Toggle Navigation</span>
@@ -10,10 +10,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <div class="navbar-brand" style="margin-top: -9px;">
+            <div class="navbar-brand" style="margin-top: -16px;">
                 <a href="~/Home/Index">
                     <span>
-                        <img id="logo_SOGIP" src="~/Content/Imagenes/logo_SOGIP_sin_letras.png" height="40" width="40">
+                        <img id="logo_SOGIP" src="~/Content/Imagenes/logo_SOGIP_sin_letras.png" height="50" width="50">
                     </span>
                 </a>
                 <p class="hidden-xs" style="display: inline-block;">Sistema Operativo Gimnasio de Pesas</p>
@@ -22,9 +22,9 @@
                 <p class="hidden-lg hidden-md hidden-sm" style="display: inline-block;"> SOGIP </p>
 
                 <!-- El siguiente logo será mostrado únicamente cuando la pantalla sea *extra-small*. -->
-                <a href="https://www.icoder.go.cr" class="hidden-lg hidden-md hidden-sm">
+                <a href="http://www.icoder.go.cr" class="hidden-lg hidden-md hidden-sm">
                     <span>
-                        <img id="logo_SOGIP" src="~/Content/Imagenes/Blanco.png" height="40" width="40">
+                        <img id="logo_SOGIP" src="~/Content/Imagenes/Blanco.png" height="50" width="50">
                     </span>
                 </a>
             </div>
@@ -102,19 +102,20 @@
                             </li>
                         </ul>
                     </li>
-                    @*
                     <li>
-                        <a href="~/Busqueda/Index">
+                        @*<a href="~/Busqueda/Index">*@
+                        <a href="#">
                             <span class="glyphicon glyphicon-search"></span> Búsqueda
                         </a>
-                    </li>*@
+                    </li>
                     <li>
                         <a href="~/AtletasAsignados/Index">
                             <span class="glyphicon glyphicon-list-alt"></span> Funcionarios
                         </a>
                     </li>
                     <li>
-                        <a href="~/Opciones/Avanzadas">
+                        @*<a href="~/Opciones/Avanzadas">*@
+                        <a href="#">
                             <span class="glyphicon glyphicon-cog"></span> Avanzadas
                         </a>
                     </li>
@@ -180,11 +181,11 @@
 
                         @if (User.Identity.GetSexo() == "Sexo: True")
                         {
-                            <img src="~/Content/Imagenes/M.png" alt="User Pic" style="width:40px; height:40px;">
+                            <img src="~/Content/Imagenes/M.png" alt="Foto de Usuario" height="50" width="50">
                         }
                         else
                         {
-                            <img src="~/Content/Imagenes/W.png" alt="User Pic" style="width:40px; height:40px;">
+                            <img src="~/Content/Imagenes/W.png" alt="Foto de Usuario" height="50" width="50">
                         }
 
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="display: inline-block;">
@@ -198,6 +199,7 @@
                                     Perfil
                                 </a>
                             </li>
+                            @*
                             <li class="divider"></li>
                             <li role="presentation">
                                 <a href="~/Manage/Index">
@@ -205,6 +207,7 @@
                                     Ajustes
                                 </a>
                             </li>
+                            *@
                             <li class="divider"></li>
                             <li role="presentation">
                                 <a href="javascript:document.getElementById('logoutForm').submit()">
@@ -223,8 +226,8 @@
                         </a>
                     </li>
                 }
-                <li class="hidden-xs" style="margin-top: -9px;">
-                    <a class="navbar-brand" href="https://www.icoder.go.cr">
+                <li class="hidden-xs" style="margin-top: -16px;">
+                    <a class="navbar-brand" href="http://www.icoder.go.cr">
                         <span>
                             <img id="logo_SOGIP" src="~/Content/Imagenes/Blanco.png" height="50" width="50">
                         </span>

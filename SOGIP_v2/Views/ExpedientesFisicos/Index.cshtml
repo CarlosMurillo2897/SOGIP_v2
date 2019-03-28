@@ -15,10 +15,14 @@
 
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
+@*
+<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+*@
 
 <div class="container" style="min-height: 356px;">
     <div class="table-responsive">
-        <table id="archivos" class="table table-striped" style="width: 100%;">
+        <table id="archivos" class="table table-striped table-bordered dt-responsive" style="width: 100%;">
             <thead>
                 <tr>
                     <th>Nombre</th>
@@ -89,7 +93,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="table-responsive" id="Tabla_Usuarios" >
+                        <div class="table-responsive" id="Tabla_Usuarios">
                             <!-- Acá va la DataTable de Usuarios. -->
                         </div>
                     </form>
@@ -106,6 +110,12 @@
 @section Scripts {
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+    @*
+    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+    *@
+
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/expedientes.js")
 }
