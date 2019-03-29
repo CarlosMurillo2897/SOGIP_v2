@@ -265,6 +265,9 @@ namespace SOGIP_v2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            var usuario_Actual = HttpContext.User.Identity.GetUserId();
+            var userRoles = UserManager.GetRoles(usuario_Actual);
+
             var user = db.Users.Where(x => x.Id == id).FirstOrDefault();
             var rol = UserManager.GetRoles(id);
 
@@ -302,6 +305,7 @@ namespace SOGIP_v2.Controllers
 
 
             ViewBag.Role = rol.FirstOrDefault();
+            ViewBag.usuario_Actual = userRoles.First();
 
             return View(new EditUserViewModel()
             {
