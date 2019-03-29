@@ -29,92 +29,99 @@
     {
         aux = "Funcionarios";
     }
-    if (ViewBag.Role == "Asociacion/Comite" || ViewBag.Role == "Seleccion/Federacion" || ViewBag.Role == "Entrenador")
+    else if (ViewBag.Role == "Asociacion/Comite" || ViewBag.Role == "Seleccion/Federacion" || ViewBag.Role == "Entrenador")
     {
         aux = "Atletas";
     }
+    
+    var dis = "";
+    var inactivo = false;
+    if (ViewBag.usuario_Actual != "Administrador" && ViewBag.usuario_Actual != "Supervisor")
+    {
+        dis = "disabled";
+        inactivo = true;
+    }
 }
 
-<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 
-<style>
-    li {
-        overflow-wrap: break-word;
-    }
-
-    .recargar {
-        cursor: pointer;
-        font-size: 30px;
-    }
-</style>
-<div class="container-fluid" style="min-height: 369px;">
-    <div class="well">
-        <div class="row">
-            <div class="col-sm-3">
-                <ul class="list-group">
-                    @if (Model.Sexo == true) {
-                    <li class="list-group-item text-center">
-                        <img class="img-circle" id="Comprobado-1" src="~/Content/Imagenes/M.png" style="width: 90px; height: 90px;" alt="User Pic">
-                    </li>
-                    }
-                    else {
-                    <li class="list-group-item text-center">
-                        <img class="img-circle" id="Comprobado-1" src="~/Content/Imagenes/W.png" style="width: 90px; height: 90px;" alt="User Pic">
-                    </li>
-                    }
-                    <li class="list-group-item text-right">
-                        <span class="pull-left">
-                            <strong>Cédula</strong>
-                        </span>
-                        @Model.Cedula
-                    </li>
-                    <li class="list-group-item text-right">
-                        <span class="pull-left">
-                            <strong>Rol</strong>
-                        </span>
-                        @ViewBag.Role
-                        <input type="hidden" id="role" value="@ViewBag.Role" />
-                    </li>
-                    @if (ViewBag.Entidad != null)
-                    {
+    <style>
+        li {
+            overflow-wrap: break-word;
+        }
+        .recargar {
+            cursor: pointer;
+            font-size: 30px;
+        }
+        /*
+        .inactivo {
+            cursor: not-allowed;
+            pointer-events: none;
+        }*/
+    </style>
+    <div class="container-fluid" style="min-height: 369px;">
+        
+        <div class="well">
+            <div class="row">
+                <div class="col-sm-3">
+                    <ul class="list-group">
+                        <li class="list-group-item text-center">
+                            <img class="img-circle" id="Comprobado-1" src="~/Content/Imagenes/M.png" style="width: 90px; height: 90px;" alt="User Pic">
+                        </li>
                         <li class="list-group-item text-right">
                             <span class="pull-left">
-                                <strong>Entidad</strong>
+                                <strong>Cédula</strong>
                             </span>
-                            @ViewBag.Entidad
+                            @Model.Cedula
                         </li>
-                    }
-                    @if (ViewBag.Categoria != null)
-                    {
                         <li class="list-group-item text-right">
                             <span class="pull-left">
-                                <strong>Categoría</strong>
+                                <strong>Rol</strong>
                             </span>
-                            @ViewBag.Categoria
+                            @ViewBag.Role
+                            <input type="hidden" id="role" value="@ViewBag.Role" />
+                            <input type="hidden" id="invalid" value="@inactivo" />
                         </li>
-                    }
+                        @if (ViewBag.Entidad != null)
+                        {
+                            <li class="list-group-item text-right">
+                                <span class="pull-left">
+                                    <strong>Entidad</strong>
+                                </span>
+                                @ViewBag.Entidad
+                            </li>
+                        }
+                        @if (ViewBag.Categoria != null)
+                        {
+                            <li class="list-group-item text-right">
+                                <span class="pull-left">
+                                    <strong>Categoría</strong>
+                                </span>
+                                @ViewBag.Categoria
+                            </li>
+                        }
 
-                    <li class="list-group-item text-right">
-                        <span class="pull-left">
-                            <strong>Nombre</strong>
-                        </span>
-                        @Model.Nombre1 @Model.Nombre2
-                    </li>
-                    <li class="list-group-item text-right">
-                        <span class="pull-left">
-                            <strong>Apellido</strong>
-                        </span>
-                        @Model.Apellido1 @Model.Apellido2
-                    </li>
-                    <li class="list-group-item text-right">
-                        <span class="pull-left">
-                            <strong>E-mail</strong>
-                        </span>
-                        @Model.Email
-                    </li>
-                </ul>
-                @*
+                        <li class="list-group-item text-right">
+                            <span class="pull-left">
+                                <strong>Nombre</strong>
+                            </span>
+                            @Model.Nombre1 @Model.Nombre2
+                        </li>
+                        <li class="list-group-item text-right">
+                            <span class="pull-left">
+                                <strong>Apellido</strong>
+                            </span>
+                            @Model.Apellido1 @Model.Apellido2
+                        </li>
+                        <li class="list-group-item text-right">
+                            <span class="pull-left">
+                                <strong>E-mail</strong>
+                            </span>
+                            @Model.Email
+                        </li>
+                    </ul>
+                    @*
                     <ul class="list-group">
                         <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
                         <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
@@ -122,153 +129,126 @@
                         <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
                         <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
                     </ul>
-                *@
+                    *@
 
-            </div><!--/col-3-->
-            <div class="col-sm-9">
-                <ul class="nav nav-tabs" id="myTab">
-                    <li class="active">
-                        <a href="#Información" class="seco" data-toggle="tab" title="Información">
-                            <text class="hidden-xs">Información</text>
-                            <span class="glyphicon glyphicon-user"></span>
-                        </a>
-                    </li>
-                    @if (ViewBag.Role == "Atleta" || ViewBag.Role == "Atleta Becados" || ViewBag.Role == "Funcionarios ICODER")
-                    {
-                        <li>
-                            <a href="#Rutinas" class="seco" data-toggle="tab" title="Rutinas">
-                                <text class="hidden-xs">Rutinas </text>
-                                <span class="glyphicon glyphicon-apple"></span>
+                </div><!--/col-3-->
+                <div class="col-sm-9">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active">
+                            <a href="#Información" class="seco" data-toggle="tab" title="Información">
+                                <text class="hidden-xs">Información</text>
+                                <span class="glyphicon glyphicon-user"></span>
                             </a>
                         </li>
-                    }
-
-                    <li>
-                        <a href="#Archivos" class="seco" data-toggle="tab" title="Archivos" onclick="cargarArchivos('@Model.Id'); $(this).removeAttr('onclick');">
-                            <text class="hidden-xs">Archivos</text>
-                            <span class="glyphicon glyphicon-file"></span>
-                        </a>
-                    </li>
-                    <li>
-                        @if (aux != "")
+                        @if (ViewBag.Role == "Atleta" || ViewBag.Role == "Atleta Becados" || ViewBag.Role == "Funcionarios ICODER")
                         {
-                            <a href="#Atletas" class="seco" data-toggle="tab" title="Usuarios Asignados" onclick="cargarAtletas('@Model.Id'); $(this).removeAttr('onclick');">
-                                <text class="hidden-xs">@aux</text>
-                                <span class="glyphicon glyphicon-list"></span>
-                            </a>
+                            <li>
+                                <a href="#Rutinas" class="seco" data-toggle="tab" title="Rutinas">
+                                    <text class="hidden-xs">Rutinas </text>
+                                    <span class="glyphicon glyphicon-apple"></span>
+                                </a>
+                            </li>
                         }
-                    </li>
-                </ul>
-                <div class="tab-content">
-                    <div class="tab-pane" id="Rutinas">
-                        <h2>
-                            Rutinas
-                            <span class="pull-right">
-                                <a class="glyphicon glyphicon-refresh"></a>
-                            </span>
-                        </h2>
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Label 1</th>
-                                        <th>Label 2</th>
-                                        <th>Label 3</th>
-                                        <th>Label </th>
-                                        <th>Label </th>
-                                        <th>Label </th>
-                                    </tr>
-                                </thead>
-                                <tbody id="items">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                        <td>Table cell</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr>
-                        </div><!--/table-resp-->
-                        <hr>
-                    </div><!--/tab-pane-->
 
-                    <div class="tab-pane" id="Archivos">
-                        <h2>
-                            Archivos
-                            <span class="pull-right">
-                                <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarArchivos('@Model.Id')"></span>
-                            </span>
-                        </h2>
-                        <hr />
-                        @*<ul class="list-group">
-                                <li class="list-group-item text-muted">Inbox</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                            </ul>*@
-                        <div class="table-responsive" id="files">
-
-                        </div>
-
-                    </div><!--/tab-pane-->
-                    <div class="tab-pane" id="Atletas">
-                        @if (aux != "")
-                        {
+                        <li>
+                            <a href="#Archivos" class="seco" data-toggle="tab" title="Archivos" onclick="cargarArchivos('@Model.Id'); $(this).removeAttr('onclick');">
+                                <text class="hidden-xs">Archivos</text>
+                                <span class="glyphicon glyphicon-file"></span>
+                            </a>
+                        </li>
+                        <li>
+                            @if (aux != "")
+                            {
+                                <a href="#Atletas" class="seco" data-toggle="tab" title="Usuarios Asignados" onclick="cargarAtletas('@Model.Id'); $(this).removeAttr('onclick');">
+                                    <text class="hidden-xs">@aux</text>
+                                    <span class="glyphicon glyphicon-list"></span>
+                                </a>
+                            }
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane" id="Rutinas">
                             <h2>
-                                @aux
+                                Rutinas
                                 <span class="pull-right">
-                                    <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarAtletas('@Model.Id')"></span>
+                                    <a class="glyphicon glyphicon-refresh"></a>
                                 </span>
                             </h2>
-                        }
-                        <hr />
-                        @*<ul class="list-group">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Label 1</th>
+                                            <th>Label 2</th>
+                                            <th>Label 3</th>
+                                            <th>Label </th>
+                                            <th>Label </th>
+                                            <th>Label </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="items">
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                        </tr>
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                            <td>Table cell</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                            </div><!--/table-resp-->
+                            <hr>
+                        </div><!--/tab-pane-->
+
+                        <div class="tab-pane" id="Archivos">
+                            <h2>
+                                Archivos
+                                <span class="pull-right">
+                                    <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarArchivos('@Model.Id')"></span>
+                                </span>
+                            </h2>
+                            <hr />
+                            @*<ul class="list-group">
                                 <li class="list-group-item text-muted">Inbox</li>
                                 <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
                                 <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
@@ -279,140 +259,166 @@
                                 <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
                                 <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
                             </ul>*@
-                        <div class="table-responsive" id="athletes">
+                            <div class="table-responsive" id="files">
 
-                        </div>
+                            </div>
 
-                    </div><!--/tab-pane-->
+                        </div><!--/tab-pane-->
+                        <div class="tab-pane" id="Atletas">
+                            @if (aux != "")
+                            {
+                                <h2>
+                                    @aux
+                                    <span class="pull-right">
+                                        <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarAtletas('@Model.Id')"></span>
+                                    </span>
+                                </h2>
+                            }
+                            <hr />
+                            @*<ul class="list-group">
+                                <li class="list-group-item text-muted">Inbox</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                                <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
+                            </ul>*@
+                            <div class="table-responsive" id="athletes">
 
-                    <div class="tab-pane active" id="Información">
-                        <h2>
-                            Información Personal
-                            <span id="infoP" class="pull-right glyphicon glyphicon-ok-sign recargar" style="color: rgb(92, 184, 92);" data-toggle="popover" data-html="true" title="<strong>Estado de los datos.</strong>" data-placement="left" data-content="<text style='color: green'>Todos los datos se encuentran correctos.</text>"></span>
-                        </h2>
-                        <hr>
-                        <form id="signupForm1" method="post" action="" novalidate="novalidate">
-                            <div class="row">
-                                <div class="form-group col-md-12">
-                                    <!--label class="control-label" for="ced">Cédula</label-->
-                                    <h4>Cédula</h4>
-                                    <div class="afect">
-                                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", @id = "ced", @name = "ced", @placeholder = "Digite su cédula." })
-                                        @*<input type="text" class="form-control" id="ced" name="ced" placeholder="Digite su cédula." value="@Model.Cedula">*@
-                                    </div>
-                                </div>
                             </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <h4>Primer Nombre</h4>
-                                    <div class="afect">
-                                        <input type="text" class="form-control" id="nom1" name="nom1" placeholder="Digite su primer nombre." value="@Model.Nombre1">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <h4>Segundo Nombre</h4>
-                                    <div class="afect">
-                                        <input type="text" class="form-control" id="nom2" name="nom2" placeholder="Digite su segundo nombre, si posee." value="@Model.Nombre2">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <h4>Primer Apellido</h4>
-                                    <div class="afect">
-                                        <input type="text" class="form-control" id="ape1" name="ape1" placeholder="Digite su primer apellido." value="@Model.Apellido1">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <h4>Segundo Apellido</h4>
-                                    <div class="afect">
-                                        <input type="text" class="form-control" id="ape2" name="ape2" placeholder="Digite su segundo apellido, si posee." value="@Model.Apellido2">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <h4>Email</h4>
-                                    <div class="afect">
-                                        <input type="text" class="form-control" id="email1" name="email1" placeholder="Email" value="@Model.Email">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <h4>Fecha de nacimiento </h4>
-                                    <div class="afect">
-                                        <div class="input-group date" id="dtp">
-                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                            <input class="form-control" type="text" id="nac" name="nac" value="@Model.Fecha_Nacimiento.ToShortDateString()" />
+
+                        </div><!--/tab-pane-->
+
+                        <div class="tab-pane active" id="Información">
+                            <h2>
+                                Información Personal
+                                <span id="infoP" class="pull-right glyphicon glyphicon-ok-sign recargar" style="color: rgb(92, 184, 92);" data-toggle="popover" data-html="true" title="<strong>Estado de los datos.</strong>" data-placement="left" data-content="<text style='color: green'>Todos los datos se encuentran correctos.</text>"></span>
+                            </h2>
+                            <hr>
+                            <form id="signupForm1" method="post" action="" novalidate="novalidate">
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <!--label class="control-label" for="ced">Cédula</label-->
+                                        <h4>Cédula</h4>
+                                        <div class="afect">
+                                            @*Html.TextBoxFor(m => m.Nombre1, new { @class="form-control", @id="firstname1", @name="firstname1", @placeholder="First name" })*@
+                                            <input type="text" class="form-control" id="ced" name="ced" placeholder="Digite su cédula." value="@Model.Cedula" @dis>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-3">
-                                    <h4>Género</h4>
-                                    <div class="afect">
-                                        <select class="form-control" id="gender" name="gender" required>
-                                            <option value="">-- Seleccionar --</option>
-                                            @if (Model.Sexo == false)
-                                            {
-                                                <option value="0" selected>Femenino</option>
-                                                <option value="1">Masculino</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="0">Femenino</option>
-                                                <option value="1" selected>Masculino</option>
-                                            }
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <h4>Primer Nombre</h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="nom1" name="nom1" placeholder="Digite su primer nombre." value="@Model.Nombre1" @dis>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <h4>Segundo Nombre</h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="nom2" name="nom2" placeholder="Digite su segundo nombre, si posee." value="@Model.Nombre2" @dis>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <h4>Primer Apellido</h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="ape1" name="ape1" placeholder="Digite su primer apellido." value="@Model.Apellido1" @dis>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <h4>Segundo Apellido</h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="ape2" name="ape2" placeholder="Digite su segundo apellido, si posee." value="@Model.Apellido2" @dis>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <h4>Email</h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="email1" name="email1" placeholder="Email" value="@Model.Email" @dis>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <h4>Fecha de nacimiento </h4>
+                                        <div class="afect">
+                                            <div class="input-group date" id="dtp">
+                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                                <input class="form-control" type="text" id="nac" name="nac" value="@Model.Fecha_Nacimiento.ToShortDateString()" @dis/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-3">
+                                        <h4>Género</h4>
+                                        <div class="afect">
+                                            <select class="form-control" id="gender" name="gender" required @dis>
+                                                <option value="">-- Seleccionar --</option>
+                                                @if (Model.Sexo == false)
+                                                {
+                                                    <option value="0" selected>Femenino</option>
+                                                    <option value="1">Masculino</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="0">Femenino</option>
+                                                    <option value="1" selected>Masculino</option>
+                                                }
 
-                                        </select>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <h4>Contraseña</h4>
+                                        <div class="afect">
+                                            <input type="password" class="form-control" id="password1" name="password1" placeholder="Contraseña" @dis>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-5">
+                                        <h4>Restaurar contraseña predeterminada</h4>
+                                        <div class="afect">
+                                            <button class="btn btn-block btn-info" @dis>
+                                                Restaurar valor inicial <span class="glyphicon glyphicon-retweet"></span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-4">
-                                    <h4>Contraseña</h4>
-                                    <div class="afect">
-                                        <input type="password" class="form-control" id="password1" name="password1" placeholder="Contraseña">
+                                <br />
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-md-offset-4">
+                                            <button type="submit" class="btn btn-lg btn-success" name="signup1" value="Sign up" @dis>
+                                                <text class="hidden-xs">Guardar</text>
+                                                <span class="glyphicon glyphicon-ok"></span>
+                                            </button>
+                                            <button type="reset" class="btn btn-lg btn-warning" name="reset" value="Reset" @dis>
+                                                <text class="hidden-xs">Limpiar</text>
+                                                <span class="glyphicon glyphicon-refresh"></span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-5">
-                                    <h4>Restaurar contraseña predeterminada</h4>
-                                    <div class="afect">
-                                        <button class="btn btn-block btn-info">
-                                            Restaurar valor inicial <span class="glyphicon glyphicon-retweet"></span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                                <div class="form-group">
-                                    <div class="col-md-6 col-md-offset-4">
-                                        <button type="submit" class="btn btn-lg btn-success" name="signup1" value="Sign up">
-                                            <text class="hidden-xs">Guardar</text>
-                                            <span class="glyphicon glyphicon-ok"></span>
-                                        </button>
-                                        <button type="reset" class="btn btn-lg btn-warning" name="reset" value="Reset">
-                                            <text class="hidden-xs">Limpiar</text>
-                                            <span class="glyphicon glyphicon-refresh"></span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div><!--/tab-pane-->
-            </div><!--/tab-content-->
+                            </form>
+                        </div>
+                    </div><!--/tab-pane-->
+                </div><!--/tab-content-->
+            </div>
         </div>
     </div>
-</div>
 
-@section Scripts {
-    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
-    @Scripts.Render("~/bundles/custom-validator")
+    @section Scripts {
+        <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
 
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-    @Scripts.Render("~/Scripts/Perfil.js")
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+        @Scripts.Render("~/Scripts/Perfil.js")
 }
