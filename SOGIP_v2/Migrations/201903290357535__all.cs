@@ -317,6 +317,35 @@ namespace SOGIP_v2.Migrations
                 .Index(t => t.Descripcion, unique: true);
             
             CreateTable(
+                "dbo.SOGIP_EstadosPagos",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        FechaPago = c.DateTime(nullable: false),
+                        FechaProxima = c.DateTime(nullable: false),
+                        Cantidad = c.Int(nullable: false),
+                        Monto = c.Single(nullable: false),
+                        Total = c.Single(nullable: false),
+                        Estado = c.String(),
+                        IdPago_Id = c.Int(),
+                        Usuario_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.SOGIP_TipoPago", t => t.IdPago_Id)
+                .ForeignKey("dbo.SOGIP_Users", t => t.Usuario_Id)
+                .Index(t => t.IdPago_Id)
+                .Index(t => t.Usuario_Id);
+            
+            CreateTable(
+                "dbo.SOGIP_TipoPago",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Descripcion = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
                 "dbo.SOGIP_Expedientes_Fisicos",
                 c => new
                     {
@@ -357,6 +386,18 @@ namespace SOGIP_v2.Migrations
                 .Index(t => t.IdActividad_Id);
             
             CreateTable(
+                "dbo.SOGIP_ListaPagos",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Fecha = c.DateTime(nullable: false),
+                        IdEsPago_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.SOGIP_EstadosPagos", t => t.IdEsPago_Id)
+                .Index(t => t.IdEsPago_Id);
+            
+            CreateTable(
                 "dbo.SOGIP_Maquina",
                 c => new
                     {
@@ -379,6 +420,20 @@ namespace SOGIP_v2.Migrations
                 .ForeignKey("dbo.SOGIP_Maquina", t => t.Maquina_Id)
                 .Index(t => t.Ejercicio_Id)
                 .Index(t => t.Maquina_Id);
+            
+            CreateTable(
+                "dbo.SOGIP_PagoUsuario",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IdEsPago_Id = c.Int(),
+                        Usuario_Id = c.String(maxLength: 128),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.SOGIP_EstadosPagos", t => t.IdEsPago_Id)
+                .ForeignKey("dbo.SOGIP_Users", t => t.Usuario_Id)
+                .Index(t => t.IdEsPago_Id)
+                .Index(t => t.Usuario_Id);
             
             CreateTable(
                 "dbo.SOGIP_Parametro",
@@ -425,12 +480,17 @@ namespace SOGIP_v2.Migrations
             DropForeignKey("dbo.SOGIP_UserRoles", "RoleId", "dbo.SOGIP_Roles");
             DropForeignKey("dbo.SOGIP_Reservacion", "UsuarioId_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Reservacion", "Estado_EstadoId", "dbo.SOGIP_Estados");
+            DropForeignKey("dbo.SOGIP_PagoUsuario", "Usuario_Id", "dbo.SOGIP_Users");
+            DropForeignKey("dbo.SOGIP_PagoUsuario", "IdEsPago_Id", "dbo.SOGIP_EstadosPagos");
             DropForeignKey("dbo.SOGIP_MaquinaEjercicio", "Maquina_Id", "dbo.SOGIP_Maquina");
             DropForeignKey("dbo.SOGIP_MaquinaEjercicio", "Ejercicio_Id", "dbo.SOGIP_Ejercicio");
+            DropForeignKey("dbo.SOGIP_ListaPagos", "IdEsPago_Id", "dbo.SOGIP_EstadosPagos");
             DropForeignKey("dbo.SOGIP_Horario", "IdActividad_Id", "dbo.SOGIP_Actividad");
             DropForeignKey("dbo.SOGIP_Funcionario_ICODER", "Usuario_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Funcionario_ICODER", "Entrenador_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Expedientes_Fisicos", "Atleta_AtletaId", "dbo.SOGIP_Atletas");
+            DropForeignKey("dbo.SOGIP_EstadosPagos", "Usuario_Id", "dbo.SOGIP_Users");
+            DropForeignKey("dbo.SOGIP_EstadosPagos", "IdPago_Id", "dbo.SOGIP_TipoPago");
             DropForeignKey("dbo.SOGIP_Entidad_Publica", "Usuario_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Entidad_Publica", "Tipo_Entidad_Tipo_EntidadId", "dbo.SOGIP_Tipo_Entidad");
             DropForeignKey("dbo.SOGIP_Conjunto_Ejercicio", "ConjuntoEjercicioRutina_RutinaId", "dbo.SOGIP_Rutina");
@@ -455,12 +515,17 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_Reservacion", new[] { "UsuarioId_Id" });
             DropIndex("dbo.SOGIP_Reservacion", new[] { "Estado_EstadoId" });
             DropIndex("dbo.SOGIP_Parametro", new[] { "Nombre" });
+            DropIndex("dbo.SOGIP_PagoUsuario", new[] { "Usuario_Id" });
+            DropIndex("dbo.SOGIP_PagoUsuario", new[] { "IdEsPago_Id" });
             DropIndex("dbo.SOGIP_MaquinaEjercicio", new[] { "Maquina_Id" });
             DropIndex("dbo.SOGIP_MaquinaEjercicio", new[] { "Ejercicio_Id" });
+            DropIndex("dbo.SOGIP_ListaPagos", new[] { "IdEsPago_Id" });
             DropIndex("dbo.SOGIP_Horario", new[] { "IdActividad_Id" });
             DropIndex("dbo.SOGIP_Funcionario_ICODER", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Funcionario_ICODER", new[] { "Entrenador_Id" });
             DropIndex("dbo.SOGIP_Expedientes_Fisicos", new[] { "Atleta_AtletaId" });
+            DropIndex("dbo.SOGIP_EstadosPagos", new[] { "Usuario_Id" });
+            DropIndex("dbo.SOGIP_EstadosPagos", new[] { "IdPago_Id" });
             DropIndex("dbo.SOGIP_Estados", new[] { "Descripcion" });
             DropIndex("dbo.SOGIP_Tipo_Entidad", new[] { "Descripcion" });
             DropIndex("dbo.SOGIP_Entidad_Publica", new[] { "Usuario_Id" });
@@ -494,11 +559,15 @@ namespace SOGIP_v2.Migrations
             DropTable("dbo.SOGIP_Roles");
             DropTable("dbo.SOGIP_Reservacion");
             DropTable("dbo.SOGIP_Parametro");
+            DropTable("dbo.SOGIP_PagoUsuario");
             DropTable("dbo.SOGIP_MaquinaEjercicio");
             DropTable("dbo.SOGIP_Maquina");
+            DropTable("dbo.SOGIP_ListaPagos");
             DropTable("dbo.SOGIP_Horario");
             DropTable("dbo.SOGIP_Funcionario_ICODER");
             DropTable("dbo.SOGIP_Expedientes_Fisicos");
+            DropTable("dbo.SOGIP_TipoPago");
+            DropTable("dbo.SOGIP_EstadosPagos");
             DropTable("dbo.SOGIP_Estados");
             DropTable("dbo.SOGIP_Tipo_Entidad");
             DropTable("dbo.SOGIP_Entidad_Publica");

@@ -228,13 +228,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903240320241__all.cs" />
-    <Compile Include="Migrations\201903240320241__all.Designer.cs">
-      <DependentUpon>201903240320241__all.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201903271550385_pagos.cs" />
-    <Compile Include="Migrations\201903271550385_pagos.Designer.cs">
-      <DependentUpon>201903271550385_pagos.cs</DependentUpon>
+    <Compile Include="Migrations\201903290357535__all.cs" />
+    <Compile Include="Migrations\201903290357535__all.Designer.cs">
+      <DependentUpon>201903290357535__all.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -886,11 +882,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903240320241__all.resx">
-      <DependentUpon>201903240320241__all.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201903271550385_pagos.resx">
-      <DependentUpon>201903271550385_pagos.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903290357535__all.resx">
+      <DependentUpon>201903290357535__all.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
