@@ -91,6 +91,8 @@ namespace SOGIP_v2.Models
            
            
 
+            modelBuilder.Entity<Actividad>().ToTable("SOGIP_Actividad");
+
 
         }
 
@@ -154,6 +156,8 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.PagoUsuario> PagoUsuario { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.TipoPago> TipoPago { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Actividad> Actividad { get; set; }
 
     }
 

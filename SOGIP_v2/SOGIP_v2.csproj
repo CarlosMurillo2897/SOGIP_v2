@@ -204,6 +204,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="Controllers\ActividadController.cs" />
     <Compile Include="Controllers\AtletasAsignadosController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
@@ -227,9 +228,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201903131942275__all.cs" />
-    <Compile Include="Migrations\201903131942275__all.Designer.cs">
-      <DependentUpon>201903131942275__all.cs</DependentUpon>
+    <Compile Include="Migrations\201903240320241__all.cs" />
+    <Compile Include="Migrations\201903240320241__all.Designer.cs">
+      <DependentUpon>201903240320241__all.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201903271550385_pagos.cs" />
     <Compile Include="Migrations\201903271550385_pagos.Designer.cs">
@@ -237,6 +238,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Actividad.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Agrupaciones\Tipo.cs" />
     <Compile Include="Models\PagosUsuarios\PagoUsuario.cs" />
@@ -280,6 +282,7 @@
     <Content Include="Contents\bootstrap-datepicker3.min.css" />
     <Content Include="Contents\bootstrap-datepicker3.standalone.css" />
     <Content Include="Contents\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\actividades.css" />
     <Content Include="Content\Archivos.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -599,6 +602,7 @@
     <Content Include="Scripts\fontawesome\solid.min.js" />
     <Content Include="Scripts\fontawesome\v4-shims.js" />
     <Content Include="Scripts\fontawesome\v4-shims.min.js" />
+    <Content Include="Scripts\fullCalendar\actividades.js" />
     <Content Include="Scripts\fullCalendar\admincalendar.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.js" />
     <Content Include="Scripts\fullCalendar\fullcalendar.min.js" />
@@ -862,6 +866,7 @@
     <Content Include="Views\EstadosPagos\Index.cshtml" />
     <Content Include="Views\EstadosPagos\TipoPago.cshtml" />
     <Content Include="Views\EstadosPagos\Pagos.cshtml" />
+    <Content Include="Views\Actividad\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -881,8 +886,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903131942275__all.resx">
-      <DependentUpon>201903131942275__all.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903240320241__all.resx">
+      <DependentUpon>201903240320241__all.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903271550385_pagos.resx">
       <DependentUpon>201903271550385_pagos.cs</DependentUpon>

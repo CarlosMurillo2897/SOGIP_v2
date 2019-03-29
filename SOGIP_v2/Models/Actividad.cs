@@ -6,13 +6,13 @@ using System.Web;
 
 namespace SOGIP_v2.Models
 {
-    public class Horario
+    public class Actividad
     {
         public int Id { get; set; }
-        public Actividad IdActividad {get; set;}
         [Required]
-        public DateTime FechaHoraInicio { get; set; }
+        public string Titulo { get; set; }
+        public string Descripcion { get; set; }
         [Required]
-        public DateTime FechaHoraFinal { get; set; }
+        public string Lugar { get; set; }
     }
 }
