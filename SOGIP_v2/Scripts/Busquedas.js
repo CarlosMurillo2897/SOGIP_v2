@@ -136,9 +136,9 @@
         $('<table />', {
             id: 'datos',
             class: 'table table-striped table-bordered'
-            //class: 'table table-striped table-bordered nowrap'
+            //class: 'table table-striped table-bordered'
         }).append("<thead>" + header + "</thead>").append("<tfoot>" + header + "</tfoot>").appendTo('#Resultados');
-
+        
         $('#datos').DataTable({
             "language": {
                 "lengthMenu": "Mostrando _MENU_ resultados por página.",

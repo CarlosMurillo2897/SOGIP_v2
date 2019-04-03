@@ -842,6 +842,7 @@ namespace SOGIP_v2.Controllers
         {
             List<object> lista = new List<object>();
             var usuarios = (from u in db.Users
+/*
                             from r in db.Roles
                             where u.Roles.FirstOrDefault().RoleId == r.Id
                             select new
@@ -855,6 +856,20 @@ namespace SOGIP_v2.Controllers
                                 u.Estado,
                                 r.Name
                             }).ToList();
+
+*/
+                           from r in db.Roles
+                           where u.Roles.FirstOrDefault().RoleId == r.Id
+                           select new{
+                               u.Id,
+                               u.Cedula,
+                               Nom = u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2,
+                               u.Email,
+                               u.Sexo,
+                               u.Fecha_Nacimiento,
+                               u.Estado,
+                               r.Name
+                           }).ToList();
 
             foreach (var usuario in usuarios)
             {
@@ -871,6 +886,7 @@ namespace SOGIP_v2.Controllers
                     {
                         seleccion = db.SubSeleccion.Where(x => x.Entrenador.Id == usuario.Id).Select(x => x.Seleccion.Nombre_Seleccion).FirstOrDefault();
                         categoria = (from a in db.SubSeleccion
+/*
                                      where a.Entrenador.Id == usuario.Id
                                      select a.Categoria_Id.Descripcion).FirstOrDefault();
                     }
@@ -881,13 +897,22 @@ namespace SOGIP_v2.Controllers
                                      from c in db.Categorias
                                      where (a.Usuario.Id == usuario.Id && a.SubSeleccion.Categoria_Id.CategoriaId == c.CategoriaId)
                                      select c.Descripcion).FirstOrDefault();
+*/
+                                         where a.Entrenador.Id == usuario.Id
+                                         select a.Categoria_Id.Descripcion).FirstOrDefault();
+                    }
+                    else { 
+                        seleccion = db.Atletas.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.SubSeleccion.Seleccion.Nombre_Seleccion).FirstOrDefault();
+                        categoria = (from a in db.Atletas
+                                         from c in db.Categorias
+                                         where (a.Usuario.Id == usuario.Id && a.SubSeleccion.Categoria_Id.CategoriaId == c.CategoriaId)
+                                         select c.Descripcion).FirstOrDefault();
                     }
 
 
                     var selex = "";
-                    if (categoria != null)
-                    {
-                        foreach (var p in seleccion.Split(' '))
+                    if (categoria != null) {
+                        foreach(var p in seleccion.Split(' '))
                         {
                             if (p == "DE")
                             {
@@ -901,8 +926,7 @@ namespace SOGIP_v2.Controllers
                     }
 
                     /* los Usuarios deben pertenecer a una Asociación. */
-                    if (entidad == "Asociado ICODER" && rol != "Entrenador")
-                    {
+                    if (entidad == "Asociado ICODER" && rol != "Entrenador") {
                         entidad = db.Atletas.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Asociacion_Deportiva.Nombre_DepAso).FirstOrDefault();
                     }
 
@@ -934,7 +958,6 @@ namespace SOGIP_v2.Controllers
                 };
                 lista.Add(usr);
             }
-
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
@@ -944,7 +967,6 @@ namespace SOGIP_v2.Controllers
             var rol = roles.ToList();
             return Json(roles.ToList(), JsonRequestBehavior.AllowGet);
         }
-
     }
 
 }

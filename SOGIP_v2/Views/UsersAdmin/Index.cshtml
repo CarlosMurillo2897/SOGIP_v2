@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
                                 <strong> @item.Cedula</strong><br>
-                                @if((string)ViewData[item.Id] == "Seleccion/Federacion" || (string)ViewData[item.Id] == "Asociacion/Comite")
+                                @if ((string)ViewData[item.Id] == "Seleccion/Federacion" || (string)ViewData[item.Id] == "Asociacion/Comite")
                                 {
                                     if (ViewData["Asociación" + item.Id] != null)
                                     {
@@ -51,7 +51,7 @@
                                     {
                                         <strong>@ViewData["Selección" + item.Id]</strong><br>
                                     }
-                                    @*if (ViewData["Selección" + item.Id] == null && ViewData["Asociación" + item.Id] == null)*@
+
                                 }
                                 else
                                 {
@@ -108,7 +108,6 @@
                                                             <dt>Categoría: </dt>
                                                             <dd>@sub</dd>
                                                          }
-
                                                     }
                                                     @if (ViewData["Asociación" + item.Id] != null)
                                                     {

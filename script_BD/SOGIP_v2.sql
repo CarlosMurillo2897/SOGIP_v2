@@ -6,6 +6,7 @@ drop database "SOGIP_v3"
 create database "SOGIP_v3"
 use "SOGIP_v3"
 
+
  +++++++ RECONSTRUIR BASE DE DATOS CON LOS CAMBIOS RESPECTIVOS ++++++++++
 
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++
@@ -31,7 +32,7 @@ use "SOGIP_v3"
 
  select * from SOGIP_Archivo;
  select * from SOGIP_Asociacion_Deportiva;
- select * from SOGIP_Atletas;
+ select * from SOGIP_Atletas where usuario_id=;
  select * from SOGIP_Categorias;
  select * from SOGIP_Color;
  select * from SOGIP_Cita;
@@ -53,20 +54,20 @@ use "SOGIP_v3"
  select * from SOGIP_UserClaims;
  select * from SOGIP_UserLogins;
  select * from SOGIP_UserRoles
-		where RoleId='5';
- select * from SOGIP_Users order by Cedula;
+		where RoleId='4';
 
- delete from sogip_users where Cedula='0000000001'
-
- select * from sogip_atletas where atletaid > 11;
- select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol where u.Id=r.Userid and r.roleid=rol.id and (r.roleid='5' or r.roleid='6');
+ select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name
+ from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol
+ where u.Id = r.Userid
+ and r.roleid = rol.id
+ and (r.roleid='5' or r.roleid='6');
 
  1: 914db4cb-8e02-4476-9e42-31befefd7a0e
  2: de8b4ac7-40a3-4b23-aa2b-28ae9fcb9253
  3: 137feecf-2c48-4e86-8b79-5906b0057c70
- 4: 7440f3c4-3528-4606-9bc8-501ad8f15b51
- 5: 377e1527-58bb-40dc-a873-f88d4a1c1fcf
- 6: 9d9d279f-016a-47e9-bf70-9ed4a4754de5 // Desconocido
+ 4: 9d9d279f-016a-47e9-bf70-9ed4a4754de5 // Desconocido
+ 5: 7440f3c4-3528-4606-9bc8-501ad8f15b51
+ 6: 377e1527-58bb-40dc-a873-f88d4a1c1fcf
  7: 2f3a289f-6370-4524-a21a-c72d5f5699e4 // Desconocido
 
  ++++++++++++++++++++++++++++ Select's ++++++++++++++++++++++++++++

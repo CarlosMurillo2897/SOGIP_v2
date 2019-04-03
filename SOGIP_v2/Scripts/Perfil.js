@@ -116,6 +116,7 @@ function cargarArchivos(id) {
 
     $('#archivosUsuario').DataTable().destroy();
     $('#archivosUsuario').remove();
+    var inactive = $('#invalid').val();
 
     var table = $('<table/>', {
         id: 'archivosUsuario',
@@ -152,8 +153,15 @@ function cargarArchivos(id) {
             {
                 data: "ArchivoId",
                 render: function (ArchivoId) {
-                    return "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + ArchivoId + "' style='padding: 2px 6px; margin: 2px;'>" +
-                        "<text class='hidden-xs'>Descargar </text><span class='glyphicon glyphicon-download'></span></a>";
+                    var disable = "disabled";
+                    var href = "#";
+                    if (!inactive) {
+                        disable = "";
+                        href = "href='/UsersAdmin/Download?archivoId=" + ArchivoId + "'";
+                    }
+
+                    return "<a class='btn btn-info' " + href + " style='padding: 2px 6px; margin: 2px;' " + disable + " >"
+                        + "<text class='hidden-xs'>Descargar </text><span class='glyphicon glyphicon-download'></span></a>";
                 }
             }
         ]
@@ -175,19 +183,19 @@ function cargarAtletas(ced) {
 
     var head = '<thead><tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr></thead>';
 
-    if ($('#role').val() == "Administrador") {
+    if ($('#role').val() === "Administrador") {
         url = "/AtletasAsignados/GetAtletasAdministrador";
     }
-    else if ($('#role').val() == "Seleccion/Federacion") {
+    else if ($('#role').val() === "Seleccion/Federacion") {
         url = "/AtletasAsignados/GetUsuariosSeleccion";
         head = '<thead><tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Rol</td><td>Categoría</td><td>Acción</td></tr></thead>';
         col[col.length] = { data: "Rol" };
         col[col.length] = { data: "Categoria" };
     }
-    else if ($('#role').val() == "Asociacion/Comite") {
+    else if ($('#role').val() === "Asociacion/Comite") {
         url = "/AtletasAsignados/GetAtletasAsociacion";
     }
-    else if ($('#role').val() == "Entrenador") {
+    else if ($('#role').val() === "Entrenador") {
         url = "/AtletasAsignados/GetUsuariosEntrenador";
     }
 
