@@ -838,26 +838,11 @@ namespace SOGIP_v2.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetUsuarios()
+        public JsonResult GetUsuarios(string filtro)
         {
             List<object> lista = new List<object>();
-            var usuarios = (from u in db.Users
-/*
-                            from r in db.Roles
-                            where u.Roles.FirstOrDefault().RoleId == r.Id
-                            select new
-                            {
-                                u.Id,
-                                u.Cedula,
-                                Nom = u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2,
-                                u.Email,
-                                u.Sexo,
-                                u.Fecha_Nacimiento,
-                                u.Estado,
-                                r.Name
-                            }).ToList();
-
-*/
+            var usuarios = filtro == "0" ?
+                           (from u in db.Users
                            from r in db.Roles
                            where u.Roles.FirstOrDefault().RoleId == r.Id
                            select new{
@@ -869,7 +854,21 @@ namespace SOGIP_v2.Controllers
                                u.Fecha_Nacimiento,
                                u.Estado,
                                r.Name
-                           }).ToList();
+                           }).ToList() : 
+                           (from u in db.Users
+                            from r in db.Roles
+                            where u.Roles.FirstOrDefault().RoleId == r.Id && u.Roles.FirstOrDefault().RoleId == filtro
+                            select new
+                            {
+                                u.Id,
+                                u.Cedula,
+                                Nom = u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2,
+                                u.Email,
+                                u.Sexo,
+                                u.Fecha_Nacimiento,
+                                u.Estado,
+                                r.Name
+                            }).ToList();
 
             foreach (var usuario in usuarios)
             {

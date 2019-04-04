@@ -1,6 +1,4 @@
-﻿@model IEnumerable<SOGIP_v2.Models.ApplicationUser>
-
-@{
+﻿@{
     ViewBag.Title = "Búsqueda";
     ViewBag.Controller = "Busqueda";
     ViewBag.Control = "Busqueda";
@@ -12,14 +10,27 @@
 <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/select.bootstrap4.min.css" rel="stylesheet" />
-
+@*
+    <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label>Primer Nombre: </label>
+                                    <input type="text" class="form-control" placeholder="Primer Nombre" id="nom1" />
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>Segundo Nombre: </label>
+                                    <input type="text" class="form-control" placeholder="Segundo Nombre" id="nom2" />
+                                </div>
+                            </div>
+*@
 <div class="container-fluid" style="min-height: 369px;">
     <div class="well" style="min-height: 400px;">
         <div class="row">
             <div class="col-md-8 col-md-offset-4">
                 <h1>¿Qué desea buscar?</h1>
             </div>
-            <div class="col-md-4">
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
                 <select id="Tipo" class="form-control" style="text-align: center">
                     <option value="0">-- Seleccione --</option>
                     <option value="1">Usuarios</option>
@@ -29,19 +40,23 @@
                     <option value="5">Actividades</option>
                 </select>
             </div>
-            <div class="col-md-4">
+
+            <div class="form-group col-md-4">
                 <select id="Filtro" class="form-control" style="text-align: center">
                     <option value="0">-- Seleccione --</option>
                 </select>
             </div>
-            <div class="col-md-4">
+
+            <div class="form-group col-md-4">
                 <button id="Buscar" class="btn btn-block btn-success" type="submit">
                     Buscar
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
             </div>
         </div>
+
         <br />
+
         <div class="row">
             <div id="Resultados" class="table-responsive">
 
