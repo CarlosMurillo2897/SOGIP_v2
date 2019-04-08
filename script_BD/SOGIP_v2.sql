@@ -32,7 +32,7 @@ use "SOGIP_v3"
 
  select * from SOGIP_Archivo;
  select * from SOGIP_Asociacion_Deportiva;
- select * from SOGIP_Atletas where usuario_id=;
+ select * from SOGIP_Atletas;
  select * from SOGIP_Categorias;
  select * from SOGIP_Color;
  select * from SOGIP_Cita;
@@ -55,6 +55,9 @@ use "SOGIP_v3"
  select * from SOGIP_UserLogins;
  select * from SOGIP_UserRoles
 		where RoleId='4';
+ select * from SOGIP_Users where Nombre1='HUGO';
+304270289
+HuLo3042041988
 
  select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name
  from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol
@@ -134,7 +137,7 @@ DECLARE @VARIABLEACAMBIAR varchar(100);
 -- *************************** OSEA, @VARIABLEACAMBIAR POR LA DIRECCIÓN *********************************************************
 -- *************************** DONDE ESTÉ EL PROYECTO SOGIP_V2 *********************************************************
 -- *************************** Y DENTRO DE ESTA CARPETA LA CARPETA SCRIPT_BD *********************************************************
-set @VARIABLEACAMBIAR = 'C:\Users\CCM\Documents\GitHub\SOGIP_v2\script_BD'
+set @VARIABLEACAMBIAR = 'C:\Users\402360192\Documents\GitHub\SOGIP_v2\script_BD'
 -- ************************************************************************************
 -- ************************************************************************************
 

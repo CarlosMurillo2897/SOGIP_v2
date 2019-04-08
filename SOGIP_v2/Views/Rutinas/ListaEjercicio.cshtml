@@ -4,7 +4,20 @@
     ViewBag.Title = "Ejercicios";
     var viewDataRutina = ViewData["rutina"];
     var viewDataMensaje = ViewData["mensaje"];
+
+    ViewBag.Referencia_Controlador_1 = "Rutinas";
+
+    if (viewDataRutina != null) {
+        ViewBag.Referencia_Metodo_1 = "ListaEjercicio?id=" + viewDataRutina;
+    }
+    if (ViewBag.idUsuario != null) {
+        ViewBag.Referencia_Metodo_1 = "ListaEjercicio?" + ViewBag.idUsuario;
+    }
+
+    ViewBag.Nombre_Metodo_1 = "Ejercicios";
+    ViewBag.Icono_Metodo_1 = "glyphicon-list";
 }
+
 @Html.Hidden("data", viewDataRutina)
 
 <div class="container">

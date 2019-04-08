@@ -3,12 +3,12 @@
 @{
     ViewBag.Title = "Lista de Rutinas";
 
-    ViewBag.Controller = "Rutinas";
-
-    ViewBag.Control = "Rutinas";
-    ViewBag.ControlIcono = "glyphicon-apple";
+    ViewBag.Referencia_Controlador_1 = "Rutinas";
+    ViewBag.Icono_Controlador_1 = "glyphicon-apple";
+    ViewBag.Nombre_Controlador_1 = "Rutinas";
 
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
+
 }
 
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
@@ -17,7 +17,8 @@
 
 <div class="container">
     <div class="well">
-        <button type="button" class="btn btn-primary" data-toggle="modal" id="btnNuevo">
+        <button type="button" class="btn btn-success" data-toggle="modal" id="btnNuevo">
+            <span class="glyphicon glyphicon-plus-sign"></span>
             Nueva Rutina
         </button>
 
@@ -25,7 +26,7 @@
         <br>
         @*La tabla principal*@
         <div class="table-responsive">
-            <table id="rutina" class="display table table-striped table-bordered table-hover " style="width:100%"></table>
+            <table id="rutina" class="table table-striped table-bordered table-hover"></table>
         </div>
 
         @*Modal Nueva Rutina *@
@@ -264,12 +265,12 @@
                         url: '/Rutinas/EditRutina',
                         data: data,
                         success: function (data) {
-                         
-                                $('#editar').modal('hide');
-                                $('body').removeClass('modal-open');
-                                $('.modal-backdrop').remove();
-                                location.reload();
-                            
+
+                            $('#editar').modal('hide');
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                            location.reload();
+
                         },
                         error: function () {
                             alert("Fallo");
@@ -424,7 +425,7 @@
                                 {
                                     title: "Acción",
                                     "render": function (Id) {
-                                        return  "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                                        return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
                                             "<text class='hidden-xs'>Editar </text>" +
                                             "<span class='glyphicon glyphicon-pencil'></span>" +
                                             "</a>" +

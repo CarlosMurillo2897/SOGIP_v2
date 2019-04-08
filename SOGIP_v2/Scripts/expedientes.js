@@ -351,7 +351,8 @@ function llenarTablaArchivos() {
             "ajax": {
                 "url": "/ExpedientesFisicos/ObtenerArchivos",
                 "type": "GET",
-                "dataSrc": ""
+                "dataSrc": "",
+                "data": {"filtro": 0}
             },
             columns: [
                 { data: "Nombre" },

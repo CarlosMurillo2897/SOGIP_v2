@@ -25,7 +25,7 @@ namespace SOGIP_v2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public UsersAdminController() { }
+        public UsersAdminController() {}
 
         public static string ComposicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
         {
@@ -637,10 +637,10 @@ namespace SOGIP_v2.Controllers
         }
 
         [HttpPost]
-        public JsonResult Import(HttpPostedFileBase excelfile)
+        public JsonResult Import(HttpPostedFileBase excelfile, string cedulaUsuario)
         {
             var path = Server.MapPath("~/Content/Registros/" + excelfile.FileName);
-             List<object> ls = new List<object>();
+            List<object> ls = new List<object>();
 
             try
             {
@@ -681,6 +681,8 @@ namespace SOGIP_v2.Controllers
                         {
                             terminos = Regex.Replace(nac.ToString(), @"[-\\]", "/");
                             nacimiento = Convert.ToDateTime(terminos);
+                            nac = nacimiento.ToString("yyyy-MM-dd");
+                            
                             if ((nacimiento.Year < (DateTime.Today.Year - 80)) || (nacimiento.Year > (DateTime.Today.Year - 10)))
                             {
                                 nacimiento = DateTime.Today;
@@ -760,7 +762,7 @@ namespace SOGIP_v2.Controllers
                         Nombre2 = (n2 == null) ? " " : n2.ToString().ToUpper(),
                         Apellido1 = (a1 == null) ? "" : a1.ToString().ToUpper(),
                         Apellido2 = (a2 == null) ? " " : a2.ToString().ToUpper(),
-                        Fecha_Nacimiento = nacimiento,
+                        Fecha_Nacimiento = nac,
                         Email = (email == null) ? "" : email.ToString(),
                         Sexo = genero,
                         Error = false,
@@ -776,6 +778,20 @@ namespace SOGIP_v2.Controllers
 
             if (System.IO.File.Exists(path))
             {
+
+                BinaryReader br = new BinaryReader(excelfile.InputStream);
+                byte[] buffer = br.ReadBytes(excelfile.ContentLength);
+
+                db.Archivo.Add(new Archivo
+                {
+                    Nombre = excelfile.FileName,
+                    Tipo = db.Tipos.SingleOrDefault( x => x.Nombre == "Ingreso Masivo"),
+                    Usuario = db.Users.SingleOrDefault( y => y.Cedula == cedulaUsuario),
+                    Contenido = buffer
+                });
+
+                db.SaveChanges();
+
                 System.IO.File.Delete(path);
             }
 
@@ -784,10 +800,10 @@ namespace SOGIP_v2.Controllers
 
         public JsonResult CedulaRepetida(string ced)
         {
-            return Json(db.Users.Any(x => x.Cedula == ced), JsonRequestBehavior.AllowGet);
+            return Json(!db.Users.Any(x => x.Cedula == ced), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult CrearMasivo(List<ApplicationUser> users, string usuario, string rol, int value)
+        public JsonResult CrearMasivo(List<ApplicationUser> users, string rol, string usuario, int value)
         {
             try
             {
@@ -798,14 +814,7 @@ namespace SOGIP_v2.Controllers
                     item.Roles.Add(new IdentityUserRole { UserId = item.Id, RoleId = "5" });
                     item.SecurityStamp = Guid.NewGuid().ToString();
 
-                    if (db.Users.Any(x => x.Cedula == item.Cedula))
-                    {
-
-                    }
-                    else
-                    {
-                        db.Users.Add(item);
-                    }
+                    db.Users.Add(item);
 
                     db.SaveChanges();
 

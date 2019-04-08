@@ -1,16 +1,114 @@
 ﻿
 @{
     ViewBag.Title = "Avanzadas";
+
+    ViewBag.Referencia_Controlador_1 = "Opciones";
+
+    ViewBag.Referencia_Metodo_1 = "Avanzadas";
+    ViewBag.Icono_Metodo_1 = "glyphicon-cog";
+    ViewBag.Nombre_Metodo_1 = "Opciones Avanzadas";
+
     ViewBag.Accion = "<a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='CargarModal();'><text class='hidden-xs'>Agregar nuevo </text><span style='color: white;' class='glyphicon glyphicon-plus-sign'></span></a>";
+
 }
 
 <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 
-<div class="container">
+<div class="container" style="min-height: 345px;">
     <div class="well">
 
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active">
+                    <a href="#Deportes" class="seco" data-toggle="tab" title="Deportes">
+                        <text class="">Deportes</text>
+                        <span class="glyphicon glyphicon-apple"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#Estados" class="seco" data-toggle="tab" title="Estados">
+                        <text class="">Estados</text>
+                        <span class="glyphicon glyphicon-filter"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#Entidades" class="seco" data-toggle="tab" title="Entidades Públicas">
+                        <text class="">Entidades Públicas</text>
+                        <span class="glyphicon glyphicon-education"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#Categorías" class="seco" data-toggle="tab" title="Categorías">
+                        <text class="">Categorías</text>
+                        <span class="glyphicon glyphicon-th-large"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#TiposArchivo" class="seco" data-toggle="tab" title="Tipos de Archivo">
+                        <text class="">Tipos de Archivo</text>
+                        <span class="glyphicon glyphicon-folder-open"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#Colores" class="seco" data-toggle="tab" title="Colores">
+                        <text class="">Colores</text>
+                        <span class="glyphicon glyphicon-tint"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#Parametros" class="seco" data-toggle="tab" title="Parámetros">
+                        <text class="">Parámetros</text>
+                        <span class="glyphicon glyphicon-wrench"></span>
+                    </a>
+                </li>
 
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane" id="Rutinas">
+                    <h2>
+                        Rutinas
+                        <span class="pull-right">
+                            <a class="glyphicon glyphicon-refresh"></a>
+                        </span>
+                    </h2>
+                    <div class="table-responsive">
+                       
+                        <hr>
+                    </div><!--/table-resp-->
+                    <hr>
+                </div><!--/tab-pane-->
+
+                <div class="tab-pane" id="Archivos">
+                    <h2>
+                        Archivos
+                        <span class="pull-right">
+                            <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);"></span>
+                        </span>
+                    </h2>
+                    <hr />
+                    <div class="table-responsive" id="files">
+
+                    </div>
+
+                </div><!--/tab-pane-->
+                <div class="tab-pane" id="Atletas">
+                    
+                    <hr />
+                    <div class="table-responsive" id="athletes">
+
+                    </div>
+                </div><!--/tab-pane-->
+                <div class="tab-pane active" id="Información">
+                    <h2>
+                        Información Personal
+                        <span id="infoP" class="pull-right glyphicon glyphicon-ok-sign recargar" style="color: rgb(92, 184, 92);" data-toggle="popover" data-html="true" title="<strong>Estado de los datos.</strong>" data-placement="left" data-content="<text style='color: green'>Todos los datos se encuentran correctos.</text>"></span>
+                    </h2>
+                    <hr>
+                    
+                </div>
+            </div><!--/tab-pane-->
+        </div><!--/tab-content-->
 
     </div>
 </div>

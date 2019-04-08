@@ -4,23 +4,19 @@
 
     ViewBag.Title = "Calendario de Citas";
 
+    ViewBag.Referencia_Controlador_1 = "CitasAdmin";
 
-    // // Si existe un Control se dispone el nombre del Control y ícono que se mostrará.
-    ViewBag.Control = "CitasAdmin";
-    ViewBag.ControlIcono = "glyphicon-user";
+    ViewBag.Referencia_Metodo_1 = "Create?id=";// + idUsuario;
+    ViewBag.Icono_Metodo_1 = "glyphicon-calendar";
+    ViewBag.Nombre_Metodo_1 = "Calendario de Citas";
 
-    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
-    ViewBag.Metodo = "Create";
-    ViewBag.MetodoIcono = "glyphicon-edit";
+}
+
     @Styles.Render("~/Content/fullcalendar.css")
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
     @Styles.Render("~/Content/jquery.timepicker.css")
-}
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="~/Scripts/bootstrap.min.js"></script>
-@*<script src="~/Scripts/jquery.min.js"></script>
-*@
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
 <link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
@@ -147,8 +143,8 @@
 
                     <br />
                     <div class="modal-footer">
-                        <button type="button" id="btnSave" class="btn btn-primary">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        <button type="button" id="btnSave" class="btn btn-primary">Guardar </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar </button>
                     </div>
                 </form>
             </div>
@@ -162,15 +158,15 @@
 @section Scripts {
 
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/jquery.min.js")
     @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
     @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
     @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
-    @Scripts.Render("~/Scripts/bootstrap.js")
+    
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")
     @Scripts.Render("~/Scripts/fullCalendar/admincalendar.js")
     @Scripts.Render("~/Scripts/bootbox.min.js")
+
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
 }

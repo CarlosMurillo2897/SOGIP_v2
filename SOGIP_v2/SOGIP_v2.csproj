@@ -817,11 +817,6 @@
     <Content Include="Views\CitasAdmin\Create.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
     <Content Include="Views\Account\Perfil.cshtml" />
-    <Content Include="Views\Conjunto_Ejercicio\Create.cshtml" />
-    <Content Include="Views\Conjunto_Ejercicio\Delete.cshtml" />
-    <Content Include="Views\Conjunto_Ejercicio\Details.cshtml" />
-    <Content Include="Views\Conjunto_Ejercicio\Edit.cshtml" />
-    <Content Include="Views\Conjunto_Ejercicio\Index.cshtml" />
     <Content Include="Views\Rutinas\Index.cshtml" />
     <Content Include="Views\Rutinas\Ejercicio.cshtml" />
     <Content Include="Views\Rutinas\ListaEjercicio.cshtml" />

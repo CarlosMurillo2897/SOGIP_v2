@@ -1,20 +1,29 @@
 ﻿@model SOGIP_v2.Models.MaquinaEjercicio
 @{
-    ViewBag.Title = "ListaEjercicios";
+    ViewBag.Title = "Lista de Ejercicios";
     var viewDataNombre = ViewData["nombre"];
     var viewDataId = ViewData["id"];
+
+    ViewBag.Referencia_Controlador_1 = "Maquina";
+    ViewBag.Icono_Controlador_1 = "glyphicon-scale";
+    ViewBag.Nombre_Controlador_1 = "Máquinas";
+
+    ViewBag.Referencia_Metodo_1 = "ListaEjercicios?id=" + viewDataId;
+    ViewBag.Icono_Metodo_1 = "glyphicon-tags";
+    ViewBag.Nombre_Metodo_1 = "Ejercicios Asociados";
+
 }
 
-<h4> @viewDataNombre </h4>
-<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
+
 <div class="container">
-    <button type="button" class="btn btn-primary" id="btnNuevo">
-        Agregar Ejercicio
+    <button type="button" class="btn btn-success" id="btnNuevo">
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        Agregar Ejercicio 
     </button>
     <br>
+    <h2> @viewDataNombre </h2>
     <br>
     @*Modal Nueva Maquina *@
     <div id="nueva" class="modal fade" role="dialog">
@@ -52,17 +61,18 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table id="prin" class="display" style="width:100%"></table>
+        <table id="prin" class="table table-bordered table-striped table-hover">
+
+        </table>
     </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/jquery.min.js")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-    @Scripts.Render("~/Scripts/bootstrap.js")
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+
     <script>
         function eliminar() {
             var des = $('#tablePrin').DataTable();
@@ -231,7 +241,7 @@
                             title: "Acción",
                             data: "Id",
                             "render": function (Id) {
-                             
+
                                 return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EliminarMaq(" + Id + ")' data-toggle='modal'  data-target='#eliminar'>" +
                                     "<text class='hidden-xs'>Eliminar </text>" +
                                     "<span class='glyphicon glyphicon-minus-sign'></span>" +

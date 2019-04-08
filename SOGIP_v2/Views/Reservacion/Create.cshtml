@@ -2,8 +2,14 @@
 
 @{
 
-
     ViewBag.Title = "Reservaciones";
+
+    ViewBag.Referencia_Controlador_1 = "Reservacion";
+
+    ViewBag.Referencia_Metodo_1 = "Create?id=" + ViewBag.idUsuario;
+    ViewBag.Icono_Metodo_1 = "glyphicon-calendar";
+    ViewBag.Nombre_Metodo_1 = "Reservaciones de Instalaciones";
+
 
     var rol = ViewBag.role;
     var url = "";
@@ -21,15 +27,13 @@
         url = "~/Scripts/fullCalendar/reservacionunico.js";
     }
 
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @Styles.Render("~/Content/fullcalendar.css")
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
     @Styles.Render("~/Content/jquery.timepicker.css")
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
-    <script src="~/Scripts/bootstrap.min.js"></script>
+
 }
 
 <div class="container-fluid">
@@ -157,8 +161,8 @@
                         </div>
                         <br />
                         <div class="modal-footer">
-                            <button type="button" id="btnSave" class="btn btn-primary">Guardar Cambios</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            <button type="button" id="btnSave" class="btn btn-primary">Guardar </button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar </button>
                         </div>
                     </form>
                 </div>
@@ -290,15 +294,14 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/jquery.min.js")
+    
     @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
     @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
     @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
     @Scripts.Render(url)
-    @Scripts.Render("~/Scripts/bootstrap.js")
+
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")
     @Scripts.Render("~/Scripts/bootbox.min.js")
-
 
 }

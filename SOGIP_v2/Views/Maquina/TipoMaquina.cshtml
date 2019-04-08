@@ -2,16 +2,22 @@
 @{
     ViewBag.Title = "TipoMaquina";
 
+    ViewBag.Referencia_Controlador_1 = "Maquina";
+    ViewBag.Icono_Controlador_1 = "glyphicon-scale";
+    ViewBag.Nombre_Controlador_1 = "Máquinas";
 
+    ViewBag.Referencia_Metodo_1 = "TipoMaquina";
+    ViewBag.Icono_Metodo_1 = "glyphicon-tag";
+    ViewBag.Nombre_Metodo_1 = "Tipo de Máquinas";
 
 }
-<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
 <div class="container">
-    <button type="button" class="btn btn-primary" id="btnNuevo">
+    <button type="button" class="btn btn-success" id="btnNuevo">
+        <span class="glyphicon glyphicon-plus-sign"></span>
         Nuevo Tipo Máquina
     </button>
     <br>
@@ -86,15 +92,14 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table id="tablaTipo" class="display" style="width:100%"></table>
+        <table id="tablaTipo" class="table table-bordered table-striped table-hover"></table>
     </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/jquery.min.js")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-    @Scripts.Render("~/Scripts/bootstrap.js")
+
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
@@ -242,7 +247,7 @@
                             title: "Acción",
                             data: "Id",
                             "render": function (Id) {
-                               
+
                                 return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarTipo(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
                                     "<text class='hidden-xs'>Editar </text>" +
                                     "<span class='glyphicon glyphicon-pencil'></span>" +

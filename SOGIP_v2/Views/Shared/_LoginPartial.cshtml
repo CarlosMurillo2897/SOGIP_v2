@@ -113,8 +113,7 @@
                         </a>
                     </li>
                     <li>
-                        @*<a href="~/Opciones/Avanzadas">*@
-                        <a href="#">
+                        <a href="~/Opciones/Avanzadas">
                             <span class="glyphicon glyphicon-cog"></span> Avanzadas
                         </a>
                     </li>
@@ -250,18 +249,18 @@
                 <span class="glyphicon glyphicon-home"></span>
                 Inicio /
             </a>
-            @if (@ViewBag.Controller != null)
+            @if (@ViewBag.Referencia_Controlador_1 != null && ViewBag.Nombre_Controlador_1 != null)
             {
-                <a class="nav-link" href="~/@ViewBag.Control/Index">
-                    <span class="glyphicon @ViewBag.ControlIcono"></span>
-                    @ViewBag.Controller /
+                <a class="nav-link" href="~/@ViewBag.Referencia_Controlador_1/Index">
+                    <span class="glyphicon @ViewBag.Icono_Controlador_1"></span>
+                    @ViewBag.Nombre_Controlador_1 /
                 </a>
             }
-            @if (@ViewBag.Metodo != null)
+            @if (@ViewBag.Referencia_Metodo_1 != null && ViewBag.Nombre_Metodo_1 != null)
             {
-                <a class="nav-link" href="~/@ViewBag.Control/@ViewBag.Metodo">
-                    <span class="glyphicon @ViewBag.MetodoIcono"></span>
-                    @ViewBag.Metodo /
+                <a class="nav-link" href="~/@ViewBag.Referencia_Controlador_1/@ViewBag.Referencia_Metodo_1">
+                    <span class="glyphicon @ViewBag.Icono_Metodo_1"></span>
+                    @ViewBag.Nombre_Metodo_1 /
                 </a>
             }
             @if (@ViewBag.Accion != null)

@@ -31,7 +31,7 @@ $(document).ready(function () {
         rules: {
             ced: {
                 required: true,
-                minlength: 4
+                minlength: 9
             },
             nom1: {
                 required: true,
@@ -60,7 +60,7 @@ $(document).ready(function () {
         messages: {
             ced: {
                 required: "La cédula es un campo obligatorio.",
-                minlength: "La longitud mínima de la cédula ser de 4 carácteres."
+                minlength: "La longitud mínima de la cédula debe ser de 9 carácteres."
             },
             nom1: {
                 required: "El primer nombre es un campo requerido.",

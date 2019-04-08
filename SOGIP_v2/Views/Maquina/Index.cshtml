@@ -3,17 +3,20 @@
 
     ViewBag.Title = "Lista de Maquinas";
 
-    ViewBag.Referencia = "Maquina/TipoMaquina";
+    ViewBag.Referencia_Controlador_1 = "Maquina";
+    ViewBag.Icono_Controlador_1 = "glyphicon-scale";
+    ViewBag.Nombre_Controlador_1 = "Máquinas";
     ViewBag.Accion = "<a class='btn btn-success pull-right' href='/Maquina/TipoMaquina' style='padding: 2px 6px; margin: 2px;'><text class='hidden-xs'>Nuevo Tipo Máquina </text><span style='color: white;' class='glyphicon glyphicon-plus-sign'></span></a>";
+
 }
-<script type="text/javascript" src="~/Scripts/jquery.min.js"></script>
-<script type="text/javascript" src="~/Scripts/bootstrap.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
 <div class="container">
     <button type="button" class="btn btn-primary" id="btnNuevo">
-        Nuevo Máquina
+        <span class="glyphicon glyphicon-plus-sign"></span>
+        Nueva Máquina
     </button>
     <br>
     <br>
@@ -131,15 +134,13 @@
     </div>
     @*La tabla principal*@
     <div class="table-responsive">
-        <table id="prin" class="display" style="width:100%"></table>
+        <table id="prin" class="table table-bordered table-striped table-hover"></table>
     </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/jquery.min.js")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-    @Scripts.Render("~/Scripts/bootstrap.js")
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     <script>
@@ -281,7 +282,7 @@
             var dataSet = [];
             var Id;
             tablaPrincipal();
-     
+
 
             var idTipo = null;
             $('#btnNuevo').click(function () {
@@ -381,8 +382,8 @@
 
                             title: "Acción",
                             data: "Id",
-                            "render": function (Id) {              
-                                return  "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarMaq(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                            "render": function (Id) {
+                                return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarMaq(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
                                     "<text class='hidden-xs'>Editar </text>" +
                                     "<span class='glyphicon glyphicon-pencil'></span>" +
                                     "</a>" +

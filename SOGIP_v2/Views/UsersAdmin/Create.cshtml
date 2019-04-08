@@ -4,18 +4,13 @@
 @{
     ViewBag.Title = "Registro Manual";
 
-    ViewBag.Controller = "Usuarios";
+    ViewBag.Referencia_Controlador_1 = "UsersAdmin";
+    ViewBag.Icono_Controlador_1 = "glyphicon-user";
+    ViewBag.Nombre_Controlador_1 = "Usuarios";
 
-    ViewBag.Control = "UsersAdmin";
-    ViewBag.ControlIcono = "glyphicon-user";
-
-    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
-    ViewBag.Metodo = "Create";
-    ViewBag.MetodoIcono = "glyphicon-pencil";
-
-    // Si se necesita una Acción como crear nuevo usuario, rutina. Se selecciona está opción y la referencia o ruta del método.
-    // ViewBag.Referencia = "Rutina/Create";
-    // ViewBag.Accion = "Crear Rutina";
+    ViewBag.Referencia_Metodo_1 = "Create";
+    ViewBag.Nombre_Metodo_1 = "Crear";
+    ViewBag.Icono_Metodo_1 = "glyphicon-pencil";
 
     List<SelectListItem> Sexo = new List<SelectListItem>();
     Sexo.Add(new SelectListItem
@@ -36,8 +31,8 @@
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 @*
-<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 *@
 
 <div class="container">
@@ -421,9 +416,9 @@
 
 @section Scripts {
     @*
-    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+        <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
     *@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>

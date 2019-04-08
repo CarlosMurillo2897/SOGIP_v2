@@ -1,12 +1,12 @@
 ﻿@{
     ViewBag.Title = "Expedientes Físicos";
 
-    ViewBag.Controller = "Expedientes Físicos";
-
-    ViewBag.Control = "ExpedientesFisicos";
-    ViewBag.ControlIcono = "glyphicon-file";
+    ViewBag.Referencia_Controlador_1 = "ExpedientesFisicos";
+    ViewBag.Icono_Controlador_1 = "glyphicon-file";
+    ViewBag.Nombre_Controlador_1 = "Expedientes Físicos";
 
     ViewBag.Accion = "<a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='CargarModal();'><text class='hidden-xs'>Cargar </text><span style='color: white;' class='glyphicon glyphicon-upload'></span></a>";
+
 }
 
 @Styles.Render("~/Content/Archivos.css")
@@ -16,8 +16,8 @@
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 @*
-<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 *@
 
 <div class="container" style="min-height: 356px;">
@@ -111,9 +111,9 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @*
-    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+        <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
     *@
 
     @Scripts.Render("~/bundles/jqueryval")

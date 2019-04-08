@@ -4,34 +4,102 @@
 @{
     ViewBag.Title = "Ejercicios";
 
-    ViewBag.Control = "Rutinas";
-    ViewBag.ControlIcono = "glyphicon-user";
+    var viewDataRutina = ViewData["rutina"];
+    var viewDataNombre = ViewData["nombre"];
 
-    ViewBag.Controller = "Rutinas";
+    ViewBag.Referencia_Controlador_1 = "Rutinas";
+    ViewBag.Icono_Controlador_1 = "glyphicon-apple";
+    ViewBag.Nombre_Controlador_1 = "Rutinas";
+
+    ViewBag.Referencia_Metodo_1 = "Ejercicio?idRutina=" + viewDataRutina;
+    ViewBag.Icono_Metodo_1 = "glyphicon-list";
+    ViewBag.Nombre_Metodo_1 = "Ejercicios";
 
     @Styles.Render("~/Content/Rutina.css")
     @Styles.Render("~/Content/manual.css")
 
-    var viewDataRutina = ViewData["rutina"];
-    var viewDataNombre = ViewData["nombre"];
-
-   
 }
 
 <div class="container">
-<div class="well">
+    <div class="well">
         <h4>Usuario</h4>
         <h4> @viewDataNombre </h4>
         <div class="table-responsive">
-        <table id="rutina" class="table table-bordered table-hover">
-            <thead>
-                <TR>
+            <table id="rutina" class="table table-bordered table-hover">
+                <thead>
+                    <TR>
+                        <TH COLSPAN=1>Ejercicio</TH>
+                        <TH COLSPAN=3>Semana 1-2</TH>
+                        <TH COLSPAN=3>Semana 3-4</TH>
+                        <TH COLSPAN=3>Semana 5-6</TH>
+                        <TH COLSPAN=1>Día</TH>
+                        <TH COLSPAN=1>Editar</TH>
+                    </TR>
+                    <TR>
+                        <TH></TH>
+                        <TH>S</TH>
+                        <TH>R</TH>
+                        <TH>P</TH>
+                        <TH>S</TH>
+                        <TH>R</TH>
+                        <TH>P</TH>
+                        <TH>S</TH>
+                        <TH>R</TH>
+                        <TH>P</TH>
+                        <TH></TH>
+                        <TH></TH>
+                    </TR>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Conjunto_Ejercicios1 != null)
+                    {
+                        var dia = "";
+
+                        foreach (var item1 in ViewBag.Conjunto_Ejercicios1)
+                        {
+                            if (dia != item1.DiaEjercicio)
+                            {
+                                dia = item1.DiaEjercicio;
+                                <tr><td>@item1.DiaEjercicio</td></tr>
+                            }
+                            <tr style="background-color: @item1.ColorEjercicio">
+                                <td>@item1.NombreEjercicio</td>
+                                <td>@item1.Serie1</td>
+                                <td>@item1.Repeticion1</td>
+                                <td>@item1.Peso1</td>
+                                <td>@item1.Serie2</td>
+                                <td>@item1.Repeticion2</td>
+                                <td>@item1.Peso2</td>
+                                <td>@item1.Serie3</td>
+                                <td>@item1.Repeticion3</td>
+                                <td>@item1.Peso3</td>
+                                <td>@item1.DiaEjercicio</td>
+                                <td>
+                                    <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item1.Conjunto_EjercicioId)'>
+                                        <text class='hidden-xs'>Eliminar </text>
+                                        <span class='glyphicon glyphicon-minus-sign'></span>
+                                    </a>
+                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
+                                        <text class='hidden-xs'>Editar </text>
+                                        <span class='glyphicon glyphicon-pencil'></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <table id="tabla" class="table table-bordered table-responsive table-hover">
+                <TR align="center" class="active">
                     <TH COLSPAN=1>Ejercicio</TH>
                     <TH COLSPAN=3>Semana 1-2</TH>
                     <TH COLSPAN=3>Semana 3-4</TH>
                     <TH COLSPAN=3>Semana 5-6</TH>
+                    <TH COLSPAN=1>Color</TH>
                     <TH COLSPAN=1>Día</TH>
-                    <TH COLSPAN=1>Editar</TH>
+                    <TH COLSPAN=1>Accion</TH>
                 </TR>
                 <TR>
                     <TH></TH>
@@ -46,192 +114,126 @@
                     <TH>P</TH>
                     <TH></TH>
                     <TH></TH>
+                    <TH></TH>
                 </TR>
-            </thead>
-            <tbody>
-                @if (ViewBag.Conjunto_Ejercicios1 != null)
-                {
-                    var dia = "";
-
-                    foreach (var item1 in ViewBag.Conjunto_Ejercicios1)
-                    {
-                        if (dia != item1.DiaEjercicio)
-                        {
-                            dia = item1.DiaEjercicio;
-                            <tr><td>@item1.DiaEjercicio</td></tr>
-                        }
-                        <tr style="background-color: @item1.ColorEjercicio">
-                            <td>@item1.NombreEjercicio</td>
-                            <td>@item1.Serie1</td>
-                            <td>@item1.Repeticion1</td>
-                            <td>@item1.Peso1</td>
-                            <td>@item1.Serie2</td>
-                            <td>@item1.Repeticion2</td>
-                            <td>@item1.Peso2</td>
-                            <td>@item1.Serie3</td>
-                            <td>@item1.Repeticion3</td>
-                            <td>@item1.Peso3</td>
-                            <td>@item1.DiaEjercicio</td>
-                            <td>
-                                <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item1.Conjunto_EjercicioId)'>
-                                    <text class='hidden-xs'>Eliminar </text>
-                                    <span class='glyphicon glyphicon-minus-sign'></span>
-                                </a>
-                                <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
-                                    <text class='hidden-xs'>Editar </text>
-                                    <span class='glyphicon glyphicon-pencil'></span>
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                }
-            </tbody>
-        </table>
-    </div>
-    <div class="table-responsive">
-        <table id="tabla" class="table table-bordered table-responsive table-hover">
-            <TR align="center" class="active">
-                <TH COLSPAN=1>Ejercicio</TH>
-                <TH COLSPAN=3>Semana 1-2</TH>
-                <TH COLSPAN=3>Semana 3-4</TH>
-                <TH COLSPAN=3>Semana 5-6</TH>
-                <TH COLSPAN=1>Color</TH>
-                <TH COLSPAN=1>Día</TH>
-                <TH COLSPAN=1>Accion</TH>
-            </TR>
-            <TR>
-                <TH></TH>
-                <TH>S</TH>
-                <TH>R</TH>
-                <TH>P</TH>
-                <TH>S</TH>
-                <TH>R</TH>
-                <TH>P</TH>
-                <TH>S</TH>
-                <TH>R</TH>
-                <TH>P</TH>
-                <TH></TH>
-                <TH></TH>
-                <TH></TH>
-            </TR>
-        </table>
-        <div class="btn-der">
-            <br>
-            <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Mas + </button>
-            <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear </button>
+            </table>
+            <div class="btn-der">
+                <br>
+                <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Más <span class="glyphicon glyphicon-plus-sign"></span> </button>
+                <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear <span class="glyphicon glyphicon-check"></span> </button>
+            </div>
         </div>
-    </div>
 
-    @*Modal para Ejercicio*@
-    <div class="modal fade" id="myModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <a href="#" class="close" data-dismiss="modal">&times;</a>
-                    <h3 class="modal-title">Información de Ejercicio</h3>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" value="original" id="hidden">
-                    <form id="myForm">
+        @*Modal para Ejercicio*@
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <a href="#" class="close" data-dismiss="modal">&times;</a>
+                        <h3 class="modal-title">Información de Ejercicio</h3>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" value="original" id="hidden">
+                        <form id="myForm">
 
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Ejercicio: </label>
-                                <input type="text" class="form-control" id="ejer" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Día: </label>
-                                <br>
-                                @Html.DropDownList("Dia", new SelectListItem[]
-                  { new SelectListItem() { Text = "Día 1", Value = "Dia1" },
-                  new SelectListItem() { Text = "Día 2", Value = "Dia2" },
-                  new SelectListItem() { Text = "Día 3", Value = "Dia3" },
-                  new SelectListItem() { Text = "Día 4", Value = "Dia4" },
-                  },
-                  new { @onchange="CallChangefunc(this.value)", @class="form-control" })
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Color: </label>
-                                <br>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>Ejercicio: </label>
+                                    <input type="text" class="form-control" id="ejer" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Día: </label>
+                                    <br>
+                                    @Html.DropDownList("Dia", new SelectListItem[]
+                      { new SelectListItem() { Text = "Día 1", Value = "Dia1" },
+                      new SelectListItem() { Text = "Día 2", Value = "Dia2" },
+                      new SelectListItem() { Text = "Día 3", Value = "Dia3" },
+                      new SelectListItem() { Text = "Día 4", Value = "Dia4" },
+                      },
+                      new { @onchange="CallChangefunc(this.value)", @class="form-control" })
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Color: </label>
+                                    <br>
 
-                                @Html.DropDownList("Color", new SelectListItem[]
-                                { new SelectListItem() { Text = "Blanco", Value = "white" },
-                                new SelectListItem() { Text = "Rosado", Value = "LightPink" },
-                                new SelectListItem() { Text = "Celeste", Value = "LightBlue" },
-                                new SelectListItem() { Text = "Morado", Value = "Lavender" },
-                                new SelectListItem() { Text = "Naranja", Value = "NavajoWhite" },
-                                new SelectListItem() { Text = "Verde", Value = "PaleGreen" },
-                                new SelectListItem() { Text = "Amarillo", Value = "LightYellow" },
-                                },
-                                new { @onchange="CallChangefunc(this.value)", @class = "form-control" })
+                                    @Html.DropDownList("Color", new SelectListItem[]
+                                    { new SelectListItem() { Text = "Blanco", Value = "white" },
+                                    new SelectListItem() { Text = "Rosado", Value = "LightPink" },
+                                    new SelectListItem() { Text = "Celeste", Value = "LightBlue" },
+                                    new SelectListItem() { Text = "Morado", Value = "Lavender" },
+                                    new SelectListItem() { Text = "Naranja", Value = "NavajoWhite" },
+                                    new SelectListItem() { Text = "Verde", Value = "PaleGreen" },
+                                    new SelectListItem() { Text = "Amarillo", Value = "LightYellow" },
+                                    },
+                                    new { @onchange="CallChangefunc(this.value)", @class = "form-control" })
 
+                                </div>
                             </div>
+                            <br>
+                            <div class="form-group">
+                                <label>Semana 1-2: </label>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>Serie: </label>
+                                    <input type="text" class="form-control" id="s1" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Repeticion: </label>
+                                    <input type="text" class="form-control" id="r1" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Peso: </label>
+                                    <input type="text" class="form-control" id="p1" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Semana 3-4: </label>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>Serie: </label>
+                                    <input type="text" class="form-control" id="s2" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Repeticion: </label>
+                                    <input type="text" class="form-control" id="r2" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Peso: </label>
+                                    <input type="text" class="form-control" id="p2" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Semana 5-6: </label>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-4">
+                                    <label>Serie: </label>
+                                    <input type="text" class="form-control" id="s3" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Repeticion: </label>
+                                    <input type="text" class="form-control" id="r3" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label>Peso: </label>
+                                    <input type="text" class="form-control" id="p3" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-footer">
+                            <br />
+                            <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                         </div>
-                        <br>
-                        <div class="form-group">
-                            <label>Semana 1-2: </label>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Serie: </label>
-                                <input type="text" class="form-control" id="s1" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Repeticion: </label>
-                                <input type="text" class="form-control" id="r1" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Peso: </label>
-                                <input type="text" class="form-control" id="p1" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Semana 3-4: </label>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Serie: </label>
-                                <input type="text" class="form-control" id="s2" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Repeticion: </label>
-                                <input type="text" class="form-control" id="r2" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Peso: </label>
-                                <input type="text" class="form-control" id="p2" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Semana 5-6: </label>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-4">
-                                <label>Serie: </label>
-                                <input type="text" class="form-control" id="s3" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Repeticion: </label>
-                                <input type="text" class="form-control" id="r3" />
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>Peso: </label>
-                                <input type="text" class="form-control" id="p3" />
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-footer">
-                        <br />
-                        <button type="button" id="btnEdit" class="btn btn-success" data-dismiss="modal">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
 @section Scripts {
