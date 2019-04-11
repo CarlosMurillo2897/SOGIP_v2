@@ -478,6 +478,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\administracionHorario.js" />
     <Content Include="Scripts\atletas_asignados.js" />
+    <Content Include="Scripts\Avanzadas.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />

@@ -8,13 +8,15 @@
     ViewBag.Nombre_Controlador_1 = "Usuarios";
 
     ViewBag.Accion = "<a class='btn btn-success pull-right' href='/UsersAdmin/Create' style='padding: 2px 6px; margin: 2px;'><text class='hidden-xs'>Crear Usuario </text><span style='color: white;' class='glyphicon glyphicon-plus-sign'></span></a>";
-    
+
 }
+<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 
 @Styles.Render("~/Content/Perfil.css")
 
 <div class="container-fluid">
-    <div class="well">
+    <div class="well table-responsive">
         <table id="tabla" class="table table-striped">
             <thead>
                 <tr>
@@ -268,6 +270,10 @@
 </div>
 
 @section Scripts {
+    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/IndexUsuarios.js")
 }

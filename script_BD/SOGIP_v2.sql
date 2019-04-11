@@ -34,11 +34,15 @@ use "SOGIP_v3"
  select * from SOGIP_Asociacion_Deportiva;
  select * from SOGIP_Atletas;
  select * from SOGIP_Categorias;
+delete from sogip_categorias where categoriaid>6
  select * from SOGIP_Color;
+delete from SOGIP_Color where colorid>7
  select * from SOGIP_Cita;
  select * from SOGIP_Conjunto_Ejercicio;
  select * from SOGIP_Deportes;
+
  select * from SOGIP_Entidad_Publica;
+
  select * from SOGIP_Estados;
  select * from SOGIP_Expedientes_Fisicos;
  select * from SOGIP_Funcionario_ICODER as f, sogip_users as u where f.usuario_id=u.id and u.Sexo=0;
@@ -188,6 +192,11 @@ set @sql = 'BULK INSERT SOGIP_Atletas FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Atletas
 exec (@sql)
 -- 11 rows
 
+set @sql = 'BULK INSERT SOGIP_Entidad_Publica FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Entidades.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+-- 01 rows
+
+
 set @sql = 'BULK INSERT SOGIP_Rutina FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Rutina.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 -- 6 rows
@@ -220,5 +229,8 @@ exec (@sql)
 -- 2 rows
 set @sql = 'BULK INSERT SOGIP_MaquinaEjercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_MaquinaEjercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+
+
+insert into SOGIP_Entidad_Publica values(71,'31788f50-c82b-4a6a-9cf5-1a5a4d721e2b');
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++

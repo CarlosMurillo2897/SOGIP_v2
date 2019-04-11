@@ -170,7 +170,7 @@ function tablaUsuarios(id) {
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
                     "zeroRecords": "No se han encontrado resultados.",
-                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                    "info": "Mostrando _START_ de _END_, de un total de _TOTAL_ registros.",
                     "infoEmpty": "No hay datos para mostrar",
                     "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
                     "search": "Filtrar:",
@@ -337,7 +337,7 @@ function llenarTablaArchivos() {
             "language": {
                 "lengthMenu": "Mostrando _MENU_ resultados por página.",
                 "zeroRecords": "No se han encontrado registros.",
-                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                "info": "Mostrando _START_ de _END_, de un total de _TOTAL_ registros.",
                 "infoEmpty": "No hay datos para mostrar",
                 "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
                 "search": "Filtrar:",
