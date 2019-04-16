@@ -66,11 +66,10 @@ namespace SOGIP_v2.Controllers
             var consulta = db.TipoME.Where(x => x.TipoId == n).ToList();
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
-        //public JsonResult ObtenerEjer(int id)
-        //{
-        //    var consulta = db.TipoME.Where(x => x.TipoId == id).ToList();
-        //    return Json(consulta, JsonRequestBehavior.AllowGet);
-        //}
+        public JsonResult TipoRepetido(string nombre)
+        {
+            return Json(!db.TipoME.Any(x => x.nombre == nombre), JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

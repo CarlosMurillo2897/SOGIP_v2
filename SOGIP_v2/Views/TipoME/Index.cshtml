@@ -190,7 +190,7 @@
         $(document).ready(function () {
             tabla();
             $('#btnNuevo').click(function () {
-                $('#nuevo').modal('show');
+                $('#form').modal('show');
             })
             $("#form").validate({
                 rules: {
@@ -198,13 +198,23 @@
                         requeried: true,
                         minlength: 3,
                         remote: {
+                            url: "/TipoME/TipoRepetido",
+                            type: "GET",
+                            data: {
+                                ced: function () { return $('#nomb').val(); }
+                            }
 
                         }
 
                     }
+                },
+                messages: {
+                    requeried: "El nombre es un campo obligatorio.",
+                    minlength: "La longitud mínima de la cédula debe ser de 3 carácteres.",
+                    remote: "Ese nombre ya se encuentra en el sistema."
                 }
                     
-            })
+            });
 
         });
     </script>
