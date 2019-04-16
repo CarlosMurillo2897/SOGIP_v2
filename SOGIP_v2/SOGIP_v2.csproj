@@ -457,6 +457,7 @@
     <Content Include="Content\Imagenes\Load_Big.gif" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
     <Content Include="Content\Imagenes\logo_white.png" />
+    <Content Include="Content\Imagenes\warning.png" />
     <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\Imagenes\M.png" />
     <Content Include="Content\Imagenes\W.png" />

@@ -305,7 +305,8 @@ namespace SOGIP_v2.Controllers
 
 
             ViewBag.Role = rol.FirstOrDefault();
-            ViewBag.usuario_Actual = userRoles.First();
+            ViewBag.usuario_Actual = usuario_Actual;
+            ViewBag.rol_Usuario_Actual = userRoles.First();
             ViewBag.idUsuario = id;
 
             return View(new EditUserViewModel()

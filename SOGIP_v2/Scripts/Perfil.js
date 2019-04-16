@@ -11,6 +11,8 @@ $.validator.addMethod("passw",
 
 $(document).ready(function () {
 
+    unlockForm("None", "None", true);
+
     $('[data-toggle="popover"]').popover();
 
     var today = new Date();
@@ -22,7 +24,7 @@ $(document).ready(function () {
         $("#dtp").datepicker({
             format: "dd/mm/yyyy",
             defaultViewDate: max,
-            startDate: max,
+            startDate: max, 
             endDate: min,
             daysOfWeekDisabled: false
     });
@@ -31,7 +33,14 @@ $(document).ready(function () {
         rules: {
             ced: {
                 required: true,
-                minlength: 9
+                minlength: 9,
+                remote: {
+                    url: "/UsersAdmin/CedulaRepetida",
+                    type: "GET",
+                    data: {
+                        ced: function () { return $('#ced').val(); }
+                    }
+                }
             },
             nom1: {
                 required: true,
@@ -60,7 +69,8 @@ $(document).ready(function () {
         messages: {
             ced: {
                 required: "La cédula es un campo obligatorio.",
-                minlength: "La longitud mínima de la cédula debe ser de 9 carácteres."
+                minlength: "La longitud mínima de la cédula debe ser de 9 carácteres.",
+                remote: "La cédula ingresada ya se encuentra en el sistema."
             },
             nom1: {
                 required: "El primer nombre es un campo requerido.",
@@ -242,5 +252,13 @@ function cargarAtletas(ced) {
         columns: col
     });
 
-
+}
+//"@ViewBag.rol_Usuario_Actual", "@ViewBag.usuario_Actual", "@Model.Cedula", true
+function unlockForm(role, id_Actual, Cedula, block) {
+    if (role === 'Administrador' || role === 'Supervisor' || id_Actual === Cedula) {
+        $("#signupForm1 :input").attr("disabled", false);
+    }
+    else{
+        $("#signupForm1 :input").attr("disabled", true);
+    }
 }

@@ -154,7 +154,22 @@ function cargaDT(id) {
             "type": "GET",
             "dataSrc": ""
         },
-        columns: col
+        columns: col,
+        /*dom: 'Bfrtip',
+        buttons: [
+            'print',// 'pdf',
+            {
+                    extend: "pdfHtml5",
+                    customize: function (doc) {
+                        var age = $('#datos').DataTable().column(1).data().toArray();
+                        for (var i = 0; i < age.length; i++) {
+                            if (age[i]==='yellow') {
+                                doc.content[1].table.body[i + 1][1].fillColor = 'blue';
+                            }
+                        }
+                    }
+                }
+        ]*/
     });
 }
 function cambiaColor() {

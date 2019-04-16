@@ -27,7 +27,7 @@
             border: 1px solid rgba(0, 0, 0, .2);
         }
     </style>
-    
+
     <div class="well">
         <div class="row">
             <div class="col-md-12">
@@ -53,15 +53,15 @@
                         </a>
                     </li>
                     @*<li>
-                        <a href="#Contenido" class="seco" data-toggle="tab" title="Estados" onclick="cargaDT(5);">
-                            Estados <span class="glyphicon glyphicon-filter"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#Contenido" class="seco" data-toggle="tab" title="Parámetros" onclick="cargaDT(6);">
-                            Parámetros <span class="glyphicon glyphicon-wrench"></span>
-                        </a>
-                    </li>*@
+                            <a href="#Contenido" class="seco" data-toggle="tab" title="Estados" onclick="cargaDT(5);">
+                                Estados <span class="glyphicon glyphicon-filter"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#Contenido" class="seco" data-toggle="tab" title="Parámetros" onclick="cargaDT(6);">
+                                Parámetros <span class="glyphicon glyphicon-wrench"></span>
+                            </a>
+                        </li>*@
                     <li>
                         <a href="#Contenido" class="seco" data-toggle="tab" title="Tipos de Archivo" onclick="cargaDT(7);">
                             Tipos de Archivo <span class="glyphicon glyphicon-folder-open"></span>
@@ -105,16 +105,16 @@
                 <form id="signupForm1">
                     <div class="modal-body" id="modalBody">
                         @*<div class="row">
-                            <div class="form-group col-md-12">
-                                <h4>Nombre</h4>
-                                <div class="afect">
-                                    <input type="text" class="form-control" id="nom1" name="nom1" placeholder="Digite su cédula.">
+                                <div class="form-group col-md-12">
+                                    <h4>Nombre</h4>
+                                    <div class="afect">
+                                        <input type="text" class="form-control" id="nom1" name="nom1" placeholder="Digite su cédula.">
+                                    </div>
                                 </div>
-                            </div>
-                        </div>*@
+                            </div>*@
                     </div>
                     <div class="modal-footer">
-                        <input type="submit" class="btn btn-success" value="Guardar"  />
+                        <input type="submit" class="btn btn-success" value="Guardar" />
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
                 </form>
@@ -126,9 +126,16 @@
 @section Scripts {
     <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+
+    @*
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>*@
 
 
     @Scripts.Render("~/bundles/jqueryval")

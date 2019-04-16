@@ -272,6 +272,7 @@ function manipularDT() {
             $('#texto').html('Desplegar lista ');
         }
     });
+    //$('#Tabla_Usuarios').toggle(4000, "swing");
 }
 
 

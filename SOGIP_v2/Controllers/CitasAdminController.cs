@@ -211,8 +211,6 @@ namespace SOGIP_v2.Controllers
 
             return View(cita);
         }
-               
- 
 
         protected override void Dispose(bool disposing)
         {

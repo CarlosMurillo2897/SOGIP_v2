@@ -501,15 +501,25 @@ namespace SOGIP_v2.Controllers
             });
         }
 
-        public void Download(int archivoId)
+        public void Download(int archivoId, bool? masivo)
         {
-                var v = db.Archivo.Where(x => x.ArchivoId == archivoId).Include("Tipo").FirstOrDefault();
+            try
+            {
+                var v = masivo != null ?
+                db.Archivo.Where(x => x.Tipo.Nombre == "INGRESO MASIVO" && x.Usuario.Cedula == "000000000").Include("Tipo").FirstOrDefault()
+                : db.Archivo.Where(x => x.ArchivoId == archivoId).Include("Tipo").FirstOrDefault();
                 Response.Clear();
                 Response.AddHeader("Content-type", v.Tipo.Nombre);
                 Response.AddHeader("Content-Disposition", "attachment;filename=\"" + v.Nombre + "\"");
                 Response.BinaryWrite(v.Contenido);
                 Response.Flush();
                 Response.End();
+            }
+            catch(Exception e)
+            {
+
+            }
+
         }
 
         // POST: /Users/Edit/5
