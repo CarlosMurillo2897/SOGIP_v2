@@ -24,18 +24,19 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Nuevo</h4>
                     <br>
-                    <label>Nombre: </label>
-                    <input type="text" class="form-control" placeholder="Nombre" id="nomb" />
-
-                    <div class="modal-body">
-                        <div class="modal-footer">
-                            <br />
-                            <input type="submit" class="btn btn-success" value="Guardar" onclick="$('#form').submit();">@* data-dismiss="modal" onclick="actualizar()"*@
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    <div class="afect">
+                        <label>Nombre: </label>
+                        <input type="text" class="form-control" placeholder="Nombre" id="nomb" />
+                    </div>
+                        <div class="modal-body">
+                            <div class="modal-footer">
+                                <br />
+                                <input type="submit" class="btn btn-success" value="Guardar" onclick="$('#form').submit();">@* data-dismiss="modal" onclick="actualizar()"*@
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </div>
@@ -45,6 +46,7 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
 
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/custom-validator")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
 
     <script>
@@ -113,85 +115,83 @@
         }
 
         function tabla2(id) {
-         $.ajax({
-        type: "POST",
-            dataType: "JSON",
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
                 url: '/TipoME/ObtenerEjer',
-                    data: { 'n': id },
-        success: function (data) {
-            $.each(data, function (i, v) {
-                dataSet1.push([v.nombre, v.Id, v.Id]);
-            })
-            table1 = $('#tipoEjer2').DataTable({
-                "language": {
-                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
-                    "zeroRecords": "No se han encontrado registros.",
-                    "info": "Mostrando página _PAGE_ de _PAGES_.",
-                    "infoEmpty": "No hay datos para mostrar",
-                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
-                    "search": "Filtrar:",
-                    "paginate": {
-                        "first": "Primero",
-                        "last": "Ultimo",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
-                },
-                data: dataSet1,
-                columns: [
-                    { title: "Nombres" },
-                    {
-                        title: "Id",
-                        "visible": false,
-                        "searchable": false
-                    },
-                    {
-                        title: "Acción",
-                        "render": function (Id) {
-                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
-                                "<text class='hidden-xs'>Editar </text>" +
-                                "<span class='glyphicon glyphicon-pencil'></span>" +
-                                "</a>" +
-                                "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
-                                "<text class='hidden-xs'>Rutina </text>" +
-                                "<span class='glyphicon glyphicon-list'></span>" +
-                                "</a>";
-                        }
-                    }
-                ],
+                data: { 'n': id },
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        dataSet1.push([v.nombre, v.Id, v.Id]);
+                    })
+                    table1 = $('#tipoEjer2').DataTable({
+                        "language": {
+                            "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                            "zeroRecords": "No se han encontrado registros.",
+                            "info": "Mostrando página _PAGE_ de _PAGES_.",
+                            "infoEmpty": "No hay datos para mostrar",
+                            "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                            "search": "Filtrar:",
+                            "paginate": {
+                                "first": "Primero",
+                                "last": "Ultimo",
+                                "next": "Siguiente",
+                                "previous": "Anterior"
+                            }
+                        },
+                        data: dataSet1,
+                        columns: [
+                            { title: "Nombres" },
+                            {
+                                title: "Id",
+                                "visible": false,
+                                "searchable": false
+                            },
+                            {
+                                title: "Acción",
+                                "render": function (Id) {
+                                    return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                                        "<text class='hidden-xs'>Editar </text>" +
+                                        "<span class='glyphicon glyphicon-pencil'></span>" +
+                                        "</a>" +
+                                        "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
+                                        "<text class='hidden-xs'>Rutina </text>" +
+                                        "<span class='glyphicon glyphicon-list'></span>" +
+                                        "</a>";
+                                }
+                            }
+                        ],
 
-                'select': {
-                    'style': 'os',
-                    'selector': 'td:first-child'
+                        'select': {
+                            'style': 'os',
+                            'selector': 'td:first-child'
+                        }
+                    });
+                },
+
+                error: function (error) {
+                    alert("Fallo");
                 }
             });
-        },
+        }
 
-        error: function (error) {
-            alert("Fallo");
-        }
-            });
-        }
-     
         function eliminar() {
 
             //$('#tipoEjer').DataTable().clear().draw();
-            $('#tipoEjer').DataTable().destroy();  
+            $('#tipoEjer').DataTable().destroy();
             $('#tipoEjer').hide();
-       
+
         }
 
         function Enviar(id) {
             eliminar();
             tabla2(id);
-           
+
         }
-        
+
         $(document).ready(function () {
             tabla();
-            $('#btnNuevo').click(function () {
-                $('#form').modal('show');
-            })
+          
             $("#form").validate({
                 rules: {
                     nomb: {
@@ -213,7 +213,7 @@
                     minlength: "La longitud mínima de la cédula debe ser de 3 carácteres.",
                     remote: "Ese nombre ya se encuentra en el sistema."
                 }
-                    
+
             });
 
         });
