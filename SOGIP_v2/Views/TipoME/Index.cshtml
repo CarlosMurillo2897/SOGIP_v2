@@ -17,28 +17,87 @@
             <table id="tipoEjer2" class="display table table-striped table-bordered table-hover " style="width:100%"></table>
         </div>
     </div>
-    <div id="form" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal fade" id="myModal">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Nuevo</h4>
-                    <br>
-                    <div class="afect">
-                        <label>Nombre: </label>
-                        <input type="text" class="form-control" placeholder="Nombre" id="nomb" />
-                    </div>
-                        <div class="modal-body">
-                            <div class="modal-footer">
-                                <br />
-                                <input type="submit" class="btn btn-success" value="Guardar" onclick="$('#form').submit();">@* data-dismiss="modal" onclick="actualizar()"*@
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Información de Usuario</h3>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" value="original" id="hidden">
+                    <form id="signupForm1">
+                        <div class="form-group">
+                            <label>Cédula: </label>
+                            <div class="afect">
+                                <input type="text" class="form-control" placeholder="Cédula" id="ced" name="ced" />
                             </div>
                         </div>
-                    </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Primer Nombre: </label>
+                                <div class="afect">
+                                    <input type="text" class="form-control" placeholder="Primer Nombre" id="nom1" name="nom1" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Segundo Nombre: </label>
+                                <div class="afect">
+                                    <input type="text" class="form-control" placeholder="Segundo Nombre" id="nom2" name="nom2" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>Primer Apellido: </label>
+                                <div class="afect">
+                                    <input type="text" class="form-control" placeholder="Primer Apellido" id="apel1" name="apel1" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>Segundo Apellido: </label>
+                                <div class="afect">
+                                    <input type="text" class="form-control" placeholder="Segundo Apellido" id="apel2" name="apel2" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label>E-mail: </label>
+                                <div class="afect">
+                                    <input type="text" class="form-control" placeholder="E-mail" id="email" name="email" />
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Nacimiento: </label>
+                                <div class="afect">
+                                    <div class="input-group date" id="dtp">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        <input class="form-control" type="text" id="nac" name="nac" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Género: </label>
+                                <div class="afect">
+                                    <select class="form-control" id="sexo" name="sexo">
+                                        <option>Masculino</option>
+                                        <option>Femenino</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                    <input type="submit" class="btn btn-success" value="Guardar" onclick="$('#signupForm1').submit();">@* data-dismiss="modal" onclick="actualizar()"*@
+                </div>
+            </div>
         </div>
     </div>
+</div>
 </div>
 @section Scripts {
 
@@ -192,28 +251,59 @@
         $(document).ready(function () {
             tabla();
           
-            $("#form").validate({
+            $("#signupForm1").validate({
                 rules: {
-                    nomb: {
-                        requeried: true,
-                        minlength: 3,
+                    ced: {
+                        required: true,
+                        minlength: 9,
+                        maxlength: 15,
                         remote: {
-                            url: "/TipoME/TipoRepetido",
+                            url: "/UsersAdmin/CedulaRepetida",
                             type: "GET",
-                            data: {
-                                ced: function () { return $('#nomb').val(); }
-                            }
-
+                            data: { ced: cedula }
                         }
-
+                    },
+                    nom1: {
+                        required: true,
+                        minlength: 2
+                    },
+                    apel1: {
+                        required: true,
+                        minlength: 2
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    sexo: {
+                        required: true
+                    },
+                    nac: {
+                        required: true
                     }
                 },
                 messages: {
-                    requeried: "El nombre es un campo obligatorio.",
-                    minlength: "La longitud mínima de la cédula debe ser de 3 carácteres.",
-                    remote: "Ese nombre ya se encuentra en el sistema."
-                }
-                 errorElement: "em",
+                    ced: {
+                        required: "La cédula es un campo obligatorio.",
+                        minlength: "La longitud mínima de la cédula debe ser de 9 carácteres.",
+                        maxlength: "La longitud máxima de la cédula es de 15 carácteres.",
+                        remote: jQuery.validator.format("{0} ya se encuentra en el sistema.")
+                    },
+                    nom1: {
+                        required: "El primer nombre es un campo requerido.",
+                        minlength: "La longitud mínima del primer nombre debe ser de 2 carácteres."
+                    },
+                    apel1: {
+                        required: "El primer apellido es un campo requerido.",
+                        minlength: "La longitud mínima del primer apellido debe ser de 2 carácteres."
+                    },
+                    email: "Especifique su e-mail con el formato correcto.",
+                    sexo: {
+                        required: "El campo de género es requerido."
+                    },
+                    nac: "La fecha de nacimiento es obligatoria."
+                },
+                errorElement: "em",
                 errorPlacement: function (error, element) {
                     error.addClass("help-block");
                     element.parents(".afect").addClass("has-feedback");
@@ -240,10 +330,10 @@
                     $(element).parents(".afect").addClass("has-success").removeClass("has-error");
                     $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
                 }
-
             });
 
         });
+
     </script>
 
 }
