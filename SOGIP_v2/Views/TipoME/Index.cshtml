@@ -2,127 +2,132 @@
 
 @{
     ViewBag.Title = "Tipo";
-
 }
 <div class="container">
 
-    <div class="well">
-        <div class="table-responsive">
-            <a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' id="btnNuevo">
-                <text class='hidden-xs'>Nuevo </text>
-                <span style='color: white;' class='glyphicon glyphicon-plus-sign'></span>
-            </a>
-            <table id="tipoEjer" class="display table table-striped table-bordered table-hover " style="width:100%"> </table>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px;' id="btnCategorias">
+            <text class='hidden-xs'>Categorias </text>
+            <span style='color: white;' class=''></span>
+        </a>
 
-            <table id="tipoEjer2" class="display table table-striped table-bordered table-hover " style="width:100%"></table>
+        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn2">
+            <text class='hidden-xs' id="text2"></text>
+            <span style='color: white;' class=''></span>
+        </a>
+
+        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn3">
+            <text class='hidden-xs' id="text3"></text>
+            <span style='color: white;' class=''></span>
+        </a>
+    </div>
+    <div class="col-md-4">
+        <a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' id="btnNuevo">
+            <text class='hidden-xs'>Nuevo </text>
+            <span style='color: white;' class='glyphicon glyphicon-plus-sign'></span>
+        </a>
+    </div>
+    </div>
+<br>
+    <div class="well col-md-12">
+        <div class="table-responsive">
+            <div id="tabla1"></div>
+            <div id="tabla2"></div>
+            <div id="tabla3"></div>
         </div>
     </div>
-    <div class="modal fade" id="myModal">
+    <div id="nuevo" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <a href="#" class="close" data-dismiss="modal">&times;</a>
-                    <h3 class="modal-title">Información de Usuario</h3>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Crear nuevo Tipo de</h4>  <text class='hidden-xs' id="textPrin"></text>
                 </div>
+                <form id="forcat"  method="post" novalidate="novalidate">
                 <div class="modal-body">
-                    <input type="hidden" value="original" id="hidden">
-                    <form id="signupForm1">
-                        <div class="form-group">
-                            <label>Cédula: </label>
-                            <div class="afect">
-                                <input type="text" class="form-control" placeholder="Cédula" id="ced" name="ced" />
-                            </div>
+                    <div class="form-group col-md-12">
+                    <label>Nombre: </label>
+                        <div class="afect">
+                    <input type="text" class="form-control" placeholder="Nombre" id="cat"  name="cat"/> </div>
                         </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Primer Nombre: </label>
-                                <div class="afect">
-                                    <input type="text" class="form-control" placeholder="Primer Nombre" id="nom1" name="nom1" />
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Segundo Nombre: </label>
-                                <div class="afect">
-                                    <input type="text" class="form-control" placeholder="Segundo Nombre" id="nom2" name="nom2" />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>Primer Apellido: </label>
-                                <div class="afect">
-                                    <input type="text" class="form-control" placeholder="Primer Apellido" id="apel1" name="apel1" />
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label>Segundo Apellido: </label>
-                                <div class="afect">
-                                    <input type="text" class="form-control" placeholder="Segundo Apellido" id="apel2" name="apel2" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label>E-mail: </label>
-                                <div class="afect">
-                                    <input type="text" class="form-control" placeholder="E-mail" id="email" name="email" />
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Nacimiento: </label>
-                                <div class="afect">
-                                    <div class="input-group date" id="dtp">
-                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        <input class="form-control" type="text" id="nac" name="nac" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group col-md-3">
-                                <label>Género: </label>
-                                <div class="afect">
-                                    <select class="form-control" id="sexo" name="sexo">
-                                        <option>Masculino</option>
-                                        <option>Femenino</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
                 </div>
                 <div class="modal-footer">
-                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
-                    <input type="submit" class="btn btn-success" value="Guardar" onclick="$('#signupForm1').submit();">@* data-dismiss="modal" onclick="actualizar()"*@
+                    <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
+                    </form>
             </div>
         </div>
     </div>
-</div>
-</div>
+
 @section Scripts {
 
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
 
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/custom-validator")
-    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
 
     <script>
-        var table;
-        var dataSet = [];
-        var table1;
-        var dataSet1 = [];
-        function tabla() {
-            $.ajax({
-                type: "POST",
-                dataType: "JSON",
-                url: '/TipoME/getCategorias',
-                success: function (data) {
-                    $.each(data, function (i, v) {
-                        dataSet.push([v.nombre, v.Id, v.Id]);
-                    })
-                    table = $('#tipoEjer').DataTable({
+        var cat1 = null
+        var cat2 = null;
+        var cat3 = null;
+        function tablaEjer1() {
+            cat1 = 0;
+            $('#textPrin').html("Categoria");
+            $('#tipoEjer1').DataTable().destroy();
+            $('#tipoEjer1').remove();
+            $('#tabla1').show();
+            var tabla = $('<table/>', { id: 'tipoEjer1', class: 'table table-striped table-bordered dt-responsive nowrap', width: '100%' }).append('<thead><tr><th>Nombre</th><th>Acción</th></tr></thead>');
+            $('#tabla1').append(tabla);
+            table1 = $('#tipoEjer1').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                    "zeroRecords": "No se han encontrado registros.",
+                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                "ajax": {
+                    "url": '/TipoME/getCategorias',
+                    "type": "GET",
+                    "dataSrc": ""
+                },
+                columns: [
+                    { data: "nombre" },
+                    {
+                        data: "Id",
+
+                        render: function (Id) {
+                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                                "<text class='hidden-xs'>Editar </text>" +
+                                "<span class='glyphicon glyphicon-pencil'></span>" +
+                                "</a>" +
+                                "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar(" + Id + ")''>" +
+                                "<text class='hidden-xs'>Ver </text>" +
+                                "<span class='glyphicon glyphicon-list'></span>" +
+                                "</a>";
+                        }
+                    }
+                ],
+            });
+        }
+
+        function tablaEjer2(id) {
+            $('#tipoEjer2').DataTable().destroy();
+            $('#tipoEjer2').remove();
+            $('#tabla2').show();  
+            var tabla = $('<table/>', { id: 'tipoEjer2', class: 'table table-striped table-bordered dt-responsive nowrap', width: '100%' }).append('<thead><tr><th>Nombre</th><th>Acción</th></tr></thead>');
+            $('#tabla2').append(tabla);
+                    table2 = $('#tipoEjer2').DataTable({
                         "language": {
                             "lengthMenu": "Mostrando _MENU_ resultados por página.",
                             "zeroRecords": "No se han encontrado registros.",
@@ -137,171 +142,196 @@
                                 "previous": "Anterior"
                             }
                         },
-                        data: dataSet,
+                        "ajax": {
+                            "url": '/TipoME/ObtenerEjer',
+                            "data": { 'n': id },
+                            "type": "GET",
+                            "dataSrc": ""
+                        },
                         columns: [
-                            { title: "Nombre" },
+                            { data: "nombre" },
                             {
-                                title: "Id",
-                                "visible": false,
-                                "searchable": false
-                            },
-                            {
-                                title: "Acción",
-                                "render": function (Id) {
+                                data: "Id",
+                   
+                                render: function (Id) {
                                     return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
                                         "<text class='hidden-xs'>Editar </text>" +
                                         "<span class='glyphicon glyphicon-pencil'></span>" +
                                         "</a>" +
-                                        "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar(" + Id + ")''>" +
+                                        "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar2(" + Id + ")''>" +
                                         "<text class='hidden-xs'>Ver </text>" +
                                         "<span class='glyphicon glyphicon-list'></span>" +
                                         "</a>";
                                 }
                             }
                         ],
-
-                        'select': {
-                            'style': 'os',
-                            'selector': 'td:first-child'
-                        }
                     });
-                },
-
-                error: function (error) {
-                    alert("Fallo");
-                }
-            });
+      
         }
+        function tablaEjer3(id) {
+            $('#tipoEjer3').DataTable().destroy();
+            $('#tipoEjer3').remove();
+            $('#tabla3').show();
+            var tabla = $('<table/>', { id: 'tipoEjer3', class: 'table table-striped table-bordered dt-responsive nowrap', width: '100%' }).append('<thead><tr><th>Nombre</th><th>Acción</th></tr></thead>');
+            $('#tabla3').append(tabla);
+            table3 = $('#tipoEjer3').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                    "zeroRecords": "No se han encontrado registros.",
+                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                "ajax": {
+                    "url": '/TipoME/ObtenerEjer',
+                    "data": { 'n': id },
+                    "type": "GET",
+                    "dataSrc": ""
+                },
+                columns: [
+                    { data: "nombre" },
+                    {
+                        data: "Id",
 
-        function tabla2(id) {
-            $.ajax({
-                type: "POST",
-                dataType: "JSON",
-                url: '/TipoME/ObtenerEjer',
-                data: { 'n': id },
-                success: function (data) {
-                    $.each(data, function (i, v) {
-                        dataSet1.push([v.nombre, v.Id, v.Id]);
-                    })
-                    table1 = $('#tipoEjer2').DataTable({
-                        "language": {
-                            "lengthMenu": "Mostrando _MENU_ resultados por página.",
-                            "zeroRecords": "No se han encontrado registros.",
-                            "info": "Mostrando página _PAGE_ de _PAGES_.",
-                            "infoEmpty": "No hay datos para mostrar",
-                            "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
-                            "search": "Filtrar:",
-                            "paginate": {
-                                "first": "Primero",
-                                "last": "Ultimo",
-                                "next": "Siguiente",
-                                "previous": "Anterior"
-                            }
-                        },
-                        data: dataSet1,
-                        columns: [
-                            { title: "Nombres" },
-                            {
-                                title: "Id",
-                                "visible": false,
-                                "searchable": false
-                            },
-                            {
-                                title: "Acción",
-                                "render": function (Id) {
-                                    return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
-                                        "<text class='hidden-xs'>Editar </text>" +
-                                        "<span class='glyphicon glyphicon-pencil'></span>" +
-                                        "</a>" +
-                                        "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
-                                        "<text class='hidden-xs'>Rutina </text>" +
-                                        "<span class='glyphicon glyphicon-list'></span>" +
-                                        "</a>";
-                                }
-                            }
-                        ],
-
-                        'select': {
-                            'style': 'os',
-                            'selector': 'td:first-child'
+                        render: function (Id) {
+                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                                "<text class='hidden-xs'>Editar </text>" +
+                                "<span class='glyphicon glyphicon-pencil'></span>" +
+                                "</a>";
                         }
-                    });
-                },
-
-                error: function (error) {
-                    alert("Fallo");
-                }
+                    }
+                ],
             });
-        }
 
+        }
         function eliminar() {
+            $('#tabla1').hide();
+          
+        }
+        function eliminar2() {
+            $('#tipoEjer2').DataTable().destroy();
+            $('#tipoEjer2').hide();
+        }
 
-            //$('#tipoEjer').DataTable().clear().draw();
-            $('#tipoEjer').DataTable().destroy();
-            $('#tipoEjer').hide();
-
+        function eliminar3() {
+            $('#tipoEjer3').DataTable().destroy();
+            $('#tipoEjer3').hide();
         }
 
         function Enviar(id) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/TipoME/getNombre',
+                data: { 'id': id },
+                success: function (data) {
+                    $('#text2').html(data.nombre);
+                    $('#btn2').css("display", "block");
+                    $('#textPrin').html(data.nombre);
+                    cat2 = id;
+                    cat1 = id;
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
             eliminar();
-            tabla2(id);
-
+            tablaEjer2(id);
         }
+        function Enviar2(id) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/TipoME/getNombre',
+                data: { 'id': id },
+                success: function (data) {
+                    $('#text3').html(data.nombre);
+                    $('#btn3').css("display", "block");
+                    $('#textPrin').html(data.nombre);
+                    cat3 = id;
+                    cat1 = id;
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+            eliminar();
+            eliminar2();
+            tablaEjer3(id);
+        }
+        $('#btnCategorias').click(function () {
+            $('#tabla2').hide(); 
+            $('#tabla3').hide();
+            $('#tipoEjer2').DataTable().destroy();
+            $('#tipoEjer2').remove();
+            $('#tipoEjer3').DataTable().destroy();
+            $('#tipoEjer3').remove();
+            $('#tabla1').show();
+            $('#btn2').css("display", "none");
+            $('#btn3').css("display", "none");
+            tablaEjer1();
+            
+        })
+        $('#btn2').click(function () {
+            $('#tabla1').hide();
+            $('#tabla3').hide();
+            $('#tipoEjer3').DataTable().destroy();
+            $('#tipoEjer3').remove();
+            $('#tabla2').show();
+            $('#btn3').css("display", "none");
+            tablaEjer2(cat2);
+            cat1 = cat2;
+        })
+        $('#btn3').click(function () {
+            $('#tabla1').hide();
+            $('#tabla2').hide();
+            $('#tipoEjer2').DataTable().destroy();
+            $('#tipoEjer2').remove();
+            $('#tabla3').show();
+            tablaEjer3(cat3);
+            cat1 = cat3;
+        })
+        $.validator.setDefaults({
+            submitHandler: function ()
+            {
+                
+                alert("Enviando solicitud.");
+            }
+        });
 
         $(document).ready(function () {
-            tabla();
-          
-            $("#signupForm1").validate({
+            tablaEjer1();
+
+            $("#forcat").validate({
                 rules: {
-                    ced: {
+                    cat: {
+
                         required: true,
-                        minlength: 9,
-                        maxlength: 15,
+                        minlength: 2,
                         remote: {
-                            url: "/UsersAdmin/CedulaRepetida",
-                            type: "GET",
-                            data: { ced: cedula }
+                            url: '/TipoME/TipoRepetido',
+                            type: 'GET',
+                            data: {
+                                nombre: function () {
+                                    return $('#cat').val();
+                                }
+                            }
                         }
-                    },
-                    nom1: {
-                        required: true,
-                        minlength: 2
-                    },
-                    apel1: {
-                        required: true,
-                        minlength: 2
-                    },
-                    email: {
-                        required: true,
-                        email: true
-                    },
-                    sexo: {
-                        required: true
-                    },
-                    nac: {
-                        required: true
                     }
                 },
                 messages: {
-                    ced: {
-                        required: "La cédula es un campo obligatorio.",
-                        minlength: "La longitud mínima de la cédula debe ser de 9 carácteres.",
-                        maxlength: "La longitud máxima de la cédula es de 15 carácteres.",
-                        remote: jQuery.validator.format("{0} ya se encuentra en el sistema.")
-                    },
-                    nom1: {
-                        required: "El primer nombre es un campo requerido.",
-                        minlength: "La longitud mínima del primer nombre debe ser de 2 carácteres."
-                    },
-                    apel1: {
-                        required: "El primer apellido es un campo requerido.",
-                        minlength: "La longitud mínima del primer apellido debe ser de 2 carácteres."
-                    },
-                    email: "Especifique su e-mail con el formato correcto.",
-                    sexo: {
-                        required: "El campo de género es requerido."
-                    },
-                    nac: "La fecha de nacimiento es obligatoria."
+                    cat: {
+                        required: "El nombre es un campo obligatorio.",
+                        minlength: "El nombre.",
+                        remote:"Repetido."
+                    }
                 },
                 errorElement: "em",
                 errorPlacement: function (error, element) {
@@ -331,7 +361,138 @@
                     $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
                 }
             });
+            $('#btnNuevo').click(function () {
+                $('#nuevo').modal('show');
+                $("#btnSave").click(function () {
+                    if (cat1 == 0) {
+                        var data = null;
+                            data = {
+                                categoria: $('#cat').val()
+                            }
+                            SaveCategoria(data);
+                    }
+     
+                            var data = null;
+                            var categoria = $('#cat').val();
+                            if (categoria == "") {
+                                alert("Falta el Nombre");
+                            } else {
+                                data = {
+                                    id: cat1,
+                                    categoria: $('#cat').val()
+                                }
+                                SaveCategoria1(data);
+                            }
 
+                })
+            })
+
+           
+            //$('#btnNuevo').click(function () {
+            //    $('#nuevo').modal('show');
+            //    $("#btnSave").click(function () {
+            //        alert(cat1);
+            //    })
+            //    //var n = null;
+            //    //$('#nuevo').modal('show');
+            //    //if ($('#usuario').val() == "Categorias") {
+            //    //    $("#btnSave").click(function () {
+            //    //        var data = null;
+            //    //        var categoria = $('#cat').val();
+            //    //        if (categoria == "") {
+            //    //            alert("Falta el nombre");
+            //    //        } else {
+            //    //            data = {
+            //    //                categoria: $('#cat').val()
+            //    //            }
+            //    //            SaveCategoria(data);
+            //    //        }
+            //    //    })
+            //    //} else {
+            //    //    var n = null;
+            //    //    $("#btnSave").click(function () {
+            //    //    $.ajax({
+            //    //        type: "POST",
+            //    //        dataType: "JSON",
+            //    //        url: '/TipoME/getNombreCat',
+            //    //        data: { 'nombre': $('#usuario').val() },
+            //    //        success: function (data) {
+            //    //            n = data.Id;
+            //    //            var data = null;
+            //    //            var categoria = $('#cat').val();
+            //    //            if (categoria == "") {
+            //    //                alert("Falta el Nombre");
+            //    //            } else {
+            //    //                data = {
+            //    //                    id: n,
+            //    //                    categoria: $('#cat').val()
+            //    //                }
+            //    //                SaveCategoria1(data);
+            //    //            }
+            //    //        },
+            //    //        error: function () {
+            //    //            alert("Fallo");
+            //    //        }
+            //    //        })
+            //    //    })
+                    
+            //    //    }
+            //})
+      
+            function NombreCat(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/TipoME/getNombreCat',
+                    data: data,
+                    success: function (data) {
+                        $('#nuevo').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                        alert("Guardado Correctamente");
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            function SaveCategoria(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/TipoME/SaveCategoria',
+                    data: data,
+                    success: function (data) {
+                        $('#nuevo').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                        $('#tipoEjer1').DataTable().ajax.reload(null, false);
+                        $('#cat').val("");
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            function SaveCategoria1(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/TipoME/SaveCategoria1',
+                    data: data,
+                    success: function (data) {
+                        $('#nuevo').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                        $('#tipoEjer2').DataTable().ajax.reload(null, false);
+                        $('#tipoEjer3').DataTable().ajax.reload(null, false);
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+          
         });
 
     </script>
