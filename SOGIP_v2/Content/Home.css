@@ -1,14 +1,17 @@
-﻿header {
-    margin-top: 62px;
-    margin-left: auto;
-    margin-right: auto;
-    background-image: url("Imagenes/Captura.PNG");
-    height: 450px;
-    width: 939px;
-    opacity:1;
+﻿.carousel {
+    background-color: white;
+    margin-top: 20px;
 }
 
-    header:hover {
-        opacity: 0.6;
-        filter: alpha(opacity=50);
+    .carousel .item {
+        min-height: 100px; /* Prevent carousel from being distorted if for some reason image doesn't load */
     }
+
+        .carousel .item img { 
+            margin: 0 auto; /* Align slide image horizontally center */
+        }
+
+.bs-example {
+    margin: 20px;
+}
+

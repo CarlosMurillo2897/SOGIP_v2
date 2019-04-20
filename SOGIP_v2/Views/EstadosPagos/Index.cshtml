@@ -1,0 +1,300 @@
+﻿@model SOGIP_v2.Models.EstadosPagos
+@{
+    ViewBag.Title = "View";
+    @Styles.Render("~/Contents/bootstrap-datepicker.css")
+}
+<div class="container">
+    <div class="well">
+        <button type="button" class="btn btn-primary" id="btnNuevo">
+            Nueva Usuario Pago
+        </button>
+        <br>
+        <br>
+        <div id="nueva" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Crear Nuevo Usuario Pago</h4>
+                        <br>
+                        <label>Fecha Inicio de Pago: </label>
+                        <div class="input-group date" id="fec">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input class="form-control" type="text" id="fecha" />
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label>Monto a Pagar: </label>
+                                <input type="text" class="form-control" id="monto" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Total Personas: </label>
+                                <input type="text" class="form-control" id="cantidad" />
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>Tipo Mensualidad: </label>
+                                <br>
+                                <select name="mensualidad" id="mensualidad"></select>
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                    <div class="modal-body">
+                        @*Tabla de Usuarios*@
+                        <label>Seleccione al Usuario: </label>
+                        <select name="categoria" id="categoria"></select>
+                        @*<select name="categoria2" id="categoria2"></select>*@
+                        <br>
+                        @*<div class="row" id="infouser">
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+                            </div>*@
+                            @*<div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                    <button id="botón" type="button" class="btn btn-warning btn-block">
+                                        <text id="texto">Seleccionar usuario</text>
+                                        <span id="icono" class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </div>*@
+                        @*</div>
+                        <hr />
+                        <div class="table-responsive" id="Tabla_Usuarios">
+                            <table id="example" class="display table table-bordered table-hover table-striped" style="width:100%"></table>
+                        </div>*@
+                        <div class="modal-footer">
+                            <br />
+                            <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive">
+            <table id="pagos" class="display table table-striped table-bordered table-hover " style="width:100%"></table>
+        </div>
+        </div>
+    </div>
+    @section Scripts {
+        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+
+        @Scripts.Render("~/bundles/jqueryval")
+        @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+        @Scripts.Render("~/Scripts/jquery.timepicker.js")
+
+        <script>
+            function EnviarRut(id) {
+                window.location.href = '/EstadosPagos/Pagos?id=' + id;
+            }
+            $(document).ready(function () {
+                pagos();
+                tabla();
+                mensualidad();
+                $('#btnNuevo').click(function () {
+                    $('#nueva').modal('show');
+                })
+               
+                $('#btnSave').click(function () {
+                    var data = null;
+                    var usuario = $("#categoria").val();
+                    var fecha = $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy');
+                    var cantidad = $("#cantidad").val();
+                    var monto = $('#monto').val();
+                    var mensualidad = $("#mensualidad").val();
+                    if (fecha == "" || cantidad == "" || monto == "") {
+                        alert("Faltan Datos");
+                    } else {
+                        data = {
+                            usuario: usuario,
+                            fecha: fecha,
+                            cantidad: cantidad,
+                            monto: monto,
+                            mensualidad: mensualidad
+                        }
+                       SaveEstado(data);
+                    }
+                })
+                function SaveEstado(data) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/EstadosPagos/SaveEstado',
+                        data: data,
+                        success: function (data) {
+                            $('#nueva').modal('hide');
+                            $('body').removeClass('modal-open');
+                            alert('Registrado');
+                            location.reload();
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
+                }
+
+                function tabla() {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/EstadosPagos/GetUsuarios',
+                        success: function (data) {
+                            $.each(data, function (i, v) {
+                                $('#categoria').append('<option value="' + v.Id + '">' + v.Name + '</option>');
+                            })
+                        },
+
+                        error: function (error) {
+                            alert("Fallo");
+                        }
+                    });
+                }
+
+                function mensualidad() {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/EstadosPagos/GetMensualidad',
+                        success: function (data) {
+                            $.each(data, function (i, v) {
+                                $('#mensualidad').append('<option value="' + v.Id + '">' + v.Name + '</option>');
+                            })
+                        },
+
+                        error: function (error) {
+                            alert("Fallo");
+                        }
+                    });
+                }
+
+                $(function () {
+                    $("#fecha").datepicker({
+                        format: 'dd/mm/yyyy',
+                        daysOfWeekDisabled: false
+
+                    });
+                })
+                //function usuarios(data) {
+                //    $.ajax({
+                //        type: "POST",
+                //        dataType: "JSON",
+                //        url: '/EstadosPagos/GetUsuarios',
+                //        data: { 'n': data },
+                //        success: function (data) {
+                //            $.each(data, function (i, v) {
+                //                dataSet.push([v.Name]);
+                //            })
+                //            table = $('#example').DataTable({
+                //                "language": {
+                //                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                //                    "zeroRecords": "No se han encontrado registros.",
+                //                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                //                    "infoEmpty": "No hay datos para mostrar",
+                //                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                //                    "search": "Filtrar:",
+                //                    "paginate": {
+                //                        "first": "Primero",
+                //                        "last": "Ultimo",
+                //                        "next": "Siguiente",
+                //                        "previous": "Anterior"
+                //                    }
+                //                },
+                //                data: dataSet,
+                //                columns: [
+                //                    { title: "Accion" },
+                //                    { title: "Nombre" },
+                //                    {
+                //                        title: "Acción",
+                //                        "render": function (Id) {
+                //                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                //                                "<text class='hidden-xs'>Editar </text>" +
+                //                                "<span class='glyphicon glyphicon-pencil'></span>" +
+                //                                "</a>";
+                //                        }
+                //                    }
+                //                ],
+
+                //                'select': {
+                //                    'style': 'os',
+                //                    'selector': 'td:first-child'
+                //                }
+                //            });
+                //        },
+
+                //        error: function (error) {
+                //            alert("Fallo");
+                //        }
+                //    });
+                //}
+
+                //$('#example').on('click', 'td.select-checkbox', function () {
+                //    var td = $(this);
+                //    var tr = td.closest('tr');
+
+                //    $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
+                //    cedu = tr.find('td:eq(1)').text();
+                //    $('#Tabla_Usuarios').hide();
+                //});
+                var table;
+                var dataSet = [];
+                function pagos() {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/EstadosPagos/GetEstados',
+                        success: function (data) {
+                            $.each(data, function (i, v) {
+                                var date = new Date(parseInt(v.Fecha.substr(6)));
+                                dataSet.push([v.Usuario, date.toLocaleDateString("en-GB"), v.Total, v.TipoPago, v.Estado, v.Id]);
+                            })
+                            table = $('#pagos').DataTable({
+                                "language": {
+                                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                                    "zeroRecords": "No se han encontrado registros.",
+                                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                                    "infoEmpty": "No hay datos para mostrar",
+                                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                                    "search": "Filtrar:",
+                                    "paginate": {
+                                        "first": "Primero",
+                                        "last": "Ultimo",
+                                        "next": "Siguiente",
+                                        "previous": "Anterior"
+                                    }
+                                },
+                                data: dataSet,
+                                columns: [
+                                    { title: "Usuario" },
+                                    { title: "Fecha" },
+                                    { title: "Total" },
+                                    { title: "TipoPago" },
+                                    { title: "Estado" },
+                                    {
+                                        title: "Acción",
+                                        "render": function (Id) {
+                                            return "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
+                                                "<text class='hidden-xs'>Ver </text>" +
+                                                "<span class='glyphicon glyphicon-list'></span>" +
+                                                "</a>";
+                                        }
+                                    }
+                                ],
+
+                                'select': {
+                                    'style': 'os',
+                                    'selector': 'td:first-child'
+                                }
+                            });
+                        },
+
+                        error: function (error) {
+                            alert("Fallo");
+                        }
+                    });
+                }
+
+            });
+        </script>
+
+    }
+

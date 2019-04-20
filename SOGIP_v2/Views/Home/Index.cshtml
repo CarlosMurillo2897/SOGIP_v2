@@ -2,8 +2,95 @@
     ViewBag.Title = "Inicio";
 }
 
-    @Styles.Render("~/Content/Home.css")
+@Styles.Render("~/Content/Home.css")
 
-    @* Acá debe ir el carrusel. *@
 
-    <header></header>
+@* Acá debe ir el carrusel. *@
+<div class="bs-example">
+    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <!-- Carousel indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <!-- Wrapper for carousel items -->
+        <div class="carousel-inner" id="carousel-inner">
+            <div class="item active" id="1">
+                <img src="" id="one">
+            </div>
+            @*<div class="item" id="2">
+            <img alt="Second Slide" id="two">
+        </div>
+        <div class="item" id="3">
+            <img src="~/C" alt="Third Slide" id="three">
+        </div>*@
+        </div>
+        <!-- Carousel controls -->
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev" style="background:none !important">
+            <span class="glyphicon glyphicon-chevron-left"></span>
+        </a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="next" style="background:none !important">
+            <span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var div = document.getElementById("carousel-inner");
+        carga();
+       // var img = null;
+        function carga() {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/Actividad/images",
+                success: function (data) {
+                    console.log(data.length);
+                    if (data.length < 2) {
+                        document.getElementById("one").src = data[0].Contenido;
+                    }
+                    else if (data.length < 3) {
+                        document.getElementById("one").src = data[0].Contenido;
+                        var divAct2 = document.createElement("div");
+                        divAct2.className = "item";
+                        var img2 = document.createElement("img");
+                        img2.src = data[1].Contenido;
+                        divAct2.appendChild(img2);
+
+                        div.appendChild(divAct2);
+                    }
+                        
+                    else {
+                        document.getElementById("one").src = data[0].Contenido;
+
+                        var divAct2 = document.createElement("div"); //div2
+                        divAct2.className = "item";
+                        var img2 = document.createElement("img");
+                        img2.src = data[1].Contenido;
+                        divAct2.appendChild(img2);
+
+                        var divAct3 = document.createElement("div"); //div3
+                        divAct3.className = "item";
+                        var img3 = document.createElement("img");
+                        img3.src = data[2].Contenido;
+                        divAct3.appendChild(img3);
+                        
+                        
+                       
+                        div.appendChild(divAct2);
+                        div.appendChild(divAct3);
+                    }
+
+                        },
+                error: function (error) {
+                    alert("Error");
+                }
+            })
+        }
+    });
+
+
+
+</script>

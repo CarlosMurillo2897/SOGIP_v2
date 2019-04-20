@@ -8,6 +8,7 @@
     FetchEventAndRenderCalendar();
     cedus();
     checks();
+    checkTime();
 
     function cedus() {
 
@@ -388,28 +389,79 @@
         SaveDate(data);
     })
 
-    function checks() {
-        $('#inbodyCheck, #rutinaCheck ').change(function () {
+
+    function checkTime() {
+
+        $('#txtHora').on('change', function () {
+
+            $('#inbodyCheck').prop('disabled', false);
+            $('#rutinaCheck').prop('disabled', false);
+
             var startTime = $('#txtHora').timepicker('getTime');
+            //var nu = new Date(startTime.getTime() + 60 * 60000);
+
+            var ampm = (startTime.getHours() > 12) ? 'pm' : 'am';
+            var num = (startTime.getHours() + 1) % 12;
+            var conv = num.toString() + ":00" + ampm;
+            console.log(conv);
+
+            for (var i = 0; i < hours.length; i++) {
+                if (hours[i][0] == conv) {
+                    $('#rutinaCheck').prop('disabled', true);
+                    break;
+                }
+                else {
+                    console.log("2");
+                }
+            }
 
             if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == true) {
-                var endTime = new Date(startTime.getTime() + 110 * 60000);   // add 30 minutes
+                var endTime = new Date(startTime.getTime() + 110 * 60000);   // ambas
                 $('#txtHoraF').timepicker('setTime', endTime);
             }
 
             else if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == true) {
-                var endTime = new Date(startTime.getTime() + 90 * 60000);   // add 30 minutes
+                var endTime = new Date(startTime.getTime() + 90 * 60000);   // rutina
                 $('#txtHoraF').timepicker('setTime', endTime);
             }
 
             else if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == false) {
-                var endTime = new Date(startTime.getTime() + 20 * 60000);   // add 30 minutes
+                var endTime = new Date(startTime.getTime() + 20 * 60000);   // inbody
+                $('#txtHoraF').timepicker('setTime', endTime);
+            }
+        });
+
+
+
+    }
+
+    function checks() {
+
+        $('#inbodyCheck, #rutinaCheck ').change(function () {
+
+            var startTime = $('#txtHora').timepicker('getTime');
+
+            if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == true) {
+                var endTime = new Date(startTime.getTime() + 110 * 60000);   // ambas
+                $('#txtHoraF').timepicker('setTime', endTime);
+            }
+
+            else if ($('#inbodyCheck').is(':checked') == false && $('#rutinaCheck').is(':checked') == true) {
+                var endTime = new Date(startTime.getTime() + 90 * 60000);   // rutina
+                $('#txtHoraF').timepicker('setTime', endTime);
+            }
+
+            else if ($('#inbodyCheck').is(':checked') == true && $('#rutinaCheck').is(':checked') == false) {
+                var endTime = new Date(startTime.getTime() + 20 * 60000);   // inbody
                 $('#txtHoraF').timepicker('setTime', endTime);
             }
             else {
                 $('#txtHoraF').timepicker('setTime', null);
                 $('#txtHora').timepicker('setTime', null);
+                $('#inbodyCheck').prop('disabled', true);
+                $('#rutinaCheck').prop('disabled', true);
             }
+
             $('#inbodyCheck').val($(this).is(':checked'));
             $('#rutinaCheck').val($(this).is(':checked'));
 

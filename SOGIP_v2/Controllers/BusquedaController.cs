@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace SOGIP_v2.Controllers
 {
+    [Authorize(Roles = "Administrador,Supervisor")]
     public class BusquedaController : Controller
     {
 

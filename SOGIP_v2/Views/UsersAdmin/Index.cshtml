@@ -41,7 +41,7 @@
                             </div>
                             <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
                                 <strong> @item.Cedula</strong><br>
-                                @if((string)ViewData[item.Id] == "Seleccion/Federacion" || (string)ViewData[item.Id] == "Asociacion/Comite")
+                                @if ((string)ViewData[item.Id] == "Seleccion/Federacion" || (string)ViewData[item.Id] == "Asociacion/Comite")
                                 {
                                     if (ViewData["Asociación" + item.Id] != null)
                                     {
@@ -51,7 +51,7 @@
                                     {
                                         <strong>@ViewData["Selección" + item.Id]</strong><br>
                                     }
-                                    @*if (ViewData["Selección" + item.Id] == null && ViewData["Asociación" + item.Id] == null)*@
+
                                 }
                                 else
                                 {
@@ -108,13 +108,18 @@
                                                             <dt>Categoría: </dt>
                                                             <dd>@sub</dd>
                                                          }
-
                                                     }
                                                     @if (ViewData["Asociación" + item.Id] != null)
                                                     {
                                                         <dt>Asociación: </dt>
                                                         <dd>@ViewData["Asociación" + item.Id]</dd>
                                                     }
+                                                    @if (ViewData["Entidad" + item.Id] != null)
+                                                    {
+                                                        <dt>Entidad Pública: </dt>
+                                                        <dd>@ViewData["Entidad" + item.Id]</dd>
+                                                    }
+
 
                                                     <dt>Nombre:</dt>
                                                     <dd>@item.Nombre1</dd>
@@ -166,6 +171,13 @@
                                                             <tr>
                                                                 <td>Asociación/Comité: </td>
                                                                 <td>@ViewData["Asociación" + item.Id]</td>
+                                                            </tr>
+                                                        }
+                                                        @if (ViewData["Entidad" + item.Id] != null)
+                                                        {
+                                                            <tr>
+                                                                <td>Entidad Pública: </td>
+                                                                <td>@ViewData["Entidad" + item.Id]</td>
                                                             </tr>
                                                         }
 

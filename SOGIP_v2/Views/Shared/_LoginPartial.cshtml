@@ -82,6 +82,12 @@
                                     <span class="glyphicon glyphicon-scale"></span> Máquina
                                 </a>
                             </li>
+                            <li class="divider"></li>
+                            <li role="presentation">
+                                <a href="~/EstadosPagos/Index/">
+                                    <span class="glyphicon glyphicon-file"></span> Pagos
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -100,14 +106,18 @@
                                     <span class="glyphicon glyphicon-calendar"></span> Reservaciones
                                 </a>
                             </li>
+                            <li role="presentation">
+                                <a href="~/Actividad/Create/">
+                                    <span class="glyphicon glyphicon-dashboard"></span> Actividades
+                                </a>
+                            </li>
                         </ul>
                     </li>
-                    @*
                     <li>
                         <a href="~/Busqueda/Index">
                             <span class="glyphicon glyphicon-search"></span> Búsqueda
                         </a>
-                    </li>*@
+                    </li>
                     <li>
                         <a href="~/AtletasAsignados/Index">
                             <span class="glyphicon glyphicon-list-alt"></span> Funcionarios
@@ -157,17 +167,17 @@
                             <span class="glyphicon glyphicon-calendar"></span> Reservaciones
                         </a>
                     </li>
-                }               
-                 
-                    @if (User.IsInRole("Seleccion/Federacion") || User.IsInRole("Asociacion/Comite") || User.IsInRole("Entrenador"))
-                    {
-                        <li role="presentation">
-                            <a href="~/AtletasAsignados/Index">
-                                <span class="glyphicon glyphicon-list-alt"></span> Atletas
-                            </a>
-                        </li>
-                    }
-                </ul>
+                }
+
+                @if (User.IsInRole("Seleccion/Federacion") || User.IsInRole("Asociacion/Comite") || User.IsInRole("Entrenador"))
+                {
+                    <li role="presentation">
+                        <a href="~/AtletasAsignados/Index">
+                            <span class="glyphicon glyphicon-list-alt"></span> Atletas
+                        </a>
+                    </li>
+                }
+            </ul>
             }
                 
             <ul class="nav navbar-nav navbar-right">

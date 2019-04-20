@@ -83,7 +83,19 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<Reservacion>().ToTable("SOGIP_Reservacion");
 
             modelBuilder.Entity<SubSeleccion>().ToTable("SOGIP_SubSeleccion");
+
             modelBuilder.Entity<TipoME>().ToTable("SOGIP_TipoME");
+
+            modelBuilder.Entity<EstadosPagos>().ToTable("SOGIP_EstadosPagos");
+            modelBuilder.Entity<ListaPagos>().ToTable("SOGIP_ListaPagos");
+            modelBuilder.Entity<PagoUsuario>().ToTable("SOGIP_PagoUsuario");
+            modelBuilder.Entity<TipoPago>().ToTable("SOGIP_TipoPago");
+            
+           
+           
+
+            modelBuilder.Entity<Actividad>().ToTable("SOGIP_Actividad");
+
 
 
         }
@@ -141,6 +153,16 @@ namespace SOGIP_v2.Models
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.MaquinaEjercicio> MaquinaEjercicio { get; set; }
         public System.Data.Entity.DbSet<SOGIP_v2.Models.TipoME> TipoME { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.EstadosPagos> EstadosPagos { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.ListaPagos> ListaPagos { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.PagoUsuario> PagoUsuario { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.TipoPago> TipoPago { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.Actividad> Actividad { get; set; }
 
     }
 

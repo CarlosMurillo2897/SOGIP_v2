@@ -1,0 +1,185 @@
+﻿@model SOGIP_v2.Models.Actividad
+
+@{
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    ViewBag.Title = "Actividades";
+    ViewBag.Control = "Actividad";
+    ViewBag.ControlIcono = "glyphicon-tree-deciduous";
+
+    // Si existe un Método se dispone el nombre del Método en que se encuentra y el ícono que se mostrará.
+    ViewBag.Metodo = "Create";
+    ViewBag.MetodoIcono = "glyphicon-edit";
+
+
+
+
+
+
+    @Styles.Render("~/Content/fullcalendar.css")
+    @Styles.Render("~/Contents/bootstrap-datepicker.css")
+    @Styles.Render("~/Content/jquery.timepicker.css")
+    @Styles.Render("~/Content/actividades.css")
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
+    <script src="~/Scripts/bootstrap.min.js"></script>
+}
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                <button id="botón" type="button" class="btn btn-warning btn-block">
+                    <text id="texto">Nueva Actividad</text>
+                    <span id="icono" class="glyphicon glyphicon-search"></span>
+                </button>
+            </div>
+        </div>
+
+        <div id="calendar"></div>
+        @*modal de reservaciones*@
+        <div id="myModalSave" class="modal fade bd-example-modal-lg" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content col-md-12" style="align-content:center">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 id="nueva" class="modal-title">NUEVA ACTIVIDAD </h4>
+                        <a id="ayuda" class="btn btn-info" data-toggle="popover" title="¿Cómo funciona?" data-content="Llene los campos obligatorios (*) titulo, lugar, fecha, hora inicio y hora final, luego guarde los cambios. Los campos como descripción e imagen son opcionales">
+                            <span class="glyphicon glyphicon-question-sign"></span> Ayuda
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal">
+                            <input type="hidden" id="hdEventID" value="0" />
+                            <div class="row ">
+                                <div class=" form-group col-lg-6 col-md-6 col-sm-6">
+                                    <div class="row col-lg-10">
+                                        <label>Titulo (*)</label>
+                                        <input type="text" class="form-control" id="titulo" required="required" />
+                                    </div>
+
+                                    <div class="row col-lg-10">
+                                        <label>Lugar (*)</label>
+                                        <input type="text" class="form-control" id="lugar" required />
+
+                                    </div>
+
+                                    <div class="row col-lg-10">
+                                        <label>Descripción</label>
+                                        <textarea asp-for="Descripcion" class="form-control" id="descripcion"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class=" form-group col-lg-6 col-md-6 col-sm-6">
+                                    <div class="col-xs-12 col-md-10 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                                        <!-- image-preview-filename input [CUT FROM HERE]-->
+                                        <label>Agregar Imagen</label>
+                                        <div class="input-group image-preview">
+                                            <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                                            <span class="input-group-btn">
+                                                <!-- image-preview-clear button -->
+                                                <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
+                                                    <span class="glyphicon glyphicon-remove"></span> Limpiar
+                                                </button>
+                                                <!-- image-preview-input -->
+                                                <div class="btn btn-default image-preview-input">
+                                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                                    <span class="image-preview-input-title">Buscar</span>
+                                                    <input type="file" id="archivo" accept="" name="input-file-preview" /> <!-- rename it -->
+                                                </div>
+                                            </span>
+                                        </div><!-- /input-group image-preview [TO HERE]-->
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            @*DÍAS DE LA ACTIVIDAD *@
+                            <div class="row">
+                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                    <label>Fecha (*)</label>
+                                    <div class="input-group date" id="dtp1">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                        <input type="text" id="txtStart" class="form-control" readonly="readonly" />
+                                    </div>
+                                </div>
+                                @*HORARIOS*@
+                                <div class="form-group col-lg-1 col-md-1 col-sm-1">
+
+                                </div>
+
+                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                    <label>Hora Inicio (*)</label>
+                                    <div class="input-group date" id="dtp3">
+                                        <span id="FT" class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                        <input class="timepicker form-control" value="" id="txtHoraI" type="text" name="1">
+                                    </div>
+                                </div>
+                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                    <label>Hora Final (*)</label>
+                                    <div class="input-group date" id="dtp2">
+                                        <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+                                        <input class="timepicker form-control" value="" id="txtHoraF" type="text" name="1">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            <div class="modal-footer">
+                                <button type="button" id="btnSave" class="btn btn-primary">Guardar Cambios</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @*modal para ver las actividades*@
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title"><b><span id="eventTitle"></span></b></h4>
+                    </div>
+                    <div class="modal-body">
+
+                        <p id="pDetails"></p>
+                    </div>
+                    <div class="modal-footer">
+
+                        @*<button id="btnDelete" class="btn btn-warning  mr-auto">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            Eliminar
+                        </button>
+                        <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            Editar
+                        </button>*@
+
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/jquery.min.js")
+    @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
+    @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
+    @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
+    @Scripts.Render("~/Scripts/bootstrap.js")
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/jquery.timepicker.js")
+    @Scripts.Render("~/Scripts/fullCalendar/actividades.js")
+    @Scripts.Render("~/Scripts/bootbox.min.js")
+
+
+
+}
+
+
+
