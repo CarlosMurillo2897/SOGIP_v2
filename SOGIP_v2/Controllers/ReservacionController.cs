@@ -30,6 +30,7 @@ namespace SOGIP_v2.Controllers
         public ActionResult Create()
         {
             string userid = HttpContext.User.Identity.GetUserId();
+            ViewBag.idUsuario = userid;
             ApplicationUser User = db.Users.Single(x => x.Id == userid);
             ApplicationUserManager userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(db));
             var rol = userManager.GetRoles(User.Id);

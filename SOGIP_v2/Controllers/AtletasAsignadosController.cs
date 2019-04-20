@@ -74,11 +74,32 @@ namespace SOGIP_v2.Controllers
                                    Apellido2 = a.Usuario.Apellido2,
                                    Id = a.Usuario.Id,
                                    Seleccion = sub.Seleccion.Nombre_Seleccion,
+                                   Rol = "Atleta",
                                    Categoria = c.Descripcion
-                                   // Categoria = sub.Categoria_Id.Descripcion
                                };
-            var aux = consulta.ToList();
-            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+
+            var traineers = from sub in db.SubSeleccion
+                           from u in db.Users
+                           from c in db.Categorias
+                           where 
+                           sub.Seleccion.Usuario.Id == usuarioId 
+                           && sub.Entrenador != null 
+                           && sub.Entrenador.Id == u.Id
+                           && sub.Categoria_Id.CategoriaId == c.CategoriaId
+                           select new
+                           {
+                               Cedula = u.Cedula,
+                               Nombre = u.Nombre1 + " " + u.Nombre2,
+                               Apellido1 = u.Apellido1,
+                               Apellido2 = u.Apellido2,
+                               Id = u.Id,
+                               Seleccion = sub.Seleccion.Nombre_Seleccion,
+                               Rol = "Entrenador",
+                               Categoria = c.Descripcion
+                           };
+
+            var list = Enumerable.Union(consulta, traineers).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetUsuariosEntrenador(string usuarioId)

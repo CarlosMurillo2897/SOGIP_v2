@@ -1,7 +1,14 @@
 ﻿@using Microsoft.AspNet.Identity
 @using App.Extensions
+
 @{
-    ViewBag.Title = "Index";
+
+    ViewBag.Title = "Usuarios Asignados";
+
+    ViewBag.Referencia_Controlador_1 = "AtletasAsignados";
+    ViewBag.Icono_Controlador_1 = "glyphicon-list-alt";
+    ViewBag.Nombre_Controlador_1 = "Usuarios Asignados";
+
 }
 
 @Styles.Render("~/Content/manual.css")
@@ -41,7 +48,7 @@
                 { data: "Cedula" },
                 { data: "Nombre" },
                 { data: "Apellido1" },
-                { data: "Apellido2" }         
+                { data: "Apellido2" }
             ];
 
             var head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr>';

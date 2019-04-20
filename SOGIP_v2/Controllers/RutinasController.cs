@@ -16,6 +16,7 @@ namespace SOGIP_v2.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Rutinas
+        [Authorize(Roles = "Administrador,Supervisor,Entrenador")]
         public ActionResult Index()
         {
             return View();
@@ -23,7 +24,6 @@ namespace SOGIP_v2.Controllers
 
         public JsonResult GetRutinas()
         {
-
             var Rutinas = db.Rutinas.Include("Usuario").ToList();
             return Json(Rutinas, JsonRequestBehavior.AllowGet);
 
@@ -81,6 +81,7 @@ namespace SOGIP_v2.Controllers
             }
             return Json(nueva, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult EditRutina(DateTime fecha, string obs, int id)
         {
             Rutina rutina = db.Rutinas.Single(x => x.RutinaId == id);
@@ -99,6 +100,7 @@ namespace SOGIP_v2.Controllers
             }
             return Json(rutina, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult DeleteRutina(int rutinaId)
         {
             var status = false;
@@ -118,6 +120,7 @@ namespace SOGIP_v2.Controllers
             }
             return new JsonResult { Data = new { status = status } };
         }
+
         public JsonResult GetEjercicio(string dia)
         {
 
@@ -129,6 +132,7 @@ namespace SOGIP_v2.Controllers
             return Json(getEjercicio, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Administrador,Supervisor,Entrenador")]
         public ActionResult Ejercicio(int? idRutina)
         {
             Rutina rutina = db.Rutinas.Include("Usuario").SingleOrDefault(x => x.RutinaId == idRutina);
@@ -146,7 +150,9 @@ namespace SOGIP_v2.Controllers
                     || x.DiaEjercicio == "Dia2" 
                     || x.DiaEjercicio == "Dia3" 
                     || x.DiaEjercicio == "Dia4" 
-                    || x.DiaEjercicio == "Dia5")).ToList();
+                    || x.DiaEjercicio == "Dia5"))
+                    .OrderBy(x => x.DiaEjercicio)
+                    .ToList();
 
                 ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
 
@@ -168,11 +174,13 @@ namespace SOGIP_v2.Controllers
             }
             return new JsonResult { Data = new { status = status } };
         }
+
         public JsonResult ObtenerEjer(int ejercicioId)
         {
             var ejercicio = db.Conjunto_Ejercicios.Where(a => a.Conjunto_EjercicioId == ejercicioId).FirstOrDefault();
             return Json(ejercicio, JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult EditEjer(Conjunto_Ejercicio data)
         {
             var status = false;
@@ -195,7 +203,6 @@ namespace SOGIP_v2.Controllers
                 status = true;
             }
             return new JsonResult { Data = new { status = status } };
-
         }
 
         [HttpPost]
@@ -235,6 +242,7 @@ namespace SOGIP_v2.Controllers
             return new JsonResult { Data = new { status = status } };
         }
 
+        [Authorize(Roles = "Administrador,Supervisor,Entrenador,Atleta,Atleta Becados,Funcionarios ICODER")]
         public ActionResult ListaEjercicio(int? id, string idUsuario)
         {
             if (id != null)
@@ -250,7 +258,9 @@ namespace SOGIP_v2.Controllers
                     || x.DiaEjercicio == "Dia2" 
                     || x.DiaEjercicio == "Dia3" 
                     || x.DiaEjercicio == "Dia4" 
-                    || x.DiaEjercicio == "Dia5")).ToList();
+                    || x.DiaEjercicio == "Dia5"))
+                    .OrderBy(x => x.DiaEjercicio)
+                    .ToList();
 
                 ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
             }
@@ -258,7 +268,7 @@ namespace SOGIP_v2.Controllers
             if (idUsuario != null)
             {
                 Rutina rutina = db.Rutinas.Include("Usuario").FirstOrDefault(x => x.Usuario.Id == idUsuario);
-                
+                ViewBag.idUsuario = idUsuario;
 
                 if (rutina != null)
                 {

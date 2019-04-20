@@ -31,7 +31,7 @@ function cargarDatos(select) {
 
         var table = $('<table/>', {
             id: 'example',
-            class: 'table-striped',
+            class: 'table table-bordered table-striped',
             width: '100%'
         }).append(header);
 
@@ -170,7 +170,7 @@ function tablaUsuarios(id) {
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
                     "zeroRecords": "No se han encontrado resultados.",
-                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                    "info": "Mostrando _START_ de _END_, de un total de _TOTAL_ registros.",
                     "infoEmpty": "No hay datos para mostrar",
                     "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
                     "search": "Filtrar:",
@@ -337,7 +337,7 @@ function llenarTablaArchivos() {
             "language": {
                 "lengthMenu": "Mostrando _MENU_ resultados por página.",
                 "zeroRecords": "No se han encontrado registros.",
-                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                "info": "Mostrando _START_ de _END_, de un total de _TOTAL_ registros.",
                 "infoEmpty": "No hay datos para mostrar",
                 "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
                 "search": "Filtrar:",
@@ -351,7 +351,8 @@ function llenarTablaArchivos() {
             "ajax": {
                 "url": "/ExpedientesFisicos/ObtenerArchivos",
                 "type": "GET",
-                "dataSrc": ""
+                "dataSrc": "",
+                "data": {"filtro": 0}
             },
             columns: [
                 { data: "Nombre" },
@@ -359,16 +360,21 @@ function llenarTablaArchivos() {
                 { data: "Usuario" },
                 {
                     data: "Id",
-                    "render": function (Id) {
-                        return "<a class='btn btn-danger' id='boton_" + Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
+                    "render": function (data, type, row) {
+                        var Id = row.Id;
+                        var action='';
+                        if (row.Usuario.split(' ')[0] === '000000000' && row.Tipo === 'INGRESO MASIVO') {
+                            Id = 0;
+                        }
+                        return "<a class='btn btn-danger' id='boton_" + row.Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
                                     "<text class='hidden-xs'>Eliminar </text>" +
                                     "<span class='glyphicon glyphicon-minus-sign'></span>" +
                                 "</a>" +
-                                "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='EditarModal(this, " + Id + ");'>" +
+                                "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='EditarModal(this, " + row.Id + ");'>" +
                                     "<text class='hidden-xs'>Editar </text>" +
                                     "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>" +
-                                "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
+                                "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + row.Id + "' style='padding: 2px 6px; margin: 2px;'>" +
                                     "<text class='hidden-xs'>Descargar </text>" +
                                     "<span class='glyphicon glyphicon-download'></span>" +
                                 "</a>";
@@ -418,6 +424,10 @@ function EditarModal(element, id) {
 
 function EliminarArchivo(id) {
     var tr = $('#boton_' + id).closest('tr');
+    if (id === 0) {
+        alert('Archivo predeterminado, no se puede borrar.');
+        return;
+    }
 
     $.ajax({
         type: "POST",

@@ -19,7 +19,7 @@ use "SOGIP_v3"
  Rol = Funcionario ICODER		|	 User = 205940271	|	 Password = JuAr2059051984	|	Id = c6d47fdc-c219-4d7f-b613-0aca0c812a29
  Rol = Entidades Públicas		|	 User = 110530938	|	 Password =	AlNa1105111979	|	Id = 31788f50-c82b-4a6a-9cf5-1a5a4d721e2b
  Rol = Asociación/Comité		|	 User = 123456789	|	 Password = KiDí1234081997	|	Id = 0aed3613-00da-4867-b2b5-9a46569590bb
- Rol = Usuario Externo			|	 User = 			|	 Password =					|	Id =
+ Rol = Usuario Externo			|	 User = 			|	 Password =					|	Id = 
 
  select SOGIP_Users.Id, Cedula, Nombre1, Nombre2, Apellido1, Fecha_Nacimiento, SOGIP_Roles.Name, SOGIP_Roles.Id
  from 
@@ -32,11 +32,17 @@ use "SOGIP_v3"
 
  select * from SOGIP_Archivo;
  select * from SOGIP_Asociacion_Deportiva;
+
  select * from SOGIP_ListaPagos
  select * from SOGIP_EstadosPagos
  select * from SOGIP_Atletas where usuario_id=;
+
+ select * from SOGIP_Atletas;
+
  select * from SOGIP_Categorias;
+delete from sogip_categorias where categoriaid>6
  select * from SOGIP_Color;
+delete from SOGIP_Color where colorid>7
  select * from SOGIP_Cita;
  select * from SOGIP_Conjunto_Ejercicio;
  select * from SOGIP_Deportes;
@@ -58,15 +64,28 @@ use "SOGIP_v3"
  select * from SOGIP_UserRoles
 		where RoleId='4';
 
+304270289
+HuLo3042041988
+
 
  select * from SOGIP_Users where Id='0c3fe9ea-2e80-4d7b-b8d2-1158f6c1b824' order by Cedula;
  select * from sogip_atletas where atletaid > 11;
  select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol where u.Id=r.Userid and r.roleid=rol.id and (r.roleid='5' or r.roleid='6');
 
+ select u.Id, u.Nombre1, u.Nombre2, u.Apellido1, rol.name
+ from SOGIP_Users as u, sogip_userRoles as r, sogip_roles as rol
+ where u.Id = r.Userid
+ and r.roleid = rol.id
+ and (r.roleid='5' or r.roleid='6');
+
+
  1: 914db4cb-8e02-4476-9e42-31befefd7a0e
  2: de8b4ac7-40a3-4b23-aa2b-28ae9fcb9253
  3: 137feecf-2c48-4e86-8b79-5906b0057c70
- 4: 9d9d279f-016a-47e9-bf70-9ed4a4754de5
+
+
+
+ 4: 9d9d279f-016a-47e9-bf70-9ed4a4754de5 // Desconocido
  5: 7440f3c4-3528-4606-9bc8-501ad8f15b51
  6: 377e1527-58bb-40dc-a873-f88d4a1c1fcf
  7: 2f3a289f-6370-4524-a21a-c72d5f5699e4 // Desconocido
@@ -77,7 +96,7 @@ use "SOGIP_v3"
 
  delete from SOGIP_Archivo;
  delete from SOGIP_Asociacion_Deportiva;
- delete from SOGIP_Atletas;
+ delete from SOGIP_Atletas where AtletaId =14;
  delete from SOGIP_Categorias;
  delete from SOGIP_Cita;
  delete from SOGIP_Color;
@@ -128,14 +147,14 @@ use "SOGIP_v3"
 
 */
 
-DECLARE @sql varchar(200);
+DECLARE @sql varchar(300);
 DECLARE @VARIABLEACAMBIAR varchar(100);
 
 -- *************************** SE DEBE CAMBIAR LA SIGUIENTE VARIABLE*********************************************************
 -- *************************** OSEA, @VARIABLEACAMBIAR POR LA DIRECCIÓN *********************************************************
 -- *************************** DONDE ESTÉ EL PROYECTO SOGIP_V2 *********************************************************
 -- *************************** Y DENTRO DE ESTA CARPETA LA CARPETA SCRIPT_BD *********************************************************
-set @VARIABLEACAMBIAR = 'C:\Users\CCM\Documents\GitHub\SOGIP_v2\script_BD'
+set @VARIABLEACAMBIAR = 'C:\Users\402360192\Documents\GitHub\SOGIP_v2\script_BD';
 -- ************************************************************************************
 -- ************************************************************************************
 
@@ -186,6 +205,11 @@ set @sql = 'BULK INSERT SOGIP_Atletas FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Atletas
 exec (@sql)
 -- 11 rows
 
+set @sql = 'BULK INSERT SOGIP_Entidad_Publica FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Entidades.csv'' WITH(codepage = ''ACP'', datafiletype =''char'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+-- 01 rows
+
+
 set @sql = 'BULK INSERT SOGIP_Rutina FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Rutina.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 -- 6 rows
@@ -229,6 +253,12 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_ListaPagos FROM '''+@VARIABLEACAMBIAR+'\SOGIP_ListaPagos.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
+
+
+set @sql = 'INSERT into sogip_archivo(Nombre, Contenido, Tipo_TipoId, Usuario_Id) SELECT ''Masivo_Original.xlsx'', Contenido.*, 6, ''8f9c47bf-edbd-40bf-9b5e-f753dd81a766'' FROM OPENROWSET (BULK  '''+@VARIABLEACAMBIAR+'\Ingreso_Masivo_Original.xlsx'', SINGLE_BLOB) Contenido;';
+exec (@sql)
+
+insert into SOGIP_Entidad_Publica values(71,'31788f50-c82b-4a6a-9cf5-1a5a4d721e2b');
 
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++

@@ -1,14 +1,20 @@
 ﻿@model SOGIP_v2.Models.EditUserViewModel
+
 @using Microsoft.AspNet.Identity
 @using App.Extensions
 
 @{
     ViewBag.Title = "Perfil";
+    ViewBag.Referencia_Controlador_1 = "Account";
+
+
+    ViewBag.Referencia_Metodo_1 = "Perfil?id=" + ViewBag.idUsuario;
+    ViewBag.Icono_Metodo_1 = "glyphicon-picture";
+    ViewBag.Nombre_Metodo_1 = "Perfil";
 
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
     @Styles.Render("~/Content/jquery.timepicker.css")
     @Styles.Render("~/Content/Perfil.css")
-
 
     List<SelectListItem> Sexo = new List<SelectListItem>();
     Sexo.Add(new SelectListItem
@@ -33,392 +39,440 @@
     {
         aux = "Atletas";
     }
-    
-    var dis = "";
-    var inactivo = false;
-    if (ViewBag.usuario_Actual != "Administrador" && ViewBag.usuario_Actual != "Supervisor")
-    {
-        dis = "disabled";
-        inactivo = true;
-    }
+
 }
 
-    <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-    <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/select.bootstrap4.min.css" rel="stylesheet" />
 
-    <style>
-        li {
-            overflow-wrap: break-word;
-        }
-        .recargar {
-            cursor: pointer;
-            font-size: 30px;
-        }
-        /*
-        .inactivo {
-            cursor: not-allowed;
-            pointer-events: none;
-        }*/
-    </style>
-    <div class="container-fluid" style="min-height: 369px;">
-        
-        <div class="well">
-            <div class="row">
-                <div class="col-sm-3">
-                    <ul class="list-group">
+<script>
+    @*var info = @Html.Raw(Json.Encode(ViewBag.CategoriasSeleccion));
+    var array = [];
+    for (var i = 0; i < info.length; i++) {
+        array[i] = info[i].Categoria_Id.Descripcion;
+    };*@
+</script>
+<style>
+    li {
+        overflow-wrap: break-word;
+    }
+    .recargar {
+        cursor: pointer;
+        font-size: 30px;
+    }
+</style>
+<div class="container-fluid" style="min-height: 369px;">
+    <div class="well">
+        <div class="row">
+            <div class="col-sm-3">
+                <ul class="list-group">
+                    @if (Model.Sexo == true)
+                    {
                         <li class="list-group-item text-center">
                             <img class="img-circle" id="Comprobado-1" src="~/Content/Imagenes/M.png" style="width: 90px; height: 90px;" alt="User Pic">
                         </li>
+                    }
+                    else
+                    {
+                        <li class="list-group-item text-center">
+                            <img class="img-circle" id="Comprobado-1" src="~/Content/Imagenes/W.png" style="width: 90px; height: 90px;" alt="User Pic">
+                        </li>
+                    }
+                    <li class="list-group-item text-right">
+                        <span class="pull-left">
+                            <strong>Cédula</strong>
+                        </span>
+                        @Model.Cedula
+                    </li>
+                    <li class="list-group-item text-right">
+                        <span class="pull-left">
+                            <strong>Rol</strong>
+                        </span>
+                        @ViewBag.Role
+                        <input type="hidden" id="role" value="@ViewBag.Role" />
+                    </li>
+                    @if (ViewBag.Entidad != null)
+                    {
                         <li class="list-group-item text-right">
                             <span class="pull-left">
-                                <strong>Cédula</strong>
+                                <strong>Entidad</strong>
                             </span>
-                            @Model.Cedula
+                            @ViewBag.Entidad
                         </li>
+                    }
+                    @if (ViewBag.Categoria != null)
+                    {
                         <li class="list-group-item text-right">
                             <span class="pull-left">
-                                <strong>Rol</strong>
+                                <strong>Categoría</strong>
                             </span>
-                            @ViewBag.Role
-                            <input type="hidden" id="role" value="@ViewBag.Role" />
-                            <input type="hidden" id="invalid" value="@inactivo" />
+                            @ViewBag.Categoria
                         </li>
-                        @if (ViewBag.Entidad != null)
+                    }
+                    @if (ViewBag.CategoriasSeleccion != null)
+                    {
+                        var i = 1;
+                        foreach (var sub in ViewBag.CategoriasSeleccion)
                         {
                             <li class="list-group-item text-right">
                                 <span class="pull-left">
-                                    <strong>Entidad</strong>
+                                    <strong>Categoría #@i</strong>
                                 </span>
-                                @ViewBag.Entidad
+                                @sub.Categoria_Id.Descripcion
                             </li>
-                        }
-                        @if (ViewBag.Categoria != null)
-                        {
-                            <li class="list-group-item text-right">
-                                <span class="pull-left">
-                                    <strong>Categoría</strong>
-                                </span>
-                                @ViewBag.Categoria
-                            </li>
+                            i = i + 1;
                         }
 
-                        <li class="list-group-item text-right">
-                            <span class="pull-left">
-                                <strong>Nombre</strong>
-                            </span>
-                            @Model.Nombre1 @Model.Nombre2
-                        </li>
-                        <li class="list-group-item text-right">
-                            <span class="pull-left">
-                                <strong>Apellido</strong>
-                            </span>
-                            @Model.Apellido1 @Model.Apellido2
-                        </li>
-                        <li class="list-group-item text-right">
-                            <span class="pull-left">
-                                <strong>E-mail</strong>
-                            </span>
-                            @Model.Email
-                        </li>
-                    </ul>
-                    @*
-                    <ul class="list-group">
-                        <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-                        <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
-                    </ul>
-                    *@
+                    }
 
-                </div><!--/col-3-->
-                <div class="col-sm-9">
-                    <ul class="nav nav-tabs" id="myTab">
-                        <li class="active">
-                            <a href="#Información" class="seco" data-toggle="tab" title="Información">
-                                <text class="hidden-xs">Información</text>
-                                <span class="glyphicon glyphicon-user"></span>
+                    <li class="list-group-item text-right">
+                        <span class="pull-left">
+                            <strong>Nombre</strong>
+                        </span>
+                        @Model.Nombre1 @Model.Nombre2
+                    </li>
+                    <li class="list-group-item text-right">
+                        <span class="pull-left">
+                            <strong>Apellido</strong>
+                        </span>
+                        @Model.Apellido1 @Model.Apellido2
+                    </li>
+                    <li class="list-group-item text-right">
+                        <span class="pull-left">
+                            <strong>E-mail</strong>
+                        </span>
+                        @Model.Email
+                    </li>
+                </ul>
+            </div><!--/col-3-->
+            <div class="col-sm-9">
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active">
+                        <a href="#Información" class="seco" data-toggle="tab" title="Información">
+                            <text class="hidden-xs">Información</text>
+                            <span class="glyphicon glyphicon-user"></span>
+                        </a>
+                    </li>
+                    @if (ViewBag.Role == "Atleta" || ViewBag.Role == "Atleta Becados" || ViewBag.Role == "Funcionarios ICODER")
+                    {
+                        <li>
+                            <a href="#Rutinas" class="seco" data-toggle="tab" title="Rutinas">
+                                <text class="hidden-xs">Rutinas </text>
+                                <span class="glyphicon glyphicon-apple"></span>
                             </a>
                         </li>
-                        @if (ViewBag.Role == "Atleta" || ViewBag.Role == "Atleta Becados" || ViewBag.Role == "Funcionarios ICODER")
+                    }
+                    <li>
+                        <a href="#Archivos" class="seco" data-toggle="tab" title="Archivos" onclick="cargarArchivos('@Model.Id'); $(this).removeAttr('onclick');">
+                            <text class="hidden-xs">Archivos</text>
+                            <span class="glyphicon glyphicon-file"></span>
+                        </a>
+                    </li>
+                    <li>
+                        @if (aux != "")
                         {
-                            <li>
-                                <a href="#Rutinas" class="seco" data-toggle="tab" title="Rutinas">
-                                    <text class="hidden-xs">Rutinas </text>
-                                    <span class="glyphicon glyphicon-apple"></span>
-                                </a>
-                            </li>
-                        }
-
-                        <li>
-                            <a href="#Archivos" class="seco" data-toggle="tab" title="Archivos" onclick="cargarArchivos('@Model.Id'); $(this).removeAttr('onclick');">
-                                <text class="hidden-xs">Archivos</text>
-                                <span class="glyphicon glyphicon-file"></span>
+                            <a href="#Atletas" class="seco" data-toggle="tab" title="Usuarios Asignados" onclick="cargarAtletas('@Model.Id'); $(this).removeAttr('onclick');">
+                                <text class="hidden-xs">@aux</text>
+                                <span class="glyphicon glyphicon-list"></span>
                             </a>
-                        </li>
-                        <li>
-                            @if (aux != "")
-                            {
-                                <a href="#Atletas" class="seco" data-toggle="tab" title="Usuarios Asignados" onclick="cargarAtletas('@Model.Id'); $(this).removeAttr('onclick');">
-                                    <text class="hidden-xs">@aux</text>
-                                    <span class="glyphicon glyphicon-list"></span>
-                                </a>
-                            }
-                        </li>
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane" id="Rutinas">
+                        }
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="Rutinas">
+                        <h2>
+                            Rutinas
+                            <span class="pull-right">
+                                <a class="glyphicon glyphicon-refresh"></a>
+                            </span>
+                        </h2>
+                        <div class="table-responsive">
+
+                            <hr>
+                        </div><!--/table-resp-->
+                        <hr>
+                    </div><!--/tab-pane-->
+
+                    <div class="tab-pane" id="Archivos">
+                        <h2>
+                            Archivos
+                            <span class="pull-right">
+                                <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarArchivos('@Model.Id')"></span>
+                            </span>
+                        </h2>
+                        <hr />
+                        <div class="table-responsive" id="files">
+
+                        </div>
+
+                    </div><!--/tab-pane-->
+                    <div class="tab-pane" id="Atletas">
+                        @if (aux != "")
+                        {
                             <h2>
-                                Rutinas
+                                @aux
                                 <span class="pull-right">
-                                    <a class="glyphicon glyphicon-refresh"></a>
+                                    <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarAtletas('@Model.Id')"></span>
                                 </span>
                             </h2>
-                            <div class="table-responsive">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>Label 1</th>
-                                            <th>Label 2</th>
-                                            <th>Label 3</th>
-                                            <th>Label </th>
-                                            <th>Label </th>
-                                            <th>Label </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="items">
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                            <td>Table cell</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <hr>
-                            </div><!--/table-resp-->
-                            <hr>
-                        </div><!--/tab-pane-->
+                        }
+                        <hr />
+                        <div class="table-responsive" id="athletes">
 
-                        <div class="tab-pane" id="Archivos">
-                            <h2>
-                                Archivos
-                                <span class="pull-right">
-                                    <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarArchivos('@Model.Id')"></span>
-                                </span>
-                            </h2>
-                            <hr />
-                            @*<ul class="list-group">
-                                <li class="list-group-item text-muted">Inbox</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                            </ul>*@
-                            <div class="table-responsive" id="files">
-
-                            </div>
-
-                        </div><!--/tab-pane-->
-                        <div class="tab-pane" id="Atletas">
-                            @if (aux != "")
-                            {
-                                <h2>
-                                    @aux
-                                    <span class="pull-right">
-                                        <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarAtletas('@Model.Id')"></span>
-                                    </span>
-                                </h2>
-                            }
-                            <hr />
-                            @*<ul class="list-group">
-                                <li class="list-group-item text-muted">Inbox</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Here is your a link to the latest summary report from the..</a> 2.13.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Hi Joe, There has been a request on your account since that was..</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Nullam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Thllam sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Wesm sapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">For therepien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Also we, havesapien massaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                                <li class="list-group-item text-right"><a href="#" class="pull-left">Swedish chef is assaortor. A lobortis vitae, condimentum justo...</a> 2.11.2014</li>
-                            </ul>*@
-                            <div class="table-responsive" id="athletes">
-
-                            </div>
-
-                        </div><!--/tab-pane-->
-
-                        <div class="tab-pane active" id="Información">
-                            <h2>
-                                Información Personal
-                                <span id="infoP" class="pull-right glyphicon glyphicon-ok-sign recargar" style="color: rgb(92, 184, 92);" data-toggle="popover" data-html="true" title="<strong>Estado de los datos.</strong>" data-placement="left" data-content="<text style='color: green'>Todos los datos se encuentran correctos.</text>"></span>
-                            </h2>
-                            <hr>
-                            <form id="signupForm1" method="post" action="" novalidate="novalidate">
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <!--label class="control-label" for="ced">Cédula</label-->
-                                        <h4>Cédula</h4>
-                                        <div class="afect">
-                                            @*Html.TextBoxFor(m => m.Nombre1, new { @class="form-control", @id="firstname1", @name="firstname1", @placeholder="First name" })*@
-                                            <input type="text" class="form-control" id="ced" name="ced" placeholder="Digite su cédula." value="@Model.Cedula" @dis>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <h4>Primer Nombre</h4>
-                                        <div class="afect">
-                                            <input type="text" class="form-control" id="nom1" name="nom1" placeholder="Digite su primer nombre." value="@Model.Nombre1" @dis>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <h4>Segundo Nombre</h4>
-                                        <div class="afect">
-                                            <input type="text" class="form-control" id="nom2" name="nom2" placeholder="Digite su segundo nombre, si posee." value="@Model.Nombre2" @dis>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <h4>Primer Apellido</h4>
-                                        <div class="afect">
-                                            <input type="text" class="form-control" id="ape1" name="ape1" placeholder="Digite su primer apellido." value="@Model.Apellido1" @dis>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <h4>Segundo Apellido</h4>
-                                        <div class="afect">
-                                            <input type="text" class="form-control" id="ape2" name="ape2" placeholder="Digite su segundo apellido, si posee." value="@Model.Apellido2" @dis>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-6">
-                                        <h4>Email</h4>
-                                        <div class="afect">
-                                            <input type="text" class="form-control" id="email1" name="email1" placeholder="Email" value="@Model.Email" @dis>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-6">
-                                        <h4>Fecha de nacimiento </h4>
-                                        <div class="afect">
-                                            <div class="input-group date" id="dtp">
-                                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                <input class="form-control" type="text" id="nac" name="nac" value="@Model.Fecha_Nacimiento.ToShortDateString()" @dis/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="form-group col-md-3">
-                                        <h4>Género</h4>
-                                        <div class="afect">
-                                            <select class="form-control" id="gender" name="gender" required @dis>
-                                                <option value="">-- Seleccionar --</option>
-                                                @if (Model.Sexo == false)
-                                                {
-                                                    <option value="0" selected>Femenino</option>
-                                                    <option value="1">Masculino</option>
-                                                }
-                                                else
-                                                {
-                                                    <option value="0">Femenino</option>
-                                                    <option value="1" selected>Masculino</option>
-                                                }
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <h4>Contraseña</h4>
-                                        <div class="afect">
-                                            <input type="password" class="form-control" id="password1" name="password1" placeholder="Contraseña" @dis>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-5">
-                                        <h4>Restaurar contraseña predeterminada</h4>
-                                        <div class="afect">
-                                            <button class="btn btn-block btn-info" @dis>
-                                                Restaurar valor inicial <span class="glyphicon glyphicon-retweet"></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="row">
-                                    <div class="form-group">
-                                        <div class="col-md-6 col-md-offset-4">
-                                            <button type="submit" class="btn btn-lg btn-success" name="signup1" value="Sign up" @dis>
-                                                <text class="hidden-xs">Guardar</text>
-                                                <span class="glyphicon glyphicon-ok"></span>
-                                            </button>
-                                            <button type="reset" class="btn btn-lg btn-warning" name="reset" value="Reset" @dis>
-                                                <text class="hidden-xs">Limpiar</text>
-                                                <span class="glyphicon glyphicon-refresh"></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                     </div><!--/tab-pane-->
-                </div><!--/tab-content-->
-            </div>
+                    <div class="tab-pane active" id="Información">
+                        <h2>
+                            Información Personal
+                            <a id="infoP" class="pull-right" onclick='unlockForm("@ViewBag.rol_Usuario_Actual", "@ViewBag.usuario_Actual", "@Model.Cedula");'>
+                                Editar
+                                <span class="glyphicon glyphicon-lock recargar"></span>
+                            </a>
+                        </h2>
+                        <hr>
+                        <form id="signupForm1" method="post" action="" novalidate="novalidate">
+
+                            <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <h4>Cédula</h4>
+                                    <div class="afect">
+                                        <input type="text" class="form-control" id="Cedula" name="Cedula" placeholder="Digite su cédula." value="@Model.Cedula" disabled="disabled">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <h4>Primer Nombre</h4>
+                                    <div class="afect">
+                                        <input type="text" class="form-control" id="Nombre1" name="Nombre1" placeholder="Digite su primer nombre." value="@Model.Nombre1" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h4>Segundo Nombre</h4>
+                                    <div class="afect has-feedback has-warning">
+                                        <input type="text" class="form-control" id="Nombre2" name="Nombre2" placeholder="Digite su segundo nombre, si posee." value="@Model.Nombre2" disabled="disabled">
+                                        <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+                                        <em class="error help-block">Este campo es opcional</em>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <h4>Primer Apellido</h4>
+                                    <div class="afect">
+                                        <input type="text" class="form-control" id="Apellido1" name="Apellido1" placeholder="Digite su primer apellido." value="@Model.Apellido1" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h4>Segundo Apellido</h4>
+                                    <div class="afect has-feedback has-warning">
+                                        <input type="text" class="form-control" id="Apellido2" name="Apellido2" placeholder="Digite su segundo apellido, si posee." value="@Model.Apellido2" disabled="disabled">
+                                        <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+                                        <em class="error help-block">Este campo es opcional</em>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <h4>Email</h4>
+                                    <div class="afect">
+                                        <input type="text" class="form-control" id="Email" name="Email" placeholder="Email" value="@Model.Email" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <h4>
+                                        Fecha de nacimiento
+                                        <strong>(año/mes/día)</strong>
+                                    </h4>
+                                    <div class="afect">
+                                        <div class="input-group date" id="dtp">
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                            <input class="form-control" type="text" id="Fecha_Nacimiento" name="Fecha_Nacimiento" value="@Model.Fecha_Nacimiento.ToString("yyyy/MM/dd")" disabled="disabled">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                    <h4>Género</h4>
+                                    <div class="afect">
+                                        <select class="form-control" id="Sexo" name="Sexo" required disabled="disabled">
+                                            <option value="">-- Seleccionar --</option>
+                                            @if (Model.Sexo == false)
+                                            {
+                                                <option value="false" selected>Femenino</option>
+                                                <option value="true">Masculino</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="false">Femenino</option>
+                                                <option value="true" selected>Masculino</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <h4>Contraseña</h4>
+                                    <div class="afect">
+                                        <input type="password" class="form-control" id="PasswordHash" name="PasswordHash" placeholder="Contraseña" disabled="disabled">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-5">
+                                    <h4>Restaurar contraseña predeterminada</h4>
+
+                                    <button type="button" class="btn btn-block btn-info" disabled="disabled" onclick="OriginalPass()">
+                                        Restaurar valor inicial
+                                        <span class="glyphicon glyphicon-retweet"></span>
+                                    </button>
+
+                                </div>
+                            </div>
+
+                            @if (ViewBag.Role == "Seleccion/Federacion")
+                            {
+                                <hr>
+                                <h2>Información de Selecciones</h2>
+                                <hr>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <h4>Nombre de Selección</h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="Nombre_Seleccion" name="Nombre_Seleccion" placeholder="Nombre de Selección" value="@ViewBag.Entidad">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <h4>Deporte de Selección </h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="Nombre_Deporte" name="Nombre_Deporte" placeholder="Deporte de la Selección" value="@ViewBag.DeporteSeleccion" readonly>
+                                            <input type="hidden" class="form-control" id="Deporte_Id" name="Deporte_Id">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <h4>Cambiar deporte</h4>
+                                        <div class="afect">
+                                            <button type="button" class="btn btn-block btn-warning" disabled="disabled" data-toggle="modal" onclick="cargarModal(1);">
+                                                Buscar deporte deseado
+                                                <span class=" glyphicon glyphicon-king"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <hr />
+                                    <h2>
+                                        Información de Categorías
+                                        <button type="button" class="pull-right btn btn-info" disabled="disabled" data-toggle="modal" data-target="#modal">
+                                            Agregar
+                                            <span class="glyphicon glyphicon-plus-sign"></span>
+                                        </button>
+
+                                    </h2>
+                                    <hr />
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped" id="tablaCategorias">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Categoría</th>
+                                                        <th>Entrenador de categoría</th>
+                                                        <th>Editar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (ViewBag.CategoriasSeleccion != null)
+                                                    {
+                                                        foreach (var sub in ViewBag.CategoriasSeleccion)
+                                                        {
+                                                            <tr>
+                                                                <td>@sub.Categoria_Id.Descripcion</td>
+                                                                @if (sub.Entrenador != null)
+                                                                {
+                                                                    <td>@sub.Entrenador.Cedula</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>SIN ENTRENADOR</td>
+                                                                }
+                                                                <td>
+                                                                    <button type="button" class=" btn btn-primary" disabled="disabled" data-toggle="modal" data-target="#modal">
+                                                                        Editar
+                                                                        <span class="glyphicon glyphicon-edit"></span>
+                                                                    </button>
+                                                                    @*
+                                                                        <a class="btn btn-primary" id="@sub.SubSeleccionId" onclick="GetCategorias()">
+                                                                            Editar
+                                                                            <span class="glyphicon glyphicon-edit"></span>
+                                                                        </a>
+                                                                    *@
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-md-6 col-md-offset-4">
+                                        <button type="submit" class="btn btn-lg btn-success" name="signup1" value="0" disabled="disabled">
+                                            <text class="hidden-xs">Guardar</text>
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </button>
+                                        <button type="reset" class="btn btn-lg btn-danger" name="reset" value="Reset" disabled="disabled">
+                                            <text class="hidden-xs">Limpiar</text>
+                                            <span class="glyphicon glyphicon-refresh"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div><!--/tab-pane-->
+            </div><!--/tab-content-->
         </div>
     </div>
 
-    @section Scripts {
-        <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
-        <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
+    <div id="modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">
+                        <text id="modalTitle">Agregar nueva Categoría</text>
+                    </h2>
+                </div>
+                <form id="modalForm">
+                    <div class="modal-body" id="modalBody">
 
-        @Scripts.Render("~/bundles/jqueryval")
-        @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-        @Scripts.Render("~/Scripts/Perfil.js")
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="modalSave" class="btn btn-success" value="Guardar" />
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
+    @Scripts.Render("~/Scripts/Perfil.js")
 }

@@ -15,7 +15,7 @@
                 type: "GET",
                 success: function (list) {
                     $.each(list, function (i) {
-                        opciones = opciones + "<option value='" + list[i].Id + "'>" + list[i].Rol + "</option>"
+                        opciones = opciones + "<option value='" + list[i].Id + "'>" + list[i].Rol + "</option>";
                     });
                     filter.append(opciones);
                 },
@@ -30,7 +30,7 @@
                 type: "GET",
                 success: function (list) {
                     $.each(list, function (i) {
-                        opciones = opciones + "<option value='" + list[i].TipoId + "'>" + list[i].Nombre + "</option>"
+                        opciones = opciones + "<option value='" + list[i].TipoId + "'>" + list[i].Nombre + "</option>";
                     });
                     filter.append(opciones);
                 },
@@ -46,6 +46,7 @@
 
     $('#Buscar').on('click', function () {
         var tipo = $('#Tipo').val();
+        var filtro = $('#Filtro').val();
         var header = '<tr>';
         var col = [];
 
@@ -86,7 +87,7 @@
                 col[col.length] = {
                     data: "Id",
                     "render": function (Id) {
-                        return "<a class='btn btn-large btn-warning' href='/Account/Perfil?id="+Id+"'>Detalle <span class='glyphicon glyphicon-user'></span></a>";
+                        return "<a class='btn btn-large btn-warning' href='/Account/Perfil?id=" + Id + "'>Detalle <span class='glyphicon glyphicon-user'></span></a>";
                     }
                 };
                 break;
@@ -128,15 +129,12 @@
             }
         }
 
-        // var url = "";
-
         $('#datos').DataTable().destroy();
         $('#datos').remove();
 
         $('<table />', {
             id: 'datos',
             class: 'table table-striped table-bordered'
-            //class: 'table table-striped table-bordered nowrap'
         }).append("<thead>" + header + "</thead>").append("<tfoot>" + header + "</tfoot>").appendTo('#Resultados');
         
         $('#datos').DataTable({
@@ -157,9 +155,10 @@
             "ajax": {
                 "url": url,
                 "type": "GET",
-                "dataSrc": "",
+                "data": { filtro: filtro },
+                "dataSrc": ""
             },
-            columns: col,
+            columns: col
             // select: true
         });
 

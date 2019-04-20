@@ -304,8 +304,8 @@ function dataTableEntidad(tipo) {
     var value = "";
         var table = $('<table/>', {
             id: 'Entidades',
-            class: 'table table-striped table-bordered dt-responsive nowrap',
-            width: '80%'
+            class: 'table table-striped table-bordered dt-responsive',
+            width: '100%'
         }).append('<thead><tr><th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Acción</th></tr></thead>');
 
         $('#TablaEntidad').append(table);

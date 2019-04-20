@@ -293,6 +293,7 @@
     <Content Include="Content\brands.css" />
     <Content Include="Content\brands.min.css" />
     <Content Include="Content\Busqueda.css" />
+    <Content Include="Content\Contact.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />
@@ -471,6 +472,7 @@
     <Content Include="Content\Imagenes\Load_Big.gif" />
     <Content Include="Content\Imagenes\logo_png_header.png" />
     <Content Include="Content\Imagenes\logo_white.png" />
+    <Content Include="Content\Imagenes\warning.png" />
     <Content Include="Content\jquery.timepicker.css" />
     <Content Include="Content\Imagenes\M.png" />
     <Content Include="Content\Imagenes\W.png" />
@@ -492,6 +494,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\administracionHorario.js" />
     <Content Include="Scripts\atletas_asignados.js" />
+    <Content Include="Scripts\Avanzadas.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
@@ -832,11 +835,6 @@
     <Content Include="Views\CitasAdmin\Create.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
     <Content Include="Views\Account\Perfil.cshtml" />
-    <Content Include="Views\Conjunto_Ejercicio\Create.cshtml" />
-    <Content Include="Views\Conjunto_Ejercicio\Delete.cshtml" />
-    <Content Include="Views\Conjunto_Ejercicio\Details.cshtml" />
-    <Content Include="Views\Conjunto_Ejercicio\Edit.cshtml" />
-    <Content Include="Views\Conjunto_Ejercicio\Index.cshtml" />
     <Content Include="Views\Rutinas\Index.cshtml" />
     <Content Include="Views\Rutinas\Ejercicio.cshtml" />
     <Content Include="Views\Rutinas\ListaEjercicio.cshtml" />

@@ -127,7 +127,6 @@
                     { data: "Nombre" },
                     {
                         data: "Id",
-
                         render: function (Id) {
                             return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")' data-toggle='modal' data-target='#editar'>" +
                                 "<text class='hidden-xs'>Editar </text>" +
@@ -170,7 +169,6 @@
                     { data: "nombre" },
                     {
                         data: "Id",
-
                         render: function (Id) {
                             return "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar(" + Id + ")''>" +
                                 "<text class='hidden-xs'>Ver </text>" +
@@ -181,7 +179,6 @@
                 ],
             });
         }
-
         function tablaEjer2(id) {
             $('#tipoEjer2').DataTable().destroy();
             $('#tipoEjer2').remove();
@@ -213,7 +210,6 @@
                     { data: "nombre" },
                     {
                         data: "Id",
-
                         render: function (Id) {
                             return "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar2(" + Id + ")''>" +
                                 "<text class='hidden-xs'>Ver </text>" +
@@ -223,7 +219,6 @@
                     }
                 ],
             });
-
         }
         function tablaEjer3(id) {
             $('#tipoEjer3').DataTable().destroy();
@@ -256,7 +251,6 @@
                     { data: "nombre" },
                     {
                         data: "Id",
-
                         render: function (Id) {
                             return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='Agregar(" + Id + ")'>" +
                                 "<text class='hidden-xs'>Agregar </text>" +
@@ -266,22 +260,18 @@
                     }
                 ],
             });
-
         }
         function eliminar() {
             $('#tabla1').hide();
-
         }
         function eliminar2() {
             $('#tipoEjer2').DataTable().destroy();
             $('#tipoEjer2').hide();
         }
-
         function eliminar3() {
             $('#tipoEjer3').DataTable().destroy();
             $('#tipoEjer3').hide();
         }
-
         function Enviar(id) {
             $.ajax({
                 type: "POST",
@@ -366,7 +356,6 @@
                 }
                 SaveEjercicio(data);
         }
-
         function SaveEjercicio(data) {
             $.ajax({
                 type: "POST",
@@ -403,7 +392,6 @@
             $('#btn2').css("display", "none");
             $('#btn3').css("display", "none");
             tablaEjer1();
-
         })
         $('#btn2').click(function () {
             $('#tabla1').hide();
@@ -430,14 +418,11 @@
                 alert("Enviando solicitud.");
             }
         });
-
         $(document).ready(function () {
             tablaPrin();
-
             $("#forcat").validate({
                 rules: {
                     cat: {
-
                         required: true,
                         minlength: 4,
                         remote: {
@@ -462,7 +447,6 @@
                 errorPlacement: function (error, element) {
                     error.addClass("help-block");
                     element.parents(".afect").addClass("has-feedback");
-
                     if (element.prop("id") === "nac") {
                         error.insertAfter(element.parent("div"));
                     } else {
@@ -489,7 +473,6 @@
             $("#foredit").validate({
                 rules: {
                     edit: {
-
                         required: true,
                         minlength: 4,
                         remote: {
@@ -514,7 +497,6 @@
                 errorPlacement: function (error, element) {
                     error.addClass("help-block");
                     element.parents(".afect").addClass("has-feedback");
-
                     if (element.prop("id") === "nac") {
                         error.insertAfter(element.parent("div"));
                     } else {
@@ -558,6 +540,5 @@
             })
    
            
-
         });</script>
 }

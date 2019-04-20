@@ -53,50 +53,10 @@ namespace SOGIP_v2.Controllers
         }
 
         // GET: Busqueda
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            var usuarios = await UserManager.Users.ToListAsync();
-            var usuarios2 = (from u in db.Users
-                             orderby u.Fecha_Expiracion descending
-                             select u
-                             ).Take(10).ToList();
-
-            foreach (var usuario in usuarios2)
-            {
-                var rol = await UserManager.GetRolesAsync(usuario.Id);
-                ViewData[usuario.Id] = rol.First();
-            }
-
-            return View(usuarios2);
+            return View();
         }
 
-        public JsonResult Buscar(string SearchBy, string SearchValue)
-        {
-            List<ApplicationUser> users = new List<ApplicationUser>();
-
-            if (SearchBy == "0")
-            {
-                try
-                {
-                    // int Id = Convert.ToInt32(SearchValue);
-                    users = db.Users.Where(x => x.UserName == SearchValue || SearchValue == null).ToList();
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("{0} No es una cédula");
-                }
-                return Json(users, JsonRequestBehavior.AllowGet);
-            }
-            if(SearchBy == "1")
-            {
-                users = db.Users.Where(x => x.Nombre1.Contains(SearchValue) || SearchValue == null).ToList();
-                return Json(users, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                users = db.Users.Where(x => x.Apellido1.Contains(SearchValue) || SearchValue == null).ToList();
-                return Json(users, JsonRequestBehavior.AllowGet);
-            }
-        }
     }
 }

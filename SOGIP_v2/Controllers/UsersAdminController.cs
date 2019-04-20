@@ -25,7 +25,7 @@ namespace SOGIP_v2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public UsersAdminController() { }
+        public UsersAdminController() {}
 
         public static string ComposicionPassword(string Nombre1, string Apellido1, string Cedula, DateTime Nacimiento)
         {
@@ -133,7 +133,6 @@ namespace SOGIP_v2.Controllers
                     var entidad = db.Entidad_Publica.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.Tipo_Entidad.Descripcion).FirstOrDefault();
                     if (entidad != null) { ViewData["Entidad" + usuario.Id] = entidad; }
                 }
-
             }
 
             return View(usuarios);
@@ -320,7 +319,7 @@ namespace SOGIP_v2.Controllers
 
                                         Archivo file = new Archivo() {
                                             Nombre = CV.FileName,
-                                            Tipo = db.Tipos.Where(x=>x.TipoId==1).FirstOrDefault(),
+                                            Tipo = db.Tipos.Where(x => x.Nombre == "Curriculum" || x.Nombre == "CV").FirstOrDefault(),
                                             Contenido = buffer,
                                             Usuario = db.Users.Single(x => x.Id == user.Id)
                                         };
@@ -502,15 +501,74 @@ namespace SOGIP_v2.Controllers
             });
         }
 
-        public void Download(int archivoId)
+        public void Download(int archivoId, bool? masivo)
         {
-                var v = db.Archivo.Where(x => x.ArchivoId == archivoId).Include("Tipo").FirstOrDefault();
+            try
+            {
+                var v = masivo != null ?
+                db.Archivo.Where(x => x.Tipo.Nombre == "INGRESO MASIVO" && x.Usuario.Cedula == "000000000").Include("Tipo").FirstOrDefault()
+                : db.Archivo.Where(x => x.ArchivoId == archivoId).Include("Tipo").FirstOrDefault();
                 Response.Clear();
                 Response.AddHeader("Content-type", v.Tipo.Nombre);
                 Response.AddHeader("Content-Disposition", "attachment;filename=\"" + v.Nombre + "\"");
                 Response.BinaryWrite(v.Contenido);
                 Response.Flush();
                 Response.End();
+            }
+            catch(Exception)
+            {
+
+            }
+
+        }
+
+        public JsonResult UpdateUser(ApplicationUser usr, Seleccion sel)
+        {
+            try
+            {
+                ApplicationUser u = db.Users.Where(x => x.Id == usr.Id).FirstOrDefault();
+                u.Cedula = usr.Cedula;
+                u.UserName = usr.Cedula;
+                u.Nombre1 = usr.Nombre1;
+                u.Nombre2 = usr.Nombre2;
+                u.Apellido1 = usr.Apellido1;
+                u.Apellido2 = usr.Apellido2;
+                u.Email = usr.Email;
+                u.Sexo = usr.Sexo;
+                u.Fecha_Nacimiento = usr.Fecha_Nacimiento;
+                if (usr.PasswordHash != null) {
+                    u.PasswordHash = UserManager.PasswordHasher.HashPassword(ComposicionPassword(u.Nombre1, u.Apellido1, u.Cedula, u.Fecha_Nacimiento));
+                    u.Fecha_Expiracion = DateTime.Today;
+                }
+
+                db.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RestaurarContraseñaOriginal(string Id)
+        {
+            try
+            {
+                ApplicationUser consulta = db.Users.Where(x => x.Id == Id).FirstOrDefault();
+                consulta.PasswordHash = UserManager.PasswordHasher.HashPassword(ComposicionPassword(consulta.Nombre1, consulta.Apellido1, consulta.Cedula, consulta.Fecha_Nacimiento));
+                consulta.Fecha_Expiracion = DateTime.Today;
+                db.SaveChanges();
+            }
+            catch (Exception) {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult NombreSeleccionRepetido(string nombre, string Id)
+        {
+            return Json(!db.Selecciones.Any(x => x.Nombre_Seleccion == nombre && x.Usuario.Id != Id), JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Users/Edit/5
@@ -638,10 +696,10 @@ namespace SOGIP_v2.Controllers
         }
 
         [HttpPost]
-        public JsonResult Import(HttpPostedFileBase excelfile)
+        public JsonResult Import(HttpPostedFileBase excelfile, string cedulaUsuario)
         {
             var path = Server.MapPath("~/Content/Registros/" + excelfile.FileName);
-             List<object> ls = new List<object>();
+            List<object> ls = new List<object>();
 
             try
             {
@@ -682,6 +740,8 @@ namespace SOGIP_v2.Controllers
                         {
                             terminos = Regex.Replace(nac.ToString(), @"[-\\]", "/");
                             nacimiento = Convert.ToDateTime(terminos);
+                            nac = nacimiento.ToString("yyyy/MM/dd");
+                            
                             if ((nacimiento.Year < (DateTime.Today.Year - 80)) || (nacimiento.Year > (DateTime.Today.Year - 10)))
                             {
                                 nacimiento = DateTime.Today;
@@ -749,6 +809,10 @@ namespace SOGIP_v2.Controllers
                     { 
                         msg.Add("Primer APELLIDO es obligatorio para el registro.");
                     }
+                    if (email == null)
+                    { 
+                        msg.Add("E-mail es obligatorio para el registro.");
+                    }
 
                     object usuario = new
                     {
@@ -757,7 +821,7 @@ namespace SOGIP_v2.Controllers
                         Nombre2 = (n2 == null) ? " " : n2.ToString().ToUpper(),
                         Apellido1 = (a1 == null) ? "" : a1.ToString().ToUpper(),
                         Apellido2 = (a2 == null) ? " " : a2.ToString().ToUpper(),
-                        Fecha_Nacimiento = nacimiento,
+                        Fecha_Nacimiento = nac,
                         Email = (email == null) ? "" : email.ToString(),
                         Sexo = genero,
                         Error = false,
@@ -773,13 +837,32 @@ namespace SOGIP_v2.Controllers
 
             if (System.IO.File.Exists(path))
             {
+
+                BinaryReader br = new BinaryReader(excelfile.InputStream);
+                byte[] buffer = br.ReadBytes(excelfile.ContentLength);
+
+                db.Archivo.Add(new Archivo
+                {
+                    Nombre = excelfile.FileName,
+                    Tipo = db.Tipos.SingleOrDefault( x => x.Nombre == "Ingreso Masivo"),
+                    Usuario = db.Users.SingleOrDefault( y => y.Cedula == cedulaUsuario),
+                    Contenido = buffer
+                });
+
+                db.SaveChanges();
+
                 System.IO.File.Delete(path);
             }
 
             return Json(ls, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult CrearMasivo(List<ApplicationUser> users, string usuario, string rol, int value)
+        public JsonResult CedulaRepetida(string ced, string Id)
+        {
+            return Json(!db.Users.Any(x => x.Cedula == ced && x.Id != Id), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult CrearMasivo(List<ApplicationUser> users, string rol, string usuario, int value)
         {
             try
             {
@@ -790,14 +873,7 @@ namespace SOGIP_v2.Controllers
                     item.Roles.Add(new IdentityUserRole { UserId = item.Id, RoleId = "5" });
                     item.SecurityStamp = Guid.NewGuid().ToString();
 
-                    if (db.Users.Any(x => x.Cedula == item.Cedula))
-                    {
-
-                    }
-                    else
-                    {
-                        db.Users.Add(item);
-                    }
+                    db.Users.Add(item);
 
                     db.SaveChanges();
 
@@ -830,11 +906,11 @@ namespace SOGIP_v2.Controllers
             return Json(true, JsonRequestBehavior.AllowGet);
         }
 
-
-        public JsonResult GetUsuarios()
+        public JsonResult GetUsuarios(string filtro)
         {
             List<object> lista = new List<object>();
-            var usuarios = (from u in db.Users
+            var usuarios = filtro == "0" ?
+                           (from u in db.Users
                            from r in db.Roles
                            where u.Roles.FirstOrDefault().RoleId == r.Id
                            select new{
@@ -846,8 +922,22 @@ namespace SOGIP_v2.Controllers
                                u.Fecha_Nacimiento,
                                u.Estado,
                                r.Name
-                           }).ToList();
-            
+                           }).ToList() : 
+                           (from u in db.Users
+                            from r in db.Roles
+                            where u.Roles.FirstOrDefault().RoleId == r.Id && u.Roles.FirstOrDefault().RoleId == filtro
+                            select new
+                            {
+                                u.Id,
+                                u.Cedula,
+                                Nom = u.Nombre1 + " " + u.Nombre2 + " " + u.Apellido1 + " " + u.Apellido2,
+                                u.Email,
+                                u.Sexo,
+                                u.Fecha_Nacimiento,
+                                u.Estado,
+                                r.Name
+                            }).ToList();
+
             foreach (var usuario in usuarios)
             {
                 var rol = usuario.Name;
@@ -863,6 +953,18 @@ namespace SOGIP_v2.Controllers
                     {
                         seleccion = db.SubSeleccion.Where(x => x.Entrenador.Id == usuario.Id).Select(x => x.Seleccion.Nombre_Seleccion).FirstOrDefault();
                         categoria = (from a in db.SubSeleccion
+/*
+                                     where a.Entrenador.Id == usuario.Id
+                                     select a.Categoria_Id.Descripcion).FirstOrDefault();
+                    }
+                    else
+                    {
+                        seleccion = db.Atletas.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.SubSeleccion.Seleccion.Nombre_Seleccion).FirstOrDefault();
+                        categoria = (from a in db.Atletas
+                                     from c in db.Categorias
+                                     where (a.Usuario.Id == usuario.Id && a.SubSeleccion.Categoria_Id.CategoriaId == c.CategoriaId)
+                                     select c.Descripcion).FirstOrDefault();
+*/
                                          where a.Entrenador.Id == usuario.Id
                                          select a.Categoria_Id.Descripcion).FirstOrDefault();
                     }
@@ -923,8 +1025,7 @@ namespace SOGIP_v2.Controllers
                 };
                 lista.Add(usr);
             }
-
-                return Json(lista, JsonRequestBehavior.AllowGet);
+            return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ObtenerRoles()

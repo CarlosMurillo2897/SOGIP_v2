@@ -3,6 +3,7 @@
     margin-top: 20px;
 }
 
+
     .carousel .item {
         min-height: 100px; /* Prevent carousel from being distorted if for some reason image doesn't load */
     }
@@ -14,4 +15,3 @@
 .bs-example {
     margin: 20px;
 }
-

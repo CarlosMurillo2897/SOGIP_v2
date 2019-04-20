@@ -3,273 +3,277 @@
 @{
     ViewBag.Title = "Inicio";
 
-    ViewBag.Controller = "Usuarios";
+    ViewBag.Referencia_Controlador_1 = "UsersAdmin";
+    ViewBag.Icono_Controlador_1 = "glyphicon-user";
+    ViewBag.Nombre_Controlador_1 = "Usuarios";
 
-    ViewBag.Control = "UsersAdmin";
-    ViewBag.ControlIcono = "glyphicon-user";
-
-    ViewBag.Referencia = "UsersAdmin/Create";
     ViewBag.Accion = "<a class='btn btn-success pull-right' href='/UsersAdmin/Create' style='padding: 2px 6px; margin: 2px;'><text class='hidden-xs'>Crear Usuario </text><span style='color: white;' class='glyphicon glyphicon-plus-sign'></span></a>";
 
 }
+<link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 
 @Styles.Render("~/Content/Perfil.css")
 
 <div class="container-fluid">
-    <div class="well">
-        <table id="tabla">
+    <div class="well table-responsive">
+        <table id="tabla" class="table table-striped">
             <thead>
                 <tr>
                     <th>Usuarios</th>
                 </tr>
             </thead>
             <tbody>
-        @foreach (var item in Model)
-        {
-                <tr>
-                    <td>
-                        <div class="row user-row dropdown-user" style="padding-right: 10px;" data-for=".@item.Id">
-                            <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
-                                @if (item.Estado == true)
-                                {
-                                    <img class="img-circle" id="Comprobado-@item.Id" src="~/Content/Imagenes/comprobado.png" style="width: 50px; height: 50px;" alt="User Pic">
-                                }
-                                else
-                                {
-                                    <img class="img-circle" id="Cancelar-@item.Id" src="~/Content/Imagenes/cancelar.png" style="width: 50px; height: 50px;" alt="User Pic">
-                                }
-                            </div>
-                            <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
-                                <strong> @item.Cedula</strong><br>
-                                @if ((string)ViewData[item.Id] == "Seleccion/Federacion" || (string)ViewData[item.Id] == "Asociacion/Comite")
-                                {
-                                    if (ViewData["Asociación" + item.Id] != null)
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div class="row user-row dropdown-user" style="padding-right: 10px;" data-for=".@item.Id">
+                                <div class="col-xs-3 col-sm-2 col-md-1 col-lg-1">
+                                    @if (item.Estado == true)
                                     {
-                                        <strong>@ViewData["Asociación" + item.Id]</strong><br>
+                                        <img class="img-circle" id="Comprobado-@item.Id" src="~/Content/Imagenes/comprobado.png" style="width: 50px; height: 50px;" alt="User Pic">
                                     }
-                                    if (ViewData["Selección" + item.Id] != null)
+                                    else
                                     {
-                                        <strong>@ViewData["Selección" + item.Id]</strong><br>
+                                        <img class="img-circle" id="Cancelar-@item.Id" src="~/Content/Imagenes/cancelar.png" style="width: 50px; height: 50px;" alt="User Pic">
+                                    }
+                                </div>
+                                <div class="col-xs-8 col-sm-9 col-md-10 col-lg-10">
+                                    <strong> @item.Cedula</strong><br>
+                                    @if ((string)ViewData[item.Id] == "Seleccion/Federacion" || (string)ViewData[item.Id] == "Asociacion/Comite")
+                                    {
+                                        if (ViewData["Asociación" + item.Id] != null)
+                                        {
+                                            <strong>@ViewData["Asociación" + item.Id]</strong><br>
+                                        }
+                                        if (ViewData["Selección" + item.Id] != null)
+                                        {
+                                            <strong>@ViewData["Selección" + item.Id]</strong><br>
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <strong> @item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
                                     }
 
-                                }
-                                else
-                                {
-                                    <strong> @item.Nombre1 @item.Nombre2 @item.Apellido1 @item.Apellido2</strong><br>
-                                }
-
-                                <span class="text-muted">Tipo de Usuario: @ViewData[item.Id]</span>
+                                    <span class="text-muted">Tipo de Usuario: @ViewData[item.Id]</span>
+                                </div>
+                                <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin: 13px 0; padding: 5px; height: 100%;" id="boton-@item.Id">
+                                    <i class="glyphicon glyphicon-chevron-down text-muted"></i>
+                                </div>
                             </div>
-                            <div class="col-xs-1 col-sm-1 col-md-1 col-lg-1" style="margin: 13px 0; padding: 5px; height: 100%;" id="boton-@item.Id">
-                                <i class="glyphicon glyphicon-chevron-down text-muted"></i>
-                            </div>
-                        </div>
-                        <div class="row user-infos @item.Id">
-                            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
-                                <div class="panel panel-primary">
-                                    <div class="panel-heading">
-                                        <h3 class="panel-title">Información de Usuario</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="row">
-                                            <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
-                                                @if (item.Sexo == true)
-                                                {
-                                                    <img class="img-circle" src="~/Content/Imagenes/M.png" style="width: 100px; height: 100px;" alt="User Pic">
-                                                }
-                                                else
-                                                {
-                                                    <img class="img-circle" src="~/Content/Imagenes/W.png" style="width: 100px; height: 100px;" alt="User Pic">
-                                                }
-                                            </div>
-                                            <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
-                                                @if (item.Sexo == true)
-                                                {
-                                                    <img class="img-circle" src="~/Content/Imagenes/M.png" style="width: 40px; height: 40px;" alt="User Pic">
-                                                }
-                                                else
-                                                {
-                                                    <img class="img-circle" src="~/Content/Imagenes/W.png" style="width: 50px; height: 50px;" alt="User Pic">
-                                                }
-                                            </div>
-                                            <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
-                                                <strong>@item.Nombre1</strong><br>
-                                                <dl id="tabla1-@item.Id">
-                                                    @if (ViewData["Selección" + item.Id] != null)
-                                                    {
-                                                        <dt>Selección: </dt>
-                                                        <dd>@ViewData["Selección" + item.Id]</dd>
-                                                    }
-                                                    
-                                                    @if (ViewData["SubSelección" + item.Id] != null)
-                                                    {
-
-                                                        foreach (var sub in (IEnumerable<string>)ViewData["SubSelección" + item.Id]) {
-                                                            <dt>Categoría: </dt>
-                                                            <dd>@sub</dd>
-                                                         }
-                                                    }
-                                                    @if (ViewData["Asociación" + item.Id] != null)
-                                                    {
-                                                        <dt>Asociación: </dt>
-                                                        <dd>@ViewData["Asociación" + item.Id]</dd>
-                                                    }
-                                                    @if (ViewData["Entidad" + item.Id] != null)
-                                                    {
-                                                        <dt>Entidad Pública: </dt>
-                                                        <dd>@ViewData["Entidad" + item.Id]</dd>
-                                                    }
-
-
-                                                    <dt>Nombre:</dt>
-                                                    <dd>@item.Nombre1</dd>
-                                                    <dd>@item.Nombre2</dd>
-                                                    <dt>Apellidos:</dt>
-                                                    <dd>@item.Apellido1</dd>
-                                                    <dd>@item.Apellido2</dd>
-                                                    <dt>Fecha de Nacimiento:</dt>
-                                                    <dd>@item.Fecha_Nacimiento.ToShortDateString()</dd>
-                                                    <dt>E-mail:</dt>
-                                                    <dd>@item.Email</dd>
-                                                    <dt>Localidad:</dt>
-                                                    <dd>(vacía)</dd>
-                                                    <dt>Género:</dt>
+                            <div class="row user-infos @item.Id">
+                                <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-xs-offset-0 col-sm-offset-0 col-md-offset-1 col-lg-offset-1">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Información de Usuario</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-3 col-lg-3 hidden-xs hidden-sm">
                                                     @if (item.Sexo == true)
                                                     {
-                                                        <dd>Masculino</dd>
+                                                        <img class="img-circle" src="~/Content/Imagenes/M.png" style="width: 100px; height: 100px;" alt="User Pic">
                                                     }
                                                     else
                                                     {
-                                                        <dd>Femenino</dd>
+                                                        <img class="img-circle" src="~/Content/Imagenes/W.png" style="width: 100px; height: 100px;" alt="User Pic">
                                                     }
-                                                    <dt>Documentos adjuntados:</dt>
-                                                </dl>
-                                            </div>
-                                            <div class=" col-md-9 col-lg-9 hidden-xs hidden-sm">
-                                                <strong>@item.Nombre1</strong><br>
-                                                <table class="table table-user-information" id="tabla2-@item.Id">
-                                                    <tbody>
+                                                </div>
+                                                <div class="col-xs-2 col-sm-2 hidden-md hidden-lg">
+                                                    @if (item.Sexo == true)
+                                                    {
+                                                        <img class="img-circle" src="~/Content/Imagenes/M.png" style="width: 40px; height: 40px;" alt="User Pic">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img class="img-circle" src="~/Content/Imagenes/W.png" style="width: 50px; height: 50px;" alt="User Pic">
+                                                    }
+                                                </div>
+                                                <div class="col-xs-10 col-sm-10 hidden-md hidden-lg">
+                                                    <strong>@item.Nombre1</strong><br>
+                                                    <dl id="tabla1-@item.Id">
                                                         @if (ViewData["Selección" + item.Id] != null)
                                                         {
-                                                            <tr>
-                                                                <td>Selección/Federación: </td>
-                                                                <td>@ViewData["Selección" + item.Id]</td>
-                                                            </tr>
+                                                            <dt>Selección: </dt>
+                                                            <dd>@ViewData["Selección" + item.Id]</dd>
                                                         }
+
                                                         @if (ViewData["SubSelección" + item.Id] != null)
                                                         {
+
                                                             foreach (var sub in (IEnumerable<string>)ViewData["SubSelección" + item.Id])
                                                             {
-                                                            <tr>
-                                                                <td>Categoría: </td>
-                                                                <td>@sub</td>
-                                                            </tr>
+                                                                <dt>Categoría: </dt>
+                                                                <dd>@sub</dd>
                                                             }
                                                         }
                                                         @if (ViewData["Asociación" + item.Id] != null)
                                                         {
-                                                            <tr>
-                                                                <td>Asociación/Comité: </td>
-                                                                <td>@ViewData["Asociación" + item.Id]</td>
-                                                            </tr>
+                                                            <dt>Asociación: </dt>
+                                                            <dd>@ViewData["Asociación" + item.Id]</dd>
                                                         }
                                                         @if (ViewData["Entidad" + item.Id] != null)
                                                         {
-                                                            <tr>
-                                                                <td>Entidad Pública: </td>
-                                                                <td>@ViewData["Entidad" + item.Id]</td>
-                                                            </tr>
+                                                            <dt>Entidad Pública: </dt>
+                                                            <dd>@ViewData["Entidad" + item.Id]</dd>
                                                         }
 
-                                                        <tr>
-                                                            <td>Nombre:</td>
-                                                            <td>@item.Nombre1 @item.Nombre2</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Apellidos:</td>
-                                                            <td>@item.Apellido1 @item.Apellido2</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Fecha de Nacimiento:</td>
-                                                            <td>@item.Fecha_Nacimiento.ToShortDateString()</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>E-mail:</td>
-                                                            <td>@item.Email</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Localidad:</td>
-                                                            <td>(vacía)</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Género:</td>
-                                                            @if (item.Sexo == true)
+                                                        <dt>Nombre:</dt>
+                                                        <dd>@item.Nombre1</dd>
+                                                        <dd>@item.Nombre2</dd>
+                                                        <dt>Apellidos:</dt>
+                                                        <dd>@item.Apellido1</dd>
+                                                        <dd>@item.Apellido2</dd>
+                                                        <dt>Fecha de Nacimiento:</dt>
+                                                        <dd>@item.Fecha_Nacimiento.ToShortDateString()</dd>
+                                                        <dt>E-mail:</dt>
+                                                        <dd>@item.Email</dd>
+                                                        <dt>Localidad:</dt>
+                                                        <dd>(vacía)</dd>
+                                                        <dt>Género:</dt>
+                                                        @if (item.Sexo == true)
+                                                        {
+                                                            <dd>Masculino</dd>
+                                                        }
+                                                        else
+                                                        {
+                                                            <dd>Femenino</dd>
+                                                        }
+                                                        <dt>Documentos adjuntados:</dt>
+                                                    </dl>
+                                                </div>
+                                                <div class=" col-md-9 col-lg-9 hidden-xs hidden-sm">
+                                                    <strong>@item.Nombre1</strong><br>
+                                                    <table class="table table-user-information" id="tabla2-@item.Id">
+                                                        <tbody>
+                                                            @if (ViewData["Selección" + item.Id] != null)
                                                             {
-                                                                <td>Masculino</td>
+                                                                <tr>
+                                                                    <td>Selección/Federación: </td>
+                                                                    <td>@ViewData["Selección" + item.Id]</td>
+                                                                </tr>
                                                             }
-                                                            else
+                                                            @if (ViewData["SubSelección" + item.Id] != null)
                                                             {
-                                                                <td>Femenino</td>
+                                                                foreach (var sub in (IEnumerable<string>)ViewData["SubSelección" + item.Id])
+                                                                {
+                                                                    <tr>
+                                                                        <td>Categoría: </td>
+                                                                        <td>@sub</td>
+                                                                    </tr>
+                                                                }
                                                             }
-                                                        </tr>
-                                                        <tr>
-                                                            <td><strong>Documentos adjuntados:</strong></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>Nombre:</td>
-                                                            <td>Tipo:</td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                            @if (ViewData["Asociación" + item.Id] != null)
+                                                            {
+                                                                <tr>
+                                                                    <td>Asociación/Comité: </td>
+                                                                    <td>@ViewData["Asociación" + item.Id]</td>
+                                                                </tr>
+                                                            }
+                                                            @if (ViewData["Entidad" + item.Id] != null)
+                                                            {
+                                                                <tr>
+                                                                    <td>Entidad Pública: </td>
+                                                                    <td>@ViewData["Entidad" + item.Id]</td>
+                                                                </tr>
+                                                            }
+
+                                                            <tr>
+                                                                <td>Nombre:</td>
+                                                                <td>@item.Nombre1 @item.Nombre2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Apellidos:</td>
+                                                                <td>@item.Apellido1 @item.Apellido2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Fecha de Nacimiento:</td>
+                                                                <td>@item.Fecha_Nacimiento.ToShortDateString()</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>E-mail:</td>
+                                                                <td>@item.Email</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Localidad:</td>
+                                                                <td>(vacía)</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Género:</td>
+                                                                @if (item.Sexo == true)
+                                                                {
+                                                                    <td>Masculino</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>Femenino</td>
+                                                                }
+                                                            </tr>
+                                                            <tr>
+                                                                <td><strong>Documentos adjuntados:</strong></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Nombre:</td>
+                                                                <td>Tipo:</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="panel-footer">
-                                        @if ((string)@ViewData[item.Id] == "Supervisor" || (string)@ViewData[item.Id] == "Administrador")
-                                        {
-                                            <button class="btn btn-sm btn-warning" type="button" id="predeterminado-@item.Id"
-                                                    data-toggle="tooltip"
-                                                    data-original-title="Usuario no puede ser deshabilitado.">
-                                                <text class="hidden-xs">Interno</text> <i class="glyphicon glyphicon-alert"></i>
-                                            </button>
-                                        }
-                                        else
-                                        {
-                                            if (item.Estado == true)
+                                        <div class="panel-footer">
+                                            @if ((string)@ViewData[item.Id] == "Supervisor" || (string)@ViewData[item.Id] == "Administrador")
                                             {
-                                                <button class="btn btn-sm btn-danger" type="button" id="disable-@item.Id" onclick="dis('@item.Id', id);"
+                                                <button class="btn btn-sm btn-warning" type="button" id="predeterminado-@item.Id"
                                                         data-toggle="tooltip"
-                                                        data-original-title="Deshabilitar este usuario.">
-                                                    <text class="hidden-xs">Deshabilitar</text> <i class="glyphicon glyphicon-remove"></i>
+                                                        data-original-title="Usuario no puede ser deshabilitado.">
+                                                    <text class="hidden-xs">Interno</text> <i class="glyphicon glyphicon-alert"></i>
                                                 </button>
                                             }
                                             else
                                             {
-                                                <button class="btn btn-sm btn-success" type="button" id="enable-@item.Id" onclick="dis('@item.Id', id);"
-                                                        data-toggle="tooltip"
-                                                        data-original-title="Habilitar este usuario.">
-                                                    <text class="hidden-xs">Habilitar</text> <i class="glyphicon glyphicon-check"></i>
-                                                </button>
+                                                if (item.Estado == true)
+                                                {
+                                                    <button class="btn btn-sm btn-danger" type="button" id="disable-@item.Id" onclick="dis('@item.Id', id);"
+                                                            data-toggle="tooltip"
+                                                            data-original-title="Deshabilitar este usuario.">
+                                                        <text class="hidden-xs">Deshabilitar</text> <i class="glyphicon glyphicon-remove"></i>
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <button class="btn btn-sm btn-success" type="button" id="enable-@item.Id" onclick="dis('@item.Id', id);"
+                                                            data-toggle="tooltip"
+                                                            data-original-title="Habilitar este usuario.">
+                                                        <text class="hidden-xs">Habilitar</text> <i class="glyphicon glyphicon-check"></i>
+                                                    </button>
+                                                }
                                             }
-                                        }
-                                        <span class="pull-right">
-                                            <a href="/UsersAdmin/Edit/@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
-                                                <text class="hidden-xs">Editar</text>  <i class="glyphicon glyphicon-edit"></i>
-                                            </a>
-                                        </span>
+                                            <span class="pull-right">
+                                                <a href="/Account/Perfil?id=@item.Id" class="btn btn-sm btn-primary" type="button" data-toggle="tooltip" data-original-title="Editar este usuario.">
+                                                    <text class="hidden-xs">Ver en detalle</text>  <i class="glyphicon glyphicon-user"></i>
+                                                </a>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-        }
-                </tbody>
+                        </td>
+                    </tr>
+                }
+            </tbody>
         </table>
     </div>
 </div>
 
 @section Scripts {
+    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/IndexUsuarios.js")
 }

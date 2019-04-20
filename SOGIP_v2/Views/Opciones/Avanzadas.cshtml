@@ -1,27 +1,137 @@
 ﻿
 @{
     ViewBag.Title = "Avanzadas";
-    ViewBag.Accion = "<a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='CargarModal();'><text class='hidden-xs'>Agregar nuevo </text><span style='color: white;' class='glyphicon glyphicon-plus-sign'></span></a>";
+
+    ViewBag.Referencia_Controlador_1 = "Opciones";
+
+    ViewBag.Referencia_Metodo_1 = "Avanzadas";
+    ViewBag.Icono_Metodo_1 = "glyphicon-cog";
+    ViewBag.Nombre_Metodo_1 = "Opciones Avanzadas";
+
+    ViewBag.Accion = "<a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='CargarModal(this, 0);'><text class='hidden-xs'>Agregar nuevo </text><span style='color: white;' class='glyphicon glyphicon-plus-sign'></span></a>";
 }
 
 <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/select.bootstrap4.min.css" rel="stylesheet" />
 
-<div class="container">
+@Styles.Render("~/Content/Perfil.css")
+
+<div class="container" style="min-height: 545px;">
+    <style>
+        .foo {
+            float: right;
+            width: 40px;
+            height: 20px;
+            margin: 5px;
+            border: 1px solid rgba(0, 0, 0, .2);
+        }
+    </style>
+
     <div class="well">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs" id="myTab">
+                    <li class="active">
+                        <a href="#Contenido" class="seco" data-toggle="tab" title="Categorías" onclick="cargaDT(1);">
+                            Categorías <span class="glyphicon glyphicon-th-large"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#Contenido" class="seco" data-toggle="tab" title="Colores" onclick="cargaDT(2);">
+                            Colores <span class="glyphicon glyphicon-tint"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#Contenido" class="seco" data-toggle="tab" title="Deportes" onclick="cargaDT(3);">
+                            Deportes <span class="glyphicon glyphicon-apple"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#Contenido" class="seco" data-toggle="tab" title="Entidades Públicas" onclick="cargaDT(4);">
+                            Entidades Públicas <span class="glyphicon glyphicon-education"></span>
+                        </a>
+                    </li>
+                    @*<li>
+                            <a href="#Contenido" class="seco" data-toggle="tab" title="Estados" onclick="cargaDT(5);">
+                                Estados <span class="glyphicon glyphicon-filter"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#Contenido" class="seco" data-toggle="tab" title="Parámetros" onclick="cargaDT(6);">
+                                Parámetros <span class="glyphicon glyphicon-wrench"></span>
+                            </a>
+                        </li>*@
+                    <li>
+                        <a href="#Contenido" class="seco" data-toggle="tab" title="Tipos de Archivo" onclick="cargaDT(7);">
+                            Tipos de Archivo <span class="glyphicon glyphicon-folder-open"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#Contenido" class="seco" data-toggle="tab" title="Tipos de Deportes" onclick="cargaDT(8);">
+                            Tipos de Deporte <span class="glyphicon glyphicon-arrow-up"></span>
+                        </a>
+                    </li>
 
+                </ul>
 
+                <div class="tab-content">
+                    <div class="tab-pane active" id="Contenido">
+                        <h2>
+                            <text id="head">Categorías </text>
+                            <span class="pull-right">
+                                <a class="glyphicon glyphicon-refresh"></a>
+                            </span>
+                        </h2>
+                        <hr>
+                        <div class="table-responsive" id="Content">
 
+                        </div><!--/table-resp-->
+                    </div><!--/tab-pane-->
+                </div><!--/tab-pane-->
+            </div><!--/tab-content-->
+        </div>
+    </div>
+
+    <div id="modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">
+                        <text>Agregar nueva Categoría</text>
+                    </h2>
+                </div>
+                <form id="signupForm1">
+                    <div class="modal-body" id="modalBody">
+                        @*<div class="row">
+                                <div class="form-group col-md-12">
+                                    <h4>Nombre</h4>
+                                    <div class="afect">
+                                        <input type="text" class="form-control" id="nom1" name="nom1" placeholder="Digite su cédula.">
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+                    <div class="modal-footer">
+                        <input type="submit" class="btn btn-success" value="Guardar" />
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+
 
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
-    @Scripts.Render("~/Scripts/Perfil.js")
+    @Scripts.Render("~/Scripts/Avanzadas.js")
 }

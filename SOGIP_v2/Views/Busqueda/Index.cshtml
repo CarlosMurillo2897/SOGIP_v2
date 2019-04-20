@@ -1,10 +1,12 @@
-﻿@model IEnumerable<SOGIP_v2.Models.ApplicationUser>
-
+﻿
 @{
+
     ViewBag.Title = "Búsqueda";
-    ViewBag.Controller = "Busqueda";
-    ViewBag.Control = "Busqueda";
-    ViewBag.ControlIcono = "glyphicon-search";
+
+    ViewBag.Referencia_Controlador_1 = "Busqueda";
+    ViewBag.Icono_Controlador_1 = "glyphicon-search";
+    ViewBag.Nombre_Controlador_1 = "Búsqueda";
+
 }
 
 @Styles.Render("~/Content/Perfil.css")
@@ -13,13 +15,16 @@
 <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/select.bootstrap4.min.css" rel="stylesheet" />
 
+
 <div class="container-fluid" style="min-height: 369px;">
     <div class="well" style="min-height: 400px;">
         <div class="row">
             <div class="col-md-8 col-md-offset-4">
                 <h1>¿Qué desea buscar?</h1>
             </div>
-            <div class="col-md-4">
+        </div>
+        <div class="row">
+            <div class="form-group col-md-4">
                 <select id="Tipo" class="form-control" style="text-align: center">
                     <option value="0">-- Seleccione --</option>
                     <option value="1">Usuarios</option>
@@ -29,19 +34,23 @@
                     <option value="5">Actividades</option>
                 </select>
             </div>
-            <div class="col-md-4">
+
+            <div class="form-group col-md-4">
                 <select id="Filtro" class="form-control" style="text-align: center">
                     <option value="0">-- Seleccione --</option>
                 </select>
             </div>
-            <div class="col-md-4">
+
+            <div class="form-group col-md-4">
                 <button id="Buscar" class="btn btn-block btn-success" type="submit">
                     Buscar
                     <span class="glyphicon glyphicon-search"></span>
                 </button>
             </div>
         </div>
+
         <br />
+
         <div class="row">
             <div id="Resultados" class="table-responsive">
 

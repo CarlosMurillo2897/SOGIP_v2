@@ -1,6 +1,14 @@
-﻿$(document).ready(function () {
-    var selected, role, value;
+﻿$.validator.setDefaults({
+    submitHandler: function () {
+        alert("Cambios guardados.");
+        actualizar();
+    }
+});
+
+$(document).ready(function () {
+    var role, value, cedula, archivo;
     $('#usuario').val('');
+    $('#submit').attr('disabled', 'disabled');
     clear();
 
     cargarUsuarios();
@@ -13,13 +21,99 @@
 
     $(function () {
         $("#dtp").datepicker({
-            format: 'dd/mm/yyyy',
+            format: 'yyyy/mm/dd',
             defaultViewDate: max,
             startDate: max,
             endDate: min,
             daysOfWeekDisabled: false
         });
     });
+
+    $('#ced').on('change', function () {
+        cedula = $(this).val();
+    });
+
+    $("#signupForm1").validate({
+        rules: {
+            ced: {
+                required: true,
+                minlength: 9,
+                maxlength: 15,
+                remote: {
+                    url: "/UsersAdmin/CedulaRepetida",
+                    type: "GET",
+                    data: { ced: cedula }
+                }
+            },
+            nom1: {
+                required: true,
+                minlength: 2
+            },
+            apel1: {
+                required: true,
+                minlength: 2
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            sexo: {
+                required: true
+            },
+            nac: {
+                required: true
+            }
+        },
+        messages: {
+            ced: {
+                required: "La cédula es un campo obligatorio.",
+                minlength: "La longitud mínima de la cédula debe ser de 9 carácteres.",
+                maxlength: "La longitud máxima de la cédula es de 15 carácteres.",
+                remote: jQuery.validator.format("{0} ya se encuentra en el sistema.")
+            },
+            nom1: {
+                required: "El primer nombre es un campo requerido.",
+                minlength: "La longitud mínima del primer nombre debe ser de 2 carácteres."
+            },
+            apel1: {
+                required: "El primer apellido es un campo requerido.",
+                minlength: "La longitud mínima del primer apellido debe ser de 2 carácteres."
+            },
+            email: "Especifique su e-mail con el formato correcto.",
+            sexo: {
+                required: "El campo de género es requerido."
+            },
+            nac: "La fecha de nacimiento es obligatoria."
+        },
+        errorElement: "em",
+        errorPlacement: function (error, element) {
+            error.addClass("help-block");
+            element.parents(".afect").addClass("has-feedback");
+
+            if (element.prop("id") === "nac") {
+                error.insertAfter(element.parent("div"));
+            } else {
+                error.insertAfter(element);
+            }
+            if (!element.next("span")[0]) {
+                $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
+            }
+        },
+        success: function (label, element) {
+            if (!$(element).next("span")[0]) {
+                $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
+            }
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).parents(".afect").addClass("has-error").removeClass("has-success");
+            $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).parents(".afect").addClass("has-success").removeClass("has-error");
+            $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
+        }
+    });
+
 });
 
 $(document).on('click', '#close-preview', function () {
@@ -147,7 +241,14 @@ function cargarUsuarios() {
     $('#Entidades').on('change', '.selectDT', function () {
         value = $(this).val();
 
-        value === '0' ? $('#usuario').val('') : $('#usuario').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
+        if (value === '0') {
+            $('#usuario').val('');
+            $('#submit').attr('disabled', 'disabled');
+        }
+        else {
+            $('#usuario').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
+            $('#submit').removeAttr('disabled');
+        }
         role = $(this).closest('tr').find('td:eq(3)').text();
         
         $('.selectDT').val(0);
@@ -171,11 +272,12 @@ function manipularDT() {
             $('#texto').html('Desplegar lista ');
         }
     });
+    //$('#Tabla_Usuarios').toggle(4000, "swing");
 }
 
 
 function uploadImage() {
-    var archivo = $('#excelfile')[0].files[0];
+    archivo = $('#excelfile')[0].files[0];
 
     if (archivo.size >= 20000000 && !confirm('\n¡Cuidado! Estás intentando subir un archivo de más de 20MB.\n\n ¿Estás seguro de querer subir este archivo?\n\n')) {
         clear();
@@ -192,7 +294,7 @@ function uploadImage() {
 
     var data = new FormData();
     data.append('excelfile', archivo);
-
+    data.append('cedulaUsuario', $('#usuario').val().split("- ")[1]);
 
     pop(true);
 
@@ -217,7 +319,10 @@ function uploadImage() {
             var $body = $('<tbody/>');
 
             $.each(list, function (i) {
-                var date = new Date(parseInt(list[i].Fecha_Nacimiento.substr(6)));
+                /*var date = new Date(parseInt(list[i].Fecha_Nacimiento.substr(6)));
+                 *date.toLocaleDateString('en-GB')
+                 */
+
                 var sexo = list[i].Sexo === true ? 'Masculino' : 'Femenino';
                 var ap2 = list[i].Apellido2 === null ? '' : list[i].Apellido2;
                 var email = list[i].Email === null ? '' : list[i].Email;
@@ -237,7 +342,6 @@ function uploadImage() {
                 }
                 p = p + "</p>";
                 
-
                 $body.append(
                     '<tr id="' + i + '">' +
                     '<td>' +
@@ -248,7 +352,7 @@ function uploadImage() {
                     '<td>' + list[i].Apellido1 + '</td>' +
                     '<td>' + ap2 + '</td>' +
                     '<td>' + email + '</td>' +
-                    '<td>' + date.toLocaleDateString('en-GB') + '</td>' +
+                    '<td>' + list[i].Fecha_Nacimiento + '</td>' +
                     '<td>' + sexo + '</td>' +
                     '<td style="text-align: center;">' +
                     '<span class="glyphicon glyphicon-pencil invent" data-toggle="modal" onclick="cargar(this)" data-target="#myModal"></span>' +
@@ -287,14 +391,17 @@ function cargar(x) {
 
 function actualizar() {
     var tr = $('#' + $('#hidden').val());
-    tr.find('td:eq(0)').text($('#ced').val().toUpperCase());
+    var a = tr.find('td:eq(0)').find('a').removeClass('btn-danger');
+        a.addClass('btn-success');
+        a.attr("data-content", "<p style='color: green;'> \u23FA Todo en orden.</p>");
     tr.find('td:eq(1)').text($('#nom1').val().toUpperCase());
     tr.find('td:eq(2)').text($('#nom2').val().toUpperCase());
     tr.find('td:eq(3)').text($('#apel1').val().toUpperCase());
     tr.find('td:eq(4)').text($('#apel2').val().toUpperCase());
     tr.find('td:eq(5)').text($('#email').val());
-    tr.find('td:eq(6)').text($("#dtp").data('datepicker').getFormattedDate('dd/mm/yyyy'));
+    tr.find('td:eq(6)').text($("#dtp").data('datepicker').getFormattedDate('yyyy/mm/dd'));
     tr.find('td:eq(7)').text($('#sexo').val());
+
 }
 
 function registrar() {
@@ -305,7 +412,7 @@ function registrar() {
         pop(true);
         var array = [];
 
-        $('#UsuariosExcel tbody tr').each(function () {
+        $('#UsuariosExcel tbody tr .btn-success').each(function () {
             var tr = $(this).closest('tr');
             array.push({
                 Cedula: tr.find('td:eq(0)').text(),
@@ -322,6 +429,8 @@ function registrar() {
             });
         });
 
+        // console.log(array);
+
         var datos = {
             'users': array,
             'usuario': $('#usuario').val().split("- ")[1],
@@ -336,7 +445,7 @@ function registrar() {
             data: JSON.stringify(datos), //agregar el campo para el id de la rutina
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                $('#UpdatePanel').remove('#UsuariosExcel');
+                $('#UsuariosExcel tbody td .btn-success').closest('tr').remove();
                 $('#Usuario').val('');
                 contenidoPop(1);
             },

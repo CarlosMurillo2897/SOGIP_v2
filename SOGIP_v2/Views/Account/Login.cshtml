@@ -3,65 +3,202 @@
 
 @{
     ViewBag.Title = "Accesar";
-    @Styles.Render("~/Content/manual.css")
-    @Styles.Render("~/Content/Site.css")
     @Styles.Render("~/Content/Login.css")
 }
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 col-md-offset-4">
-                <div class="panel panel-default">
 
-                    <div class="panel-heading">
-                        <h3 class="auto-style2">Inicio de Sesión</h3>
+<div class="container">
+    <script>
+        $(function () {
+
+            $('#login-form-link').click(function (e) {
+                $("#login-form").delay(100).fadeIn(100);
+                $("#register-form").fadeOut(100);
+                $('#register-form-link').removeClass('active');
+                $(this).addClass('active');
+                e.preventDefault();
+            });
+            $('#register-form-link').click(function (e) {
+                $("#register-form").delay(100).fadeIn(100);
+                $("#login-form").fadeOut(100);
+                $('#login-form-link').removeClass('active');
+                $(this).addClass('active');
+                e.preventDefault();
+            });
+
+        });
+
+    </script>
+
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-login">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="#" class="active" id="login-form-link"> Ingresar </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="#" id="register-form-link"> Registrarse </a>
+                        </div>
                     </div>
-
-                    <center>
-                        <div class="panel-body">
-                            
-                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    <hr>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @id = "login-form", @class = "form-horizontal", role = "form" }))
                             {
-
-                                <hr />
-
                                 @Html.AntiForgeryToken()
                                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                                <div class="form-group">
-                                    @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", PlaceHolder = "Cédula" })
-                                    @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.Cedula, new { @class = "form-control", PlaceHolder = "Cédula", @tabindex = "1" })
+                                        @Html.ValidationMessageFor(m => m.Cedula, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", PlaceHolder = "Contraseña", @tabindex = "2" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="form-group text-center">
+                                        @Html.CheckBoxFor(m => m.RememberMe, new { tabindex = "3", @id = "remember", @name = "remember" })
+                                        <label for="remember"> Recuérdame</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-6 col-md-offset-3">
+                                                <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Ingresar">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="text-center">
+                                                    <a href="~/Account/ForgotPassword" tabindex="5" class="forgot-password">¿Ha olvidado su contraseña?</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="form-group">
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", PlaceHolder = "Contraseña" })
-                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="checkbox">
-                                    @Html.CheckBoxFor(m => m.RememberMe)
-                                    @Html.LabelFor(m => m.RememberMe)
-                                </div>
-
-                                <br />
-
-                                <div class="form-group">
-                                    <input type="submit" value="Acceder" class="btn btn-default" />
-                                </div>
-                                
-                                <hr />
-
-                                <p>
-                                    @Html.ActionLink("¿Ha olvidado su contraseña?", "ForgotPassword")
-                                </p>
                             }
-
+                                <div id="register-form" style="display: none;">
+                                    <div class="col-md-6 alert alert-warning"  style=" border-right-style: solid; border-right-color: lightgray;">
+                                        <p align="justify">
+                                            <span class="glyphicon glyphicon-warning-sign"></span>
+                                            Bienvenida(o) al Sistema Operativo del Gimnasio de Pesas (SOGIP), antes de continuar realizamos la aclaración
+                                            de que las peticiones de uso del sistema del gimnasio pueden ser denegadas si no se cuenta con los documentos
+                                            llenados correctamente con la información de las(os) interesados.
+                                            <strong>
+                                                Además, si las(os) solicitantes no cumplen con ser una(o) representante
+                                                de alguna selección o asociación del país o bien, atleta u entrenador(a) de alguna selección o asociación o bien,
+                                                funcionario del ICODER o bien, trabajador de alguna entidad pública.
+                                            </strong>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row" style="align-content:center">
+                                            <center>
+                                                <img alt="Advertencia" style="height: 200px; width:200px;" src="~/Content/Imagenes/warning.png" />
+                                            </center>
+                                        </div>
+                                        <br />
+                                        <div class="row">
+                                            <button id="" type="button" class="btn btn-block btn-warning" style="margin-left: 8px;" data-toggle="modal" data-target="#modal"> Continuar </button>
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
-                    </center>
-
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">
+                        <text>Registrarse</text>
+                    </h2>
+                </div>
+
+                <div class="modal-body" id="modalBody">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6" style=" border-right-style: solid; border-right-color: lightgray;">
+                                <p align="justify">
+                                    Bienvenida(o) al Sistema Operativo del Gimnasio de Pesas (SOGIP), agradecemos su interés en ser parte de nuestra comunidad.
+                                    Primeramente, debemos recalcar que <strong>
+                                        para ser asociada(o) al gimnasio la (el) solicitante debe ser una(o) representante
+                                        de alguna selección o asociación del país o bien, atleta u entrenador(a) de alguna selección o asociación o bien,
+                                        funcionario del ICODER o bien, trabajador de alguna entidad pública.
+                                    </strong>
+                                    A continuación se le presenta un documento tipo Excel a descargar, el cual cuenta con una serie de campos básicos los cuales
+                                    deben ser llenados correctamente para formar un perfil dentro del sistema y mantener un control sobre los usuarios.
+                                    Cualquier duda o consulta puede intentar observar el video que se encuentra a continuación y si desea atención personalizada
+                                    puede enviar un correo a la dirección: <a href="mailto:admSOGIP@hotmail.com">admSOGIP@hotmail.com</a>
+                                    y en breve le atenderemos y evacuaremos su duda.
+                                </p>
+                            </div>
+                            <style>
+                                .video-container {
+                                    position: relative;
+                                    padding-bottom: 56.25%;
+                                    padding-top: 30px;
+                                    height: 0;
+                                    overflow: hidden;
+                                }
+
+                                    .video-container iframe,
+                                    .video-container object,
+                                    .video-container embed {
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                    }
+
+                                #download {
+                                    background-color: DodgerBlue;
+                                    border: none;
+                                    color: white;
+                                    padding: 12px 30px;
+                                    cursor: pointer;
+                                    font-size: 20px;
+                                }
+
+                                    /* Darker background on mouse-over */
+                                    #download:hover {
+                                        background-color: RoyalBlue;
+                                    }
+                            </style>
+                            <div class="col-md-6">
+                                <div class="video-container">
+                                    <iframe width="853" height="480" src="https://www.youtube.com/embed/tgbNymZ7vqY" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-offset-3 col-md-6">
+                                <br />
+                                <a href="~/UsersAdmin/Download?archivoId=0&masivo=true" id="download" class="btn btn-block"><i class="glyphicon glyphicon-download"></i> Descarga</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @*<input type="submit" class="btn btn-success" value="Guardar" />*@
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
