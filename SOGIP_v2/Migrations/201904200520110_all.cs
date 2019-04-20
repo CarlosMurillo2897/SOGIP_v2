@@ -3,7 +3,7 @@ namespace SOGIP_v2.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _all : DbMigration
+    public partial class all : DbMigration
     {
         public override void Up()
         {
@@ -279,9 +279,21 @@ namespace SOGIP_v2.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        EjercicioId = c.Int(nullable: false),
                         Nombre = c.String(),
                         Descripcion = c.String(),
+                        TipoId_Id = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.SOGIP_TipoME", t => t.TipoId_Id)
+                .Index(t => t.TipoId_Id);
+            
+            CreateTable(
+                "dbo.SOGIP_TipoME",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        TipoId = c.Int(nullable: false),
+                        nombre = c.String(),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -405,10 +417,12 @@ namespace SOGIP_v2.Migrations
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        MaquinaId = c.Int(nullable: false),
-                        Descripcion = c.String(),
+                        Nombre = c.String(),
+                        TipoId_Id = c.Int(),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.SOGIP_TipoME", t => t.TipoId_Id)
+                .Index(t => t.TipoId_Id);
             
             CreateTable(
                 "dbo.SOGIP_MaquinaEjercicio",
@@ -487,6 +501,7 @@ namespace SOGIP_v2.Migrations
             DropForeignKey("dbo.SOGIP_PagoUsuario", "IdEsPago_Id", "dbo.SOGIP_EstadosPagos");
             DropForeignKey("dbo.SOGIP_MaquinaEjercicio", "Maquina_Id", "dbo.SOGIP_Maquina");
             DropForeignKey("dbo.SOGIP_MaquinaEjercicio", "Ejercicio_Id", "dbo.SOGIP_Ejercicio");
+            DropForeignKey("dbo.SOGIP_Maquina", "TipoId_Id", "dbo.SOGIP_TipoME");
             DropForeignKey("dbo.SOGIP_ListaPagos", "IdEsPago_Id", "dbo.SOGIP_EstadosPagos");
             DropForeignKey("dbo.SOGIP_Horario", "IdActividad_Id", "dbo.SOGIP_Actividad");
             DropForeignKey("dbo.SOGIP_Funcionario_ICODER", "Usuario_Id", "dbo.SOGIP_Users");
@@ -496,6 +511,7 @@ namespace SOGIP_v2.Migrations
             DropForeignKey("dbo.SOGIP_EstadosPagos", "IdPago_Id", "dbo.SOGIP_TipoPago");
             DropForeignKey("dbo.SOGIP_Entidad_Publica", "Usuario_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Entidad_Publica", "Tipo_Entidad_Tipo_EntidadId", "dbo.SOGIP_Tipo_Entidad");
+            DropForeignKey("dbo.SOGIP_Ejercicio", "TipoId_Id", "dbo.SOGIP_TipoME");
             DropForeignKey("dbo.SOGIP_Conjunto_Ejercicio", "ConjuntoEjercicioRutina_RutinaId", "dbo.SOGIP_Rutina");
             DropForeignKey("dbo.SOGIP_Rutina", "Usuario_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Cita", "UsuarioId_Id_Id", "dbo.SOGIP_Users");
@@ -523,6 +539,7 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_PagoUsuario", new[] { "IdEsPago_Id" });
             DropIndex("dbo.SOGIP_MaquinaEjercicio", new[] { "Maquina_Id" });
             DropIndex("dbo.SOGIP_MaquinaEjercicio", new[] { "Ejercicio_Id" });
+            DropIndex("dbo.SOGIP_Maquina", new[] { "TipoId_Id" });
             DropIndex("dbo.SOGIP_ListaPagos", new[] { "IdEsPago_Id" });
             DropIndex("dbo.SOGIP_Horario", new[] { "IdActividad_Id" });
             DropIndex("dbo.SOGIP_Funcionario_ICODER", new[] { "Usuario_Id" });
@@ -534,6 +551,7 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_Tipo_Entidad", new[] { "Descripcion" });
             DropIndex("dbo.SOGIP_Entidad_Publica", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Entidad_Publica", new[] { "Tipo_Entidad_Tipo_EntidadId" });
+            DropIndex("dbo.SOGIP_Ejercicio", new[] { "TipoId_Id" });
             DropIndex("dbo.SOGIP_Rutina", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Conjunto_Ejercicio", new[] { "ConjuntoEjercicioRutina_RutinaId" });
             DropIndex("dbo.SOGIP_Color", new[] { "Codigo" });
@@ -576,6 +594,7 @@ namespace SOGIP_v2.Migrations
             DropTable("dbo.SOGIP_Estados");
             DropTable("dbo.SOGIP_Tipo_Entidad");
             DropTable("dbo.SOGIP_Entidad_Publica");
+            DropTable("dbo.SOGIP_TipoME");
             DropTable("dbo.SOGIP_Ejercicio");
             DropTable("dbo.SOGIP_Rutina");
             DropTable("dbo.SOGIP_Conjunto_Ejercicio");
