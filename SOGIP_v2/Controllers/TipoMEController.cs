@@ -91,6 +91,23 @@ namespace SOGIP_v2.Controllers
             var consulta = db.TipoME.Where(x => x.Id == id).FirstOrDefault();
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult EditEjercicio(int id, string nombre)
+        {
+            TipoME tipo = db.TipoME.Single(x => x.Id == id);
+            try
+            {
+                if (tipo != null)
+                {
+                    tipo.nombre = nombre;
+                }
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(tipo, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

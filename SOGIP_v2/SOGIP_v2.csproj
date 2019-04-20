@@ -207,8 +207,10 @@
     <Compile Include="Controllers\AtletasAsignadosController.cs" />
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
+    <Compile Include="Controllers\EjercicioController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\ExpedientesFisicosController.cs" />
+    <Compile Include="Controllers\MaquinaController.cs" />
     <Compile Include="Controllers\OpcionesController.cs" />
     <Compile Include="Controllers\ReservacionController.cs" />
     <Compile Include="Controllers\RutinasController.cs" />
@@ -850,6 +852,9 @@
     <Content Include="Views\Reservacion\Create.cshtml" />
     <Content Include="Views\Opciones\Avanzadas.cshtml" />
     <Content Include="Views\TipoME\Index.cshtml" />
+    <Content Include="Views\Ejercicio\Index.cshtml" />
+    <Content Include="Views\Maquina\Index.cshtml" />
+    <Content Include="Views\Maquina\Ejercicios.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />

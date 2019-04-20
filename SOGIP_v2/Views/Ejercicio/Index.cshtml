@@ -1,12 +1,18 @@
-﻿@model SOGIP_v2.Models.TipoME
+﻿@model SOGIP_v2.Models.Ejercicio
+
 @{
-    ViewBag.Title = "Tipo";
+    ViewBag.Title = "Ejercicio";
 }
 <div class="container">
     <div class="col-md-4">
     </div>
     <div class="col-md-4">
-        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px;' id="btnCategorias">
+        <a class='btn btn-success pull-left'style='padding: 2px 6px; margin: 2px;' id="btnEjer">
+            <text class='hidden-xs'>Ejercicios </text>
+            <span style='color: white;' class=''></span>
+        </a>
+
+        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btnCategorias">
             <text class='hidden-xs'>Categorias </text>
             <span style='color: white;' class=''></span>
         </a>
@@ -19,16 +25,16 @@
             <span style='color: white;' class=''></span>
         </a>
     </div>
-    <div class="col-md-4">
-        <a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' id="btnNuevo">
-            <text class='hidden-xs'>Nuevo </text>
-            <span style='color: white;' class='glyphicon glyphicon-plus-sign'></span>
-        </a>
-    </div>
+    <a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' id="btnCateg">
+        <text class='hidden-xs'>Nuevo </text>
+        <span style='color: white;' class='glyphicon glyphicon-plus-sign'></span>
+    </a>
+
 </div>
 <br>
 <div class="well col-md-12">
     <div class="table-responsive">
+        <div id="tablaPrincipal"></div>
         <div id="tabla1"></div>
         <div id="tabla2"></div>
         <div id="tabla3"></div>
@@ -39,14 +45,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Crear nuevo Tipo de</h4>  <text class='hidden-xs' id="textPrin"></text>
+                <h4 class="modal-title">Crear nuevo Ejercicio de</h4>  <text class='hidden-xs' id="textPrin"></text>
             </div>
             <form id="forcat" method="post" novalidate="novalidate">
                 <div class="modal-body">
                     <div class="form-group col-md-12">
-                        <label>Nombre: </label>
+                        <label>Nombre de Ejercicio: </label>
                         <div class="afect">
-                            <input type="text" class="form-control" placeholder="Nombre" id="cat" name="cat" />
+                            <input type="text" class="form-control" placeholder="Nombre Ejercicio" id="cat" name="cat" />
                         </div>
                     </div>
                 </div>
@@ -64,7 +70,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Editar</h4> 
+                <h4 class="modal-title">Editar Ejercicio</h4>
             </div>
             <form id="foredit" method="post" novalidate="novalidate">
                 <div class="modal-body">
@@ -91,6 +97,47 @@
     var cat1 = null
         var cat2 = null;
         var cat3 = null;
+        function tablaPrin() {
+            $('#ejercicios').DataTable().destroy();
+            $('#ejercicios').remove();
+            $('#tablaPrincipal').show();
+            var tabla = $('<table/>', { id: 'ejercicios', class: 'table table-striped table-bordered dt-responsive nowrap', width: '100%' }).append('<thead><tr><th>Nombre</th><th>Acción</th></tr></thead>');
+            $('#tablaPrincipal').append(tabla);
+            table5 = $('#ejercicios').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                    "zeroRecords": "No se han encontrado registros.",
+                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                "ajax": {
+                    "url": '/Ejercicio/getEjercicios',
+                    "type": "GET",
+                    "dataSrc": ""
+                },
+                columns: [
+                    { data: "Nombre" },
+                    {
+                        data: "Id",
+
+                        render: function (Id) {
+                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")' data-toggle='modal' data-target='#editar'>" +
+                                "<text class='hidden-xs'>Editar </text>" +
+                                "<span class='glyphicon glyphicon-pencil'></span>" +
+                                "</a>";
+                        }
+                    }
+                ],
+            });
+        }
         function tablaEjer1() {
             cat1 = 0;
             $('#textPrin').html("Categoria");
@@ -125,11 +172,7 @@
                         data: "Id",
 
                         render: function (Id) {
-                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
-                                "<text class='hidden-xs'>Editar </text>" +
-                                "<span class='glyphicon glyphicon-pencil'></span>" +
-                                "</a>" +
-                                "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar(" + Id +")'>" +
+                            return "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar(" + Id + ")''>" +
                                 "<text class='hidden-xs'>Ver </text>" +
                                 "<span class='glyphicon glyphicon-list'></span>" +
                                 "</a>";
@@ -172,11 +215,7 @@
                         data: "Id",
 
                         render: function (Id) {
-                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
-                                "<text class='hidden-xs'>Editar </text>" +
-                                "<span class='glyphicon glyphicon-pencil'></span>" +
-                                "</a>" +
-                                "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar2(" + Id + ")''>" +
+                            return "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar2(" + Id + ")''>" +
                                 "<text class='hidden-xs'>Ver </text>" +
                                 "<span class='glyphicon glyphicon-list'></span>" +
                                 "</a>";
@@ -219,8 +258,8 @@
                         data: "Id",
 
                         render: function (Id) {
-                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")' data-toggle='modal' data-target='#editar'>" +
-                                "<text class='hidden-xs'>Editar </text>" +
+                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='Agregar(" + Id + ")'>" +
+                                "<text class='hidden-xs'>Agregar </text>" +
                                 "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>";
                         }
@@ -284,14 +323,32 @@
             eliminar2();
             tablaEjer3(id);
         }
-        function EditarRut(id) {
+        function Agregar(id) {
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
                 url: '/TipoME/getNombre',
                 data: { 'id': id },
                 success: function (data) {
-                    $('#edit').val(data.nombre);
+                    $('#text3').html(data.nombre);
+                    $('#textPrin').html(data.nombre);
+                    cat1 = id;
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+            $('#nuevo').modal('show');
+            
+        }
+        function EditarRut(id) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Ejercicio/getNombre',
+                data: { 'id': id },
+                success: function (data) {
+                    $('#edit').val(data.Nombre);
                 }
             })
             var data = nulll;
@@ -300,6 +357,40 @@
                 categoria: $('#edit').val()
             }
             editar(data);
+        }
+        function agregar() {
+                var data = null;
+                data = {
+                    id: cat1,
+                    nombre: $('#cat').val()
+                }
+                SaveEjercicio(data);
+        }
+
+        function SaveEjercicio(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Ejercicio/SaveEjercicio',
+                data: data,
+                success: function (data) {
+                    $('#nuevo').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    $('#tipoEjer3').DataTable().destroy();
+                    $('#tipoEjer3').hide();
+                    $('#ejercicios').show();
+                    $('#ejercicios').DataTable().ajax.reload(null, false);
+                    tablaPrin();
+                    $('#cat').val('');
+                    $('#btnCategorias').css("display", "none");
+                    $('#btn2').css("display", "none");
+                    $('#btn3').css("display", "none");
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
         }
         $('#btnCategorias').click(function () {
             $('#tabla2').hide();
@@ -333,98 +424,15 @@
             tablaEjer3(cat3);
             cat1 = cat3;
         })
-        function SaveCategoria(data) {
-            $.ajax({
-                type: "POST",
-                dataType: "JSON",
-                url: '/TipoME/SaveCategoria',
-                data: data,
-                success: function (data) {
-                    $('#nuevo').modal('hide');
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
-                    $('#tipoEjer1').DataTable().ajax.reload(null, false);
-                    $('#cat').val('');
-                },
-                error: function () {
-                    alert("Fallo");
-                }
-            })
-        }
-        function SaveCategoria1(data) {
-            $.ajax({
-                type: "POST",
-                dataType: "JSON",
-                url: '/TipoME/SaveCategoria1',
-                data: data,
-                success: function (data) {
-                    $('#nuevo').modal('hide');
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
-                    if ($('#btn3').is(':hidden')) {
-                       $('#tipoEjer2').DataTable().ajax.reload(null, false);
-                    } else {
-                        $('#tipoEjer3').DataTable().ajax.reload(null, false);
-                    }
-                    $('#cat').val('');
-                },
-                error: function () {
-                    alert("Fallo");
-                }
-            })
-        }
-        function editar(data) {
-            $.ajax({
-                type: "POST",
-                dataType: "JSON",
-                url: '/TipoME/EditEjercicio',
-                data: data,
-                success: function (data) {
-                    $('#editar').modal('hide');
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
-                    if ($('#btn2').is(':hidden')) {
-                        $('#tipoEjer1').DataTable().ajax.reload(null, false);
-                    } else {
-                        if ($('#btn3').is(':hidden')) {
-                            $('#tipoEjer2').DataTable().ajax.reload(null, false);
-                        } else {
-                            $('#tipoEjer3').DataTable().ajax.reload(null, false);
-                        }
-                    }
-                    $('#cat').val('');
-                },
-                error: function () {
-                    alert("Fallo");
-                }
-            })
-        }
-        function enviar() {
-            if (cat1 == 0) {
-                var data = null;
-                data = {
-                    categoria: $('#cat').val()
-                }
-                SaveCategoria(data);
-            }
-
-            var data = null;
-            data = {
-                id: cat1,
-                categoria: $('#cat').val()
-            }
-            SaveCategoria1(data);
-        }
-      
         $.validator.setDefaults({
             submitHandler: function () {
-                enviar();
+                agregar();
                 alert("Enviando solicitud.");
             }
         });
 
         $(document).ready(function () {
-            tablaEjer1();
+            tablaPrin();
 
             $("#forcat").validate({
                 rules: {
@@ -433,7 +441,7 @@
                         required: true,
                         minlength: 4,
                         remote: {
-                            url: '/TipoME/TipoRepetido',
+                            url: '/Ejercicio/EjercicioRepetido',
                             type: 'GET',
                             data: {
                                 nombre: function () {
@@ -530,10 +538,26 @@
                     $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
                 }
             });
-            $('#btnNuevo').click(function () {
-                $('#nuevo').modal('show');
+            $('#btnCateg').click(function () {
+                $('#tablaPrincipal').hide();
+                $('#btnCategorias').css("display", "block");
+                tablaEjer1();
             })
+            $('#btnEjer').click(function () {
+                $('#tipoEjer1').DataTable().destroy();
+                $('#tipoEjer1').hide();
+                $('#tipoEjer2').DataTable().destroy();
+                $('#tipoEjer2').hide();
+                $('#tipoEjer3').DataTable().destroy();
+                $('#tipoEjer3').hide();
+                $('#ejercicios').show();
+                $('#btnCategorias').css("display", "none");
+                $('#btn2').css("display", "none");
+                $('#btn3').css("display", "none");
+                tablaPrin();
+            })
+   
+           
 
-        });
-    </script>
+        });</script>
 }
