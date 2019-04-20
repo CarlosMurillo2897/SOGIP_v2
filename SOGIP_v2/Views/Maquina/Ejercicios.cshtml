@@ -4,6 +4,8 @@
     var viewDataMaquina = ViewData["maquina"];
     var viewDataNombre = ViewData["nombre"];
 }
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
 <div class="container">
     <a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' id="btnNuevo">
@@ -17,7 +19,7 @@
     <div class="table-responsive">
         <div id="tablaPrincipal"></div>
     </div>
-       <div id="nueva" class="modal fade" role="dialog">
+    <div id="nueva" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -57,6 +59,10 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
     <script>
+        function eliminar() {
+            var des = $('#example').DataTable();
+            des.destroy();
+        }
         var cat1 = null
         var cat2 = null;
         var cat3 = null;
@@ -154,14 +160,85 @@
             });
         }
         $(document).ready(function () {
-            tablaEjercicios();
             tablaPrin();
+            var idEjer = null;
             $('#btnNuevo').click(function () {
-                $('#nueva').show();
+                tablaEjercicios();
+                $('#nueva').modal('show');
+                $('#btnSave').click(function () {
+                var n = @viewDataMaquina;
+                var n1 = null;
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Maquina/getNombreEjer',
+                    data: { "n": idEjer },
+                    success: function (data) {
+                        n1 = data.Id;
+                        var data = null;
+                        if (n1 == null) {
+                            alert("Faltan Seleccionar Ejercicio");
+                        } else {
+                            data = {
+                                nom: n,
+                                ejer: n1
+                            }
+                            SaveMaquinaEjercicio(data);
+                        }
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
             })
+            })
+            function SaveMaquinaEjercicio(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Maquina/SaveMaquinaEjercicio',
+                    data: data,
+                    success: function (data) {
+                        $('#nueva').modal('hide');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                        $('#maquinas').DataTable().ajax.reload(null, false);
+                        eliminar();
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            $('#cerrar').click(function () {
+                eliminar();
+                $('#nueva').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            })
+            $('#cerrar1').click(function () {
+                eliminar();
+                $('#nueva').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+            })
+            
+            $('#tablePrin').on('click', 'td.select-checkbox', function () {
+                var td = $(this);
+                var tr = td.closest('tr');
+                $('#usuario').val(tr.find('td:eq(1)').text());
+                idEjer = tr.find('td:eq(1)').text();
+                $('#Tabla_Prin').hide();
+            });
+
+            $('#botón').click(function () {
+                $('#Tabla_Prin').show();
+
+            });
 
 
-            });</script>
+        });
+    </script>
 }
 
 

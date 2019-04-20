@@ -102,13 +102,44 @@ namespace SOGIP_v2.Controllers
         }
         public JsonResult GetEjerMaquina()
         {
-            var consulta = from t in db.Ejercicio
-                           select new
-                           {
-                               Nombre = t.Nombre,
-                               Id = t.Id
-                           };
-            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+            var data = from a in db.Ejercicio
+                       select new
+                       {
+                           Accion = "",
+                           Nombre = a.Nombre,
+                           Id = a.Id
+
+                       };
+            var ejercicio = data.ToList();
+            return Json(ejercicio, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult getNombreEjer(string n)
+        {
+            var consulta = db.Ejercicio.Where(x => x.Nombre == n).FirstOrDefault();
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult SaveMaquinaEjercicio(string nom , int ejer)
+        {
+            int d = int.Parse(nom);
+            Maquina maquina = db.Maquina.SingleOrDefault(x => x.Id == d);
+            Ejercicio ejercicio = db.Ejercicio.SingleOrDefault(x => x.Id == ejer);
+            MaquinaEjercicio maejer = new MaquinaEjercicio();
+            try
+            {
+                if (maquina != null && ejercicio != null)
+                {
+                    maejer.Maquina = maquina;
+                    maejer.Ejercicio = ejercicio;
+                    db.MaquinaEjercicio.Add(maejer);
+                }
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(maquina, JsonRequestBehavior.AllowGet);
+
         }
     }
 }
