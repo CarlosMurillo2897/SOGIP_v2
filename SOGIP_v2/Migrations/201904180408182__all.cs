@@ -25,12 +25,15 @@ namespace SOGIP_v2.Migrations
                         ArchivoId = c.Int(nullable: false, identity: true),
                         Nombre = c.String(),
                         Contenido = c.Binary(),
+                        actividad_Id = c.Int(),
                         Tipo_TipoId = c.Int(),
                         Usuario_Id = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.ArchivoId)
+                .ForeignKey("dbo.SOGIP_Actividad", t => t.actividad_Id)
                 .ForeignKey("dbo.SOGIP_Tipo", t => t.Tipo_TipoId)
                 .ForeignKey("dbo.SOGIP_Users", t => t.Usuario_Id)
+                .Index(t => t.actividad_Id)
                 .Index(t => t.Tipo_TipoId)
                 .Index(t => t.Usuario_Id);
             
@@ -511,6 +514,7 @@ namespace SOGIP_v2.Migrations
             DropForeignKey("dbo.SOGIP_UserLogins", "UserId", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_UserClaims", "UserId", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Archivo", "Tipo_TipoId", "dbo.SOGIP_Tipo");
+            DropForeignKey("dbo.SOGIP_Archivo", "actividad_Id", "dbo.SOGIP_Actividad");
             DropIndex("dbo.SOGIP_Roles", "RoleNameIndex");
             DropIndex("dbo.SOGIP_Reservacion", new[] { "UsuarioId_Id" });
             DropIndex("dbo.SOGIP_Reservacion", new[] { "Estado_EstadoId" });
@@ -556,6 +560,7 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_Tipo", new[] { "Nombre" });
             DropIndex("dbo.SOGIP_Archivo", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Archivo", new[] { "Tipo_TipoId" });
+            DropIndex("dbo.SOGIP_Archivo", new[] { "actividad_Id" });
             DropTable("dbo.SOGIP_Roles");
             DropTable("dbo.SOGIP_Reservacion");
             DropTable("dbo.SOGIP_Parametro");

@@ -13,5 +13,6 @@ namespace SOGIP_v2.Models
         public byte[] Contenido { get; set; }
         public Tipo Tipo { get; set; }
         public ApplicationUser Usuario { get; set; }
+        public Actividad actividad { get; set; }
     }
 }

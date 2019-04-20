@@ -1,9 +1,11 @@
 ﻿$(document).ready(function () {
-        $('#txtStart').datepicker();
+    $('#txtStart').datepicker({
+        'daysOfWeekDisabled': []
+    });
     $('input.timepicker').timepicker({
         'step': 60,
-        'minTime': '6:00am',
-        'maxTime': '7:00pm',
+        'minTime': '5:00am',
+        'maxTime': '10:00pm',
         'disableTextInput': true
 
     });
@@ -16,8 +18,7 @@
 
     //FUNCIÓN PARA GUARDAR ACTIVIDAD
     $('#btnSave').click(function () {
-        var data = null;
-        var data2 = null;
+
 
         //----------------validaciones-------------------//
         if ($('#titulo').val().length < 1) {//no ha ingresado horas
@@ -41,22 +42,48 @@
             return;
         }
         //----------------------------------------------//
-        data = {
-            Titulo: $('#titulo').val(),
-            Descripcion: $('#descripcion').val(),
-            Lugar: $('#lugar').val()
-        }
+       
 
-        data2 = {
-            FechaHoraInicio: $('#txtStart').val() + ' ' + $('#txtHoraI').val(),
-            FechaHoraFinal: $('#txtStart').val() + ' ' + $('#txtHoraF').val()
+        var
+            Titulo = $('#titulo').val(),
+            Descripcion = $('#descripcion').val(),
+            Lugar = $('#lugar').val(),
+            FechaHoraInicio = $('#txtStart').val() + ' ' + $('#txtHoraI').val(),
+            FechaHoraFinal = $('#txtStart').val() + ' ' + $('#txtHoraF').val();
+        
+
+        //
+        //---> Guardar imagen
+        var archivo = $('#archivo')[0].files[0];
+
+        if (archivo !== undefined && archivo.size >= 20000000 && !confirm('\n¡Cuidado! Estás intentando subir un archivo de más de 20MB.\n\n ¿Estás seguro de querer subir este archivo?\n\n')) {
+            archivo = undefined;
+
+            $('.image-preview-clear').click(function () {
+                $('.image-preview').attr("data-content", "").popover('hide');
+                $('.image-preview-filename').val("");
+                $('.image-preview-clear').hide();
+                $('.image-preview-input input:file').val("");
+                $(".image-preview-input-title").text("Buscar");
+            });
         }
+        //
+        var data = new FormData();
+        data.append('Titulo', Titulo);
+        data.append('Descripcion', Descripcion);
+        data.append('Lugar', Lugar);
+        data.append('FechaHoraFinal', FechaHoraFinal);
+        data.append('FechaHoraInicio', FechaHoraInicio);
+        data.append('archivo', archivo);
+        
 
         $.ajax({
             type: "POST",
             dataType: "JSON",
             url: '/Actividad/saveActividad',
-            data: { 'actividad': data, 'horario':data2},
+            data: data,
+            contentType: false,
+            processData: false,
             success: function (data) {
                 $('#myModalSave').modal('hide');
                 bootbox1(" Guardando actividad...");
@@ -116,7 +143,7 @@
                     left: 'prev, next today',
                     center: 'title',
                 },
-                weekends: false,
+                weekends: true,
                 eventLimit: true,
                 eventColor: '#339966',
                 events: events,
