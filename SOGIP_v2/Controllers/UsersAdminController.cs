@@ -515,11 +515,60 @@ namespace SOGIP_v2.Controllers
                 Response.Flush();
                 Response.End();
             }
-            catch(Exception e)
+            catch(Exception)
             {
 
             }
 
+        }
+
+        public JsonResult UpdateUser(ApplicationUser usr, Seleccion sel)
+        {
+            try
+            {
+                ApplicationUser u = db.Users.Where(x => x.Id == usr.Id).FirstOrDefault();
+                u.Cedula = usr.Cedula;
+                u.UserName = usr.Cedula;
+                u.Nombre1 = usr.Nombre1;
+                u.Nombre2 = usr.Nombre2;
+                u.Apellido1 = usr.Apellido1;
+                u.Apellido2 = usr.Apellido2;
+                u.Email = usr.Email;
+                u.Sexo = usr.Sexo;
+                u.Fecha_Nacimiento = usr.Fecha_Nacimiento;
+                if (usr.PasswordHash != null) {
+                    u.PasswordHash = UserManager.PasswordHasher.HashPassword(ComposicionPassword(u.Nombre1, u.Apellido1, u.Cedula, u.Fecha_Nacimiento));
+                    u.Fecha_Expiracion = DateTime.Today;
+                }
+
+                db.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RestaurarContraseñaOriginal(string Id)
+        {
+            try
+            {
+                ApplicationUser consulta = db.Users.Where(x => x.Id == Id).FirstOrDefault();
+                consulta.PasswordHash = UserManager.PasswordHasher.HashPassword(ComposicionPassword(consulta.Nombre1, consulta.Apellido1, consulta.Cedula, consulta.Fecha_Nacimiento));
+                consulta.Fecha_Expiracion = DateTime.Today;
+                db.SaveChanges();
+            }
+            catch (Exception) {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            }
+            return Json(JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult NombreSeleccionRepetido(string nombre, string Id)
+        {
+            return Json(!db.Selecciones.Any(x => x.Nombre_Seleccion == nombre && x.Usuario.Id != Id), JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Users/Edit/5
@@ -691,7 +740,7 @@ namespace SOGIP_v2.Controllers
                         {
                             terminos = Regex.Replace(nac.ToString(), @"[-\\]", "/");
                             nacimiento = Convert.ToDateTime(terminos);
-                            nac = nacimiento.ToString("yyyy-MM-dd");
+                            nac = nacimiento.ToString("yyyy/MM/dd");
                             
                             if ((nacimiento.Year < (DateTime.Today.Year - 80)) || (nacimiento.Year > (DateTime.Today.Year - 10)))
                             {
@@ -808,9 +857,9 @@ namespace SOGIP_v2.Controllers
             return Json(ls, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult CedulaRepetida(string ced)
+        public JsonResult CedulaRepetida(string ced, string Id)
         {
-            return Json(!db.Users.Any(x => x.Cedula == ced), JsonRequestBehavior.AllowGet);
+            return Json(!db.Users.Any(x => x.Cedula == ced && x.Id != Id), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult CrearMasivo(List<ApplicationUser> users, string rol, string usuario, int value)

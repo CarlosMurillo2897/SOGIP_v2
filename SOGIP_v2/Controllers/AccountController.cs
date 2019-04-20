@@ -111,7 +111,7 @@ namespace SOGIP_v2.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Intento de inicio de sesión no válido.");
+                    ModelState.AddModelError("", "Contraseña y usuario no coinciden.");
                     return View(model);
             }
         }
@@ -279,6 +279,12 @@ namespace SOGIP_v2.Controllers
             if (rol.FirstOrDefault() == "Seleccion/Federacion")
             {
                 ViewBag.Entidad = db.Selecciones.Where(x => x.Usuario.Id == id).Select(s => s.Nombre_Seleccion).FirstOrDefault();
+                ViewBag.DeporteSeleccion = db.Selecciones.Where(s => s.Usuario.Id == id).Select(c => c.Deporte_Id.Nombre).FirstOrDefault();
+                List<SubSeleccion> aux = db.SubSeleccion
+                    .Include("Categoria_Id")
+                    .Include("Entrenador")
+                    .Where(x => x.Seleccion.Usuario.Id == id).ToList();
+                ViewBag.CategoriasSeleccion = aux;
             }
             if (rol.FirstOrDefault() == "Asociacion/Comite")
             {
@@ -303,12 +309,11 @@ namespace SOGIP_v2.Controllers
                 ViewBag.Categoria = db.Atletas.Where(a => a.Usuario.Id == id).Select(s => s.SubSeleccion.Categoria_Id.Descripcion).FirstOrDefault();
             }
 
-
             ViewBag.Role = rol.FirstOrDefault();
             ViewBag.usuario_Actual = usuario_Actual;
             ViewBag.rol_Usuario_Actual = userRoles.First();
             ViewBag.idUsuario = id;
-
+            var nac = Convert.ToDateTime(user.Fecha_Nacimiento.ToString("yyyy/MM/dd"));
             return View(new EditUserViewModel()
             {
                 Id = user.Id,
@@ -320,7 +325,7 @@ namespace SOGIP_v2.Controllers
                 Nombre2 = user.Nombre2,
                 Apellido1 = user.Apellido1,
                 Apellido2 = user.Apellido2,
-                Fecha_Nacimiento = user.Fecha_Nacimiento,
+                Fecha_Nacimiento = nac,
                 Sexo = user.Sexo,
                 Estado = user.Estado
             });

@@ -49,11 +49,11 @@ namespace SOGIP_v2.Models
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "La cédula es obligatoria.")]
         [Display(Name = "Cédula")]
         public string Cedula { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "La contrasñea es obligatoria.")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }

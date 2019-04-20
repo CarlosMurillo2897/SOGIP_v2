@@ -40,9 +40,7 @@ delete from SOGIP_Color where colorid>7
  select * from SOGIP_Cita;
  select * from SOGIP_Conjunto_Ejercicio;
  select * from SOGIP_Deportes;
-
  select * from SOGIP_Entidad_Publica;
-
  select * from SOGIP_Estados;
  select * from SOGIP_Expedientes_Fisicos;
  select * from SOGIP_Funcionario_ICODER as f, sogip_users as u where f.usuario_id=u.id and u.Sexo=0;
@@ -59,7 +57,7 @@ delete from SOGIP_Color where colorid>7
  select * from SOGIP_UserLogins;
  select * from SOGIP_UserRoles
 		where RoleId='4';
- select * from SOGIP_Users where Nombre1='HUGO';
+
 304270289
 HuLo3042041988
 

@@ -21,7 +21,7 @@ $(document).ready(function () {
 
     $(function () {
         $("#dtp").datepicker({
-            format: 'yyyy-mm-dd',
+            format: 'yyyy/mm/dd',
             defaultViewDate: max,
             startDate: max,
             endDate: min,
@@ -399,7 +399,7 @@ function actualizar() {
     tr.find('td:eq(3)').text($('#apel1').val().toUpperCase());
     tr.find('td:eq(4)').text($('#apel2').val().toUpperCase());
     tr.find('td:eq(5)').text($('#email').val());
-    tr.find('td:eq(6)').text($("#dtp").data('datepicker').getFormattedDate('yyyy-mm-dd'));
+    tr.find('td:eq(6)').text($("#dtp").data('datepicker').getFormattedDate('yyyy/mm/dd'));
     tr.find('td:eq(7)').text($('#sexo').val());
 
 }

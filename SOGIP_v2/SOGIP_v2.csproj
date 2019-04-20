@@ -279,6 +279,7 @@
     <Content Include="Content\brands.css" />
     <Content Include="Content\brands.min.css" />
     <Content Include="Content\Busqueda.css" />
+    <Content Include="Content\Contact.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap4.css" />

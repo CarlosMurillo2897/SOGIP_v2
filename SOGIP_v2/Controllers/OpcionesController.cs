@@ -40,7 +40,7 @@ namespace SOGIP_v2.Controllers
                 }
                     db.SaveChanges();
             }
-            catch (Exception e) { Response.StatusCode = (int)HttpStatusCode.InternalServerError; }
+            catch (Exception ) { Response.StatusCode = (int)HttpStatusCode.InternalServerError; }
 
             return Json(c, JsonRequestBehavior.AllowGet);
         }
@@ -66,7 +66,7 @@ namespace SOGIP_v2.Controllers
                 }
                     db.SaveChanges();
             }
-            catch (Exception e) { Response.StatusCode = (int)HttpStatusCode.InternalServerError; }
+            catch (Exception ) { Response.StatusCode = (int)HttpStatusCode.InternalServerError; }
 
             return Json(c, JsonRequestBehavior.AllowGet);
         }

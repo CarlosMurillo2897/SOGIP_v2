@@ -1,4 +1,5 @@
 ﻿@model SOGIP_v2.Models.EditUserViewModel
+
 @using Microsoft.AspNet.Identity
 @using App.Extensions
 
@@ -39,17 +40,20 @@
         aux = "Atletas";
     }
 
-    var dis = "";
-    if (ViewBag.rol_Usuario_Actual != "Administrador" && ViewBag.rol_Usuario_Actual != "Supervisor")
-    {
-        dis = "disabled";
-
-    }
 }
 
 <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+<link href="~/Content/DataTables/css/select.bootstrap4.min.css" rel="stylesheet" />
 
+<script>
+    @*var info = @Html.Raw(Json.Encode(ViewBag.CategoriasSeleccion));
+    var array = [];
+    for (var i = 0; i < info.length; i++) {
+        array[i] = info[i].Categoria_Id.Descripcion;
+    };*@
+
+</script>
 <style>
     li {
         overflow-wrap: break-word;
@@ -107,6 +111,21 @@
                             </span>
                             @ViewBag.Categoria
                         </li>
+                    }
+                    @if (ViewBag.CategoriasSeleccion != null)
+                    {
+                        var i = 1;
+                        foreach (var sub in ViewBag.CategoriasSeleccion)
+                        {
+                            <li class="list-group-item text-right">
+                                <span class="pull-left">
+                                    <strong>Categoría #@i</strong>
+                                </span>
+                                @sub.Categoria_Id.Descripcion
+                            </li>
+                            i = i + 1;
+                        }
+
                     }
 
                     <li class="list-group-item text-right">
@@ -208,16 +227,21 @@
                     <div class="tab-pane active" id="Información">
                         <h2>
                             Información Personal
-                            <a id="infoP" class="pull-right glyphicon glyphicon-lock recargar" onclick='unlockForm("@ViewBag.rol_Usuario_Actual", "@ViewBag.usuario_Actual", "@Model.Cedula");'></a>
+                            <a id="infoP" class="pull-right" onclick='unlockForm("@ViewBag.rol_Usuario_Actual", "@ViewBag.usuario_Actual", "@Model.Cedula");'>
+                                Editar
+                                <span class="glyphicon glyphicon-lock recargar"></span>
+                            </a>
                         </h2>
                         <hr>
                         <form id="signupForm1" method="post" action="" novalidate="novalidate">
+
+                            <input type="hidden" id="Id" name="Id" value="@Model.Id" />
+
                             <div class="row">
                                 <div class="form-group col-md-12">
-                                    <!--label class="control-label" for="ced">Cédula</label-->
                                     <h4>Cédula</h4>
                                     <div class="afect">
-                                        <input type="text" class="form-control" id="ced" name="ced" placeholder="Digite su cédula." value="@Model.Cedula" disabled="disabled">
+                                        <input type="text" class="form-control" id="Cedula" name="Cedula" placeholder="Digite su cédula." value="@Model.Cedula" disabled="disabled">
                                     </div>
                                 </div>
                             </div>
@@ -225,13 +249,15 @@
                                 <div class="form-group col-md-6">
                                     <h4>Primer Nombre</h4>
                                     <div class="afect">
-                                        <input type="text" class="form-control" id="nom1" name="nom1" placeholder="Digite su primer nombre." value="@Model.Nombre1" disabled="disabled">
+                                        <input type="text" class="form-control" id="Nombre1" name="Nombre1" placeholder="Digite su primer nombre." value="@Model.Nombre1" disabled="disabled">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <h4>Segundo Nombre</h4>
-                                    <div class="afect">
-                                        <input type="text" class="form-control" id="nom2" name="nom2" placeholder="Digite su segundo nombre, si posee." value="@Model.Nombre2" disabled="disabled">
+                                    <div class="afect has-feedback has-warning">
+                                        <input type="text" class="form-control" id="Nombre2" name="Nombre2" placeholder="Digite su segundo nombre, si posee." value="@Model.Nombre2" disabled="disabled">
+                                        <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+                                        <em class="error help-block">Este campo es opcional</em>
                                     </div>
                                 </div>
                             </div>
@@ -239,13 +265,15 @@
                                 <div class="form-group col-md-6">
                                     <h4>Primer Apellido</h4>
                                     <div class="afect">
-                                        <input type="text" class="form-control" id="ape1" name="ape1" placeholder="Digite su primer apellido." value="@Model.Apellido1" disabled="disabled">
+                                        <input type="text" class="form-control" id="Apellido1" name="Apellido1" placeholder="Digite su primer apellido." value="@Model.Apellido1" disabled="disabled">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <h4>Segundo Apellido</h4>
-                                    <div class="afect">
-                                        <input type="text" class="form-control" id="ape2" name="ape2" placeholder="Digite su segundo apellido, si posee." value="@Model.Apellido2" disabled="disabled">
+                                    <div class="afect has-feedback has-warning">
+                                        <input type="text" class="form-control" id="Apellido2" name="Apellido2" placeholder="Digite su segundo apellido, si posee." value="@Model.Apellido2" disabled="disabled">
+                                        <span class="glyphicon glyphicon-warning-sign form-control-feedback"></span>
+                                        <em class="error help-block">Este campo es opcional</em>
                                     </div>
                                 </div>
                             </div>
@@ -253,15 +281,18 @@
                                 <div class="form-group col-md-6">
                                     <h4>Email</h4>
                                     <div class="afect">
-                                        <input type="text" class="form-control" id="email1" name="email1" placeholder="Email" value="@Model.Email" disabled="disabled">
+                                        <input type="text" class="form-control" id="Email" name="Email" placeholder="Email" value="@Model.Email" disabled="disabled">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <h4>Fecha de nacimiento </h4>
+                                    <h4>
+                                        Fecha de nacimiento
+                                        <strong>(año/mes/día)</strong>
+                                    </h4>
                                     <div class="afect">
                                         <div class="input-group date" id="dtp">
                                             <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                            <input class="form-control" type="text" id="nac" name="nac" value="@Model.Fecha_Nacimiento.ToShortDateString()" disabled="disabled">
+                                            <input class="form-control" type="text" id="Fecha_Nacimiento" name="Fecha_Nacimiento" value="@Model.Fecha_Nacimiento.ToString("yyyy/MM/dd")" disabled="disabled">
                                         </div>
                                     </div>
                                 </div>
@@ -270,17 +301,17 @@
                                 <div class="form-group col-md-3">
                                     <h4>Género</h4>
                                     <div class="afect">
-                                        <select class="form-control" id="gender" name="gender" required disabled="disabled">>
+                                        <select class="form-control" id="Sexo" name="Sexo" required disabled="disabled">
                                             <option value="">-- Seleccionar --</option>
                                             @if (Model.Sexo == false)
                                             {
-                                                <option value="0" selected>Femenino</option>
-                                                <option value="1">Masculino</option>
+                                                <option value="false" selected>Femenino</option>
+                                                <option value="true">Masculino</option>
                                             }
                                             else
                                             {
-                                                <option value="0">Femenino</option>
-                                                <option value="1" selected>Masculino</option>
+                                                <option value="false">Femenino</option>
+                                                <option value="true" selected>Masculino</option>
                                             }
                                         </select>
                                     </div>
@@ -288,27 +319,118 @@
                                 <div class="form-group col-md-4">
                                     <h4>Contraseña</h4>
                                     <div class="afect">
-                                        <input type="password" class="form-control" id="password1" name="password1" placeholder="Contraseña" disabled="disabled">
+                                        <input type="password" class="form-control" id="PasswordHash" name="PasswordHash" placeholder="Contraseña" disabled="disabled">
                                     </div>
                                 </div>
                                 <div class="form-group col-md-5">
                                     <h4>Restaurar contraseña predeterminada</h4>
-                                    <div class="afect">
-                                        <button class="btn btn-block btn-info" disabled="disabled">
-                                            Restaurar valor inicial <span class="glyphicon glyphicon-retweet"></span>
-                                        </button>
-                                    </div>
+
+                                    <button type="button" class="btn btn-block btn-info" disabled="disabled" onclick="OriginalPass()">
+                                        Restaurar valor inicial
+                                        <span class="glyphicon glyphicon-retweet"></span>
+                                    </button>
+
                                 </div>
                             </div>
-                            <br />
+
+                            @if (ViewBag.Role == "Seleccion/Federacion")
+                            {
+                                <hr>
+                                <h2>Información de Selecciones</h2>
+                                <hr>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <h4>Nombre de Selección</h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="Nombre_Seleccion" name="Nombre_Seleccion" placeholder="Nombre de Selección" value="@ViewBag.Entidad">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <h4>Deporte de Selección </h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="Nombre_Deporte" name="Nombre_Deporte" placeholder="Deporte de la Selección" value="@ViewBag.DeporteSeleccion" readonly>
+                                            <input type="hidden" class="form-control" id="Deporte_Id" name="Deporte_Id">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <h4>Cambiar deporte</h4>
+                                        <div class="afect">
+                                            <button type="button" class="btn btn-block btn-warning" disabled="disabled" data-toggle="modal" onclick="cargarModal(1);">
+                                                Buscar deporte deseado
+                                                <span class=" glyphicon glyphicon-king"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <hr />
+                                    <h2>
+                                        Información de Categorías
+                                        <button type="button" class="pull-right btn btn-info" disabled="disabled" data-toggle="modal" data-target="#modal">
+                                            Agregar
+                                            <span class="glyphicon glyphicon-plus-sign"></span>
+                                        </button>
+
+                                    </h2>
+                                    <hr />
+                                </div>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-striped" id="tablaCategorias">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Categoría</th>
+                                                        <th>Entrenador de categoría</th>
+                                                        <th>Editar</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (ViewBag.CategoriasSeleccion != null)
+                                                    {
+                                                        foreach (var sub in ViewBag.CategoriasSeleccion)
+                                                        {
+                                                            <tr>
+                                                                <td>@sub.Categoria_Id.Descripcion</td>
+                                                                @if (sub.Entrenador != null)
+                                                                {
+                                                                    <td>@sub.Entrenador.Cedula</td>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <td>SIN ENTRENADOR</td>
+                                                                }
+                                                                <td>
+                                                                    <button type="button" class=" btn btn-primary" disabled="disabled" data-toggle="modal" data-target="#modal">
+                                                                        Editar
+                                                                        <span class="glyphicon glyphicon-edit"></span>
+                                                                    </button>
+                                                                    @*
+                                                                        <a class="btn btn-primary" id="@sub.SubSeleccionId" onclick="GetCategorias()">
+                                                                            Editar
+                                                                            <span class="glyphicon glyphicon-edit"></span>
+                                                                        </a>
+                                                                    *@
+                                                                </td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-4">
-                                        <button type="submit" class="btn btn-lg btn-success" name="signup1" value="Sign up" disabled="disabled">
+                                        <button type="submit" class="btn btn-lg btn-success" name="signup1" value="0" disabled="disabled">
                                             <text class="hidden-xs">Guardar</text>
                                             <span class="glyphicon glyphicon-ok"></span>
                                         </button>
-                                        <button type="reset" class="btn btn-lg btn-warning" name="reset" value="Reset" disabled="disabled">
+                                        <button type="reset" class="btn btn-lg btn-danger" name="reset" value="Reset" disabled="disabled">
                                             <text class="hidden-xs">Limpiar</text>
                                             <span class="glyphicon glyphicon-refresh"></span>
                                         </button>
@@ -321,6 +443,28 @@
             </div><!--/tab-content-->
         </div>
     </div>
+
+    <div id="modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">
+                        <text id="modalTitle">Agregar nueva Categoría</text>
+                    </h2>
+                </div>
+                <form id="modalForm">
+                    <div class="modal-body" id="modalBody">
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" id="modalSave" class="btn btn-success" value="Guardar" />
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
@@ -328,6 +472,7 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
 
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")

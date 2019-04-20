@@ -154,7 +154,7 @@ function cargaDT(id) {
             "type": "GET",
             "dataSrc": ""
         },
-        columns: col,
+        columns: col
         /*dom: 'Bfrtip',
         buttons: [
             'print',// 'pdf',

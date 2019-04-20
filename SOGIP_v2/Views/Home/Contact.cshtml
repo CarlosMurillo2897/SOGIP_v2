@@ -1,16 +1,72 @@
 ﻿@{
-    ViewBag.Title = "Contáctenos";
+    ViewBag.Title = "Desarrolladores";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<address>
-    Parque Metropolitano La Sabana<br />
-    Estadio Nacional<br />
-    <abbr title="Teléfono">Tel:</abbr>
-    +506 2549-0700
-</address>
+@Styles.Render("~/Content/Contact.css")
+<link href="~/Content/fontawesome-all.css" rel="stylesheet" />
 
-<address>
-    <strong>Soporte:</strong>   <a href="mailto:admSOGIP@hotmail.com">admSOGIP@hotmail.com</a><br />
-</address>
+<div class="testimonials">
+    <div class="inner">
+        <h1 style="font-size:35px;">Desarrolladores</h1>
+        <div class="border"></div>
+
+            <div class="rw">
+                <div class="col">
+                    <div class="testimonial">
+                        <img src="~/Content/Imagenes/W.png" alt="Lisandra Agüero Ruíz" />
+                        <div class="name">
+                            Lisandra Agüero<br /> Ruíz
+                        </div>
+                        <p>
+                            Ingeniería en Sistemas de Información, Universidad Nacional.
+                        </p>
+                        <div class="correo">
+                            <a href="mailto:lisandra.agueroruiz@gmail.com">
+                                lisandra.agueroruiz@gmail.com
+                            </a>
+                        </div>
+                        <div class="p-sm">
+                            <a href="https://www.linkedin.com/in/lisandra-ag%C3%BCero-ru%C3%ADz-91aa1b159/"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/9aguero6"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="testimonial">
+                        <img src="~/Content/Imagenes/W.png" alt="Lisandra Agüero Ruíz" />
+                        <div class="name">
+                            Adriana Caballeros<br /> Bustamante
+                        </div>
+                        <p>
+                            Ingeniería en Sistemas de Información, Universidad Nacional.
+                        </p>
+                        <a href="mailto:cababustadri@gmail.com">
+                            cababustadri@gmail.com
+                        </a>
+                        <div class="p-sm">
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/02021303"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="testimonial">
+                        <img src="~/Content/Imagenes/M.png" alt="Lisandra Agüero Ruíz" />
+                        <div class="name">
+                            Carlos Murillo<br /> Badilla
+                        </div>
+                        <p>
+                            Ingeniería en Sistemas de Información, Universidad Nacional.
+                        </p>
+                        <a href="mailto:cmb2897@gmail.com">
+                            cmb2897@gmail.com
+                        </a>
+                        <div class="p-sm">
+                            <a href="https://www.linkedin.com/in/carlos-mb/"><i class="fab fa-linkedin"></i></a>
+                            <a href="https://github.com/CarlosMurillo2897/"><i class="fab fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>

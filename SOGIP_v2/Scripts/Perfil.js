@@ -1,17 +1,18 @@
 ﻿$.validator.setDefaults({
     submitHandler: function () {
         alert("Enviando solicitud.");
+        sendData();
     }
 });
 
-$.validator.addMethod("passw",
-    function (value, element) {
-        return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)([A-Za-z0-9]){6,12}$/.test(value);
+$.validator.addMethod("passw", function (value, element) {
+    return value.length !== 0 ? /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)([A-Za-z0-9]){6,12}$/.test(value) :  true;
 });
-
+var p1, p2 = "";
 $(document).ready(function () {
-
-    unlockForm("None", "None", true);
+    
+    unlockForm("None", "None", "Nn");
+    //unlockForm("Supervisor", "None", "Nn");
 
     $('[data-toggle="popover"]').popover();
 
@@ -22,7 +23,7 @@ $(document).ready(function () {
     min.setFullYear(today.getFullYear() - 10);
 
         $("#dtp").datepicker({
-            format: "dd/mm/yyyy",
+            format: 'yyyy/mm/dd',
             defaultViewDate: max,
             startDate: max, 
             endDate: min,
@@ -31,72 +32,98 @@ $(document).ready(function () {
         
     $("#signupForm1").validate({
         rules: {
-            ced: {
+            Cedula: {
                 required: true,
                 minlength: 9,
                 remote: {
                     url: "/UsersAdmin/CedulaRepetida",
                     type: "GET",
                     data: {
-                        ced: function () { return $('#ced').val(); }
+                        ced: function () { return $('#Cedula').val(); },
+                        Id: function () { return $('#Id').val(); }
                     }
                 }
             },
-            nom1: {
+            Nombre1: {
                 required: true,
                 minlength: 2
             },
-            ape1: {
+            Apellido1: {
                 required: true,
                 minlength: 2
             },
-            gender: {
+            Sexo: {
                 required: true
             },
-            password1: {
-                required: true,
+            PasswordHash: {
+                // required: true,
                 minlength: 6,
                 passw: true
             },
-            email1: {
+            Email: {
                 required: true,
                 email: true
             },
-            nac: {
+            Fecha_Nacimiento: {
+                required: true
+            },
+            // Selecciones
+            Nombre_Seleccion: {
+                required: true,
+                minlength: 6,
+                remote: {
+                    url: "/UsersAdmin/NombreSeleccionRepetido",
+                    type: "GET",
+                    data: {
+                        nombre: function () { return $('#Nombre_Seleccion').val(); },
+                        Id: function () { return $('#Id').val(); }
+                    }
+                }
+            },
+            Nombre_Deporte: {
                 required: true
             }
         },
         messages: {
-            ced: {
+            Cedula: {
                 required: "La cédula es un campo obligatorio.",
                 minlength: "La longitud mínima de la cédula debe ser de 9 carácteres.",
                 remote: "La cédula ingresada ya se encuentra en el sistema."
             },
-            nom1: {
+            Nombre1: {
                 required: "El primer nombre es un campo requerido.",
                 minlength: "La longitud mínima del primer nombre debe ser de 2 carácteres."
             },
-            ape1: {
+            Apellido1: {
                 required: "El primer apellido es un campo requerido.",
                 minlength: "La longitud mínima del primer apellido debe ser de 2 carácteres."
             },
-            gender: {
+            Sexo: {
                 required: "El campo de género es requerido."
             },
-            password1: {
-                required: "El campo de contraseña es obligatorio.",
+            PasswordHash: {
+                // required: "El campo de contraseña es obligatorio.",
                 minlength: "La contraseña debe tener un mínimo de 6 letras.",
                 passw : "Contraseña requiere de al menos una letra mayúscula, una minúscula, un número y una longitud de entre 6 y 12 letras."
             },
-            email1: "Especifique su e-mail con el formato correcto.",
-            nac: "La fecha de nacimiento es obligatoria."
+            Email: "Especifique su e-mail con el formato correcto.",
+            Fecha_Nacimiento: "La fecha de nacimiento es obligatoria.",
+            // Selecciones
+            Nombre_Seleccion: {
+                required: "El nombre de la selección es un campo obligatorio.",
+                minlength: "La longitud mínima del nombre de la selección debe ser de 6 carácteres.",
+                remote: "El nombre de la selección ingresada ya se encuentra en el sistema."
+            },
+            Nombre_Deporte: {
+                required: "El Deporte de la Selección es requerido."
+            }
         },
         errorElement: "em",
         errorPlacement: function (error, element) {
             error.addClass("help-block");
             element.parents(".afect").addClass("has-feedback");
 
-            if (element.prop("id") === "nac") {
+            if (element.prop("id") === "Fecha_Nacimiento") {
                 error.insertAfter(element.parent("div"));
             } else {
                 error.insertAfter(element);
@@ -254,7 +281,7 @@ function cargarAtletas(ced) {
 
 }
 //"@ViewBag.rol_Usuario_Actual", "@ViewBag.usuario_Actual", "@Model.Cedula", true
-function unlockForm(role, id_Actual, Cedula, block) {
+function unlockForm(role, id_Actual, Cedula) {
     if (role === 'Administrador' || role === 'Supervisor' || id_Actual === Cedula) {
         $("#signupForm1 :input").attr("disabled", false);
     }
@@ -262,3 +289,154 @@ function unlockForm(role, id_Actual, Cedula, block) {
         $("#signupForm1 :input").attr("disabled", true);
     }
 }
+
+function GetCategorias() {
+    var newArray = [];
+    var TableData = [];
+    $('#tablaCategorias tbody tr').each(function (row, tr) {
+        TableData.push($(tr).find("td:eq(0)").text());
+    });
+    console.log(TableData);
+
+    $.ajax({
+        url: "/Opciones/GetCategorias",
+        type: "GET",
+        success: function (consulta) {
+            $.each(consulta, function (i) {
+                newArray.push(consulta[i].Descripcion);
+            });
+
+
+            newArray = newArray.filter((el) => !TableData.includes(el));
+            
+            console.log(newArray);
+        }
+    });
+
+}
+
+function sendData() {
+
+    $("#signupForm1 :input[type=text]").val(function () {
+        return this.value.toUpperCase();
+    });
+
+    var usr = $('#signupForm1').serialize();
+    
+    usr = usr + "&Nombre_Seleccion=" + $('#Cedula').val();
+    //Nombre_Seleccion, Deporte_Id
+    //console.log(usr);
+
+    $.ajax({
+        url: "/UsersAdmin/UpdateUser/",
+        type: "POST",
+        data: usr,
+        success: function () {
+            alert('Cambios realizados.');
+            location.reload();
+        },
+        error: function () {
+            alert('Error desconocido. Contactar a soporte si continua.');
+        }
+    });
+
+}
+
+function OriginalPass() {
+    if (!confirm('¿Está seguro de devolver la contraseña a sus valores predeterminados?')) {
+        return;
+    }
+    $.ajax({
+        url: "/UsersAdmin/RestaurarContraseñaOriginal",
+        type: "POST",
+        data: { Id: $('#Id').val() },
+        success: function () {
+            alert('Contraseña restaurada con éxito.');
+        },
+        error: function () {
+            alert('Operación no completada. Intente de nuevo o contacte soporte en breve.');
+        }
+
+    });
+}
+
+function cargarModal(tipo) {
+    p1 = "";
+    var saved = [];
+    var url, header, rowSelected = "";
+    var col = [];
+    switch (tipo) {
+        case 1: {
+            $('#modalTitle').html('Buscar Deporte deseado');
+            url = "/Opciones/GetDeportes";
+            header = header + '<th>Nombre</th><th>Tipo de Deporte</th><th>Identificador</th></tr>';
+            col = [
+                { data: "Nombre" },
+                { data: "Descripcion" },
+                { data: "DeporteId" }
+            ];
+            break;
+        }
+        case 2: {
+            $('#modalTitle').html('Agregar nueva Categoría');
+            url = "";
+            break;
+        }
+    }
+
+    $('#datos').DataTable().destroy();
+    $('#datos').remove();
+
+    $('<table />', {
+        id: 'datos',
+        class: 'table table-striped table-bordered table-hover dt-responsive',
+        width: "100%"
+    }).append("<thead>" + header + "</thead>").appendTo('#modalBody');
+
+    $('#datos').DataTable({
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ resultados por página.",
+            "zeroRecords": "No se han encontrado registros.",
+            "info": "Mostrando _START_ de _END_, de un total de _TOTAL_ registros.",
+            "infoEmpty": "No hay datos para mostrar.",
+            "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+            "search": "Filtrar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+            "select": {
+                "rows": {
+                    _: "%d registros seleccionados.",
+                    0: "Presione sobre la fila deseada.",
+                    1: "1 registro seleccionado."
+                }
+            }
+        },
+        "ajax": {
+            "url": url,
+            "type": "GET",
+            "dataSrc": ""
+        },
+        columns: col,
+        select: true/*,
+        "createdRow": function (row, data, index) { if (data.Nombre === $('#Nombre_Deporte').val() ) { $(row).addClass('selected'); rowSelected = $(row); } }*/
+    });
+
+    $('#datos tbody').on('click', 'tr', function () {
+        /*if (rowSelected !== undefined) { rowSelected.removeClass('selected'); rowSelected = undefined; }*/
+        var data = $('#datos').DataTable().row(this).data();
+        p1 = data.Nombre;
+
+    });
+
+    $('#modal').modal('show');
+
+}
+
+$('#modalSave').on('click', function () {
+    if (p1 !== "") { $('#Nombre_Deporte').val(p1); }
+    $('#modal').modal('hide');
+});
