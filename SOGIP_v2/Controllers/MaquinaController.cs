@@ -84,21 +84,10 @@ namespace SOGIP_v2.Controllers
                 ViewData["maquina"] = n;
                 string nombre = maquina.Nombre;
                 ViewData["nombre"] = nombre;
-                getEjercicios1(id);
 
             }
 
             return View();
-        }
-        public JsonResult getEjercicios1(int?id)
-        {
-            var consulta = from t in db.MaquinaEjercicio.Where(x => x.Maquina.Id == id)
-                           select new
-                           {
-                               Nombre = t.Ejercicio.Nombre,
-                               Id = t.Id
-                           };
-            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
         }
         public JsonResult getEjercicios(string id)
         {
@@ -107,6 +96,16 @@ namespace SOGIP_v2.Controllers
                            select new
                            {
                                Nombre = t.Ejercicio.Nombre,
+                               Id = t.Id
+                           };
+            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetEjerMaquina()
+        {
+            var consulta = from t in db.Ejercicio
+                           select new
+                           {
+                               Nombre = t.Nombre,
                                Id = t.Id
                            };
             return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
