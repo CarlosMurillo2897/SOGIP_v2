@@ -27,6 +27,10 @@
         var cat2 = null;
         var cat3 = null;
         function tablaPrin() {
+            var d = @viewDataMaquina;
+            data ={
+                id: d
+            }
             $('#maquinas').DataTable().destroy();
             $('#maquinas').remove();
             $('#tablaPrincipal').show();
@@ -50,6 +54,7 @@
                 "ajax": {
                     "url": '/Maquina/getEjercicios',
                     "type": "GET",
+                    "data": data,
                     "dataSrc": ""
                 },
                 columns: [
