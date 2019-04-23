@@ -64,6 +64,7 @@ namespace SOGIP_v2.Controllers
                                t.nombre,
                                t.Id
                            };
+
             return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
         }
         public JsonResult getNombreCat(string nombre)
