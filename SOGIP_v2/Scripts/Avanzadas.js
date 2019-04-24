@@ -244,7 +244,7 @@ function cargaDatos(element) {
                     "<div class='form-group col-md-12'>" +
                         "<h4>Valor de " + titulo + "</h4>" +
                         "<div class='afect'>" +
-                            "<input type='text' class='form-control' id='valor' name='valor' placeholder='Digite el valor del parémtro a incorporar.' value='" + Parametro2 + "' readonly>" +
+                            "<input type='text' class='form-control' id='valor' name='valor' placeholder='Digite el valor del parémtro a incorporar.' value='" + Parametro2 + "' >" +
                         "</div>" +
                     "</div>" +
                 "</div>";
@@ -339,8 +339,6 @@ function cargaDatos(element) {
     
 }
 
-
-
 function CargarModal(element, opcion) {
     $('#modal h2 text').html(opcion === 0 ? 'Inserción de ' + titulo : 'Edición de ' + titulo);
     idSeleccionado = opcion;
@@ -405,7 +403,7 @@ function CargarModal(element, opcion) {
                 }
             },
             tipoDepSelec: {
-                required: true,
+                required: true
             },
             ent: {
                 required: true,
@@ -436,9 +434,13 @@ function CargarModal(element, opcion) {
                     url: "/Opciones/ParametroRepetido",
                     type: "GET",
                     data: {
-                        nombre: function () { return $('#par').val(); }
+                        nombre: function () { return $('#par').val(); },
+                        original: function () { return idSeleccionado; }
                     }
                 }
+            },
+            valor: {
+                required: true
             },
             tpda: {
                 required: true,
@@ -501,6 +503,9 @@ function CargarModal(element, opcion) {
                 required: "El nombre del parámetro es un campo requerido.",
                 minlength: "La longitud mínima del nombre del parámetro es de 2 carácteres.",
                 remote: "El nombre del parámetro ya se encuentra en el sistema."
+            },
+            valor: {
+                required: "El valor del parámetro es requerido."
             },
             tpda: {
                 required: "El nombre del tipo de archivo es un campo requerido.",
@@ -584,7 +589,24 @@ function agregarEditar() {
             };
             break;
         }
-            // ¿Se encuentran de más? Estados - Parámetros
+        case 5: {
+            url = "/Opciones/AgregarEstado";
+            datos = { Nombre: $('#est').val().toUpperCase(), id: idSeleccionado };
+            nuevosDatos = function (data) {
+                return { "Descripcion": data.Descripcion, "EstadoId": data.EstadoId };
+            };
+            break;
+        }
+        case 6: {
+            console.log('oko');
+            url = "/Opciones/AgregarParametro";
+            datos = { Nombre: $('#par').val().toUpperCase(), Valor: $('#valor').val(), id: idSeleccionado };
+            nuevosDatos = function (data) {
+                return { "Nombre": data.Nombre, "Valor": data.Valor, "ParametroId": data.ParametroId };
+            };
+            break;
+        }
+            
         case 7: {
             url = "/Opciones/AgregarTipoArchivo";
             datos = { Nombre: $('#tpda').val().toUpperCase(), id: idSeleccionado };

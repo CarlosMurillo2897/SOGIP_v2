@@ -209,7 +209,6 @@
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\EjercicioController.cs" />
-    <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\EstadosPagosController.cs" />
     <Compile Include="Controllers\ExpedientesFisicosController.cs" />
     <Compile Include="Controllers\MaquinaController.cs" />
@@ -229,25 +228,23 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904200520110_all.cs" />
-    <Compile Include="Migrations\201904200520110_all.Designer.cs">
-      <DependentUpon>201904200520110_all.cs</DependentUpon>
+    <Compile Include="Migrations\201904211219341__all.cs" />
+    <Compile Include="Migrations\201904211219341__all.Designer.cs">
+      <DependentUpon>201904211219341__all.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Actividad.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Agrupaciones\Tipo.cs" />
-    <Compile Include="Models\PagosUsuarios\PagoUsuario.cs" />
     <Compile Include="Models\Cita.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Models\Ejercicio.cs" />
-    <Compile Include="Models\PagosUsuarios\EstadosPagos.cs" />
     <Compile Include="Models\Horario.cs" />
     <Compile Include="Models\Maquina.cs" />
     <Compile Include="Models\MaquinaEjercicio.cs" />
+    <Compile Include="Models\PagosUsuarios\EstadosPagos.cs" />
     <Compile Include="Models\PagosUsuarios\TipoPago.cs" />
-    <Compile Include="Models\PagosUsuarios\ListaPagos.cs" />
     <Compile Include="Models\Parametro.cs" />
     <Compile Include="Models\Reservacion.cs" />
     <Compile Include="Models\Rutina\Conjunto_Ejercicio.cs" />
@@ -489,7 +486,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\administracionHorario.js" />
-    <Content Include="Scripts\atletas_asignados.js" />
     <Content Include="Scripts\Avanzadas.js" />
     <Content Include="Scripts\bootbox.js" />
     <Content Include="Scripts\bootbox.min.js" />
@@ -789,6 +785,7 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Content\Rutina.css" />
     <Content Include="Scripts\Perfil.js" />
+    <Content Include="Scripts\qrcode.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -826,7 +823,6 @@
     <Content Include="Views\UsersAdmin\Create.cshtml" />
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
-    <Content Include="Views\Estados\Index.cshtml" />
     <Content Include="Views\UsersAdmin\IndexMasivo.cshtml" />
     <Content Include="Views\CitasAdmin\Create.cshtml" />
     <Content Include="Views\ExpedientesFisicos\Index.cshtml" />
@@ -859,8 +855,6 @@
     <Content Include="Views\Maquina\Index.cshtml" />
     <Content Include="Views\Maquina\Ejercicios.cshtml" />
     <Content Include="Views\EstadosPagos\Index.cshtml" />
-    <Content Include="Views\EstadosPagos\TipoPago.cshtml" />
-    <Content Include="Views\EstadosPagos\Pagos.cshtml" />
     <Content Include="Views\Actividad\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -881,8 +875,8 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904200520110_all.resx">
-      <DependentUpon>201904200520110_all.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904211219341__all.resx">
+      <DependentUpon>201904211219341__all.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

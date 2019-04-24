@@ -32,22 +32,16 @@ use "SOGIP_v3"
 
  select * from SOGIP_Archivo;
  select * from SOGIP_Asociacion_Deportiva;
-
- select * from SOGIP_ListaPagos
- select * from SOGIP_EstadosPagos
  select * from SOGIP_Atletas where usuario_id=;
-
  select * from SOGIP_Atletas;
-
  select * from SOGIP_Categorias;
-delete from sogip_categorias where categoriaid>6
  select * from SOGIP_Color;
-delete from SOGIP_Color where colorid>7
  select * from SOGIP_Cita;
  select * from SOGIP_Conjunto_Ejercicio;
  select * from SOGIP_Deportes;
  select * from SOGIP_Entidad_Publica;
  select * from SOGIP_Estados;
+ select * from SOGIP_EstadosPagos order by FechaPago;
  select * from SOGIP_Expedientes_Fisicos;
  select * from SOGIP_Funcionario_ICODER as f, sogip_users as u where f.usuario_id=u.id and u.Sexo=0;
  select * from SOGIP_Horario;
@@ -231,13 +225,16 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_Color FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Color.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
+
 -- 6 rows
 set @sql = 'BULK INSERT SOGIP_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Ejercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+-- select * from SOGIP_Ejercicio
 
 -- 6 rows
 set @sql = 'BULK INSERT SOGIP_Maquina FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Maquina.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+-- select * from SOGIP_Maquina
 
 -- 2 rows
 set @sql = 'BULK INSERT SOGIP_MaquinaEjercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_MaquinaEjercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
@@ -250,15 +247,12 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_EstadosPagos FROM '''+@VARIABLEACAMBIAR+'\SOGIP_EstadosPagos.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
-set @sql = 'BULK INSERT SOGIP_ListaPagos FROM '''+@VARIABLEACAMBIAR+'\SOGIP_ListaPagos.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
-exec (@sql)
+SELECT * FROM SOGIP_users
+UPDATE SOGIP_EstadosPagos SET usuario_id='29e4a004-4c40-4a06-bf2f-2ee61aa8143c' where id=5
+--set @sql = 'INSERT into sogip_archivo(Nombre, Contenido, Tipo_TipoId, Usuario_Id) SELECT ''Masivo_Original.xlsx'', Contenido.*, null, 6, ''8f9c47bf-edbd-40bf-9b5e-f753dd81a766'' FROM OPENROWSET (BULK  '''+@VARIABLEACAMBIAR+'\Ingreso_Masivo_Original.xlsx'', SINGLE_BLOB) Contenido;';
+--exec (@sql)
 
-
-
-set @sql = 'INSERT into sogip_archivo(Nombre, Contenido, Tipo_TipoId, Usuario_Id) SELECT ''Masivo_Original.xlsx'', Contenido.*, 6, ''8f9c47bf-edbd-40bf-9b5e-f753dd81a766'' FROM OPENROWSET (BULK  '''+@VARIABLEACAMBIAR+'\Ingreso_Masivo_Original.xlsx'', SINGLE_BLOB) Contenido;';
-exec (@sql)
-
-insert into SOGIP_Entidad_Publica values(71,'31788f50-c82b-4a6a-9cf5-1a5a4d721e2b');
+--insert into SOGIP_Entidad_Publica values(71,'31788f50-c82b-4a6a-9cf5-1a5a4d721e2b');
 
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++

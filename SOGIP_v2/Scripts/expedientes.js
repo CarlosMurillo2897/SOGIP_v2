@@ -370,7 +370,8 @@ function llenarTablaArchivos() {
                                     "<text class='hidden-xs'>Eliminar </text>" +
                                     "<span class='glyphicon glyphicon-minus-sign'></span>" +
                                 "</a>" +
-                                "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='EditarModal(this, " + row.Id + ");'>" +
+                                //"<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='EditarModal(this, " + row.Id + ");'>" +
+                                "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' disabled='disabled'>" +//onclick='EditarModal(this, " + row.Id + ");'>" +
                                     "<text class='hidden-xs'>Editar </text>" +
                                     "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>" +

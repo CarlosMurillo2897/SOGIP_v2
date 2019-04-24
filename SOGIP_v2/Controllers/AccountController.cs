@@ -65,6 +65,11 @@ namespace SOGIP_v2.Controllers
             var online = HttpContext.User.Identity.IsAuthenticated;
             if ( !(online) ) {
                 ViewBag.ReturnUrl = returnUrl;
+                ViewBag.video = db.Parametros.Where(p => p.Nombre == "VIDEO").Select(p => p.Valor).FirstOrDefault();
+                if(ViewBag.video == null)
+                {
+                    ViewBag.video = "https://www.youtube.com/embed/9ViS4HmO620";
+                }
                 return View();
             }
             else

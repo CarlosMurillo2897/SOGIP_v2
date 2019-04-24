@@ -120,6 +120,55 @@ namespace SOGIP_v2.Controllers
 
         }
 
+        public JsonResult AgregarEstado(string Nombre, int id)
+        {
+            Estado e = new Estado();
+            try
+            {
+                // Validamos que nada venga vacío.
+                if (Nombre == "") { throw new ArgumentNullException("El nombre no puede ser nulo.", nameof(Nombre)); }
+
+                // Si el id no es igual a cero es porque se está editando un deporte ya creado, con este id traeremos ese Deporte para editarlo.
+                if (id != 0) { e = db.Estados.SingleOrDefault(x => x.EstadoId == id); }
+                // En caso de que el id sea diferente de 0 ya lo estaríamos editando en las próximas dos líneas, en caso contrario estamos creando un Deporte nuevo.
+                e.Descripcion = Nombre;
+                // Si el id es igual a cero es nuevo por lo que hay que agregarlo a la DB.
+                if (id == 0) { db.Estados.Add(e); }
+
+                db.SaveChanges();
+            }
+            // Si algo sale mal, enviamos una mala respuesta y 
+            catch (Exception) { Response.StatusCode = (int)HttpStatusCode.InternalServerError; }
+
+            return Json(e, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult AgregarParametro(string Nombre, string Valor, int id)
+        {
+            Parametro p = new Parametro();
+            try
+            {
+                // Validamos que nada venga vacío.
+                if (Nombre == "") { throw new ArgumentNullException("El nombre no puede ser nulo.", nameof(Nombre)); }
+
+                // Si el id no es igual a cero es porque se está editando un deporte ya creado, con este id traeremos ese Deporte para editarlo.
+                if (id != 0) { p = db.Parametros.SingleOrDefault(x => x.ParametroId == id); }
+                // En caso de que el id sea diferente de 0 ya lo estaríamos editando en las próximas dos líneas, en caso contrario estamos creando un Deporte nuevo.
+                p.Nombre = Nombre;
+                p.Valor = Valor;
+                // Si el id es igual a cero es nuevo por lo que hay que agregarlo a la DB.
+                if (id == 0) { db.Parametros.Add(p); }
+
+                db.SaveChanges();
+            }
+            // Si algo sale mal, enviamos una mala respuesta y 
+            catch (Exception) { Response.StatusCode = (int)HttpStatusCode.InternalServerError; }
+
+            return Json(p, JsonRequestBehavior.AllowGet);
+
+        }
+
        public JsonResult AgregarTipoArchivo(string Nombre, int id)
         {
             Tipo t = new Tipo();
@@ -223,6 +272,13 @@ namespace SOGIP_v2.Controllers
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult GetTipoPagos()
+        {
+            var consulta = (from t in db.TipoPago select new { t.Descripcion, t.Id }).ToList();
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
+
+
         // ******************************************* CAMPOS REPETIDOS *******************************************
         public JsonResult CategoriaRepetida(string nombre)
         {
@@ -259,9 +315,9 @@ namespace SOGIP_v2.Controllers
             return Json(!db.Estados.Any(x => x.Descripcion == nombre), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult ParametroRepetido(string nombre)
+        public JsonResult ParametroRepetido(string nombre, int original)
         {
-            return Json(!db.Parametros.Any(x => x.Nombre == nombre), JsonRequestBehavior.AllowGet);
+            return Json(!db.Parametros.Any(x => x.Nombre == nombre && x.ParametroId != original), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult TipoArchivoRepetido(string nombre)
