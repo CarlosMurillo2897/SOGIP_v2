@@ -526,6 +526,8 @@
     <Content Include="Content\DataTables\css\common.scss" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\Busquedas.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
     <Content Include="Scripts\create.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -878,6 +880,7 @@
     <Content Include="Views\CodigoQR\Index.cshtml" />
     <Content Include="Views\Ingreso\Index.cshtml" />
     <Content Include="Views\ControlIngreso\Index.cshtml" />
+    <Content Include="Views\ControlIngreso\Grafico.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />

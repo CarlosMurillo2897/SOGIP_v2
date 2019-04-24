@@ -18,6 +18,7 @@ namespace SOGIP_v2.Controllers
         {
             return View();
         }
+        
         public JsonResult ingreso(string id)
         {
             var consulta = db.Archivo.Where(x => x.Usuario.Cedula == id).FirstOrDefault();
@@ -45,5 +46,20 @@ namespace SOGIP_v2.Controllers
         
             return Json(nueva, JsonRequestBehavior.AllowGet);
         }
+
+
+        //--------------> L  I  S  A  N  D  R  A
+
+        public ActionResult Grafico()
+        {
+            return View();
+        }
+
+        //------------> HOMBRES Y MUJERES POR UNA SELECCIÓN EN CONCRETO POR MES EN CONCRETO
+        //------------> HOMBRES Y MUJERES POR UNA SELECCIÓN EN CONCRETO POR VARIOS MESES
+        //------------> HOMBRES Y MUJERES POR UNA SELECCIÓN VARIAS POR MES EN CONCRETO
+        //------------> HOMBRES Y MUJERES POR UNA SELECCIÓN VARIAS POR VARIOS MESES
+
+
     }
 }
