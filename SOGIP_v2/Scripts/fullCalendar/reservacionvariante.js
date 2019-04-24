@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    //variables
+  
     var ced;
     var cantidad;
     var events = [];
@@ -93,7 +93,7 @@
                     events.push({
                         reservacionId: v.ReservacionId,
                         title: 'RESERVACION',
-                        estado: v.Estado,
+                        estado: v.Estado.Descripcion,
                         cantidad: v.Cantidad,
                         cedula: v.UsuarioId.Cedula,
                         nombre: v.UsuarioId.Nombre1,
@@ -142,10 +142,13 @@
             },
             eventAfterRender: function (event, element, view) { //COLOR DE LOS EVENTOS
 
-
-                if (event.cedula == ced) {
-                    element.css('background-color', '#b30000');
-                    element.css('border-color', '#b30000');
+                if (event.cedula == ced && event.estado == "EN PROCESO") {
+                    element.css('background-color', '#ff8533');
+                    element.css('border-color', '#ff8533');
+                }
+                else if (event.cedula == ced && event.estado == "APROBADO") {
+                    element.css('background-color', '#4d79ff');
+                    element.css('border-color', '#4d79ff');
                 } 
             },
             eventClick: function (calEvent, jsEvent, view) { //INFORMACIÓN DEL EVENTO
@@ -165,6 +168,9 @@
                     $description.append($('<hr/>'));
                     $description.append($('<p/>').html('<h4><b>Cantidad de asistentes</b></h4>'));
                     $description.append($('<p/>').html(calEvent.cantidad));
+                    $description.append($('<hr/>'));
+                    $description.append($('<p/>').html('<h4><b>Estado</b></h4>'));
+                    $description.append($('<p/>').html(calEvent.estado));
                     $description.append($('<hr/>'));
                     $description.append($('<p/>').html('<h4><b>Solicitante</b></h4>'));
                     $description.append($('<p/>').html('<b>Cédula: </b>' + calEvent.cedula));
