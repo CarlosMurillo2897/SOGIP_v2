@@ -218,10 +218,12 @@
     <Compile Include="Controllers\BusquedaController.cs" />
     <Compile Include="Controllers\CitasAdminController.cs" />
     <Compile Include="Controllers\CodigoQRController.cs" />
+    <Compile Include="Controllers\ControlIngresoController.cs" />
     <Compile Include="Controllers\EjercicioController.cs" />
     <Compile Include="Controllers\EstadosController.cs" />
     <Compile Include="Controllers\EstadosPagosController.cs" />
     <Compile Include="Controllers\ExpedientesFisicosController.cs" />
+    <Compile Include="Controllers\IngresoController.cs" />
     <Compile Include="Controllers\MaquinaController.cs" />
     <Compile Include="Controllers\OpcionesController.cs" />
     <Compile Include="Controllers\ReservacionController.cs" />
@@ -247,11 +249,16 @@
     <Compile Include="Migrations\201904201540083_qr.Designer.cs">
       <DependentUpon>201904201540083_qr.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201904240403515_control.cs" />
+    <Compile Include="Migrations\201904240403515_control.Designer.cs">
+      <DependentUpon>201904240403515_control.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Actividad.cs" />
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Agrupaciones\Tipo.cs" />
+    <Compile Include="Models\ControlIngreso.cs" />
     <Compile Include="Models\PagosUsuarios\PagoUsuario.cs" />
     <Compile Include="Models\Cita.cs" />
     <Compile Include="Models\Color.cs" />
@@ -877,6 +884,8 @@
     <Content Include="Views\EstadosPagos\Pagos.cshtml" />
     <Content Include="Views\Actividad\Create.cshtml" />
     <Content Include="Views\CodigoQR\Index.cshtml" />
+    <Content Include="Views\Ingreso\Index.cshtml" />
+    <Content Include="Views\ControlIngreso\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />
@@ -901,6 +910,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904201540083_qr.resx">
       <DependentUpon>201904201540083_qr.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904240403515_control.resx">
+      <DependentUpon>201904240403515_control.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

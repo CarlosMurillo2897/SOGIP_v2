@@ -133,30 +133,33 @@ namespace SOGIP_v2.Controllers
             //String ejemplo = String.Format("data:image/png;base64,{0}", Convert.ToBase64String(imageBytes));
             return Json(nuevo, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult ObtenerArchivos(int filtro)
+        public JsonResult ObtenerArchivos()
         {
 
-            var consulta = filtro == 0 ?
-            from a in db.Archivo
-            select new
-            {
-                Nombre = a.Nombre,
-                Tipo = a.Tipo.Nombre,
-                Usuario = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
-                Id = a.ArchivoId
-            } :
-            from a in db.Archivo
-            from t in db.Tipos
-            where t.TipoId == filtro
-            select new
-            {
-                Nombre = a.Nombre,
-                Tipo = t.Nombre,
-                Usuario = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
-                Id = a.ArchivoId
-            };
+            var consulta = from a in db.Archivo.Where(u => u.Tipo.TipoId == 7 && u.Usuario!=null)
+                           select new
+                           {
+                               Nombre = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
+                               Tipo = a.Tipo.Nombre,
+                               Usuario = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
+                               Id = a.ArchivoId
+                           };
+   
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ObtenerArchivos2()
+        {
 
-            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+            var consulta = from a in db.Archivo.Where(u => u.Tipo.TipoId == 7 && u.maquina != null)
+                           select new
+                           {
+                               Nombre = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
+                               Tipo = a.Tipo.Nombre,
+                               Usuario = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
+                               Id = a.ArchivoId
+                           };
+
+            return Json(consulta, JsonRequestBehavior.AllowGet);
         }
 
         //public JsonResult generarQr2(string txtQRCode)

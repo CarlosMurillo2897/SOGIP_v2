@@ -90,10 +90,11 @@ namespace SOGIP_v2.Models
             modelBuilder.Entity<ListaPagos>().ToTable("SOGIP_ListaPagos");
             modelBuilder.Entity<PagoUsuario>().ToTable("SOGIP_PagoUsuario");
             modelBuilder.Entity<TipoPago>().ToTable("SOGIP_TipoPago");
+            modelBuilder.Entity<ControlIngreso>().ToTable("SOGIP_ControlIngreso");
             
            
            
-
+ 
             modelBuilder.Entity<Actividad>().ToTable("SOGIP_Actividad");
 
 
@@ -163,6 +164,8 @@ namespace SOGIP_v2.Models
         public System.Data.Entity.DbSet<SOGIP_v2.Models.TipoPago> TipoPago { get; set; }
 
         public System.Data.Entity.DbSet<SOGIP_v2.Models.Actividad> Actividad { get; set; }
+
+        public System.Data.Entity.DbSet<SOGIP_v2.Models.ControlIngreso> ControlIngreso { get; set; }
 
     }
 
