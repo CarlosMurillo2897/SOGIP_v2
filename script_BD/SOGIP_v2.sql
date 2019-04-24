@@ -259,8 +259,8 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_ControlIngreso FROM '''+@VARIABLEACAMBIAR+'\SOGIP_ControlIngreso.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
-set @sql = 'INSERT into sogip_archivo(Nombre, Contenido, Tipo_TipoId, Usuario_Id) SELECT ''Masivo_Original.xlsx'', Contenido.*, 6, ''8f9c47bf-edbd-40bf-9b5e-f753dd81a766'' FROM OPENROWSET (BULK  '''+@VARIABLEACAMBIAR+'\Ingreso_Masivo_Original.xlsx'', SINGLE_BLOB) Contenido;';
-exec (@sql)
+--set @sql = 'INSERT into sogip_archivo(Nombre, Contenido, Tipo_TipoId, Usuario_Id) SELECT ''Masivo_Original.xlsx'', Contenido.*, 6, ''8f9c47bf-edbd-40bf-9b5e-f753dd81a766'' FROM OPENROWSET (BULK  '''+@VARIABLEACAMBIAR+'\Ingreso_Masivo_Original.xlsx'', SINGLE_BLOB) Contenido;';
+--exec (@sql)
 
 insert into SOGIP_Entidad_Publica values(71,'31788f50-c82b-4a6a-9cf5-1a5a4d721e2b');
 

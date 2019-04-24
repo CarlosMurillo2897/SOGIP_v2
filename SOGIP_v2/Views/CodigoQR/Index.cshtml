@@ -194,8 +194,7 @@
                     url: '/CodigoQR/generarQr',
                     data: data,
                     success: function (data) {
-                        //$("#one").attr("src", data.ejemplo);
-                        //document.getElementById("one").src = data.ejemplo;
+                        $('#archivos').DataTable().ajax.reload(null, false);
                         $('#nuevo').modal('hide');
                     },
                     error: function () {
@@ -210,8 +209,7 @@
                     url: '/CodigoQR/generarQr2',
                     data: data,
                     success: function (data) {
-                        //$("#one").attr("src", data.ejemplo);
-                        //document.getElementById("one").src = data.ejemplo;
+                        $('#archivos').DataTable().ajax.reload(null, false);
                         $('#nuevo').modal('hide');
                     },
                     error: function () {
