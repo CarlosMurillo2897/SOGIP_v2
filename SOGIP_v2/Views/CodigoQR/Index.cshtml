@@ -58,8 +58,8 @@
         </div>
     </div>
     <div>
-        <label id="maq"><input type="radio" name="btnRadio" checked />Maquina </label>
-        <label id="usu"><input type="radio" name="btnRadio" />Usuario </label>
+        <label id="maq1"><input type="radio" name="btnRadio1" checked />Maquina </label>
+        <label id="usu1"><input type="radio" name="btnRadio1" />Usuario </label>
     </div>
     <div class="well col-md-12">
         <div class="table-responsive">
@@ -68,7 +68,6 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Tipo</th>
-                        <th>Usuario</th>
                         <th>
                             <text class="hidden-xs">Acción</text>
                             <span class="glyphicon glyphicon-cog"></span>
@@ -99,7 +98,11 @@
             var des = $('#example').DataTable();
             des.destroy();
         }
-        function llenarTablaArchivos() {
+        function eliminar2() {
+            var des = $('#archivos').DataTable();
+            des.destroy();
+        }
+        function llenarTablaUsuarios() {
             $('#archivos').DataTable({
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
@@ -116,29 +119,24 @@
                     }
                 },
                 "ajax": {
-                    "url": "/CodigoQR/ObtenerArchivos",
+                    "url": "/CodigoQR/ObtenerUsuarios",
                     "type": "GET",
                     "dataSrc": "",
                 },
                 columns: [
                     { data: "Nombre" },
                     { data: "Tipo" },
-                    { data: "Usuario" },
                     {
                         data: "Id",
                         "render": function (data, type, row) {
                             var Id = row.Id;
                             var action = '';
-                            if (row.Usuario.split(' ')[0] === '000000000' && row.Tipo === 'INGRESO MASIVO') {
+                            if (row.Nombre.split(' ')[0] === '000000000' && row.Tipo === 'INGRESO MASIVO') {
                                 Id = 0;
                             }
                             return "<a class='btn btn-danger' id='boton_" + row.Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
                                 "<text class='hidden-xs'>Eliminar </text>" +
                                 "<span class='glyphicon glyphicon-minus-sign'></span>" +
-                                "</a>" +
-                                "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='EditarModal(this, " + row.Id + ");'>" +
-                                "<text class='hidden-xs'>Editar </text>" +
-                                "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>" +
                                 "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + row.Id + "' style='padding: 2px 6px; margin: 2px;'>" +
                                 "<text class='hidden-xs'>Descargar </text>" +
@@ -149,9 +147,81 @@
                 ]
             });
         }
+        function llenarTablaMaquinas() {
+            $('#archivos').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                    "zeroRecords": "No se han encontrado registros.",
+                    "info": "Mostrando _START_ de _END_, de un total de _TOTAL_ registros.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                "ajax": {
+                    "url": "/CodigoQR/ObtenerMaquinas",
+                    "type": "GET",
+                    "dataSrc": "",
+                },
+                columns: [
+                    { data: "Nombre" },
+                    { data: "Tipo" },
+                    {
+                        data: "Id",
+                        "render": function (data, type, row) {
+                            var Id = row.Id;
+                            var action = '';
+                            if (row.Nombre.split(' ')[0] === '000000000' && row.Tipo === 'INGRESO MASIVO') {
+                                Id = 0;
+                            }
+                            return "<a class='btn btn-danger' id='boton_" + row.Id + "' onclick='EliminarArchivo(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
+                                "<text class='hidden-xs'>Eliminar </text>" +
+                                "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                "</a>" +
+                                "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + row.Id + "' style='padding: 2px 6px; margin: 2px;'>" +
+                                "<text class='hidden-xs'>Descargar </text>" +
+                                "<span class='glyphicon glyphicon-download'></span>" +
+                                "</a>";
+                        }
+                    }
+                ]
+            });
+        }
+        function EliminarArchivo(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            if (id === 0) {
+                alert('Archivo predeterminado, no se puede borrar.');
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/CodigoQR/EliminarArchivo",
+                data: { id: id },
+                success: function (data) {
+                    var table = $('#archivos').DataTable().row(tr).remove().draw();
+                },
+                error: function (data) {
+                    alert("¡Error!");
+                }
+            });
+        }
         $(document).ready(function () {
-            llenarTablaArchivos();
+            llenarTablaMaquinas();
             var ced = null;
+            $('#usu1').click(function () {
+                eliminar2();
+                llenarTablaUsuarios();
+            })
+            $('#maq1').click(function () {
+                eliminar2();
+                llenarTablaMaquinas();
+            })
 
             $('#btnNuevo').click(function () {
                 $('#nuevo').modal('show');

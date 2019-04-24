@@ -133,7 +133,7 @@ namespace SOGIP_v2.Controllers
             //String ejemplo = String.Format("data:image/png;base64,{0}", Convert.ToBase64String(imageBytes));
             return Json(nuevo, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult ObtenerArchivos()
+        public JsonResult ObtenerUsuarios()
         {
 
             var consulta = from a in db.Archivo.Where(u => u.Tipo.TipoId == 7 && u.Usuario!=null)
@@ -141,47 +141,40 @@ namespace SOGIP_v2.Controllers
                            {
                                Nombre = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
                                Tipo = a.Tipo.Nombre,
-                               Usuario = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
                                Id = a.ArchivoId
                            };
    
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult ObtenerArchivos2()
+        public JsonResult ObtenerMaquinas()
         {
 
             var consulta = from a in db.Archivo.Where(u => u.Tipo.TipoId == 7 && u.maquina != null)
                            select new
                            {
-                               Nombre = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
+                               Nombre = a.maquina.Nombre,
                                Tipo = a.Tipo.Nombre,
-                               Usuario = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
                                Id = a.ArchivoId
                            };
 
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
 
-        //public JsonResult generarQr2(string txtQRCode)
-        //{
+        public JsonResult EliminarArchivo(int id)
+        {
+            try
+            {
+                var archivo = db.Archivo.Where(x => x.ArchivoId == id).FirstOrDefault();
+                db.Archivo.Remove(archivo);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
 
-        //    QRCodeEncoder encoder = new QRCodeEncoder();
-        //    Bitmap img = encoder.Encode(txtQRCode);
-        //    System.Drawing.Image QR = (System.Drawing.Image)img;
-        //    //MemoryStream memstr;
-        //    byte[] imageBytes;
-        //    using (MemoryStream ms = new MemoryStream())
-        //    {
-        //        QR.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-        //        imageBytes = ms.ToArray();
-        //        //ViewBag.imageBytes = ms.ToArray();
-        //        // memstr = new MemoryStream(imageBytes);
-        //    }
-        //    //Image imagen = Image.FromStream(memstr);
-        //    String ejemplo = String.Format("data:image/png;base64,{0}", Convert.ToBase64String(imageBytes));
-        //    //ViewBag.imageBytes = ms.ToArray();
-        //    return new JsonResult { Data =ejemplo, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-        //}
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
