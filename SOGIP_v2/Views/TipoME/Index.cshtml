@@ -2,6 +2,8 @@
 @{
     ViewBag.Title = "Tipo";
 }
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 <div class="container">
     <div class="col-md-4">
     </div>
@@ -64,7 +66,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Editar</h4> 
+                <h4 class="modal-title">Editar</h4>
             </div>
             <form id="foredit" method="post" novalidate="novalidate">
                 <div class="modal-body">
@@ -88,7 +90,7 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-    var cat1 = null
+        var cat1 = null
         var cat2 = null;
         var cat3 = null;
         function tablaEjer1() {
@@ -129,7 +131,7 @@
                                 "<text class='hidden-xs'>Editar </text>" +
                                 "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>" +
-                                "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar(" + Id +")'>" +
+                                "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar(" + Id + ")'>" +
                                 "<text class='hidden-xs'>Ver </text>" +
                                 "<span class='glyphicon glyphicon-list'></span>" +
                                 "</a>";
@@ -362,7 +364,7 @@
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
                     if ($('#btn3').is(':hidden')) {
-                       $('#tipoEjer2').DataTable().ajax.reload(null, false);
+                        $('#tipoEjer2').DataTable().ajax.reload(null, false);
                     } else {
                         $('#tipoEjer3').DataTable().ajax.reload(null, false);
                     }
@@ -415,7 +417,7 @@
             }
             SaveCategoria1(data);
         }
-      
+
         $.validator.setDefaults({
             submitHandler: function () {
                 enviar();

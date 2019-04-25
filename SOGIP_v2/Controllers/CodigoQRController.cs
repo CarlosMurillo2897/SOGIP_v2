@@ -47,6 +47,17 @@ namespace SOGIP_v2.Controllers
                            };
             return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
         }
+        public JsonResult GetMaquinas3()
+        {
+            var consulta = from f in db.Ejercicio
+                           select new
+                           {
+                               Accion = "",
+                               Nombre = f.Nombre,
+                               Id = f.Id
+                           };
+            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+        }
         public JsonResult GetUsuarios()
         {
             var consulta = from f in db.Archivo.Where(x => x.Tipo.TipoId == 7 && x.Usuario != null)
@@ -133,6 +144,21 @@ namespace SOGIP_v2.Controllers
             //String ejemplo = String.Format("data:image/png;base64,{0}", Convert.ToBase64String(imageBytes));
             return Json(nuevo, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult generarEjercicio(string txtQRCode, int id)
+        {
+            Ejercicio ejercicio = db.Ejercicio.Single(x => x.Id == id);
+            try
+            {
+                ejercicio.Descripcion = txtQRCode;
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            db.SaveChanges();
+            return Json(ejercicio, JsonRequestBehavior.AllowGet);
+
+        }
         public JsonResult ObtenerUsuarios()
         {
 
@@ -159,6 +185,19 @@ namespace SOGIP_v2.Controllers
 
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult ObtenerEjercicio()
+        {
+
+            var consulta = from a in db.Ejercicio.Where(x=>x.Descripcion!=null)
+                           select new
+                           {
+                               Nombre = a.Nombre,
+                               Tipo = "URL",
+                               Id = a.Id
+                           };
+
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult EliminarArchivo(int id)
         {
@@ -166,6 +205,21 @@ namespace SOGIP_v2.Controllers
             {
                 var archivo = db.Archivo.Where(x => x.ArchivoId == id).FirstOrDefault();
                 db.Archivo.Remove(archivo);
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult EliminarEjer(int id)
+        {
+            try
+            {
+                Ejercicio ejercicio = db.Ejercicio.Single(x => x.Id == id);
+                ejercicio.Descripcion = null;
                 db.SaveChanges();
             }
             catch (Exception)

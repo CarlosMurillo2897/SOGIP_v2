@@ -17,7 +17,8 @@
                     <button type="button" class="close" id="cerrar">&times;</button>
                     <h4 class="modal-title">Crear nueva Codigo QR</h4>
                     <br>
-                    <label id="label" style="display: none;">Url de Maquina: </label>
+                    <label id="label" style="display: none;">Url de Máquina: </label>
+                    <label id="label2" style="display: none;">Url de Ejercicio: </label>
                     <input style="display: none;" type="text" class="form-control" placeholder="Url" id="obj" />
                 </div>
                 <div class="modal-body">
@@ -26,6 +27,7 @@
                             <div>
                                 <label id="maq"><input type="radio" name="btnRadio" checked />Maquina </label>
                                 <label id="usu"><input type="radio" name="btnRadio" />Usuario </label>
+                                <label id="ejer"><input type="radio" name="btnRadio" />Ejercicio </label>
                             </div>
                             <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
                         </div>
@@ -60,6 +62,7 @@
     <div>
         <label id="maq1"><input type="radio" name="btnRadio1" checked />Maquina </label>
         <label id="usu1"><input type="radio" name="btnRadio1" />Usuario </label>
+        <label id="ejer1"><input type="radio" name="btnRadio1" />Ejercico </label>
     </div>
     <div class="well col-md-12">
         <div class="table-responsive">
@@ -192,6 +195,69 @@
                 ]
             });
         }
+        function llenarTablaEjercicio() {
+            $('#archivos').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                    "zeroRecords": "No se han encontrado registros.",
+                    "info": "Mostrando _START_ de _END_, de un total de _TOTAL_ registros.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                "ajax": {
+                    "url": "/CodigoQR/ObtenerEjercicio",
+                    "type": "GET",
+                    "dataSrc": "",
+                },
+                columns: [
+                    { data: "Nombre" },
+                    { data: "Tipo" },
+                    {
+                        data: "Id",
+                        "render": function (data, type, row) {
+                            var Id = row.Id;
+                            var action = '';
+                            if (row.Nombre.split(' ')[0] === '000000000' && row.Tipo === 'INGRESO MASIVO') {
+                                Id = 0;
+                            }
+                            return "<a class='btn btn-danger' id='boton_" + row.Id + "' onclick='EliminarDes(" + Id + ")' style='padding: 2px 6px; margin: 2px;'>" +
+                                "<text class='hidden-xs'>Eliminar </text>" +
+                                "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                                "</a>" +
+                                "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + row.Id + "' style='padding: 2px 6px; margin: 2px;'>" +
+                                "<text class='hidden-xs'>Ver </text>" +
+                                "<span class='glyphicon glyphicon-sd-video'></span>" +
+                                "</a>";
+                        }
+                    }
+                ]
+            });
+        } function EliminarDes(id) {
+            var tr = $('#boton_' + id).closest('tr');
+            if (id === 0) {
+                alert('Archivo predeterminado, no se puede borrar.');
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/CodigoQR/EliminarEjer",
+                data: { id: id },
+                success: function (data) {
+                    var table = $('#archivos').DataTable().row(tr).remove().draw();
+                },
+                error: function (data) {
+                    alert("¡Error!");
+                }
+            });
+        }
         function EliminarArchivo(id) {
             var tr = $('#boton_' + id).closest('tr');
             if (id === 0) {
@@ -222,6 +288,10 @@
                 eliminar2();
                 llenarTablaMaquinas();
             })
+            $('#ejer1').click(function () {
+                eliminar2();
+                llenarTablaEjercicio();
+            })
 
             $('#btnNuevo').click(function () {
                 $('#nuevo').modal('show');
@@ -230,31 +300,50 @@
                 maquinas();
                 $('#usu').click(function () {
                     $('#label').css("display", "none");
+                    $('#label2').css("display", "none");
                     $('#obj').css("display", "none");
                     eliminar();
                     usuarios();
                 })
                 $('#maq').click(function () {
                     $('#label').css("display", "block");
+                    $('#label2').css("display", "none");
                     $('#obj').css("display", "block");
                     eliminar();
                     maquinas();
                 })
+                $('#ejer').click(function () {
+                    $('#label2').css("display", "block");
+                    $('#label').css("display", "none");
+                    $('#obj').css("display", "block");
+                    eliminar();
+                    ejercicios();
+
+                })
 
             })
+         
             $('#btnSave').click(function () {
                 var data = null;
-                if ($('#obj').is(':hidden')) {
-                    data = {
-                        id: ced
-                    }
-                    generarQR2(data);
-                } else {
+                if ($('#label').is(':visible')) { 
                     data = {
                         txtQRCode: $('#obj').val().trim(),
                         id: ced
                     }
                     generarQR(data);
+                } else {
+                    if ($('#label2').is(':visible')) {
+                        data = {
+                            txtQRCode: $('#obj').val().trim(),
+                            id: ced
+                        }
+                        generarEjercicio(data);
+                    } else {
+                        data = { 
+                            id: ced
+                        }
+                        generarQR2(data);
+                    }
                 }
             })
             function generarQR(data) {
@@ -266,6 +355,8 @@
                     success: function (data) {
                         $('#archivos').DataTable().ajax.reload(null, false);
                         $('#nuevo').modal('hide');
+                        $('#obj').val('');
+                        eliminar();
                     },
                     error: function () {
                         alert("Fallo");
@@ -281,6 +372,25 @@
                     success: function (data) {
                         $('#archivos').DataTable().ajax.reload(null, false);
                         $('#nuevo').modal('hide');
+                        $('#obj').val('');
+                        eliminar();
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+            function generarEjercicio(data) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/CodigoQR/generarEjercicio',
+                    data: data,
+                    success: function (data) {
+                        $('#archivos').DataTable().ajax.reload(null, false);
+                        $('#nuevo').modal('hide');
+                        $('#obj').val('');
+                        eliminar();
                     },
                     error: function () {
                         alert("Fallo");
@@ -345,6 +455,46 @@
                     },
                     "ajax": {
                         "url": '/CodigoQR/GetUsuarios2',
+                        "type": "GET",
+                        "dataSrc": ""
+                    },
+                    columns: [
+                        { data: "Accion" },
+                        { data: "Nombre" },
+                        { data: "Id" },
+                    ],
+                    'columnDefs': [
+                        {
+                            orderable: false,
+                            className: 'select-checkbox',
+                            targets: [0]
+                        }
+                    ],
+                    'select': {
+                        'style': 'os',
+                        'selector': 'td:first-child'
+
+                    }
+                });
+            }
+            function ejercicios() {
+                $('#example').DataTable({
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado registros.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Filtrar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
+                    "ajax": {
+                        "url": '/CodigoQR/GetMaquinas3',
                         "type": "GET",
                         "dataSrc": ""
                     },
