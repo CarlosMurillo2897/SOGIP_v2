@@ -56,7 +56,7 @@
                                 <div class="afect">
                                     <div class="input-group date" id="dtp">
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        <input class="form-control" type="text" id="FechaPago" name="FechaPago" /> @*value="@d" />*@
+                                        <input class="form-control" type="text" id="FechaPago" name="FechaPago" value="@d" />
                                     </div>
                                 </div>
                             </div>
@@ -152,12 +152,6 @@
 <script>
     var mes = "", year = "";
     $(document).ready(function () {
-        $('#rst').on('click', function () {
-
-            $('#signupForm1')[0].reset();
-            return false;
-
-        });
 
         $(function () {
             $("#dtp").datepicker({
@@ -168,16 +162,16 @@
             });
         });
 
-        var d = new Date();
+        /*var d = new Date();
         var mm = d.getMonth() + 1 < 10 ? `0${d.getMonth() + 1}` : d.getMonth() + 1;
-        $('#FechaPago').val(`${d.getFullYear()}/${mm}/${d.getDate()}`);
+        $('#FechaPago').val(`${d.getFullYear()}/${mm}/${d.getDate()}`);*/
         $('#usuario').val('')
 
         // Cargar para el modal
         cargarTipoPagos();
         cargarEstados();
-        cargarUsuarios(`${d.getFullYear()}/${mm}/${d.getDate()}`);
-        //cargarUsuarios($('#FechaPago').val());
+        //cargarUsuarios(`${d.getFullYear()}/${mm}/${d.getDate()}`);
+        cargarUsuarios($('#FechaPago').val());
 
         $.validator.addMethod("notzero", function (value, element) {
             return value !== '0';
@@ -350,7 +344,7 @@
         });
 
         $('#FechaPago').on('change', function () {
-            console.log($(this).val());
+            // console.log($(this).val());
             if ($(this).val() != '') {
                 cargarUsuarios($(this).val());
                 $('#usuario').val('');
@@ -540,15 +534,11 @@
             type: "POST",
             data: form,
             success: function () {
-                $('#usuario').val('');
+                $('#signupForm1')[0].reset();
                 $('#PagosMensuales').DataTable().ajax.reload(null, false);
-                //cargarPagosUsuarios();
-                if (mes !== "" && year !== "") {
-                    $('#example').DataTable().ajax.reload(null, false);
-                }
-                else {
-                    console.log('No ha tocado nada.')
-                }
+                mes !== "" && year !== "" ? $('#example').DataTable().ajax.reload(null, false) : console.log('No ha tocado nada.');
+                $('#modal').modal('hide');
+                cargarUsuarios($('#FechaPago').val());
             },
             error: function () {
                 alert('Error desconocido, favor indicarlo a soporte.');
