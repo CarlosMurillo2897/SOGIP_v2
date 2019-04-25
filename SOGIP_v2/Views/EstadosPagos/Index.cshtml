@@ -10,6 +10,7 @@
 
     @Styles.Render("~/Contents/bootstrap-datepicker.css");
     @Styles.Render("~/Content/jquery.timepicker.css");
+    var d = DateTime.Today.ToString("yyyy/MM/dd");
 }
 
 <link href="~/Content/DataTables/css/jquery.dataTables.min.css" rel="stylesheet" />
@@ -22,7 +23,6 @@
 <link href="~/Content/DataTables/css/buttons.bootstrap.min.css" rel="stylesheet" />
 
 <div class="container-fluid">
-
     <div class="well col-md-12">
         <center>
             <h2>Pagos Mensuales</h2>
@@ -47,23 +47,23 @@
                     <a href="#" class="close" data-dismiss="modal">&times;</a>
                     <h3 class="modal-title">Registro de Pagos</h3>
                 </div>
-                <div class="modal-body">
-                    <input type="hidden" value="original" id="hidden">
-                    <form id="signupForm1">
+                <form id="signupForm1">
+                    <div class="modal-body">
+
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label>Fecha de pago: <strong>(año/mes/día)</strong></label>
                                 <div class="afect">
                                     <div class="input-group date" id="dtp">
                                         <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                        <input class="form-control" type="text" id="FechaPago" name="FechaPago" />
+                                        <input class="form-control" type="text" id="FechaPago" name="FechaPago" /> @*value="@d" />*@
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group col-md-6">
                                 <label>Tipo de pago: </label>
-                                <div class="afect" id="TipoPago">
-                                    
+                                <div class="afect" id="DivTipoPago">
+
                                 </div>
                             </div>
                         </div>
@@ -93,7 +93,7 @@
                             <div class="form-group col-md-6">
                                 <label>Estado del pago: </label>
                                 <div class="afect" id="EstadoPago">
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -115,12 +115,12 @@
                         <div class="row table-responsive" id="Users">
 
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
-                    <input type="submit" class="btn btn-success" value="Guardar" onclick="$('#signupForm1').submit();">
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                        <input type="submit" class="btn btn-success" value="Guardar" />
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -149,11 +149,15 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
 
-}
-
 <script>
     var mes = "", year = "";
     $(document).ready(function () {
+        $('#rst').on('click', function () {
+
+            $('#signupForm1')[0].reset();
+            return false;
+
+        });
 
         $(function () {
             $("#dtp").datepicker({
@@ -169,10 +173,11 @@
         $('#FechaPago').val(`${d.getFullYear()}/${mm}/${d.getDate()}`);
         $('#usuario').val('')
 
-            // Cargar para el modal
+        // Cargar para el modal
         cargarTipoPagos();
         cargarEstados();
-        //cargarUsuarios();
+        cargarUsuarios(`${d.getFullYear()}/${mm}/${d.getDate()}`);
+        //cargarUsuarios($('#FechaPago').val());
 
         $.validator.addMethod("notzero", function (value, element) {
             return value !== '0';
@@ -181,7 +186,7 @@
         $.validator.setDefaults({
             submitHandler: function () {
                 alert("Cambios guardados.");
-                //CrearPago();
+                CrearPago();
             }
         });
 
@@ -189,15 +194,15 @@
             rules: {
                 FechaPago: {
                     required: true,
-                    minlength: 10,
-                    remote: {
-                        url: "/EstadosPagos/PagoRepetido",
-                        type: "GET",
-                        data: {
-                            fecha: function () { return $('#FechaPago').val(); },
-                            usr: function () { return $('#usuario').val().split('-')[0]; }
-                        }
-                    }
+                    minlength: 10
+                    //remote: {
+                    //    url: "/EstadosPagos/PagoRepetido",
+                    //    type: "GET",
+                    //    data: {
+                    //        fecha: function () { return $('#FechaPago').val(); },
+                    //        usr: function () { return $('#usuario').val().split('-')[0]; }
+                    //    } 
+                    //}
                 },
                 TipoPago: {
                     required: true
@@ -221,21 +226,21 @@
                 },
                 usuario: {
                     required: true,
-                    remote: {
-                        url: "/EstadosPagos/PagoRepetido",
-                        type: "GET",
-                        data: {
-                            fecha: function () { return $('#FechaPago').val(); },
-                            usr: function () { return $('#usuario').val().split('-')[0]; }
-                        }
-                    }
+                //    remote: {
+                //        url: "/EstadosPagos/PagoRepetido",
+                //        type: "GET",
+                //        data: {
+                //            fecha: function () { return $('#FechaPago').val(); },
+                //            usr: function () { return $('#usuario').val().split('-')[0]; }
+                //        }
+                //    }
                 }
             },
             messages: {
                 FechaPago: {
                     required: "La fecha de pago es un campo obligatorio.",
-                    minlength: "El formato requerido para la fecha de pago es año/mes/día.",
-                    remote: "Ya existe un pago realizado en esta fecha para este usuario."
+                    minlength: "El formato requerido para la fecha de pago es año/mes/día."
+                    //remote: "Ya existe un pago realizado en esta fecha para este usuario."
                 },
                 TipoPago: {
                     required: "El tipo de pago es un campo obligatorio."
@@ -258,8 +263,8 @@
                     required: "El campo de estado del pago es obligatorio."
                 },
                 usuario: {
-                    required: "El campo de usuario es obligatorio.",
-                    remote: "Ya existe un pago realizado en esta fecha para este usuario."
+                    required: "El campo de usuario es obligatorio."
+                    //remote: "Ya existe un pago realizado en esta fecha para este usuario."
                 }
             },
             errorElement: "em",
@@ -344,6 +349,16 @@
             cargarPagosUsuarios();
         });
 
+        $('#FechaPago').on('change', function () {
+            console.log($(this).val());
+            if ($(this).val() != '') {
+                cargarUsuarios($(this).val());
+                $('#usuario').val('');
+            } else {
+                alert('Favor llenar la fecha');
+            }
+        });
+
     });
 
     function cargarPagosUsuarios() {
@@ -412,8 +427,7 @@
         $('#modal').modal('show');
     }
 
-    function cargarUsuarios() {
-
+    function cargarUsuarios(dt) {
         $('#datos').DataTable().destroy();
         $('#datos').remove();
 
@@ -439,9 +453,9 @@
                 }
             },
             "ajax": {
-                "url": "/UsersAdmin/GetUsuarios",
+                "url": "/EstadosPagos/GetUsuarios",
                 "type": "GET",
-                "data": { filtro: 0 },
+                "data": { fecha: dt },
                 "dataSrc": ""
             },
             columns: [
@@ -486,7 +500,7 @@
                     slc = slc + '<option value="' + list[i].Id + '">' + list[i].Descripcion + '</option>';
                 });
                 slc = slc +  '</select>';
-                $('#TipoPago').append(slc);
+                $('#DivTipoPago').append(slc);
             },
             error: function () {
                 alert('Error desconocido, contacte a soporte.');
@@ -511,7 +525,7 @@
             }
         });
     }
-
+    
     function CrearPago() {
 
         $("#signupForm1 :input[type=text]").val(function () {
@@ -526,6 +540,7 @@
             type: "POST",
             data: form,
             success: function () {
+                $('#usuario').val('');
                 $('#PagosMensuales').DataTable().ajax.reload(null, false);
                 //cargarPagosUsuarios();
                 if (mes !== "" && year !== "") {
@@ -542,3 +557,4 @@
     }
 
 </script>
+}

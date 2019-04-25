@@ -953,18 +953,6 @@ namespace SOGIP_v2.Controllers
                     {
                         seleccion = db.SubSeleccion.Where(x => x.Entrenador.Id == usuario.Id).Select(x => x.Seleccion.Nombre_Seleccion).FirstOrDefault();
                         categoria = (from a in db.SubSeleccion
-/*
-                                     where a.Entrenador.Id == usuario.Id
-                                     select a.Categoria_Id.Descripcion).FirstOrDefault();
-                    }
-                    else
-                    {
-                        seleccion = db.Atletas.Where(x => x.Usuario.Id == usuario.Id).Select(x => x.SubSeleccion.Seleccion.Nombre_Seleccion).FirstOrDefault();
-                        categoria = (from a in db.Atletas
-                                     from c in db.Categorias
-                                     where (a.Usuario.Id == usuario.Id && a.SubSeleccion.Categoria_Id.CategoriaId == c.CategoriaId)
-                                     select c.Descripcion).FirstOrDefault();
-*/
                                          where a.Entrenador.Id == usuario.Id
                                          select a.Categoria_Id.Descripcion).FirstOrDefault();
                     }
