@@ -1,6 +1,10 @@
 ﻿@model SOGIP_v2.Models.Maquina
 @{
     ViewBag.Title = "EjerciciosMaquina";
+    ViewBag.Referencia_Controlador_1 = "Maquina";
+    ViewBag.Icono_Controlador_1 = "glyphicon-scale";
+    ViewBag.Nombre_Controlador_1 = "Maquina";
+
     var viewDataMaquina = ViewData["maquina"];
     var viewDataNombre = ViewData["nombre"];
 }
@@ -106,10 +110,6 @@
                             return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")' data-toggle='modal' data-target='#editar'>" +
                                 "<text class='hidden-xs'>Editar </text>" +
                                 "<span class='glyphicon glyphicon-pencil'></span>" +
-                                "</a>" +
-                                "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
-                                "<text class='hidden-xs'>Ejercicio </text>" +
-                                "<span class='glyphicon glyphicon-list'></span>" +
                                 "</a>";
                         }
                     }

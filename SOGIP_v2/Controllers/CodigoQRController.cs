@@ -229,6 +229,13 @@ namespace SOGIP_v2.Controllers
 
             return Json(true, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult Descripcion(int id)
+        {
+            Ejercicio ejercicio = db.Ejercicio.Single(x => x.Id == id);
+            var descripcion = ejercicio.Descripcion;
+
+            return Json(descripcion, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

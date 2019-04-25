@@ -1,6 +1,9 @@
 ﻿@model SOGIP_v2.Models.TipoME
 @{
     ViewBag.Title = "Tipo";
+    ViewBag.Referencia_Controlador_1 = "TipoME";
+    ViewBag.Icono_Controlador_1 = "glyphicon-list";
+    ViewBag.Nombre_Controlador_1 = "TipoME";
 }
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
@@ -8,21 +11,21 @@
     <div class="col-md-4">
     </div>
     <div class="col-md-4">
-        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px;' id="btnCategorias">
+        <a class='btn btn-primary pull-left' style='padding: 2px 6px; margin: 2px;;' id="btnCategorias">
             <text class='hidden-xs'>Categorias </text>
             <span style='color: white;' class=''></span>
         </a>
-        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn2">
+        <a class='btn  btn-primary pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn2">
             <text class='hidden-xs' id="text2"></text>
             <span style='color: white;' class=''></span>
         </a>
-        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn3">
+        <a class='btn btn-primary pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn3">
             <text class='hidden-xs' id="text3"></text>
             <span style='color: white;' class=''></span>
         </a>
     </div>
     <div class="col-md-4">
-        <a class='btn btn-success pull-right' style='padding: 2px 6px; margin: 2px;' id="btnNuevo">
+        <a class='btn  btn-success pull-right' style='padding: 2px 6px; margin: 2px;' id="btnNuevo">
             <text class='hidden-xs'>Nuevo </text>
             <span style='color: white;' class='glyphicon glyphicon-plus-sign'></span>
         </a>
