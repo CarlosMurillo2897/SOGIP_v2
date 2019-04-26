@@ -7,13 +7,13 @@ namespace SOGIP_v2.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class archivo : IMigrationMetadata
+    public sealed partial class _all : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(archivo));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(_all));
         
         string IMigrationMetadata.Id
         {
-            get { return "201904242344551_archivo"; }
+            get { return "201904260439061__all"; }
         }
         
         string IMigrationMetadata.Source
