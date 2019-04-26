@@ -367,6 +367,21 @@ $(document).ready(function () {
 
     })
     $('#rechazar').click(function () {
+        var id = $('#lbl').text();
+
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/Reservacion/Rechazar",
+            data: { ced: id },
+            success: function (data) {
+                FetchEventAndRenderCalendar();
+                $('#modaldt').modal('hide');
+            },
+            error: function (error) {
+                alert("Fallo");
+            }
+        })
     });
 
     function bootbox1(message) {
@@ -423,7 +438,7 @@ $(document).ready(function () {
             "render": function (Id) {
                 return "<button class='btn btn-warning btn-block' onclick='_alerta(" + Id + ")' style='padding: 2px 6px; margin:2px;'>" +
                     "<text class=''> Ver en detalle </text>" +
-                    "<span class='glyphicon glyphicon-user'></span>" +
+                    "<span class='glyphicon glyphicon-list-alt'></span>" +
                     "</button>";
 
             }

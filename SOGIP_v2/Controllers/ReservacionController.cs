@@ -95,6 +95,25 @@ namespace SOGIP_v2.Controllers
             return new JsonResult { Data = new { status = status } };
         }
 
+        [HttpPost]
+        public JsonResult Rechazar(string ced)
+        {
+            var status = false;
+
+            var lista=db.Reservacion
+            .Where(x => x.UsuarioId.Cedula == ced && x.Estado.Descripcion == "EN PROCESO")
+            .ToList();
+
+            foreach (var reser in lista)
+            {
+                db.Reservacion.Remove(reser);
+            }
+
+            db.SaveChanges();
+
+            return new JsonResult { Data = new { status = status } };
+        }
+
         //CÉDULA
         [HttpPost]
         public JsonResult GetCed()
