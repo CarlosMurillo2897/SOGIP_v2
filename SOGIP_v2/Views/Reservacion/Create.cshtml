@@ -12,20 +12,23 @@
 
 
     var rol = ViewBag.role;
-    var url = "";
+    //var url = "";
 
     if (rol == "Administrador")
     {
-        url = "~/Scripts/fullCalendar/reservacioncalendar.js";
+        @Scripts.Render("~/Scripts/fullCalendar/reservacioncalendar.js");
     }
-    else if (rol=="Entrenador" || rol=="Seleccion/Federacion")
+    else if (rol == "Entrenador" || rol == "Seleccion/Federacion")
     {
-        url = "~/Scripts/fullCalendar/reservacionvariante.js";
+        @Scripts.Render("~/Scripts/fullCalendar/reservacionvariante.js");
     }
-    else if (rol=="Atleta" || rol=="Atleta Becados" || rol=="Funcionarios ICODER")
+    else if (rol == "Atleta" || rol == "Atleta Becados" || rol == "Funcionarios ICODER")
     {
-        url = "~/Scripts/fullCalendar/reservacionunico.js";
+        @Scripts.Render("~/Scripts/fullCalendar/reservacionunico.js");
     }
+
+
+
 
     @Styles.Render("~/Content/fullcalendar.css")
     @Styles.Render("~/Contents/bootstrap-datepicker.css")
@@ -33,6 +36,9 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
+    <link href="~/Content/DataTables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/buttons.dataTables.min.css" rel="stylesheet" />
 
 }
 
@@ -42,9 +48,19 @@
         <div class="form-group col-lg-3 col-md-6 col-sm-6">
             <button id="botón" type="button" class="btn btn-warning btn-block">
                 <text id="texto">Hacer Reservaciones</text>
-                <span id="icono" class="glyphicon glyphicon-search"></span>
+                <span id="icono" class="glyphicon glyphicon-book"></span>
             </button>
         </div>
+        @if (rol == "Administrador")
+        {
+            <div class="form-group col-lg-3 col-md-6 col-sm-6" id="adb">
+                <button id="boton1" type="button" class="btn btn-warning btn-block">
+                    <text id="texto">Solicitud de Reservaciones</text>
+                    <span id="icono" class="glyphicon glyphicon-bell"></span>
+                </button>
+            </div>
+        }
+
     </div>
 
     @*Calendario*@
@@ -65,13 +81,13 @@
                 <div class="modal-footer">
 
                     @*<button id="btnDelete" class="btn btn-warning  mr-auto">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        Eliminar
-                    </button>
-                    <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                        Editar
-                    </button>*@
+                            <span class="glyphicon glyphicon-remove"></span>
+                            Eliminar
+                        </button>
+                        <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            Editar
+                        </button>*@
 
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
@@ -143,7 +159,7 @@
                         <hr />
                         @*rango de fechas*@
                         <div class="row">
-                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <div class="form-group col-lg-3 col-md-6 col-sm-10">
                                 <label>Fecha inicial</label>
                                 <div class="input-group date" id="dtp1">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -151,13 +167,15 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                            <div class="form-group col-lg-3 col-md-6 col-sm-10">
                                 <label>Fecha final</label>
                                 <div class="input-group date" id="dtp2">
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                     <input type="text" id="txtEnd" class="form-control" />
                                 </div>
                             </div>
+
+
                         </div>
                         <br />
                         <div class="modal-footer">
@@ -290,18 +308,74 @@
         </div>
     </div>
 
+    @*MODAL SOLICITUDES*@
+    <div id="modaldt" class="modal fade bd-example-modal-lg" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" style="font-weight:bold;">SOLICITUD DE NUEVAS RESERVACIONES</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group col-md-2 col-md-6 col-sm-6">
+                            <button id="volver" type="button" class="btn btn-block btn-block">
+                                <text id="texto">Volver</text>
+                                <span id="icono" class="glyphicon glyphicon-chevron-left"></span>
+                            </button>
+                        </div>
+
+
+                        <div class="form-group col-md-2 col-md-6 col-sm-6">
+                            <button id="aprobar" type="button" class="btn btn-success btn-block">
+                                <text id="texto">Aprobar</text>
+                                <span id="icono" class="glyphicon glyphicon-thumbs-up"></span>
+                            </button>
+                        </div>
+
+                        <div class="form-group col-md-2 col-md-6 col-sm-6">
+                            <button id="rechazar" type="button" class="btn btn-danger btn-block">
+                                <text id="texto">Rechazar</text>
+                                <span id="icono" class="glyphicon glyphicon-thumbs-down"></span>
+                            </button>
+                        </div>
+                        <label hidden id="lbl"></label>
+                    </div>
+                    <br />
+                    <div class="table-responsive" id="tabla">
+                        <table id="example" class="table table-bordered table-hover dt-responsive">
+                            <thead>
+
+                            </thead>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    
     @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
     @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
     @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
-    @Scripts.Render(url)
+
 
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")
     @Scripts.Render("~/Scripts/bootbox.min.js")
+
+    <script type="text/javascript" src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/responsive.bootstrap4.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/buttons.html5.min.js"></script>
 
 }

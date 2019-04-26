@@ -1,9 +1,59 @@
-﻿$(document).ready(function () {
+﻿function _alerta(inf) {
+    var imp = inf;
+    document.getElementById('lbl').innerHTML = imp;
+    $('#volver').show();
+    $('#aprobar').show();
+    $('#rechazar').show();
+    var table = $('#example').DataTable();
+    table.destroy();
+    $('#example').remove();
+
+    var head = '<thead><tr><td>Día</td><td>Fecha</td><td>Hora de Inicio</td><td>Hora Final</td></tr></thead>';
+    var tabla = $('<table/>', {
+        id: 'example',
+        class: 'table table-striped table-bordered dt-responsive'
+    }).append(head);
+    $('#tabla').append(tabla);
+
+    
+    var col = [
+        { data: "Dia" },
+        { data: "Fecha" },
+        { data: "HoraI" },
+        { data: "HoraF" }
+    ];
+
+    $('#example').DataTable({
+        "language": {            
+            "lengthMenu": "Mostrando _MENU_ resultados por página.",
+            "zeroRecords": "No se han encontrado registros.",
+            "info": "Mostrando página _PAGE_ de _PAGES_.",
+            "infoEmpty": "No hay datos para mostrar",
+            "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+            "search": "Filtrar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        "ajax": {
+            "url": "/Reservacion/getListaSolicitudes",
+            "type": "POST",
+            "dataSrc": "",
+            "data": { userced: imp }
+        },
+        columns: col
+    });
+}
+$(document).ready(function () {
 
     //variables
+    lista();
     var cantidad;
     var events = [];
-    var   ar = [];
+    var ar = [];
     $('#cant').show();
     FetchEventAndRenderCalendar();
     $('#txtStart').datepicker();
@@ -15,6 +65,7 @@
         'disableTextInput': true
 
     });
+   
 
     //---habilitar/deshabilitar
     $("input[type=checkbox]").click(function () {
@@ -75,7 +126,7 @@
                     events.push({
                         reservacionId: v.ReservacionId,
                         title: 'RESERVACION',
-                        estado: v.Estado,
+                        estado: v.Estado.Descripcion,
                         cantidad: v.Cantidad,
                         cedula: v.UsuarioId.Cedula,
                         nombre: v.UsuarioId.Nombre1,
@@ -124,17 +175,16 @@
             },
             eventAfterRender: function (event, element, view) { //COLOR DE LOS EVENTOS
 
-                var date = event.start.format("YYYY-MM-DD");
-                var today = moment().format("YYYY-MM-DD");
 
-                if (date > today) {
-                    //event.color = "#FFB347"; //Em andamento
-                    element.css('background-color', '#668cff');
-                    element.css('border-color', '#668cff');
-                } else if (date < today) {
-                    //event.color = "#77DD77"; //Concluído OK
-                    element.css('background-color', '#ff4d4d');
-                    element.css('border-color', '#ff4d4d');
+
+                if (event.estado=="EN PROCESO") {
+                    //event.color = "##ff8533"; //Em andamento
+                    element.css('background-color', '#ff8533');
+                    element.css('border-color', '#ff8533');
+                } else if (event.estado=="APROBADO") {
+                    //event.color = "##339966"; //Aprobado
+                    element.css('background-color', '#339966');
+                    element.css('border-color', '#339966');
                 }
             },
             eventClick: function (calEvent, jsEvent, view) { //INFORMACIÓN DEL EVENTO
@@ -153,6 +203,9 @@
                 $description.append($('<hr/>'));
                 $description.append($('<p/>').html('<h4><b>Cantidad de asistentes</b></h4>'));
                 $description.append($('<p/>').html( calEvent.cantidad));
+                $description.append($('<hr/>'));
+                $description.append($('<p/>').html('<h4><b>Estado</b></h4>'));
+                $description.append($('<p/>').html(calEvent.estado));
                 $description.append($('<hr/>'));
                 $description.append($('<p/>').html('<h4><b>Solicitante</b></h4>'));
                 $description.append($('<p/>').html('<b>Cédula: </b>' + calEvent.cedula));
@@ -194,7 +247,8 @@
         $('#myModalSave2').modal('show');
     });
     //array.shift() sirve para remover el primer elemento
-    $('#botón').click(function () { $('#myModalSave').modal('show');});
+    $('#botón').click(function () { $('#myModalSave').modal('show'); });
+    $('#boton1').click(function () { $('#modaldt').modal('show'); tablalista(); });
     $('#btnSave').click(function () { 
         var array3 = [];
         function checkhours() {
@@ -291,6 +345,44 @@
         }
 
     });
+    $('#volver').click(function () {
+        tablalista();
+    });
+    $('#aprobar').click(function () {
+        var id = $('#lbl').text();
+
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/Reservacion/Aprobar",
+            data: {ced: id},
+            success: function (data) {
+                FetchEventAndRenderCalendar();
+                $('#modaldt').modal('hide');                
+            },
+            error: function (error) {
+                alert("Fallo");
+            }
+        })
+
+    })
+    $('#rechazar').click(function () {
+        var id = $('#lbl').text();
+
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/Reservacion/Rechazar",
+            data: { ced: id },
+            success: function (data) {
+                FetchEventAndRenderCalendar();
+                $('#modaldt').modal('hide');
+            },
+            error: function (error) {
+                alert("Fallo");
+            }
+        })
+    });
 
     function bootbox1(message) {
         var dialog = bootbox.dialog({//para cargas
@@ -318,4 +410,89 @@
 
     }
 
+    function lista() {
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: "/Reservacion/getSolicitud",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (error) {
+                // alert("Fallo");
+            }
+        });
+    }
+
+    function tablaPadre() {
+        var col = [
+            { data: "Cedula" },
+            { data: "Nombre" },
+            { data: "Apellido1" },
+            { data: "Apellido2" }
+        ];
+
+        var head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr>';
+        col[col.length] = {
+            data: "Id",
+            "render": function (Id) {
+                return "<button class='btn btn-warning btn-block' onclick='_alerta(" + Id + ")' style='padding: 2px 6px; margin:2px;'>" +
+                    "<text class=''> Ver en detalle </text>" +
+                    "<span class='glyphicon glyphicon-list-alt'></span>" +
+                    "</button>";
+
+            }
+        };
+        $('#example thead').append(head);
+        $.ajax({
+            url: "/Reservacion/getSolicitud",
+            type: 'POST',
+            success: function (data) {
+                var dat = data;
+                $('#example').DataTable({
+                    "language": {
+                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                        "zeroRecords": "No se han encontrado registros.",
+                        "info": "Mostrando página _PAGE_ de _PAGES_.",
+                        "infoEmpty": "No hay datos para mostrar",
+                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                        "search": "Filtrar:",
+                        "paginate": {
+                            "first": "Primero",
+                            "last": "Ultimo",
+                            "next": "Siguiente",
+                            "previous": "Anterior"
+                        }
+                    },
+                    "data": dat,
+                    columns: col
+                });
+            }
+        })
+    }
+
+    function tablalista() {
+        $('#volver').hide();
+        $('#aprobar').hide();
+        $('#rechazar').hide();
+        if (!$.fn.DataTable.isDataTable('#example')) {
+            tablaPadre();
+           
+        }
+        else {
+            var table = $('#example').DataTable();
+            table.destroy();
+            $('#example').remove(); 
+            var thead = ("<thead></thead>");
+            var tabla = $('<table/>', {
+                id: 'example',
+                class: 'table table-striped table-bordered dt-responsive'
+            }).append(thead);
+            $('#tabla').append(tabla);
+            tablaPadre();
+        }
+
+    }
+
+    
     })
