@@ -421,7 +421,7 @@
             SaveCategoria1(data);
         }
 
-        $.validator.setDefaults({
+    /*Aqui*/       $.validator.setDefaults({
             submitHandler: function () {
                 enviar();
                 alert("Enviando solicitud.");
@@ -431,7 +431,7 @@
         $(document).ready(function () {
             tablaEjer1();
 
-            $("#forcat").validate({
+       /*Nuevo*/        $("#forcat").validate({
                 rules: {
                     cat: {
 
@@ -483,7 +483,7 @@
                     $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
                 }
             });
-            $("#foredit").validate({
+   /*Editar*/         $("#foredit").validate({
                 rules: {
                     edit: {
 

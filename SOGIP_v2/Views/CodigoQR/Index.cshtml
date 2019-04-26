@@ -62,7 +62,6 @@
                         <div class="form-group col-lg-6 col-md-6 col-sm-6">
                             <div>
                                 <label id="maq"><input type="radio" name="btnRadio" checked />Maquina </label>
-                                <label id="usu"><input type="radio" name="btnRadio" />Usuario </label>
                                 <label id="ejer"><input type="radio" name="btnRadio" />Ejercicio </label>
                             </div>
                             <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
@@ -117,10 +116,58 @@
             </table>
         </div>
     </div>
-    <div class="col-md-6" hidden id="video">
-        <br>
-        <div class="video-container">
-            <iframe width="853" height="480" frameborder="0" allowfullscreen id="one"></iframe>
+    @*<div class="col-md-6" hidden id="video">
+            <br>
+            <div class="video-container">
+                <iframe width="853" height="480" frameborder="0" allowfullscreen id="one"></iframe>
+            </div>
+        </div>*@
+    <div id="modal" class="modal fade">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">
+                        <text>Vídeo</text>
+                    </h2>
+                </div>
+
+                <div class="modal-body" id="modalBody">
+                    <div class="row">
+                        <div class="col-md-12">
+                          
+                            <style>
+                                .video-container {
+                                    position: center;
+                                    padding-bottom: 50%;
+                                    padding-top: 50px;
+                                    height: 30%;
+                                    overflow: hidden;
+
+                                }
+
+                                    .video-container iframe,
+                                    .video-container object,
+                                    .video-container embed {
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        width: 100%;
+                                        height: 100%;
+                                    }
+                            </style>
+                            <div class="col-md-6">
+                                <div class="video-container">
+                                    <iframe width="853" height="480" frameborder="0" allowfullscreen id="one"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -289,10 +336,8 @@
                 data: { id: id },
                 success: function (data) {
                     $('#one').attr('src',data);
-                    $('#video').show();
-                    $('#btnNuevo').css("display", "none");
-                    $('#hi').css("display", "none");
-                    $('#ho').css("display", "none");
+                    $('#modal').modal('show');
+                    
                 },
                 error: function (data) {
                     alert("¡Error!");

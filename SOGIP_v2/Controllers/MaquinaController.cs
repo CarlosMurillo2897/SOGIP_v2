@@ -30,7 +30,7 @@ namespace SOGIP_v2.Controllers
         }
         public JsonResult MaquinaRepetido(string nombre)
         {
-            return Json(!db.Ejercicio.Any(x => x.Nombre == nombre), JsonRequestBehavior.AllowGet);
+            return Json(!db.Maquina.Any(x => x.Nombre == nombre), JsonRequestBehavior.AllowGet);
         }
         public JsonResult SaveMaquina(int id, string nombre)
         {
