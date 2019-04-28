@@ -1,0 +1,386 @@
+﻿
+@Styles.Render("~/Content/bootstrap-multiselect.css")
+
+<div class="panel panel-info">
+    <div class="panel-heading">
+        <h3 class="panel-title">Personalizar gráfico</h3>
+    </div>
+
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <select class="form-control" id="Grupo">
+                        <option value="0">-SIN SELECCIONAR-</option>
+                        <option value="1">SELECCIONES</option>
+                        <option value="2">ASOCIACIONES</option>
+                        <option value="3">ENTIDADES</option>
+                        <option value="4">FUNCIONARIOS ICODER</option>
+                    </select>
+                </div>
+            </div>
+
+            <div hidden class="col-sm-2" id="s1">
+                <div class="form-group">
+                    <select class="form-control" multiple="multiple" id="Selecciones"></select>
+                </div>
+            </div>
+
+            <div hidden class="col-sm-2" id="a2">
+                <div class="form-group">
+                    <select class="form-control" multiple="multiple" id="Asociaciones"></select>
+                </div>
+            </div>
+
+            <div hidden class="col-sm-2" id="e3">
+                <div class="form-group">
+                    <select class="form-control" multiple="multiple" id="Entidades"></select>
+                </div>
+            </div>
+
+            <div hidden class="col-sm-2" id="month">
+                <div class="form-group">
+                    <select class="form-control" multiple="multiple" id="Meses">
+                        <option value="1">ENERO</option>
+                        <option value="2">FEBRERO</option>
+                        <option value="3">MARZO</option>
+                        <option value="4">ABRIL</option>
+                        <option value="5">MAYO</option>
+                        <option value="6">JUNIO</option>
+                        <option value="7">JULIO</option>
+                        <option value="8">AGOSTO</option>
+                        <option value="9">SEPTIEMBRE</option>
+                        <option value="10">OCTUBRE</option>
+                        <option value="11">NOVIEMBRE</option>
+                        <option value="12">DICIEMBRE</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-sm-2" id="e3">
+                <div class="form-group">
+                    <button type="button" id="b" class="btn btn-warning btn-block">Generar Gráfico</button>
+                </div>
+            </div>
+          
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="chart-container" style="position: unset; height:90vh; width:70vw" id="graph">
+    <canvas id="chart"></canvas>
+    <input type="button" value="Excell" id="xlxs" hidden/>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts{
+
+    @Scripts.Render("~/Scripts/Chart.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-multiselect.js")
+
+}
+
+
+
+<script>
+    $(document).ready(function () {
+        var mes = [];
+        var all = [];
+        var myChart;
+        var meses = [];
+        var seleid = [];
+        var selenom = [];
+        //var externo = [];
+        selecciones();
+        asociaciones();
+        entidades();
+
+        ///  ________________________SELECT'S___________________________
+        $('#Grupo').multiselect({
+            nonSelectedText: '--GRUPOS--',
+            onChange: function (option, checked, select) {
+
+                if ($(option).val() == 1) {
+                    $('#a2').hide();
+                    $('#e3').hide();
+                    $('#s1').show();
+                    $('#month').show();
+                }
+                else if ($(option).val() == 2) {
+                    $('#s1').hide();
+                    $('#e3').hide();
+                    $('#a2').show();
+                    $('#month').show();
+                }
+                else if ($(option).val() == 3) {
+                    $('#s1').hide();
+                    $('#a2').hide();
+                    $('#e3').show();
+                    $('#month').show();
+                }
+                else if ($(option).val() == 4) {
+
+                }
+                else {
+                    $('#s1').hide();
+                    $('#a2').hide();
+                    $('#e3').hide();
+                }
+            }
+        });
+        $('#Meses').multiselect({
+            disableIfEmpty: true,
+            enableFiltering: true,
+            filterPlaceholder: 'Buscar...',
+            buttonText: function (options, select) {
+                return '-MESES-';
+            },
+            buttonTitle: function (options, select) {
+                var labels = [];
+                options.each(function () {
+                    labels.push($(this).text());
+                });
+                return labels.join(' - ');
+            },
+            onChange: function (element, checked) {
+                mes = [];
+                meses = [];
+                var brands = $('#Meses option:selected');
+                $(brands).each(function (index, brand) {
+                    mes.push([$(this).val()]);
+                    meses.push([$(this).text()]);
+                });
+
+            }
+        });
+
+        //______________________________________________________________
+
+        function selecciones() { //POPULATE SELECT OPTIONS WITH SELECCIONES
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/Selecciones",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        $('#Selecciones').append('<option value=' + v.Id + '>' + v.Nombre + '</option>');
+                    });
+                    $('#Selecciones').multiselect({
+                        disableIfEmpty: true,
+                        enableFiltering: true,
+                        filterPlaceholder: 'Buscar...',
+                        buttonText: function (options, select) {
+                            return '-SELECCIONES-';
+                        },
+                        buttonTitle: function (options, select) {
+                            var labels = [];
+                            options.each(function () {
+                                labels.push($(this).text());
+                            });
+                            return labels.join(' - ');
+                        },
+                        onChange: function (element, checked) {
+                            seleid = [];
+                            selenom = [];
+                            var brands = $('#Selecciones option:selected');
+                            $(brands).each(function (index, brand) {
+                                seleid.push([$(this).val()]);
+                                selenom.push([$(this).text()]);
+                            });
+
+                            console.log(seleid);
+                            console.log(selenom);
+                        }
+                    })
+                },
+                error: function (error) {
+                    // alert("Fallo");
+                }
+            })
+        }
+                              
+        function asociaciones() { //POPULATE SELECT OPTIONS WITH ASOCIACIONES
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/Asociaciones",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        $('#Asiciaciones').append('<option value=' + v.Id + '>' + v.Nombre + '</option>');
+                    });
+
+                    $('#Asociaciones').multiselect({
+                        disableIfEmpty: true,
+                        enableFiltering: true,
+                        filterPlaceholder: 'Buscar...',
+                        buttonText: function (options, select) {
+                            return '-ASOCIACIONES-';
+                        },
+                        buttonTitle: function (options, select) {
+                            var labels = [];
+                            options.each(function () {
+                                labels.push($(this).text());
+                            });
+                            return labels.join(' - ');
+                        }
+                    })
+                },
+                error: function (error) {
+                    // alert("Fallo");
+                }
+            })
+        }
+
+        function entidades() { //POPULATE SELECT OPTIONS WITH ENTIDADES
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/Entidades",
+                success: function (data) {
+                    $.each(data, function (i, v) {
+                        $('#Entidades').append('<option value=' + v.Id + '>' + v.Nombre + '</option>');
+                    });
+
+                    $('#Entidades').multiselect({
+                        disableIfEmpty: true,
+                        enableFiltering: true,
+                        filterPlaceholder: 'Buscar...',
+                        buttonText: function (options, select) {
+                            return '-ENTIDADES-';
+                        },
+                        buttonTitle: function (options, select) {
+                            var labels = [];
+                            options.each(function () {
+                                labels.push($(this).text());
+                            });
+                            return labels.join(' - ');
+                        }
+                    })
+                },
+                error: function (error) {
+                    // alert("Fallo");
+                }
+            })
+        }
+
+
+        $("#b").click(function () {
+            all = [];
+
+           //mesesAtletasA(mes);
+           //chartSe();
+
+            mesesAtletasA(seleid);
+            chartSe();
+            $('#xlxs').show();
+        });
+
+
+
+        //ESTA FUNCIÓN ES PARA ATLETAS POR SELECCIÓN ej: SELECCIÓN RUGBY
+        function mesesAtletasA(array) {
+            if (array.length > 0) {
+
+                if (array.length > 0) {
+                    porseleF(mes, array[0]);
+                    porseleM(mes, array[0]);
+
+                    array.shift();
+                    mesesAtletasA(array);
+                }
+
+            }
+            else {
+                alert(""); //en este tipo de situaciones es mejor usar un callback
+
+                console.log(all);
+            }
+        }
+
+        function porseleF(mes, seleccion) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/PorMesSeleF",
+                data: { 'mes': mes, 'seleccion': seleccion },
+                success: function (data) {
+                    var txt = $("#Selecciones option[value=" + seleccion + "]").text();
+                    all.push({
+                        label: txt+"-Fem",
+                        data: data,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    // alert("Fallo");
+                }
+            })
+        }
+
+        function porseleM(mes, seleccion) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/PorMesSeleM",
+                data: { 'mes': mes, 'seleccion': seleccion },
+                success: function (data) {
+                    var txt = $("#Selecciones option[value=" + seleccion + "]").text();
+                    all.push({
+                        label: txt+"-Masc",
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 0.2)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    // alert("Fallo");
+                }
+            })
+        }
+
+        ////////////////////////////////////////////////////////////////////////////
+        function chartSe() {
+            $('#chart').remove();
+            $('#graph').append('<canvas id="chart"></canvas>');
+
+            var ctx = document.getElementById('chart');
+             myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: meses,
+                    datasets: all
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
+       
+
+    });
+</script>
