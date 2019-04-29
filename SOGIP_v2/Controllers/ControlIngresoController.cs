@@ -102,7 +102,8 @@ namespace SOGIP_v2.Controllers
 
         }
 
-        public void addFem(List<string> mes, int sele)
+        //-------------------------------------------------------> seleccciones
+        public void addFemS(List<string> mes, int sele)
         {
             if (mes.Count>0) {
 
@@ -115,13 +116,13 @@ namespace SOGIP_v2.Controllers
                ).Count();
                 listF.Add(lista);
                 mes.RemoveAt(0);
-                addFem(mes,sele);
+                addFemS(mes,sele);
             }
             
 
         }
 
-        public void addMasc(List<string> mes, int sele)
+        public void addMascS(List<string> mes, int sele)
         {
             if (mes.Count > 0)
             {
@@ -135,33 +136,146 @@ namespace SOGIP_v2.Controllers
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                addMasc(mes, sele);
+                addMascS(mes, sele);
+            }
+
+
+        }
+        //--------------------------------------> Asociaciones
+        public void addFemA(List<string> mes, int aso)
+        {
+            if (mes.Count > 0)
+            {
+
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                from a in db.Atletas
+                where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == a.Usuario && a.Asociacion_Deportiva.Asociacion_DeportivaId==aso
+                select c.Usuario
+                ).Count();
+                listF.Add(lista);
+                mes.RemoveAt(0);
+                addFemA(mes, aso);
+            }
+
+
+        }
+
+        public void addMascA(List<string> mes, int aso)
+        {
+            if (mes.Count > 0)
+            {
+
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                from a in db.Atletas
+                where c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == a.Usuario && a.Asociacion_Deportiva.Asociacion_DeportivaId == aso
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                addMascA(mes, aso);
+            }
+
+
+        }
+        //--------------------------------------> Entidades
+        public void addFemE(List<string> mes, int aso)
+        {
+            if (mes.Count > 0)
+            {
+
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                from e in db.Entidad_Publica
+                where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == e.Usuario && e.Tipo_Entidad.Tipo_EntidadId == aso
+                select c.Usuario
+                ).Count();
+                listF.Add(lista);
+                mes.RemoveAt(0);
+                addFemE(mes, aso);
+            }
+
+
+        }
+
+        public void addMascE(List<string> mes, int aso)
+        {
+            if (mes.Count > 0)
+            {
+
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                from e in db.Entidad_Publica
+                where c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == e.Usuario && e.Tipo_Entidad.Tipo_EntidadId == aso
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                addMascE(mes, aso);
             }
 
 
         }
 
 
+
+
+
+
+
+
+
+
+        //--------------------------------------> Principal
         [HttpPost]
-        public JsonResult PorMesSeleF(string[] mes, int seleccion)
+        public JsonResult PorMesAtletasF(string[] mes, int aso, int id)
         {
             listF.Clear();
             List<string> m = new List<string>(mes);
-            addFem(m,seleccion);
 
+            if (id == 1)
+            {
+                addFemS(m, aso);
+            }
+            else if (id == 2)
+            {
+                addFemA(m, aso);
+            }
+            else if (id == 3)
+            {
+                addFemE(m, aso);
+            }
+            
             return new JsonResult { Data = listF, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
         [HttpPost]
-        public JsonResult PorMesSeleM(string[] mes, int seleccion)
+        public JsonResult PorMesAtletasM(string[] mes, int aso, int id)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            addMasc(m, seleccion);
+            if (id == 1)
+            {
+                addMascS(m, aso);
+            }
+            else if (id == 2)
+            { 
+                addMascA(m, aso);
+            }
+            else if (id == 3)
+            {
+                addMascE(m, aso);
+            }
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
+        //------------------------------------------------------> asociaciones
 
 
     }

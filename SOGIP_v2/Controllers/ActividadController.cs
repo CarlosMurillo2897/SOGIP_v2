@@ -99,9 +99,10 @@ namespace SOGIP_v2.Controllers
 
                     a = new Archivo
                     {
-                        actividad= db.Actividad.Where(b => b.Id == idAct).FirstOrDefault(),
+                        actividad = db.Actividad.Where(b => b.Id == idAct).FirstOrDefault(),
                         Nombre = archivo.FileName,
-                        Contenido = buffer
+                        Contenido = buffer,
+                        Tipo = db.Tipos.Where(x=>x.Nombre=="Fotos de Actividades").FirstOrDefault()
                     };
 
                     db.Archivo.Add(a);
@@ -146,7 +147,8 @@ namespace SOGIP_v2.Controllers
         {
 
             var imagenes =
-                db.Archivo.Where(x => x.actividad != null).OrderByDescending(x=>x.ArchivoId) //-->ordeno de atrás hacia delante
+                db.Archivo.Where(x => x.actividad != null && db.Horario.Where(y=>y.IdActividad.Id==x.actividad.Id).FirstOrDefault()
+                .FechaHoraInicio>=DateTime.Today).OrderByDescending(x=>x.ArchivoId) //-->ordeno de atrás hacia delante
                 .Select(x => new
                 {
                     x.Contenido,

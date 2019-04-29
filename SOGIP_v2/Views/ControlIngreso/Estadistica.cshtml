@@ -72,7 +72,6 @@
 
 <div class="chart-container" style="position: unset; height:90vh; width:70vw" id="graph">
     <canvas id="chart"></canvas>
-    <input type="button" value="Excell" id="xlxs" hidden/>
 </div>
 
 
@@ -100,13 +99,15 @@
 
 <script>
     $(document).ready(function () {
-        var mes = [];
-        var all = [];
-        var myChart;
-        var meses = [];
-        var seleid = [];
-        var selenom = [];
-        //var externo = [];
+        //_____________________________________________________________
+        var mes = [], //id
+            all = [],    //datasets 
+            meses = [], //nom
+            allid = [], //id selecciones,entidades, asociaciones
+            allnom = [], //nombre selecciones, entidades, asociaciones
+            grupo = []; //sele, aso, entidad...
+
+        //_____________________________________________________________
         selecciones();
         asociaciones();
         entidades();
@@ -115,26 +116,32 @@
         $('#Grupo').multiselect({
             nonSelectedText: '--GRUPOS--',
             onChange: function (option, checked, select) {
+                var brands = $('#Grupo option:selected');
+                $(brands).each(function (index, brand) {
+                    grupo = [];
+                    grupo.push([$(this).val()]);
+                });
+                console.log(grupo);
 
-                if ($(option).val() == 1) {
+                if ($(option).val() == 1) {//selección
                     $('#a2').hide();
                     $('#e3').hide();
                     $('#s1').show();
                     $('#month').show();
                 }
-                else if ($(option).val() == 2) {
+                else if ($(option).val() == 2) {//asociación
                     $('#s1').hide();
                     $('#e3').hide();
                     $('#a2').show();
                     $('#month').show();
                 }
-                else if ($(option).val() == 3) {
+                else if ($(option).val() == 3) {//entidades
                     $('#s1').hide();
                     $('#a2').hide();
                     $('#e3').show();
                     $('#month').show();
                 }
-                else if ($(option).val() == 4) {
+                else if ($(option).val() == 4) {//otros
 
                 }
                 else {
@@ -142,9 +149,11 @@
                     $('#a2').hide();
                     $('#e3').hide();
                 }
+
+                
             }
         });
-        $('#Meses').multiselect({
+        $('#Meses').multiselect({//selecciona el id del mes y su nombre
             disableIfEmpty: true,
             enableFiltering: true,
             filterPlaceholder: 'Buscar...',
@@ -169,7 +178,6 @@
 
             }
         });
-
         //______________________________________________________________
 
         function selecciones() { //POPULATE SELECT OPTIONS WITH SELECCIONES
@@ -196,16 +204,16 @@
                             return labels.join(' - ');
                         },
                         onChange: function (element, checked) {
-                            seleid = [];
-                            selenom = [];
+                            allid = [];
+                            allnom = [];
                             var brands = $('#Selecciones option:selected');
                             $(brands).each(function (index, brand) {
-                                seleid.push([$(this).val()]);
-                                selenom.push([$(this).text()]);
+                                allid.push([$(this).val()]);
+                                allnom.push([$(this).text()]);
                             });
 
-                            console.log(seleid);
-                            console.log(selenom);
+                            console.log(allid);
+                            console.log(allnom);
                         }
                     })
                 },
@@ -222,7 +230,7 @@
                 url: "/ControlIngreso/Asociaciones",
                 success: function (data) {
                     $.each(data, function (i, v) {
-                        $('#Asiciaciones').append('<option value=' + v.Id + '>' + v.Nombre + '</option>');
+                        $('#Asociaciones').append('<option value=' + v.Id + '>' + v.Nombre + '</option>');
                     });
 
                     $('#Asociaciones').multiselect({
@@ -238,6 +246,18 @@
                                 labels.push($(this).text());
                             });
                             return labels.join(' - ');
+                        },
+                        onChange: function (element, checked) {
+                            allid = [];
+                            allnom = [];
+                            var brands = $('#Asociaciones option:selected');
+                            $(brands).each(function (index, brand) {
+                                allid.push([$(this).val()]);
+                                allnom.push([$(this).text()]);
+                            });
+
+                            console.log(allid);
+                            console.log(allnom);
                         }
                     })
                 },
@@ -270,6 +290,18 @@
                                 labels.push($(this).text());
                             });
                             return labels.join(' - ');
+                        },
+                        onChange: function (element, checked) {
+                            allid = [];
+                            allnom = [];
+                            var brands = $('#Entidades option:selected');
+                            $(brands).each(function (index, brand) {
+                                allid.push([$(this).val()]);
+                                allnom.push([$(this).text()]);
+                            });
+
+                            console.log(allid);
+                            console.log(allnom);
                         }
                     })
                 },
@@ -280,47 +312,49 @@
         }
 
 
-        $("#b").click(function () {
+        $("#b").click(function () { //-----------> CARLOS CARLOS CARLOS !!!!!!!!
             all = [];
+            new Promise(function (resolve, reject) {
+                setTimeout(() => resolve(mesesAtletasA(allid)), 1000);
 
-           //mesesAtletasA(mes);
-           //chartSe();
-
-            mesesAtletasA(seleid);
-            chartSe();
-            $('#xlxs').show();
+            }).then(function (result) {
+                //alert("aa");
+                chartSe();
+                
+            }); 
         });
 
+     
 
-
-        //ESTA FUNCIÓN ES PARA ATLETAS POR SELECCIÓN ej: SELECCIÓN RUGBY
-        function mesesAtletasA(array) {
+        //____________________________________________ SELECCIONES __________________________________
+         function mesesAtletasA(array) {//-----------> CARLOS CARLOS CARLOS !!!!!!!!!!
             if (array.length > 0) {
-
-                if (array.length > 0) {
-                    porseleF(mes, array[0]);
-                    porseleM(mes, array[0]);
-
-                    array.shift();
-                    mesesAtletasA(array);
-                }
-
+               porMesF(mes, array[0], grupo[0]);
+               porMesM(mes, array[0], grupo[0]);
+                array.shift();
+                mesesAtletasA(array);
             }
-            else {
-                alert(""); //en este tipo de situaciones es mejor usar un callback
-
-                console.log(all);
-            }
+            
         }
 
-        function porseleF(mes, seleccion) {
+        function porMesF(mes, grupo, idas) {
+            var txt;
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
-                url: "/ControlIngreso/PorMesSeleF",
-                data: { 'mes': mes, 'seleccion': seleccion },
+                url: "/ControlIngreso/PorMesAtletasF",
+                data: { 'mes': mes, 'aso': grupo, 'id':idas },
                 success: function (data) {
-                    var txt = $("#Selecciones option[value=" + seleccion + "]").text();
+                    if (idas == 1) {
+                        txt = $("#Selecciones option[value=" + grupo + "]").text();
+                    }
+                    else if (idas == 2) {
+                        txt = $("#Asociaciones option[value=" + grupo + "]").text();
+                    }
+                    else if (idas == 3) {
+                        txt = $("#Entidades option[value=" + grupo + "]").text();
+                    }
+
                     all.push({
                         label: txt+"-Fem",
                         data: data,
@@ -335,14 +369,23 @@
             })
         }
 
-        function porseleM(mes, seleccion) {
+        function porMesM(mes, grupo, idas) {
+            var txt;
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
-                url: "/ControlIngreso/PorMesSeleM",
-                data: { 'mes': mes, 'seleccion': seleccion },
+                url: "/ControlIngreso/PorMesAtletasM",
+                data: { 'mes': mes, 'aso': grupo, 'id':idas },
                 success: function (data) {
-                    var txt = $("#Selecciones option[value=" + seleccion + "]").text();
+                    if (idas == 1) {
+                        txt = $("#Selecciones option[value=" + grupo + "]").text();
+                    }
+                    else if (idas == 2) {
+                        txt = $("#Asociaciones option[value=" + grupo + "]").text();
+                    }
+                    else if (idas == 3) {
+                        txt = $("#Entidades option[value=" + grupo + "]").text();
+                    }
                     all.push({
                         label: txt+"-Masc",
                         data: data,
@@ -357,17 +400,17 @@
             })
         }
 
-        ////////////////////////////////////////////////////////////////////////////
-        function chartSe() {
+        //_______________________________________________ GRÁFICO ____________________________________
+        function chartSe() { //-----------> CARLOS CARLOS CARLOS esto genera el gráfico
             $('#chart').remove();
             $('#graph').append('<canvas id="chart"></canvas>');
 
             var ctx = document.getElementById('chart');
-             myChart = new Chart(ctx, {
+           var  myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: meses,
-                    datasets: all
+                    datasets: all //----------> este es el arreglo de información, digamos [{nombre:, cantidad:....}, {nombre:, cantidad:}]
                 },
                 options: {
                     scales: {
