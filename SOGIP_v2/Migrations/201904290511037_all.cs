@@ -3,7 +3,7 @@ namespace SOGIP_v2.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _all : DbMigration
+    public partial class all : DbMigration
     {
         public override void Up()
         {
@@ -284,7 +284,6 @@ namespace SOGIP_v2.Migrations
                 c => new
                     {
                         Conjunto_EjercicioId = c.Int(nullable: false, identity: true),
-                        NombreEjercicio = c.String(),
                         Serie1 = c.String(),
                         Repeticion1 = c.String(),
                         Peso1 = c.String(),
@@ -294,13 +293,18 @@ namespace SOGIP_v2.Migrations
                         Serie3 = c.String(),
                         Repeticion3 = c.String(),
                         Peso3 = c.String(),
-                        ColorEjercicio = c.String(),
                         DiaEjercicio = c.String(),
+                        ColorId_ColorId = c.Int(),
                         ConjuntoEjercicioRutina_RutinaId = c.Int(),
+                        EjercicioId_Id = c.Int(),
                     })
                 .PrimaryKey(t => t.Conjunto_EjercicioId)
+                .ForeignKey("dbo.SOGIP_Color", t => t.ColorId_ColorId)
                 .ForeignKey("dbo.SOGIP_Rutina", t => t.ConjuntoEjercicioRutina_RutinaId)
-                .Index(t => t.ConjuntoEjercicioRutina_RutinaId);
+                .ForeignKey("dbo.SOGIP_Ejercicio", t => t.EjercicioId_Id)
+                .Index(t => t.ColorId_ColorId)
+                .Index(t => t.ConjuntoEjercicioRutina_RutinaId)
+                .Index(t => t.EjercicioId_Id);
             
             CreateTable(
                 "dbo.SOGIP_Rutina",
@@ -529,8 +533,10 @@ namespace SOGIP_v2.Migrations
             DropForeignKey("dbo.SOGIP_Entidad_Publica", "Usuario_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Entidad_Publica", "Tipo_Entidad_Tipo_EntidadId", "dbo.SOGIP_Tipo_Entidad");
             DropForeignKey("dbo.SOGIP_ControlIngreso", "Usuario_Id", "dbo.SOGIP_Users");
+            DropForeignKey("dbo.SOGIP_Conjunto_Ejercicio", "EjercicioId_Id", "dbo.SOGIP_Ejercicio");
             DropForeignKey("dbo.SOGIP_Conjunto_Ejercicio", "ConjuntoEjercicioRutina_RutinaId", "dbo.SOGIP_Rutina");
             DropForeignKey("dbo.SOGIP_Rutina", "Usuario_Id", "dbo.SOGIP_Users");
+            DropForeignKey("dbo.SOGIP_Conjunto_Ejercicio", "ColorId_ColorId", "dbo.SOGIP_Color");
             DropForeignKey("dbo.SOGIP_Cita", "UsuarioId_Id_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Atletas", "Usuario_Id", "dbo.SOGIP_Users");
             DropForeignKey("dbo.SOGIP_Atletas", "SubSeleccion_SubSeleccionId", "dbo.SOGIP_SubSeleccion");
@@ -573,7 +579,9 @@ namespace SOGIP_v2.Migrations
             DropIndex("dbo.SOGIP_Entidad_Publica", new[] { "Tipo_Entidad_Tipo_EntidadId" });
             DropIndex("dbo.SOGIP_ControlIngreso", new[] { "Usuario_Id" });
             DropIndex("dbo.SOGIP_Rutina", new[] { "Usuario_Id" });
+            DropIndex("dbo.SOGIP_Conjunto_Ejercicio", new[] { "EjercicioId_Id" });
             DropIndex("dbo.SOGIP_Conjunto_Ejercicio", new[] { "ConjuntoEjercicioRutina_RutinaId" });
+            DropIndex("dbo.SOGIP_Conjunto_Ejercicio", new[] { "ColorId_ColorId" });
             DropIndex("dbo.SOGIP_Color", new[] { "Codigo" });
             DropIndex("dbo.SOGIP_Color", new[] { "Nombre" });
             DropIndex("dbo.SOGIP_Cita", new[] { "UsuarioId_Id_Id" });

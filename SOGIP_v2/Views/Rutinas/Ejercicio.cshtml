@@ -19,6 +19,8 @@
     @Styles.Render("~/Content/manual.css")
 
 }
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
 <div class="container">
     <div class="well">
@@ -94,6 +96,7 @@
             <table id="tabla" class="table table-bordered table-responsive table-hover">
                 <TR align="center" class="active">
                     <TH COLSPAN=1>Ejercicio</TH>
+                    <TH COLSPAN=1></TH>
                     <TH COLSPAN=3>Semana 1-2</TH>
                     <TH COLSPAN=3>Semana 3-4</TH>
                     <TH COLSPAN=3>Semana 5-6</TH>
@@ -102,6 +105,7 @@
                     <TH COLSPAN=1>Accion</TH>
                 </TR>
                 <TR>
+                    <TH></TH>
                     <TH></TH>
                     <TH>S</TH>
                     <TH>R</TH>
@@ -233,12 +237,50 @@
                 </div>
             </div>
         </div>
+        <div id="nueva" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" id="cerrar">&times;</button>
+                        <h4 class="modal-title">Agregar Ejercicio</h4>
+                        <br>
+                        <div class="modal-body">
+                            @*Tabla de Tipos*@
+                            <div class="row" id="infouser">
+                                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione Ejercicio." readonly />
+                                </div>
+                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                    <button id="botón" type="button" class="btn btn-warning btn-block">
+                                        <text id="texto">Ejercicio</text>
+                                        <span id="icono" class="glyphicon glyphicon-search"></span>
+                                    </button>
+                                </div>
+                            </div>
+                            <hr />
+                            <div class="table-responsive" id="Tabla_Prin" hidden>
+                                <table id="tablePrin" class="display" style="width:100%"></table>
+                            </div>
+                            <div class="modal-footer">
+                                <br />
+                                <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                                <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
+     
         function EliminarEjer(id) {
             var tr = $('#boton_' + id).closest('tr');
             $.ajax({
@@ -315,9 +357,74 @@
                 })
             })
         }
+        function tablaEjercicios() {
+            $('#tablePrin').dataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                    "zeroRecords": "No se han encontrado registros.",
+                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                "ajax": {
+                    "url": "/Maquina/GetEjerMaquina",
+                    "type": "GET",
+                    "dataSrc": ""
+                },
+                columns: [
+                    { data: "Accion" },
+                    { data: "Nombre" },
+                    {
+                        data: "Id",
+                        visible: false
+                    }
+                ],
+                'columnDefs': [
+                    {
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets: [0]
+                    }
+                ],
+                'select': {
+                    'style': 'os',
+                    'selector': 'td:first-child'
 
+                }
+            });
+        }
+     
        //Insert new rows into table
         $(document).ready(function () {
+            var input10 = null;
+            var colores = [];
+            var colors = [];
+            obtenerColores();
+            function obtenerColores() {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Rutinas/ObtenerColores',
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            colores.push([v.Nombre]);
+                            colors.push([v.Identificador]);
+                        })
+
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+
+            }
 
 
             $("#adicional").on('click', function () {
@@ -328,18 +435,21 @@
 
                 // Insert a cell in the row at index 0
                 var newCell = newRow.insertCell(0);
-                var newCell1 = newRow.insertCell(1);
-                var newCell2 = newRow.insertCell(2);
-                var newCell3 = newRow.insertCell(3);
-                var newCell4 = newRow.insertCell(4);
-                var newCell5 = newRow.insertCell(5);
-                var newCell6 = newRow.insertCell(6);
-                var newCell7 = newRow.insertCell(7);
-                var newCell8 = newRow.insertCell(8);
-                var newCell9 = newRow.insertCell(9);
-                var newCell10 = newRow.insertCell(10);
-                var newCell11 = newRow.insertCell(11);
-                var newCell12 = newRow.insertCell(12);
+                var newCell13 = newRow.insertCell(1);
+                var newCell1 = newRow.insertCell(2);
+                var newCell2 = newRow.insertCell(3);
+                var newCell3 = newRow.insertCell(4);
+                var newCell4 = newRow.insertCell(5);
+                var newCell5 = newRow.insertCell(6);
+                var newCell6 = newRow.insertCell(7);
+                var newCell7 = newRow.insertCell(8);
+                var newCell8 = newRow.insertCell(9);
+                var newCell9 = newRow.insertCell(10);
+                var newCell10 = newRow.insertCell(11);
+                var newCell11 = newRow.insertCell(12);
+                var newCell12 = newRow.insertCell(13);
+
+
 
                 var input1 = document.createElement("input");
                 input1.type = "text"; input1.min = 0; input1.pattern = "[a-z]"; input1.title = "Palabras únicamente."
@@ -368,17 +478,18 @@
                 var input9 = document.createElement("input");
                 input9.type = "text"; input9.min = 0; input9.pattern = "[a-z]"; input9.title = "Palabras únicamente."
 
-                var input10 = document.createElement("input");
-                input10.type = "text";
+                input10 = document.createElement("input");
+                input10.type = "text"; input10.readOnly = true;
 
-                var colores = ["Blanco", "Rosado", "Celeste", "Morado", "Naranja", "Verde", "Amarillo"];
-                var colors = ["white", "LightPink", "LightBlue", "Lavender", "NavajoWhite", "PaleGreen", "LightYellow"];
+
+
+               
                 var c = document.createElement('select');
                 c.type = 'select';
 
                 for (var i = 0; i < colores.length; i++) {
                     var option = document.createElement('option');
-                    option.value = colors[i];
+                    option.value = colores[i];
                     option.text = colores[i];
                     c.add(option);
                 }
@@ -394,13 +505,23 @@
 
                 //DropDownList1.type = "DropDownList"; DropDownList1.items.insert(Dia, " - Select From List - ")
 
+
                 var checkBox = document.createElement('input');
                 checkBox.type = 'button';
                 checkBox.className = 'btn btn-danger';
                 checkBox.value = '-';
                 checkBox.name = 'checkbox';
 
+                var checkBox2 = document.createElement('input');
+                checkBox2.type = 'button';
+                checkBox2.className = 'btn btn-success';
+                checkBox2.value = '+';
+                checkBox2.name = 'checkbox2';
+
+
+
                 newCell.appendChild(input10);
+                newCell13.appendChild(checkBox2);
                 newCell1.appendChild(input1);
                 newCell2.appendChild(input2);
                 newCell3.appendChild(input3);
@@ -416,12 +537,22 @@
 
                 document.getElementsByClassName("input").required;
 
+
             });
 
-            //Delete rows in tha table
+
+           // Delete rows in tha table
             $('#tabla tbody').on('click', '.btn', function () {
-                $(this).closest('tr').remove();
+                tablaEjercicios();
+                $('#nueva').modal('show');
+                $('#btnSave').click(function () {
+                    var objetivo = $('#usuario').val();
+                  input10.value = objetivo;
+                   $('#nueva').modal('hide');
+                })
             });
+
+
 
 
             //method to send array to controller
@@ -429,20 +560,35 @@
 
                 var table = document.getElementById("tabla");
                 var tableArr = [];
+                var n = null;
                 for (var i = 2; i < table.rows.length; i++) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/Rutinas/ObtnerEjer',
+                        data: { 'id': table.rows[i].cells[0].children[0].value},
+                        success: function (data) {
+                            n = data.Id;
+                            alert(n);
+
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
                     tableArr.push({
-                        NombreEjercicio: table.rows[i].cells[0].children[0].value,
-                        Serie1: table.rows[i].cells[1].children[0].value,
-                        Repeticion1: table.rows[i].cells[2].children[0].value,
-                        Peso1: table.rows[i].cells[3].children[0].value,
-                        Serie2: table.rows[i].cells[4].children[0].value,
-                        Repeticion2: table.rows[i].cells[5].children[0].value,
-                        Peso2: table.rows[i].cells[6].children[0].value,
-                        Serie3: table.rows[i].cells[7].children[0].value,
-                        Repeticion3: table.rows[i].cells[8].children[0].value,
-                        Peso3: table.rows[i].cells[9].children[0].value,
-                        ColorEjercicio: table.rows[i].cells[10].children[0].value,
-                        diaEjercicio: table.rows[i].cells[11].children[0].value
+                        EjercicioId: n,
+                        Serie1: table.rows[i].cells[2].children[0].value,
+                        Repeticion1: table.rows[i].cells[3].children[0].value,
+                        Peso1: table.rows[i].cells[4].children[0].value,
+                        Serie2: table.rows[i].cells[5].children[0].value,
+                        Repeticion2: table.rows[i].cells[6].children[0].value,
+                        Peso2: table.rows[i].cells[7].children[0].value,
+                        Serie3: table.rows[i].cells[8].children[0].value,
+                        Repeticion3: table.rows[i].cells[9].children[0].value,
+                        Peso3: table.rows[i].cells[10].children[0].value,
+                        ColorId: table.rows[i].cells[11].children[0].value,
+                        diaEjercicio: table.rows[i].cells[12].children[0].value
                     });
                 }
 
@@ -489,9 +635,22 @@
                             error: function (request) {
                                 alert('Hubo un error');
                             }
-                        });
+                });
+             
 
-                    });
+            });
+            $('#tablePrin').on('click', 'td.select-checkbox', function () {
+                var td = $(this);
+                var tr = td.closest('tr');
+                $('#usuario').val(tr.find('td:eq(1)').text());
+                idEjer = tr.find('td:eq(1)').text();
+                $('#Tabla_Prin').hide();
+            });
+
+            $('#botón').click(function () {
+                $('#Tabla_Prin').show();
+
+            });
        });
     </script>
 }

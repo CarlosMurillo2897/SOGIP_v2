@@ -160,6 +160,21 @@ namespace SOGIP_v2.Controllers
 
             return View();
         }
+        public JsonResult ObtenerColores()
+        {
+            var consulta = db.Colores;
+            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ObtnerEjer(string id)
+        {
+            var consulta = db.Ejercicio.Where(x => x.Nombre == id).FirstOrDefault();
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ObtnerColor(int id)
+        {
+            var consulta = db.Colores.Where(x => x.ColorId == id).FirstOrDefault();
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult DeleteEjercicio(int ejercicioId)
         {
@@ -187,7 +202,7 @@ namespace SOGIP_v2.Controllers
             Conjunto_Ejercicio ejer = db.Conjunto_Ejercicios.Where(a => a.Conjunto_EjercicioId == data.Conjunto_EjercicioId).FirstOrDefault();
             if (ejer != null)
             {
-                ejer.NombreEjercicio = data.NombreEjercicio;
+                ejer.EjercicioId = data.EjercicioId;
                 ejer.Serie1 = data.Serie1;
                 ejer.Repeticion1 = data.Repeticion1;
                 ejer.Peso1 = data.Peso1;
@@ -198,7 +213,7 @@ namespace SOGIP_v2.Controllers
                 ejer.Repeticion3 = data.Repeticion3;
                 ejer.Peso3 = data.Peso3;
                 ejer.DiaEjercicio = data.DiaEjercicio;
-                ejer.ColorEjercicio = data.ColorEjercicio;
+                ejer.ColorId = data.ColorId;
                 db.SaveChanges();
                 status = true;
             }
@@ -213,16 +228,20 @@ namespace SOGIP_v2.Controllers
             //int d = 5;
             int d = int.Parse(data);
             Rutina rutina = new Rutina();
+            Ejercicio ejercicio = new Ejercicio();
+            Color color = new Color();
             rutina = db.Rutinas.Single(x => x.RutinaId == d);
             //Asigno ejercicios a la rutina
             if (rutina != null)
             {
                 for (int i = 0; i < ejercicios.Count; i++)
                 {
+                    ejercicio = db.Ejercicio.Single(x => x.Nombre == ejercicios[i].EjercicioId.Nombre);
+                    color = db.Colores.Single(x => x.Codigo == ejercicios[i].ColorId.Nombre);
                     Conjunto_Ejercicio conjunto = new Conjunto_Ejercicio()
                     {
                         ConjuntoEjercicioRutina = rutina,
-                        NombreEjercicio = ejercicios[i].NombreEjercicio,
+                        EjercicioId = ejercicio,
                         Serie1 = ejercicios[i].Serie1,
                         Repeticion1 = ejercicios[i].Repeticion1,
                         Peso1 = ejercicios[i].Peso1,
@@ -232,7 +251,7 @@ namespace SOGIP_v2.Controllers
                         Serie3 = ejercicios[i].Serie3,
                         Repeticion3 = ejercicios[i].Repeticion3,
                         Peso3 = ejercicios[i].Peso3,
-                        ColorEjercicio = ejercicios[i].ColorEjercicio,
+                        ColorId = color,
                         DiaEjercicio = ejercicios[i].DiaEjercicio
                     };
                     db.Conjunto_Ejercicios.Add(conjunto);

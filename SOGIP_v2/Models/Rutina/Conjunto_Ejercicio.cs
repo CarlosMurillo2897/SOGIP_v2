@@ -8,7 +8,7 @@ namespace SOGIP_v2.Models
     public class Conjunto_Ejercicio
     {
         public int Conjunto_EjercicioId { get; set; }
-        public string NombreEjercicio { get; set; }
+        public Ejercicio EjercicioId { get; set; }
         public string Serie1 { get; set; }
         public string Repeticion1 { get; set; } 
         public string Peso1 { get; set; }
@@ -19,7 +19,7 @@ namespace SOGIP_v2.Models
         public string Repeticion3 { get; set; }
         public string Peso3 { get; set; }
         public Rutina ConjuntoEjercicioRutina { get; set; }
-        public string ColorEjercicio { get; set; }
+        public Color ColorId { get; set; }
         public string DiaEjercicio { get; set; }
     }
 }
