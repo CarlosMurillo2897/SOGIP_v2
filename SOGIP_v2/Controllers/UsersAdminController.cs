@@ -522,7 +522,14 @@ namespace SOGIP_v2.Controllers
 
         }
 
-        public JsonResult UpdateUser(ApplicationUser usr, Seleccion sel)
+        public JsonResult UpdateUser(ApplicationUser usr, string role, List<int> l1, List<string> l2, List<string> l3,
+            int? Entidad_Id,
+            int? Deporte_Id, string Nombre_Seleccion = "",
+            string Nombre_Asociacion = ""
+            /*
+            int Aso_Id, int Sub_Id,
+            int tpEnt,
+            bool esAso*/)
         {
             try
             {
@@ -536,9 +543,67 @@ namespace SOGIP_v2.Controllers
                 u.Email = usr.Email;
                 u.Sexo = usr.Sexo;
                 u.Fecha_Nacimiento = usr.Fecha_Nacimiento;
-                if (usr.PasswordHash != null) {
+
+                if (usr.PasswordHash != null)
+                {
                     u.PasswordHash = UserManager.PasswordHasher.HashPassword(ComposicionPassword(u.Nombre1, u.Apellido1, u.Cedula, u.Fecha_Nacimiento));
                     u.Fecha_Expiracion = DateTime.Today;
+                }
+
+                if (role == "Seleccion/Federacion")
+                {
+                    Seleccion s = db.Selecciones.Where(h => h.Usuario.Id == usr.Id).FirstOrDefault();
+                    s.Nombre_Seleccion = Nombre_Seleccion;
+                    if (Deporte_Id != 0)
+                    {
+                        s.Deporte_Id = db.Deportes.Find(Deporte_Id);
+                    }
+                    for (int i = 0; i < l1.Count; i++)
+                    {
+                        SubSeleccion sub = new SubSeleccion();
+                        var subId = l1.ElementAt(i);
+                        var cat = l2.ElementAt(i);
+                        var train = l3.ElementAt(i);
+
+                        if (subId != 0) { sub = db.SubSeleccion.Where(j => j.SubSeleccionId == subId).FirstOrDefault(); }
+
+                        sub.Seleccion = s;
+                        sub.Categoria_Id = db.Categorias.Where(l => l.Descripcion == cat).FirstOrDefault();
+                        sub.Entrenador = db.Users.Where(k => k.Cedula == train).FirstOrDefault();
+
+                        if (subId == 0) {
+                            db.SubSeleccion.Add(sub);
+                        }
+                    }
+                }
+                //// Esto solo Supervisor, Administrador y Selección o Asociación
+                //if (role == "Atleta" || role == "Atleta Becados")
+                //{
+                //    Atleta ath = db.Atletas.Where(a => a.Usuario.Id == usr.Id).FirstOrDefault();
+                //    if (esAso)
+                //    {
+                //        ath.Asociacion_Deportiva = db.Asociacion_Deportiva.Where(i => i.Asociacion_DeportivaId == Aso_Id).FirstOrDefault();
+                //    }
+                //    else
+                //    {
+                //        ath.SubSeleccion = db.SubSeleccion.Where(s => s.SubSeleccionId == Sub_Id).FirstOrDefault();
+                //    }
+                //}
+                //*/
+                //if (role == "Funcionarios ICODER")
+                //{
+                //    // Entrenador, esto solo Admin y Supervisor
+                //}
+                if (role == "Entidades Publicas" && Entidad_Id != 0)
+                {
+                    // Cambiar entidad.
+                    Entidad_Publica ent = db.Entidad_Publica.Where(x => x.Usuario.Id == usr.Id).FirstOrDefault();
+                    ent.Tipo_Entidad = db.Tipo_Entidad.Where(e => e.Tipo_EntidadId == Entidad_Id).FirstOrDefault();
+                }
+                if (role == "Asociacion/Comite")
+                {
+                    Asociacion_Deportiva asd = db.Asociacion_Deportiva.Where(a => a.Usuario.Id == usr.Id).FirstOrDefault();
+                    asd.Nombre_DepAso = Nombre_Asociacion;
                 }
 
                 db.SaveChanges();
@@ -570,6 +635,11 @@ namespace SOGIP_v2.Controllers
         {
             return Json(!db.Selecciones.Any(x => x.Nombre_Seleccion == nombre && x.Usuario.Id != Id), JsonRequestBehavior.AllowGet);
         }
+        public JsonResult NombreAsociacionRepetido(string nombre, string Id)
+        {
+            return Json(!db.Asociacion_Deportiva.Any(x => x.Nombre_DepAso == nombre && x.Usuario.Id != Id), JsonRequestBehavior.AllowGet);
+        }
+        
 
         // POST: /Users/Edit/5
         [HttpPost]

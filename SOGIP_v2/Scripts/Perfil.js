@@ -8,11 +8,11 @@
 $.validator.addMethod("passw", function (value, element) {
     return value.length !== 0 ? /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)([A-Za-z0-9]){6,12}$/.test(value) :  true;
 });
-var p1, p2 = "";
+
+var p1, p2,p3,p4;
 $(document).ready(function () {
-    
-    unlockForm("None", "None", "Nn");
-    //unlockForm("Supervisor", "None", "Nn");
+    //unlockForm("None", "None", "Nn");
+    unlockForm("Supervisor", "None", "Nn");
 
     $('[data-toggle="popover"]').popover();
 
@@ -82,6 +82,24 @@ $(document).ready(function () {
             },
             Nombre_Deporte: {
                 required: true
+            },
+            // Asociaciones
+            Nombre_Asociacion: {
+                required: true,
+                minlength: 4,
+                remote: {
+                    url: "/UsersAdmin/NombreAsociacionRepetido",
+                    type: "GET",
+                    data: {
+                        nombre: function () { return $('#Nombre_Asociacion').val(); },
+                        Id: function () { return $('#Id').val(); }
+                    }
+                }
+            },
+            // Entidades
+            Nombre_Entidad: {
+                required: true,
+                minlength: 4
             }
         },
         messages: {
@@ -116,6 +134,17 @@ $(document).ready(function () {
             },
             Nombre_Deporte: {
                 required: "El Deporte de la Selección es requerido."
+            },
+            // Asociaciones
+            Nombre_Asociacion: {
+                required: "El nombre de la asociación es un campo obligatorio.",
+                minlength: "La longitud mínima del nombre de la asociación es de 4 carácteres.",
+                remote: "El nombre de la asociación ingresada ya se encuentra en el sistema."
+            },
+            // Entidades
+            Nombre_Entidad: {
+                required: "El nombre de la entidad es un campo obligatorio.",
+                minlength: "La longitud mínima del nombre de la entidad pública es de 4 carácteres."
             }
         },
         errorElement: "em",
@@ -147,6 +176,12 @@ $(document).ready(function () {
         }
     });
 
+});
+var categ = "";
+$('#tablaCategorias tbody tr').on('click', 'td:eq(3)', function () {
+    var tr = $(this).closest('tr');//.find('td:eq(0)').text()
+    
+    cargarModal(2, tr.find('td:eq(0)').text(), tr.find('td:eq(1)').text());
 });
 
 function cargarArchivos(id) {
@@ -290,13 +325,14 @@ function unlockForm(role, id_Actual, Cedula) {
     }
 }
 
-function GetCategorias() {
+function GetCategorias(str) {
     var newArray = [];
     var TableData = [];
     $('#tablaCategorias tbody tr').each(function (row, tr) {
-        TableData.push($(tr).find("td:eq(0)").text());
+        TableData.push($(tr).find("td:eq(1)").text());
     });
-    console.log(TableData);
+
+    //console.log(`TDT = ${TableData}`);
 
     $.ajax({
         url: "/Opciones/GetCategorias",
@@ -305,14 +341,31 @@ function GetCategorias() {
             $.each(consulta, function (i) {
                 newArray.push(consulta[i].Descripcion);
             });
-
-
+            //console.log(`NewA = ${newArray}`);
             newArray = newArray.filter((el) => !TableData.includes(el));
             
-            console.log(newArray);
+            if (newArray.length === 0) {
+                console.log('mpt');
+            }
+            var selex = '<select class="form-control" id="cat"><option id="init" value="0"> -- Seleccionar -- </option>';
+            $.each(newArray, function (i) {
+                selex = selex + `<option>${newArray[i]}</option>`;
+            });
+            selex = selex + '</select>';
+            //console.log(`[Filter] = ${newArray}`);
+            //Div1
+            $('#Div1').append('<div class="row">' +
+                                '<div class="form-group col-md-12">' +
+                                    '<h4>Seleccione el tipo de categoría deseada</h4>' + 
+                                    '<div class="afect">' +
+                                        selex +
+                                    '</div>' +
+                                '</div>');
+
+            if (str !== '') { $("#cat").append(`<option selected>${str}</option>`); }
         }
     });
-
+    
 }
 
 function sendData() {
@@ -321,16 +374,25 @@ function sendData() {
         return this.value.toUpperCase();
     });
 
-    var usr = $('#signupForm1').serialize();
-    
-    usr = usr + "&Nombre_Seleccion=" + $('#Cedula').val();
-    //Nombre_Seleccion, Deporte_Id
-    //console.log(usr);
+    var user = $('#signupForm1').serialize();
 
+    user = user + '&role=' + $('#role').val();
+
+    var a1 = [];
+    var a2 = [];
+    var a3 = [];
+
+    $('#tablaCategorias tbody tr').each(function (row, tr) {
+        user += '&l1=' + encodeURIComponent($(tr).find("td:eq(0)").text());
+        user += '&l2=' + encodeURIComponent($(tr).find("td:eq(1)").text());
+        user += '&l3=' + encodeURIComponent($(tr).find("td:eq(2)").text().split('-')[0]);
+    });
+    console.log(user);
+    
     $.ajax({
         url: "/UsersAdmin/UpdateUser/",
         type: "POST",
-        data: usr,
+        data: user,
         success: function () {
             alert('Cambios realizados.');
             location.reload();
@@ -339,6 +401,7 @@ function sendData() {
             alert('Error desconocido. Contactar a soporte si continua.');
         }
     });
+    
 
 }
 
@@ -360,11 +423,19 @@ function OriginalPass() {
     });
 }
 
-function cargarModal(tipo) {
-    p1 = "";
-    var saved = [];
-    var url, header, rowSelected = "";
+var opcionSeleccionada = 0;
+var fila = 0;
+function cargarModal(tipo, filaSel, str = '') {
+    opcionSeleccionada = tipo;
+    fila = filaSel;
+    p1 = "", p2 = "", p3 = "", p4 = "";
+    //var saved = [];
+    var url, header, rowSelected = "", dt = "";
     var col = [];
+
+    $('#Div1').html('');
+    $('#tablaDiv').html('');
+
     switch (tipo) {
         case 1: {
             $('#modalTitle').html('Buscar Deporte deseado');
@@ -378,21 +449,47 @@ function cargarModal(tipo) {
             break;
         }
         case 2: {
-            $('#modalTitle').html('Agregar nueva Categoría');
-            url = "";
+
+            filaSel === 0 ? $('#modalTitle').html('Agregar nueva Categoría') : $('#modalTitle').html('Editar la Categoría seleccionada');
+            dt = {
+                tipo: 4
+            };
+            url = "/UsersAdmin/getEntrenador";
+            header = header + '<th>Cédula</th><th>Nombre</th><th>1er Apellido</th><th>2do Apellido</th></tr>';
+            col = [
+                { data: "Cedula" },
+                { data: "Nombre1" },
+                { data: "Apellido1" },
+                { data: "Apellido2" }
+            ];
+            //if (!GetCategorias()) {
+            //    alert('La selección ya cuenta con todas las categorías disponibles.');
+            //}
+            GetCategorias(str);
+            $('#tablaDiv').append('<h4>Seleccione el entrenador que se asignará a la categoría</h4>');
+            break;
+        }
+        case 3: {
+            $('#modalTitle').html('Buscar Entidad deseada');
+            url = "/Opciones/GetEntidades";
+            header = header + '<th>Nombre</th><th>Identificador</th></tr>';
+            col = [
+                { data: "Descripcion" },
+                { data: "Tipo_EntidadId" }
+            ];
             break;
         }
     }
 
     $('#datos').DataTable().destroy();
     $('#datos').remove();
-
+    
     $('<table />', {
         id: 'datos',
         class: 'table table-striped table-bordered table-hover dt-responsive',
         width: "100%"
-    }).append("<thead>" + header + "</thead>").appendTo('#modalBody');
-
+    }).append("<thead>" + header + "</thead>").appendTo('#tablaDiv');
+    
     $('#datos').DataTable({
         "language": {
             "lengthMenu": "Mostrando _MENU_ resultados por página.",
@@ -418,25 +515,86 @@ function cargarModal(tipo) {
         "ajax": {
             "url": url,
             "type": "GET",
-            "dataSrc": ""
+            "dataSrc": "",
+            "data": dt
         },
         columns: col,
-        select: true/*,
-        "createdRow": function (row, data, index) { if (data.Nombre === $('#Nombre_Deporte').val() ) { $(row).addClass('selected'); rowSelected = $(row); } }*/
+        select: true
     });
-
+    
     $('#datos tbody').on('click', 'tr', function () {
-        /*if (rowSelected !== undefined) { rowSelected.removeClass('selected'); rowSelected = undefined; }*/
         var data = $('#datos').DataTable().row(this).data();
-        p1 = data.Nombre;
-
+        switch (opcionSeleccionada) {
+            case 1: { // Cambiar de deporte
+                if (p1 === data.Nombre) {
+                    p1 = '';
+                    p2 = '';
+                } else {
+                    p1 = data.Nombre;
+                    p2 = data.DeporteId;
+                }
+                break;
+            }
+            case 2: { // Agregar o editar categoría
+                p1 = data.Cedula;
+                p2 = data.Nombre1;
+                p3 = data.Apellido1;
+                p4 = data.Apellido2;
+                break;
+            }
+            case 3: {
+                if (p1 === data.Descripcion) {
+                    p1 = '';
+                    p2 = '';
+                } else {
+                    p1 = data.Descripcion;
+                    p2 = data.Tipo_EntidadId;
+                }
+                break;
+            }
+        }
     });
-
+    
     $('#modal').modal('show');
 
 }
 
 $('#modalSave').on('click', function () {
-    if (p1 !== "") { $('#Nombre_Deporte').val(p1); }
+
+    switch (opcionSeleccionada) {
+        case 1: {
+            if (p1 !== "") { $('#Nombre_Deporte').val(p1); }
+            if (p2 !== "") { $('#Deporte_Id').val(p2); }
+            break;
+        }
+        case 2: {
+            var sel = $('#cat option:selected').text();
+            if ($('#cat option:selected').val() !== '0') {
+                var _all = 'SIN ENTRENADOR';
+
+                if (p1 !== '') {
+                    _all = `${p1}-${p2} ${p3} ${p4}`;
+                }
+
+                if (fila === 0) {
+                    $('#tablaCategorias tbody').append(`<tr><td>0</td><td>${sel}</td><td>${_all}</td><td><button type="button" class=" btn btn-primary" onclick="cargarModal(3);">Editar <span class="glyphicon glyphicon-edit"></span></button></td></tr>`);
+                }
+                else {
+                    $('#tablaCategorias tbody tr').each(function (row, tr) {
+                        if ($(tr).find("td:eq(0)").text() === fila) {
+                            $(tr).find("td:eq(1)").text(`${sel}`);
+                            $(tr).find("td:eq(2)").text(`${_all}`);
+                        }
+                    });
+                }
+            }
+            break;
+        }
+        case 3: {
+            if (p1 !== "") { $('#Nombre_Entidad').val(p1); }
+            if (p2 !== "") { $('#Entidad_Id').val(p2); }
+            break;
+        }
+    }
     $('#modal').modal('hide');
 });

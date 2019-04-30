@@ -337,13 +337,13 @@
                                         <h4>Deporte de Selección </h4>
                                         <div class="afect">
                                             <input type="text" class="form-control" id="Nombre_Deporte" name="Nombre_Deporte" placeholder="Deporte de la Selección" value="@ViewBag.DeporteSeleccion" readonly>
-                                            <input type="hidden" class="form-control" id="Deporte_Id" name="Deporte_Id">
+                                            <input type="hidden" class="form-control" id="Deporte_Id" name="Deporte_Id" value="0">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
                                         <h4>Cambiar deporte</h4>
                                         <div class="afect">
-                                            <button type="button" class="btn btn-block btn-warning" disabled="disabled" data-toggle="modal" onclick="cargarModal(1);">
+                                            <button type="button" class="btn btn-block btn-warning" disabled="disabled" data-toggle="modal" onclick="cargarModal(1, 0);">
                                                 Buscar deporte deseado
                                                 <span class=" glyphicon glyphicon-king"></span>
                                             </button>
@@ -354,7 +354,7 @@
                                     <hr />
                                     <h2>
                                         Información de Categorías
-                                        <button type="button" class="pull-right btn btn-info" disabled="disabled" data-toggle="modal" data-target="#modal">
+                                        <button type="button" class="pull-right btn btn-info" disabled="disabled" onclick="cargarModal(2, 0);">
                                             Agregar
                                             <span class="glyphicon glyphicon-plus-sign"></span>
                                         </button>
@@ -367,6 +367,7 @@
                                             <table class="table table-bordered table-striped" id="tablaCategorias">
                                                 <thead>
                                                     <tr>
+                                                        <th>Identificador Único</th>
                                                         <th>Categoría</th>
                                                         <th>Entrenador de categoría</th>
                                                         <th>Editar</th>
@@ -378,26 +379,21 @@
                                                         foreach (var sub in ViewBag.CategoriasSeleccion)
                                                         {
                                                             <tr>
+                                                                <td>@sub.SubSeleccionId</td>
                                                                 <td>@sub.Categoria_Id.Descripcion</td>
                                                                 @if (sub.Entrenador != null)
                                                                 {
-                                                                    <td>@sub.Entrenador.Cedula</td>
+                                                                    <td>@sub.Entrenador.Cedula-@sub.Entrenador.Nombre1 @sub.Entrenador.Apellido1 @sub.Entrenador.Apellido2</td>
                                                                 }
                                                                 else
                                                                 {
                                                                     <td>SIN ENTRENADOR</td>
                                                                 }
                                                                 <td>
-                                                                    <button type="button" class=" btn btn-primary" disabled="disabled" data-toggle="modal" data-target="#modal">
+                                                                    <button type="button" class=" btn btn-primary" disabled="disabled">
                                                                         Editar
                                                                         <span class="glyphicon glyphicon-edit"></span>
                                                                     </button>
-                                                                    @*
-                                                                        <a class="btn btn-primary" id="@sub.SubSeleccionId" onclick="GetCategorias()">
-                                                                            Editar
-                                                                            <span class="glyphicon glyphicon-edit"></span>
-                                                                        </a>
-                                                                    *@
                                                                 </td>
                                                             </tr>
                                                         }
@@ -408,10 +404,47 @@
                                     </div>
                                 </div>
                             }
+                            @if (ViewBag.Role == "Asociacion/Comite")
+                            {
+                                <hr>
+                                <h2>Información de Asociaciones</h2>
+                                <hr>
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <h4>Nombre de Asociación</h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="Nombre_Asociacion" name="Nombre_Asociacion" placeholder="Nombre de Asociación" value="@ViewBag.Entidad">
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @if (ViewBag.Role == "Entidades Publicas")
+                            {
+                                <hr>
+                                <h2>Información de Entidades Públicas</h2>
+                                <hr>
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <h4>Tipo de Entidad </h4>
+                                        <div class="afect">
+                                            <input type="text" class="form-control" id="Nombre_Entidad" name="Nombre_Entidad" placeholder="Nombre de la Entidad Pública" value="@ViewBag.Entidad" readonly>
+                                            <input type="hidden" class="form-control" id="Entidad_Id" name="Entidad_Id" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <h4>Cambiar entidad</h4>
+                                        <button type="button" class="btn btn-block btn-warning" disabled="disabled" data-toggle="modal" onclick="cargarModal(3, 0);">
+                                            Buscar entidad deseada
+                                            <span class=" glyphicon glyphicon-education"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            }
+
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-md-6 col-md-offset-4">
-                                        <button type="submit" class="btn btn-lg btn-success" name="signup1" value="0" disabled="disabled">
+                                        <button type="submit" class="btn btn-lg btn-success" disabled="disabled">
                                             <text class="hidden-xs">Guardar</text>
                                             <span class="glyphicon glyphicon-ok"></span>
                                         </button>
@@ -439,6 +472,8 @@
                 </div>
                 <form id="modalForm">
                     <div class="modal-body" id="modalBody">
+                        <div id="Div1"></div>
+                        <div class="table-responsive" id="tablaDiv"></div>
                     </div>
                     <div class="modal-footer">
                         <input type="button" id="modalSave" class="btn btn-success" value="Guardar" />

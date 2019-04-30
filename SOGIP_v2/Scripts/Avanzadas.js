@@ -42,7 +42,7 @@ function cargaDT(id) {
                     }
                 }
             ];
-            titulo = "Color";
+            titulo = "Color <a href='https://flatuicolors.com/'>Más colores</a>";
             Identificador = "ColorId";
             break;
         }
@@ -115,11 +115,11 @@ function cargaDT(id) {
         {
             data: Identificador,
             "render": function (Identificador) {
-                return "<a class='btn btn-danger' id='boton_" + Identificador + "' onclick='EliminarArchivo(" + Identificador + ")' style='padding: 2px 6px; margin: 2px;' disabled='disabled'>" +
-                        "<text class='hidden-xs'>Eliminar </text>" +
-                        "<span class='glyphicon glyphicon-minus-sign'></span>" +
-                    "</a>" +
-                    "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='CargarModal(this," + Identificador + ");'>" +
+                //return "<a class='btn btn-danger' id='boton_" + Identificador + "' onclick='EliminarArchivo(" + Identificador + ")' style='padding: 2px 6px; margin: 2px;' disabled='disabled'>" +
+                //        "<text class='hidden-xs'>Eliminar </text>" +
+                //        "<span class='glyphicon glyphicon-minus-sign'></span>" +
+                //    "</a>" +
+                    return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' data-toggle='modal' onclick='CargarModal(this," + Identificador + ");'>" +
                         "<text class='hidden-xs'>Editar </text>" +
                         "<span class='glyphicon glyphicon-pencil'></span>" +
                     "</a>";

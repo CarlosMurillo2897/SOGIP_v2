@@ -121,7 +121,7 @@ namespace SOGIP_v2.Controllers
                                                  Apellido2 = u.Apellido2,
                                                  Role = "Entrenador"
                                              };
-                            return Json(entrenador, JsonRequestBehavior.AllowGet);
+                            return Json(entrenador.ToList(), JsonRequestBehavior.AllowGet);
                         }
                         else {
                             var list = from u in db.Users
@@ -138,13 +138,22 @@ namespace SOGIP_v2.Controllers
                             return Json(list.ToList(), JsonRequestBehavior.AllowGet);
                         }
                     }
-
-                    /*  ************************** Actividades
                 case 5:
                     {
-                        var list = db.Users.Where(x => x.Roles.Select(y => y.RoleId == "5" || y.RoleId == "6" || y.RoleId == "7").FirstOrDefault()).ToList();
-                        return Json(list, JsonRequestBehavior.AllowGet);
-                    }*/
+                        var list = from a in db.Actividad
+                                   from h in db.Horario
+                                   where h.IdActividad.Id == a.Id
+                                   select new
+                                   {
+                                       a.Titulo,
+                                       a.Descripcion,
+                                       a.Lugar,
+                                       h.FechaHoraInicio,
+                                       h.FechaHoraFinal
+                                   };
+                            
+                        return Json(list.ToList(), JsonRequestBehavior.AllowGet);
+                    }
                 case 6:
                     {
                         var selex = from u in db.Users
@@ -185,7 +194,20 @@ namespace SOGIP_v2.Controllers
 
                 default:
                     {
-                        return Json(false, JsonRequestBehavior.AllowGet);
+                        var list = from u in db.Users
+                                   from r in db.Roles
+                                   where
+                                   u.Roles.FirstOrDefault().RoleId.Equals(r.Id)
+                                   select new
+                                   {
+                                        Cedula = u.Cedula,
+                                        Nombre1 = u.Nombre1,
+                                        Nombre2 = u.Nombre2,
+                                        Apellido1 = u.Apellido1,
+                                        Apellido2 = u.Apellido2,
+                                        Role = r.Name
+                                   };
+                        return Json(list.ToList(), JsonRequestBehavior.AllowGet);
                     }
             }
         }

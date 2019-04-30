@@ -141,7 +141,7 @@ use "SOGIP_v3"
 
 */
 
-DECLARE @sql varchar(300);
+DECLARE @sql varchar(400);
 DECLARE @VARIABLEACAMBIAR varchar(100);
 
 -- *************************** SE DEBE CAMBIAR LA SIGUIENTE VARIABLE*********************************************************
@@ -151,6 +151,10 @@ DECLARE @VARIABLEACAMBIAR varchar(100);
 set @VARIABLEACAMBIAR = 'C:\Users\402360192\Documents\GitHub\SOGIP_v2\script_BD';
 -- ************************************************************************************
 -- ************************************************************************************
+
+set @sql = 'INSERT into sogip_archivo(Nombre, Contenido, actividad_Id, Tipo_TipoId, Usuario_Id) SELECT ''Masivo_Original.xlsx'', Contenid.*, null, 6, ''8f9c47bf-edbd-40bf-9b5e-f753dd81a766'' FROM OPENROWSET (BULK  '''+@VARIABLEACAMBIAR+'\Ingreso_Masivo_Original.xlsx'', SINGLE_BLOB) Content;';
+exec (@sql)
+select * from sogip_archivo
 
 set @sql = 'BULK INSERT SOGIP_Roles FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Roles.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
@@ -170,6 +174,9 @@ exec (@sql)
 -- 77 rows
 set @sql = 'BULK INSERT SOGIP_Tipo_Entidad FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Tipo_Entidad.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+
+/*********** HASTA ACÁ OCUPAMOS TODO. *******************/
+/*********** OCUPAMOS SUPERVISOR Y JOSAFAT. *******************/
 
 -- 45 rows
 set @sql = 'BULK INSERT SOGIP_Users FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Users.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
@@ -217,6 +224,7 @@ set @sql = 'BULK INSERT SOGIP_Cita FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Cita.csv''
 exec (@sql)
 -- 17 rows
 
+/*********** OCUPAMOS DE ACÁ. *******************/
 -- 6 rows
 set @sql = 'BULK INSERT SOGIP_Tipo FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Tipo.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
@@ -224,7 +232,7 @@ exec (@sql)
 -- 7 rows
 set @sql = 'BULK INSERT SOGIP_Color FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Color.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
-
+/*********** A ACÁ. *******************/
 
 -- 6 rows
 set @sql = 'BULK INSERT SOGIP_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Ejercicio.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
@@ -241,18 +249,70 @@ set @sql = 'BULK INSERT SOGIP_MaquinaEjercicio FROM '''+@VARIABLEACAMBIAR+'\SOGI
 exec (@sql)
 
 -- 6 rows
+/*********** ESTE. *******************/
 set @sql = 'BULK INSERT SOGIP_TipoPago FROM '''+@VARIABLEACAMBIAR+'\SOGIP_TipoPago.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
+/*********** ESTE. *******************/
 
 set @sql = 'BULK INSERT SOGIP_EstadosPagos FROM '''+@VARIABLEACAMBIAR+'\SOGIP_EstadosPagos.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 
-SELECT * FROM SOGIP_users
-UPDATE SOGIP_EstadosPagos SET usuario_id='29e4a004-4c40-4a06-bf2f-2ee61aa8143c' where id=5
---set @sql = 'INSERT into sogip_archivo(Nombre, Contenido, Tipo_TipoId, Usuario_Id) SELECT ''Masivo_Original.xlsx'', Contenido.*, null, 6, ''8f9c47bf-edbd-40bf-9b5e-f753dd81a766'' FROM OPENROWSET (BULK  '''+@VARIABLEACAMBIAR+'\Ingreso_Masivo_Original.xlsx'', SINGLE_BLOB) Contenido;';
---exec (@sql)
+/*********** ESTE. *******************/
+set @sql='insert into sogip_archivo('+
+	'Nombre, Contenido, actividad_Id, Tipo_TipoId, Usuario_Id)'+
+'select'+
+	'''Ingreso_Masivo_Original.xlsx'', Contenido.*, NULL, 6, ''8f9c47bf-edbd-40bf-9b5e-f753dd81a766'''+
+'from openrowset '+
+	'(bulk '''+@VARIABLEACAMBIAR+'\Ingreso_Masivo_Original.xlsx'', SINGLE_BLOB) Contenido;';
+exec (@sql)
+/*********** ESTE. *******************/
 
---insert into SOGIP_Entidad_Publica values(71,'31788f50-c82b-4a6a-9cf5-1a5a4d721e2b');
+--UPDATE SOGIP_EstadosPagos SET usuario_id='29e4a004-4c40-4a06-bf2f-2ee61aa8143c' where id=5
+
+/*
+select * from sogip_horario;
+select * from sogip_actividad;
+*/
+insert into sogip_actividad values('GRAN CARRERA','LARGA, GRANDE', 'CURRIDABAT');
+insert into sogip_actividad values('TRIATLÓN','PARA LSO MEJORES', 'GUANACASTE');
+insert into sogip_actividad values('RELEASE','NOT SURE', 'ICODER');
+insert into sogip_actividad values('FINAL 6TRE','NOT MUCH', 'ALREDEDORES');
+
+insert into sogip_horario values(getdate()+3, getdate()+50,1);
+insert into sogip_horario values(getdate()-5, getdate()+10,2);
+insert into sogip_horario values(getdate(), getdate()+8,3);
+insert into sogip_horario values(getdate()-2, getdate()+20,4);
+
+/*
+DECLARE @sql varchar(400);
+DECLARE @VARIABLEACAMBIAR varchar(100);
+set @VARIABLEACAMBIAR = 'C:\Users\402360192\Documents\GitHub\SOGIP_v2\script_BD';
+*/
+
+set @sql='insert into sogip_archivo('+
+	'Nombre, Contenido, actividad_Id, Tipo_TipoId, Usuario_Id)'+
+'select'+
+	'''A1.jpg'', Contenido.*, 1, 5, null '+
+'from openrowset '+
+	'(bulk '''+@VARIABLEACAMBIAR+'\A1.jpeg'', SINGLE_BLOB) Contenido;';
+exec (@sql)
+
+set @sql='insert into sogip_archivo('+
+	'Nombre, Contenido, actividad_Id, Tipo_TipoId, Usuario_Id)'+
+'select'+
+	'''A2.jpeg'', Contenido.*, 2, 5, null '+
+'from openrowset '+
+	'(bulk '''+@VARIABLEACAMBIAR+'\A2.jpeg'', SINGLE_BLOB) Contenido;';
+exec (@sql)
+
+set @sql='insert into sogip_archivo('+
+	'Nombre, Contenido, actividad_Id, Tipo_TipoId, Usuario_Id)'+
+'select'+
+	'''A3.jpeg'', Contenido.*, 3, 5, null '+
+'from openrowset '+
+	'(bulk '''+@VARIABLEACAMBIAR+'\A3.jpeg'', SINGLE_BLOB) Contenido;';
+exec (@sql)
+
 
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++

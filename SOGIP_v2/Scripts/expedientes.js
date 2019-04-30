@@ -27,7 +27,16 @@ function cargarDatos(select) {
     // Si el select no se encuentra en la opción de -- Seleccionar --
     if (select !== '0') {
         // Creamos la tabla nuevamente, con id, clase y con largo predeterminado, así como un encabezado de la tabla predefinido.
-        var header = select === '6' ? '<thead><tr><th>Acción</th><th>Cédula</th><th>Entidad</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Rol</th></tr></thead>' : '<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Rol</th></tr></thead>';
+        var header = '';
+        if (select === '6') {
+            header = '<thead><tr><th>Acción</th><th>Cédula</th><th>Entidad</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Rol</th></tr></thead>';
+        }
+        else if (select === '5') {
+            header = '<thead><tr><th>Acción</th><th>Título</th><th>Descripción</th><th>Lugar</th><th>Inicia</th><th>Finaliza</th></tr></thead>';
+        }
+        else {
+            header = '<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>1° Apellido</th><th>2° Apellido</th><th>Rol</th></tr></thead>';
+        }
 
         var table = $('<table/>', {
             id: 'example',
@@ -161,6 +170,12 @@ function tablaUsuarios(id) {
             $.each(data, function (i, v) {
                 if (id === '6') {
                     dataSet.push(["", v.Cedula, v.Entidad, v.Nombre1 + " " + v.Nombre2, v.Apellido1, v.Apellido2, v.Role]);
+                }
+                else if (id === '5') {
+                    var date = new Date(parseInt(v.FechaHoraInicio.substr(6)));
+                    var date2 = new Date(parseInt(v.FechaHoraFinal.substr(6)));
+                    
+                    dataSet.push(["", v.Titulo, v.Descripcion, v.Lugar, date.toLocaleDateString('en-GB'), date2.toLocaleDateString('en-GB')]);
                 }
                 else {
                     dataSet.push(["", v.Cedula, v.Nombre1 + " " + v.Nombre2, v.Apellido1, v.Apellido2, v.Role]);

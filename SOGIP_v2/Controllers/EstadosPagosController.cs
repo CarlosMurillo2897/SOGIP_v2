@@ -211,7 +211,6 @@ namespace SOGIP_v2.Controllers
             var usuarios = (from u in db.Users
                             from r in db.Roles
                             where u.Roles.FirstOrDefault().RoleId == r.Id
-                            //!db.EstadosPagos.Any(p => p.Usuario.Cedula == u.Cedula && p.FechaPago.Month == fecha.Month && p.FechaPago.Year == fecha.Year)
                             select new
                             {
                                 u.Id,

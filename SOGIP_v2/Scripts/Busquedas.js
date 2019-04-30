@@ -122,10 +122,35 @@
                 //break;
             }
             case '5': {
-                url = "/Actividades/ObtenerActividades";
-                alert('Módulo en mantenimiento.');
-                return;
-                //break;
+                url = "/Busqueda/getActividades";
+                header = header + '<th>Título</th><th>Lugar</th><th>Descripción</th><th>Inicia</th><th>Termina</th></tr>';
+                col[col.length] = { data: "Titulo" };
+                col[col.length] = { data: "Lugar" };
+                col[col.length] = { data: "Descripcion" };
+                col[col.length] = {
+                    data: "FechaHoraInicio",
+                    "render": function (FechaHoraInicio) {
+                        var date = new Date(parseInt(FechaHoraInicio.substr(6)));
+                        return date.toLocaleDateString('en-GB');
+                    }
+                };
+                col[col.length] = {
+                    data: "FechaHoraFinal",
+                    "render": function (FechaHoraFinal) {
+                        var date = new Date(parseInt(FechaHoraFinal.substr(6)));
+                        return date.toLocaleDateString('en-GB');
+                    }
+                };
+                //col[col.length] = {
+                //    data: "ArchivoId",
+                //    "render": function (ArchivoId) {
+                //        return "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + ArchivoId + "' style='padding: 2px 6px; margin: 2px;'>" +
+                //            "<text class='hidden-xs'>Descargar </text>" +
+                //            "<span class='glyphicon glyphicon-download'></span>" +
+                //            "</a>";
+                //    }
+                //};
+                break;
             }
         }
 
