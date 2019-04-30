@@ -57,26 +57,40 @@ namespace SOGIP_v2.Controllers
         {
             return View();
         }
+        public JsonResult getActividades()
+        {
+            var list = from a in db.Actividad
+                       from t in db.Horario
+                       from c in db.Archivo
+                       where t.IdActividad == a
+                       && c.actividad.Id == a.Id
+                       select new
+                       {
+                           a.Titulo,
+                           a.Lugar,
+                           a.Descripcion,
+                           t.FechaHoraInicio,
+                           t.FechaHoraFinal,
+                           c.ArchivoId
+                       };
+
+            return Json(list.ToList(), JsonRequestBehavior.AllowGet);
 
         public JsonResult getActividades()
         {
             var list = from a in db.Actividad
                               from t in db.Horario
-                              //from c in db.Archivo
                               where t.IdActividad == a
-                              //&& c.actividad.Id == a.Id
                               select new
                               {
                                   a.Titulo,
                                   a.Lugar,
                                   a.Descripcion,
                                   t.FechaHoraInicio,
-                                  t.FechaHoraFinal,
-                                  //c.ArchivoId
+                                  t.FechaHoraFinal
                               };
 
             return Json(list.ToList(), JsonRequestBehavior.AllowGet);
-
         }
     }
 }

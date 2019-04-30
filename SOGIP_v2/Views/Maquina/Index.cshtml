@@ -2,25 +2,30 @@
 
 @{
     ViewBag.Title = "Maquina";
+    ViewBag.Referencia_Controlador_1 = "Maquina";
+    ViewBag.Icono_Controlador_1 = "glyphicon-scale";
+    ViewBag.Nombre_Controlador_1 = "Maquina";
 }
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 <div class="container">
     <div class="col-md-4">
     </div>
     <div class="col-md-4">
-        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px;' id="btnEjer">
+        <a class='btn btn-primary pull-left' style='padding: 2px 6px; margin: 2px;' id="btnEjer">
             <text class='hidden-xs'>Máquinas </text>
             <span style='color: white;' class=''></span>
         </a>
 
-        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btnCategorias">
+        <a class='btn btn-primary pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btnCategorias">
             <text class='hidden-xs'>Categorias </text>
             <span style='color: white;' class=''></span>
         </a>
-        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn2">
+        <a class='btn btn-primary pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn2">
             <text class='hidden-xs' id="text2"></text>
             <span style='color: white;' class=''></span>
         </a>
-        <a class='btn btn-success pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn3">
+        <a class='btn btn-primary pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn3">
             <text class='hidden-xs' id="text3"></text>
             <span style='color: white;' class=''></span>
         </a>
@@ -94,7 +99,7 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-    var cat1 = null
+        var cat1 = null
         var cat2 = null;
         var cat3 = null;
         function tablaPrin() {
@@ -266,7 +271,7 @@
             });
         }
         function EnviarRut(id) {
-      
+
             window.location.href = '/Maquina/Ejercicios?id=' + id;
         }
         function eliminar() {
@@ -356,12 +361,12 @@
             editar(data);
         }
         function agregar() {
-                var data = null;
-                data = {
-                    id: cat1,
-                    nombre: $('#cat').val()
-                }
-                SaveEjercicio(data);
+            var data = null;
+            data = {
+                id: cat1,
+                nombre: $('#cat').val()
+            }
+            SaveEjercicio(data);
         }
         function SaveEjercicio(data) {
             $.ajax({

@@ -313,6 +313,11 @@ set @sql='insert into sogip_archivo('+
 	'(bulk '''+@VARIABLEACAMBIAR+'\A3.jpeg'', SINGLE_BLOB) Contenido;';
 exec (@sql)
 
-
+/*
+set @sql = 'BULK INSERT SOGIP_Archivo FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Archivo.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+*/
+set @sql = 'BULK INSERT SOGIP_ControlIngreso FROM '''+@VARIABLEACAMBIAR+'\SOGIP_ControlIngreso.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++

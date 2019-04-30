@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using SOGIP_v2.Models;
 using System;
@@ -26,6 +27,7 @@ namespace SOGIP_v2.Controllers
             return View();
         }
 
+
         // GET: Reservacion/Create
         public ActionResult Create()
         {
@@ -39,6 +41,79 @@ namespace SOGIP_v2.Controllers
            
         }
      
+        //SOLICITUDES DE RESERVACIONES
+        [HttpPost]
+        public JsonResult getSolicitud() //obtener los padres
+        {
+            var consulta = (from u in db.Reservacion
+                            from r in db.Roles
+                            where (u.Estado.Descripcion=="EN PROCESO")
+                            group u by u.UsuarioId.Id into g
+                            select new
+                            {
+                                Cedula = g.Select(x => x.UsuarioId.Cedula).FirstOrDefault(),
+                                Nombre = g.Select(x => x.UsuarioId.Nombre1).FirstOrDefault(),
+                                Apellido1 = g.Select(x => x.UsuarioId.Apellido1).FirstOrDefault(),
+                                Apellido2 = g.Select(x => x.UsuarioId.Apellido2).FirstOrDefault(),
+                                Id = g.Select(x => x.UsuarioId.Cedula).FirstOrDefault()
+                           }).ToList();
+            return new JsonResult {Data=consulta, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        [HttpPost]
+        public JsonResult getListaSolicitudes(string userced)//Obtener los hijos
+        {
+
+            var solicitudes = db.Reservacion.Where(x => x.UsuarioId.Cedula == userced && x.Estado.Descripcion=="EN PROCESO")
+                .Select(x => new
+                {
+                    x.FechaHoraInicio,
+                    x.FechaHoraFinal
+                })
+                .AsEnumerable()
+                .Select(r => new
+                {
+                    Dia = r.FechaHoraInicio.ToString("ddd"),
+                    Fecha = r.FechaHoraInicio.ToString("d"),
+                    HoraI = r.FechaHoraInicio.ToString("t"),
+                    HoraF = r.FechaHoraFinal.ToString("t")
+                }).ToList();
+
+            return new JsonResult { Data = solicitudes, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        [HttpPost]
+        public JsonResult Aprobar(string ced)
+        {
+            var status = false;
+
+            var es = db.Estados.Where(x=>x.Descripcion=="APROBADO").FirstOrDefault();
+            db.Reservacion
+            .Where(x => x.UsuarioId.Cedula == ced && x.Estado.Descripcion == "EN PROCESO")
+            .ToList()
+            .ForEach(x=>x.Estado=es);
+             db.SaveChanges();
+
+            return new JsonResult { Data = new { status = status } };
+        }
+
+        [HttpPost]
+        public JsonResult Rechazar(string ced)
+        {
+            var status = false;
+
+            var lista=db.Reservacion
+            .Where(x => x.UsuarioId.Cedula == ced && x.Estado.Descripcion == "EN PROCESO")
+            .ToList();
+
+            foreach (var reser in lista)
+            {
+                db.Reservacion.Remove(reser);
+            }
+
+            db.SaveChanges();
+
+            return new JsonResult { Data = new { status = status } };
+        }
+
         //CÉDULA
         [HttpPost]
         public JsonResult GetCed()
@@ -52,7 +127,9 @@ namespace SOGIP_v2.Controllers
         [HttpPost]
         public JsonResult GetReservaciones()
         {
-            var Reservacion = db.Reservacion.Include("UsuarioId").ToList();
+            var Reservacion = db.Reservacion.Include("UsuarioId")
+                                 .Include("Estado")
+                                 .ToList();
             return new JsonResult { Data = Reservacion, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
@@ -68,12 +145,13 @@ namespace SOGIP_v2.Controllers
 
                 d1 = d1.Date + t1;
                 d2 = d2.Date + t2;
-
+                Estado est = db.Estados.Where(x=>x.Descripcion=="EN PROCESO").FirstOrDefault();
                 Reservacion reservacion = new Reservacion()
                 {
                     FechaHoraInicio = d1,
                     FechaHoraFinal= d2,
                     Cantidad=cantidad,
+                    Estado=est,
                     UsuarioId=u
                 };
                 db.Reservacion.Add(reservacion);

@@ -253,6 +253,7 @@ namespace SOGIP_v2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create(RegisterViewModel userViewModel, string Atleta_Tipo, string hidef, string hideEntidadS, int? hideCategory, int? selectedS, int? SelectedAsox, int? SelectedEntity, string selectedRoles, int? SelectedCategory, int? SelectedSport, FormCollection form, HttpPostedFileBase CV, string nombre_aso)
         {
+            CodigoQRController c = new CodigoQRController();
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
@@ -346,6 +347,7 @@ namespace SOGIP_v2.Controllers
                                     }
 
                                     db.Atletas.Add(atleta);
+                                    c.generarQr2(user.Cedula);//Agregar QR para Atleta
                                     break;
                                 }
 
@@ -359,6 +361,7 @@ namespace SOGIP_v2.Controllers
                                     };
 
                                     db.Funcionario_ICODER.Add(funcionario);
+                                    c.generarQr2(user.Cedula);//Agregar QR para Funcionario Icoder
                                     break;
                                 }
 
@@ -371,6 +374,7 @@ namespace SOGIP_v2.Controllers
                                     };
 
                                     db.Entidad_Publica.Add(entPub);
+                                    c.generarQr2(user.Cedula);//Agregar QR para Entidad Publica
                                     break;
                                 }
 
@@ -946,7 +950,9 @@ namespace SOGIP_v2.Controllers
                     db.Users.Add(item);
 
                     db.SaveChanges();
-
+                    //Aqui se genera el codigo QR
+                    CodigoQRController c = new CodigoQRController();
+                    c.generarQr2(item.Cedula);
                     if (rol == "Asociacion/Comite")
                     {
                         db.Atletas.Add(new Atleta

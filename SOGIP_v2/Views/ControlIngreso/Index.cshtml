@@ -1,0 +1,73 @@
+﻿﻿@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <div class="well col-md-12">
+        <div class="panel-body" id="principal">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Bienvenido al Gimnasio de Pesas de ICODER</h1>
+                    <label id="label">Debe presentar su Codigo QR  </label>
+                    <input type="password" id="obj" />
+                    <input type="button" id="btnSave" tabindex="4" value="Ingresar">
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-body" id="ingreso">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Bienvenido al Gimnasio de Pesas de ICODER</h1>
+                    <input type="text" class="form-control" id="usuario" name="usuario" readonly />
+                    <input type="text" class="form-control" id="fecha" name="fecha" readonly />
+                    <input type="submit" id="btnNuevo" tabindex="4" class="form-control btn btn-login" value="Ingresar Nuevo">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ @section Scripts {
+               
+     @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function Save(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/ControlIngreso/SaveIngreso',
+                data: data,
+                success: function (data) {
+                    $('#principal').hide();
+                    $('#ingreso').show();
+                    var date = new Date(parseInt(data.Fecha.substr(6)));
+                    $('#usuario').val(data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2);
+                    $('#fecha').val(date.toLocaleDateString("en-GB"));
+                },
+                error: function () {
+                    alert("No hay un usuario con eso Codigo");
+                }
+            })
+        }
+        $(document).ready(function () {
+            $('#ingreso').hide();
+
+            $('#btnSave').click(function () {
+              
+                var data = null;
+                data = {
+                    id: $('#obj').val()
+                }
+                Save(data);
+            })
+            $('#btnNuevo').click(function () {
+                $('#obj').val('');
+                $('#ingreso').hide();
+                $('#principal').show();
+            })
+        });
+     </script>
+     }
+

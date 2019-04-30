@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<div class="container">
+    <div class="well col-md-12">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>Bienvenido al Gimnasio de Pesas de ICODER</h1>
+                    <label id="label">Debe presentar su Codigo QR  </label>
+                    <input  type="password" class="form-control" id="obj" />
+                    <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Ingresar">
+                </div>
+                </div>
+            </div>
+        </div>
+            </div>
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryval")
+
+                <script>
+                    $(document).ready(function () {
+
+                        $('#btnNuevo').click(function () {
+                            alert($('#obj').val());
+                        })
+                    });
+                </script>
+            }
