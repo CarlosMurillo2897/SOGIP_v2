@@ -53,6 +53,26 @@ namespace SOGIP_v2.Controllers
             return View();
         }
 
+
+        public JsonResult getUsuariosA()
+        {
+            var consulta =
+                  from u in db.Users
+                  from r in db.Roles
+                  where (u.Roles.FirstOrDefault().RoleId == "5" || u.Roles.FirstOrDefault().RoleId == "6" || u.Roles.FirstOrDefault().RoleId == "7" || u.Roles.FirstOrDefault().RoleId == "8" || u.Roles.FirstOrDefault().RoleId == "9")
+                  && u.Roles.FirstOrDefault().RoleId.Equals(r.Id)
+                  select new
+                  {
+                      Accion = "",
+                      Cedula = u.Cedula,
+                      Nombre = u.Nombre1,
+                      Apellido1 = u.Apellido1,
+                      Apellido2 = u.Apellido2,
+                      Rol = r.Name
+                  };
+            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public JsonResult Selecciones() //------->selecciones
         {
@@ -255,8 +275,22 @@ namespace SOGIP_v2.Controllers
                 addMascF(mes);
             }
         }
-
-
+        //---------------------------------------------------> Usuario
+        public void addUs(List<string> mes, string ced)
+        {
+            if (mes.Count > 0)
+            {
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                where c.Fecha.Month == m && c.Usuario.Cedula==ced
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                addUs(mes, ced);
+            }
+        }
 
 
 
@@ -314,6 +348,14 @@ namespace SOGIP_v2.Controllers
 
         }
 
+        //----------------------------------------------------> Usuario en específico
+        [HttpPost]
+        public JsonResult PorMesUsuario(string[] mes, string cedu) {
+            listM.Clear();
+            List<string> m = new List<string>(mes);
+            addUs(m,cedu);
 
+            return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
     }
 }
