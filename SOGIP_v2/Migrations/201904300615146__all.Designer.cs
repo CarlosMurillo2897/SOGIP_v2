@@ -13,7 +13,7 @@ namespace SOGIP_v2.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201904300529510__all"; }
+            get { return "201904300615146__all"; }
         }
         
         string IMigrationMetadata.Source

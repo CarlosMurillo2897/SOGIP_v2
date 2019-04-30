@@ -208,8 +208,8 @@ set @sql = 'BULK INSERT SOGIP_Rutina FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Rutina.c
 exec (@sql)
 print N'SOGIP_Rutina 06 rows';
 
-set @sql = 'BULK INSERT SOGIP_Conjunto_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Conjunto_Ejercicio.csv'' WITH(firstrow = 2, datafiletype=''widechar'',  fieldterminator = '';'', rowterminator = ''\n'');';
-exec (@sql)
+--set @sql = 'BULK INSERT SOGIP_Conjunto_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Conjunto_Ejercicio.csv'' WITH(firstrow = 2, datafiletype=''widechar'',  fieldterminator = '';'', rowterminator = ''\n'');';
+--exec (@sql)
 print N'SOGIP_Conjunto_Ejercicio 33 rows';
 -- select * from sogip_conjunto_ejercicio
 
@@ -304,10 +304,6 @@ set @sql='insert into sogip_archivo('+
 	'(bulk '''+@VARIABLEACAMBIAR+'\A3.jpeg'', SINGLE_BLOB) Contenido;';
 exec (@sql)
 
-/*
-set @sql = 'BULK INSERT SOGIP_Archivo FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Archivo.csv'' WITH(codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
-exec (@sql)
-*/
 set @sql = 'BULK INSERT SOGIP_ControlIngreso FROM '''+@VARIABLEACAMBIAR+'\SOGIP_ControlIngreso.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 PRINT N'SOGIP_ControlIngreso 04 rows';
