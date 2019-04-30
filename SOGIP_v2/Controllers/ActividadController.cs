@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace SOGIP_v2.Controllers
 {
+    
     public class ActividadController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

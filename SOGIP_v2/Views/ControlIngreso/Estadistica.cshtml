@@ -1,6 +1,8 @@
-﻿
-@Styles.Render("~/Content/bootstrap-multiselect.css")
+﻿@Styles.Render("~/Content/bootstrap-multiselect.css")
 <link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
+
 
 <div class="panel panel-info">
     <div class="panel-heading">
@@ -40,6 +42,19 @@
                 </div>
             </div>
 
+            <div hidden class="col-sm-6" id="uss">
+
+                <div class="form-group col-sm-7">
+                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+                </div>
+                <div class="form-group col-sm-2">
+                    <button id="botón" type="button" class="btn btn-warning btn-block">
+                        <span id="icono" class="glyphicon glyphicon-search"></span>
+                    </button>
+                </div>
+
+            </div>
+
             <div hidden class="col-sm-2" id="month">
                 <div class="form-group">
                     <select class="form-control" multiple="multiple" id="Meses">
@@ -59,42 +74,58 @@
                 </div>
             </div>
 
-            <div class="col-sm-2" id="e3">
+            <div class="col-sm-2" id="bt" hidden>
                 <div class="form-group">
-                    <button type="button" id="b" class="btn btn-warning btn-block">Generar Gráfico</button>
+                    <button type="button" id="b" class="btn btn-success btn-block">
+                        <text id="texto">Generar Grafico </text>
+                        <span id="icono" class="glyphicon glyphicon-stats"></span>
+                    </button>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div class="chart-container" style="position: unset; height:90vh; width:70vw" id="graph">
+    <canvas id="chart"></canvas>
+</div>
 
-
+<div id="myModal" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Lista de usuarios</h4>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table id="example" style="width: 100%;" class="table-striped">
+                        <thead>
+                            <tr>
+                                <th>Acción</th>
+                                <th>Cédula</th>
+                                <th>Nombre</th>
+                                <th>1° Apellido</th>
+                                <th>2° Apellido</th>
+                                <th>Rol</th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
         </div>
     </div>
 </div>
 
 
-
-<div class="chart-container" style="position: unset; height:90vh; width:70vw" id="graph">
-    <canvas id="chart"></canvas>
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 @section Scripts{
-
     @Scripts.Render("~/Scripts/Chart.min.js")
     @Scripts.Render("~/Scripts/bootstrap-multiselect.js")
     @Scripts.Render("~/Scripts/bootbox.min.js")
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
 }
 
 
@@ -107,9 +138,13 @@
             meses = [], //nom
             allid = [], //id selecciones,entidades, asociaciones
             allnom = [], //nombre selecciones, entidades, asociaciones
-            grupo = []; //sele, aso, entidad...
+            grupo = [], //sele, aso, entidad...
+            extra = [];
 
+        console.log(grupo);
         //_____________________________________________________________
+        var cedu = "";
+        llenarTabla();
         selecciones();
         asociaciones();
         entidades();
@@ -123,36 +158,55 @@
                     grupo = [];
                     grupo.push([$(this).val()]);
                 });
-                console.log(grupo);
 
                 if ($(option).val() == 1) {//selección
                     $('#a2').hide();
                     $('#e3').hide();
                     $('#s1').show();
+                    $('#uss').hide();
                     $('#month').show();
+                    $('#bt').show();
                 }
                 else if ($(option).val() == 2) {//asociación
                     $('#s1').hide();
                     $('#e3').hide();
                     $('#a2').show();
+                    $('#uss').hide();
                     $('#month').show();
+                    $('#bt').show();
                 }
                 else if ($(option).val() == 3) {//entidades
                     $('#s1').hide();
                     $('#a2').hide();
                     $('#e3').show();
+                    $('#uss').hide();
                     $('#month').show();
+                    $('#bt').show();
                 }
                 else if ($(option).val() == 4) {//otros
                     $('#s1').hide();
                     $('#a2').hide();
                     $('#e3').hide();
+                    $('#uss').hide();
                     $('#month').show();
+                    $('#bt').show();
                 }
+                else if ($(option).val() == 5) {//otros
+                    $('#s1').hide();
+                    $('#a2').hide();
+                    $('#e3').hide();
+                    $('#uss').show();
+                    $('#month').show();
+                    $('#bt').show();
+                }
+
                 else {
                     $('#s1').hide();
                     $('#a2').hide();
                     $('#e3').hide();
+                    $('#uss').hide();
+                    $('#month').hide();
+                    $('#bt').hide();
                 }
 
 
@@ -217,8 +271,6 @@
                                 allnom.push([$(this).text()]);
                             });
 
-                            console.log(allid);
-                            console.log(allnom);
                         }
                     })
                 },
@@ -260,9 +312,6 @@
                                 allid.push([$(this).val()]);
                                 allnom.push([$(this).text()]);
                             });
-
-                            console.log(allid);
-                            console.log(allnom);
                         }
                     })
                 },
@@ -304,9 +353,6 @@
                                 allid.push([$(this).val()]);
                                 allnom.push([$(this).text()]);
                             });
-
-                            console.log(allid);
-                            console.log(allnom);
                         }
                     })
                 },
@@ -317,15 +363,52 @@
         }
 
 
-        $("#b").click(function () { 
+        $("#b").click(function () {
             all = [];
 
-            if (grupo[0] == 4) {
+            if (grupo.length < 1 || grupo[0] == 0) {
+                bootbox1(" No ha seleccionado ninguna agrupación");
+                return;
+            }
+
+            else if (grupo[0] == 4) {
+                if (mes.length < 1) {
+                    bootbox1(" No ha seleccionado ningún mes");
+                    return;
+                }
                 mesesFuncionarios();
             }
+
+            else if (grupo[0] == 5) {
+
+                if (mes.length < 1) {
+                    bootbox1(" No ha seleccionado ningún mes");
+                    return;
+                }
+                if (cedu == "") {
+                    bootbox1(" No ha seleccionado usuario");
+                    return;
+                }
+                mesesUsuario();
+            }
+
             else {
+                if (allid.length < 1) {
+                    bootbox1(" No ha seleccionado ningún Selección, Asociación o Entidad");
+                    return;
+                }
+                if (mes.length < 1) {
+                    bootbox1(" No ha seleccionado ningún mes");
+                    return;
+                }
+
+                extra = allid.slice();
+                console.log(extra);
                 mesesAtletasA(allid);
             }
+
+
+
         }); //Disparador
 
 
@@ -339,7 +422,9 @@
                 mesesAtletasA(array);
             }
             else {
+                allid = extra.slice();
                 bootbox2(" Cargando datos");
+
             }
         }
 
@@ -347,6 +432,11 @@
 
             porMesFFunc(mes);
             porMesMFunc(mes);
+            bootbox2(" Cargando datos");
+        }
+
+        function mesesUsuario() {
+            porMesUs(mes, cedu);
             bootbox2(" Cargando datos");
         }
 
@@ -379,7 +469,7 @@
                     });
                 },
                 error: function (error) {
-                    // alert("Fallo");
+                    bootbox1(" Error al recolectar datos");
                 }
             })
         }
@@ -411,7 +501,29 @@
                     });
                 },
                 error: function (error) {
-                    // alert("Fallo");
+                    bootbox1(" Error al recolectar datos");
+                }
+            })
+        }
+
+        function porMesUs(mes, cedu) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/PorMesUsuario",
+                data: { 'mes': mes, 'cedu': cedu },
+                success: function (data) {
+
+                    all.push({
+                        label: $('#usuario').val(),
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 0.2)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    bootbox1(" Error al recolectar datos");
                 }
             })
         }
@@ -434,7 +546,7 @@
                     });
                 },
                 error: function (error) {
-                    // alert("Fallo");
+                    bootbox1(" Error al recolectar datos");
                 }
             })
         }
@@ -456,7 +568,7 @@
                     });
                 },
                 error: function (error) {
-                    // alert("Fallo");
+                    bootbox1(" Error al recolectar datos");
                 }
             })
         }
@@ -478,8 +590,73 @@
             });
 
         }
-                             
+        function bootbox1(message) {//para errores
+            bootbox.alert({
+                size: 'small',
+                closeButton: false,
+                message: '<p><i class="fa fa-exclamation-triangle"></i>' + message + '</p>'
+            });
 
+        }
+
+        //----------------------------------------------------tablilla
+        $('#botón').click(function () {
+            $('#myModal').modal('show');
+        });
+
+        function llenarTabla() {
+            $('#example').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                    "zeroRecords": "No se han encontrado registros.",
+                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+                "ajax": {
+                    "url": "/ControlIngreso/getUsuariosA",
+                    "type": "GET",
+                    "dataSrc": ""
+                },
+                columns: [
+                    { data: "Accion" },
+                    { data: "Cedula" },
+                    { data: "Nombre" },
+                    { data: "Apellido1" },
+                    { data: "Apellido2" },
+                    { data: "Rol" }
+                ],
+                'columnDefs': [
+                    {
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets: [0]
+                    }
+                ],
+                'select': {
+                    'style': 'os',
+                    'selector': 'td:first-child'
+
+                }
+            });
+        }
+
+
+        $('#example').on('click', 'td.select-checkbox', function () {
+            var td = $(this);
+            var tr = td.closest('tr');
+
+            $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
+            cedu = tr.find('td:eq(1)').text();
+            $('#myModal').modal('hide');
+        });
         //_______________________________________________ GRÁFICO ____________________________________
         function chartSe() { //-----------> CARLOS CARLOS CARLOS esto genera el gráfico
             $('#chart').remove();
@@ -508,3 +685,4 @@
 
     });
 </script>
+

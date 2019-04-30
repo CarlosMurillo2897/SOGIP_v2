@@ -10,6 +10,7 @@ using SOGIP_v2.Models;
 
 namespace SOGIP_v2.Controllers
 {
+    [Authorize(Roles = "Administrador,Supervisor")]
     public class ControlIngresoController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -28,7 +29,7 @@ namespace SOGIP_v2.Controllers
         public JsonResult SaveIngreso(string id)
         {
             ApplicationUser User = db.Users.Single(x => x.Cedula == id);
-            ControlIngreso  nueva = new ControlIngreso();
+            ControlIngreso nueva = new ControlIngreso();
             DateTime fecha = DateTime.Now;
             try
             {
@@ -44,13 +45,33 @@ namespace SOGIP_v2.Controllers
             {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-        
+
             return Json(nueva, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Estadistica()
         {
             return View();
+        }
+
+
+        public JsonResult getUsuariosA()
+        {
+            var consulta =
+                  from u in db.Users
+                  from r in db.Roles
+                  where (u.Roles.FirstOrDefault().RoleId == "5" || u.Roles.FirstOrDefault().RoleId == "6" || u.Roles.FirstOrDefault().RoleId == "7" || u.Roles.FirstOrDefault().RoleId == "8" || u.Roles.FirstOrDefault().RoleId == "9")
+                  && u.Roles.FirstOrDefault().RoleId.Equals(r.Id)
+                  select new
+                  {
+                      Accion = "",
+                      Cedula = u.Cedula,
+                      Nombre = u.Nombre1,
+                      Apellido1 = u.Apellido1,
+                      Apellido2 = u.Apellido2,
+                      Rol = r.Name
+                  };
+            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -64,7 +85,7 @@ namespace SOGIP_v2.Controllers
                     Nombre = s.Nombre_Seleccion
                 }
                 ).ToList();
-                
+
 
             return new JsonResult { Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
@@ -76,7 +97,7 @@ namespace SOGIP_v2.Controllers
                 from a in db.Asociacion_Deportiva
                 select new
                 {
-                    Id =a.Asociacion_DeportivaId,
+                    Id = a.Asociacion_DeportivaId,
                     Nombre = a.Nombre_DepAso
                 }
                 ).ToList();
@@ -105,20 +126,21 @@ namespace SOGIP_v2.Controllers
         //-------------------------------------------------------> seleccciones
         public void addFemS(List<string> mes, int sele)
         {
-            if (mes.Count>0) {
+            if (mes.Count > 0)
+            {
 
-              int m = Int32.Parse(mes[0]);
-               var lista = (
-               from c in db.ControlIngreso
-               from a in db.Atletas
-               where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == a.Usuario && a.SubSeleccion.SubSeleccionId == sele
-               select c.Usuario
-               ).Count();
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                from a in db.Atletas
+                where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == a.Usuario && a.SubSeleccion.SubSeleccionId == sele
+                select c.Usuario
+                ).Count();
                 listF.Add(lista);
                 mes.RemoveAt(0);
-                addFemS(mes,sele);
+                addFemS(mes, sele);
             }
-            
+
 
         }
 
@@ -151,7 +173,7 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from a in db.Atletas
-                where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == a.Usuario && a.Asociacion_Deportiva.Asociacion_DeportivaId==aso
+                where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == a.Usuario && a.Asociacion_Deportiva.Asociacion_DeportivaId == aso
                 select c.Usuario
                 ).Count();
                 listF.Add(lista);
@@ -255,8 +277,22 @@ namespace SOGIP_v2.Controllers
                 addMascF(mes);
             }
         }
-
-
+        //---------------------------------------------------> Usuario
+        public void addUs(List<string> mes, string ced)
+        {
+            if (mes.Count > 0)
+            {
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                where c.Fecha.Month == m && c.Usuario.Cedula == ced
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                addUs(mes, ced);
+            }
+        }
 
 
 
@@ -273,9 +309,9 @@ namespace SOGIP_v2.Controllers
             {
                 case 1: { addFemS(m, aso); break; }
                 case 2: { addFemA(m, aso); break; }
-                case 3: { addFemE(m, aso); break; }                   
+                case 3: { addFemE(m, aso); break; }
             }
-            
+
             return new JsonResult { Data = listF, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
@@ -314,6 +350,15 @@ namespace SOGIP_v2.Controllers
 
         }
 
+        //----------------------------------------------------> Usuario en específico
+        [HttpPost]
+        public JsonResult PorMesUsuario(string[] mes, string cedu)
+        {
+            listM.Clear();
+            List<string> m = new List<string>(mes);
+            addUs(m, cedu);
 
+            return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
     }
 }
