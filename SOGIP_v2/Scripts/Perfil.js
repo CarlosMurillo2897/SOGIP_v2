@@ -11,8 +11,10 @@ $.validator.addMethod("passw", function (value, element) {
 
 var p1, p2,p3,p4;
 $(document).ready(function () {
-    //unlockForm("None", "None", "Nn");
-    unlockForm("Supervisor", "None", "Nn");
+    // Normal
+    unlockForm("None", "None", "Nn");
+    // Desarrollando
+    //unlockForm("Supervisor", "None", "Nn");
 
     $('[data-toggle="popover"]').popover();
 

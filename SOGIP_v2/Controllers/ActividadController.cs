@@ -147,8 +147,10 @@ namespace SOGIP_v2.Controllers
         {
 
             var imagenes =
-                db.Archivo.Where(x => x.actividad != null && db.Horario.Where(y=>y.IdActividad.Id==x.actividad.Id).FirstOrDefault()
-                .FechaHoraInicio>=DateTime.Today).OrderByDescending(x=>x.ArchivoId) //-->ordeno de atrás hacia delante
+                db.Archivo
+				.Where(x => x.actividad != null && 
+				db.Horario.Where(y => y.IdActividad.Id == x.actividad.Id).FirstOrDefault().FechaHoraFinal >= DateTime.Today)
+				.OrderByDescending(x => x.ArchivoId) //-->ordeno de atrás hacia delante
                 .Select(x => new
                 {
                     x.Contenido,
