@@ -221,9 +221,40 @@ namespace SOGIP_v2.Controllers
 
 
         }
+        //--------------------------------------> Funcionarios 
 
-
-
+        public void addFemF(List<string> mes)
+        {
+            if (mes.Count > 0)
+            {
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                from f in db.Funcionario_ICODER
+                where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == f.Usuario
+                select c.Usuario
+                ).Count();
+                listF.Add(lista);
+                mes.RemoveAt(0);
+                addFemF(mes);
+            }
+        }
+        public void addMascF(List<string> mes)
+        {
+            if (mes.Count > 0)
+            {
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                from f in db.Funcionario_ICODER
+                where c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == f.Usuario
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                addMascF(mes);
+            }
+        }
 
 
 
@@ -238,17 +269,11 @@ namespace SOGIP_v2.Controllers
             listF.Clear();
             List<string> m = new List<string>(mes);
 
-            if (id == 1)
+            switch (id)
             {
-                addFemS(m, aso);
-            }
-            else if (id == 2)
-            {
-                addFemA(m, aso);
-            }
-            else if (id == 3)
-            {
-                addFemE(m, aso);
+                case 1: { addFemS(m, aso); break; }
+                case 2: { addFemA(m, aso); break; }
+                case 3: { addFemE(m, aso); break; }                   
             }
             
             return new JsonResult { Data = listF, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -259,23 +284,35 @@ namespace SOGIP_v2.Controllers
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            if (id == 1)
+            switch (id)
             {
-                addMascS(m, aso);
-            }
-            else if (id == 2)
-            { 
-                addMascA(m, aso);
-            }
-            else if (id == 3)
-            {
-                addMascE(m, aso);
+                case 1: { addMascS(m, aso); break; }
+                case 2: { addMascA(m, aso); break; }
+                case 3: { addMascE(m, aso); break; }
             }
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
-        //------------------------------------------------------> asociaciones
+        //------------------------------------------------------> Principal Funcionarios
+        [HttpPost]
+        public JsonResult PorMesFFunc(string[] mes)
+        {
+            listF.Clear();
+            List<string> m = new List<string>(mes);
+            addFemF(m);
+            return new JsonResult { Data = listF, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
+        [HttpPost]
+        public JsonResult PorMesMFunc(string[] mes)
+        {
+            listM.Clear();
+            List<string> m = new List<string>(mes);
+            addMascF(m);
+            return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
 
 
     }

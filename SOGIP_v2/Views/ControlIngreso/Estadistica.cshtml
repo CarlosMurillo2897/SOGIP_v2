@@ -1,5 +1,6 @@
 ﻿
 @Styles.Render("~/Content/bootstrap-multiselect.css")
+<link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
 
 <div class="panel panel-info">
     <div class="panel-heading">
@@ -16,6 +17,7 @@
                         <option value="2">ASOCIACIONES</option>
                         <option value="3">ENTIDADES</option>
                         <option value="4">FUNCIONARIOS ICODER</option>
+                        <option value="5">USUARIO ESPECÍFICO</option>
                     </select>
                 </div>
             </div>
@@ -62,7 +64,7 @@
                     <button type="button" id="b" class="btn btn-warning btn-block">Generar Gráfico</button>
                 </div>
             </div>
-          
+
 
         </div>
     </div>
@@ -92,7 +94,7 @@
 
     @Scripts.Render("~/Scripts/Chart.min.js")
     @Scripts.Render("~/Scripts/bootstrap-multiselect.js")
-
+    @Scripts.Render("~/Scripts/bootbox.min.js")
 }
 
 
@@ -101,7 +103,7 @@
     $(document).ready(function () {
         //_____________________________________________________________
         var mes = [], //id
-            all = [],    //datasets 
+            all = [],    //datasets
             meses = [], //nom
             allid = [], //id selecciones,entidades, asociaciones
             allnom = [], //nombre selecciones, entidades, asociaciones
@@ -142,7 +144,10 @@
                     $('#month').show();
                 }
                 else if ($(option).val() == 4) {//otros
-
+                    $('#s1').hide();
+                    $('#a2').hide();
+                    $('#e3').hide();
+                    $('#month').show();
                 }
                 else {
                     $('#s1').hide();
@@ -150,7 +155,7 @@
                     $('#e3').hide();
                 }
 
-                
+
             }
         });
         $('#Meses').multiselect({//selecciona el id del mes y su nombre
@@ -222,7 +227,7 @@
                 }
             })
         }
-                              
+
         function asociaciones() { //POPULATE SELECT OPTIONS WITH ASOCIACIONES
             $.ajax({
                 type: "POST",
@@ -312,38 +317,47 @@
         }
 
 
-        $("#b").click(function () { //-----------> CARLOS CARLOS CARLOS !!!!!!!!
+        $("#b").click(function () { 
             all = [];
-            new Promise(function (resolve, reject) {
-                setTimeout(() => resolve(mesesAtletasA(allid)), 1000);
 
-            }).then(function (result) {
-                //alert("aa");
-                chartSe();
-                
-            }); 
-        });
+            if (grupo[0] == 4) {
+                mesesFuncionarios();
+            }
+            else {
+                mesesAtletasA(allid);
+            }
+        }); //Disparador
 
-     
+
 
         //____________________________________________ SELECCIONES __________________________________
-         function mesesAtletasA(array) {//-----------> CARLOS CARLOS CARLOS !!!!!!!!!!
+        function mesesAtletasA(array) {//-----------> CARLOS CARLOS CARLOS !!!!!!!!!!
             if (array.length > 0) {
-               porMesF(mes, array[0], grupo[0]);
-               porMesM(mes, array[0], grupo[0]);
+                porMesF(mes, array[0], grupo[0]);
+                porMesM(mes, array[0], grupo[0]);
                 array.shift();
                 mesesAtletasA(array);
             }
-            
+            else {
+                bootbox2(" Cargando datos");
+            }
         }
 
+        function mesesFuncionarios() {
+
+            porMesFFunc(mes);
+            porMesMFunc(mes);
+            bootbox2(" Cargando datos");
+        }
+
+        //--------------------------------------------------VARIOS
         function porMesF(mes, grupo, idas) {
             var txt;
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
                 url: "/ControlIngreso/PorMesAtletasF",
-                data: { 'mes': mes, 'aso': grupo, 'id':idas },
+                data: { 'mes': mes, 'aso': grupo, 'id': idas },
                 success: function (data) {
                     if (idas == 1) {
                         txt = $("#Selecciones option[value=" + grupo + "]").text();
@@ -355,8 +369,9 @@
                         txt = $("#Entidades option[value=" + grupo + "]").text();
                     }
 
+
                     all.push({
-                        label: txt+"-Fem",
+                        label: txt + "-Fem",
                         data: data,
                         backgroundColor: 'rgba(255, 99, 132, 0.2)',
                         borderColor: 'rgba(255, 99, 132, 1)',
@@ -375,7 +390,7 @@
                 type: "POST",
                 dataType: "JSON",
                 url: "/ControlIngreso/PorMesAtletasM",
-                data: { 'mes': mes, 'aso': grupo, 'id':idas },
+                data: { 'mes': mes, 'aso': grupo, 'id': idas },
                 success: function (data) {
                     if (idas == 1) {
                         txt = $("#Selecciones option[value=" + grupo + "]").text();
@@ -386,8 +401,9 @@
                     else if (idas == 3) {
                         txt = $("#Entidades option[value=" + grupo + "]").text();
                     }
+
                     all.push({
-                        label: txt+"-Masc",
+                        label: txt + "-Masc",
                         data: data,
                         backgroundColor: 'rgba(54, 162, 235, 0.2)',
                         borderColor: 'rgba(54, 162, 235, 0.2)',
@@ -400,13 +416,78 @@
             })
         }
 
+        //--------------------------------------------------FUNCIONARIOS
+        function porMesFFunc(mes) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/PorMesFFunc",
+                data: { 'mes': mes },
+                success: function (data) {
+
+                    all.push({
+                        label: "Funcionarios ICODER-Fem",
+                        data: data,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    // alert("Fallo");
+                }
+            })
+        }
+        function porMesMFunc(mes) {
+
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/PorMesMFunc",
+                data: { 'mes': mes },
+                success: function (data) {
+
+                    all.push({
+                        label: "Funcionarios ICODER-Masc",
+                        data: data,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 0.2)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    // alert("Fallo");
+                }
+            })
+        }
+
+        //----------------------------------------------------bootbox
+        function bootbox2(message) {
+            var dialog = bootbox.dialog({//para cargas
+                size: 'small',
+                closeButton: false,
+                message: '<p><i class="fa fa-spin fa-spinner"></i>' + message + '</p>'
+            });
+            dialog.init(function () {
+                setTimeout(function () {
+                    chartSe();
+                }, 10000);
+                setTimeout(function () {
+                    dialog.modal('hide');
+                }, 10000)
+            });
+
+        }
+                             
+
         //_______________________________________________ GRÁFICO ____________________________________
         function chartSe() { //-----------> CARLOS CARLOS CARLOS esto genera el gráfico
             $('#chart').remove();
             $('#graph').append('<canvas id="chart"></canvas>');
 
+
             var ctx = document.getElementById('chart');
-           var  myChart = new Chart(ctx, {
+            var myChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: meses,
@@ -423,7 +504,7 @@
                 }
             });
         }
-       
+
 
     });
 </script>
