@@ -102,18 +102,17 @@
                     "dataSrc": ""
                 },
                 columns: [
-                    { data: "Nombre" },
-                    {
-                        data: "Id",
-
+                        { data: "Nombre" },
+                        {
+                            data: "Id",
                         render: function (Id) {
-                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")' data-toggle='modal' data-target='#editar'>" +
-                                "<text class='hidden-xs'>Editar </text>" +
+                            return "<a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='Eliminar(" + Id + ")' data-toggle='modal' data-target='#editar'>" +
+                                "<text class='hidden-xs'>Eliminar Maquina </text>" +
                                 "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>";
+                            }
                         }
-                    }
-                ],
+                    ],
             });
         }
         function tablaEjercicios() {
@@ -158,6 +157,30 @@
 
                 }
             });
+        }
+        function Eliminar(id) {
+             var n = @viewDataMaquina;
+            var data = null;
+            data = {
+                nom: n,
+                ejer: id
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Maquina/DeleteMaquinaEjercicio',
+                data: data,
+                success: function (data) {
+                    $('#nueva').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    $('#maquinas').DataTable().ajax.reload(null, false);
+                    eliminar();
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
         }
         $(document).ready(function () {
             tablaPrin();
@@ -222,7 +245,7 @@
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
             })
-            
+
             $('#tablePrin').on('click', 'td.select-checkbox', function () {
                 var td = $(this);
                 var tr = td.closest('tr');
@@ -240,5 +263,3 @@
         });
     </script>
 }
-
-

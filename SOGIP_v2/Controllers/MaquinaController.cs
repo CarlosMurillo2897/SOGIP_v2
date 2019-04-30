@@ -18,6 +18,25 @@ namespace SOGIP_v2.Controllers
         {
             return View();
         }
+        public ActionResult Maquina()
+        {
+            return View();
+        }
+        public ActionResult MaquinaEjercicio(int? id)
+        {
+            Maquina maquina = db.Maquina.SingleOrDefault(x => x.Id == id);
+            if (maquina != null)
+            {
+                int i = maquina.Id;
+                string n = i.ToString();
+                ViewData["maquina"] = n;
+                string nombre = maquina.Nombre;
+                ViewData["nombre"] = nombre;
+
+            }
+
+            return View();
+        }
         public JsonResult getMaquinas()
         {
             var consulta = from t in db.Maquina
@@ -57,14 +76,14 @@ namespace SOGIP_v2.Controllers
             var consulta = db.Maquina.Where(x => x.Id == id).FirstOrDefault();
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult EditMaquina(int id, string nombre)
+        public JsonResult EditMaquina(int id, string categoria)
         {
             Maquina maquina = db.Maquina.Single(x => x.Id == id);
             try
             {
                 if (maquina != null)
                 {
-                    maquina.Nombre = nombre;
+                    maquina.Nombre = categoria;
                 }
                 db.SaveChanges();
             }
@@ -96,7 +115,7 @@ namespace SOGIP_v2.Controllers
                            select new
                            {
                                Nombre = t.Ejercicio.Nombre,
-                               Id = t.Id
+                               Id = t.Ejercicio.Id
                            };
             return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
         }
@@ -118,7 +137,7 @@ namespace SOGIP_v2.Controllers
             var consulta = db.Ejercicio.Where(x => x.Nombre == n).FirstOrDefault();
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult SaveMaquinaEjercicio(string nom , int ejer)
+        public JsonResult SaveMaquinaEjercicio(string nom, int ejer)
         {
             int d = int.Parse(nom);
             Maquina maquina = db.Maquina.SingleOrDefault(x => x.Id == d);
@@ -140,6 +159,25 @@ namespace SOGIP_v2.Controllers
             }
             return Json(maquina, JsonRequestBehavior.AllowGet);
 
+        }
+        public JsonResult DeleteMaquinaEjercicio(string nom, int ejer)
+        {
+            int d = int.Parse(nom);
+            Maquina maquina = db.Maquina.SingleOrDefault(x => x.Id == d);
+            Ejercicio ejercicio = db.Ejercicio.SingleOrDefault(x => x.Id == ejer);
+            MaquinaEjercicio maejer = db.MaquinaEjercicio.SingleOrDefault(x => x.Maquina.Id == maquina.Id && x.Ejercicio.Id == ejercicio.Id);
+
+            db.MaquinaEjercicio.Remove(maejer);
+            db.SaveChanges();
+            return Json(maquina, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult Descripcion(int id)
+        {
+            Ejercicio ejercicio = db.Ejercicio.Single(x => x.Id == id);
+            var descripcion = ejercicio.Descripcion;
+
+            return Json(descripcion, JsonRequestBehavior.AllowGet);
         }
     }
 }

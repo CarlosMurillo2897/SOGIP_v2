@@ -878,6 +878,8 @@
     <Content Include="Views\Ingreso\Index.cshtml" />
     <Content Include="Views\ControlIngreso\Index.cshtml" />
     <Content Include="Views\ControlIngreso\Estadistica.cshtml" />
+    <Content Include="Views\Maquina\Maquina.cshtml" />
+    <Content Include="Views\Maquina\MaquinaEjercicio.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Registros\" />

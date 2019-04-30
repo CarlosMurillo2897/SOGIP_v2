@@ -50,7 +50,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Crear nuevo Ejercicio de</h4>  <text class='hidden-xs' id="textPrin"></text>
+                <div class="modal-title" id="txtnuevo">  <h4>Crear nuevo Tipo de <text class='hidden-xs' id="textPrin"></text> </h4> </div>
+                <div class="modal-title" style='display:none;' id="txteditar">  <h4>Editar </h4> </div>
             </div>
             <form id="forcat" method="post" novalidate="novalidate">
                 <div class="modal-body">
@@ -70,38 +71,15 @@
     </div>
 </div>
 
-<div id="editar" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Editar Ejercicio</h4>
-            </div>
-            <form id="foredit" method="post" novalidate="novalidate">
-                <div class="modal-body">
-                    <div class="form-group col-md-12">
-                        <label>Nombre: </label>
-                        <div class="afect">
-                            <input type="text" class="form-control" placeholder="Nombre" id="edit" name="edit" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @section Scripts {
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-        var cat1 = null
+        var cat1 = null;
         var cat2 = null;
         var cat3 = null;
+        var idEdit = null;
         function tablaPrin() {
             $('#maquinas').DataTable().destroy();
             $('#maquinas').remove();
@@ -333,8 +311,11 @@
                 url: '/TipoME/getNombre',
                 data: { 'id': id },
                 success: function (data) {
+                    $('#txtnuevo').css("display", "block");
+                    $('#txteditar').css("display", "none");
                     $('#text3').html(data.nombre);
                     $('#textPrin').html(data.nombre);
+                    $('#cat').val('');
                     cat1 = id;
                 },
                 error: function () {
@@ -344,31 +325,59 @@
             $('#nuevo').modal('show');
         }
         function EditarRut(id) {
+            idEdit = id;
+            $('#nuevo').modal('show');
+            $('#txtnuevo').css("display", "none");
+            $('#txteditar').css("display", "block");
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
                 url: '/Maquina/getNombre',
                 data: { 'id': id },
                 success: function (data) {
-                    $('#edit').val(data.Nombre);
+                    $('#cat').val(data.Nombre);
                 }
             })
-            var data = nulll;
-            data = {
-                id: id,
-                categoria: $('#edit').val()
-            }
-            editar(data);
         }
         function agregar() {
-            var data = null;
-            data = {
-                id: cat1,
-                nombre: $('#cat').val()
+            if ($('#txteditar').is(':hidden')) {
+                var data = null;
+                data = {
+                    id: cat1,
+                    nombre: $('#cat').val()
+                }
+                SaveMaquina(data);
+            } else {
+                var data = null;
+                data = {
+                    id: idEdit,
+                    categoria: $('#cat').val()
+                }
+                Editar(data);
             }
-            SaveEjercicio(data);
         }
-        function SaveEjercicio(data) {
+        function Editar(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/Maquina/EditMaquina',
+                data: data,
+                success: function (data) {
+                    $('#nuevo').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    $('#tipoEjer3').DataTable().destroy();
+                    $('#tipoEjer3').hide();
+                    $('#maquinas').show();
+                    $('#maquinas').DataTable().ajax.reload(null, false);
+                    $('#cat').val('');
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+        }
+        function SaveMaquina(data) {
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
