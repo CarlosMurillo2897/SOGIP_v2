@@ -44,7 +44,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Crear nuevo Tipo de</h4>  <text class='hidden-xs' id="textPrin"></text>
+                <div class="modal-title" id="txtnuevo">  <h4>Crear nuevo Tipo de <text class='hidden-xs' id="textPrin"></text> </h4> </div>
+                <div class="modal-title" style='display:none;' id="txteditar">  <h4>Editar </h4> </div>
             </div>
             <form id="forcat" method="post" novalidate="novalidate">
                 <div class="modal-body">
@@ -64,30 +65,6 @@
     </div>
 </div>
 
-<div id="editar" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Editar</h4>
-            </div>
-            <form id="foredit" method="post" novalidate="novalidate">
-                <div class="modal-body">
-                    <div class="form-group col-md-12">
-                        <label>Nombre: </label>
-                        <div class="afect">
-                            <input type="text" class="form-control" placeholder="Nombre" id="edit" name="edit" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @section Scripts {
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
@@ -96,6 +73,7 @@
         var cat1 = null
         var cat2 = null;
         var cat3 = null;
+        var idEdit = null;
         function tablaEjer1() {
             cat1 = 0;
             $('#textPrin').html("Categoria");
@@ -290,21 +268,20 @@
             tablaEjer3(id);
         }
         function EditarRut(id) {
+            idEdit = id;
+            $('#nuevo').modal('show');
+            $('#txtnuevo').css("display", "none");
+            $('#txteditar').css("display", "block");
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
                 url: '/TipoME/getNombre',
                 data: { 'id': id },
                 success: function (data) {
-                    $('#edit').val(data.nombre);
+                    $('#cat').val(data.nombre);
                 }
             })
-            var data = nulll;
-            data = {
-                id: id,
-                categoria: $('#edit').val()
-            }
-            editar(data);
+
         }
         $('#btnCategorias').click(function () {
             $('#tabla2').hide();
@@ -378,14 +355,14 @@
                 }
             })
         }
-        function editar(data) {
+        function Editar(data) {
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
                 url: '/TipoME/EditEjercicio',
                 data: data,
                 success: function (data) {
-                    $('#editar').modal('hide');
+                    $('#nuevo').modal('hide');
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
                     if ($('#btn2').is(':hidden')) {
@@ -405,23 +382,33 @@
             })
         }
         function enviar() {
-            if (cat1 == 0) {
+            if ($('#txteditar').is(':hidden')) {
+                if (cat1 == 0) {
+                    var data = null;
+                    data = {
+                        categoria: $('#cat').val()
+                    }
+                    SaveCategoria(data);
+                } else {
+
+                    var data = null;
+                    data = {
+                        id: cat1,
+                        categoria: $('#cat').val()
+                    }
+                    SaveCategoria1(data);
+                }
+            } else {
                 var data = null;
                 data = {
+                    id: idEdit,
                     categoria: $('#cat').val()
                 }
-                SaveCategoria(data);
+                Editar(data);
             }
-
-            var data = null;
-            data = {
-                id: cat1,
-                categoria: $('#cat').val()
-            }
-            SaveCategoria1(data);
         }
 
-    /*Aqui*/       $.validator.setDefaults({
+        /*Aqui*/       $.validator.setDefaults({
             submitHandler: function () {
                 enviar();
                 alert("Enviando solicitud.");
@@ -431,7 +418,7 @@
         $(document).ready(function () {
             tablaEjer1();
 
-       /*Nuevo*/        $("#forcat").validate({
+           /*Nuevo*/        $("#forcat").validate({
                 rules: {
                     cat: {
 
@@ -483,60 +470,12 @@
                     $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
                 }
             });
-   /*Editar*/         $("#foredit").validate({
-                rules: {
-                    edit: {
 
-                        required: true,
-                        minlength: 4,
-                        remote: {
-                            url: '/TipoME/TipoRepetido',
-                            type: 'GET',
-                            data: {
-                                nombre: function () {
-                                    return $('#edit').val();
-                                }
-                            }
-                        }
-                    }
-                },
-                messages: {
-                    edit: {
-                        required: "El nombre es un campo obligatorio.",
-                        minlength: "El nombre debe de tener mas de 4 caracteres.",
-                        remote: "El nombre no debe ser Repetido."
-                    }
-                },
-                errorElement: "em",
-                errorPlacement: function (error, element) {
-                    error.addClass("help-block");
-                    element.parents(".afect").addClass("has-feedback");
-
-                    if (element.prop("id") === "nac") {
-                        error.insertAfter(element.parent("div"));
-                    } else {
-                        error.insertAfter(element);
-                    }
-                    if (!element.next("span")[0]) {
-                        $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
-                    }
-                },
-                success: function (label, element) {
-                    if (!$(element).next("span")[0]) {
-                        $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
-                    }
-                },
-                highlight: function (element, errorClass, validClass) {
-                    $(element).parents(".afect").addClass("has-error").removeClass("has-success");
-                    $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                    $(element).parents(".afect").addClass("has-success").removeClass("has-error");
-                    $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
-                }
-            });
             $('#btnNuevo').click(function () {
                 $('#nuevo').modal('show');
+                $('#txtnuevo').css("display", "block");
+                $('#txteditar').css("display", "none");
+                $('#cat').val('');
             })
 
         });

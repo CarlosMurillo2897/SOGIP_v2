@@ -23,7 +23,7 @@ namespace SOGIP_v2.Controllers
             var consulta = from t in db.Ejercicio
                            select new
                            {
-                               Nombre =t.Nombre,
+                               Nombre = t.Nombre,
                                Id = t.Id
                            };
             return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
@@ -57,14 +57,14 @@ namespace SOGIP_v2.Controllers
             var consulta = db.Ejercicio.Where(x => x.Id == id).FirstOrDefault();
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult EditEjercicio(int id, string nombre)
+        public JsonResult EditEjercicio(int id, string categoria)
         {
             Ejercicio ejercicio = db.Ejercicio.Single(x => x.Id == id);
             try
             {
                 if (ejercicio != null)
                 {
-                    ejercicio.Nombre = nombre;
+                    ejercicio.Nombre = categoria;
                 }
                 db.SaveChanges();
             }

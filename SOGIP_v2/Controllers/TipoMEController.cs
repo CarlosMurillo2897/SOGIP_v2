@@ -22,7 +22,8 @@ namespace SOGIP_v2.Controllers
         public JsonResult SaveCategoria(string categoria)
         {
             TipoME nueva = new TipoME();
-            try { 
+            try
+            {
                 if (categoria != null)
                 {
                     nueva.nombre = categoria;
@@ -42,7 +43,7 @@ namespace SOGIP_v2.Controllers
             try
             {
                 TipoME n = db.TipoME.Single(x => x.Id == id);
-                if (categoria != null && n!= null)
+                if (categoria != null && n != null)
                 {
                     nueva.TipoId = id;
                     nueva.nombre = categoria;
@@ -92,14 +93,14 @@ namespace SOGIP_v2.Controllers
             var consulta = db.TipoME.Where(x => x.Id == id).FirstOrDefault();
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult EditEjercicio(int id, string nombre)
+        public JsonResult EditEjercicio(int id, string categoria)
         {
             TipoME tipo = db.TipoME.Single(x => x.Id == id);
             try
             {
                 if (tipo != null)
                 {
-                    tipo.nombre = nombre;
+                    tipo.nombre = categoria;
                 }
                 db.SaveChanges();
             }
