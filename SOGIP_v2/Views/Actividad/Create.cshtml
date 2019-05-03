@@ -76,7 +76,7 @@
                                         <!-- image-preview-filename input [CUT FROM HERE]-->
                                         <label>Agregar Imagen</label>
                                         <div class="input-group image-preview">
-                                            <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                                            <input type="text" class="form-control image-preview-filename" disabled="disabled" id="timg"> <!-- don't give a name === doesn't send on POST/GET -->
                                             <span class="input-group-btn">
                                                 <!-- image-preview-clear button -->
                                                 <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
@@ -150,14 +150,17 @@
                     <div class="modal-footer">
 
                         @*<button id="btnDelete" class="btn btn-warning  mr-auto">
+            <span class="glyphicon glyphicon-remove"></span>
+            Eliminar
+        </button>
+        <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
+            <span class="glyphicon glyphicon-pencil"></span>
+            Editar
+        </button>*@
+                        <button id="btnDelete" class="btn btn-warning  mr-auto">
                             <span class="glyphicon glyphicon-remove"></span>
                             Eliminar
                         </button>
-                        <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            Editar
-                        </button>*@
-
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>

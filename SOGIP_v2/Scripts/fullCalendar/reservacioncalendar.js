@@ -65,7 +65,11 @@ $(document).ready(function () {
         'disableTextInput': true
 
     });
-   
+
+    $('#txtHora1').on("selectTime", function () {
+        var selectedTime = $(this).val();
+        $('#txtHora2').timepicker('disableTimeRanges', [[selectedTime, '4:30am']]);
+    });
 
     //---habilitar/deshabilitar
     $("input[type=checkbox]").click(function () {

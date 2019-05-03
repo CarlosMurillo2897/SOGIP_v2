@@ -1,4 +1,6 @@
 ﻿$(document).ready(function () {
+    var selectedEvent = null;
+
     $('#txtStart').datepicker({
         'daysOfWeekDisabled': []
     });
@@ -14,13 +16,14 @@
     FetchEventAndRenderCalendar();
 
 
-
-
     //FUNCIÓN PARA GUARDAR ACTIVIDAD
     $('#btnSave').click(function () {
 
 
         //----------------validaciones-------------------//
+        var ki = moment($('#txtHoraI').val(), "HH:mma");
+        var ka = moment($('#txtHoraF').val(), "HH:mma");
+
         if ($('#titulo').val().length < 1) {//no ha ingresado horas
             bootbox2("El campo título está vacío");
             return;
@@ -39,6 +42,14 @@
         }
         if ($('#txtHoraF').val().length < 1) {//no ha ingresado horas
             bootbox2("El campo Hora Final está vacío");
+            return;
+        }
+        if (!ki.isBefore(ka, 'hour')) {
+            bootbox2("La Hora Final es inferios a la Hora de Inicio");
+            return;
+        }
+        if ($('#timg').val().length < 1) {
+            bootbox2("No se ha agregado ninguna imagen");
             return;
         }
         //----------------------------------------------//
@@ -106,7 +117,44 @@
             }
         })
     });
-        
+
+    $('#btnDelete').click(function () {
+        bootbox.confirm({
+            size: 'small',
+            message: '<p><i class="fa fa-exclamation-triangle"></i> ¿Está seguro de que deseea eliminar la actividad?</p>',
+            buttons: {
+                confirm: {
+                    label: 'Si',
+                    className: 'btn-primary'
+                },
+                cancel: {
+                    label: 'No',
+                    className: 'btn-danger'
+                }
+            },
+            callback: function (result) {
+                if (result && selectedEvent != null) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/Actividad/DeleteAct',
+                        data: { 'Id': selectedEvent.id },
+                        success: function (data) {
+                            if (data.status) {
+                                bootbox1(" Eliminando Actividad");
+                                FetchEventAndRenderCalendar();
+                                $('#myModal').modal('hide');
+                            }
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
+                }
+            }
+        });
+
+    });
         //CALENDARIO
         function FetchEventAndRenderCalendar() {
             events = [];
@@ -117,6 +165,7 @@
                 success: function (data) {
                     $.each(data, function (i, v) {
                         events.push({
+                            id:v.Id,
                             title: v.titulo,
                             lugar: v.lugar,
                             descripcion: v.descripcion,
@@ -154,7 +203,7 @@
                     var check = start.format("YYYY-MM-DD");
                     var today = moment().format("YYYY-MM-DD");
                     if (check < today) {
-                        bootbox2("No se puede realizar la cita en fechas anteriores");
+                        bootbox2("No se puede realizar la actividad en fechas anteriores");
                     }
                    
                 },
@@ -205,16 +254,6 @@
                         $description.append($('<p/>').html('<b>Descripción: </b>'+'Sin descripción'));
                     }
                    
-                    if (check < today) {
-                        $('#btnEdit').prop('disabled', true);
-                        $('#btnDelete').prop('disabled', true);
-
-                    }
-                    else {
-                        $('#btnEdit').prop('disabled', false);
-                        $('#btnDelete').prop('disabled', false);
-                    }
-
                     $('#myModal #pDetails').empty().html($description);
 
                     $('#myModal').modal();
