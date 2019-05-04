@@ -133,6 +133,12 @@
 <script>
     $(document).ready(function () {
         //_____________________________________________________________
+        // La nomenclatura es la siguiente:
+        // todo aquello que lleve un F se refiere a Femenno
+        // todo aquello que lleve una M se refiere a Masculino
+        // algunas funciones como por ejemplo  porMesF() extrae solo las mujeres de una selección, entidad...
+        // si la función es porMesMFunc() se refiere a Masculino-Funcionario
+        // aquellas funciones que terminen en Usuario se refiere a la extracción de un usuario específico en la consulta
         var mes = [], //id
             all = [],    //datasets
             meses = [], //nom
@@ -376,7 +382,7 @@
                     bootbox1(" No ha seleccionado ningún mes");
                     return;
                 }
-                mesesFuncionarios();
+                mesesFuncionarios(); //FUNCIONARIOS CARLOS
             }
 
             else if (grupo[0] == 5) {
@@ -389,7 +395,7 @@
                     bootbox1(" No ha seleccionado usuario");
                     return;
                 }
-                mesesUsuario();
+                mesesUsuario(); //USUARIOS PARTICULARES CARLOS
             }
 
             else {
@@ -404,21 +410,26 @@
 
                 extra = allid.slice();
                 console.log(extra);
-                mesesAtletasA(allid);
+                mesesAtletasA(allid); //ATLETAS CARLOS-> AQUI VARIA EN SI ES SELECCIÓN, ASOCIACIÓN O ENTIDAD
             }
 
 
 
-        }); //Disparador
+        }); 
 
 
 
-        //____________________________________________ SELECCIONES __________________________________
-        function mesesAtletasA(array) {//-----------> CARLOS CARLOS CARLOS !!!!!!!!!!
+        //____________________________________________ ESTOS SON LAS FUNCIONES __________________________________
+        //La función mesesAtletasA(array):
+        //esta función recibe como paramétro un arreglo, ya sea que este compuesto
+        //por 1 ó más selecciones, asociaciones o entidades. Solo se Itera este arreglo
+        
+
+        function mesesAtletasA(array) { //SELECCIONES, ASOCIACIONES O ENTIDADES
             if (array.length > 0) {
-                porMesF(mes, array[0], grupo[0]);
-                porMesM(mes, array[0], grupo[0]);
-                array.shift();
+                porMesF(mes, array[0], grupo[0]); //-> Femenino
+                porMesM(mes, array[0], grupo[0]); //-> Masculino
+                array.shift(); //Esto elimina siempre la posición [0]
                 mesesAtletasA(array);
             }
             else {
@@ -428,19 +439,23 @@
             }
         }
 
-        function mesesFuncionarios() {
+        function mesesFuncionarios() { //FUNCIONARIOS
 
-            porMesFFunc(mes);
-            porMesMFunc(mes);
+            porMesFFunc(mes); //-> Femenino
+            porMesMFunc(mes); //-> Masculino
             bootbox2(" Cargando datos");
         }
 
-        function mesesUsuario() {
+        function mesesUsuario() {// USUARIO EN PARTICULAR
             porMesUs(mes, cedu);
             bootbox2(" Cargando datos");
         }
 
-        //--------------------------------------------------VARIOS
+        //--------------------------------------------------Selecciones, entidades, asociaciones AJAX
+        // Estas funciones se componen de lo siguiente:
+        // 1) Un arreglo con los meses seleccionados
+        // 2) El grupo: sea selección, entidad o asociación
+        // 3) El Id de la selección, entidad o asociación.
         function porMesF(mes, grupo, idas) {
             var txt;
             $.ajax({
@@ -472,7 +487,7 @@
                     bootbox1(" Error al recolectar datos");
                 }
             })
-        }
+        }  
 
         function porMesM(mes, grupo, idas) {
             var txt;
@@ -506,6 +521,10 @@
             })
         }
 
+        //----------------------------------------------Usuario específico
+        //Esta funcción se compone de lo siguiente:
+        // 1) Un arreglo de meses seleccionados
+        // 2) La cédula del usuario
         function porMesUs(mes, cedu) {
             $.ajax({
                 type: "POST",
@@ -528,7 +547,9 @@
             })
         }
 
-        //--------------------------------------------------FUNCIONARIOS
+        //--------------------------------------------------Funcionarios
+        //Esta función solo se compone de:
+        // 1) Un arreglo de meses
         function porMesFFunc(mes) {
             $.ajax({
                 type: "POST",
@@ -573,7 +594,7 @@
             })
         }
 
-        //----------------------------------------------------bootbox
+        //----------------------------------------------------bootbox-----------------------------------------------------------
         function bootbox2(message) {
             var dialog = bootbox.dialog({//para cargas
                 size: 'small',
@@ -658,7 +679,7 @@
             $('#myModal').modal('hide');
         });
         //_______________________________________________ GRÁFICO ____________________________________
-        function chartSe() { //-----------> CARLOS CARLOS CARLOS esto genera el gráfico
+        function chartSe() { //-----------> GENERA EL GRÁFICO
             $('#chart').remove();
             $('#graph').append('<canvas id="chart"></canvas>');
 
