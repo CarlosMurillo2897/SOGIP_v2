@@ -67,7 +67,8 @@ namespace SOGIP_v2.Controllers
                 .Select(x => new
                 {
                     x.FechaHoraInicio,
-                    x.FechaHoraFinal
+                    x.FechaHoraFinal,
+                    x.Cantidad
                 })
                 .AsEnumerable()
                 .Select(r => new
@@ -75,7 +76,8 @@ namespace SOGIP_v2.Controllers
                     Dia = r.FechaHoraInicio.ToString("ddd"),
                     Fecha = r.FechaHoraInicio.ToString("d"),
                     HoraI = r.FechaHoraInicio.ToString("t"),
-                    HoraF = r.FechaHoraFinal.ToString("t")
+                    HoraF = r.FechaHoraFinal.ToString("t"),
+                    Cantidad=r.Cantidad
                 }).ToList();
 
             return new JsonResult { Data = solicitudes, JsonRequestBehavior = JsonRequestBehavior.AllowGet };

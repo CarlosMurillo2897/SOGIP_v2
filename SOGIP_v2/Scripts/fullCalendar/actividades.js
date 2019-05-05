@@ -11,7 +11,22 @@
         'disableTextInput': true
 
     });
+       
     $('[data-toggle="popover"]').popover();
+
+    $('#txtHoraI').on('changeTime', function () {
+        var arr = $(this).val();
+        var h = parseInt(arr.slice(0, 2)) + 1;
+        var m = arr.slice(-2);
+        var nuevo = h.toString() + ":00" + m;
+        $('#txtHoraF').timepicker('option', { 'disableTimeRanges': [['5:00am', nuevo]] });
+    });
+    $('#txtHoraF').on('changeTime', function () {
+        var selectedTime = $(this).val();
+        $('#txtHoraI').timepicker('option', { 'disableTimeRanges': [[selectedTime, '11:00pm']] });
+    });
+
+
     $('#botón').click(function () { $('#myModalSave').modal('show'); });
     FetchEventAndRenderCalendar();
 
@@ -25,31 +40,31 @@
         var ka = moment($('#txtHoraF').val(), "HH:mma");
 
         if ($('#titulo').val().length < 1) {//no ha ingresado horas
-            bootbox2("El campo título está vacío");
+            bootbox2(" El campo título está vacío");
             return;
         }
         if ($('#lugar').val().length < 1) {//no ha ingresado horas
-            bootbox2("El campo lugar está vacío");
+            bootbox2(" El campo lugar está vacío");
             return;
         }
         if ($('#txtStart').val().length < 1) {//no ha ingresado horas
-            bootbox2("El campo fecha está vacío");
+            bootbox2(" El campo fecha está vacío");
             return;
         }
         if ($('#txtHoraI').val().length < 1) {//no ha ingresado horas
-            bootbox2("El campo Hora Inicio está vacío");
+            bootbox2(" El campo Hora Inicio está vacío");
             return;
         }
         if ($('#txtHoraF').val().length < 1) {//no ha ingresado horas
-            bootbox2("El campo Hora Final está vacío");
+            bootbox2(" El campo Hora Final está vacío");
             return;
         }
         if (!ki.isBefore(ka, 'hour')) {
-            bootbox2("La Hora Final es inferios a la Hora de Inicio");
+            bootbox2(" La Hora Final es inferios a la Hora de Inicio");
             return;
         }
         if ($('#timg').val().length < 1) {
-            bootbox2("No se ha agregado ninguna imagen");
+            bootbox2(" No se ha agregado ninguna imagen");
             return;
         }
         //----------------------------------------------//
@@ -113,7 +128,7 @@
                 $(".image-preview-input-title").text("Buscar");
             },
             error: function () {
-                bootbox2("Hubo un ERROR");
+                bootbox2("Hubo un ERROR al intentar guardar");
             }
         })
     });
@@ -147,7 +162,7 @@
                             }
                         },
                         error: function () {
-                            alert("Fallo");
+                            bootbox2(" Hubo un ERROR al intentar eliminar");
                         }
                     })
                 }
@@ -176,7 +191,7 @@
                     GenerateCalendar(events);
                 },
                 error: function (error) {
-                    alert("d");
+                    console.log("ERROR: generate calendar");
                 }
             })
         }
@@ -203,7 +218,7 @@
                     var check = start.format("YYYY-MM-DD");
                     var today = moment().format("YYYY-MM-DD");
                     if (check < today) {
-                        bootbox2("No se puede realizar la actividad en fechas anteriores");
+                        bootbox2(" No se puede realizar la actividad en fechas anteriores");
                     }
                    
                 },
@@ -271,7 +286,6 @@
     //BOOTBOXES
     function bootbox1(message) {
         var dialog = bootbox.dialog({//para cargas
-            title: 'ACTIVIDAD',
             size: 'small',
             closeButton: false,
             message: '<p><i class="fa fa-spin fa-spinner"></i>' + message + '</p>'
@@ -287,7 +301,6 @@
 
     function bootbox2(message) {//para errores
         bootbox.alert({
-            title: 'ACTIVIDAD',
             size: 'small',
             closeButton: false,
             message: '<p><i class="fa fa-exclamation-triangle"></i>' + message + '</p>'

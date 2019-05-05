@@ -6,12 +6,13 @@
     var hours = []; //cualquier fecha
     var events = [];
     var selectedEvent = null;
+    $('[data-toggle="popover"]').popover();
     FetchEventAndRenderCalendar();
     llenarTabla();
     checks();
     checkTime();
 
-
+    
     //-----------------------------------------FUNCIÓN PARA LLENAR Y ACTUALIZAR CALENDARIO
     function FetchEventAndRenderCalendar() {
         events = [];
@@ -37,7 +38,7 @@
                 GenerateCalendar(events);
             },
             error: function (error) {
-                alert("Fallo");
+                console.log("ERROR: generate calendar");
             }
         })
     }
@@ -352,7 +353,7 @@
                             }
                         },
                         error: function () {
-                            alert("Fallo");
+                            bootbox2(" Hubo un ERROR al intentar eliminar");
                         }
                     })
                 }
@@ -530,7 +531,7 @@
                 }
             },
             error: function () {
-                bootbox2("Hubo un ERROR");
+                bootbox2(" Hubo un ERROR al intentar guardar");
                 console.log($('#txtStart').val() + ' ' + $('#txtHora').val());
             }
         })
