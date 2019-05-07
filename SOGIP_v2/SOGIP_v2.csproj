@@ -871,7 +871,7 @@
     <Content Include="Views\TipoME\Index.cshtml" />
     <Content Include="Views\Ejercicio\Index.cshtml" />
     <Content Include="Views\Maquina\Index.cshtml" />
-    <Content Include="Views\Maquina\Ejercicios.cshtml" />
+    <Content Include="Views\TipoME\Ejercicios.cshtml" />
     <Content Include="Views\EstadosPagos\Index.cshtml" />
     <Content Include="Views\Actividad\Create.cshtml" />
     <Content Include="Views\CodigoQR\Index.cshtml" />
