@@ -105,14 +105,18 @@ namespace SOGIP_v2.Controllers
         public JsonResult GetUsuariosEntrenador(string usuarioId)
         {
                 var consulta = from a in db.Atletas
-                               where (a.SubSeleccion.Entrenador.Id == usuarioId)
+                               from sub in db.SubSeleccion
+                               from c in db.Categorias
+                               where (a.SubSeleccion.Entrenador.Id == usuarioId && sub.SubSeleccionId == a.SubSeleccion.SubSeleccionId && sub.Categoria_Id.CategoriaId == c.CategoriaId)
                                select new
                                {
                                    Cedula = a.Usuario.Cedula,
                                    Nombre = a.Usuario.Nombre1 + " " + a.Usuario.Nombre2,
                                    Apellido1 = a.Usuario.Apellido1,
                                    Apellido2 = a.Usuario.Apellido2,
-                                   Id = a.Usuario.Id
+                                   Id = a.Usuario.Id,
+                                   Seleccion = sub.Seleccion.Nombre_Seleccion,
+                                   Categoria = c.Descripcion
                                };
             var aux = consulta.ToList();
             return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);

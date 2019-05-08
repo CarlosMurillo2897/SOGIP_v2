@@ -32,7 +32,8 @@ use "SOGIP_v3"
 
  select * from SOGIP_Archivo;
  select * from SOGIP_Asociacion_Deportiva;
- select * from SOGIP_Atletas where usuario_id=;
+ select * from SOGIP_Atletas;
+select * from sogip_users where id='b76a265d-2b9d-4aac-963f-0cc50595b639'
  select * from SOGIP_Atletas;
  select * from SOGIP_Categorias;
  select * from SOGIP_Color;

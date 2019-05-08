@@ -58,14 +58,19 @@
             }
             else if ($('#role').val() == "Seleccion/Federacion") {
                 url = "/AtletasAsignados/GetUsuariosSeleccion";
-                head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Categoría</td><td>Acción</td></tr>';
+                head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Rol</td><td>Categoría</td><td>Acción</td></tr>';
+                col[col.length] = { data: "Rol" };
                 col[col.length] = { data: "Categoria" };
             }
             else if ($('#role').val() == "Asociacion/Comite") {
                 url = "/AtletasAsignados/GetAtletasAsociacion";
             }
             else if ($('#role').val() == "Entrenador") {
+                
                 url = "/AtletasAsignados/GetUsuariosEntrenador";
+                head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Categoría</td><td>Selección</td><td>Acción</td></tr>';
+                col[col.length] = { data: "Categoria" };
+                col[col.length] = { data: "Seleccion" };
             }
 
             col[col.length] = {

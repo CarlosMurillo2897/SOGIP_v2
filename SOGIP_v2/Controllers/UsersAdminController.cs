@@ -527,13 +527,14 @@ namespace SOGIP_v2.Controllers
         }
 
         public JsonResult UpdateUser(ApplicationUser usr, string role, List<int> l1, List<string> l2, List<string> l3,
+            int? Categoria_Atleta_Id,
             int? Entidad_Id,
             int? Deporte_Id, string Nombre_Seleccion = "",
-            string Nombre_Asociacion = ""
-            /*
-            int Aso_Id, int Sub_Id,
-            int tpEnt,
-            bool esAso*/)
+            string Nombre_Asociacion = "",
+            string Entidad_Atleta = "",
+            string Rol_Entidad_Atleta = "",
+            string Funcionario_Cedula = ""
+            )
         {
             try
             {
@@ -581,23 +582,37 @@ namespace SOGIP_v2.Controllers
                     }
                 }
                 //// Esto solo Supervisor, Administrador y Selección o Asociación
-                //if (role == "Atleta" || role == "Atleta Becados")
-                //{
-                //    Atleta ath = db.Atletas.Where(a => a.Usuario.Id == usr.Id).FirstOrDefault();
-                //    if (esAso)
-                //    {
-                //        ath.Asociacion_Deportiva = db.Asociacion_Deportiva.Where(i => i.Asociacion_DeportivaId == Aso_Id).FirstOrDefault();
-                //    }
-                //    else
-                //    {
-                //        ath.SubSeleccion = db.SubSeleccion.Where(s => s.SubSeleccionId == Sub_Id).FirstOrDefault();
-                //    }
-                //}
-                //*/
-                //if (role == "Funcionarios ICODER")
-                //{
-                //    // Entrenador, esto solo Admin y Supervisor
-                //}
+                if (Categoria_Atleta_Id != 0 && (role == "Atleta" || role == "Atleta Becados"))
+                {
+                    Atleta ath = db.Atletas.Where(a => a.Usuario.Id == usr.Id).FirstOrDefault();
+                    if (ath == null)
+                    {
+                        ath = new Atleta { Usuario = u };
+                        db.Atletas.Add(ath);
+                    }
+
+                    if (Rol_Entidad_Atleta == "Asociacion/Comite")
+                    {
+                        ath.Asociacion_Deportiva = db.Asociacion_Deportiva.Where(i => i.Nombre_DepAso == Entidad_Atleta).FirstOrDefault();
+
+                        ath.SubSeleccion = db.Atletas.Where(k => k.Usuario.Id == usr.Id).Select(l=>l.SubSeleccion).FirstOrDefault();
+                        ath.SubSeleccion = null;
+                    }
+                    else
+                    {
+                        // Seleccionamos la Selección con el mismo nombre y a la vez que cumpla con ser la Categoría seleccionada.
+                        ath.SubSeleccion = db.SubSeleccion.Where(s => s.Seleccion.Nombre_Seleccion == Entidad_Atleta && s.Categoria_Id.CategoriaId == Categoria_Atleta_Id).FirstOrDefault();
+
+                        ath.Asociacion_Deportiva = db.Atletas.Where(i => i.Usuario.Id == usr.Id).Select(km => km.Asociacion_Deportiva).FirstOrDefault();
+                        ath.Asociacion_Deportiva = null;
+                    }
+                }
+                
+                if (role == "Funcionarios ICODER")
+                {
+                    Funcionario_ICODER funx = db.Funcionario_ICODER.Where(x => x.Usuario.Id == usr.Id).FirstOrDefault();
+                    funx.Entrenador = db.Users.Where(j => j.Cedula == Funcionario_Cedula).FirstOrDefault();
+                }
                 if (role == "Entidades Publicas" && Entidad_Id != 0)
                 {
                     // Cambiar entidad.
@@ -613,7 +628,7 @@ namespace SOGIP_v2.Controllers
                 db.SaveChanges();
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             }

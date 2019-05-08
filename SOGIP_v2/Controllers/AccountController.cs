@@ -299,6 +299,10 @@ namespace SOGIP_v2.Controllers
             {
                 ViewBag.Entidad = db.Entidad_Publica.Where(x => x.Usuario.Id == id).Select(e => e.Tipo_Entidad.Descripcion).FirstOrDefault();
             }
+            if (rol.FirstOrDefault() == "Funcionarios ICODER")
+            {
+                ViewBag.Funx = db.Funcionario_ICODER.Where(x => x.Usuario.Id == id).Select(e => e.Entrenador.Cedula + "-" + e.Entrenador.Nombre1 + " " + e.Entrenador.Nombre2 + " " + e.Entrenador.Apellido1 + " " + e.Entrenador.Apellido2).FirstOrDefault();
+            }
             if (rol.FirstOrDefault() == "Entrenador")
             {
                 ViewBag.Entidad = db.SubSeleccion.Where(x => x.Entrenador.Id == id).Select(s => s.Seleccion.Nombre_Seleccion).FirstOrDefault();

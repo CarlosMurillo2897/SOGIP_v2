@@ -12,9 +12,9 @@ $.validator.addMethod("passw", function (value, element) {
 var p1, p2,p3,p4;
 $(document).ready(function () {
     // Normal
-    unlockForm("None", "None", "Nn");
+    //unlockForm("None", "None", "Nn");
     // Desarrollando
-    //unlockForm("Supervisor", "None", "Nn");
+    unlockForm("Supervisor", "None", "Nn");
 
     $('[data-toggle="popover"]').popover();
 
@@ -102,6 +102,16 @@ $(document).ready(function () {
             Nombre_Entidad: {
                 required: true,
                 minlength: 4
+            },
+            // Atletas
+            Nombre_Entidad_Atleta: {
+                required: true,
+                minlength: 4
+            },
+            // Funcionarios
+            Nombre_Entrenador_Funcionario: {
+                required: true,
+                minlength: 4
             }
         },
         messages: {
@@ -147,6 +157,16 @@ $(document).ready(function () {
             Nombre_Entidad: {
                 required: "El nombre de la entidad es un campo obligatorio.",
                 minlength: "La longitud mínima del nombre de la entidad pública es de 4 carácteres."
+            },
+            // Atletas
+            Nombre_Entidad_Atleta: {
+                required: "El nombre de la Entidad asociada es obligatorio.",
+                minlength: "La longitud mínima del nombre de la Entidad es de 4 carácteres."
+            },
+            // Funcionarios
+            Nombre_Entrenador_Funcionario: {
+                required: "El nombre del Entrenador asociado es obligatorio.",
+                minlength: "La longitud mínima del nombre del Entrenador es de 4 carácteres."
             }
         },
         errorElement: "em",
@@ -271,6 +291,10 @@ function cargarAtletas(ced) {
     }
     else if ($('#role').val() === "Entrenador") {
         url = "/AtletasAsignados/GetUsuariosEntrenador";
+      //head = '<thead><tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Categoría</td><td>Selección</td><td>Acción</td></tr></thead>';
+        head = '<thead><tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Categoría</td><td>Acción</td></tr></thead>';
+        col[col.length] = { data: "Categoria" };
+        //col[col.length] = { data: "Seleccion" };
     }
 
     col[col.length] = {
@@ -389,9 +413,10 @@ function sendData() {
         user += '&l2=' + encodeURIComponent($(tr).find("td:eq(1)").text());
         user += '&l3=' + encodeURIComponent($(tr).find("td:eq(2)").text().split('-')[0]);
     });
+    // user += '&Entidad_Atleta' + $('#Entidad_Atleta').val().split('-')[0];
     console.log(user);
     
-    $.ajax({
+   $.ajax({
         url: "/UsersAdmin/UpdateUser/",
         type: "POST",
         data: user,
@@ -481,6 +506,46 @@ function cargarModal(tipo, filaSel, str = '') {
             ];
             break;
         }
+        case 4: {
+            $('#modalTitle').html('Buscar Entidad deseada');
+            url = "/UsersAdmin/ObtenerUsuarios";
+            header = '<th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Rol</th><th>Acción</th>';
+            col = [
+                { data: "Entidad" },
+                { data: "Cédula" },
+                { data: "Nombre" },
+                { data: "Rol" },
+                {
+                    data: function (data, type, dataToSet) {
+                        var opciones = "";
+                        if (data.Categoria.length !== 0) {
+                            $.each(data.Categoria, function (i) {
+                                opciones = opciones + "<option value='" + data.Categoria[i].CategoriaId + "'>" + data.Categoria[i].Descripcion + "</option>";
+                            });
+                        } else {
+                            opciones = "<option value='1'>SELECCIONADA</option>";
+                        }
+                        return '<select style="display: inline-block; width: 200px;" id="selectDT_' + data.Cédula + '_' + data.Entidad + '" class="selectDT form-control" ><option value="0">-- Cambiar --</option>' + opciones + '</select>';
+                    }
+                }
+            ];
+            break;
+        }
+        case 5: {
+            $('#modalTitle').html('Buscar Entrenador(a) deseado(a)');
+            url = "/UsersAdmin/getEntrenador";
+            dt = {
+                tipo: 2
+            };
+            header = header + '<th>Cédula</th><th>Nombre</th><th>1er Apellido</th><th>2do Apellido</th></tr>';
+            col = [
+                { data: "Cedula" },
+                { data: "Nombre1" },
+                { data: "Apellido1" },
+                { data: "Apellido2" }
+            ];
+            break;
+        }
     }
 
     $('#datos').DataTable().destroy();
@@ -554,9 +619,40 @@ function cargarModal(tipo, filaSel, str = '') {
                 }
                 break;
             }
+            case 4: {
+                
+                break;
+            }
+            case 5: {
+                p1 = data.Cedula;
+                p2 = data.Nombre1;
+                p3 = data.Apellido1;
+                p4 = data.Apellido2;
+                break;
+            }
         }
     });
     
+    $('#datos').on('change', '.selectDT', function () {
+        // Tomamos el valor, el cual es el id de Categoría.
+        p1 = $(this).val();
+
+        if (p1 === '0') {
+            p2 = '';
+            //$('#Entidad_Atleta').val('');
+        }
+        else {
+            // Nombre de Selección y Categoría.
+            p2 = $(this).attr('id').split('_')[2] + "-" + $(this).find('option:selected').text();
+        }
+        // El Rol de la entidad.
+        p3 = $(this).closest('tr').find('td:eq(3)').text();
+
+        $('.selectDT').val(0);
+        $(this).val(p1);
+
+    });
+
     $('#modal').modal('show');
 
 }
@@ -597,6 +693,27 @@ $('#modalSave').on('click', function () {
             if (p2 !== "") { $('#Entidad_Id').val(p2); }
             break;
         }
+        case 4: {
+            // Id de Categoría
+            if (p1 !== "") { $('#Categoria_Atleta_Id').val(p1); }
+            // Nombre de Selección[0].
+            if (p2 !== "") {
+                $('#Nombre_Entidad_Atleta').val(p2);
+                $('#Entidad_Atleta').val(p2.split('-')[0]);
+            }
+            // El Rol de la entidad, para buscar Atletas
+            if (p3 !== "") { $('#Rol_Entidad_Atleta').val(p3); }
+            break;
+        }
+        case 5: {
+            if (p1 !== '') {
+                $('#Nombre_Entrenador_Funcionario').val(`${p1}-${p2} ${p3} ${p4}`);
+                $('#Funcionario_Cedula').val(p1);
+            }
+            break;
+        }
     }
+
     $('#modal').modal('hide');
+
 });
