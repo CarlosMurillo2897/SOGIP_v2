@@ -306,6 +306,42 @@ namespace SOGIP_v2.Controllers
             return Json(maquina, JsonRequestBehavior.AllowGet);
 
         }
+        public ActionResult MaquinaEjercicio(int? id)
+        {
+            Maquina maquina = db.Maquina.SingleOrDefault(x => x.Id == id);
+            if (maquina != null)
+            {
+                int i = maquina.Id;
+                string n = i.ToString();
+                ViewData["maquina"] = n;
+                string nombre = maquina.Nombre;
+                ViewData["nombre"] = nombre;
 
+            }
+
+            return View();
+        }
+        public JsonResult Descripcion(int id)
+        {
+            Ejercicio ejercicio = db.Ejercicio.Single(x => x.Id == id);
+            var descripcion = ejercicio.Descripcion;
+
+            return Json(descripcion, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult getMaquinas()
+        {
+            var consulta = from t in db.Maquina
+                           select new
+                           {
+                               Nombre = t.Nombre,
+                               Id = t.Id
+                           };
+            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Maquina()
+        {
+            return View();
+        }
+        
     }
 }

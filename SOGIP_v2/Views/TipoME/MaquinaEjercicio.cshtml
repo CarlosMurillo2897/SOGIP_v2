@@ -1,4 +1,4 @@
-﻿@model SOGIP_v2.Models.Maquina
+﻿@model SOGIP_v2.Models.TipoME
 @{
     ViewBag.Title = "EjerciciosMaquina";
     var viewDataMaquina = ViewData["maquina"];
@@ -6,9 +6,7 @@
 }
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
-
 <div class="container">
-
 </div>
 <div class="well">
     <h4>Máquina</h4>
@@ -25,12 +23,11 @@
                         <text>Vídeo</text>
                     </h2>
                 </div>
-
                 <div class="modal-body" id="modalBody">
                     <div class="row">
                         <div class="col-md-12">
-
                             <style>
+
                                 .video-container {
                                     position: center;
                                     padding-bottom: 50%;
@@ -95,7 +92,7 @@
                     }
                 },
                 "ajax": {
-                    "url": '/Maquina/getEjercicios',
+                    "url": '/TipoME/getEjercicios',
                     "type": "GET",
                     "data": data,
                     "dataSrc": ""
@@ -124,7 +121,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/Maquina/Descripcion",
+                url: "/TipoME/Descripcion",
                 data: { id: id },
                 success: function (data) {
                     $('#one').attr('src', data);
@@ -132,7 +129,7 @@
 
                 },
                 error: function (data) {
-                    alert("¡Error!");
+                    alert("No hay Video");
                 }
             });
         }
