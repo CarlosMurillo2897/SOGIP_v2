@@ -11,13 +11,34 @@
 
     <div class="panel-body">
         <div class="row">
+
             <div class="col-sm-2">
+                <div class="form-group">
+                    <select class="form-control" id="Graficos">
+                        <option value="0">-SIN SELECCIONAR-</option>
+                        <option value="1">BARRA</option>
+                        <option value="2">LÍNEAL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div hidden class="col-sm-2" id="tipo">
+                <div class="form-group">
+                    <select class="form-control" id="LinealTipo">
+                        <option value="0">-SIN SELECCIONAR-</option>
+                        <option value="1">MIXTO</option>
+                        <option value="2">AGRUPACIONES</option>
+                    </select>
+                </div>
+            </div>
+
+            <div hidden class="col-sm-2" id="multigrupo">
                 <div class="form-group">
                     <select class="form-control" id="Grupo">
                         <option value="0">-SIN SELECCIONAR-</option>
                         <option value="1">SELECCIONES</option>
                         <option value="2">ASOCIACIONES</option>
-                        <option value="3">ENTIDADES</option>
+                        <option value="3">ENTIDADES GUBERNAMENTALES</option>
                         <option value="4">FUNCIONARIOS ICODER</option>
                         <option value="5">USUARIO ESPECÍFICO</option>
                     </select>
@@ -145,7 +166,9 @@
             allid = [], //id selecciones,entidades, asociaciones
             allnom = [], //nombre selecciones, entidades, asociaciones
             grupo = [], //sele, aso, entidad...
-            extra = [];
+            extra = [],
+            graficos = [],
+            lineal = [];
 
         console.log(grupo);
         //_____________________________________________________________
@@ -241,8 +264,78 @@
                     meses.push([$(this).text()]);
                 });
 
+            },
+            includeSelectAllOption: true,
+            selectAllText: 'seleccionar todos',
+            onSelectAll: function (element, checked) {
+                mes = [];
+                meses = [];
+                var brands = $('#Meses option:selected');
+                $(brands).each(function (index, brand) {
+                    mes.push([$(this).val()]);
+                    meses.push([$(this).text()]);
+                });
             }
         });
+        $('#Graficos').multiselect({
+            nonSelectedText: '--GRÁFICOS--',
+            onChange: function (option, checked, select) {
+                var brands = $('#Graficos option:selected');
+                $(brands).each(function (index, brand) {
+                    graficos = [];
+                    graficos.push([$(this).val()]);
+                });
+
+                if ($(option).val() == 1) {//Selecciones
+                    $('#multigrupo').show();
+                    $('#tipo').hide();
+                }
+                else if ($(option).val() == 2) {//Lineal se divide en genero ó todos los grupos
+                    $('#s1').hide();
+                    $('#a2').hide();
+                    $('#e3').hide();
+                    $('#uss').hide();
+                    $('#multigrupo').hide();
+                    $('#tipo').show();
+                    $('#month').show();
+                    $('#bt').show();
+                }
+                //else if ($(option).val() == 3) {//Pastel es por un mes y se divide por genero y grupo
+                //    $('#s1').hide();
+                //    $('#a2').hide();
+                //    $('#e3').hide();
+                //    $('#uss').hide();
+                //    $('#tipo').hide();
+                //    $('#multigrupo').hide();
+                //    $('#month').show();
+                //    $('#bt').show();
+                //}
+
+                else {
+                    $('#s1').hide();
+                    $('#a2').hide();
+                    $('#e3').hide();
+                    $('#uss').hide();
+                    $('#multigrupo').hide();
+                    $('#month').hide();
+                    $('#bt').hide();
+                    $('#tipo').hide();
+                }
+
+            }
+        });
+        $('#LinealTipo').multiselect({
+            nonSelectedText: '--TIPO--',
+            onChange: function (option, checked, select) {
+                var brands = $('#LinealTipo option:selected');
+                $(brands).each(function (index, brand) {
+                    lineal = [];
+                    lineal.push([$(this).val()]);
+                });
+
+            }
+        });
+        
         //______________________________________________________________
 
         function selecciones() { //POPULATE SELECT OPTIONS WITH SELECCIONES
@@ -277,6 +370,17 @@
                                 allnom.push([$(this).text()]);
                             });
 
+                        },
+                        includeSelectAllOption: true,
+                        selectAllText: 'seleccionar todos',
+                        onSelectAll: function (element, checked) {
+                            allid = [];
+                            allnom = [];
+                            var brands = $('#Selecciones option:selected');
+                            $(brands).each(function (index, brand) {
+                                allid.push([$(this).val()]);
+                                allnom.push([$(this).text()]);
+                            });
                         }
                     })
                 },
@@ -311,6 +415,17 @@
                             return labels.join(' - ');
                         },
                         onChange: function (element, checked) {
+                            allid = [];
+                            allnom = [];
+                            var brands = $('#Asociaciones option:selected');
+                            $(brands).each(function (index, brand) {
+                                allid.push([$(this).val()]);
+                                allnom.push([$(this).text()]);
+                            });
+                        },
+                        includeSelectAllOption: true,
+                        selectAllText: 'seleccionar todos',
+                        onSelectAll: function (element, checked) {
                             allid = [];
                             allnom = [];
                             var brands = $('#Asociaciones option:selected');
@@ -359,6 +474,17 @@
                                 allid.push([$(this).val()]);
                                 allnom.push([$(this).text()]);
                             });
+                        },
+                        includeSelectAllOption: true,
+                        selectAllText: 'seleccionar todos',
+                        onSelectAll: function (element, checked) {
+                            allid = [];
+                            allnom = [];
+                            var brands = $('#Entidades option:selected');
+                            $(brands).each(function (index, brand) {
+                                allid.push([$(this).val()]);
+                                allnom.push([$(this).text()]);
+                            });
                         }
                     })
                 },
@@ -372,54 +498,238 @@
         $("#b").click(function () {
             all = [];
 
-            if (grupo.length < 1 || grupo[0] == 0) {
-                bootbox1(" No ha seleccionado ninguna agrupación");
-                return;
+            if (graficos[0] == 1) {
+
+                if (grupo.length < 1 || grupo[0] == 0) {
+                    bootbox1(" No ha seleccionado ninguna agrupación");
+                    return;
+                }
+
+                else if (grupo[0] == 4) {
+                    if (mes.length < 1) {
+                        bootbox1(" No ha seleccionado ningún mes");
+                        return;
+                    }
+                    mesesFuncionarios(); //FUNCIONARIOS CARLOS
+                }
+
+                else if (grupo[0] == 5) {
+
+                    if (mes.length < 1) {
+                        bootbox1(" No ha seleccionado ningún mes");
+                        return;
+                    }
+                    if (cedu == "") {
+                        bootbox1(" No ha seleccionado usuario");
+                        return;
+                    }
+                    mesesUsuario(); //USUARIOS PARTICULARES CARLOS
+                }
+
+                else {
+                    if (allid.length < 1) {
+                        bootbox1(" No ha seleccionado ningún Selección, Asociación o Entidad");
+                        return;
+                    }
+                    if (mes.length < 1) {
+                        bootbox1(" No ha seleccionado ningún mes");
+                        return;
+                    }
+
+                    extra = allid.slice();
+                    console.log(extra);
+                    mesesAtletasA(allid); //ATLETAS CARLOS-> AQUI VARIA EN SI ES SELECCIÓN, ASOCIACIÓN O ENTIDAD
+                }
+
             }
-
-            else if (grupo[0] == 4) {
-                if (mes.length < 1) {
-                    bootbox1(" No ha seleccionado ningún mes");
+            else if (graficos[0] == 2) {
+                if (lineal.length < 1) {
+                    bootbox1(" No ha seleccionado ningún tipo");
                     return;
                 }
-                mesesFuncionarios(); //FUNCIONARIOS CARLOS
+
+                if (lineal[0] == 1) {
+                    if (mes.length < 1) {
+                        bootbox1(" No ha seleccionado ningún mes");
+                        return;
+                    }
+                    allusersd();
+                }
+                else if (lineal[0] == 2) {
+                    if (mes.length < 1) {
+                        bootbox1(" No ha seleccionado ningún mes");
+                        return;
+                    }
+                    allultimate();
+
+                }
+                
+               
             }
-
-            else if (grupo[0] == 5) {
-
-                if (mes.length < 1) {
-                    bootbox1(" No ha seleccionado ningún mes");
-                    return;
-                }
-                if (cedu == "") {
-                    bootbox1(" No ha seleccionado usuario");
-                    return;
-                }
-                mesesUsuario(); //USUARIOS PARTICULARES CARLOS
-            }
-
-            else {
-                if (allid.length < 1) {
-                    bootbox1(" No ha seleccionado ningún Selección, Asociación o Entidad");
-                    return;
-                }
-                if (mes.length < 1) {
-                    bootbox1(" No ha seleccionado ningún mes");
-                    return;
-                }
-
-                extra = allid.slice();
-                console.log(extra);
-                mesesAtletasA(allid); //ATLETAS CARLOS-> AQUI VARIA EN SI ES SELECCIÓN, ASOCIACIÓN O ENTIDAD
-            }
-
-
 
         }); 
+         //____________________________________________ ESTOS SON LAS FUNCIONES LINEAL_______________________________
+        //---------------------------------------------> MIXTO
+        function allusers(mes) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/allusers",
+                data: { 'mes': mes},
+                success: function (data) {
+                    all.push({
+                        label: "Total de visitas",
+                        fill: false,
+                        data: data,
+                        borderColor: 'rgba(54, 162, 235, 3)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    bootbox1(" Error al recolectar datos");
+                }
+            })
+        }
+        function allwomen(mes) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/allwomen",
+                data: { 'mes': mes },
+                success: function (data) {
+                    all.push({
+                        label: "Mujeres",
+                        fill: false,
+                        data: data,
+                        borderColor: 'rgb(255, 133, 51, 3)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    bootbox1(" Error al recolectar datos");
+                }
+            })
+        }
+        function allmen(mes) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/allmen",
+                data: { 'mes': mes },
+                success: function (data) {
+                    all.push({
+                        label: "Hombres",
+                        fill: false,
+                        data: data,
+                        borderColor: 'rgb(0, 128, 43, 3)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    bootbox1(" Error al recolectar datos");
+                }
+            })
+        }
+
+        function allusersd() {
+            allusers(mes);
+            allwomen(mes);
+            allmen(mes);
+            bootbox3(" Cargando datos");
+        }
+
+        //---------------------------------------------> AGRUPACIONES
+        function allsele(mes) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/allsele",
+                data: { 'mes': mes },
+                success: function (data) {
+                    all.push({
+                        label: "Selecciones",
+                        fill: false,
+                        data: data,
+                        borderColor: 'rgb(255, 51, 51, 3)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    bootbox1(" Error al recolectar datos");
+                }
+            })
+        }
+        function allaso(mes) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/allaso",
+                data: { 'mes': mes },
+                success: function (data) {
+                    all.push({
+                        label: "Asociaciones/Comites",
+                        fill: false,
+                        data: data,
+                        borderColor: 'rgb(51, 204, 255,3)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    bootbox1(" Error al recolectar datos");
+                }
+            })
+        }
+        function allguber(mes) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/allguber",
+                data: { 'mes': mes },
+                success: function (data) {
+                    all.push({
+                        label: "Instituciones Gubernamentales",
+                        fill: false,
+                        data: data,
+                        borderColor: 'rgb(0, 204, 153,3)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    bootbox1(" Error al recolectar datos");
+                }
+            })
+        }
+        function allfunc(mes) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: "/ControlIngreso/allfunc",
+                data: { 'mes': mes },
+                success: function (data) {
+                    all.push({
+                        label: "Funcionarios ICODER",
+                        fill: false,
+                        data: data,
+                        borderColor: 'rgb(179, 102, 255,3)',
+                        borderWidth: 1
+                    });
+                },
+                error: function (error) {
+                    bootbox1(" Error al recolectar datos");
+                }
+            })
+        }
+
+        function allultimate() {
+            allsele(mes);
+            allaso(mes);
+            allguber(mes);
+            allfunc(mes);
+            bootbox3(" Cargando datos");
+        }
 
 
-
-        //____________________________________________ ESTOS SON LAS FUNCIONES __________________________________
+        //____________________________________________ ESTOS SON LAS FUNCIONES BARRA_________________________________
         //La función mesesAtletasA(array):
         //esta función recibe como paramétro un arreglo, ya sea que este compuesto
         //por 1 ó más selecciones, asociaciones o entidades. Solo se Itera este arreglo
@@ -619,7 +929,22 @@
             });
 
         }
+        function bootbox3(message) {
+            var dialog = bootbox.dialog({//para cargas
+                size: 'small',
+                closeButton: false,
+                message: '<p><i class="fa fa-spin fa-spinner"></i>' + message + '</p>'
+            });
+            dialog.init(function () {
+                setTimeout(function () {
+                    chartLine();
+                }, 10000);
+                setTimeout(function () {
+                    dialog.modal('hide');
+                }, 10000)
+            });
 
+        }
         //----------------------------------------------------tablilla
         $('#botón').click(function () {
             $('#myModal').modal('show');
@@ -678,7 +1003,7 @@
             cedu = tr.find('td:eq(1)').text();
             $('#myModal').modal('hide');
         });
-        //_______________________________________________ GRÁFICO ____________________________________
+        //_______________________________________________ GRÁFICO BARRA   ____________________________________
         function chartSe() { //-----------> GENERA EL GRÁFICO
             $('#chart').remove();
             $('#graph').append('<canvas id="chart"></canvas>');
@@ -703,6 +1028,32 @@
             });
         }
 
+        function chartLine() { //-----------> GENERA EL GRÁFICO
+            $('#chart').remove();
+            $('#graph').append('<canvas id="chart"></canvas>');
+            var ctx = document.getElementById('chart');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: meses,
+                    datasets: all
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    },
+                    elements: {
+                        line: {
+                            tension: 0 // disables bezier curves
+                        }
+                    }
+                }
+            });
+        }
 
     });
 </script>

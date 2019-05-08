@@ -10,7 +10,7 @@ using SOGIP_v2.Models;
 
 namespace SOGIP_v2.Controllers
 {
-    [Authorize(Roles = "Administrador,Supervisor")]
+    //[Authorize(Roles = "Administrador,Supervisor")]
     public class ControlIngresoController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -360,5 +360,184 @@ namespace SOGIP_v2.Controllers
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
+
+        //--------------------->GRÁFICO LINEAL<---------------------
+        //--------------------->Por mes todos los grupos<---------------------
+
+
+        public void sele_all(List<string> mes)
+        {
+            if (mes.Count > 0)
+            {
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                from a in db.Atletas
+                where c.Fecha.Month == m && c.Usuario==a.Usuario && a.SubSeleccion!=null
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                sele_all(mes);
+            }
+        }
+        public void aso_all(List<string> mes)
+        {
+            if (mes.Count > 0)
+            {
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                from a in db.Atletas
+                where c.Fecha.Month == m && c.Usuario == a.Usuario && a.Asociacion_Deportiva!=null
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                aso_all(mes);
+            }
+        }
+        public void gub_all(List<string> mes)
+        {
+            if (mes.Count > 0)
+            {
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                where c.Fecha.Month == m && c.Usuario.Roles.FirstOrDefault().RoleId == "8"
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                gub_all(mes);
+            }
+        }
+
+        public void fun_all(List<string> mes)
+        {
+            if (mes.Count > 0)
+            {
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                where c.Fecha.Month == m && c.Usuario.Roles.FirstOrDefault().RoleId == "7"
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                fun_all(mes);
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult allsele(string[] mes)
+        {
+            listM.Clear();
+            List<string> m = new List<string>(mes);
+            sele_all(m);
+
+            return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        [HttpPost]
+        public JsonResult allaso(string[] mes)
+        {
+            listM.Clear();
+            List<string> m = new List<string>(mes);
+            aso_all(m);
+
+            return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        [HttpPost]
+        public JsonResult allguber(string[] mes)
+        {
+            listM.Clear();
+            List<string> m = new List<string>(mes);
+            gub_all(m);
+
+            return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+        [HttpPost]
+        public JsonResult allfunc(string[] mes)
+        {
+            listM.Clear();
+            List<string> m = new List<string>(mes);
+            fun_all(m);
+
+            return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+
+
+
+
+        //--------------------->Por mes hombres, mujeres, todos<---------------------
+        public void addallgen(List<string> mes, bool gen)
+        {
+            if (mes.Count > 0)
+            {
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                where c.Fecha.Month == m && c.Usuario.Sexo == gen
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                addallgen(mes, gen);
+            }
+        }
+
+
+        public void addallusers(List<string> mes)
+        {
+            if (mes.Count > 0)
+            {
+                int m = Int32.Parse(mes[0]);
+                var lista = (
+                from c in db.ControlIngreso
+                where c.Fecha.Month == m
+                select c.Usuario
+                ).Count();
+                listM.Add(lista);
+                mes.RemoveAt(0);
+                addallusers(mes);
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult allusers(string[] mes)
+        {
+            listM.Clear();
+            List<string> m = new List<string>(mes);
+            addallusers(m);
+
+            return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        [HttpPost]
+        public JsonResult allwomen(string[] mes)
+        {
+            listM.Clear();
+            List<string> m = new List<string>(mes);
+            addallgen(m,false);
+
+            return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
+        [HttpPost]
+        public JsonResult allmen(string[] mes)
+        {
+            listM.Clear();
+            List<string> m = new List<string>(mes);
+            addallgen(m, true);
+
+            return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+        }
     }
+
+
+
+
 }
