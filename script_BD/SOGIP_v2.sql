@@ -30,6 +30,9 @@ use "SOGIP_v3"
  SOGIP_UserRoles.Roleid = SOGIP_Roles.id
  order by SOGIP_Roles.Id;
 
+
+
+
  select * from SOGIP_Archivo;
  select * from SOGIP_Asociacion_Deportiva;
  select * from SOGIP_Atletas where usuario_id=;
@@ -143,7 +146,11 @@ use "SOGIP_v3"
 
 DECLARE @sql varchar(400);
 DECLARE @VARIABLEACAMBIAR varchar(100);
-set @VARIABLEACAMBIAR = 'C:\Users\402360192\Documents\GitHub\SOGIP_v2\script_BD';
+set @VARIABLEACAMBIAR = 'C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\script_BD';
+
+set @sql = 'BULK INSERT SOGIP_ControlIngreso FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Grafico.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+print N'SOGIP_ControlIngreso 06 rows';
 
 set @sql = 'BULK INSERT SOGIP_Roles FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Roles.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
