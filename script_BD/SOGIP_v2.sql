@@ -255,6 +255,27 @@ exec (@sql)
 print N'SOGIP_EstadosPagos 02 rows';
 
 /*********** ESTE. *******************/
+
+set @sql = 'BULK INSERT SOGIP_TipoME FROM '''+@VARIABLEACAMBIAR+'\SOGIP_TipoME.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+print N'SOGIP_TipoME 02 rows';
+
+/*********** ESTE. *******************/
+set @sql = 'BULK INSERT SOGIP_Ejercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Ejercicio.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+print N'SOGIP_Ejercicio 02 rows';
+
+/*********** ESTE. *******************/
+set @sql = 'BULK INSERT SOGIP_Maquina FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Maquina.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+print N'SOGIP_Maquina 02 rows';
+
+/*********** ESTE. *******************/
+set @sql = 'BULK INSERT SOGIP_MaquinaEjercicio FROM '''+@VARIABLEACAMBIAR+'\SOGIP_MaquinaEjercicio.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+print N'SOGIP_MaquinaEjercicio 02 rows';
+
+/*********** ESTE. *******************/
 set @sql='insert into sogip_archivo('+
 	'Nombre, Contenido, actividad_Id, Tipo_TipoId, Usuario_Id)'+
 'select'+

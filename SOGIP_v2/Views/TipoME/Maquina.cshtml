@@ -1,5 +1,4 @@
-﻿@model SOGIP_v2.Models.Maquina
-
+﻿﻿@model SOGIP_v2.Models.Maquina
 @{
     ViewBag.Title = "Maquina";
 }
@@ -14,26 +13,21 @@
             <span style='color: white;' class=''></span>
         </a>
 
-
     </div>
-
 
 </div>
 <br>
 <div class="well col-md-12">
     <div class="table-responsive">
         <div id="tablaPrincipal"></div>
-
     </div>
 </div>
-
 
 @section Scripts {
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
-    <script>
-        var cat1 = null
+    <script>var cat1 = null
         var cat2 = null;
         var cat3 = null;
         function tablaPrin() {
@@ -58,7 +52,7 @@
                     }
                 },
                 "ajax": {
-                    "url": '/Maquina/getMaquinas',
+                    "url": '/TipoME/getMaquinas',
                     "type": "GET",
                     "dataSrc": ""
                 },
@@ -79,7 +73,7 @@
 
         function EnviarRut(id) {
 
-            window.location.href = '/Maquina/MaquinaEjercicio?id=' + id;
+            window.location.href = '/TipoME/MaquinaEjercicio?id=' + id;
         }
 
         $(document).ready(function () {

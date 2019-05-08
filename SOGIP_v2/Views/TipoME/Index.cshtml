@@ -11,7 +11,7 @@
     <div class="col-md-4">
     </div>
     <div class="col-md-4">
-        <a class='btn btn-primary pull-left' style='padding: 2px 6px; margin: 2px;;' id="btnCategorias">
+        <a class='btn btn-primary pull-left' style='padding: 2px 6px; margin: 2px;' id="btnCategorias">
             <text class='hidden-xs'>Categorias </text>
             <span style='color: white;' class=''></span>
         </a>
@@ -19,7 +19,7 @@
             <text class='hidden-xs' id="text2"></text>
             <span style='color: white;' class=''></span>
         </a>
-        <a class='btn btn-primary pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn3">
+        <a class='btn  btn-primary pull-left' style='padding: 2px 6px; margin: 2px; display:none;' id="btn3">
             <text class='hidden-xs' id="text3"></text>
             <span style='color: white;' class=''></span>
         </a>
@@ -44,8 +44,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <div class="modal-title" id="txtnuevo">  <h4>Crear nuevo Tipo de <text class='hidden-xs' id="textPrin"></text> </h4> </div>
-                <div class="modal-title" style='display:none;' id="txteditar">  <h4>Editar </h4> </div>
+                <div class="modal-title" id="txtmaq" style='display:none;'>  <h4>Crear nueva Máquina de Tipo <text class='hidden-xs' id="textPrin">
+                            </text> <text class='hidden-xs' id="textPrin"> </text></h4> </div>
+                <div class="modal-title" id="txtejer" style='display:none;'><h4> Crear nuevo Ejercicio de Tipo <text class='hidden-xs' id="textPrin2">
+                        </text> <text class='hidden-xs' id="textPrin2"> </text></h4></div>
+                 <div class="modal-title" id="txtnuevo" style='display:none;'>  <h4>Crear nuevo Tipo de  Categoría</h4> </div>
+
+                <div class="modal-title" id="editarcat" style='display:none;'>  <h4>Editar Categoría</h4> </div>
+                   <div class="modal-title" id="editarejer" style='display:none;'>  <h4>Editar Ejercicio</h4> </div>
+                   <div class="modal-title" id="editarmaq" style='display:none;'>  <h4>Editar Máquina</h4> </div>
+        
             </div>
             <form id="forcat" method="post" novalidate="novalidate">
                 <div class="modal-body">
@@ -53,6 +61,12 @@
                         <label>Nombre: </label>
                         <div class="afect">
                             <input type="text" class="form-control" placeholder="Nombre" id="cat" name="cat" />
+                        </div>
+                        <div class="afect">
+                            <input class="form-control" style='display:none' placeholder="Nombre" id="ejer" name="ejer" />
+                        </div>
+                        <div class="afect">
+                            <input class="form-control" style='display:none' placeholder="Nombre" id="maq" name="maq" />
                         </div>
                     </div>
                 </div>
@@ -71,10 +85,10 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         var cat1 = null
-        var cat2 = null;
-        var cat3 = null;
+        var maq1 = null;
+        var ejer1 = null;
         var idEdit = null;
-        function tablaEjer1() {
+        function tablaEjer1() {  //nuevo
             cat1 = 0;
             $('#textPrin').html("Categoria");
             $('#tipoEjer1').DataTable().destroy();
@@ -82,7 +96,7 @@
             $('#tabla1').show();
             var tabla = $('<table/>', { id: 'tipoEjer1', class: 'table table-striped table-bordered dt-responsive nowrap', width: '100%' }).append('<thead><tr><th>Nombre</th><th>Acción</th></tr></thead>');
             $('#tabla1').append(tabla);
-            table1 = $('#tipoEjer1').DataTable({
+            table = $('#tipoEjer1').DataTable({
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
                     "zeroRecords": "No se han encontrado registros.",
@@ -108,12 +122,16 @@
                         data: "Id",
 
                         render: function (Id) {
-                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarCat(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
                                 "<text class='hidden-xs'>Editar </text>" +
                                 "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>" +
-                                "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar(" + Id + ")'>" +
-                                "<text class='hidden-xs'>Ver </text>" +
+                                "<a class='btn btn-info' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarMaquina(" + Id + ")'>" +
+                                "<text class='hidden-xs'> Maquina </text>" +
+                                "<span class='glyphicon glyphicon-list'></span>" +
+                                "</a>" +
+                                "<a class='btn btn-info' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarEjercicio(" + Id + ")'>" +
+                                "<text class='hidden-xs'> Ejercicio</text>" +
                                 "<span class='glyphicon glyphicon-list'></span>" +
                                 "</a>";
                         }
@@ -122,13 +140,13 @@
             });
         }
 
-        function tablaEjer2(id) {
-            $('#tipoEjer2').DataTable().destroy();
-            $('#tipoEjer2').remove();
+        function tablaMaquina(id) {//nuevo
+            $('#maquinas').DataTable().destroy();
+            $('#maquinas').remove();
             $('#tabla2').show();
-            var tabla = $('<table/>', { id: 'tipoEjer2', class: 'table table-striped table-bordered dt-responsive nowrap', width: '100%' }).append('<thead><tr><th>Nombre</th><th>Acción</th></tr></thead>');
+            var tabla = $('<table/>', { id: 'maquinas', class: 'table table-striped table-bordered dt-responsive nowrap', width: '100%' }).append('<thead><tr><th>Nombre</th><th>Acción</th></tr></thead>');
             $('#tabla2').append(tabla);
-            table2 = $('#tipoEjer2').DataTable({
+            table1 = $('#maquinas').DataTable({
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
                     "zeroRecords": "No se han encontrado registros.",
@@ -144,23 +162,22 @@
                     }
                 },
                 "ajax": {
-                    "url": '/TipoME/ObtenerEjer',
-                    "data": { 'n': id },
+                    "url": '/TipoME/Maquinas',
+                    "data": { 'id': id },
                     "type": "GET",
                     "dataSrc": ""
                 },
                 columns: [
-                    { data: "nombre" },
+                    { data: "Nombre" },
                     {
                         data: "Id",
-
                         render: function (Id) {
-                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarMaq(" + Id + ")' data-toggle='modal' data-target='#editar'>" +
                                 "<text class='hidden-xs'>Editar </text>" +
                                 "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>" +
-                                "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='Enviar2(" + Id + ")''>" +
-                                "<text class='hidden-xs'>Ver </text>" +
+                                "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
+                                "<text class='hidden-xs'>Ejercicio </text>" +
                                 "<span class='glyphicon glyphicon-list'></span>" +
                                 "</a>";
                         }
@@ -169,13 +186,13 @@
             });
 
         }
-        function tablaEjer3(id) {
-            $('#tipoEjer3').DataTable().destroy();
-            $('#tipoEjer3').remove();
+        function tablaEjercicio(id) {//nuevo
+            $('#ejercicios').DataTable().destroy();
+            $('#ejercicios').remove();
             $('#tabla3').show();
-            var tabla = $('<table/>', { id: 'tipoEjer3', class: 'table table-striped table-bordered dt-responsive nowrap', width: '100%' }).append('<thead><tr><th>Nombre</th><th>Acción</th></tr></thead>');
+            var tabla = $('<table/>', { id: 'ejercicios', class: 'table table-striped table-bordered dt-responsive nowrap', width: '100%' }).append('<thead><tr><th>Nombre</th><th>Acción</th></tr></thead>');
             $('#tabla3').append(tabla);
-            table3 = $('#tipoEjer3').DataTable({
+            table1 = $('#ejercicios').DataTable({
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
                     "zeroRecords": "No se han encontrado registros.",
@@ -191,18 +208,17 @@
                     }
                 },
                 "ajax": {
-                    "url": '/TipoME/ObtenerEjer',
-                    "data": { 'n': id },
+                    "url": '/TipoME/EjerciciosList',
+                    "data": { 'id': id },
                     "type": "GET",
                     "dataSrc": ""
                 },
                 columns: [
-                    { data: "nombre" },
+                    { data: "Nombre" },
                     {
                         data: "Id",
-
                         render: function (Id) {
-                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")' data-toggle='modal' data-target='#editar'>" +
+                            return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarEjer(" + Id + ")' data-toggle='modal' data-target='#editar'>" +
                                 "<text class='hidden-xs'>Editar </text>" +
                                 "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>";
@@ -216,27 +232,29 @@
             $('#tabla1').hide();
 
         }
-        function eliminar2() {
-            $('#tipoEjer2').DataTable().destroy();
-            $('#tipoEjer2').hide();
+        function EnviarRut(id) {
+
+            window.location.href = '/TipoME/Ejercicios?id=' + id;
         }
 
-        function eliminar3() {
-            $('#tipoEjer3').DataTable().destroy();
-            $('#tipoEjer3').hide();
-        }
-
-        function Enviar(id) {
+        function EnviarMaquina(id) { // nuevo
+            $('#txtnuevo').css("display", "none");
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
                 url: '/TipoME/getNombre',
                 data: { 'id': id },
                 success: function (data) {
-                    $('#text2').html(data.nombre);
-                    $('#btn2').css("display", "block");
+                    $('#cat').css("display", "none");
+                    $('#ejer').css("display", "none");
                     $('#textPrin').html(data.nombre);
-                    cat2 = id;
+                    $('#btn2').show();
+                    $('#btn3').hide();
+                    $('#txtmaq').css("display", "block");
+                    $('#txtejer').css("display", "none");
+                    $('#maq').css("display", "block");
+                    $('#text2').html('Máquina' + ' ' +data.nombre );
+                    maq1 = id;
                     cat1 = id;
                 },
                 error: function () {
@@ -244,19 +262,26 @@
                 }
             })
             eliminar();
-            tablaEjer2(id);
+            tablaMaquina(id);
         }
-        function Enviar2(id) {
+        function EnviarEjercicio(id) {//nuevo
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
                 url: '/TipoME/getNombre',
                 data: { 'id': id },
                 success: function (data) {
-                    $('#text3').html(data.nombre);
-                    $('#btn3').css("display", "block");
-                    $('#textPrin').html(data.nombre);
-                    cat3 = id;
+                    $('#txtnuevo').css("display", "none");
+                    $('#cat').css("display", "none");
+                    $('#maq').css("display", "none");
+                    $('#textPrin2').html(data.nombre);
+                    $('#btn2').hide();
+                    $('#btn3').show();
+                    $('#txtmaq').css("display", "none");
+                    $('#txtejer').css("display", "block");
+                    $('#ejer').css("display", "block");
+                    $('#text3').html('Ejercicio' + ' ' + data.nombre);
+                    ejer1 = id;
                     cat1 = id;
                 },
                 error: function () {
@@ -264,14 +289,19 @@
                 }
             })
             eliminar();
-            eliminar2();
-            tablaEjer3(id);
+            tablaEjercicio(id);
         }
-        function EditarRut(id) {
+   
+        function EditarCat(id) {
             idEdit = id;
             $('#nuevo').modal('show');
             $('#txtnuevo').css("display", "none");
-            $('#txteditar').css("display", "block");
+            $('#editarejer').css("display", "none");
+            $('#editarmaq').css("display", "none");
+            $('#editarcat').css("display", "block");
+            $('#ejer').css("display", "none");
+            $('#cat').css("display", "block");
+            $('#maq').css("display", "none");
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
@@ -283,7 +313,55 @@
             })
 
         }
+        function EditarMaq(id) {
+            idEdit = id;
+            $('#nuevo').modal('show');
+            $('#ejer').css("display", "none");
+            $('#cat').css("display", "none");
+            $('#maq').css("display", "block");
+            $('#txtmaq').css("display", "none");
+            $('#editarmaq').css("display", "block");
+            $('#editarejer').css("display", "none");
+            $('#editarcat').css("display", "none");
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/TipoME/getNombreMaq',
+                data: { 'id': id },
+                success: function (data) {
+                    $('#maq').val(data.Nombre);
+                }
+            })
+
+        }
+        function EditarEjer(id) {
+            idEdit = id;
+            $('#nuevo').modal('show');
+            $('#ejer').css("display", "block");
+            $('#cat').css("display", "none");
+            $('#maq').css("display", "none");
+            $('#txtejer').css("display", "none");
+            $('#editarejer').css("display", "block");
+            $('#editarmaq').css("display", "none");
+            $('#editarcat').css("display", "none");
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/TipoME/getNombreEjer',
+                data: { 'id': id },
+                success: function (data) {
+                    $('#ejer').val(data.Nombre);
+                }
+            })
+
+        }
         $('#btnCategorias').click(function () {
+            $('#editarejer').css("display", "none");
+            $('#editarmaq').css("display", "none");
+            $('#editarcat').css("display", "none");
+            $('#txtnuevo').css("display", "block");
+            $('#txtejer').css("display", "none");
+            $('#txtmaq').css("display", "none");
             $('#tabla2').hide();
             $('#tabla3').hide();
             $('#tipoEjer2').DataTable().destroy();
@@ -297,25 +375,70 @@
 
         })
         $('#btn2').click(function () {
-            $('#tabla1').hide();
-            $('#tabla3').hide();
-            $('#tipoEjer3').DataTable().destroy();
-            $('#tipoEjer3').remove();
-            $('#tabla2').show();
-            $('#btn3').css("display", "none");
-            tablaEjer2(cat2);
-            cat1 = cat2;
+            $('#txtnuevo').css("display", "none");
+            $('#cat').css("display", "none");
+            $('#ejer').css("display", "none");
+            $('#textPrin').html(data.nombre);
+            $('#btn2').show();
+            $('#btn3').hide();
+            $('#txtmaq').css("display", "block");
+            $('#txtejer').css("display", "none");
+            $('#maq').css("display", "block");
+            eliminar();
+           tablaMaquina(maq1);
         })
         $('#btn3').click(function () {
-            $('#tabla1').hide();
-            $('#tabla2').hide();
-            $('#tipoEjer2').DataTable().destroy();
-            $('#tipoEjer2').remove();
-            $('#tabla3').show();
-            tablaEjer3(cat3);
-            cat1 = cat3;
+            $('#txtnuevo').css("display", "none");
+            $('#cat').css("display", "none");
+            $('#maq').css("display", "none");
+            $('#textPrin2').html(data.nombre);
+            $('#btn2').hide();
+            $('#btn3').show();
+            $('#txtmaq').css("display", "none");
+            $('#txtejer').css("display", "block");
+            $('#ejer').css("display", "block");
+           eliminar();
+           tablaEjercicio(id);
         })
-        function SaveCategoria(data) {
+        function SaveMaquina(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/TipoME/SaveMaquina',
+                data: data,
+                success: function (data) {
+                    $('#nuevo').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    $('#maquinas').show();
+                    $('#maquinas').DataTable().ajax.reload(null, false);
+                    $('#maq').val('');
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+        }
+        function SaveEjercicio(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/TipoME/SaveEjercicio',
+                data: data,
+                success: function (data) {
+                    $('#nuevo').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    $('#ejercicios').show();
+                    $('#ejercicios').DataTable().ajax.reload(null, false);
+                    $('#ejer').val('');
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+        }
+        function SaveCategoria(data) { // nuevo
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
@@ -333,21 +456,18 @@
                 }
             })
         }
-        function SaveCategoria1(data) {
+
+        function EditarCategoria(data) {
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
-                url: '/TipoME/SaveCategoria1',
+                url: '/TipoME/EditCategoria',
                 data: data,
                 success: function (data) {
                     $('#nuevo').modal('hide');
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
-                    if ($('#btn3').is(':hidden')) {
-                        $('#tipoEjer2').DataTable().ajax.reload(null, false);
-                    } else {
-                        $('#tipoEjer3').DataTable().ajax.reload(null, false);
-                    }
+                    $('#tipoEjer1').DataTable().ajax.reload(null, false);
                     $('#cat').val('');
                 },
                 error: function () {
@@ -355,7 +475,25 @@
                 }
             })
         }
-        function Editar(data) {
+        function EditarMaquina(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/TipoME/EditMaquina',
+                data: data,
+                success: function (data) {
+                    $('#nuevo').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    $('#maquinas').DataTable().ajax.reload(null, false);
+                    $('#maq').val('');
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+        }
+        function EditarEjercicio(data) {
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
@@ -365,16 +503,8 @@
                     $('#nuevo').modal('hide');
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
-                    if ($('#btn2').is(':hidden')) {
-                        $('#tipoEjer1').DataTable().ajax.reload(null, false);
-                    } else {
-                        if ($('#btn3').is(':hidden')) {
-                            $('#tipoEjer2').DataTable().ajax.reload(null, false);
-                        } else {
-                            $('#tipoEjer3').DataTable().ajax.reload(null, false);
-                        }
-                    }
-                    $('#cat').val('');
+                    $('#ejercicios').DataTable().ajax.reload(null, false);
+                    $('#ejer').val('');
                 },
                 error: function () {
                     alert("Fallo");
@@ -382,29 +512,55 @@
             })
         }
         function enviar() {
-            if ($('#txteditar').is(':hidden')) {
+            if ($('#txtnuevo').is(':visible')) {
                 if (cat1 == 0) {
                     var data = null;
                     data = {
                         categoria: $('#cat').val()
                     }
                     SaveCategoria(data);
-                } else {
-
+                }
+            } else {
+                if ($('#textPrin').is(':visible')) {
                     var data = null;
                     data = {
                         id: cat1,
-                        categoria: $('#cat').val()
+                        nombre: $('#maq').val()
                     }
-                    SaveCategoria1(data);
+                    SaveMaquina(data);
+                } else {
+                    if ($('#textPrin2').is(':visible')) {
+                        var data = null;
+                        data = {
+                            id: cat1,
+                            nombre: $('#ejer').val()
+                        }
+                        SaveEjercicio(data);
+                    } else {
+                        if ($('#editarcat').is(':visible')) {
+                            data = {
+                                id: idEdit,
+                                categoria: $('#cat').val()
+                            }
+                            EditarCategoria(data);
+                        }
+                        else {
+                            if ($('#editarejer').is(':visible')) {
+                                data = {
+                                    id: idEdit,
+                                    categoria: $('#ejer').val()
+                                }
+                                EditarEjercicio(data);
+                            } else {
+                                data = {
+                                    id: idEdit,
+                                    categoria: $('#maq').val()
+                                }
+                                EditarMaquina(data);
+                            }
+                        }
+                    }
                 }
-            } else {
-                var data = null;
-                data = {
-                    id: idEdit,
-                    categoria: $('#cat').val()
-                }
-                Editar(data);
             }
         }
 
@@ -416,6 +572,7 @@
         });
 
         $(document).ready(function () {
+            $('#txtnuevo').css("display", "block");
             tablaEjer1();
 
            /*Nuevo*/        $("#forcat").validate({
@@ -433,13 +590,50 @@
                                 }
                             }
                         }
+                    },
+                    ejer: {
+                        required: true,
+                        minlength: 4,
+                        remote: {
+                            url: '/TipoME/EjercicioRepetido',
+                            type: 'GET',
+                            data: {
+                                nombre: function () {
+                                    return $('#ejer').val();
+                                }
+                            }
+                        }
+                    },
+                    maq: {
+                        required: true,
+                        minlength: 4,
+                        remote: {
+                            url: '/TipoME/MaquinaRepetido',
+                            type: 'GET',
+                            data: {
+                                nombre: function () {
+                                    return $('#maq').val();
+                                }
+                            }
+                        }
                     }
+
                 },
                 messages: {
                     cat: {
-                        required: "El nombre es un campo obligatorio.",
-                        minlength: "El nombre debe de tener mas de 4 caracteres.",
+                        required: "El nombre de Categoría es un campo obligatorio.",
+                        minlength: "El nombre de Categoría debe de tener mas de 4 caracteres.",
                         remote: "El nombre no debe ser Repetido."
+                    },
+                    ejer: {
+                        required: "El nombre  de Ejercicio  es un campo obligatorio.",
+                        minlength: "El nombre  de Ejercicio debe de tener mas de 4 caracteres.",
+                        remote: "El nombre de Ejercicio no debe ser Repetido."
+                    },
+                    maq: {
+                        required: "El nombre  de Máquina  es un campo obligatorio.",
+                        minlength: "El nombre  de Máquina debe de tener mas de 4 caracteres.",
+                        remote: "El nombre de Máquina no debe ser Repetido."
                     }
                 },
                 errorElement: "em",
@@ -472,10 +666,44 @@
             });
 
             $('#btnNuevo').click(function () {
-                $('#nuevo').modal('show');
-                $('#txtnuevo').css("display", "block");
-                $('#txteditar').css("display", "none");
-                $('#cat').val('');
+                if ($('#btn2').is(':visible')) {
+                    $('#nuevo').modal('show');
+                    EnviarMaquina(maq1);
+                    $('#textPrin').css("display", "block");
+                    $('#textPrin2').css("display", "none");
+                    $('#txtnuevo').css("display", "none");
+                    $('#editarcat').css("display", "none");
+                    $('#editarejer').css("display", "none");
+                    $('#editarmaq').css("display", "none");
+                    $('#cat').val('');
+                    $('#ejer').val('');
+                    $('#maq').val('');
+                } else {
+                    if ($('#btn3').is(':visible')) {
+                        $('#nuevo').modal('show');
+                        EnviarEjercicio(ejer1);
+                        $('#textPrin').css("display", "none");
+                        $('#textPrin2').css("display", "block");
+                        $('#txtnuevo').css("display", "none");
+                        $('#editarcat').css("display", "none");
+                        $('#editarejer').css("display", "none");
+                        $('#editarmaq').css("display", "none");
+                        $('#cat').val('');
+                        $('#ejer').val('');
+                        $('#maq').val('');
+                    } else {
+                        $('#nuevo').modal('show');
+                        $('#textPrin').css("display", "none");
+                        $('#textPrin2').css("display", "none");
+                        $('#txtnuevo').css("display", "block");
+                        $('#editarcat').css("display", "none");
+                        $('#editarejer').css("display", "none");
+                        $('#editarmaq').css("display", "none");
+                        $('#cat').val('');
+                        $('#ejer').val('');
+                        $('#maq').val('');
+                    }
+                }
             })
 
         });

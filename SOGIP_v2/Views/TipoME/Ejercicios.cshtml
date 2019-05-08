@@ -1,9 +1,9 @@
-﻿@model SOGIP_v2.Models.Maquina
+﻿@model SOGIP_v2.Models.TipoME
 @{
     ViewBag.Title = "EjerciciosMaquina";
-    ViewBag.Referencia_Controlador_1 = "Maquina";
-    ViewBag.Icono_Controlador_1 = "glyphicon-scale";
-    ViewBag.Nombre_Controlador_1 = "Maquina";
+    ViewBag.Referencia_Controlador_1 = "TipoME";
+    ViewBag.Icono_Controlador_1 = "glyphicon-list";
+    ViewBag.Nombre_Controlador_1 = "TipoME";
 
     var viewDataMaquina = ViewData["maquina"];
     var viewDataNombre = ViewData["nombre"];
@@ -64,7 +64,8 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         function eliminar() {
-            var des = $('#example').DataTable();
+            var des = $('#tablePrin').DataTable();
+            des.remove();
             des.destroy();
         }
         var cat1 = null
@@ -96,7 +97,7 @@
                     }
                 },
                 "ajax": {
-                    "url": '/Maquina/getEjercicios',
+                    "url": '/TipoME/getEjercicios',
                     "type": "GET",
                     "data": data,
                     "dataSrc": ""
@@ -116,6 +117,8 @@
             });
         }
         function tablaEjercicios() {
+            //$('#tablePrin').DataTable().destroy();
+            //$('#tablePrin').remove();
             $('#tablePrin').dataTable({
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
@@ -132,7 +135,7 @@
                     }
                 },
                 "ajax": {
-                    "url": "/Maquina/GetEjerMaquina",
+                    "url": "/TipoME/GetEjerMaquina",
                     "type": "GET",
                     "dataSrc": ""
                 },
@@ -168,14 +171,14 @@
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
-                url: '/Maquina/DeleteMaquinaEjercicio',
+                url: '/TipoME/DeleteMaquinaEjercicio',
                 data: data,
                 success: function (data) {
                     $('#nueva').modal('hide');
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
                     $('#maquinas').DataTable().ajax.reload(null, false);
-                    eliminar();
+                    //eliminar();
                 },
                 error: function () {
                     alert("Fallo");
@@ -187,21 +190,22 @@
             var idEjer = null;
             $('#btnNuevo').click(function () {
                 tablaEjercicios();
+                $('#usuario').val('');
                 $('#nueva').modal('show');
-                $('#btnSave').click(function () {
+            })
+           $('#btnSave').click(function () {
                 var n = @viewDataMaquina;
-                var n1 = null;
+                    var n1 = null;
+                    if (idEjer != null) {
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: '/Maquina/getNombreEjer',
+                    url: '/TipoME/obtenerIdEjer',
                     data: { "n": idEjer },
                     success: function (data) {
                         n1 = data.Id;
                         var data = null;
-                        if (n1 == null) {
-                            alert("Faltan Seleccionar Ejercicio");
-                        } else {
+                        {
                             data = {
                                 nom: n,
                                 ejer: n1
@@ -213,20 +217,22 @@
                         alert("Fallo");
                     }
                 })
-            })
+                    }
+               
             })
             function SaveMaquinaEjercicio(data) {
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: '/Maquina/SaveMaquinaEjercicio',
+                    url: '/TipoME/SaveMaquinaEjercicio',
                     data: data,
                     success: function (data) {
                         $('#nueva').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
                         $('#maquinas').DataTable().ajax.reload(null, false);
-                        eliminar();
+                        $('#usuario').val('');
+                        //eliminar();
                     },
                     error: function () {
                         alert("Fallo");
@@ -234,13 +240,13 @@
                 })
             }
             $('#cerrar').click(function () {
-                eliminar();
+                //eliminar();
                 $('#nueva').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
             })
             $('#cerrar1').click(function () {
-                eliminar();
+                //eliminar();
                 $('#nueva').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();

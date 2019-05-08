@@ -64,28 +64,28 @@
                                 dia = item1.DiaEjercicio;
                                 <tr><td>@item1.DiaEjercicio</td></tr>
                             }
-                            <tr style="background-color: @item1.ColorEjercicio">
-                                <td>@item1.NombreEjercicio</td>
-                                <td>@item1.Serie1</td>
-                                <td>@item1.Repeticion1</td>
-                                <td>@item1.Peso1</td>
-                                <td>@item1.Serie2</td>
-                                <td>@item1.Repeticion2</td>
-                                <td>@item1.Peso2</td>
-                                <td>@item1.Serie3</td>
-                                <td>@item1.Repeticion3</td>
-                                <td>@item1.Peso3</td>
-                                <td>@item1.DiaEjercicio</td>
-                                <td>
-                                    <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item1.Conjunto_EjercicioId)'>
-                                        <text class='hidden-xs'>Eliminar </text>
-                                        <span class='glyphicon glyphicon-minus-sign'></span>
-                                    </a>
-                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
-                                        <text class='hidden-xs'>Editar </text>
-                                        <span class='glyphicon glyphicon-pencil'></span>
-                                    </a>
-                                </td>
+                            <tr style="background-color: @item1.ColorId.Codigo">
+                                    <td>@item1.EjercicioId.Nombre</td>
+                                    <td>@item1.Serie1</td>
+                                    <td>@item1.Repeticion1</td>
+                                    <td>@item1.Peso1</td>
+                                    <td>@item1.Serie2</td>
+                                    <td>@item1.Repeticion2</td>
+                                    <td>@item1.Peso2</td>
+                                    <td>@item1.Serie3</td>
+                                    <td>@item1.Repeticion3</td>
+                                    <td>@item1.Peso3</td>
+                                    <td>@item1.DiaEjercicio</td>
+                                    <td>
+                                        <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item1.Conjunto_EjercicioId)'>
+                                            <text class='hidden-xs'>Eliminar </text>
+                                            <span class='glyphicon glyphicon-minus-sign'></span>
+                                        </a>
+                                        <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
+                                            <text class='hidden-xs'>Editar </text>
+                                            <span class='glyphicon glyphicon-pencil'></span>
+                                        </a>
+                                    </td>
                             </tr>
                         }
                     }
@@ -143,7 +143,11 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>Ejercicio: </label>
-                                    <input type="text" class="form-control" id="ejer" />
+                                    <a class='btn  btn-success pull-right' style='padding: 2px 6px; margin: 2px;' id="btnNuevo">
+                                       
+                                        <span style='color: white;' class='glyphicon glyphicon-plus-sign'></span>
+                                    </a>
+                                    <input type="text" class="form-control" id="ejer" readonly />
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Día: </label>
@@ -160,16 +164,7 @@
                                     <label>Color: </label>
                                     <br>
 
-                                    @Html.DropDownList("Color", new SelectListItem[]
-                                    { new SelectListItem() { Text = "Blanco", Value = "white" },
-                                    new SelectListItem() { Text = "Rosado", Value = "LightPink" },
-                                    new SelectListItem() { Text = "Celeste", Value = "LightBlue" },
-                                    new SelectListItem() { Text = "Morado", Value = "Lavender" },
-                                    new SelectListItem() { Text = "Naranja", Value = "NavajoWhite" },
-                                    new SelectListItem() { Text = "Verde", Value = "PaleGreen" },
-                                    new SelectListItem() { Text = "Amarillo", Value = "LightYellow" },
-                                    },
-                                    new { @onchange="CallChangefunc(this.value)", @class = "form-control" })
+                                    <select class="form-control" id="Color" name="Color"></select>
 
                                 </div>
                             </div>
@@ -307,7 +302,7 @@
                 url: '/Rutinas/ObtenerEjer',
                 data: { 'ejercicioId': id },
                 success: function (data) {
-                    $('#ejer').val(data.NombreEjercicio);
+                    $('#ejer').val(data.EjercicioId.Nombre);
                     $('#s1').val(data.Serie1);
                     $('#r1').val(data.Repeticion1);
                     $('#p1').val(data.Peso1);
@@ -318,7 +313,7 @@
                     $('#r3').val(data.Repeticion3);
                     $('#p3').val(data.Peso3);
                     $('#Dia').val(data.DiaEjercicio);
-                    $('#Color').val(data.ColorEjercicio);
+                    $('#Color').val(data.ColorId.Nombre);
                 },
                 error: function () {
                     alert("Fallo");
@@ -327,7 +322,7 @@
             $('#btnEdit').click(function () {
                  data = {
                     Conjunto_EjercicioId: id,
-                    NombreEjercicio: $('#ejer').val(),
+                    EjercicioId: {'Nombre': $('#ejer').val()},
                     Serie1: $('#s1').val(),
                     Repeticion1: $('#r1').val(),
                     Peso1: $('#p1').val(),
@@ -338,7 +333,7 @@
                     Repeticion3: $('#r3').val(),
                     Peso3: $('#p3').val(),
                     DiaEjercicio: $('#Dia').val(),
-                    ColorEjercicio: $('#Color').val()
+                    ColorId: { 'Nombre': $('#Color').val() }
                 }
 
                 $.ajax({
@@ -374,7 +369,7 @@
                     }
                 },
                 "ajax": {
-                    "url": "/Maquina/GetEjerMaquina",
+                    "url": "/TipoME/GetEjerMaquina",
                     "type": "GET",
                     "dataSrc": ""
                 },
@@ -407,15 +402,18 @@
             var colores = [];
             var colors = [];
             obtenerColores();
+
             function obtenerColores() {
+                var select = document.getElementById("Color");
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
                     url: '/Rutinas/ObtenerColores',
                     success: function (data) {
                         $.each(data, function (i, v) {
+                            select.options[i] = new Option(v.Nombre, v.Identificador);
                             colores.push([v.Nombre]);
-                            colors.push([v.Identificador]);
+                            colors.push([v.Identificador]); 
                         })
 
                     },
@@ -562,22 +560,9 @@
                 var tableArr = [];
                 var n = null;
                 for (var i = 2; i < table.rows.length; i++) {
-                    $.ajax({
-                        type: "POST",
-                        dataType: "JSON",
-                        url: '/Rutinas/ObtnerEjer',
-                        data: { 'id': table.rows[i].cells[0].children[0].value},
-                        success: function (data) {
-                            n = data.Id;
-                            alert(n);
-
-                        },
-                        error: function () {
-                            alert("Fallo");
-                        }
-                    })
+                    
                     tableArr.push({
-                        EjercicioId: n,
+                        EjercicioId: { 'Nombre': table.rows[i].cells[0].children[0].value },
                         Serie1: table.rows[i].cells[2].children[0].value,
                         Repeticion1: table.rows[i].cells[3].children[0].value,
                         Peso1: table.rows[i].cells[4].children[0].value,
@@ -587,7 +572,7 @@
                         Serie3: table.rows[i].cells[8].children[0].value,
                         Repeticion3: table.rows[i].cells[9].children[0].value,
                         Peso3: table.rows[i].cells[10].children[0].value,
-                        ColorId: table.rows[i].cells[11].children[0].value,
+                        ColorId: { 'Nombre': table.rows[i].cells[11].children[0].value },
                         diaEjercicio: table.rows[i].cells[12].children[0].value
                     });
                 }
@@ -651,6 +636,15 @@
                 $('#Tabla_Prin').show();
 
             });
+            $('#btnNuevo').click(function () {
+                tablaEjercicios();
+                $('#nueva').modal('show');
+                $('#btnSave').click(function () {
+                      var objetivo = $('#usuario').val();
+                    $('#ejer').val(objetivo);
+                    $('#nueva').modal('hide');
+                })
+            })
        });
     </script>
 }
