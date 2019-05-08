@@ -59,6 +59,7 @@ select * from sogip_users where id='b76a265d-2b9d-4aac-963f-0cc50595b639'
  select * from SOGIP_UserRoles
 		where RoleId='4';
 
+
 304270289
 HuLo3042041988
 

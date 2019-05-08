@@ -130,6 +130,7 @@ namespace SOGIP_v2.Controllers
                     imageBytes = ms.ToArray();
 
                 }
+                nuevo.Nombre = User.Cedula;
                 nuevo.Contenido = imageBytes;
                 nuevo.Usuario = User;
                 nuevo.Tipo = db.Tipos.Single(x => x.TipoId == 7);
