@@ -65,27 +65,27 @@
                                 <tr><td>@item1.DiaEjercicio</td></tr>
                             }
                             <tr style="background-color: @item1.ColorId.Codigo">
-                                    <td>@item1.EjercicioId.Nombre</td>
-                                    <td>@item1.Serie1</td>
-                                    <td>@item1.Repeticion1</td>
-                                    <td>@item1.Peso1</td>
-                                    <td>@item1.Serie2</td>
-                                    <td>@item1.Repeticion2</td>
-                                    <td>@item1.Peso2</td>
-                                    <td>@item1.Serie3</td>
-                                    <td>@item1.Repeticion3</td>
-                                    <td>@item1.Peso3</td>
-                                    <td>@item1.DiaEjercicio</td>
-                                    <td>
-                                        <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item1.Conjunto_EjercicioId)'>
-                                            <text class='hidden-xs'>Eliminar </text>
-                                            <span class='glyphicon glyphicon-minus-sign'></span>
-                                        </a>
-                                        <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
-                                            <text class='hidden-xs'>Editar </text>
-                                            <span class='glyphicon glyphicon-pencil'></span>
-                                        </a>
-                                    </td>
+                                <td>@item1.EjercicioId.Nombre</td>
+                                <td>@item1.Serie1</td>
+                                <td>@item1.Repeticion1</td>
+                                <td>@item1.Peso1</td>
+                                <td>@item1.Serie2</td>
+                                <td>@item1.Repeticion2</td>
+                                <td>@item1.Peso2</td>
+                                <td>@item1.Serie3</td>
+                                <td>@item1.Repeticion3</td>
+                                <td>@item1.Peso3</td>
+                                <td>@item1.DiaEjercicio</td>
+                                <td>
+                                    <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item1.Conjunto_EjercicioId)'>
+                                        <text class='hidden-xs'>Eliminar </text>
+                                        <span class='glyphicon glyphicon-minus-sign'></span>
+                                    </a>
+                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
+                                        <text class='hidden-xs'>Editar </text>
+                                        <span class='glyphicon glyphicon-pencil'></span>
+                                    </a>
+                                </td>
                             </tr>
                         }
                     }
@@ -121,11 +121,11 @@
                     <TH></TH>
                 </TR>
             </table>
-            <div class="btn-der">
-                <br>
-                <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Más <span class="glyphicon glyphicon-plus-sign"></span> </button>
-                <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear <span class="glyphicon glyphicon-check"></span> </button>
-            </div>
+        </div>
+        <div class="btn-der">
+            <br>
+            <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Más <span class="glyphicon glyphicon-plus-sign"></span> </button>
+            <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear <span class="glyphicon glyphicon-check"></span> </button>
         </div>
 
         @*Modal para Ejercicio*@
@@ -144,7 +144,7 @@
                                 <div class="form-group col-md-4">
                                     <label>Ejercicio: </label>
                                     <a class='btn  btn-success pull-right' style='padding: 2px 6px; margin: 2px;' id="btnNuevo">
-                                       
+
                                         <span style='color: white;' class='glyphicon glyphicon-plus-sign'></span>
                                     </a>
                                     <input type="text" class="form-control" id="ejer" readonly />
@@ -447,8 +447,6 @@
                 var newCell11 = newRow.insertCell(12);
                 var newCell12 = newRow.insertCell(13);
 
-
-
                 var input1 = document.createElement("input");
                 input1.type = "text"; input1.min = 0; input1.pattern = "[a-z]"; input1.title = "Palabras únicamente."
 
@@ -478,10 +476,7 @@
 
                 input10 = document.createElement("input");
                 input10.type = "text"; input10.readOnly = true;
-
-
-
-               
+                
                 var c = document.createElement('select');
                 c.type = 'select';
 
@@ -503,7 +498,6 @@
 
                 //DropDownList1.type = "DropDownList"; DropDownList1.items.insert(Dia, " - Select From List - ")
 
-
                 var checkBox = document.createElement('input');
                 checkBox.type = 'button';
                 checkBox.className = 'btn btn-danger';
@@ -515,8 +509,6 @@
                 checkBox2.className = 'btn btn-success';
                 checkBox2.value = '+';
                 checkBox2.name = 'checkbox2';
-
-
 
                 newCell.appendChild(input10);
                 newCell13.appendChild(checkBox2);
@@ -535,9 +527,7 @@
 
                 document.getElementsByClassName("input").required;
 
-
             });
-
 
            // Delete rows in tha table
             $('#tabla tbody').on('click', '.btn', function () {

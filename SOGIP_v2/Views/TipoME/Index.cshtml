@@ -7,6 +7,7 @@
 }
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
+
 <div class="container">
     <div class="col-md-4">
     </div>
@@ -44,10 +45,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <div class="modal-title" id="txtmaq" style='display:none;'>  <h4>Crear nueva Máquina de Tipo <text class='hidden-xs' id="textPrin">
-                            </text> <text class='hidden-xs' id="textPrin"> </text></h4> </div>
-                <div class="modal-title" id="txtejer" style='display:none;'><h4> Crear nuevo Ejercicio de Tipo <text class='hidden-xs' id="textPrin2">
-                        </text> <text class='hidden-xs' id="textPrin2"> </text></h4></div>
+                <div class="modal-title" id="txtmaq" style='display:none;'>  <h4 id="textPrin">Crear nueva Máquina de Tipo </h4> </div>
+                <div class="modal-title" id="txtejer" style='display:none;'><h4 id="textPrin2">Crear nuevo Ejercicio de Tipo</h4></div>
                  <div class="modal-title" id="txtnuevo" style='display:none;'>  <h4>Crear nuevo Tipo de  Categoría</h4> </div>
 
                 <div class="modal-title" id="editarcat" style='display:none;'>  <h4>Editar Categoría</h4> </div>
@@ -57,18 +56,22 @@
             </div>
             <form id="forcat" method="post" novalidate="novalidate">
                 <div class="modal-body">
-                    <div class="form-group col-md-12">
-                        <label>Nombre: </label>
-                        <div class="afect">
-                            <input type="text" class="form-control" placeholder="Nombre" id="cat" name="cat" />
-                        </div>
-                        <div class="afect">
-                            <input class="form-control" style='display:none' placeholder="Nombre" id="ejer" name="ejer" />
-                        </div>
-                        <div class="afect">
-                            <input class="form-control" style='display:none' placeholder="Nombre" id="maq" name="maq" />
+
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label>Nombre: </label>
+                            <div class="afect">
+                                <input type="text" class="form-control" placeholder="Nombre" id="cat" name="cat" />
+                            </div>
+                            <div class="afect">
+                                <input class="form-control" style='display:none' placeholder="Nombre" id="ejer" name="ejer" />
+                            </div>
+                            <div class="afect">
+                                <input class="form-control" style='display:none' placeholder="Nombre" id="maq" name="maq" />
+                            </div>
                         </div>
                     </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
@@ -247,7 +250,7 @@
                 success: function (data) {
                     $('#cat').css("display", "none");
                     $('#ejer').css("display", "none");
-                    $('#textPrin').html(data.nombre);
+                    $('#textPrin').html("Crear nueva máquina de tipo " + data.nombre);
                     $('#btn2').show();
                     $('#btn3').hide();
                     $('#txtmaq').css("display", "block");
@@ -274,7 +277,7 @@
                     $('#txtnuevo').css("display", "none");
                     $('#cat').css("display", "none");
                     $('#maq').css("display", "none");
-                    $('#textPrin2').html(data.nombre);
+                    $('#textPrin2').html("Crear nuevo Tipo de Ejercicio " + data.nombre);
                     $('#btn2').hide();
                     $('#btn3').show();
                     $('#txtmaq').css("display", "none");
@@ -378,7 +381,7 @@
             $('#txtnuevo').css("display", "none");
             $('#cat').css("display", "none");
             $('#ejer').css("display", "none");
-            $('#textPrin').html(data.nombre);
+            $('#textPrin').html("Crear nueva máquina de tipo " + data.nombre);
             $('#btn2').show();
             $('#btn3').hide();
             $('#txtmaq').css("display", "block");
@@ -391,7 +394,7 @@
             $('#txtnuevo').css("display", "none");
             $('#cat').css("display", "none");
             $('#maq').css("display", "none");
-            $('#textPrin2').html(data.nombre);
+            $('#textPrin2').html("Crear nuevo Tipo de Ejercicio " + data.nombre);
             $('#btn2').hide();
             $('#btn3').show();
             $('#txtmaq').css("display", "none");
@@ -562,6 +565,7 @@
                     }
                 }
             }
+            $('#forcat')[0].reset();
         }
 
         /*Aqui*/       $.validator.setDefaults({

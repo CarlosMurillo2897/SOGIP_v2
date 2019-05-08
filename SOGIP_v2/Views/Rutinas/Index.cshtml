@@ -34,7 +34,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" id="cerrar">&times;</button>
+                        <button type="button" class="close" data-dismiss="modal" id="cerrar">&times;</button>
                         <h4 class="modal-title">Crear nueva Rutina</h4>
                         <br>
                         <label>Fecha Inicio de Rutina: </label>
@@ -78,7 +78,7 @@
                         <div class="modal-footer">
                             <br />
                             <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                            <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" id="cerrar1">Cerrar</button>
                         </div>
                     </div>
                 </div>
@@ -192,10 +192,10 @@
 
     <script>
 
-        function eliminar() {
-            var des = $('#example').DataTable();
-            des.destroy();
-        }
+        //function eliminar() {
+        //    var des = $('#example').DataTable();
+        //    des.destroy();
+        //}
 
         function EliminarRut(id) {
             var tr = $('#boton_' + id).closest('tr');
@@ -312,19 +312,19 @@
                 $('#obj').val('');
                 $('#este').val('');
 
-            })
-            $('#cerrar').click(function () {
-                eliminar();
-                $('#nueva').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-            })
-            $('#cerrar1').click(function () {
-                eliminar();
-                $('#nueva').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-            })
+            });
+            //$('#cerrar').click(function () {
+            //    eliminar();
+            //    $('#nueva').modal('hide');
+            //    $('body').removeClass('modal-open');
+            //    $('.modal-backdrop').remove();
+            //})
+            //$('#cerrar1').click(function () {
+            //    eliminar();
+            //    $('#nueva').modal('hide');
+            //    $('body').removeClass('modal-open');
+            //    $('.modal-backdrop').remove();
+            //})
 
             $('#btnSave').click(function () {
                 var data = null;
@@ -451,6 +451,7 @@
             }
 
             function usuarios() {
+                $('#example').DataTable().destroy();
 
                 $('#example').DataTable({
                     "language": {

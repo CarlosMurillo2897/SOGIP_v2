@@ -40,7 +40,7 @@ namespace SOGIP_v2.Controllers
                                 Nombre = u.Nombre1,
                                 Apellido1 = u.Apellido1,
                                 Apellido2 = u.Apellido2,
-                                Rol = "Funcionario"
+                                Rol = "Funcionarios ICODER"
                             };
 
             var consulta = from a in db.Atletas
