@@ -148,11 +148,7 @@ use "SOGIP_v3"
 
 DECLARE @sql varchar(400);
 DECLARE @VARIABLEACAMBIAR varchar(100);
-set @VARIABLEACAMBIAR = 'C:\Users\USUARIO\Documents\GitHub\SOGIP_v2\script_BD';
-
-set @sql = 'BULK INSERT SOGIP_ControlIngreso FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Grafico.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
-exec (@sql)
-print N'SOGIP_ControlIngreso 06 rows';
+set @VARIABLEACAMBIAR = 'C:\Users\402360192\Documents\GitHub\SOGIP_v2\script_BD';
 
 set @sql = 'BULK INSERT SOGIP_Roles FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Roles.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
@@ -316,5 +312,9 @@ exec (@sql)
 set @sql = 'BULK INSERT SOGIP_ControlIngreso FROM '''+@VARIABLEACAMBIAR+'\SOGIP_ControlIngreso.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
 exec (@sql)
 PRINT N'SOGIP_ControlIngreso 04 rows';
+
+set @sql = 'BULK INSERT SOGIP_ControlIngreso FROM '''+@VARIABLEACAMBIAR+'\SOGIP_Grafico.csv'' WITH(datafiletype=''widechar'', codepage = ''ACP'', fieldterminator = '';'', rowterminator = ''\n'');';
+exec (@sql)
+print N'SOGIP_ControlIngreso 06 rows';
 
 -- ++++++++++++++++++++++++++ Insert's ++++++++++++++++++++++++++
