@@ -87,6 +87,7 @@
                     </div>
                     <div class="modal-footer">
                         <br />
+                        <a href="~/TipoME/MaquinaEjercicio?id="id="ref"></a>.
                         <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
                         <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
                     </div>
@@ -401,7 +402,7 @@
             $('#btnNuevo').click(function () {
                 $('#nuevo').modal('show');
                 $('#label').css("display", "block");
-                $('#obj').css("display", "block");
+                $('#label2').css("display", "none");
                 maquinas();
                 $('#usu').click(function () {
                     $('#label').css("display", "none");
@@ -413,7 +414,7 @@
                 $('#maq').click(function () {
                     $('#label').css("display", "block");
                     $('#label2').css("display", "none");
-                    $('#obj').css("display", "block");
+                    $('#obj').css("display", "none");
                     eliminar();
                     maquinas();
                 })
@@ -430,9 +431,10 @@
          
             $('#btnSave').click(function () {
                 var data = null;
+                alert($('#ref').prop('href'));
                 if ($('#label').is(':visible')) { 
                     data = {
-                        txtQRCode: $('#obj').val().trim(),
+                        txtQRCode: $('#ref').prop('href'),
                         id: ced
                     }
                     generarQR(data);

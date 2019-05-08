@@ -83,7 +83,9 @@ namespace SOGIP_v2.Controllers
         }
         public JsonResult generarQr(string txtQRCode,int id)
         {
-            //int i = int.Parse(id);
+      
+            string myString = id.ToString();
+            txtQRCode = txtQRCode+myString;
             Archivo nuevo = new Archivo();
             Maquina maquina = db.Maquina.Single(x => x.Id == id);
             byte[] imageBytes;
