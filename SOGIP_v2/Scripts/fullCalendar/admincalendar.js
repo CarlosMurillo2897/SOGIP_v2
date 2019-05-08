@@ -6,12 +6,13 @@
     var hours = []; //cualquier fecha
     var events = [];
     var selectedEvent = null;
+    $('[data-toggle="popover"]').popover();
     FetchEventAndRenderCalendar();
     llenarTabla();
     checks();
     checkTime();
 
-
+    
     //-----------------------------------------FUNCIÓN PARA LLENAR Y ACTUALIZAR CALENDARIO
     function FetchEventAndRenderCalendar() {
         events = [];
@@ -37,7 +38,7 @@
                 GenerateCalendar(events);
             },
             error: function (error) {
-                alert("Fallo");
+                console.log("ERROR: generate calendar");
             }
         })
     }
@@ -325,7 +326,6 @@
     $('#btnDelete').click(function () {
 
         bootbox.confirm({
-            title: 'CITA',
             size: 'small',
             message: '<p><i class="fa fa-exclamation-triangle"></i> ¿Está seguro de que deseea eliminar la cita?</p>',
             buttons: {
@@ -353,7 +353,7 @@
                             }
                         },
                         error: function () {
-                            alert("Fallo");
+                            bootbox2(" Hubo un ERROR al intentar eliminar");
                         }
                     })
                 }
@@ -531,7 +531,7 @@
                 }
             },
             error: function () {
-                bootbox2("Hubo un ERROR");
+                bootbox2(" Hubo un ERROR al intentar guardar");
                 console.log($('#txtStart').val() + ' ' + $('#txtHora').val());
             }
         })
@@ -602,8 +602,7 @@
 
     //----------------------------------------BOOTBOX
     function bootbox1(message) {
-        var dialog = bootbox.dialog({//para cargas
-            title: 'CITA',
+        var dialog = bootbox.dialog({//para cargas         
             size: 'small',
             closeButton: false,
             message: '<p><i class="fa fa-spin fa-spinner"></i>'+message+'</p>'
@@ -619,7 +618,6 @@
 
     function bootbox2(message) {//para errores
         bootbox.alert({
-            title: 'CITA',
             size: 'small',
             closeButton: false,
             message: '<p><i class="fa fa-exclamation-triangle"></i>' + message + '</p>'

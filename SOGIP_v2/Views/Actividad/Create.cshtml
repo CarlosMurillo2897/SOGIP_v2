@@ -23,10 +23,9 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link href="https://code.jquery.com/ui/1.12.1/themes/overcast/jquery-ui.css" rel="stylesheet">
     <link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
-    <script src="~/Scripts/bootstrap.min.js"></script>
 }
 
-    <div class="container-fluid">
+    <div class="container">
 
         <div class="row">
             <div class="form-group col-lg-3 col-md-6 col-sm-6">
@@ -38,13 +37,13 @@
         </div>
 
         <div id="calendar"></div>
-        @*modal de reservaciones*@
+        @*modal de actividades*@
         <div id="myModalSave" class="modal fade bd-example-modal-lg" role="dialog">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content col-md-12" style="align-content:center">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 id="nueva" class="modal-title">NUEVA ACTIVIDAD </h4>
+                        <h4 id="nueva" class="modal-title">ACTIVIDAD </h4>
                         <a id="ayuda" class="btn btn-info" data-toggle="popover" title="¿Cómo funciona?" data-content="Llene los campos obligatorios (*) titulo, lugar, fecha, hora inicio y hora final, luego guarde los cambios. Los campos como descripción e imagen son opcionales">
                             <span class="glyphicon glyphicon-question-sign"></span> Ayuda
                         </a>
@@ -76,7 +75,7 @@
                                         <!-- image-preview-filename input [CUT FROM HERE]-->
                                         <label>Agregar Imagen</label>
                                         <div class="input-group image-preview">
-                                            <input type="text" class="form-control image-preview-filename" disabled="disabled"> <!-- don't give a name === doesn't send on POST/GET -->
+                                            <input type="text" class="form-control image-preview-filename" disabled="disabled" id="timg"> <!-- don't give a name === doesn't send on POST/GET -->
                                             <span class="input-group-btn">
                                                 <!-- image-preview-clear button -->
                                                 <button type="button" class="btn btn-default image-preview-clear" style="display:none;">
@@ -150,14 +149,17 @@
                     <div class="modal-footer">
 
                         @*<button id="btnDelete" class="btn btn-warning  mr-auto">
+            <span class="glyphicon glyphicon-remove"></span>
+            Eliminar
+        </button>
+        <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
+            <span class="glyphicon glyphicon-pencil"></span>
+            Editar
+        </button>*@
+                        <button id="btnDelete" class="btn btn-warning  mr-auto">
                             <span class="glyphicon glyphicon-remove"></span>
                             Eliminar
                         </button>
-                        <button id="btnEdit" class="btn btn-success  mr-auto" style="margin-right: 5px;">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                            Editar
-                        </button>*@
-
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
@@ -167,11 +169,9 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/Scripts/jquery.min.js")
     @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
     @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
     @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
-    @Scripts.Render("~/Scripts/bootstrap.js")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")
     @Scripts.Render("~/Scripts/fullCalendar/actividades.js")

@@ -1,10 +1,11 @@
 ﻿$(document).ready(function () {
-
+    
     var ced;
     $('#inbodyCheck').val(this.checked);
     $('#rutinaCheck').val(this.checked);
     var events = [];
     var selectedEvent = null;
+    $('[data-toggle="popover"]').popover();
     FetchEventAndRenderCalendar();
     cedus();
     checks();
@@ -50,7 +51,7 @@
                 GenerateCalendar(events);
             },
             error: function (error) {
-                alert("Fallo");
+                console.log("ERROR: generate calendar");
             }
         })
     }
@@ -324,7 +325,7 @@
                             }
                         },
                         error: function () {
-                            alert("Fallo");
+                            bootbox2(" Hubo un ERROR al intentar eliminar");
                         }
                     })
                 }
@@ -487,7 +488,7 @@
                 }
             },
             error: function () {
-                bootbox2("Hubo un ERROR");
+                bootbox2(" Hubo un ERROR al intentar guardar");
             }
         })
     }
@@ -495,7 +496,6 @@
     //----------------------------------------BOOTBOX
     function bootbox1(message) {
         var dialog = bootbox.dialog({//para cargas
-            title: 'CITA',
             size: 'small',
             closeButton: false,
             message: '<p><i class="fa fa-spin fa-spinner"></i>' + message + '</p>'
@@ -511,7 +511,6 @@
 
     function bootbox2(message) {//para errores
         bootbox.alert({
-            title: 'CITA',
             size: 'small',
             closeButton: false,
             message: '<p><i class="fa fa-exclamation-triangle"></i>' + message + '</p>'

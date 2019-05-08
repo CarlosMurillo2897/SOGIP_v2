@@ -19,17 +19,77 @@
         'disableTextInput': true
 
     });
+    $('[data-toggle="popover"]').popover();
+    //--------------------------------------------------> Lunes
+    $('#txtHora1').on('changeTime', function () {
+        var arr = $(this).val();
+        var h = parseInt(arr.slice(0, 2)) + 1;
+        var m = arr.slice(-2);
+        var nuevo = h.toString() + ":00" + m;
+        $('#txtHora2').timepicker('option', { 'disableTimeRanges': [['6:00am', nuevo]] });
+    });
+    $('#txtHora2').on('changeTime', function () {
+        var selectedTime = $(this).val();
+        $('#txtHora1').timepicker('option', { 'disableTimeRanges': [[selectedTime, '8:00pm']] });
+    });
+    //--------------------------------------------------> Martes
+    $('#txtHora3').on('changeTime', function () {
+        var arr = $(this).val();
+        var h = parseInt(arr.slice(0, 2)) + 1;
+        var m = arr.slice(-2);
+        var nuevo = h.toString() + ":00" + m;
+        $('#txtHora4').timepicker('option', { 'disableTimeRanges': [['6:00am', nuevo]] });
+    });
+    $('#txtHora4').on('changeTime', function () {
+        var selectedTime = $(this).val();
+        $('#txtHora3').timepicker('option', { 'disableTimeRanges': [[selectedTime, '8:00pm']] });
+    });
+    //--------------------------------------------------> Miércoles
+    $('#txtHora5').on('changeTime', function () {
+        var arr = $(this).val();
+        var h = parseInt(arr.slice(0, 2)) + 1;
+        var m = arr.slice(-2);
+        var nuevo = h.toString() + ":00" + m;
+        $('#txtHora6').timepicker('option', { 'disableTimeRanges': [['6:00am', nuevo]] });
+    });
+    $('#txtHora6').on('changeTime', function () {
+        var selectedTime = $(this).val();
+        $('#txtHora5').timepicker('option', { 'disableTimeRanges': [[selectedTime, '8:00pm']] });
+    });
+    //--------------------------------------------------> Jueves
+    $('#txtHora7').on('changeTime', function () {
+        var arr = $(this).val();
+        var h = parseInt(arr.slice(0, 2)) + 1;
+        var m = arr.slice(-2);
+        var nuevo = h.toString() + ":00" + m;
+        $('#txtHora8').timepicker('option', { 'disableTimeRanges': [['6:00am', nuevo]] });
+    });
+    $('#txtHora8').on('changeTime', function () {
+        var selectedTime = $(this).val();
+        $('#txtHora7').timepicker('option', { 'disableTimeRanges': [[selectedTime, '8:00pm']] });
+    });
+    //--------------------------------------------------> Viernes
+    $('#txtHora9').on('changeTime', function () {
+        var arr = $(this).val();
+        var h = parseInt(arr.slice(0, 2)) + 1;
+        var m = arr.slice(-2);
+        var nuevo = h.toString() + ":00" + m;
+        $('#txtHora10').timepicker('option', { 'disableTimeRanges': [['6:00am', nuevo]] });
+    });
+    $('#txtHora10').on('changeTime', function () {
+        var selectedTime = $(this).val();
+        $('#txtHora9').timepicker('option', { 'disableTimeRanges': [[selectedTime, '8:00pm']] });
+    });
+
 
     //---habilitar/deshabilitar
     $("input[type=checkbox]").click(function () {
         hours();
         if ($("input[type=checkbox]").is(":checked")) {
             $('#botón2').prop("disabled", false);
-            console.log(ar);
         }
         else {
             $('#botón2').prop("disabled", true);
-            console.log(ar);
         }
     });
 
@@ -46,7 +106,7 @@
                 ced = data;
             },
             error: function (error) {
-                alert("Fallo");
+                console.log("ERROR:ced");
             }
         })
     }
@@ -77,7 +137,6 @@
 
             });
             a.shift();
-            console.log(a);
             ablehour(a);
         }
     }
@@ -106,7 +165,7 @@
                 GenerateCalendar(events);
             },
             error: function (error) {
-                alert("Fallo");
+                console.log("ERROR: generate calendar");
             }
         })
     }
@@ -201,11 +260,6 @@
             this.hidden = true;
         });
         ablehour(ar);
-        $("div[name=d]").each(function () {
-            if (this.hidden) {
-                console.log(this.value);
-            }
-        });
 
         $('#myModalSave2').modal('show');
     });
@@ -228,7 +282,6 @@
                 array.push(parseInt((this).value));
             }
         });
-        console.log(array);
 
         var start = $("#txtStart").datepicker("getDate"),
             end = $("#txtEnd").datepicker("getDate"),
@@ -269,19 +322,17 @@
             return arr;
         }
         days(array);
-        console.log(arr);
-        console.log(array2);
         checkhours();
         if ($('#botón2').is(':disabled')) {//no ha seleccionado dias
-            bootbox2("No ha seleccionado los días");
+            bootbox2(" No ha seleccionado los días");
             return;
         }
         if (array2.length < 2) {//no ha ingresado horas
-            bootbox2("Los horarios se encuentran vacíos");
+            bootbox2(" Los horarios se encuentran vacíos");
             return;
         }
         if (arr.length == 0) { //no ha ingresado fechas
-            bootbox2("El rango de fecha está vacío");
+            bootbox2(" El rango de fecha está vacío");
             return;
         }
 
@@ -297,11 +348,29 @@
                     $('#myModalSave').modal('hide');
                     bootbox1(" Guardando reservación...");
                     FetchEventAndRenderCalendar();
-
+                    $('input.timepicker').each(function () {
+                        if ((this).value.length != 0) {
+                            this.value = "";
+                        }
+                        $('#txtHora1').timepicker('option', { 'disableTimeRanges': [[]] });
+                        $('#txtHora2').timepicker('option', { 'disableTimeRanges': [[]] });
+                        $('#txtHora3').timepicker('option', { 'disableTimeRanges': [[]] });
+                        $('#txtHora4').timepicker('option', { 'disableTimeRanges': [[]] });
+                        $('#txtHora5').timepicker('option', { 'disableTimeRanges': [[]] });
+                        $('#txtHora6').timepicker('option', { 'disableTimeRanges': [[]] });
+                        $('#txtHora7').timepicker('option', { 'disableTimeRanges': [[]] });
+                        $('#txtHora8').timepicker('option', { 'disableTimeRanges': [[]] });
+                        $('#txtHora9').timepicker('option', { 'disableTimeRanges': [[]] });
+                        $('#txtHora10').timepicker('option', { 'disableTimeRanges': [[]] });
+                    });
+                    $('#txtStart').datepicker('setDate', null);
+                    $('#txtEnd').datepicker('setDate', null);
+                    $('input[type=checkbox]').prop('checked', false);
+                    $('#botón2').prop("disabled", true);
 
                 },
                 error: function () {
-                    bootbox2("Hubo un ERROR");
+                    bootbox2(" Hubo un ERROR al intentar guardar");
                 }
             })
         }
@@ -310,7 +379,6 @@
 
     function bootbox1(message) {
         var dialog = bootbox.dialog({//para cargas
-            title: 'RESERVACIÓN',
             size: 'small',
             closeButton: false,
             message: '<p><i class="fa fa-spin fa-spinner"></i>' + message + '</p>'
@@ -326,7 +394,6 @@
 
     function bootbox2(message) {//para errores
         bootbox.alert({
-            title: 'RESERVACIÓN',
             size: 'small',
             closeButton: false,
             message: '<p><i class="fa fa-exclamation-triangle"></i>' + message + '</p>'

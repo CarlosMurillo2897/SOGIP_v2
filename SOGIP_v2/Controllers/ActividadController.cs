@@ -44,7 +44,8 @@ namespace SOGIP_v2.Controllers
                                                 lugar= a.Lugar,
                                                 descripcion= a.Descripcion,
                                                 Inicio=t.FechaHoraInicio,
-                                                Final=t.FechaHoraFinal
+                                                Final=t.FechaHoraFinal,
+                                                Id=a.Id
                                             };
             return new JsonResult { Data = Actividades.ToList(), JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
@@ -86,6 +87,26 @@ namespace SOGIP_v2.Controllers
 
             return new JsonResult { Data = new { status = status } };
         }
+        //Eliminar actividad
+        [HttpPost]
+        public JsonResult DeleteAct(int Id) {
+            var status = false;
+            using (db) {
+                var act = db.Actividad.Where(x => x.Id == Id).FirstOrDefault();
+
+                if (act != null) {
+                    var arch = db.Archivo.Where(y => y.actividad.Id == act.Id).FirstOrDefault(); //ojo que debe tener imagen asociada
+                    var h = db.Horario.Where(z => z.IdActividad.Id == act.Id).FirstOrDefault();
+                    db.Archivo.Remove(arch);
+                    db.Horario.Remove(h);
+                    db.Actividad.Remove(act);
+                    db.SaveChanges();
+                    status = true;
+                }
+            }
+                    return new JsonResult { Data = new { status = status } };
+        }
+
 
         //Asignar imagen a la actividad con el método de Carlos pero adaptado a actividades
         public JsonResult SubirArchivo(int idAct, HttpPostedFileBase archivo, int ArchivoId)

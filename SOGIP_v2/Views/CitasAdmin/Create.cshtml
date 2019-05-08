@@ -12,9 +12,10 @@
 
 }
 
-    @Styles.Render("~/Content/fullcalendar.css")
-    @Styles.Render("~/Contents/bootstrap-datepicker.css")
-    @Styles.Render("~/Content/jquery.timepicker.css")
+@Styles.Render("~/Content/fullcalendar.css")
+@Styles.Render("~/Contents/bootstrap-datepicker.css")
+@Styles.Render("~/Content/jquery.timepicker.css")
+@Styles.Render("~/Content/popover.css")
 
 
 
@@ -27,7 +28,11 @@
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
 <div class="container">
-
+    <a id="ayuda1" class="btn btn-info" data-toggle="popover" title="¿Cómo funciona?" data-content="Para crear una Cita seleccione un día disponible en el calenario. Si desea ver alguna cita, estas se mostrarán en el calendario y podrá dar click sobre ellas para ver los detalles">
+        <span class="glyphicon glyphicon-question-sign"></span> Ayuda
+    </a>
+    <br />
+    <br />
     <div id="calendar"></div>
     @*MODAL PARA VER O ELIMINAR CITAS*@
     <div id="myModal" class="modal fade" role="dialog">
@@ -65,7 +70,10 @@
         <div class="modal-content col-md-12" style="align-content:center">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title" style="font-weight:bold;">GUARDAR CITA</h4>
+                <h4 id="nueva2" class="modal-title">CITA</h4>
+                <a id="ayuda2" class="btn btn-info" data-toggle="popover" title="¿Cómo funciona?" data-content="Seleccione la Hora en que desea reservar la cita, luego elija el motivo de la cita Inbody y/o Rutina (si al elegir la hora, se encuentra deshabilitada la opción Rutina, se debe a que no se puede reservar Rutina en ese horario, solo InBody). Por último elija el usuario al cual desea asignarle la cita, dando click en Seleccionar Usuario. Luego de click en Guardar.">
+                    <span class="glyphicon glyphicon-question-sign"></span> Ayuda
+                </a>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal">
@@ -74,9 +82,7 @@
                         <div class="form-group col-lg-3 col-md-6 col-sm-6">
                             <label>Fecha de inicio</label>
                             <div class="input-group date" data-provide="datepicker" id="dtp1">
-                                <div class="input-group-addon">
-                                    <span class="glyphicon glyphicon-th"></span>
-                                </div>
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                                 <input type="text" class="form-control" id="txtStart" readonly>
                             </div>
                         </div>
@@ -164,7 +170,7 @@
     @Scripts.Render("~/Scripts/fullCalendar/moment.min.js")
     @Scripts.Render("~/Scripts/fullCalendar/fullcalendar.js")
     @Scripts.Render("~/Scripts/fullCalendar/locale/es.js")
-    
+
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
     @Scripts.Render("~/Scripts/jquery.timepicker.js")
     @Scripts.Render("~/Scripts/fullCalendar/admincalendar.js")
