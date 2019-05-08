@@ -56,8 +56,7 @@ namespace SOGIP_v2.Controllers
                     Tipo = a.Tipo.Nombre,
                     Usuario = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2
                     + " " + a.actividad.Titulo
-                    + " " + a.maquina.Nombre
-                    + " " + a.ejercicio.Nombre,
+                    + " " + a.maquina.Nombre,
                     Id = a.ArchivoId
                 };
                     return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
