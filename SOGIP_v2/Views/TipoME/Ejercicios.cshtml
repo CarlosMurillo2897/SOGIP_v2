@@ -31,28 +31,38 @@
                     <h4 class="modal-title">Agregar Ejercicio</h4>
                     <br>
                     <div class="modal-body">
-                        @*Tabla de Tipos*@
-                        <div class="row" id="infouser">
-                            <div class="form-group col-lg-6 col-md-6 col-sm-6">
-                                <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione Ejercicio." readonly />
+                        <div>
+                            <label id="newejer"><input type="radio" name="btnRadio" checked /> Crear Nuevo Ejercicio </label>
+                            <label id="repejer"><input type="radio" name="btnRadio" />Asignar un Ejercicio  </label>
+                        </div>
+                        <form id="forcat" method="post" novalidate="novalidate">
+                            <label id="labelEjer">Nombre Nuevo Ejercicios: </label>
+                            <div class="afect">
+                                <input type="text" class="form-control" placeholder="Nombre" id="cat" name="cat" />
                             </div>
-                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                <button id="botón" type="button" class="btn btn-warning btn-block">
-                                    <text id="texto">Ejercicio</text>
-                                    <span id="icono" class="glyphicon glyphicon-search"></span>
-                                </button>
+                            <div class="row" id="infouser">
+                                <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                                    <div class="afect">
+                                        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione Ejercicio." readonly />
+                                    </div>
+                                    </div>
+                                    <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                        <button id="botón" type="button" class="btn btn-warning btn-block">
+                                            <text id="texto">Ejercicio</text>
+                                            <span id="icono" class="glyphicon glyphicon-search"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            <hr />
+                            <div class="table-responsive" id="Tabla_Prin" hidden>
+                                <table id="tablePrin" class="display" style="width:100%"></table>
                             </div>
-                        </div>
-                        <hr />
-                        <div class="table-responsive" id="Tabla_Prin" hidden>
-                            <table id="tablePrin" class="display" style="width:100%"></table>
-                        </div>
-                        <div class="modal-footer">
-                            <br />
-                            <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                            <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
-                        </div>
-                    </div>
+                                <div class="modal-footer">
+                                    <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                                </div>
+                        </form>           
+                </div>
                 </div>
             </div>
         </div>
@@ -117,8 +127,6 @@
             });
         }
         function tablaEjercicios() {
-            //$('#tablePrin').DataTable().destroy();
-            //$('#tablePrin').remove();
             $('#tablePrin').dataTable({
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
@@ -185,22 +193,34 @@
                 }
             })
         }
-        $(document).ready(function () {
-            tablaPrin();
-            var idEjer = null;
-            $('#btnNuevo').click(function () {
-                tablaEjercicios();
-                $('#usuario').val('');
-                $('#nueva').modal('show');
+        function SaveMaquinaEjercicio(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/TipoME/SaveMaquinaEjercicio',
+                data: data,
+                success: function (data) {
+                    $('#nueva').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    $('#maquinas').DataTable().ajax.reload(null, false);
+                    $('#usuario').val('');
+                    //eliminar();
+                },
+                error: function () {
+                    alert("Fallo");
+                }
             })
-           $('#btnSave').click(function () {
-                var n = @viewDataMaquina;
-                    var n1 = null;
-                    if (idEjer != null) {
+        }
+        function enviar() {
+            var n = @viewDataMaquina;
+            var n1 = null;
+           // alert(idEjer);
+            if (idEjer != null) {
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: '/TipoME/obtenerIdEjer',
+                    url: '/TipoME/obtenerIdEjer2',
                     data: { "n": idEjer },
                     success: function (data) {
                         n1 = data.Id;
@@ -219,26 +239,43 @@
                 })
                     }
                
-            })
-            function SaveMaquinaEjercicio(data) {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/TipoME/SaveMaquinaEjercicio',
-                    data: data,
-                    success: function (data) {
-                        $('#nueva').modal('hide');
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                        $('#maquinas').DataTable().ajax.reload(null, false);
-                        $('#usuario').val('');
-                        //eliminar();
-                    },
-                    error: function () {
-                        alert("Fallo");
-                    }
-                })
             }
+        $.validator.setDefaults({
+            submitHandler: function () {
+                enviar();
+                alert("Enviando solicitud.");
+            }
+        });
+        $(document).ready(function () {
+            tablaPrin();
+            var idEjer = null;
+            $('#btnNuevo').click(function () {
+                tablaEjercicios();
+                $('#usuario').css("display", "none");
+                $('#labelEjer').css("display", "block");
+                $('#cat').css("display", "block");
+                $('#botón').css("display", "none");
+                $('#nueva').modal('show');
+
+                $('#newejer').click(function () {
+                    $('#cat').val('');
+                    $('#usuario').css("display", "none");
+                    $('#labelEjer').css("display", "block");
+                    $('#cat').css("display", "block");
+                    $('#botón').css("display", "none");
+                    //$("#forcat").validate().clearValidation();
+                })
+                $('#repejer').click(function () {
+                    $('#usuario').val('');
+                    $('#usuario').css("display", "block");
+                    $('#labelEjer').css("display", "none");
+                    $('#cat').css("display", "none");
+                    $('#botón').css("display", "block");
+                    //$("#forcat").validate().clearValidation();
+                })
+            })
+         
+            
             $('#cerrar').click(function () {
                 //eliminar();
                 $('#nueva').modal('hide');
@@ -263,6 +300,66 @@
             $('#botón').click(function () {
                 $('#Tabla_Prin').show();
 
+            });
+            $("#forcat").validate({
+                rules: {
+                    cat: {
+
+                        required: true,
+                        minlength: 4,
+                        remote: {
+                            url: '/TipoME/EjercicioRepetido',
+                            type: 'GET',
+                            data: {
+                                nombre: function () {
+                                    return $('#cat').val();
+                                }
+                            }
+                        }
+                    },
+                    
+                    usuario: {
+                        required: true
+                    }
+
+                },
+                messages: {
+                    cat: {
+                        required: "El nombre de Categoría es un campo obligatorio.",
+                        minlength: "El nombre de Categoría debe de tener mas de 4 caracteres.",
+                        remote: "El nombre no debe ser Repetido."
+                    },
+                    usuario: {
+                        required: "Se debe seleccionar un ejercicio.",
+                    },
+                },
+                errorElement: "em",
+                errorPlacement: function (error, element) {
+                    error.addClass("help-block");
+                    element.parents(".afect").addClass("has-feedback");
+
+                    if (element.prop("id") === "nac") {
+                        error.insertAfter(element.parent("div"));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                    if (!element.next("span")[0]) {
+                        $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
+                    }
+                },
+                success: function (label, element) {
+                    if (!$(element).next("span")[0]) {
+                        $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
+                    }
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).parents(".afect").addClass("has-error").removeClass("has-success");
+                    $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).parents(".afect").addClass("has-success").removeClass("has-error");
+                    $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
+                }
             });
 
 

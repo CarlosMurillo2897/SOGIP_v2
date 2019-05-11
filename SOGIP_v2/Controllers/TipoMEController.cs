@@ -282,7 +282,7 @@ namespace SOGIP_v2.Controllers
             var consulta = db.Ejercicio.Where(x => x.Nombre == n).FirstOrDefault();
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
-    
+
         public JsonResult SaveMaquinaEjercicio(string nom, int ejer)
         {
             int d = int.Parse(nom);
@@ -304,6 +304,37 @@ namespace SOGIP_v2.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
             return Json(maquina, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult SaveEjerciciosMaq(string nom,string nombre)
+        {
+            int d = int.Parse(nom);
+            Maquina maquina = db.Maquina.SingleOrDefault(x => x.Id == d);
+            MaquinaEjercicio maejer = new MaquinaEjercicio();
+            TipoME tipo = db.TipoME.Single(x => x.Id == maejer.Maquina.TipoId.Id);
+            Ejercicio nueva = new Ejercicio();
+            try
+            {
+                if (nombre != null)
+                {
+                    nueva.Nombre = nombre;
+                    nueva.TipoId = tipo;
+                    db.Ejercicio.Add(nueva);
+                }
+                db.SaveChanges();
+                if (maquina != null && nueva != null)
+                {
+                    maejer.Maquina = maquina;
+                    maejer.Ejercicio = nueva;
+                    db.MaquinaEjercicio.Add(maejer);
+                }
+                db.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+            return Json(nueva, JsonRequestBehavior.AllowGet);
 
         }
         public ActionResult MaquinaEjercicio(int? id)
