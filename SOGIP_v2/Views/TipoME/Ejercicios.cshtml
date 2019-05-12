@@ -128,7 +128,12 @@
             });
         }
         function tablaEjercicios() {
-            $('#tablePrin').dataTable({
+            $('#tipoEjer1').DataTable().destroy();
+            $('#tipoEjer1').remove();
+            $('#tablePrin').show();
+            var tabla = $('<table/>', { id: 'tipoEjer1', class: 'table table-striped table-bordered dt-responsive nowrap', width: '100%' }).append('<thead><tr><th>Acción</th><th>Nombre</th></tr></thead>');
+            $('#tablePrin').append(tabla);
+            table = $('#tipoEjer1').DataTable({
                 "language": {
                     "lengthMenu": "Mostrando _MENU_ resultados por página.",
                     "zeroRecords": "No se han encontrado registros.",
@@ -278,7 +283,9 @@
         $(document).ready(function () {
             tablaPrin();
             $('#btnNuevo').click(function () {
-                tablaEjercicios();
+                //$('#formEstado').find(':radio[name=btnRadio][value="1"]').prop('checked', true);
+                $('#newejer').prop('checked', true);
+                $('#repejer').prop('checked', false);
                 $('#usuario').css("display", "none");
                 $('#labelEjer').css("display", "block");
                 $('#cat').css("display", "block");
@@ -299,7 +306,8 @@
                     $('#labelEjer').css("display", "none");
                     $('#cat').css("display", "none");
                     $('#botón').css("display", "block");
-                    //$("#forcat").validate().clearValidation();
+                    $('#tablePrin').show();
+                    tablaEjercicios();
                 })
             })
          
