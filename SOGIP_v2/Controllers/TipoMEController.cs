@@ -309,9 +309,9 @@ namespace SOGIP_v2.Controllers
         public JsonResult SaveEjerciciosMaq(string nom,string nombre)
         {
             int d = int.Parse(nom);
-            Maquina maquina = db.Maquina.SingleOrDefault(x => x.Id == d);
+            Maquina maquina = db.Maquina.Include("TipoId").SingleOrDefault(x => x.Id == d);
             MaquinaEjercicio maejer = new MaquinaEjercicio();
-            TipoME tipo = db.TipoME.Single(x => x.Id == maejer.Maquina.TipoId.Id);
+            TipoME tipo = db.TipoME.Single(x => x.Id == maquina.TipoId.Id);
             Ejercicio nueva = new Ejercicio();
             try
             {

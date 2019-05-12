@@ -22,7 +22,7 @@
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
 
-<div class="container">
+<div class="container container-fluid">
     <div class="well">
         <h4>Usuario</h4>
         <h4> @viewDataNombre </h4>
@@ -96,7 +96,6 @@
             <table id="tabla" class="table table-bordered table-responsive table-hover">
                 <TR align="center" class="active">
                     <TH COLSPAN=1>Ejercicio</TH>
-                    <TH COLSPAN=1></TH>
                     <TH COLSPAN=3>Semana 1-2</TH>
                     <TH COLSPAN=3>Semana 3-4</TH>
                     <TH COLSPAN=3>Semana 5-6</TH>
@@ -105,7 +104,6 @@
                     <TH COLSPAN=1>Accion</TH>
                 </TR>
                 <TR>
-                    <TH></TH>
                     <TH></TH>
                     <TH>S</TH>
                     <TH>R</TH>
@@ -241,7 +239,7 @@
                         <br>
                         <div class="modal-body">
                             @*Tabla de Tipos*@
-                            <div class="row" id="infouser">
+                            @*<div class="row" id="infouser">
                                 <div class="form-group col-lg-6 col-md-6 col-sm-6">
                                     <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione Ejercicio." readonly />
                                 </div>
@@ -251,16 +249,16 @@
                                         <span id="icono" class="glyphicon glyphicon-search"></span>
                                     </button>
                                 </div>
-                            </div>
+                            </div>*@
                             <hr />
-                            <div class="table-responsive" id="Tabla_Prin" hidden>
+                            <div class="table-responsive" id="Tabla_Prin">
                                 <table id="tablePrin" class="display" style="width:100%"></table>
                             </div>
-                            <div class="modal-footer">
+                            @*<div class="modal-footer">
                                 <br />
                                 <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
                                 <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </div>
@@ -413,7 +411,7 @@
                         $.each(data, function (i, v) {
                             select.options[i] = new Option(v.Nombre, v.Identificador);
                             colores.push([v.Nombre]);
-                            colors.push([v.Identificador]); 
+                            colors.push([v.Identificador]);
                         })
 
                     },
@@ -433,19 +431,18 @@
 
                 // Insert a cell in the row at index 0
                 var newCell = newRow.insertCell(0);
-                var newCell13 = newRow.insertCell(1);
-                var newCell1 = newRow.insertCell(2);
-                var newCell2 = newRow.insertCell(3);
-                var newCell3 = newRow.insertCell(4);
-                var newCell4 = newRow.insertCell(5);
-                var newCell5 = newRow.insertCell(6);
-                var newCell6 = newRow.insertCell(7);
-                var newCell7 = newRow.insertCell(8);
-                var newCell8 = newRow.insertCell(9);
-                var newCell9 = newRow.insertCell(10);
-                var newCell10 = newRow.insertCell(11);
-                var newCell11 = newRow.insertCell(12);
-                var newCell12 = newRow.insertCell(13);
+                var newCell1 = newRow.insertCell(1);
+                var newCell2 = newRow.insertCell(2);
+                var newCell3 = newRow.insertCell(3);
+                var newCell4 = newRow.insertCell(4);
+                var newCell5 = newRow.insertCell(5);
+                var newCell6 = newRow.insertCell(6);
+                var newCell7 = newRow.insertCell(7);
+                var newCell8 = newRow.insertCell(8);
+                var newCell9 = newRow.insertCell(9);
+                var newCell10 = newRow.insertCell(10);
+                var newCell11 = newRow.insertCell(11);
+                var newCell12 = newRow.insertCell(12);
 
 
 
@@ -478,10 +475,11 @@
 
                 input10 = document.createElement("input");
                 input10.type = "text"; input10.readOnly = true;
+                input10.className = 'input10';
 
 
 
-               
+
                 var c = document.createElement('select');
                 c.type = 'select';
 
@@ -510,16 +508,10 @@
                 checkBox.value = '-';
                 checkBox.name = 'checkbox';
 
-                var checkBox2 = document.createElement('input');
-                checkBox2.type = 'button';
-                checkBox2.className = 'btn btn-success';
-                checkBox2.value = '+';
-                checkBox2.name = 'checkbox2';
 
 
 
                 newCell.appendChild(input10);
-                newCell13.appendChild(checkBox2);
                 newCell1.appendChild(input1);
                 newCell2.appendChild(input2);
                 newCell3.appendChild(input3);
@@ -531,24 +523,60 @@
                 newCell9.appendChild(input9);
                 newCell10.appendChild(c);
                 newCell11.appendChild(d);
-                newCell12.appendChild();
+                newCell12.appendChild(checkBox);
 
-                document.getElementsByClassName("input").required;
+                document.getElementsByClassName("input10").required;
 
 
             });
-            //$()
+            $('#tabla tbody').on('click', '.input10', function () {
+                var ed = $(this);
+                //ed.css('background-color', '#ff0');
+                //if (idEjer != null) {
+                    tablaEjercicios();
+                    $('#nueva').modal('show');
+                $('#tablePrin').on('click', 'td.select-checkbox', function () {
+                   // var ed = $(this);
+                        var td = $(this);
+                        var tr = td.closest('tr');
+                        $('#usuario').val(tr.find('td:eq(1)').text());
+                        idEjer = tr.find('td:eq(1)').text();
+                        //$('#Tabla_Prin').hide();
+                        $('#nueva').modal('hide');
+                        $('#usuario').val('');
+                        ed.val(idEjer);
+                    });
+                    //ed.val(idEjer);
+                    //ed.css('background-color', '#ff0');
+                //}
+                
+           });
+                //$('#btnSave').click(function () {
+                //    var td = $(this);
+                //    var tr = td.closest('tr');
+                //    $('#usuario').val(tr.find('td:eq(1)').text());
+                //    var objetivo = $('#usuario').val();
+                //    input10.value = objetivo;
+                //   $('#nueva').modal('hide');
+                //})
+            //});
+            $('#tabla tbody').on('click', '.btn-danger', function () {
+                var td1 = $(this);
+                var tr1 = td1.closest('tr').remove();
+                //$(this).closest('tr').remove();
+            });
+
 
            // Delete rows in tha table
-            $('#tabla tbody').on('click', '.btn', function () {
-                tablaEjercicios();
-                $('#nueva').modal('show');
-                $('#btnSave').click(function () {
-                    var objetivo = $('#usuario').val();
-                  input10.value = objetivo;
-                   $('#nueva').modal('hide');
-                })
-            });
+            //$('#tabla tbody').on('click', '.btn', function () {
+            //    tablaEjercicios();
+            //    $('#nueva').modal('show');
+            //    $('#btnSave').click(function () {
+            //        var objetivo = $('#usuario').val();
+            //      input10.value = objetivo;
+            //       $('#nueva').modal('hide');
+            //    })
+            //});
 
 
 
@@ -624,27 +652,27 @@
              
 
             });
-            $('#tablePrin').on('click', 'td.select-checkbox', function () {
-                var td = $(this);
-                var tr = td.closest('tr');
-                $('#usuario').val(tr.find('td:eq(1)').text());
-                idEjer = tr.find('td:eq(1)').text();
-                $('#Tabla_Prin').hide();
-            });
+            //$('#tablePrin').on('click', 'td.select-checkbox', function () {
+            //    var td = $(this);
+            //    var tr = td.closest('tr');
+            //    $('#usuario').val(tr.find('td:eq(1)').text());
+            //    idEjer = tr.find('td:eq(1)').text();
+            //    $('#Tabla_Prin').hide();
+            //});
 
-            $('#botón').click(function () {
-                $('#Tabla_Prin').show();
+            //$('#botón').click(function () {
+            //    //$('#Tabla_Prin').show();
 
-            });
-            $('#btnNuevo').click(function () {
-                tablaEjercicios();
-                $('#nueva').modal('show');
-                $('#btnSave').click(function () {
-                      var objetivo = $('#usuario').val();
-                    $('#ejer').val(objetivo);
-                    $('#nueva').modal('hide');
-                })
-            })
+            //});
+            //$('#btnNuevo').click(function () {
+            //    tablaEjercicios();
+            //    $('#nueva').modal('show');
+            //    $('#btnSave').click(function () {
+            //          var objetivo = $('#usuario').val();
+            //        $('#ejer').val(objetivo);
+            //        $('#nueva').modal('hide');
+            //    })
+            //})
        });
     </script>
 }

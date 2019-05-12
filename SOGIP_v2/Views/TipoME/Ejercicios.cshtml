@@ -81,6 +81,7 @@
         var cat1 = null
         var cat2 = null;
         var cat3 = null;
+        var idEjer = null;
         function tablaPrin() {
             var d = @viewDataMaquina;
             data ={
@@ -212,34 +213,62 @@
                 }
             })
         }
+        function SaveMaquinaEjercicio2(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/TipoME/SaveEjerciciosMaq',
+                data: data,
+                success: function (data) {
+                    $('#nueva').modal('hide');
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    $('#maquinas').DataTable().ajax.reload(null, false);
+                    $('#cat').val('');
+                    //eliminar();
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+        }
         function enviar() {
-            var n = @viewDataMaquina;
+             var n = @viewDataMaquina;
             var n1 = null;
-           // alert(idEjer);
-            if (idEjer != null) {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/TipoME/obtenerIdEjer2',
-                    data: { "n": idEjer },
-                    success: function (data) {
-                        n1 = data.Id;
-                        var data = null;
-                        {
-                            data = {
-                                nom: n,
-                                ejer: n1
+            if ($('#labelEjer').is(':visible')) {
+                var data = null;
+                {
+                    data = {
+                        nom: n,
+                        nombre: $('#cat').val()
+                    }
+                    SaveMaquinaEjercicio2(data);
+                }
+            } else {
+                if (idEjer != null) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/TipoME/obtenerIdEjer',
+                        data: { "n": idEjer },
+                        success: function (data) {
+                            n1 = data.Id;
+                            var data = null;
+                            {
+                                data = {
+                                    nom: n,
+                                    ejer: n1
+                                }
+                                SaveMaquinaEjercicio(data);
                             }
-                            SaveMaquinaEjercicio(data);
+                        },
+                        error: function () {
+                            alert("Fallo");
                         }
-                    },
-                    error: function () {
-                        alert("Fallo");
-                    }
-                })
-                    }
-               
+                    })
+                }
             }
+         }
         $.validator.setDefaults({
             submitHandler: function () {
                 enviar();
@@ -248,7 +277,6 @@
         });
         $(document).ready(function () {
             tablaPrin();
-            var idEjer = null;
             $('#btnNuevo').click(function () {
                 tablaEjercicios();
                 $('#usuario').css("display", "none");
