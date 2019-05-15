@@ -29,103 +29,58 @@
         <div class="table-responsive">
             <table id="rutina" class="table table-striped table-bordered table-hover"></table>
         </div>
-
-        @*Modal Nueva Rutina *@
-        <div id="nueva" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" id="cerrar">&times;</button>
-                        <h4 class="modal-title">Crear nueva Rutina</h4>
-                        <br>
+   </div>
+</div>
+<div id="nuevo" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style=' display:none;' id="agr">Agregar Nueva Rutina</h4>
+                <h4 class="modal-title" style=' display:none;' id="edit">Ediatr Rutina</h4>
+            </div>
+            <form id="forcat" method="post" novalidate="novalidate">
+                <div class="modal-body">
+                    <div class="form-group col-md-12">
                         <label>Fecha Inicio de Rutina: </label>
-                        <div class="input-group date" id="fec">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input class="form-control" type="text" id="este" />
+                        <div class="afect">
+                            <div class="input-group date" data-provide="datepicker" id="dtp1">
+                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                <input type="text" class="form-control" id="txtStart" name="txtStart"readonly>
+                            </div>
                         </div>
-
-                        <br>
                         <label>Objetivo de la Rutina: </label>
-                        <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
-                    </div>
-                    <div class="modal-body">
-                        @*Tabla de entrenadores*@
-                        <div class="row" id="infouser">
+                        <div class="afect">
+                            <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
+                        </div>
+                        <label>Usuario: </label>
+                        <div class="afect">
                             <div class="form-group col-lg-6 col-md-6 col-sm-6">
                                 <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
                             </div>
-                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                <button id="botón" type="button" class="btn btn-warning btn-block">
-                                    <text id="texto">Seleccionar usuario</text>
-                                    <span id="icono" class="glyphicon glyphicon-search"></span>
-                                </button>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                            <button id="botón" type="button" class="btn btn-warning btn-block">
+                                <text id="texto">Seleccionar usuario</text>
+                                <span id="icono" class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="table-responsive" id="tablaUsuarios">
+                                <div id="example"></div>
+                            </div>
                             </div>
                         </div>
-                        <hr />
-                        <div class="table-responsive" id="Tabla_Usuarios" hidden>
-                            <table id="example" class="display table table-bordered table-hover table-striped" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <td>Acción</td>
-                                        <td>Nombre</td>
-                                        <td>Nombre</td>
-                                        <td>Apellido1</td>
-                                        <td>Apellido2</td>
-                                        <td>Rol</td>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        <div class="modal-footer">
-                            <br />
-                            <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                            <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
-                        </div>
                     </div>
+                <div class="modal-footer">
+                    <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 </div>
-            </div>
-        </div>
-        @*Modal para editar*@
-        <div id="editar" class="modal fade bd-example-modal-lg" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Editar Rutina</h4>
-                        <br>
-                        <tr hidden id="inpE">
-                            <td>
-                                <div>
-                                    <div class="form-group">
-                                        <div class="col-xs-15">
-                                            <input type="text" class="einf form-control" name="nombre_aso" id="einf" readonly />
-                                            <input type="hidden" class="hidef form-control" name="hidef" id="hidef" readonly />
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <label>Fecha Inicio de Rutina: </label>
-                        <div class="input-group date" id="fecha">
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                            <input class="form-control" type="text" />
-                        </div>
-                        <br>
-                        <label>Objetivo de la Rutina: </label>
-                        <input type="text" class="form-control" placeholder="Objetivo" id="objetivo" />
-                    </div>
-                    <div class="modal-body">
-                        <div class="modal-footer">
-                            <br />
-                            <button type="button" id="btnEdit" class="btn btn-success">Guardar Cambios</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
+       
 
 @section Scripts {
 
@@ -138,10 +93,7 @@
     <script>
         var table;
         var dataSet = [];
-        function eliminar() {
-            var des = $('#example').DataTable();
-            des.destroy();
-        }
+      
         function tablaRutina() {
             $.ajax({
                 type: "POST",
@@ -205,41 +157,7 @@
                 }
             });
         }
-        function EliminarRut(id) {
-            var tr = $('#boton_' + id).closest('tr');
-            var table = $('#rutina').DataTable().rows(tr).data();
-            var n = null;
-            var ob = null;
-            var fec = null;
-            $.each(table, function (i, val) {
-                n = val[0] + " " + val[1];
-                fec = val[2];
-                ob = val[3];
-                idRut = val[4];
-            });
-            $('#us').show();
-            document.getElementById("us1").value = n;
-            $('#fe').show();
-            document.getElementById("fe1").value = fec;
-            $('#obje').show();
-            document.getElementById("obje1").value = ob;
-            $('#eliminar2').click(function () {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/Rutinas/DeleteRutina',
-                    data: { 'rutinaId': id },
-                    success: function (data) {
-                        if (data.status) {
-                            var table = $('#rutina').DataTable().row(tr).remove().draw();
-                        }
-                    },
-                    error: function () {
-                        alert("Fallo");
-                    }
-                })
-            })
-        }
+       
         function EditarRut(id) {
             var tr = $('#boton_' + id).closest('tr');
             var table = $('#rutina').DataTable().rows(tr).data();
@@ -276,8 +194,12 @@
                             $('#editar').modal('hide');
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();
-                            var date = new Date(parseInt(data.RutinaFecha.substr(6)));
-                            table.row(tr).add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
+                            $.each(data, function (i, v) {
+                                alert(data.Usuario.Cedula);
+                            //var date = new Date(parseInt(data.RutinaFecha.substr(6)));
+                            //$('#rutina').DataTable().row(tr).add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
+                            })
+                           
 
                         },
                         error: function () {
@@ -311,25 +233,15 @@
             tablaRutina();
 
             $('#btnNuevo').click(function () {
-                $('#nueva').modal('show');
-                usuarios();
+                $('#edit').css("display", "none");
+                $('#agr').css("display", "block");
+                $('#nuevo').modal('show');
                 $('#usuario').val('');
                 $('#obj').val('');
-                $('#este').val('');
+                $('#dtp1').val('');
 
             })
-            $('#cerrar').click(function () {
-                eliminar();
-                $('#nueva').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-            })
-            $('#cerrar1').click(function () {
-                eliminar();
-                $('#nueva').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-            })
+           
 
             $('#btnSave').click(function () {
                 var data = null;
@@ -339,36 +251,12 @@
                     alert("Faltan Datos de Usuario o Fecha");
                 } else {
                     data = {
-                        fecha: $('#fec').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                        fecha: $('#dtp1').data('datepicker').getFormattedDate('dd/mm/yyyy'),
                         obs: $('#obj').val().trim(),
                         id: cedu
                     }
                     SaveDate(data);
                 }
-            })
-
-            var today = new Date();
-            var min = new Date();
-            var max = new Date();
-            max.setFullYear(today.getFullYear() - 5);
-            min.setFullYear(today.getFullYear() + 1);
-            $(function () {
-                $("#fecha").datepicker({
-                    format: 'dd/mm/yyyy',
-                    defaultViewDate: max,
-                    startDate: max,
-                    endDate: min,
-                    daysOfWeekDisabled: false
-                });
-            })
-            $(function () {
-                $("#fec").datepicker({
-                    format: 'dd/mm/yyyy',
-                    defaultViewDate: max,
-                    startDate: max,
-                    endDate: min,
-                    daysOfWeekDisabled: false
-                });
             })
 
             function SaveDate(data) {
@@ -384,7 +272,6 @@
                         $('#nueva').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
-                        eliminar();
                     },
                     error: function () {
                         alert("Fallo");
@@ -394,8 +281,12 @@
 
 
             function usuarios() {
-
-                $('#example').DataTable({
+                $('#usuarios1').DataTable().destroy();
+                $('#usuarios1').remove();
+                $('#example').show();
+                var tabla = $('<table/>', { id: 'usuarios1', class: 'table table-striped table-bordered dt-responsive nowrap' }).append('<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>Apellido1</th><th>Apellido2</th><th>Rol</th></tr></thead>');
+                $('#example').append(tabla);
+                table1 = $('#usuarios1').DataTable({
                     "language": {
                         "lengthMenu": "Mostrando _MENU_ resultados por página.",
                         "zeroRecords": "No se han encontrado registros.",
@@ -440,16 +331,74 @@
             $('#example').on('click', 'td.select-checkbox', function () {
                 var td = $(this);
                 var tr = td.closest('tr');
-
                 $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
                 cedu = tr.find('td:eq(1)').text();
-                $('#Tabla_Usuarios').hide();
+                $('#tablaUsuarios').hide();
             });
 
 
             $('#botón').click(function () {
-                $('#Tabla_Usuarios').show();
+                usuarios();
 
+            });
+            $("#forcat").validate({
+                rules: {
+                    txtStart: {
+
+                        required: true,
+                        
+                       
+                    },
+                    obj: {
+                        required: false,
+                        minlength: 0
+                      
+                    },
+                    usuario: {
+                        required: true,
+                        
+                    }
+
+                },
+                messages: {
+                    txtStart: {
+                        required: "La fecha es obligatoria."
+                        
+                    },
+                    obj: {
+                       
+                    },
+                    usuario: {
+                        required: "El Usuario es obligatorio."
+                    }
+                },
+                errorElement: "em",
+                errorPlacement: function (error, element) {
+                    error.addClass("help-block");
+                    element.parents(".afect").addClass("has-feedback");
+
+                    if (element.prop("id") === "nac") {
+                        error.insertAfter(element.parent("div"));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                    if (!element.next("span")[0]) {
+                        $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
+                    }
+                },
+                success: function (label, element) {
+                    if (!$(element).next("span")[0]) {
+                        $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
+                    }
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).parents(".afect").addClass("has-error").removeClass("has-success");
+                    $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).parents(".afect").addClass("has-success").removeClass("has-error");
+                    $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
+                }
             });
 
         });
@@ -457,70 +406,3 @@
 
 }
 
-@*function tabla() {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/Rutinas/GetRutinas',
-                    success: function (data) {
-                        $.each(data, function (i, v) {
-                            var date = new Date(parseInt(v.RutinaFecha.substr(6)));
-                            dataSet.push([v.Usuario.Cedula, v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, v.RutinaId, v.RutinaId]);
-                        })
-                        table = $('#rutina').DataTable({
-                            "language": {
-                                "lengthMenu": "Mostrando _MENU_ resultados por página.",
-                                "zeroRecords": "No se han encontrado registros.",
-                                "info": "Mostrando página _PAGE_ de _PAGES_.",
-                                "infoEmpty": "No hay datos para mostrar",
-                                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
-                                "search": "Filtrar:",
-                                "paginate": {
-                                    "first": "Primero",
-                                    "last": "Ultimo",
-                                    "next": "Siguiente",
-                                    "previous": "Anterior"
-                                }
-                            },
-                            data: dataSet,
-                            columns: [
-                                { title: "Cédula" },
-                                { title: "Usuario" },
-                                { title: "Fecha" },
-                                { title: "Objetivo" },
-                                {
-                                    title: "Id",
-                                    "visible": false,
-                                    "searchable": false
-                                },
-                                {
-                                    title: "Acción",
-                                    "render": function (Id) {
-                                        return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EditarRut(" + Id + ")' data-toggle='modal' data-target='#editar'>
-        " +
-        "<text class='hidden-xs'>Editar </text>" +
-        "<span class='glyphicon glyphicon-pencil'></span>" +
-        "
-    </a>" +
-                                            "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")' '>
-        " +
-        "<text class='hidden-xs'>Rutina </text>" +
-        "<span class='glyphicon glyphicon-list'></span>" +
-        "
-    </a>";
-                                    }
-                                }
-                            ],
-
-                            'select': {
-                                'style': 'os',
-                                'selector': 'td:first-child'
-                            }
-                        });
-                    },
-
-                    error: function (error) {
-                        alert("Fallo");
-                    }
-                });
-            }*@
