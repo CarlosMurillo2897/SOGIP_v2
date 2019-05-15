@@ -283,14 +283,17 @@
         $(document).ready(function () {
             tablaPrin();
             $('#btnNuevo').click(function () {
-                //$('#formEstado').find(':radio[name=btnRadio][value="1"]').prop('checked', true);
-                $('#newejer').prop('checked', true);
-                $('#repejer').prop('checked', false);
-                $('#usuario').css("display", "none");
-                $('#labelEjer').css("display", "block");
-                $('#cat').css("display", "block");
-                $('#botón').css("display", "none");
                 $('#nueva').modal('show');
+
+                if ($('#newejer').is(":checked")) {
+                    //$('#newejer').prop('checked', true);
+                    //$('#repejer').prop('checked', false);
+                    //$('#usuario').css("display", "none");
+                    //$('#labelEjer').css("display", "block");
+                    //$('#cat').css("display", "block");
+                    //$('#botón').css("display", "none");
+                    alert('hola');
+                }
 
                 $('#newejer').click(function () {
                     $('#cat').val('');

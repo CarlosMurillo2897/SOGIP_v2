@@ -24,7 +24,16 @@ namespace SOGIP_v2.Controllers
 
         public JsonResult GetRutinas()
         {
+  
             var Rutinas = db.Rutinas.Include("Usuario").ToList();
+            //var consulta = from f in db.Rutinas
+            //               select new
+            //               {
+            //                   //Cedula = f.Usuario.Cedula,
+            //                   //Nombre = f.Usuario.Nombre1 + " " + f.Usuario.Apellido1 + " " + f.Usuario.Apellido2,
+            //                   Fecha = f.RutinaFecha,
+            //                   Id = f.RutinaId
+            //               };
             return Json(Rutinas, JsonRequestBehavior.AllowGet);
 
         }
