@@ -273,11 +273,11 @@
                         url: '/Rutinas/EditRutina',
                         data: data,
                         success: function (data) {
-
                             $('#editar').modal('hide');
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();
-                            $('#rutina').DataTable().ajax.reload(null, false);
+                            var date = new Date(parseInt(data.RutinaFecha.substr(6)));
+                            table.row(tr).add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
 
                         },
                         error: function () {

@@ -141,10 +141,6 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>Ejercicio: </label>
-                                    <a class='btn  btn-success pull-right' style='padding: 2px 6px; margin: 2px;' id="btnNuevo">
-                                       
-                                        <span style='color: white;' class='glyphicon glyphicon-plus-sign'></span>
-                                    </a>
                                     <input type="text" class="form-control" id="ejer" readonly />
                                 </div>
                                 <div class="form-group col-md-4">
@@ -234,31 +230,17 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" id="cerrar">&times;</button>
-                        <h4 class="modal-title">Agregar Ejercicio</h4>
+                        <button type="button" class="close" id="cerrar" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title" style=' display:none;' id="agr">Agregar Ejercicio</h4>
+                        <h4 class="modal-title"  style=' display:none;' id="edit">Cambiar Ejercicio</h4>
                         <br>
                         <div class="modal-body">
-                            @*Tabla de Tipos*@
-                            @*<div class="row" id="infouser">
-                                <div class="form-group col-lg-6 col-md-6 col-sm-6">
-                                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione Ejercicio." readonly />
-                                </div>
-                                <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                    <button id="botón" type="button" class="btn btn-warning btn-block">
-                                        <text id="texto">Ejercicio</text>
-                                        <span id="icono" class="glyphicon glyphicon-search"></span>
-                                    </button>
-                                </div>
-                            </div>*@
+
                             <hr />
                             <div class="table-responsive" id="Tabla_Prin">
                                 <div id="tablePrin"></div>
                             </div>
-                            @*<div class="modal-footer">
-                                <br />
-                                <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                                <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
-                            </div>*@
+
                         </div>
                     </div>
                 </div>
@@ -530,23 +512,36 @@
 
 
             });
+            var td1 = null;
+            var tr1 = null;
+            var nomejer = null;
             $('#tabla tbody').on('click', '.input10', function () {
+                $('#edit').css("display", "none");
+                $('#agr').css("display", "block");
+                tablaEjercicios();
+                td1 = null;
+                tr1 = null;
                 $('#nueva').modal('show');
-                var td1 = $(this);
-                var tr1 = td1.closest('tr');
-               tablaEjercicios();
-
-                $('#tablePrin').on('click', 'td.select-checkbox', function () {
-                    var td = $(this);
-                    var tr = td.closest('tr');
-                    $('#usuario').val(tr.find('td:eq(1)').text());
-                    idEjer = tr.find('td:eq(1)').text();
-                    $('#nueva').modal('hide');
-                    $('#usuario').val('');
-                    tr1.find('.input10').val(idEjer);
-                });
-           });
+                td1 = $(this);
+                tr1 = td1.closest('tr');
                
+ 
+            });
+  
+            $('#tablePrin').on('click', 'td.select-checkbox', function () {
+                nomejer = null;
+                var td = $(this);
+                var tr = td.closest('tr');
+                nomejer = tr.find('td:eq(1)').text();
+                if ($('#agr').is(':visible')) {
+                    $('#nueva').modal('hide');
+                    tr1.find('.input10').val(nomejer);
+                } else {
+                    $('#nueva').modal('hide');
+                    $('#ejer').val(nomejer);
+                }
+            });
+
             $('#tabla tbody').on('click', '.btn-danger', function () {
                 var td1 = $(this);
                 var tr1 = td1.closest('tr').remove();
@@ -613,6 +608,13 @@
                 }
                 contador = null;
 
+            });
+            
+            $('#ejer').click(function () {
+                $('#agr').css("display", "none");
+                $('#edit').css("display", "block");
+                tablaEjercicios();
+                $('#nueva').modal('show');
             });
            
        });
