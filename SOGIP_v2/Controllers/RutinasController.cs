@@ -7,69 +7,198 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using SOGIP_v2.Models;
-using System.Text.RegularExpressions;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+
 
 namespace SOGIP_v2.Controllers
 {
     public class RutinasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
+        {
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
 
         // GET: Rutinas
         [Authorize(Roles = "Administrador,Supervisor,Entrenador")]
         public ActionResult Index()
         {
+            string userid = HttpContext.User.Identity.GetUserId();
+            var userRoles = UserManager.GetRoles(userid);
+            ViewBag.Role = userRoles.First();
             return View();
         }
 
-        public JsonResult GetRutinas()
+        public JsonResult GetRutinasAdministrador(string usuarioId)
         {
-  
-            var Rutinas = db.Rutinas.Include("Usuario").ToList();
-            //var consulta = from f in db.Rutinas
-            //               select new
-            //               {
-            //                   //Cedula = f.Usuario.Cedula,
-            //                   //Nombre = f.Usuario.Nombre1 + " " + f.Usuario.Apellido1 + " " + f.Usuario.Apellido2,
-            //                   Fecha = f.RutinaFecha,
-            //                   Id = f.RutinaId
-            //               };
-            return Json(Rutinas, JsonRequestBehavior.AllowGet);
+         
+            var consulta = (from f in db.Rutinas.Include("Usuario")
+                            from m in db.Funcionario_ICODER
+                            where m.Entrenador.Id == usuarioId && f.Usuario == m.Usuario
+                            select new
+                            {
+                                Cedula = f.Usuario.Cedula,
+                                Usuario = f.Usuario.Nombre1 +""+f.Usuario.Apellido1+""+ f.Usuario.Apellido2,
+                                Fecha = f.FechaInicio,
+                                Fecha2 = f.FechaFin,
+                                Objetivo = f.RutinaObservaciones,
+                                Id = f.RutinaId
+                            }).ToList();
+    
+            return Json(consulta, JsonRequestBehavior.AllowGet);
 
         }
-        public JsonResult GetUsuarios()
+        public JsonResult GetRutinasEntrenador(string usuarioId)
         {
 
-            var consulta1 = from f in db.Funcionario_ICODER
-                            from u in db.Users.Where(u => u.Id == f.Usuario.Id)
+            var consulta = (from f in db.Rutinas.Include("Usuario")
+                            from m in db.Funcionario_ICODER
+                            where m.Entrenador.Id == usuarioId && f.Usuario == m.Usuario
+                            select new
+                            {
+                                Cedula = f.Usuario.Cedula,
+                                Usuario = f.Usuario.Nombre1 + "" + f.Usuario.Apellido1 + "" + f.Usuario.Apellido2,
+                                Fecha = f.FechaInicio,
+                                Fecha2 = f.FechaFin,
+                                Objetivo = f.RutinaObservaciones,
+                                Id = f.RutinaId
+                            }).ToList();
+
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult GetRutinasSeleccion(string usuarioId)
+        {
+
+            var consulta = (from f in db.Rutinas.Include("Usuario")
+                            from m in db.Funcionario_ICODER
+                            where m.Entrenador.Id == usuarioId && f.Usuario == m.Usuario
+                            select new
+                            {
+                                Cedula = f.Usuario.Cedula,
+                                Usuario = f.Usuario.Nombre1 + "" + f.Usuario.Apellido1 + "" + f.Usuario.Apellido2,
+                                Fecha = f.FechaInicio,
+                                Fecha2 = f.FechaFin,
+                                Objetivo = f.RutinaObservaciones,
+                                Id = f.RutinaId
+                            }).ToList();
+
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult GetRutinasAsociacion(string usuarioId)
+        {
+
+            var consulta = (from f in db.Rutinas.Include("Usuario")
+                            from m in db.Funcionario_ICODER
+                            where m.Entrenador.Id == usuarioId && f.Usuario == m.Usuario
+                            select new
+                            {
+                                Cedula = f.Usuario.Cedula,
+                                Usuario = f.Usuario.Nombre1 + "" + f.Usuario.Apellido1 + "" + f.Usuario.Apellido2,
+                                Fecha = f.FechaInicio,
+                                Fecha2 = f.FechaFin,
+                                Objetivo = f.RutinaObservaciones,
+                                Id = f.RutinaId
+                            }).ToList();
+
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult GetAtletasAdministrador(string usuarioId)
+        {
+            var consulta = (from f in db.Funcionario_ICODER
+                            where f.Entrenador.Id == usuarioId
+                            select new
+                            {
+                                Accion ="",
+                                Cedula = f.Usuario.Cedula,
+                                Nombre = f.Usuario.Nombre1 + " " + f.Usuario.Nombre2,
+                                Apellido1 = f.Usuario.Apellido1,
+                                Apellido2 = f.Usuario.Apellido2
+                            }).ToList();
+            var aux = consulta;
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetUsuariosEntrenador(string usuarioId)
+        {
+            var consulta = from a in db.Atletas
+                           from sub in db.SubSeleccion
+                           from c in db.Categorias
+                           where (a.SubSeleccion.Entrenador.Id == usuarioId && sub.SubSeleccionId == a.SubSeleccion.SubSeleccionId && sub.Categoria_Id.CategoriaId == c.CategoriaId)
+                           select new
+                           {
+                               Accion = "",
+                               Cedula = a.Usuario.Cedula,
+                               Nombre = a.Usuario.Nombre1 + " " + a.Usuario.Nombre2,
+                               Apellido1 = a.Usuario.Apellido1,
+                               Apellido2 = a.Usuario.Apellido2
+                           };
+            var aux = consulta.ToList();
+            return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetUsuariosSeleccion(string usuarioId)
+        {
+            var consulta = from a in db.Atletas
+                           from sub in db.SubSeleccion
+                           from c in db.Categorias
+                           where (sub.Seleccion.Usuario.Id == usuarioId && a.SubSeleccion.SubSeleccionId == sub.SubSeleccionId && sub.Categoria_Id.CategoriaId == c.CategoriaId)
+                           select new
+                           {
+                               Accion = "",
+                               Cedula = a.Usuario.Cedula,
+                               Nombre = a.Usuario.Nombre1 + " " + a.Usuario.Nombre2,
+                               Apellido1 = a.Usuario.Apellido1,
+                               Apellido2 = a.Usuario.Apellido2
+                           };
+
+            var traineers = from sub in db.SubSeleccion
+                            from u in db.Users
+                            from c in db.Categorias
+                            where
+                            sub.Seleccion.Usuario.Id == usuarioId
+                            && sub.Entrenador != null
+                            && sub.Entrenador.Id == u.Id
+                            && sub.Categoria_Id.CategoriaId == c.CategoriaId
                             select new
                             {
                                 Accion = "",
                                 Cedula = u.Cedula,
-                                Nombre = u.Nombre1,
+                                Nombre = u.Nombre1 + " " + u.Nombre2,
                                 Apellido1 = u.Apellido1,
-                                Apellido2 = u.Apellido2,
-                                Rol = "Funcionario"
+                                Apellido2 = u.Apellido2
                             };
 
-            var consulta = from a in db.Atletas
-                           from u in db.Users.Where(u => u.Id == a.Usuario.Id)
-                           select new
-                           {
-                               Accion = "",
-                               Cedula = u.Cedula,
-                               Nombre = u.Nombre1,
-                               Apellido1 = u.Apellido1,
-                               Apellido2 = u.Apellido2,
-                               Rol = "Atleta"
-                           };
-
-            var enume = Enumerable.Union(consulta1, consulta);
-            var usuarios = enume.ToList();
-            return Json(usuarios, JsonRequestBehavior.AllowGet);
+            var list = Enumerable.Union(consulta, traineers).ToList();
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetAtletasAsociacion(string usuarioId)
+        {
+            var consulta = (from a in db.Atletas
+                            where a.Asociacion_Deportiva.Usuario.Id == usuarioId
+                            select new
+                            {
+                                Accion = "",
+                                Cedula = a.Usuario.Cedula,
+                                Nombre = a.Usuario.Nombre1 + " " + a.Usuario.Nombre2,
+                                Apellido1 = a.Usuario.Apellido1,
+                                Apellido2 = a.Usuario.Apellido2
+                            }).ToList();
+            var aux = consulta;
+            return Json(consulta, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SaveRutina(DateTime fecha, string obs, string id)
+        public JsonResult SaveRutinaNueva(DateTime fecha,DateTime fecha2, string obs, string id)
         {
             Rutina nueva = new Rutina();
             try
@@ -78,7 +207,8 @@ namespace SOGIP_v2.Controllers
                 if (User != null)
                 {
                     nueva.Usuario = User;
-                    nueva.RutinaFecha = fecha;
+                    nueva.FechaInicio = fecha;
+                    nueva.FechaFin = fecha2;
                     nueva.RutinaObservaciones = obs;
                     db.Rutinas.Add(nueva);
                 }
@@ -91,14 +221,15 @@ namespace SOGIP_v2.Controllers
             return Json(nueva, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult EditRutina(DateTime fecha, string obs, int id)
+        public JsonResult EditRutina(DateTime fecha, DateTime fecha2, string obs, int id)
         {
             Rutina rutina = db.Rutinas.Single(x => x.RutinaId == id);
             try
             {
                 if (rutina != null)
                 {
-                    rutina.RutinaFecha = fecha;
+                    rutina.FechaInicio = fecha;
+                    rutina.FechaFin = fecha2;
                     rutina.RutinaObservaciones = obs;
                 }
                 db.SaveChanges();

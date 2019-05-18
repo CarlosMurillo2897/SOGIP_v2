@@ -432,6 +432,7 @@
                     $('#ejercicios').show();
                     $('#ejercicios').DataTable().ajax.reload(null, false);
                     $('#ejer').val('');
+                   
                 },
                 error: function () {
                     alert("Fallo");
@@ -450,6 +451,7 @@
                     $('.modal-backdrop').remove();
                     $('#tipoEjer1').DataTable().ajax.reload(null, false);
                     $('#cat').val('');
+                   
                 },
                 error: function () {
                     alert("Fallo");
@@ -492,6 +494,14 @@
                     alert("Fallo");
                 }
             })
+        }
+        function bootbox2(message) {//para errores
+            bootbox.alert({
+                size: 'small',
+                closeButton: false,
+                message: '<p><i class="fa fa-exclamation-triangle"></i>' + message + '</p>'
+            });
+
         }
         function EditarEjercicio(data) {
             $.ajax({
@@ -564,10 +574,9 @@
             }
         }
 
-        /*Aqui*/       $.validator.setDefaults({
+     $.validator.setDefaults({
             submitHandler: function () {
                 enviar();
-                alert("Enviando solicitud.");
             }
         });
 

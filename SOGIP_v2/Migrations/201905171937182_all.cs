@@ -3,7 +3,7 @@ namespace SOGIP_v2.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class _all : DbMigration
+    public partial class all : DbMigration
     {
         public override void Up()
         {
@@ -311,7 +311,8 @@ namespace SOGIP_v2.Migrations
                 c => new
                     {
                         RutinaId = c.Int(nullable: false, identity: true),
-                        RutinaFecha = c.DateTime(nullable: false),
+                        FechaInicio = c.DateTime(nullable: false),
+                        FechaFin = c.DateTime(nullable: false),
                         RutinaObservaciones = c.String(),
                         Usuario_Id = c.String(maxLength: 128),
                     })

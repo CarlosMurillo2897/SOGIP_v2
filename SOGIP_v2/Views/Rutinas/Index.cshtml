@@ -1,4 +1,6 @@
 ﻿@model SOGIP_v2.Models.Rutina
+@using Microsoft.AspNet.Identity
+@using App.Extensions
 
 @{
     ViewBag.Title = "Lista de Rutinas";
@@ -17,11 +19,12 @@
 
 <div class="container container-fluid">
     <div class="well">
+        <input type="hidden" id="ced" value="@User.Identity.GetUserId()" />
+        <input type="hidden" id="role" value="@ViewBag.Role" />
         <button type="button" class="btn btn-success" data-toggle="modal" id="btnNuevo">
             <span class="glyphicon glyphicon-plus-sign"></span>
             Nueva Rutina
         </button>
-
         <br>
         <br>
         @*La tabla principal*@
@@ -29,7 +32,7 @@
         <div class="table-responsive">
             <table id="rutina" class="table table-striped table-bordered table-hover"></table>
         </div>
-   </div>
+    </div>
 </div>
 <div id="nuevo" class="modal fade" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -41,19 +44,39 @@
             </div>
             <form id="forcat" method="post" novalidate="novalidate">
                 <div class="modal-body">
-                    <div class="form-group col-md-12">
-                        <label>Fecha Inicio de Rutina: </label>
-                        <div class="afect">
-                            <div class="input-group date" data-provide="datepicker" id="dtp1">
-                                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                                <input type="text" class="form-control" id="txtStart" name="txtStart"readonly>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label>Fecha Inicio de Rutina: </label>
+                            <div class="afect">
+                                <div class="input-group date" data-provide="datepicker" id="dtp">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    <input type="text" class="form-control" id="txtStart" name="txtStart" readonly>
+                                </div>
                             </div>
                         </div>
-                        <label>Objetivo de la Rutina: </label>
-                        <div class="afect">
-                            <input type="text" class="form-control" placeholder="Objetivo" id="obj" />
+                        <div class="form-group col-md-6">
+                            <label>Fecha Fin de Rutina: </label>
+                            <div class="afect">
+                                <div class="input-group date" data-provide="datepicker" id="dtp1">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                                    <input type="text" class="form-control" id="txtStart2" name="txtStart2" readonly>
+                                </div>
+                            </div>
                         </div>
-                        <label>Usuario: </label>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                            <label>Observaciones de la Rutina: </label>
+                            <div class="afect">
+                                <input type="text" class="form-control" placeholder="Observaciones" id="obj" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group col-lg-12 col-md-12 col-sm-12">
+                            <label>Usuario: </label>
+                        </div>
                         <div class="afect">
                             <div class="form-group col-lg-6 col-md-6 col-sm-6">
                                 <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
@@ -65,13 +88,13 @@
                                 <span id="icono" class="glyphicon glyphicon-search"></span>
                             </button>
                         </div>
-                        <div class="form-group col-md-12">
+                        <div class="form-group col-lg-12 col-md-6 col-sm-12">
                             <div class="table-responsive" id="tablaUsuarios">
                                 <div id="example"></div>
                             </div>
-                            </div>
                         </div>
                     </div>
+                </div>
                 <div class="modal-footer">
                     <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
@@ -80,329 +103,382 @@
         </div>
     </div>
 </div>
-       
+
 
 @section Scripts {
 
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
-
+   
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/Scripts/bootstrap-datepicker.js")
 
-    <script>
-        var table;
-        var dataSet = [];
-      
-        function tablaRutina() {
-            $.ajax({
-                type: "POST",
-                dataType: "JSON",
-                url: '/Rutinas/GetRutinas',
-                success: function (data) {
-                    $.each(data, function (i, v) {
-                        var date = new Date(parseInt(v.RutinaFecha.substr(6)));
-                        dataSet.push([v.Usuario.Cedula, v.Usuario.Nombre1 + " " + v.Usuario.Apellido1 + " " + v.Usuario.Apellido2, date.toLocaleDateString("en-GB"), v.RutinaObservaciones, v.RutinaId, v.RutinaId]);
-                    })
-                    table = $('#rutina').DataTable({
-                        "language": {
-                            "lengthMenu": "Mostrando _MENU_ resultados por página.",
-                            "zeroRecords": "No se han encontrado registros.",
-                            "info": "Mostrando página _PAGE_ de _PAGES_.",
-                            "infoEmpty": "No hay datos para mostrar",
-                            "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
-                            "search": "Filtrar:",
-                            "paginate": {
-                                "first": "Primero",
-                                "last": "Ultimo",
-                                "next": "Siguiente",
-                                "previous": "Anterior"
-                            }
-                        },
-                        data: dataSet,
-                        columns: [
-                            { title: "Cédula" },
-                            { title: "Usuario" },
-                            { title: "Fecha" },
-                            { title: "Objetivo" },
-                            {
-                                title: "Id",
-                                "visible": false,
-                                "searchable": false
-                            },
-                            {
-                                title: "Acción",
-                                "render": function (Id) {
-                                    return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
-                                        "<text class='hidden-xs'>Editar </text>" +
-                                        "<span class='glyphicon glyphicon-pencil'></span>" +
-                                        "</a>" +
-                                        "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
-                                        "<text class='hidden-xs'>Rutina </text>" +
-                                        "<span class='glyphicon glyphicon-list'></span>" +
-                                        "</a>";
-                                }
-                            }
-                        ],
+<script>
+    var table;
+    var dataSet = [];
+    var ced = $('#ced').val();
+    var url = "";
+    var date;
+    function tablaRutina() {
+        if ($('#role').val() == "Administrador") {
+            url = "/Rutinas/GetRutinasAdministrador";
+        }
+        else if ($('#role').val() == "Seleccion/Federacion") {
+            url = "/Rutinas/GetRutinasSeleccion";
 
-                        'select': {
-                            'style': 'os',
-                            'selector': 'td:first-child'
-                        }
-                    });
+        }
+        else if ($('#role').val() == "Asociacion/Comite") {
+            url = "/Rutinas/GetRutinasAsociacion";
+        }
+        else if ($('#role').val() == "Entrenador") {
+
+            url = "/Rutinas/GetRutinasEntrenador";
+
+        }
+        table = $('#rutina').DataTable({
+            "language": {
+                "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                "zeroRecords": "No se han encontrado registros.",
+                "info": "Mostrando página _PAGE_ de _PAGES_.",
+                "infoEmpty": "No hay datos para mostrar",
+                "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                "search": "Filtrar:",
+                "paginate": {
+                    "first": "Primero",
+                    "last": "Ultimo",
+                    "next": "Siguiente",
+                    "previous": "Anterior"
+                }
+            },
+            "ajax": {
+                "url": url,
+                "type": "GET",
+                "dataSrc": "",
+                "data": { usuarioId: ced }
+            },
+            columns: [
+                {
+                    title: "Cédula",
+                    data: "Cedula"
+                },
+                {
+                    title: "Usuario",
+                    data: "Usuario"
+                },
+                {
+                    title: "Fecha Inicio",
+                    data: "Fecha"
+                },
+                {
+                    title: "Fecha Fin",
+                    data: "Fecha2"
+                },
+                {
+                    title: "Objetivo",
+                    data: "Objetivo"
                 },
 
-                error: function (error) {
-                    alert("Fallo");
-                }
-            });
-        }
-       
-        function EditarRut(id) {
-            var tr = $('#boton_' + id).closest('tr');
-            var table = $('#rutina').DataTable().rows(tr).data();
-            var n = null;
-            var ob = null;
-            var fec = null;
-            $.each(table, function (i, val) {
-                n = val[0] + " " + val[1];
-                fec = val[2];
-                ob = val[3];
-                idRut = val[4];
-            });
-            $('#inpE').show();
-            document.getElementById("einf").value = n;
-            document.getElementById("hidef").value = n
-            $('#objetivo').val(ob);
-            $('#fecha').datepicker("update", fec);
-
-            $('#btnEdit').click(function () {
-                if ($('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy') == "") {
-                    alert("Faltan  Fecha");
-                } else {
-                    data = {
-                        fecha: $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy'),
-                        obs: $('#objetivo').val().trim(),
-                        id: idRut
+                {
+                    title: "Acción",
+                    data: "Id",
+                    "render": function (Id) {
+                        return "<a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;'  id='boton_" + Id + "' onclick='EditarRut(" + Id + ")'data-toggle='modal'  data-target='#editar'>" +
+                            "<text class='hidden-xs'>Editar </text>" +
+                            "<span class='glyphicon glyphicon-pencil'></span>" +
+                            "</a>" +
+                            "<a class='btn btn-primary' style='padding: 2px 6px; margin: 2px;' id='boton_" + Id + "' onclick='EnviarRut(" + Id + ")''>" +
+                            "<text class='hidden-xs'>Rutina </text>" +
+                            "<span class='glyphicon glyphicon-list'></span>" +
+                            "</a>";
                     }
-                    $.ajax({
-                        type: "POST",
-                        dataType: "JSON",
-                        url: '/Rutinas/EditRutina',
-                        data: data,
-                        success: function (data) {
-                            $('#editar').modal('hide');
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
-                            $.each(data, function (i, v) {
-                                alert(data.Usuario.Cedula);
-                            //var date = new Date(parseInt(data.RutinaFecha.substr(6)));
-                            //$('#rutina').DataTable().row(tr).add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
-                            })
-                           
-
-                        },
-                        error: function () {
-                            alert("Fallo");
-                        }
-                    })
                 }
-            })
-        }
-        function EnviarRut(id) {
-            var tr = $('#boton_' + id).closest('tr');
-            var table = $('#rutina').DataTable().rows(tr).data();
-            var idRutina = null;
-            var idUsuario = null;
-            $.each(table, function (i, val) {
-                idUsuario = val[1];
-                idRutina = val[5];
-            });
-            data = {
-                idUsuario: idUsuario,
-                idRutina: idRutina
-            }
-            window.location.href = '/Rutinas/Ejercicio?idRutina=' + idRutina;
+            ]
+        });
+    }
 
-        }
-        $(document).ready(function () {
+    function EditarRut(id) {
+        alert(id);
+        var tr = $('#boton_' + id).closest('tr');
+        var table = $('#rutina').DataTable().rows(tr).data();
+        var n = null;
+        var ob = null;
+        var fec = null;
+        $.each(table, function (i, val) {
+            n = val[0] + " " + val[1];
+            fec = val[2];
+            ob = val[3];
+            idRut = val[4];
+        });
+        $('#inpE').show();
+        document.getElementById("einf").value = n;
+        document.getElementById("hidef").value = n
+        $('#objetivo').val(ob);
+        $('#fecha').datepicker("update", fec);
 
-            var cedu = null;
-
-
-            tablaRutina();
-
-            $('#btnNuevo').click(function () {
-                $('#edit').css("display", "none");
-                $('#agr').css("display", "block");
-                $('#nuevo').modal('show');
-                $('#usuario').val('');
-                $('#obj').val('');
-                $('#dtp1').val('');
-
-            })
-           
-
-            $('#btnSave').click(function () {
-                var data = null;
-                var objetivo = $('#obj').val();
-                var fecha1 = $('#fec').data('datepicker').getFormattedDate('dd/mm/yyyy');
-                if (cedu == null || fecha1 == "") {
-                    alert("Faltan Datos de Usuario o Fecha");
-                } else {
-                    data = {
-                        fecha: $('#dtp1').data('datepicker').getFormattedDate('dd/mm/yyyy'),
-                        obs: $('#obj').val().trim(),
-                        id: cedu
-                    }
-                    SaveDate(data);
+        $('#btnEdit').click(function () {
+            if ($('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy') == "") {
+                alert("Faltan  Fecha");
+            } else {
+                data = {
+                    fecha: $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                    obs: $('#objetivo').val().trim(),
+                    id: idRut
                 }
-            })
-
-            function SaveDate(data) {
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: '/Rutinas/SaveRutina',
+                    url: '/Rutinas/EditRutina',
                     data: data,
                     success: function (data) {
-                        var date = new Date(parseInt(data.RutinaFecha.substr(6)));
-                        var table = $('#rutina').DataTable();
-                        table.row.add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
-                        $('#nueva').modal('hide');
+                        $('#editar').modal('hide');
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
+                        $.each(data, function (i, v) {
+                            alert(data.Usuario.Cedula);
+                            //var date = new Date(parseInt(data.RutinaFecha.substr(6)));
+                            //$('#rutina').DataTable().row(tr).add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
+                        })
+
+
                     },
                     error: function () {
                         alert("Fallo");
                     }
                 })
             }
+        })
+    }
+    function EnviarRut(id) {
+        var tr = $('#boton_' + id).closest('tr');
+        var table = $('#rutina').DataTable().rows(tr).data();
+        var idRutina = null;
+        var idUsuario = null;
+        $.each(table, function (i, val) {
+            idUsuario = val[1];
+            idRutina = id;
+        });
+        data = {
+            idUsuario: idUsuario,
+            idRutina: id
+        }
+        window.location.href = '/Rutinas/Ejercicio?idRutina=' + idRutina;
 
-
-            function usuarios() {
-                $('#usuarios1').DataTable().destroy();
-                $('#usuarios1').remove();
-                $('#example').show();
-                var tabla = $('<table/>', { id: 'usuarios1', class: 'table table-striped table-bordered dt-responsive nowrap' }).append('<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>Apellido1</th><th>Apellido2</th><th>Rol</th></tr></thead>');
-                $('#example').append(tabla);
-                table1 = $('#usuarios1').DataTable({
-                    "language": {
-                        "lengthMenu": "Mostrando _MENU_ resultados por página.",
-                        "zeroRecords": "No se han encontrado registros.",
-                        "info": "Mostrando página _PAGE_ de _PAGES_.",
-                        "infoEmpty": "No hay datos para mostrar",
-                        "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
-                        "search": "Filtrar:",
-                        "paginate": {
-                            "first": "Primero",
-                            "last": "Ultimo",
-                            "next": "Siguiente",
-                            "previous": "Anterior"
-                        }
-                    },
-                    "ajax": {
-                        "url": "/Rutinas/GetUsuarios",
-                        "type": "GET",
-                        "dataSrc": ""
-                    },
-                    columns: [
-                        { data: "Accion" },
-                        { data: "Cedula" },
-                        { data: "Nombre" },
-                        { data: "Apellido1" },
-                        { data: "Apellido2" },
-                        { data: "Rol" }
-                    ],
-                    'columnDefs': [
-                        {
-                            orderable: false,
-                            className: 'select-checkbox',
-                            targets: [0]
-                        }
-                    ],
-                    'select': {
-                        'style': 'os',
-                        'selector': 'td:first-child'
-
-                    }
-                });
+    }
+    function SaveRutina(data) {
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: '/Rutinas/SaveRutinaNueva',
+            data: data,
+            success: function (data) {
+                //var date = new Date(parseInt(data.RutinaFecha.substr(6)));
+                //var table = $('#rutina').DataTable();
+                //table.row.add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
+                $('#nueva').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                $('#rutina').DataTable().ajax.reload(null, false);
+            },
+            error: function () {
+                alert("Fallo");
             }
-            $('#example').on('click', 'td.select-checkbox', function () {
-                var td = $(this);
-                var tr = td.closest('tr');
-                $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
-                cedu = tr.find('td:eq(1)').text();
-                $('#tablaUsuarios').hide();
-            });
+        })
+    }
+    function enviar() {
+        var data = null;
+        data = {
+            fecha: $('#dtp').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+            fecha2: $('#dtp1').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+            obs: $('#obj').val().trim(),
+            id: cedu
+        }
+        SaveRutina(data);
+    }
+    $.validator.setDefaults({
+        submitHandler: function () {
+            enviar();
+            alert('hoa');
+        }
+    });
+
+    $(document).ready(function () {
+
+        var cedu = null;
 
 
-            $('#botón').click(function () {
-                usuarios();
+        tablaRutina();
+        $("#dtp").datepicker({
+            format: 'dd/mm/yyyy',
+            startDate: '-365d',
+            endDate: '+365d',
+            daysOfWeekDisabled: false
+        });
+        $("#dtp1").datepicker({
+            format: 'dd/mm/yyyy',
+            startDate: '-365d',
+            endDate: '+365d',
+            daysOfWeekDisabled: false
+        });
 
-            });
-            $("#forcat").validate({
-                rules: {
-                    txtStart: {
+        $('#btnNuevo').click(function () {
+            $('#edit').css("display", "none");
+            $('#agr').css("display", "block");
+            $('#nuevo').modal('show');
+            $('#usuario').val('');
+            $('#obj').val('');
+            $('#dtp').val('');
+            $('#dtp1').val('');
 
-                        required: true,
-                        
-                       
-                    },
-                    obj: {
-                        required: false,
-                        minlength: 0
-                      
-                    },
-                    usuario: {
-                        required: true,
-                        
+        })
+
+        function usuarios() {
+            if ($('#role').val() == "Administrador") {
+                url = "/Rutinas/GetAtletasAdministrador";
+            }
+            else if ($('#role').val() == "Seleccion/Federacion") {
+                url = "/Rutinas/GetUsuariosSeleccion";
+
+            }
+            else if ($('#role').val() == "Asociacion/Comite") {
+                url = "/Rutinas/GetAtletasAsociacion";
+            }
+            else if ($('#role').val() == "Entrenador") {
+
+                url = "/Rutinas/GetUsuariosEntrenador";
+
+            }
+            $('#usuarios1').DataTable().destroy();
+            $('#usuarios1').remove();
+            $('#example').show();
+            var tabla = $('<table/>', { id: 'usuarios1', class: 'table table-striped table-bordered dt-responsive nowrap' }).append('<thead><tr><th>Acción</th><th>Cédula</th><th>Nombre</th><th>Apellido1</th><th>Apellido2</th></tr></thead>');
+            $('#example').append(tabla);
+            table1 = $('#usuarios1').DataTable({
+                "language": {
+                    "lengthMenu": "Mostrando _MENU_ resultados por página.",
+                    "zeroRecords": "No se han encontrado registros.",
+                    "info": "Mostrando página _PAGE_ de _PAGES_.",
+                    "infoEmpty": "No hay datos para mostrar",
+                    "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+                    "search": "Filtrar:",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
                     }
+                },
+                "ajax": {
+                    "url": url,
+                    "type": "GET",
+                    "dataSrc": "",
+                    "data": { usuarioId: ced }
+                },
+                columns: [
+                    { data: "Accion" },
+                    { data: "Cedula" },
+                    { data: "Nombre" },
+                    { data: "Apellido1" },
+                    { data: "Apellido2" }
+                ],
+                'columnDefs': [
+                    {
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets: [0]
+                    }
+                ],
+                'select': {
+                    'style': 'os',
+                    'selector': 'td:first-child'
 
-                },
-                messages: {
-                    txtStart: {
-                        required: "La fecha es obligatoria."
-                        
-                    },
-                    obj: {
-                       
-                    },
-                    usuario: {
-                        required: "El Usuario es obligatorio."
-                    }
-                },
-                errorElement: "em",
-                errorPlacement: function (error, element) {
-                    error.addClass("help-block");
-                    element.parents(".afect").addClass("has-feedback");
-
-                    if (element.prop("id") === "nac") {
-                        error.insertAfter(element.parent("div"));
-                    } else {
-                        error.insertAfter(element);
-                    }
-                    if (!element.next("span")[0]) {
-                        $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
-                    }
-                },
-                success: function (label, element) {
-                    if (!$(element).next("span")[0]) {
-                        $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
-                    }
-                },
-                highlight: function (element, errorClass, validClass) {
-                    $(element).parents(".afect").addClass("has-error").removeClass("has-success");
-                    $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                    $(element).parents(".afect").addClass("has-success").removeClass("has-error");
-                    $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
                 }
             });
+        }
+        $('#example').on('click', 'td.select-checkbox', function () {
+            var td = $(this);
+            var tr = td.closest('tr');
+            $('#usuario').val(tr.find('td:eq(1)').text() + ' ' + tr.find('td:eq(2)').text() + ' ' + tr.find('td:eq(3)').text() + ' ' + tr.find('td:eq(4)').text());
+            cedu = tr.find('td:eq(1)').text();
+            $('#tablaUsuarios').hide();
+        });
+
+
+        $('#botón').click(function () {
+            usuarios();
 
         });
-    </script>
+        $("#forcat").validate({
+            rules: {
+                txtStart: {
+
+                    required: true,
+
+
+                },
+                txtStart2: {
+
+                    required: true,
+
+
+                },
+                obj: {
+                    required: false,
+                    minlength: 0
+
+                },
+                usuario: {
+                    required: true,
+
+                }
+
+            },
+            messages: {
+                txtStart: {
+                    required: "La fecha es obligatoria."
+
+                },
+                txtStart2: {
+                    required: "La fecha es obligatoria."
+
+                },
+                obj: {
+
+                },
+                usuario: {
+                    required: "El Usuario es obligatorio."
+                }
+            },
+            errorElement: "em",
+            errorPlacement: function (error, element) {
+                error.addClass("help-block");
+                element.parents(".afect").addClass("has-feedback");
+
+                if (element.prop("id") === "nac") {
+                    error.insertAfter(element.parent("div"));
+                } else {
+                    error.insertAfter(element);
+                }
+                if (!element.next("span")[0]) {
+                    $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
+                }
+            },
+            success: function (label, element) {
+                if (!$(element).next("span")[0]) {
+                    $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
+                }
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).parents(".afect").addClass("has-error").removeClass("has-success");
+                $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).parents(".afect").addClass("has-success").removeClass("has-error");
+                $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
+            }
+        });
+
+    });
+</script>
 
 }
 
