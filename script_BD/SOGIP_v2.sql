@@ -51,12 +51,14 @@ use "SOGIP_v3"
  select * from SOGIP_Expedientes_Fisicos;
  select * from SOGIP_Funcionario_ICODER as f, sogip_users as u where f.usuario_id=u.id and u.Sexo=0;
  select * from SOGIP_Horario;
- select * from SOGIP_Maquina
- select * from SOGIP_MaquinaEjercicio
+ select * from SOGIP_Maquina;
+ select * from SOGIP_MaquinaEjercicio;
  select * from SOGIP_Parametro;
  select * from SOGIP_Roles order by Id asc;
  select * from SOGIP_Rutina;
- select * from SOGIP_Reservacion
+ insert into sogip_rutina values('2019-05-22 00:00:00.000','3rd one','137feecf-2c48-4e86-8b79-5906b0057c70');
+ update sogip_rutina set rutinafecha='2019-05-19 00:00:00.000' where rutinaid=8
+ select * from SOGIP_Reservacion;
  select * from SOGIP_Selecciones;
  select * from SOGIP_SubSeleccion;
  select * from SOGIP_Tipo order by TipoId;

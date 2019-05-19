@@ -303,7 +303,13 @@ namespace SOGIP_v2.Controllers
 
             if (idUsuario != null)
             {
-                Rutina rutina = db.Rutinas.Include("Usuario").FirstOrDefault(x => x.Usuario.Id == idUsuario);
+                Rutina rutina = db.Rutinas
+                .Include("Usuario") // Traemos al usuario.
+                .Where(x => x.Usuario.Id == idUsuario) // Buscamos al usuario por medio de su Id.
+                .ToList() // Traemos *TODAS* las rutinas.
+                .OrderByDescending(r => r.RutinaFecha) // Las ordenamos por fecha, de modo que la más reciente queda de primera.
+                .FirstOrDefault(); // Tomamos la primera y con esto obtenemos la más reciente, en caso de no existir rutina simplemente se ve ignorado y dispone como nulo.
+
                 ViewBag.idUsuario = idUsuario;
 
                 if (rutina != null)
