@@ -342,6 +342,10 @@ function cargarAtletas(ced) {
 
 }
 function cargarRutinas(IdUsuario) {
+
+    $('#tablaRutinas').DataTable().destroy();
+    $('#tablaRutinas').remove();
+
         var col = [];
         var head = '<thead><tr><th>Usuario</th><th>Fecha</th><th>Observaciones</th><th>Acción <span class="glyphicon glyphicon-cog"></span></th></tr></thead>';
 
@@ -362,7 +366,7 @@ function cargarRutinas(IdUsuario) {
                     "<span class='glyphicon glyphicon-apple'></span>" +
                     "</a>";
             }
-        };
+    };
 
     var table = $('<table/>', {
         id: 'tablaRutinas',
