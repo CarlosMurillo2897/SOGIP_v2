@@ -283,22 +283,29 @@ namespace SOGIP_v2.Controllers
         {
             if (id != null)
             {
-                Rutina rutina = db.Rutinas.Find(id);
+                Rutina rutina = db.Rutinas.Include("Usuario").Where(x => x.RutinaId == id).FirstOrDefault();
                 int i = rutina.RutinaId;
                 string n = i.ToString();
                 ViewData["rutina"] = n;
+                ViewBag.Usuario = rutina.Usuario.Cedula + " - " + rutina.Usuario.Nombre1 + " " + rutina.Usuario.Nombre2 + " " + rutina.Usuario.Apellido1 + " " + rutina.Usuario.Apellido2;
+                if (rutina != null)
+                {
+                    var getEjercicio1 = db.Conjunto_Ejercicios.Include("EjercicioId").Include("ColorId")
+                        .Where(x => x.ConjuntoEjercicioRutina.RutinaId == id &&
+                        (x.DiaEjercicio == "Dia1"
+                        || x.DiaEjercicio == "Dia2"
+                        || x.DiaEjercicio == "Dia3"
+                        || x.DiaEjercicio == "Dia4"
+                        || x.DiaEjercicio == "Dia5"))
+                        .OrderBy(x => x.DiaEjercicio)
+                        .ToList();
 
-                var getEjercicio1 = db.Conjunto_Ejercicios.Include("EjercicioId").Include("ColorId")
-                    .Where(x => x.ConjuntoEjercicioRutina.RutinaId == id &&
-                    (x.DiaEjercicio == "Dia1" 
-                    || x.DiaEjercicio == "Dia2" 
-                    || x.DiaEjercicio == "Dia3" 
-                    || x.DiaEjercicio == "Dia4" 
-                    || x.DiaEjercicio == "Dia5"))
-                    .OrderBy(x => x.DiaEjercicio)
-                    .ToList();
-
-                ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
+                    ViewBag.Conjunto_Ejercicios1 = (getEjercicio1.Count > 0) ? getEjercicio1 : null;
+                }else
+                {
+                    string men = "No tiene rutina";
+                    ViewData["mensaje"] = men;
+                }
             }
 
             if (idUsuario != null)
@@ -336,6 +343,20 @@ namespace SOGIP_v2.Controllers
                 }
             }
             return View();
+        }
+
+        public JsonResult obtenerRutinasUsuario(string id)
+        {
+            var rutinas = (from r in db.Rutinas
+                          where r.Usuario.Id == id
+                          select new
+                          {
+                              r.RutinaId,
+                              r.RutinaFecha,
+                              r.RutinaObservaciones,
+                              Usuario = r.Usuario.Cedula + " - " + r.Usuario.Nombre1 + " " + r.Usuario.Nombre2 + " " + r.Usuario.Apellido1 + " " + r.Usuario.Apellido2
+                            }).ToList();
+            return Json(rutinas, JsonRequestBehavior.AllowGet);
         }
     }
 }
