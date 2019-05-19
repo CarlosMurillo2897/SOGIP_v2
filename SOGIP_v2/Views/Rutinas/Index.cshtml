@@ -40,7 +40,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title" style=' display:none;' id="agr">Agregar Nueva Rutina</h4>
-                <h4 class="modal-title" style=' display:none;' id="edit">Ediatr Rutina</h4>
+                <h4 class="modal-title" style=' display:none;' id="edit">Editar Rutina</h4>
             </div>
             <form id="forcat" method="post" novalidate="novalidate">
                 <div class="modal-body">
@@ -67,9 +67,9 @@
                     <div class="row">
                         <div class="form-group col-lg-12 col-md-12 col-sm-12">
                             <label>Observaciones de la Rutina: </label>
-                            <div class="afect">
-                                <input type="text" class="form-control" placeholder="Observaciones" id="obj" />
-                            </div>
+                        
+                                <input type="text" class="form-control" placeholder="Observaciones" id="observ" />
+      
                         </div>
                     </div>
                     <div class="row">
@@ -119,6 +119,9 @@
     var ced = $('#ced').val();
     var url = "";
     var date;
+    var cedu = null;
+    var idRut = null;
+
     function tablaRutina() {
         if ($('#role').val() == "Administrador") {
             url = "/Rutinas/GetRutinasAdministrador";
@@ -197,57 +200,45 @@
     }
 
     function EditarRut(id) {
-        alert(id);
-        var tr = $('#boton_' + id).closest('tr');
-        var table = $('#rutina').DataTable().rows(tr).data();
-        var n = null;
-        var ob = null;
-        var fec = null;
-        $.each(table, function (i, val) {
-            n = val[0] + " " + val[1];
-            fec = val[2];
-            ob = val[3];
-            idRut = val[4];
-        });
-        $('#inpE').show();
-        document.getElementById("einf").value = n;
-        document.getElementById("hidef").value = n
-        $('#objetivo').val(ob);
-        $('#fecha').datepicker("update", fec);
-
-        $('#btnEdit').click(function () {
-            if ($('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy') == "") {
-                alert("Faltan  Fecha");
-            } else {
-                data = {
-                    fecha: $('#fecha').data('datepicker').getFormattedDate('dd/mm/yyyy'),
-                    obs: $('#objetivo').val().trim(),
-                    id: idRut
-                }
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/Rutinas/EditRutina',
-                    data: data,
-                    success: function (data) {
-                        $('#editar').modal('hide');
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                        $.each(data, function (i, v) {
-                            alert(data.Usuario.Cedula);
-                            //var date = new Date(parseInt(data.RutinaFecha.substr(6)));
-                            //$('#rutina').DataTable().row(tr).add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
-                        })
-
-
-                    },
-                    error: function () {
-                        alert("Fallo");
-                    }
-                })
+        idRut = id;
+        $('#edit').css("display", "block");
+        $('#agr').css("display", "none");
+        $('#nuevo').modal('show');
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: '/Rutinas/ObtnerRutina',
+            data: { 'id': id },
+            success: function (data) {
+                var date = new Date(parseInt(data.FechaInicio.substr(6)));
+                var date2 = new Date(parseInt(data.FechaFin.substr(6)));
+                $('#txtStart').val(date.toLocaleDateString("en-GB"));
+                $('#txtStart2').val(date2.toLocaleDateString("en-GB"));
+                $('#observ').val(data.RutinaObservaciones);
+                $('#usuario').val(data.Usuario.Cedula + " " + data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2);
+                cedu = data.Usuario.Cedula;
             }
         })
     }
+    function Edit(data) {
+   
+        $.ajax({
+            type: "POST",
+            dataType: "JSON",
+            url: '/Rutinas/EditRutina',
+            data: data,
+            success: function (data) {
+                $('#nuevo').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                $('#rutina').DataTable().ajax.reload(null, false);
+            },
+            error: function () {
+                alert("Fallo");
+            }
+        })
+    }
+
     function EnviarRut(id) {
         var tr = $('#boton_' + id).closest('tr');
         var table = $('#rutina').DataTable().rows(tr).data();
@@ -264,20 +255,18 @@
         window.location.href = '/Rutinas/Ejercicio?idRutina=' + idRutina;
 
     }
-    function SaveRutina(data) {
+    function Save(data) {
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: '/Rutinas/SaveRutinaNueva',
+            url: '/Rutinas/SaveRutina',
             data: data,
             success: function (data) {
-                //var date = new Date(parseInt(data.RutinaFecha.substr(6)));
-                //var table = $('#rutina').DataTable();
-                //table.row.add([data.Usuario.Cedula, data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2, date.toLocaleDateString("en-GB"), data.RutinaObservaciones, data.RutinaId, data.RutinaId]).draw();
-                $('#nueva').modal('hide');
+                $('#nuevo').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
-                $('#rutina').DataTable().ajax.reload(null, false);
+                //$('#rutina').DataTable().ajax.reload(null, false);
+                window.location.href = '/Rutinas/Ejercicio?idRutina=' + data.RutinaId;
             },
             error: function () {
                 alert("Fallo");
@@ -286,24 +275,32 @@
     }
     function enviar() {
         var data = null;
-        data = {
-            fecha: $('#dtp').data('datepicker').getFormattedDate('dd/mm/yyyy'),
-            fecha2: $('#dtp1').data('datepicker').getFormattedDate('dd/mm/yyyy'),
-            obs: $('#obj').val().trim(),
-            id: cedu
+        if ($('#agr').is(':visible')) {
+            data = {
+                fecha: $('#dtp').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                fecha2: $('#dtp1').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                obs: $('#observ').val().trim(),
+                id: cedu
+            }
+            Save(data);
+        } else {
+            data = {
+                fecha: $('#dtp').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                fecha2: $('#dtp1').data('datepicker').getFormattedDate('dd/mm/yyyy'),
+                obs: $('#observ').val().trim(),
+                idUs: cedu,
+                id: idRut
+            }
+            Edit(data);
         }
-        SaveRutina(data);
     }
     $.validator.setDefaults({
         submitHandler: function () {
             enviar();
-            alert('hoa');
         }
     });
 
     $(document).ready(function () {
-
-        var cedu = null;
 
 
         tablaRutina();
@@ -325,9 +322,11 @@
             $('#agr').css("display", "block");
             $('#nuevo').modal('show');
             $('#usuario').val('');
-            $('#obj').val('');
+            $('#observ').val('');
             $('#dtp').val('');
             $('#dtp1').val('');
+            $('#txtStart').val('');
+            $('#txtStart2').val('');
 
         })
 

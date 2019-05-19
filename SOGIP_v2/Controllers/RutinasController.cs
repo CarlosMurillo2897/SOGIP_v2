@@ -48,7 +48,7 @@ namespace SOGIP_v2.Controllers
                             select new
                             {
                                 Cedula = f.Usuario.Cedula,
-                                Usuario = f.Usuario.Nombre1 +""+f.Usuario.Apellido1+""+ f.Usuario.Apellido2,
+                                Usuario = f.Usuario.Nombre1 + " " + f.Usuario.Apellido1 + " " + f.Usuario.Apellido2,
                                 Fecha = f.FechaInicio,
                                 Fecha2 = f.FechaFin,
                                 Objetivo = f.RutinaObservaciones,
@@ -58,16 +58,18 @@ namespace SOGIP_v2.Controllers
             return Json(consulta, JsonRequestBehavior.AllowGet);
 
         }
-        public JsonResult GetRutinasEntrenador(string usuarioId)
+        public JsonResult GetRutinasEntrenador(string usuarioId)//Aqui
         {
 
             var consulta = (from f in db.Rutinas.Include("Usuario")
-                            from m in db.Funcionario_ICODER
-                            where m.Entrenador.Id == usuarioId && f.Usuario == m.Usuario
+                            from a in db.Atletas
+                            from sub in db.SubSeleccion
+                            from c in db.Categorias
+                            where (a.SubSeleccion.Entrenador.Id == usuarioId && sub.SubSeleccionId == a.SubSeleccion.SubSeleccionId && sub.Categoria_Id.CategoriaId == c.CategoriaId && a.Usuario == f.Usuario)
                             select new
                             {
                                 Cedula = f.Usuario.Cedula,
-                                Usuario = f.Usuario.Nombre1 + "" + f.Usuario.Apellido1 + "" + f.Usuario.Apellido2,
+                                Usuario = f.Usuario.Nombre1 + " " + f.Usuario.Apellido1 + " " + f.Usuario.Apellido2,
                                 Fecha = f.FechaInicio,
                                 Fecha2 = f.FechaFin,
                                 Objetivo = f.RutinaObservaciones,
@@ -81,12 +83,14 @@ namespace SOGIP_v2.Controllers
         {
 
             var consulta = (from f in db.Rutinas.Include("Usuario")
-                            from m in db.Funcionario_ICODER
-                            where m.Entrenador.Id == usuarioId && f.Usuario == m.Usuario
+                            from a in db.Atletas
+                            from sub in db.SubSeleccion
+                            from c in db.Categorias
+                            where (a.SubSeleccion.Entrenador.Id == usuarioId && sub.SubSeleccionId == a.SubSeleccion.SubSeleccionId && sub.Categoria_Id.CategoriaId == c.CategoriaId && a.Usuario == f.Usuario)
                             select new
                             {
                                 Cedula = f.Usuario.Cedula,
-                                Usuario = f.Usuario.Nombre1 + "" + f.Usuario.Apellido1 + "" + f.Usuario.Apellido2,
+                                Usuario = f.Usuario.Nombre1 + " " + f.Usuario.Apellido1 + " " + f.Usuario.Apellido2,
                                 Fecha = f.FechaInicio,
                                 Fecha2 = f.FechaFin,
                                 Objetivo = f.RutinaObservaciones,
@@ -100,12 +104,14 @@ namespace SOGIP_v2.Controllers
         {
 
             var consulta = (from f in db.Rutinas.Include("Usuario")
-                            from m in db.Funcionario_ICODER
-                            where m.Entrenador.Id == usuarioId && f.Usuario == m.Usuario
+                            from a in db.Atletas
+                            from sub in db.SubSeleccion
+                            from c in db.Categorias
+                            where (a.SubSeleccion.Entrenador.Id == usuarioId && sub.SubSeleccionId == a.SubSeleccion.SubSeleccionId && sub.Categoria_Id.CategoriaId == c.CategoriaId && a.Usuario == f.Usuario)
                             select new
                             {
                                 Cedula = f.Usuario.Cedula,
-                                Usuario = f.Usuario.Nombre1 + "" + f.Usuario.Apellido1 + "" + f.Usuario.Apellido2,
+                                Usuario = f.Usuario.Nombre1 + " " + f.Usuario.Apellido1 + " " + f.Usuario.Apellido2,
                                 Fecha = f.FechaInicio,
                                 Fecha2 = f.FechaFin,
                                 Objetivo = f.RutinaObservaciones,
@@ -198,7 +204,7 @@ namespace SOGIP_v2.Controllers
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult SaveRutinaNueva(DateTime fecha,DateTime fecha2, string obs, string id)
+       public JsonResult SaveRutina(DateTime fecha, DateTime fecha2, string obs, string id)
         {
             Rutina nueva = new Rutina();
             try
@@ -221,9 +227,10 @@ namespace SOGIP_v2.Controllers
             return Json(nueva, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult EditRutina(DateTime fecha, DateTime fecha2, string obs, int id)
+        public JsonResult EditRutina(DateTime fecha, DateTime fecha2, string obs,string idUs, int id)
         {
             Rutina rutina = db.Rutinas.Single(x => x.RutinaId == id);
+            ApplicationUser User = db.Users.Single(x => x.Cedula == idUs);
             try
             {
                 if (rutina != null)
@@ -231,6 +238,7 @@ namespace SOGIP_v2.Controllers
                     rutina.FechaInicio = fecha;
                     rutina.FechaFin = fecha2;
                     rutina.RutinaObservaciones = obs;
+                    rutina.Usuario = User;
                 }
                 db.SaveChanges();
             }
@@ -239,6 +247,11 @@ namespace SOGIP_v2.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
             return Json(rutina, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult ObtnerRutina(int id)
+        {
+            var consulta = db.Rutinas.Include("Usuario").Where(x => x.RutinaId == id).FirstOrDefault();
+            return Json(consulta, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult DeleteRutina(int rutinaId)
@@ -434,6 +447,9 @@ namespace SOGIP_v2.Controllers
 
             if (idUsuario != null)
             {
+               
+                DateTime today = DateTime.Today;
+              
                 Rutina rutina = db.Rutinas.Include("Usuario").FirstOrDefault(x => x.Usuario.Id == idUsuario);
                 ViewBag.idUsuario = idUsuario;
 
@@ -443,6 +459,7 @@ namespace SOGIP_v2.Controllers
                     int i = rutina.RutinaId;
                     string n = i.ToString();
                     ViewData["rutina"] = n;
+                    ViewData["observaciones"] = rutina.RutinaObservaciones;
 
                     var getEjercicio1 = db.Conjunto_Ejercicios.Include("EjercicioId").Include("ColorId")
                         .Where(x => x.ConjuntoEjercicioRutina.RutinaId == i &&
