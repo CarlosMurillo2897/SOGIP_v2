@@ -32,31 +32,38 @@ use "SOGIP_v3"
 
 
 
-
+ select * from SOGIP_Actividad
  select * from SOGIP_Archivo;
  select * from SOGIP_Asociacion_Deportiva;
  select * from SOGIP_Atletas;
-select * from sogip_users where id='b76a265d-2b9d-4aac-963f-0cc50595b639'
+ select * from sogip_users where id='b76a265d-2b9d-4aac-963f-0cc50595b639'
  select * from SOGIP_Atletas;
  select * from SOGIP_Categorias;
- select * from SOGIP_Color;
  select * from SOGIP_Cita;
+ select * from SOGIP_Color;
  select * from SOGIP_Conjunto_Ejercicio;
+ select * from SOGIP_ControlIngreso
  select * from SOGIP_Deportes;
+ select * from SOGIP_Ejercicio;
  select * from SOGIP_Entidad_Publica;
  select * from SOGIP_Estados;
  select * from SOGIP_EstadosPagos order by FechaPago;
  select * from SOGIP_Expedientes_Fisicos;
  select * from SOGIP_Funcionario_ICODER as f, sogip_users as u where f.usuario_id=u.id and u.Sexo=0;
  select * from SOGIP_Horario;
+ select * from SOGIP_Maquina
+ select * from SOGIP_MaquinaEjercicio
  select * from SOGIP_Parametro;
  select * from SOGIP_Roles order by Id asc;
  select * from SOGIP_Rutina;
+ select * from SOGIP_Reservacion
  select * from SOGIP_Selecciones;
  select * from SOGIP_SubSeleccion;
  select * from SOGIP_Tipo order by TipoId;
  select * from SOGIP_Tipo_Deporte;
  select * from SOGIP_Tipo_Entidad;
+ select * from SOGIP_TipoME;
+ select * from SOGIP_TipoPago;
  select * from SOGIP_UserClaims;
  select * from SOGIP_UserLogins;
  select * from SOGIP_UserRoles

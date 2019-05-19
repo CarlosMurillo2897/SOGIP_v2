@@ -373,6 +373,83 @@ namespace SOGIP_v2.Controllers
         {
             return View();
         }
-        
+
+        public JsonResult ObtenerMaquinas(int filtro)
+        {
+            var mach = filtro == 0 ?
+             (from m in db.Maquina
+              from t in db.TipoME
+              where m.TipoId.Id == t.Id
+              select new
+              {
+                  Nombre = m.Nombre,
+                  Tipo = t.nombre
+              }).ToList()
+                       :
+            (from m in db.Maquina
+             from t in db.TipoME
+             where t.Id == filtro && m.TipoId.Id == t.Id
+             select new
+             {
+                 Nombre = m.Nombre,
+                 Tipo = t.nombre
+             }).ToList();
+
+
+            return Json(mach, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ObtenerTipos(int tipo)
+        {
+            var tipos = tipo == 4 ? 
+                // Extrae los tipos de Máquinas
+                (from m in db.Maquina
+                       from t in db.TipoME
+                       where m.TipoId.Id == t.Id
+                       select new
+                       {
+                           t.Id,
+                           t.nombre
+                       }).Distinct().ToList()
+                       :
+                // Extrae los tipos de Ejercicios
+                (from e in db.Ejercicio
+                       from t in db.TipoME
+                       where e.TipoId.Id == t.Id
+                       select new
+                       {
+                           t.Id,
+                           t.nombre
+                       }).Distinct().ToList();
+
+            return Json(tipos, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult ObtenerEjercicios(int filtro)
+        {
+            var ejercicios = filtro == 0 ?
+             (from e in db.Ejercicio
+              from t in db.TipoME
+              where e.TipoId.Id == t.Id
+              select new
+              {
+                  Nombre = e.Nombre,
+                  Tipo = t.nombre
+                  // e.Descripcion
+              }).ToList()
+                       :
+            (from e in db.Ejercicio
+             from t in db.TipoME
+             where t.Id == filtro && e.TipoId.Id == t.Id
+             select new
+             {
+                 Nombre = e.Nombre,
+                 Tipo = t.nombre
+             }).ToList();
+
+
+            return Json(ejercicios, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }
