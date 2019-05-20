@@ -239,6 +239,16 @@ namespace SOGIP_v2.Controllers
 
             return Json(descripcion, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult obtenerIdEjer(string n)
+        {
+            var consulta = db.Ejercicio.Where(x => x.Nombre == n).FirstOrDefault();
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult obtenerIdMaq(string n)
+        {
+            var consulta = db.Maquina.Where(x => x.Nombre == n).FirstOrDefault();
+            return Json(consulta, JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

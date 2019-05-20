@@ -29,45 +29,43 @@
                 <div class="modal-header">
                     <button type="button" class="close" id="cerrar">&times;</button>
                     <h4 class="modal-title">Agregar Ejercicio</h4>
-                    <br>
+                </div>
+                <form id="forcat" method="post" novalidate="novalidate">
                     <div class="modal-body">
                         <div>
                             <label id="newejer"><input type="radio" name="btnRadio" checked /> Crear Nuevo Ejercicio </label>
                             <label id="repejer"><input type="radio" name="btnRadio" />Asignar un Ejercicio  </label>
                         </div>
-                        <form id="forcat" method="post" novalidate="novalidate">
-                            <label id="labelEjer">Nombre Nuevo Ejercicios: </label>
-                            <div class="afect">
-                                <input type="text" class="form-control" placeholder="Nombre" id="cat" name="cat" />
-                            </div>
-                            <div class="row" id="infouser">
-                                <div class="form-group col-lg-6 col-md-6 col-sm-6">
-                                    <div class="afect">
-                                        <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione Ejercicio." readonly />
-                                    </div>
-                                    </div>
-                                    <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                                        <button id="botón" type="button" class="btn btn-warning btn-block">
-                                            <text id="texto">Ejercicio</text>
-                                            <span id="icono" class="glyphicon glyphicon-search"></span>
-                                        </button>
-                                    </div>
+                        <label id="labelEjer">Nombre Nuevo Ejercicios: </label>
+                        <div class="afect">
+                            <input type="text" class="form-control" placeholder="Nombre" id="cat" name="cat" />
+                        </div>
+                        <div class="row" id="infouser">
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                                <div class="afect">
+                                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione Ejercicio." readonly />
                                 </div>
-                            <hr />
-                            <div class="table-responsive" id="Tabla_Prin" hidden>
-                                <table id="tablePrin" class="display" style="width:100%"></table>
                             </div>
-                                <div class="modal-footer">
-                                    <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                                </div>
-                        </form>           
-                </div>
-                </div>
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <button id="botón" type="button" class="btn btn-warning btn-block">
+                                    <text id="texto">Ejercicio</text>
+                                    <span id="icono" class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive" id="Tabla_Prin" hidden>
+                            <table id="tablePrin" class="display" style="width:100%"></table>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                    </form>
+                    </div>
             </div>
-        </div>
+      </div>
     </div>
-</div>
 @section Scripts {
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
@@ -156,10 +154,6 @@
                 columns: [
                     { data: "Accion" },
                     { data: "Nombre" },
-                    {
-                        data: "Id",
-                        visible: false
-                    }
                 ],
                 'columnDefs': [
                     {
@@ -285,15 +279,12 @@
             $('#btnNuevo').click(function () {
                 $('#nueva').modal('show');
 
-                if ($('#newejer').is(":checked")) {
-                    //$('#newejer').prop('checked', true);
-                    //$('#repejer').prop('checked', false);
-                    //$('#usuario').css("display", "none");
-                    //$('#labelEjer').css("display", "block");
-                    //$('#cat').css("display", "block");
-                    //$('#botón').css("display", "none");
-                    alert('hola');
-                }
+                 $('#newejer').prop('checked', true);
+                    $('#repejer').prop('checked', false);
+                    $('#usuario').css("display", "none");
+                    $('#labelEjer').css("display", "block");
+                    $('#cat').css("display", "block");
+                    $('#botón').css("display", "none");
 
                 $('#newejer').click(function () {
                     $('#cat').val('');
@@ -301,7 +292,10 @@
                     $('#labelEjer').css("display", "block");
                     $('#cat').css("display", "block");
                     $('#botón').css("display", "none");
-                    //$("#forcat").validate().clearValidation();
+                    $('#tipoEjer1').DataTable().destroy();
+                    $('#tipoEjer1').remove();
+                    $('#tablePrin').hide();
+                    $('#Tabla_Prin').hide();
                 })
                 $('#repejer').click(function () {
                     $('#usuario').val('');
@@ -315,18 +309,6 @@
             })
          
             
-            $('#cerrar').click(function () {
-                //eliminar();
-                $('#nueva').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-            })
-            $('#cerrar1').click(function () {
-                //eliminar();
-                $('#nueva').modal('hide');
-                $('body').removeClass('modal-open');
-                $('.modal-backdrop').remove();
-            })
 
             $('#tablePrin').on('click', 'td.select-checkbox', function () {
                 var td = $(this);

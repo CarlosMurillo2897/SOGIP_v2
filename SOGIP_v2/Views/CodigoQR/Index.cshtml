@@ -80,14 +80,13 @@
                                 <tr>
                                     <td>Acción</td>
                                     <td>Nombre</td>
-                                    <td>Id</td>
                                 </tr>
                             </thead>
                         </table>
                     </div>
                     <div class="modal-footer">
                         <br />
-                        <a href="~/TipoME/MaquinaEjercicio?id="id="ref"></a>.
+                        <a href="~/TipoME/MaquinaEjercicio?id="id="ref"></a>
                         <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
                         <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
                     </div>
@@ -181,6 +180,7 @@
     @Scripts.Render("~/bundles/jqueryval")
 
     <script>
+        var ced = null;
         function eliminar() {
             var des = $('#example').DataTable();
             des.destroy();
@@ -385,7 +385,6 @@
         }
         $(document).ready(function () {
             llenarTablaMaquinas();
-            var ced = null;
             $('#usu1').click(function () {
                 eliminar2();
                 llenarTablaUsuarios();
@@ -431,20 +430,50 @@
          
             $('#btnSave').click(function () {
                 var data = null;
-                alert($('#ref').prop('href'));
                 if ($('#label').is(':visible')) { 
-                    data = {
-                        txtQRCode: $('#ref').prop('href'),
-                        id: ced
-                    }
-                    generarQR(data);
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/CodigoQR/obtenerIdMaq',
+                        data: { "n": ced },
+                        success: function (data) {
+                            ced = data.Id;
+                            var data = null;
+                            {
+                                data = {
+                                    txtQRCode: $('#ref').prop('href'),
+                                    id: ced
+                                }
+                                generarQR(data);
+                            }
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
                 } else {
                     if ($('#label2').is(':visible')) {
-                        data = {
-                            txtQRCode: $('#obj').val().trim(),
-                            id: ced
-                        }
-                        generarEjercicio(data);
+                        $.ajax({
+                            type: "POST",
+                            dataType: "JSON",
+                            url: '/CodigoQR/obtenerIdEjer',
+                            data: { "n": ced },
+                            success: function (data) {
+                                ced = data.Id;
+                                var data = null;
+                                {
+                                    data = {
+                                        txtQRCode: $('#obj').val().trim(),
+                                        id: ced
+                                    }
+                                    generarEjercicio(data);
+                                }
+                            },
+                            error: function () {
+                                alert("Fallo");
+                            }
+                        })
+                     
                     } else {
                         data = { 
                             id: ced
@@ -528,7 +557,7 @@
                     columns: [
                         { data: "Accion" },
                         { data: "Nombre" },
-                        { data: "Id" },
+                        //{ data: "Id" },
                     ],
                     'columnDefs': [
                         {
@@ -608,7 +637,7 @@
                     columns: [
                         { data: "Accion" },
                         { data: "Nombre" },
-                        { data: "Id" },
+                        //{ data: "Id" },
                     ],
                     'columnDefs': [
                         {
@@ -645,7 +674,7 @@
                 var tr = td.closest('tr');
 
                 $('#usuario').val(tr.find('td:eq(1)').text());
-                ced = tr.find('td:eq(2)').text();
+                ced = tr.find('td:eq(1)').text();
                 $('#Tabla_Usuarios').hide();
             });
 

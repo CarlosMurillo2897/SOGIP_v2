@@ -41,7 +41,6 @@ namespace SOGIP_v2.Controllers
 
         public JsonResult GetRutinasAdministrador(string usuarioId)
         {
-         
             var consulta = (from f in db.Rutinas.Include("Usuario")
                             from m in db.Funcionario_ICODER
                             where m.Entrenador.Id == usuarioId && f.Usuario == m.Usuario

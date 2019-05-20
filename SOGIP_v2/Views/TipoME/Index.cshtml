@@ -44,36 +44,45 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <div class="modal-title" id="txtmaq" style='display:none;'>  <h4>Crear nueva Máquina de Tipo <text class='hidden-xs' id="textPrin">
-                            </text> <text class='hidden-xs' id="textPrin"> </text></h4> </div>
-                <div class="modal-title" id="txtejer" style='display:none;'><h4> Crear nuevo Ejercicio de Tipo <text class='hidden-xs' id="textPrin2">
-                        </text> <text class='hidden-xs' id="textPrin2"> </text></h4></div>
-                 <div class="modal-title" id="txtnuevo" style='display:none;'>  <h4>Crear nuevo Tipo de  Categoría</h4> </div>
+                <div class="modal-title" id="txtmaq" style='display:none;'>
+                    <h4>
+                        Crear nueva Máquina de Tipo <text class='hidden-xs' id="textPrin">
+                        </text> <text class='hidden-xs' id="textPrin"> </text>
+                    </h4>
+                </div>
+                <div class="modal-title" id="txtejer" style='display:none;'>
+                    <h4>
+                        Crear nuevo Ejercicio de Tipo <text class='hidden-xs' id="textPrin2">
+                        </text> <text class='hidden-xs' id="textPrin2"> </text>
+                    </h4>
+                </div>
+                <div class="modal-title" id="txtnuevo" style='display:none;'>  <h4>Crear nuevo Tipo de  Categoría</h4> </div>
 
                 <div class="modal-title" id="editarcat" style='display:none;'>  <h4>Editar Categoría</h4> </div>
-                   <div class="modal-title" id="editarejer" style='display:none;'>  <h4>Editar Ejercicio</h4> </div>
-                   <div class="modal-title" id="editarmaq" style='display:none;'>  <h4>Editar Máquina</h4> </div>
-        
+                <div class="modal-title" id="editarejer" style='display:none;'>  <h4>Editar Ejercicio</h4> </div>
+                <div class="modal-title" id="editarmaq" style='display:none;'>  <h4>Editar Máquina</h4> </div>
             </div>
             <form id="forcat" method="post" novalidate="novalidate">
                 <div class="modal-body">
-                    <div class="form-group col-md-12">
-                        <label>Nombre: </label>
-                        <div class="afect">
-                            <input type="text" class="form-control" placeholder="Nombre" id="cat" name="cat" />
-                        </div>
-                        <div class="afect">
-                            <input class="form-control" style='display:none' placeholder="Nombre" id="ejer" name="ejer" />
-                        </div>
-                        <div class="afect">
-                            <input class="form-control" style='display:none' placeholder="Nombre" id="maq" name="maq" />
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label>Nombre: </label>
+                            <div class="afect">
+                                <input type="text" class="form-control" placeholder="Nombre" id="cat" name="cat" />
+                            </div>
+                            <div class="afect">
+                                <input class="form-control" style='display:none' placeholder="Nombre" id="ejer" name="ejer" />
+                            </div>
+                            <div class="afect">
+                                <input class="form-control" style='display:none' placeholder="Nombre" id="maq" name="maq" />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-                </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                    </div>
             </form>
         </div>
     </div>

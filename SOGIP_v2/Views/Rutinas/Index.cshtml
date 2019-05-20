@@ -212,9 +212,10 @@
             success: function (data) {
                 var date = new Date(parseInt(data.FechaInicio.substr(6)));
                 var date2 = new Date(parseInt(data.FechaFin.substr(6)));
-
-                $('#txtStart').val(date.toLocaleDateString("en-GB"));
-                $('#txtStart2').val(date2.toLocaleDateString("en-GB"));
+                $('#txtStart').datepicker("update", date.toLocaleDateString("en-GB"));
+                $('#dtp').datepicker("update", date.toLocaleDateString("en-GB"));
+                $('#txtStart2').datepicker("update", date2.toLocaleDateString("en-GB"));
+                $('#dtp1').datepicker("update", date2.toLocaleDateString("en-GB"));
                 $('#observ').val(data.RutinaObservaciones);
                 $('#usuario').val(data.Usuario.Cedula + " " + data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2);
                 cedu = data.Usuario.Cedula;
