@@ -322,7 +322,9 @@
                 $('#Tabla_Prin').show();
 
             });
+               var n = @viewDataMaquina;
             $("#forcat").validate({
+              
                 rules: {
                     cat: {
 
@@ -340,8 +342,9 @@
                     },
                     
                     usuario: {
-                        required: true
-                    }
+                        required: true,
+                       
+                        }
 
                 },
                 messages: {
@@ -352,6 +355,7 @@
                     },
                     usuario: {
                         required: "Se debe seleccionar un ejercicio.",
+                       // remote: "El nombre no debe ser Repetido."
                     },
                 },
                 errorElement: "em",

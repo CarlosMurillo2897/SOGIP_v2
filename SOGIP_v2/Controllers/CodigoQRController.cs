@@ -249,6 +249,16 @@ namespace SOGIP_v2.Controllers
             var consulta = db.Maquina.Where(x => x.Nombre == n).FirstOrDefault();
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
+        public JsonResult RepetidoMaquina(string nombre)
+        {
+            Maquina maq = db.Maquina.FirstOrDefault(x => x.Nombre == nombre);
+            return Json(!db.Archivo.Include("maquina").Any(x => x.maquina.Id == maq.Id), JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult RepetidoEjercicio(string nombre)
+        {
+            Ejercicio ejer = db.Ejercicio.FirstOrDefault(x => x.Nombre == nombre);
+            return Json(!db.Ejercicio.Any(x => x.Descripcion == ejer.Descripcion), JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
