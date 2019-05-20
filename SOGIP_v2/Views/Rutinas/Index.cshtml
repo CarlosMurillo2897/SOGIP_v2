@@ -212,6 +212,7 @@
             success: function (data) {
                 var date = new Date(parseInt(data.FechaInicio.substr(6)));
                 var date2 = new Date(parseInt(data.FechaFin.substr(6)));
+
                 $('#txtStart').val(date.toLocaleDateString("en-GB"));
                 $('#txtStart2').val(date2.toLocaleDateString("en-GB"));
                 $('#observ').val(data.RutinaObservaciones);
@@ -221,7 +222,6 @@
         })
     }
     function Edit(data) {
-   
         $.ajax({
             type: "POST",
             dataType: "JSON",
@@ -265,7 +265,6 @@
                 $('#nuevo').modal('hide');
                 $('body').removeClass('modal-open');
                 $('.modal-backdrop').remove();
-                //$('#rutina').DataTable().ajax.reload(null, false);
                 window.location.href = '/Rutinas/Ejercicio?idRutina=' + data.RutinaId;
             },
             error: function () {

@@ -227,7 +227,7 @@ namespace SOGIP_v2.Controllers
             return Json(nueva, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult EditRutina(DateTime fecha, DateTime fecha2, string obs,string idUs, int id)
+        public JsonResult EditRutina(DateTime fecha, DateTime fecha2, string obs, string idUs, int id)
         {
             Rutina rutina = db.Rutinas.Single(x => x.RutinaId == id);
             ApplicationUser User = db.Users.Single(x => x.Cedula == idUs);
