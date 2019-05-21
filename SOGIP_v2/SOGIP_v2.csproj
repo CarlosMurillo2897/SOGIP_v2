@@ -487,6 +487,7 @@
     <Content Include="Content\manual.css" />
     <Content Include="Content\Perfil.css" />
     <Content Include="Content\popover.css" />
+    <Content Include="Content\qrcss.css" />
     <Content Include="Content\regular.css" />
     <Content Include="Content\regular.min.css" />
     <Content Include="Content\solid.css" />
