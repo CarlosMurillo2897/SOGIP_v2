@@ -367,11 +367,10 @@
                     data: data,
                     success: function (data) {
                         alert('Ejercicios Registrados');
-                        $('#rutina tbody').empty();
+                      
                         var aux = ' ';
                         $.each(data, function (i) {
                             if (aux !== data[i].DiaEjercicio) {
-                                console.log('h');
                                 $('#rutina tbody').append('<tr> <td>' + data[i].DiaEjercicio + ' </td> </tr>');
                                 aux = data[i].DiaEjercicio;
                             }
@@ -407,6 +406,25 @@
                                 '</a>' + '</td> </tr>';
 
                             $('#rutina tbody').append(a);
+
+                            //$('#tabla tbody').empty();
+                            //var m = '<TR>' +
+                            //    + ' <TH>' + '</TH > ' +
+                            //    + '<TH>' + S + '</TH>' +
+                            //    + '<TH>' + R + '</TH>' +
+                            //    + '<TH>' + P + '</TH>' +
+                            //    + '<TH>' + S + '</TH>' +
+                            //    + '<TH>' + R + '</TH>' +
+                            //    +'<TH>' + P + '</TH>' +
+                            //    +'<TH>' + S + '</TH>' +
+                            //    +'<TH>' + R + '</TH>' +
+                            //    +'<TH>' + P + '</TH>' +
+                            //    +'<TH>' + '</TH > ' +
+                            //    + '<TH>' + '</TH > ' +
+                            //    + '<TH>' + '</TH > ' +
+                            //    '</TR>';
+                            //$('#tabla tbody').append(m);
+                            //$('#tabla').show();
                         });
 
                     },
@@ -671,7 +689,9 @@
                         'ejercicios': tableArr
                     }
 
-
+                    function delrows() {
+                        var row = $('#tabla tbody td').remove();
+                                  }
                     $.ajax({
                         url: '/Rutinas/Ejercicio',
                         dataType: 'JSON',
@@ -680,15 +700,12 @@
                         contentType: 'application/json; charset=utf-8',
                         success: function (data) {
                             alert('Ejercicios Registrados');
-                            //$('#tabla tbody').remove();
-                            //$('#tabla').DataTable().destroy();
-                            //$('#tabla').remove();
-        
+                            delrows();
                             $('#rutina tbody').empty();
                             var aux = ' ';
                             $.each(data, function (i) {
                                 if (aux !== data[i].DiaEjercicio) {
-                                    console.log('h');
+                              
                                     $('#rutina tbody').append('<tr> <td>' + data[i].DiaEjercicio + ' </td> </tr>');
                                     aux = data[i].DiaEjercicio;
                                 }

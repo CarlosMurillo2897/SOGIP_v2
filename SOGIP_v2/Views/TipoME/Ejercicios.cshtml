@@ -33,8 +33,8 @@
                 <form id="forcat" method="post" novalidate="novalidate">
                     <div class="modal-body">
                         <div>
-                            <label id="newejer"><input type="radio" name="btnRadio" checked /> Crear Nuevo Ejercicio </label>
-                            <label id="repejer"><input type="radio" name="btnRadio" />Asignar un Ejercicio  </label>
+                            <label id="newejer"><input input id="radio_1"type="radio" name="btnRadio" checked /> Crear Nuevo Ejercicio </label>
+                            <label id="repejer"><input input id="radio_2" type="radio" name="btnRadio" />Asignar un Ejercicio  </label>
                         </div>
                         <label id="labelEjer">Nombre Nuevo Ejercicios: </label>
                         <div class="afect">
@@ -277,9 +277,8 @@
         $(document).ready(function () {
             tablaPrin();
             $('#btnNuevo').click(function () {
+                $("#radio_1").prop("checked", true);
                 $('#nueva').modal('show');
-
-                 $('#newejer').prop('checked', true);
                     $('#repejer').prop('checked', false);
                     $('#usuario').css("display", "none");
                     $('#labelEjer').css("display", "block");

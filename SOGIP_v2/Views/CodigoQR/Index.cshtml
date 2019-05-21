@@ -26,8 +26,8 @@
                             <div class="form-group col-md-6">
                                 <label id="label" style="display: none;">Url de Máquina: </label>
                                 <label id="label2" style="display: none;">Url de Ejercicio: </label>
-                                <label id="maq"><input type="radio" name="btnRadio" checked />Maquina </label>
-                                <label id="ejer"><input type="radio" name="btnRadio" />Ejercicio </label>
+                                <label id="maq"><input id="radio_1"type="radio" name="btnRadio" checked />Maquina </label>
+                                <label id="ejer"><input id="radio_2"type="radio" name="btnRadio" />Ejercicio </label>
                                 <div class="afect">
                                     <input style="display: none;" type="text" class="form-control" placeholder="Url" id="obj" name="obj" />
                                 </div>
@@ -475,11 +475,15 @@
             })
 
             $('#btnNuevo').click(function () {
+                $("#radio_1").prop("checked", true);
                 $('#nuevo').modal('show');
                 $('#label').css("display", "block");
                 $('#label2').css("display", "none");
+                $('#obj').css("display", "none");
                 $('#usuario').val('');
                 $('#usuario1').val('');
+                $('#usuario').css("display", "block");
+                $('#usuario1').css("display", "none");
                 maquinas();
            
                 $('#maq').click(function () {
