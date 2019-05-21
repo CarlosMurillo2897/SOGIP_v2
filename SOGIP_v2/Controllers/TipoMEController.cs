@@ -15,6 +15,7 @@ namespace SOGIP_v2.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Rutinas
+        [Authorize(Roles = "Administrador,Supervisor,Entrenador")]
         public ActionResult Index()
         {
             return View();

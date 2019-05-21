@@ -18,6 +18,7 @@ namespace SOGIP_v2.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: CodigoQR
+        [Authorize(Roles = "Administrador,Supervisor")]
         public ActionResult Index()
         {
             //var id = HttpContext.User.Identity.GetUserId();
@@ -257,7 +258,7 @@ namespace SOGIP_v2.Controllers
         public JsonResult RepetidoEjercicio(string nombre)
         {
             Ejercicio ejer = db.Ejercicio.FirstOrDefault(x => x.Nombre == nombre);
-            return Json(!db.Ejercicio.Any(x => x.Descripcion == ejer.Descripcion), JsonRequestBehavior.AllowGet);
+            return Json(!db.Ejercicio.Any(x => x.Id == ejer.Id && x.Descripcion !=null ), JsonRequestBehavior.AllowGet);
         }
 
     }

@@ -328,18 +328,29 @@ namespace SOGIP_v2.Controllers
             return Json(consulta, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult DeleteEjercicio(int ejercicioId)
+        public JsonResult DeleteEjercicio(string n, int ejercicioId)
         {
-            var status = false;
+            int d = int.Parse(n);
+            Rutina rutina = new Rutina();
+            rutina = db.Rutinas.Single(x => x.RutinaId == d);
             var v = db.Conjunto_Ejercicios.Where(a => a.Conjunto_EjercicioId == ejercicioId).FirstOrDefault();
             if (v != null)
             {
 
                 db.Conjunto_Ejercicios.Remove(v);
                 db.SaveChanges();
-                status = true;
+        
             }
-            return new JsonResult { Data = new { status = status } };
+            var getEjercicio1 = db.Conjunto_Ejercicios.Include("EjercicioId").Include("ColorId")
+                .Where(x => x.ConjuntoEjercicioRutina.RutinaId == rutina.RutinaId &&
+                (x.DiaEjercicio == "Dia1"
+                || x.DiaEjercicio == "Dia2"
+                || x.DiaEjercicio == "Dia3"
+                || x.DiaEjercicio == "Dia4"
+                || x.DiaEjercicio == "Dia5"))
+                .OrderBy(x => x.DiaEjercicio)
+                .ToList();
+            return Json(getEjercicio1, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult ObtenerEjer(int ejercicioId)
@@ -348,9 +359,12 @@ namespace SOGIP_v2.Controllers
             return Json(ejercicio, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult EditEjer(Conjunto_Ejercicio data)
+        public JsonResult EditEjer(string n,Conjunto_Ejercicio data)
         {
-            var status = false;
+            int d = int.Parse(n);
+            Rutina rutina = new Rutina();
+            rutina = db.Rutinas.Single(x => x.RutinaId == d);
+
             Conjunto_Ejercicio ejer = db.Conjunto_Ejercicios.Where(a => a.Conjunto_EjercicioId == data.Conjunto_EjercicioId).FirstOrDefault();
             if (ejer != null)
             {
@@ -367,9 +381,17 @@ namespace SOGIP_v2.Controllers
                 ejer.DiaEjercicio = data.DiaEjercicio;
                 ejer.ColorId = db.Colores.Where(x => x.Nombre == data.ColorId.Nombre).FirstOrDefault();
                 db.SaveChanges();
-                status = true;
             }
-            return new JsonResult { Data = new { status = status } };
+            var getEjercicio1 = db.Conjunto_Ejercicios.Include("EjercicioId").Include("ColorId")
+                 .Where(x => x.ConjuntoEjercicioRutina.RutinaId == rutina.RutinaId &&
+                 (x.DiaEjercicio == "Dia1"
+                 || x.DiaEjercicio == "Dia2"
+                 || x.DiaEjercicio == "Dia3"
+                 || x.DiaEjercicio == "Dia4"
+                 || x.DiaEjercicio == "Dia5"))
+                 .OrderBy(x => x.DiaEjercicio)
+                 .ToList();
+            return Json(getEjercicio1, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
