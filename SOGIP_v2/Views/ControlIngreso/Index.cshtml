@@ -1,36 +1,61 @@
 ﻿﻿@{
     ViewBag.Title = "Index";
 }
+
+@Styles.Render("~/Content/qrcss.css")
+<link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
+
 <div class="container">
-    <div class="well col-md-12">
-        <div class="panel-body" id="principal">
+    <section class="newsletter">
+        <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <h1>Bienvenido al Gimnasio de Pesas de ICODER</h1>
-                    <label id="label">Debe presentar su Codigo QR  </label>
-                    <input type="password" id="obj" />
-                    <input type="button" id="btnSave" tabindex="4" value="Ingresar">
+                <div class="col-sm-12">
+                    <div class="content">
+                        <h2>Bienvenido al Gimnasio de Pesas del ICODER</h2>
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Ingrese su QR">
+                            <span class="input-group-btn">
+                                <button class="btn" type="submit" id="btnSave">Ingresar</button>
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="panel-body" id="ingreso">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1>Bienvenido al Gimnasio de Pesas de ICODER</h1>
-                    <input type="text" class="form-control" id="usuario" name="usuario" readonly />
-                    <input type="text" class="form-control" id="fecha" name="fecha" readonly />
-                    <input type="submit" id="btnNuevo" tabindex="4" class="form-control btn btn-login" value="Ingresar Nuevo">
-                </div>
+    <div class="panel-body" id="ingreso">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>Bienvenido al Gimnasio de Pesas de ICODER</h1>
+                <input type="text" class="form-control" id="usuario" name="usuario" readonly />
+                <input type="text" class="form-control" id="fecha" name="fecha" readonly />
+                <input type="submit" id="btnNuevo" tabindex="4" class="form-control btn btn-login" value="Ingresar Nuevo">
             </div>
         </div>
     </div>
+
+    @*<div class="well col-md-12">
+            <div class="panel-body" id="principal">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Bienvenido al Gimnasio de Pesas de ICODER</h1>
+                        <label id="label">Debe presentar su Codigo QR  </label>
+                        <input type="password" id="obj" />
+                        <input type="button" id="btnSave" tabindex="4" value="Ingresar">
+                    </div>
+                </div>
+            </div>
+
+
+        </div>*@
 </div>
 
 
- @section Scripts {
-               
-     @Scripts.Render("~/bundles/jqueryval")
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/bootbox.min.js")
 
     <script>
         function Save(data) {
@@ -47,7 +72,7 @@
                     $('#fecha').val(date.toLocaleDateString("en-GB"));
                 },
                 error: function () {
-                    alert("No hay un usuario con eso Codigo");
+                    bootbox2(" No hay ningún usuario asociado a ese QR");
                 }
             })
         }
@@ -55,7 +80,7 @@
             $('#ingreso').hide();
 
             $('#btnSave').click(function () {
-              
+
                 var data = null;
                 data = {
                     id: $('#obj').val()
@@ -68,6 +93,15 @@
                 $('#principal').show();
             })
         });
-     </script>
-     }
+
+        function bootbox2(message) {//para errores
+            bootbox.alert({
+                size: 'small',
+                closeButton: false,
+                message: '<p><i class="fa fa-exclamation-triangle"></i>' + message + '</p>'
+            });
+
+        }
+    </script>
+}
 
