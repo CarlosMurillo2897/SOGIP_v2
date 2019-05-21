@@ -13,84 +13,60 @@
         <text class='hidden-xs'>Nuevo </text>
         <span style='color: white;' class='glyphicon glyphicon-plus-sign'></span>
     </a>
-    <style>
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            padding-top: 30px;
-            height: 0;
-            overflow: hidden;
-        }
-
-            .video-container iframe,
-            .video-container object,
-            .video-container embed {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-            }
-
-        #download {
-            background-color: DodgerBlue;
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            cursor: pointer;
-            font-size: 20px;
-        }
-
-            /* Darker background on mouse-over */
-            #download:hover {
-                background-color: RoyalBlue;
-            }
-    </style>
     <div id="nuevo" class="modal fade" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" id="cerrar">&times;</button>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Crear nueva Codigo QR</h4>
-                    <br>
-                    <label id="label" style="display: none;">Url de Máquina: </label>
-                    <label id="label2" style="display: none;">Url de Ejercicio: </label>
-                    <input style="display: none;" type="text" class="form-control" placeholder="Url" id="obj" />
                 </div>
-                <div class="modal-body">
-                    <div class="row" id="infouser">
-                        <div class="form-group col-lg-6 col-md-6 col-sm-6">
-                            <div>
+                <form id="forcat" method="post" novalidate="novalidate">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label id="label" style="display: none;">Url de Máquina: </label>
+                                <label id="label2" style="display: none;">Url de Ejercicio: </label>
                                 <label id="maq"><input type="radio" name="btnRadio" checked />Maquina </label>
                                 <label id="ejer"><input type="radio" name="btnRadio" />Ejercicio </label>
+                                <div class="afect">
+                                    <input style="display: none;" type="text" class="form-control" placeholder="Url" id="obj" name="obj" />
+                                </div>
                             </div>
-                            <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
+
                         </div>
-                        <div class="form-group col-lg-3 col-md-6 col-sm-6">
-                            <button id="botón" type="button" class="btn btn-warning btn-block">
-                                <text id="texto">Seleccionar usuario</text>
-                                <span id="icono" class="glyphicon glyphicon-search"></span>
-                            </button>
+                        <div class="row" id="infouser">
+                            <div class="form-group col-lg-6 col-md-6 col-sm-6">
+                                <div class="afect">
+                                    <input type="text" class="form-control" id="usuario" name="usuario" placeholder="Seleccione en la tabla." readonly />
+                                </div>
+                            </div>
+                            <div class="form-group col-lg-3 col-md-6 col-sm-6">
+                                <button id="botón" type="button" class="btn btn-warning btn-block">
+                                    <text id="texto">Despliegue la Tabla</text>
+                                    <span id="icono" class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-responsive" id="Tabla_Usuarios" hidden>
+                            <table id="example" class="display table table-bordered table-hover table-striped" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <td>Acción</td>
+                                        <td>Nombre</td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                        <div class="modal-footer">
+                            <a href="~/TipoME/MaquinaEjercicio?id=" id="ref"></a>
+                            <div class="modal-footer">
+                                <button type="submit" id="btnSave" class="btn btn-success">Guardar Cambios</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                            </div>
                         </div>
                     </div>
-                    <hr />
-                    <div class="table-responsive" id="Tabla_Usuarios" hidden>
-                        <table id="example" class="display table table-bordered table-hover table-striped" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <td>Acción</td>
-                                    <td>Nombre</td>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="modal-footer">
-                        <br />
-                        <a href="~/TipoME/MaquinaEjercicio?id=" id="ref"></a>
-                        <button type="button" id="btnSave" class="btn btn-success">Guardar Cambios</button>
-                        <button type="button" class="btn btn-danger" id="cerrar1">Cerrar</button>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -117,12 +93,6 @@
             </table>
         </div>
     </div>
-    @*<div class="col-md-6" hidden id="video">
-            <br>
-            <div class="video-container">
-                <iframe width="853" height="480" frameborder="0" allowfullscreen id="one"></iframe>
-            </div>
-        </div>*@
     <div id="modal" class="modal fade">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -170,11 +140,7 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-   
-</div>
+    </div>  
 @section Scripts {
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
@@ -384,6 +350,119 @@
                 }
             });
         }
+
+      
+        function generarQR(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/CodigoQR/generarQr',
+                data: data,
+                success: function (data) {
+                    $('#archivos').DataTable().ajax.reload(null, false);
+                    $('#nuevo').modal('hide');
+                    $('#obj').val('');
+                    eliminar();
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+        }
+        function generarQR2(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/CodigoQR/generarQr2',
+                data: data,
+                success: function (data) {
+                    $('#archivos').DataTable().ajax.reload(null, false);
+                    $('#nuevo').modal('hide');
+                    $('#obj').val('');
+                    eliminar();
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+        }
+        function generarEjercicio(data) {
+            $.ajax({
+                type: "POST",
+                dataType: "JSON",
+                url: '/CodigoQR/generarEjercicio',
+                data: data,
+                success: function (data) {
+                    $('#archivos').DataTable().ajax.reload(null, false);
+                    $('#nuevo').modal('hide');
+                    $('#obj').val('');
+                    eliminar();
+                },
+                error: function () {
+                    alert("Fallo");
+                }
+            })
+        }
+       function enviar(){
+            var data = null;
+            if ($('#label').is(':visible')) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/CodigoQR/obtenerIdMaq',
+                    data: { "n": ced },
+                    success: function (data) {
+                        ced = data.Id;
+                        var data = null;
+                        {
+                            data = {
+                                txtQRCode: $('#ref').prop('href'),
+                                id: ced
+                            }
+                            generarQR(data);
+                        }
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            } else {
+                if ($('#label2').is(':visible')) {
+                    $.ajax({
+                        type: "POST",
+                        dataType: "JSON",
+                        url: '/CodigoQR/obtenerIdEjer',
+                        data: { "n": ced },
+                        success: function (data) {
+                            ced = data.Id;
+                            var data = null;
+                            {
+                                data = {
+                                    txtQRCode: $('#obj').val().trim(),
+                                    id: ced
+                                }
+                                generarEjercicio(data);
+                            }
+                        },
+                        error: function () {
+                            alert("Fallo");
+                        }
+                    })
+
+                } else {
+                    data = {
+                        id: ced
+                    }
+                    generarQR2(data);
+                }
+            }
+        }
+        $.validator.setDefaults({
+            submitHandler: function () {
+                enviar();
+                alert("Enviando solicitud.");
+            }
+        });
         $(document).ready(function () {
             llenarTablaMaquinas();
             $('#usu1').click(function () {
@@ -403,6 +482,7 @@
                 $('#nuevo').modal('show');
                 $('#label').css("display", "block");
                 $('#label2').css("display", "none");
+                $('#usuario').val('');
                 maquinas();
                 $('#usu').click(function () {
                     $('#label').css("display", "none");
@@ -415,6 +495,7 @@
                     $('#label').css("display", "block");
                     $('#label2').css("display", "none");
                     $('#obj').css("display", "none");
+                    $('#usuario').val('');
                     eliminar();
                     maquinas();
                 })
@@ -422,118 +503,14 @@
                     $('#label2').css("display", "block");
                     $('#label').css("display", "none");
                     $('#obj').css("display", "block");
+                    $('#usuario').val('');
                     eliminar();
                     ejercicios();
 
                 })
 
             })
-         
-            $('#btnSave').click(function () {
-                var data = null;
-                if ($('#label').is(':visible')) { 
-                    $.ajax({
-                        type: "POST",
-                        dataType: "JSON",
-                        url: '/CodigoQR/obtenerIdMaq',
-                        data: { "n": ced },
-                        success: function (data) {
-                            ced = data.Id;
-                            var data = null;
-                            {
-                                data = {
-                                    txtQRCode: $('#ref').prop('href'),
-                                    id: ced
-                                }
-                                generarQR(data);
-                            }
-                        },
-                        error: function () {
-                            alert("Fallo");
-                        }
-                    })
-                } else {
-                    if ($('#label2').is(':visible')) {
-                        $.ajax({
-                            type: "POST",
-                            dataType: "JSON",
-                            url: '/CodigoQR/obtenerIdEjer',
-                            data: { "n": ced },
-                            success: function (data) {
-                                ced = data.Id;
-                                var data = null;
-                                {
-                                    data = {
-                                        txtQRCode: $('#obj').val().trim(),
-                                        id: ced
-                                    }
-                                    generarEjercicio(data);
-                                }
-                            },
-                            error: function () {
-                                alert("Fallo");
-                            }
-                        })
-                     
-                    } else {
-                        data = { 
-                            id: ced
-                        }
-                        generarQR2(data);
-                    }
-                }
-            })
-            function generarQR(data) {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/CodigoQR/generarQr',
-                    data: data,
-                    success: function (data) {
-                        $('#archivos').DataTable().ajax.reload(null, false);
-                        $('#nuevo').modal('hide');
-                        $('#obj').val('');
-                        eliminar();
-                    },
-                    error: function () {
-                        alert("Fallo");
-                    }
-                })
-            }
-            function generarQR2(data) {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/CodigoQR/generarQr2',
-                    data: data,
-                    success: function (data) {
-                        $('#archivos').DataTable().ajax.reload(null, false);
-                        $('#nuevo').modal('hide');
-                        $('#obj').val('');
-                        eliminar();
-                    },
-                    error: function () {
-                        alert("Fallo");
-                    }
-                })
-            }
-            function generarEjercicio(data) {
-                $.ajax({
-                    type: "POST",
-                    dataType: "JSON",
-                    url: '/CodigoQR/generarEjercicio',
-                    data: data,
-                    success: function (data) {
-                        $('#archivos').DataTable().ajax.reload(null, false);
-                        $('#nuevo').modal('hide');
-                        $('#obj').val('');
-                        eliminar();
-                    },
-                    error: function () {
-                        alert("Fallo");
-                    }
-                })
-            }
+  
             function maquinas() {
                 $('#example').DataTable({
                     "language": {
@@ -678,6 +655,59 @@
                 ced = tr.find('td:eq(1)').text();
                 $('#Tabla_Usuarios').hide();
             });
+            $("#forcat").validate({
+
+                rules: {
+                    obj: {
+
+                        required: true
+                        
+                    },
+
+                    usuario: {
+                        required: true
+
+                    }
+
+                },
+                messages: {
+                    obj: {
+                        required: "El URL es un campo obligatorio.",
+           
+                    },
+                    usuario: {
+                        required: "Se debe seleccionar de la tabla.",
+                    },
+                },
+                errorElement: "em",
+                errorPlacement: function (error, element) {
+                    error.addClass("help-block");
+                    element.parents(".afect").addClass("has-feedback");
+
+                    if (element.prop("id") === "nac") {
+                        error.insertAfter(element.parent("div"));
+                    } else {
+                        error.insertAfter(element);
+                    }
+                    if (!element.next("span")[0]) {
+                        $("<span class='glyphicon glyphicon-remove form-control-feedback'></span>").insertAfter(element);
+                    }
+                },
+                success: function (label, element) {
+                    if (!$(element).next("span")[0]) {
+                        $("<span class='glyphicon glyphicon-ok form-control-feedback'></span>").insertAfter($(element));
+                    }
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).parents(".afect").addClass("has-error").removeClass("has-success");
+                    $(element).next("span").addClass("glyphicon-remove").removeClass("glyphicon-ok");
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).parents(".afect").addClass("has-success").removeClass("has-error");
+                    $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
+                }
+            });
+
 
         });
     </script>

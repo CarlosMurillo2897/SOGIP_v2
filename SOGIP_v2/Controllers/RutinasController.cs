@@ -375,7 +375,6 @@ namespace SOGIP_v2.Controllers
         [HttpPost]
         public JsonResult Ejercicio(string data, List<Conjunto_Ejercicio> ejercicios) //AGREGAR EL ID DE LA RUTINA
         {
-            var status = false;
             //Busco el id de la rutina.
             //int d = 5;
             int d = int.Parse(data);
@@ -413,7 +412,16 @@ namespace SOGIP_v2.Controllers
                 }
                 db.SaveChanges();
             }
-            return new JsonResult { Data = new { status = status } };
+            var getEjercicio1 = db.Conjunto_Ejercicios.Include("EjercicioId").Include("ColorId")
+                  .Where(x => x.ConjuntoEjercicioRutina.RutinaId == rutina.RutinaId &&
+                  (x.DiaEjercicio == "Dia1"
+                  || x.DiaEjercicio == "Dia2"
+                  || x.DiaEjercicio == "Dia3"
+                  || x.DiaEjercicio == "Dia4"
+                  || x.DiaEjercicio == "Dia5"))
+                  .OrderBy(x => x.DiaEjercicio)
+                  .ToList();
+            return Json(getEjercicio1,JsonRequestBehavior.AllowGet);
         }
         public JsonResult getNombreEjer(int id)
         {

@@ -170,11 +170,19 @@
                 },
                 {
                     title: "Fecha Inicio",
-                    data: "Fecha"
+                    data: "Fecha",
+                    'render': function (Fecha) {
+                        var date = new Date(parseInt(Fecha.substr(6)));
+                        return date.toLocaleDateString("en-GB");
+                    }
                 },
                 {
                     title: "Fecha Fin",
-                    data: "Fecha2"
+                    data: "Fecha2",
+                    'render': function (Fecha2) {
+                        var date2 = new Date(parseInt(Fecha2.substr(6)));
+                        return date2.toLocaleDateString("en-GB");
+                    }
                 },
                 {
                     title: "Objetivo",
@@ -212,9 +220,9 @@
             success: function (data) {
                 var date = new Date(parseInt(data.FechaInicio.substr(6)));
                 var date2 = new Date(parseInt(data.FechaFin.substr(6)));
-                $('#txtStart').datepicker("update", date.toLocaleDateString("en-GB"));
+                //$('#txtStart').datepicker("update", date.toLocaleDateString("en-GB"));
                 $('#dtp').datepicker("update", date.toLocaleDateString("en-GB"));
-                $('#txtStart2').datepicker("update", date2.toLocaleDateString("en-GB"));
+                //$('#txtStart2').datepicker("update", date2.toLocaleDateString("en-GB"));
                 $('#dtp1').datepicker("update", date2.toLocaleDateString("en-GB"));
                 $('#observ').val(data.RutinaObservaciones);
                 $('#usuario').val(data.Usuario.Cedula + " " + data.Usuario.Nombre1 + " " + data.Usuario.Apellido1 + " " + data.Usuario.Apellido2);

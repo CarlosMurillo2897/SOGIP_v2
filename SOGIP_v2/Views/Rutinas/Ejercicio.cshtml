@@ -255,7 +255,7 @@
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
     <script>
-     
+
         function EliminarEjer(id) {
             var tr = $('#boton_' + id).closest('tr');
             $.ajax({
@@ -376,7 +376,7 @@
                 }
             });
         }
-     
+
        //Insert new rows into table
         $(document).ready(function () {
             var input10 = null;
@@ -508,7 +508,7 @@
                 newCell11.appendChild(d);
                 newCell12.appendChild(checkBox);
 
-            
+
 
 
             });
@@ -524,10 +524,10 @@
                 $('#nueva').modal('show');
                 td1 = $(this);
                 tr1 = td1.closest('tr');
-               
- 
+
+
             });
-  
+
             $('#tablePrin').on('click', 'td.select-checkbox', function () {
                 nomejer = null;
                 var td = $(this);
@@ -594,9 +594,49 @@
                         type: 'POST',
                         data: JSON.stringify(datos),
                         contentType: 'application/json; charset=utf-8',
-                        success: function (result) {
+                        success: function (data) {
                             alert('Ejercicios Registrados');
-                            location.reload();
+                            $('#rutina tbody').empty();
+                            var aux = ' ';
+                            $.each(data, function (i) {
+                                if (aux !== data[i].DiaEjercicio) {
+                                    console.log('h');
+                                    $('#rutina tbody').append('<tr> <td>' + data[i].DiaEjercicio + ' </td> </tr>');
+                                    aux = data[i].DiaEjercicio;
+                                }
+                                var s1 = data[i].Serie1 === null ? ' ' : data[i].Serie1;
+                                var p1 = data[i].Peso1 === null ? ' ' : data[i].Peso1;
+                                var r1 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion1;
+
+                                var s2 = data[i].Serie2 === null ? ' ' : data[i].Serie2;
+                                var p2 = data[i].Peso2 === null ? ' ' : data[i].Peso2;
+                                var r2 = data[i].Repeticion2 === null ? ' ' : data[i].Repeticion2;
+
+                                var s3 = data[i].Serie1 === null ? ' ' : data[i].Serie3;
+                                var p3 = data[i].Peso1 === null ? ' ' : data[i].Peso3;
+                                var r3 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion3;
+                                var a = '<tr style= "background-color: ' + data[i].ColorId.Codigo+'"> <td>' + data[i].EjercicioId.Nombre + '</td>' +
+                                    '<td>' + s1 + '</td>' +
+                                    '<td>' + r1 + '</td>' +
+                                    '<td>' + p1 + '</td>' +
+                                    '<td>' + s2 + '</td>' +
+                                    '<td>' + r2 + '</td>' +
+                                    '<td>' + p2+ '</td>' +
+                                    '<td>' + s3 + '</td>' +
+                                    '<td>' + r3 + '</td>' +
+                                    '<td>' + p3 + '</td>' +
+                                    '<td>' + data[i].DiaEjercicio + '</td>' +
+                                    '<td>' + '<a class="btn btn-danger" style="padding: 2px 6px; margin: 2px;" id="boton_ '+ data[i].Conjunto_EjercicioId + ' " onclick="EliminarEjer('+data[i].Conjunto_EjercicioId+')">'+
+                                            '<text class="hidden-xs">Eliminar </text>'+
+                                            '<span class="glyphicon glyphicon-minus-sign"></span>'+
+                                        '</a>'+
+                                        '<a class="btn btn-warning" style="padding: 2px 6px; margin: 2px;" id="boton_' + data[i].Conjunto_EjercicioId +' " onclick="EditarEjer('+data[i].Conjunto_EjercicioId+')" data-toggle="modal" data-target="#myModal">'+
+                                            '<text class="hidden-xs">Editar </text>'+
+                                            '<span class="glyphicon glyphicon-pencil"></span>'+
+                                        '</a>' + '</td> </tr>';
+
+                                $('#rutina tbody').append(a);
+                            });
 
                         },
                         error: function (request) {
@@ -609,14 +649,14 @@
                 contador = null;
 
             });
-            
+
             $('#ejer').click(function () {
                 $('#agr').css("display", "none");
                 $('#edit').css("display", "block");
                 tablaEjercicios();
                 $('#nueva').modal('show');
             });
-           
+
        });
     </script>
 }
