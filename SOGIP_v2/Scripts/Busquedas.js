@@ -9,6 +9,9 @@
         var opciones = "<option value='0'>General</option>";
         filter.empty();
 
+        $('#datos').DataTable().destroy();
+        $('#datos').remove();
+
         if (tipo === '1') {
             $.ajax({
                 url: "/UsersAdmin/ObtenerRoles",
@@ -39,9 +42,30 @@
                 }
             });
         }
+        else if (tipo === '3' || tipo === '4') {
+            $.ajax({
+                url: "/TipoME/ObtenerTipos",
+                type: "GET",
+                data: { tipo: tipo },
+                success: function (list) {
+                    $.each(list, function (i) {
+                        opciones = opciones + "<option value='" + list[i].Id + "'>" + list[i].nombre + "</option>";
+                    });
+                    filter.append(opciones);
+                },
+                error: function () {
+                    alert("Error desconocido.");
+                }
+            });
+        }
         else {
             filter.append(opciones);
         }
+    });
+
+    $('#Filtro').on('change', function () {
+        $('#datos').DataTable().destroy();
+        $('#datos').remove();
     });
 
     $('#Buscar').on('click', function () {
@@ -109,17 +133,12 @@
                 };
                 break;
             }
-            case '3': {
-                url = "/Maquinas/ObtenerMaquinas";
-                alert('Módulo en mantenimiento.');
-                return;
-                //break;
-            }
-            case '4': {
-                url = "/Ejercicio/ObtenerEjercicios";
-                alert('Módulo en mantenimiento.');
-                return;
-                //break;
+            case '3': case '4': {
+                url = tipo === '3' ? "/TipoME/ObtenerEjercicios" : url = "/TipoME/ObtenerMaquinas";
+                header = header + '<th>Nombre</th><th>Tipo</th></tr>';
+                col[col.length] = { data: "Nombre" };
+                col[col.length] = { data: "Tipo" };
+                break;
             }
             case '5': {
                 url = "/Busqueda/getActividades";

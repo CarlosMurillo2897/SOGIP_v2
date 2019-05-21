@@ -65,14 +65,17 @@ namespace SOGIP_v2.Controllers
             {
                 var consulta = from a in db.Archivo
                                from t in db.Tipos
-                               where t.TipoId == filtro
+                               where t.TipoId == filtro && a.Tipo.TipoId == t.TipoId
                                select new
                                {
                                    Nombre = a.Nombre,
                                    Tipo = t.Nombre,
-                                   Usuario = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2,
+                                   Usuario = a.Usuario.Cedula + " " + a.Usuario.Nombre1 + " " + a.Usuario.Nombre2 + " " + a.Usuario.Apellido1 + " " + a.Usuario.Apellido2
+                                    + " " + a.actividad.Titulo
+                                    + " " + a.maquina.Nombre,
                                    Id = a.ArchivoId
                                };
+                var x = consulta.ToList();
 
                 return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
             }

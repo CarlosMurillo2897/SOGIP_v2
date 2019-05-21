@@ -153,7 +153,7 @@
                     @if (ViewBag.Role == "Atleta" || ViewBag.Role == "Atleta Becados" || ViewBag.Role == "Funcionarios ICODER")
                     {
                         <li>
-                            <a href="#Rutinas" class="seco" data-toggle="tab" title="Rutinas">
+                            <a href="#Rutinas" class="seco" data-toggle="tab" title="Rutinas" onclick="cargarRutinas('@Model.Id'); $(this).removeAttr('onclick');">
                                 <text class="hidden-xs">Rutinas </text>
                                 <span class="glyphicon glyphicon-apple"></span>
                             </a>
@@ -180,11 +180,12 @@
                         <h2>
                             Rutinas
                             <span class="pull-right">
-                                <a class="glyphicon glyphicon-refresh"></a>
+                                <span id="classe" class="glyphicon glyphicon-refresh recargar" style="color: rgb(51, 122, 183);" onclick="cargarRutinas('@Model.Id')"></span>
                             </span>
                         </h2>
-                        <div class="table-responsive">
-                            <hr>
+                        <hr>
+                        <div class="table-responsive" id="routines">
+
                         </div><!--/table-resp-->
                         <hr>
                     </div><!--/tab-pane-->

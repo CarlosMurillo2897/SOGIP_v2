@@ -341,6 +341,66 @@ function cargarAtletas(ced) {
     });
 
 }
+function cargarRutinas(IdUsuario) {
+
+    $('#tablaRutinas').DataTable().destroy();
+    $('#tablaRutinas').remove();
+
+        var col = [];
+        var head = '<thead><tr><th>Usuario</th><th>Fecha</th><th>Observaciones</th><th>Acción <span class="glyphicon glyphicon-cog"></span></th></tr></thead>';
+
+        col[col.length] = { data: "Usuario" };
+        col[col.length] = {
+            data: "RutinaFecha",
+            "render": function (RutinaFecha) {
+                var date = new Date(parseInt(RutinaFecha.substr(6)));
+                return date.toLocaleDateString('en-GB');
+            }
+        };
+        col[col.length] = { data: "RutinaObservaciones" };
+        col[col.length] = {
+            data: "RutinaId",
+            "render": function (Id) {
+                return "<a class='btn btn-success' href='/Rutinas/ListaEjercicio?id=" + Id + "' target='_blank' style='padding: 2px 6px; margin:2px;'>" +
+                    "<text class=''> Ver en detalle </text>" +
+                    "<span class='glyphicon glyphicon-apple'></span>" +
+                    "</a>";
+            }
+    };
+
+    var table = $('<table/>', {
+        id: 'tablaRutinas',
+        class: 'table table-striped table-bordered dt-responsive',
+        width: '100%'
+    }).append(head);
+
+    $('#routines').append(table);
+
+    $('#tablaRutinas').DataTable({
+        "language": {
+            "lengthMenu": "Mostrando _MENU_ resultados por página.",
+            "zeroRecords": "No se han encontrado registros.",
+            "info": "Mostrando página _PAGE_ de _PAGES_.",
+            "infoEmpty": "No hay datos para mostrar",
+            "infoFiltered": "(filtrado de _MAX_ datos obtenidos).",
+            "search": "Filtrar:",
+            "paginate": {
+                "first": "Primero",
+                "last": "Ultimo",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            }
+        },
+        "ajax": {
+            "url": "/Rutinas/obtenerRutinasUsuario",
+            "type": "GET",
+            "dataSrc": "",
+            "data": { id: IdUsuario }
+        },
+        columns: col
+    });
+}
+
 //"@ViewBag.rol_Usuario_Actual", "@ViewBag.usuario_Actual", "@Model.Cedula", true
 function unlockForm(role, id_Actual, Cedula) {
     if (role === 'Administrador' || role === 'Supervisor' || id_Actual === Cedula) {
