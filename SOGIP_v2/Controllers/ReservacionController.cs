@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -82,38 +83,86 @@ namespace SOGIP_v2.Controllers
 
             return new JsonResult { Data = solicitudes, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
+
+        //CORREO
+        private void SendMailToUser(string correo, string mensaje)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+
+
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("sogip.system@gmail.com");
+                mail.To.Add(correo);
+                mail.Subject = "Reservación SOGIP";
+                mail.Body = mensaje;
+
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("sogip.system@gmail.com", "X100@ttW81&");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+
         [HttpPost]
         public JsonResult Aprobar(string ced)
         {
-            var status = false;
+         
 
-            var es = db.Estados.Where(x=>x.Descripcion=="APROBADO").FirstOrDefault();
-            db.Reservacion
-            .Where(x => x.UsuarioId.Cedula == ced && x.Estado.Descripcion == "EN PROCESO")
-            .ToList()
-            .ForEach(x=>x.Estado=es);
-             db.SaveChanges();
+            try
+            {
+                var es = db.Estados.Where(x => x.Descripcion == "APROBADO").FirstOrDefault();
+                var user = db.Users.Where(x => x.Cedula == ced).FirstOrDefault();
 
-            return new JsonResult { Data = new { status = status } };
+                db.Reservacion
+                .Where(x => x.UsuarioId.Cedula == ced && x.Estado.Descripcion == "EN PROCESO")
+                .ToList()
+                .ForEach(x => x.Estado = es);
+                db.SaveChanges();
+
+                SendMailToUser(user.Email,"Su solicitud de reservación del gimnasio ha sido APROBADA");
+                return new JsonResult { Data = new { status = true } };
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult { Data = new { status = false } };
+            }
         }
 
         [HttpPost]
         public JsonResult Rechazar(string ced)
         {
-            var status = false;
-
-            var lista=db.Reservacion
-            .Where(x => x.UsuarioId.Cedula == ced && x.Estado.Descripcion == "EN PROCESO")
-            .ToList();
-
-            foreach (var reser in lista)
+           
+            try
             {
-                db.Reservacion.Remove(reser);
+                var lista = db.Reservacion
+                .Where(x => x.UsuarioId.Cedula == ced && x.Estado.Descripcion == "EN PROCESO")
+                .ToList();
+
+                foreach (var reser in lista)
+                {
+                    db.Reservacion.Remove(reser);
+                }
+                db.SaveChanges();
+
+                var user = db.Users.Where(x => x.Cedula == ced).FirstOrDefault();
+                SendMailToUser(user.Email, "Su solicitud de reservación del gimnasio ha sido RECHAZADA");
+
+                return new JsonResult { Data = new { status = true } };
             }
-
-            db.SaveChanges();
-
-            return new JsonResult { Data = new { status = status } };
+            catch (Exception ex)
+            {
+                return new JsonResult { Data = new { status = false } };
+            }
         }
 
         //CÉDULA
@@ -180,6 +229,11 @@ namespace SOGIP_v2.Controllers
             Add(dia, hora, User, cantidad);
             //Holi :3
             db.SaveChanges();
+
+            string mensaje = "El usuario " + User.Nombre1 + " " + User.Apellido1 + " " + User.Apellido2 + ", ha solicitado reservar el gimnasio";
+
+            var ad = db.Users.Where(x=>x.Roles.FirstOrDefault().RoleId=="2").FirstOrDefault();
+            SendMailToUser(ad.Email, mensaje);
 
             return new JsonResult { Data = new { status = status } };
         }

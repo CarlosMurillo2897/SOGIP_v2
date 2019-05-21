@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
@@ -13,6 +15,9 @@ namespace SOGIP_v2.Controllers
     public class ActividadController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public object MessageBox { get; private set; }
+
         // GET: Actividad
         public ActionResult Index()
         {
@@ -84,11 +89,17 @@ namespace SOGIP_v2.Controllers
 
             int val = 0;
             SubirArchivo(ultimo,archivo,val);
-
             return new JsonResult { Data = new { status = status } };
         }
-        //Eliminar actividad
-        [HttpPost]
+
+
+    
+
+
+
+
+    //Eliminar actividad
+    [HttpPost]
         public JsonResult DeleteAct(int Id) {
             var status = false;
             using (db) {

@@ -54,6 +54,22 @@ namespace SOGIP_v2.Controllers
             return View();
         }
 
+        //------> Girl, I travel round the world and even sail the seven seas.
+        //------> Across the universe I go to other galaxies ♪ ♫
+
+
+        [HttpPost]
+        public JsonResult years() //------->selecciones
+        {
+            var lista = db.ControlIngreso.GroupBy(x => x.Fecha.Year)
+                .Where(g => g.Count() > 1 || g.Count() == 1)
+                .Select(g => g.Key)
+                .ToList();
+
+            lista.Reverse();
+            return new JsonResult { Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+
+        }
 
         public JsonResult getUsuariosA()
         {
@@ -90,6 +106,7 @@ namespace SOGIP_v2.Controllers
             return new JsonResult { Data = lista, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
+
         [HttpPost]
         public JsonResult Asociaciones() //------->asociaciones
         {
@@ -124,7 +141,7 @@ namespace SOGIP_v2.Controllers
         }
 
         //-------------------------------------------------------> seleccciones
-        public void addFemS(List<string> mes, int sele)
+        public void addFemS(List<string> mes, int sele, int an)
         {
             if (mes.Count > 0)
             {
@@ -133,18 +150,18 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from a in db.Atletas
-                where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == a.Usuario && a.SubSeleccion.SubSeleccionId == sele
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == a.Usuario && a.SubSeleccion.SubSeleccionId == sele
                 select c.Usuario
                 ).Count();
                 listF.Add(lista);
                 mes.RemoveAt(0);
-                addFemS(mes, sele);
+                addFemS(mes, sele, an);
             }
 
 
         }
 
-        public void addMascS(List<string> mes, int sele)
+        public void addMascS(List<string> mes, int sele, int an)
         {
             if (mes.Count > 0)
             {
@@ -153,18 +170,18 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from a in db.Atletas
-                where c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == a.Usuario && a.SubSeleccion.SubSeleccionId == sele
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == a.Usuario && a.SubSeleccion.SubSeleccionId == sele
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                addMascS(mes, sele);
+                addMascS(mes, sele, an);
             }
 
 
         }
         //--------------------------------------> Asociaciones
-        public void addFemA(List<string> mes, int aso)
+        public void addFemA(List<string> mes, int aso, int an)
         {
             if (mes.Count > 0)
             {
@@ -173,18 +190,18 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from a in db.Atletas
-                where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == a.Usuario && a.Asociacion_Deportiva.Asociacion_DeportivaId == aso
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == a.Usuario && a.Asociacion_Deportiva.Asociacion_DeportivaId == aso
                 select c.Usuario
                 ).Count();
                 listF.Add(lista);
                 mes.RemoveAt(0);
-                addFemA(mes, aso);
+                addFemA(mes, aso, an);
             }
 
 
         }
 
-        public void addMascA(List<string> mes, int aso)
+        public void addMascA(List<string> mes, int aso, int an)
         {
             if (mes.Count > 0)
             {
@@ -193,18 +210,18 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from a in db.Atletas
-                where c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == a.Usuario && a.Asociacion_Deportiva.Asociacion_DeportivaId == aso
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == a.Usuario && a.Asociacion_Deportiva.Asociacion_DeportivaId == aso
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                addMascA(mes, aso);
+                addMascA(mes, aso, an);
             }
 
 
         }
         //--------------------------------------> Entidades
-        public void addFemE(List<string> mes, int aso)
+        public void addFemE(List<string> mes, int aso, int an)
         {
             if (mes.Count > 0)
             {
@@ -213,18 +230,18 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from e in db.Entidad_Publica
-                where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == e.Usuario && e.Tipo_Entidad.Tipo_EntidadId == aso
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == e.Usuario && e.Tipo_Entidad.Tipo_EntidadId == aso
                 select c.Usuario
                 ).Count();
                 listF.Add(lista);
                 mes.RemoveAt(0);
-                addFemE(mes, aso);
+                addFemE(mes, aso, an);
             }
 
 
         }
 
-        public void addMascE(List<string> mes, int aso)
+        public void addMascE(List<string> mes, int aso, int an)
         {
             if (mes.Count > 0)
             {
@@ -233,19 +250,19 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from e in db.Entidad_Publica
-                where c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == e.Usuario && e.Tipo_Entidad.Tipo_EntidadId == aso
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == e.Usuario && e.Tipo_Entidad.Tipo_EntidadId == aso
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                addMascE(mes, aso);
+                addMascE(mes, aso, an);
             }
 
 
         }
         //--------------------------------------> Funcionarios 
 
-        public void addFemF(List<string> mes)
+        public void addFemF(List<string> mes, int an)
         {
             if (mes.Count > 0)
             {
@@ -253,15 +270,15 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from f in db.Funcionario_ICODER
-                where c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == f.Usuario
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Sexo == false && c.Usuario == f.Usuario
                 select c.Usuario
                 ).Count();
                 listF.Add(lista);
                 mes.RemoveAt(0);
-                addFemF(mes);
+                addFemF(mes, an);
             }
         }
-        public void addMascF(List<string> mes)
+        public void addMascF(List<string> mes, int an)
         {
             if (mes.Count > 0)
             {
@@ -269,28 +286,28 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from f in db.Funcionario_ICODER
-                where c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == f.Usuario
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Sexo == true && c.Usuario == f.Usuario
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                addMascF(mes);
+                addMascF(mes, an);
             }
         }
         //---------------------------------------------------> Usuario
-        public void addUs(List<string> mes, string ced)
+        public void addUs(List<string> mes, string ced, int an)
         {
             if (mes.Count > 0)
             {
                 int m = Int32.Parse(mes[0]);
                 var lista = (
                 from c in db.ControlIngreso
-                where c.Fecha.Month == m && c.Usuario.Cedula == ced
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Cedula == ced
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                addUs(mes, ced);
+                addUs(mes, ced, an);
             }
         }
 
@@ -300,31 +317,31 @@ namespace SOGIP_v2.Controllers
 
         //--------------------------------------> Principal
         [HttpPost]
-        public JsonResult PorMesAtletasF(string[] mes, int aso, int id)
+        public JsonResult PorMesAtletasF(string[] mes, int aso, int id, int an)
         {
             listF.Clear();
             List<string> m = new List<string>(mes);
 
             switch (id)
             {
-                case 1: { addFemS(m, aso); break; }
-                case 2: { addFemA(m, aso); break; }
-                case 3: { addFemE(m, aso); break; }
+                case 1: { addFemS(m, aso, an); break; }
+                case 2: { addFemA(m, aso, an); break; }
+                case 3: { addFemE(m, aso, an); break; }
             }
 
             return new JsonResult { Data = listF, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
         [HttpPost]
-        public JsonResult PorMesAtletasM(string[] mes, int aso, int id)
+        public JsonResult PorMesAtletasM(string[] mes, int aso, int id, int an)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
             switch (id)
             {
-                case 1: { addMascS(m, aso); break; }
-                case 2: { addMascA(m, aso); break; }
-                case 3: { addMascE(m, aso); break; }
+                case 1: { addMascS(m, aso, an); break; }
+                case 2: { addMascA(m, aso, an); break; }
+                case 3: { addMascE(m, aso, an); break; }
             }
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
@@ -332,31 +349,31 @@ namespace SOGIP_v2.Controllers
         }
         //------------------------------------------------------> Principal Funcionarios
         [HttpPost]
-        public JsonResult PorMesFFunc(string[] mes)
+        public JsonResult PorMesFFunc(string[] mes, int an)
         {
             listF.Clear();
             List<string> m = new List<string>(mes);
-            addFemF(m);
+            addFemF(m, an);
             return new JsonResult { Data = listF, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
         [HttpPost]
-        public JsonResult PorMesMFunc(string[] mes)
+        public JsonResult PorMesMFunc(string[] mes, int an)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            addMascF(m);
+            addMascF(m, an);
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
 
         }
 
         //----------------------------------------------------> Usuario en específico
         [HttpPost]
-        public JsonResult PorMesUsuario(string[] mes, string cedu)
+        public JsonResult PorMesUsuario(string[] mes, string cedu, int an)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            addUs(m, cedu);
+            addUs(m, cedu, an);
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -365,7 +382,7 @@ namespace SOGIP_v2.Controllers
         //--------------------->Por mes todos los grupos<---------------------
 
 
-        public void sele_all(List<string> mes)
+        public void sele_all(List<string> mes, int an)
         {
             if (mes.Count > 0)
             {
@@ -373,15 +390,15 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from a in db.Atletas
-                where c.Fecha.Month == m && c.Usuario==a.Usuario && a.SubSeleccion!=null
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario==a.Usuario && a.SubSeleccion!=null
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                sele_all(mes);
+                sele_all(mes, an);
             }
         }
-        public void aso_all(List<string> mes)
+        public void aso_all(List<string> mes, int an)
         {
             if (mes.Count > 0)
             {
@@ -389,83 +406,83 @@ namespace SOGIP_v2.Controllers
                 var lista = (
                 from c in db.ControlIngreso
                 from a in db.Atletas
-                where c.Fecha.Month == m && c.Usuario == a.Usuario && a.Asociacion_Deportiva!=null
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario == a.Usuario && a.Asociacion_Deportiva!=null
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                aso_all(mes);
+                aso_all(mes, an);
             }
         }
-        public void gub_all(List<string> mes)
+        public void gub_all(List<string> mes, int an)
         {
             if (mes.Count > 0)
             {
                 int m = Int32.Parse(mes[0]);
                 var lista = (
                 from c in db.ControlIngreso
-                where c.Fecha.Month == m && c.Usuario.Roles.FirstOrDefault().RoleId == "8"
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Roles.FirstOrDefault().RoleId == "8"
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                gub_all(mes);
+                gub_all(mes, an);
             }
         }
 
-        public void fun_all(List<string> mes)
+        public void fun_all(List<string> mes, int an)
         {
             if (mes.Count > 0)
             {
                 int m = Int32.Parse(mes[0]);
                 var lista = (
                 from c in db.ControlIngreso
-                where c.Fecha.Month == m && c.Usuario.Roles.FirstOrDefault().RoleId == "7"
+                where c.Fecha.Year==an && c.Fecha.Month == m && c.Usuario.Roles.FirstOrDefault().RoleId == "7"
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                fun_all(mes);
+                fun_all(mes, an);
             }
         }
 
 
         [HttpPost]
-        public JsonResult allsele(string[] mes)
+        public JsonResult allsele(string[] mes, int an)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            sele_all(m);
+            sele_all(m, an);
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpPost]
-        public JsonResult allaso(string[] mes)
+        public JsonResult allaso(string[] mes, int an)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            aso_all(m);
+            aso_all(m, an);
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpPost]
-        public JsonResult allguber(string[] mes)
+        public JsonResult allguber(string[] mes, int an)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            gub_all(m);
+            gub_all(m, an);
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
 
         [HttpPost]
-        public JsonResult allfunc(string[] mes)
+        public JsonResult allfunc(string[] mes, int an)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            fun_all(m);
+            fun_all(m, an);
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
@@ -474,64 +491,64 @@ namespace SOGIP_v2.Controllers
 
 
         //--------------------->Por mes hombres, mujeres, todos<---------------------
-        public void addallgen(List<string> mes, bool gen)
+        public void addallgen(List<string> mes, bool gen, int an)
         {
             if (mes.Count > 0)
             {
                 int m = Int32.Parse(mes[0]);
                 var lista = (
                 from c in db.ControlIngreso
-                where c.Fecha.Month == m && c.Usuario.Sexo == gen
+                where c.Fecha.Year == an && c.Fecha.Month == m && c.Usuario.Sexo == gen
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                addallgen(mes, gen);
+                addallgen(mes, gen, an);
             }
         }
 
 
-        public void addallusers(List<string> mes)
+        public void addallusers(List<string> mes, int an)
         {
             if (mes.Count > 0)
             {
                 int m = Int32.Parse(mes[0]);
                 var lista = (
                 from c in db.ControlIngreso
-                where c.Fecha.Month == m
+                where c.Fecha.Year == an && c.Fecha.Month == m
                 select c.Usuario
                 ).Count();
                 listM.Add(lista);
                 mes.RemoveAt(0);
-                addallusers(mes);
+                addallusers(mes, an);
             }
         }
 
 
         [HttpPost]
-        public JsonResult allusers(string[] mes)
+        public JsonResult allusers(string[] mes, int an)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            addallusers(m);
+            addallusers(m, an);
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
         [HttpPost]
-        public JsonResult allwomen(string[] mes)
+        public JsonResult allwomen(string[] mes, int an)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            addallgen(m,false);
+            addallgen(m,false, an);
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
         [HttpPost]
-        public JsonResult allmen(string[] mes)
+        public JsonResult allmen(string[] mes, int an)
         {
             listM.Clear();
             List<string> m = new List<string>(mes);
-            addallgen(m, true);
+            addallgen(m, true, an);
 
             return new JsonResult { Data = listM, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
         }
