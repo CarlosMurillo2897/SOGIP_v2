@@ -466,7 +466,7 @@ namespace SOGIP_v2.Controllers
                 .Include("Usuario") // Traemos al usuario.
                 .Where(x => x.Usuario.Id == idUsuario) // Buscamos al usuario por medio de su Id.
                 .ToList() // Traemos *TODAS* las rutinas.
-                .OrderByDescending(r => r.RutinaFecha) // Las ordenamos por fecha, de modo que la más reciente queda de primera.
+                .OrderByDescending(r => r.FechaInicio) // Las ordenamos por fecha, de modo que la más reciente queda de primera.
                 .FirstOrDefault(); // Tomamos la primera y con esto obtenemos la más reciente, en caso de no existir rutina simplemente se ve ignorado y dispone como nulo.
 
                 ViewBag.idUsuario = idUsuario;
@@ -505,7 +505,7 @@ namespace SOGIP_v2.Controllers
                           select new
                           {
                               r.RutinaId,
-                              r.RutinaFecha,
+                              r.FechaInicio,
                               r.RutinaObservaciones,
                               Usuario = r.Usuario.Cedula + " - " + r.Usuario.Nombre1 + " " + r.Usuario.Nombre2 + " " + r.Usuario.Apellido1 + " " + r.Usuario.Apellido2
                             }).ToList();
