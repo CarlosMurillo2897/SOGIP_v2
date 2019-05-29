@@ -382,9 +382,9 @@
                             var p2 = data[i].Peso2 === null ? ' ' : data[i].Peso2;
                             var r2 = data[i].Repeticion2 === null ? ' ' : data[i].Repeticion2;
 
-                            var s3 = data[i].Serie1 === null ? ' ' : data[i].Serie3;
-                            var p3 = data[i].Peso1 === null ? ' ' : data[i].Peso3;
-                            var r3 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion3;
+                            var s3 = data[i].Serie3 === null ? ' ' : data[i].Serie3;
+                            var p3 = data[i].Peso3 === null ? ' ' : data[i].Peso3;
+                            var r3 = data[i].Repeticion3 === null ? ' ' : data[i].Repeticion3;
                             var a = '<tr style= "background-color: ' + data[i].ColorId.Codigo + '"> <td>' + data[i].EjercicioId.Nombre + '</td>' +
                                 '<td>' + s1 + '</td>' +
                                 '<td>' + r1 + '</td>' +
@@ -406,7 +406,7 @@
                                 '</a>' + '</td> </tr>';
 
                             $('#rutina tbody').append(a);
-
+                            location.reload();
                             //$('#tabla tbody').empty();
                             //var m = '<TR>' +
                             //    + ' <TH>' + '</TH > ' +
