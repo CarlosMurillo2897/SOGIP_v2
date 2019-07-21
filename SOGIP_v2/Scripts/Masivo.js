@@ -391,9 +391,14 @@ function cargar(x) {
 
 function actualizar() {
     var tr = $('#' + $('#hidden').val());
-    var a = tr.find('td:eq(0)').find('a').removeClass('btn-danger');
-        a.addClass('btn-success');
-        a.attr("data-content", "<p style='color: green;'> \u23FA Todo en orden.</p>");
+
+    tr.find('td:eq(0)').html(
+        `<a tabindex="0" class="btn btn-success" title="" data-trigger="focus" data-html="true"` +
+        `data-container="body" data-toggle="popover" data-placement="bottom"` +
+        `data-content="<p style='color: green;'> ⏺ Todo en orden.</p>"` +
+        `data-original-title="<strong>Estado</strong> (para cerrar oprima fuera del cuadro).">` +
+        `${$('#ced').val().toUpperCase()}</a>`);
+
     tr.find('td:eq(1)').text($('#nom1').val().toUpperCase());
     tr.find('td:eq(2)').text($('#nom2').val().toUpperCase());
     tr.find('td:eq(3)').text($('#apel1').val().toUpperCase());
@@ -402,6 +407,8 @@ function actualizar() {
     tr.find('td:eq(6)').text($("#dtp").data('datepicker').getFormattedDate('yyyy/mm/dd'));
     tr.find('td:eq(7)').text($('#sexo').val());
 
+    $('#myModal').modal('hide');
+    
 }
 
 function registrar() {
