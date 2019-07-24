@@ -106,7 +106,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: '/Actividad/saveActividad',
+            url: '/SOGIP/Actividad/saveActividad',
             data: data,
             contentType: false,
             processData: false,
@@ -152,7 +152,7 @@
                     $.ajax({
                         type: "POST",
                         dataType: "JSON",
-                        url: '/Actividad/DeleteAct',
+                        url: '/SOGIP/Actividad/DeleteAct',
                         data: { 'Id': selectedEvent.id },
                         success: function (data) {
                             if (data.status) {
@@ -176,7 +176,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
-                url: "/Actividad/GetAct",
+                url: "/SOGIP/Actividad/GetAct",
                 success: function (data) {
                     $.each(data, function (i, v) {
                         events.push({

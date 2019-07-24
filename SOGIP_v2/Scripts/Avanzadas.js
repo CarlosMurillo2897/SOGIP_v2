@@ -15,7 +15,7 @@ function cargaDT(id) {
     
     switch (id) {
         case 1: {
-            url = "/Opciones/GetCategorias";
+            url = "/SOGIP/Opciones/GetCategorias";
             header = header + '<th style="width: 50%;">Nombre</th><th>Acción <span class="glyphicon glyphicon-cog"></span></th></tr>';
             col = [
                 { data: "Descripcion" }
@@ -25,7 +25,7 @@ function cargaDT(id) {
             break;
         }
         case 2: {
-            url = "/Opciones/GetColores";
+            url = "/SOGIP/Opciones/GetColores";
             header = header + '<th style="width: 25%;">Nombre</th><th style="width: 25%;">Identificador</th><th style="width: 25%;">Seleccionado</th><th style="width: 25%;">Acción <span class="glyphicon glyphicon-cog"></span></th></tr>';
             col = [
                 { data: "Nombre" },
@@ -47,7 +47,7 @@ function cargaDT(id) {
             break;
         }
         case 3: {
-            url = "/Opciones/GetDeportes";
+            url = "/SOGIP/Opciones/GetDeportes";
             header = header + '<th>Nombre</th><th>Tipo de Deporte</th><th>Acción <span class="glyphicon glyphicon-cog"></span></th></tr>';
             col = [
                 { data: "Nombre" },
@@ -58,7 +58,7 @@ function cargaDT(id) {
             break;
         }
         case 4: {
-            url = "/Opciones/GetEntidades";
+            url = "/SOGIP/Opciones/GetEntidades";
             header = header + '<th>Nombre</th><th>Acción <span class="glyphicon glyphicon-cog"></span></th></tr>';
             col = [
                 { data: "Descripcion" }
@@ -68,7 +68,7 @@ function cargaDT(id) {
             break;
         }
         case 5: {
-            url = "/Opciones/GetEstados";
+            url = "/SOGIP/Opciones/GetEstados";
             header = header + '<th style="width: 50%;">Nombre</th><th style="width: 50%;">Acción <span class="glyphicon glyphicon-cog"></span></th></tr>';
             col = [
                 { data: "Descripcion" }
@@ -78,7 +78,7 @@ function cargaDT(id) {
             break;
         }
         case 6: {
-            url = "/Opciones/GetParametros";
+            url = "/SOGIP/Opciones/GetParametros";
             header = header + '<th>Nombre</th><th>Valor</th><th>Acción <span class="glyphicon glyphicon-cog"></span></th></tr>';
             col = [
                 { data: "Nombre" },
@@ -89,7 +89,7 @@ function cargaDT(id) {
             break;
         }
         case 7: {
-            url = "/Opciones/GetTiposArchivos";
+            url = "/SOGIP/Opciones/GetTiposArchivos";
             header = header + '<th>Nombre</th><th>Acción <span class="glyphicon glyphicon-cog"></span></th></tr>';
             col = [
                 { data: "Nombre" }
@@ -99,7 +99,7 @@ function cargaDT(id) {
             break;
         }
         case 8: {
-            url = "/Opciones/GetTipoDeportes";
+            url = "/SOGIP/Opciones/GetTipoDeportes";
             header = header + '<th>Nombre</th><th>Acción <span class="glyphicon glyphicon-cog"></span></th></tr>';
             col = [
                 { data: "Descripcion" }
@@ -314,7 +314,7 @@ function cargaDatos(element) {
             }
         },
         "ajax": {
-            "url": "/Opciones/GetTipoDeportes",
+            "url": "/SOGIP/Opciones/GetTipoDeportes",
             "type": "GET",
             "dataSrc": ""
         },
@@ -359,7 +359,7 @@ function CargarModal(element, opcion) {
                 required: true,
                 minlength: 2,
                 remote: {
-                    url: "/Opciones/CategoriaRepetida",
+                    url: "/SOGIP/Opciones/CategoriaRepetida",
                     type: "GET",
                     data: {
                         nombre: function () { return $('#cat').val(); }
@@ -370,7 +370,7 @@ function CargarModal(element, opcion) {
                 required: true,
                 minlength: 2,
                 remote: {
-                    url: "/Opciones/ColorRepetido",
+                    url: "/SOGIP/Opciones/ColorRepetido",
                     type: "GET",
                     data: {
                         nombre: function () { return $('#col').val(); },
@@ -382,7 +382,7 @@ function CargarModal(element, opcion) {
                 required: true,
                 minlength: 2,
                 remote: {
-                    url: "/Opciones/CodigoColorRepetido",
+                    url: "/SOGIP/Opciones/CodigoColorRepetido",
                     type: "GET",
                     data: {
                         codigo: function () { return $('#cod').val(); },
@@ -394,7 +394,7 @@ function CargarModal(element, opcion) {
                 required: true,
                 minlength: 2,
                 remote: {
-                    url: "/Opciones/DeporteRepetido",
+                    url: "/SOGIP/Opciones/DeporteRepetido",
                     type: "GET",
                     data: {
                         nombre: function () { return $('#dep').val(); },
@@ -409,7 +409,7 @@ function CargarModal(element, opcion) {
                 required: true,
                 minlength: 3,
                 remote: {
-                    url: "/Opciones/TipoEntidadPublicaRepetida",
+                    url: "/SOGIP/Opciones/TipoEntidadPublicaRepetida",
                     type: "GET",
                     data: {
                         nombre: function () { return $('#ent').val(); }
@@ -420,7 +420,7 @@ function CargarModal(element, opcion) {
                 required: true,
                 minlength: 3,
                 remote: {
-                    url: "/Opciones/EstadoRepetido",
+                    url: "/SOGIP/Opciones/EstadoRepetido",
                     type: "GET",
                     data: {
                         nombre: function () { return $('#est').val(); }
@@ -431,7 +431,7 @@ function CargarModal(element, opcion) {
                 required: true,
                 minlength: 3,
                 remote: {
-                    url: "/Opciones/ParametroRepetido",
+                    url: "/SOGIP/Opciones/ParametroRepetido",
                     type: "GET",
                     data: {
                         nombre: function () { return $('#par').val(); },
@@ -446,7 +446,7 @@ function CargarModal(element, opcion) {
                 required: true,
                 minlength: 3,
                 remote: {
-                    url: "/Opciones/TipoArchivoRepetido",
+                    url: "/SOGIP/Opciones/TipoArchivoRepetido",
                     type: "GET",
                     data: {
                         nombre: function () { return $('#tpda').val(); }
@@ -457,7 +457,7 @@ function CargarModal(element, opcion) {
                 required: true,
                 minlength: 3,
                 remote: {
-                    url: "/Opciones/TipoDeportRepetido",
+                    url: "/SOGIP/Opciones/TipoDeportRepetido",
                     type: "GET",
                     data: {
                         nombre: function () { return $('#tpdd').val(); }
@@ -558,7 +558,7 @@ function agregarEditar() {
 
     switch (aux) {
         case 1: {
-            url = "/Opciones/AgregarCategoria";
+            url = "/SOGIP/Opciones/AgregarCategoria";
             datos = { Nombre: $('#cat').val().toUpperCase(), id: idSeleccionado };
             nuevosDatos = function (data) {
                 return { "Descripcion": data.Descripcion, "CategoriaId": data.CategoriaId };
@@ -566,7 +566,7 @@ function agregarEditar() {
             break;
         }
         case 2: {
-            url = "/Opciones/AgregarColor";
+            url = "/SOGIP/Opciones/AgregarColor";
             datos = { Nombre: $('#col').val().toUpperCase(), Codigo: $('#cod').val().toUpperCase(), Selected: true, id: idSeleccionado };
             nuevosDatos = function (data) {
                 return { "Nombre": data.Nombre, "Codigo": data.Codigo, "Seleccionado": data.Seleccionado, "ColorId": data.ColorId };
@@ -574,7 +574,7 @@ function agregarEditar() {
             break;
         }
         case 3: {
-            url = "/Opciones/AgregarDeportes";
+            url = "/SOGIP/Opciones/AgregarDeportes";
             datos = { Nombre: $('#dep').val().toUpperCase(), Tipo: $('#tipoDepSelec').val(), id: idSeleccionado };
             nuevosDatos = function (data) {
                 return { "Nombre": data.Nombre, "Descripcion": data.TipoDeporte.Descripcion, "DeporteId": data.DeporteId };
@@ -582,7 +582,7 @@ function agregarEditar() {
             break;
         }
         case 4: {
-            url = "/Opciones/AgregarTipoEntidad";
+            url = "/SOGIP/Opciones/AgregarTipoEntidad";
             datos = { Nombre: $('#ent').val().toUpperCase(), id: idSeleccionado };
             nuevosDatos = function (data) {
                 return { "Descripcion": data.Descripcion, "Tipo_EntidadId": data.Tipo_EntidadId };
@@ -590,7 +590,7 @@ function agregarEditar() {
             break;
         }
         case 5: {
-            url = "/Opciones/AgregarEstado";
+            url = "/SOGIP/Opciones/AgregarEstado";
             datos = { Nombre: $('#est').val().toUpperCase(), id: idSeleccionado };
             nuevosDatos = function (data) {
                 return { "Descripcion": data.Descripcion, "EstadoId": data.EstadoId };
@@ -599,7 +599,7 @@ function agregarEditar() {
         }
         case 6: {
             console.log('oko');
-            url = "/Opciones/AgregarParametro";
+            url = "/SOGIP/Opciones/AgregarParametro";
             datos = { Nombre: $('#par').val().toUpperCase(), Valor: $('#valor').val(), id: idSeleccionado };
             nuevosDatos = function (data) {
                 return { "Nombre": data.Nombre, "Valor": data.Valor, "ParametroId": data.ParametroId };
@@ -608,7 +608,7 @@ function agregarEditar() {
         }
             
         case 7: {
-            url = "/Opciones/AgregarTipoArchivo";
+            url = "/SOGIP/Opciones/AgregarTipoArchivo";
             datos = { Nombre: $('#tpda').val().toUpperCase(), id: idSeleccionado };
             nuevosDatos = function (data) {
                 return { "Nombre": data.Nombre, "TipoId": data.TipoId };
@@ -616,7 +616,7 @@ function agregarEditar() {
             break;
         }
         case 8: {
-            url = "/Opciones/AgregarTipoDeporte";
+            url = "/SOGIP/Opciones/AgregarTipoDeporte";
             datos = { Nombre: $('#tpdd').val().toUpperCase(), id: idSeleccionado };
             nuevosDatos = function (data) {
                 return { "Descripcion": data.Descripcion, "Tipo_DeporteId": data.Tipo_DeporteId };

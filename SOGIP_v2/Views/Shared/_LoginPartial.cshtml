@@ -48,37 +48,37 @@
                         </a>
                         <ul class="dropdown-menu" role="menu" id="myTab">
                             <li role="presentation">
-                                <a href="~/UsersAdmin/Index/">
+                                <a href="~/SOGIP/UsersAdmin/Index/">
                                     <span class="glyphicon glyphicon-pencil"></span> Manual
                                 </a>
                             </li>
                             <li class="divider"></li>
                             <li role="presentation">
-                                <a href="~/UsersAdmin/IndexMasivo/">
+                                <a href="~/SOGIP/UsersAdmin/IndexMasivo/">
                                     <span class="glyphicon glyphicon-cloud"></span> Masivo
                                 </a>
                             </li>
                             <li class="divider"></li>
                             <li role="presentation">
-                                <a href="~/Rutinas/Index/">
+                                <a href="~/SOGIP/Rutinas/Index/">
                                     <span class="glyphicon glyphicon-apple"></span> Rutina
                                 </a>
                             </li>
                             <li class="divider"></li>
                             <li role="presentation">
-                                <a href="~/ExpedientesFisicos/Index/">
+                                <a href="~/SOGIP/ExpedientesFisicos/Index/">
                                     <span class="glyphicon glyphicon-file"></span> Expediente
                                 </a>
                             </li>
                             <li class="divider"></li>
                             <li role="presentation">
-                                <a href="~/TipoME/Index/">
+                                <a href="~/SOGIP/TipoME/Index/">
                                     <span class="glyphicon glyphicon-list"></span> Ejercicios-Máquinas
                                 </a>
                             </li>	
                             <li class="divider"></li>
                             <li role="presentation">
-                                <a href="~/CodigoQR/Index/">
+                                <a href="~/SOGIP/CodigoQR/Index/">
                                     <span class="glyphicon glyphicon-qrcode"></span> Código QR
                                 </a>
                             </li>
@@ -92,17 +92,17 @@
                         </a>
                         <ul class="dropdown-menu" role="menu" id="myTab">
                             <li>
-                                <a href="~/CitasAdmin/Create?id=@User.Identity.GetUserId()">
+                                <a href="~/SOGIP/CitasAdmin/Create?id=@User.Identity.GetUserId()">
                                     <span class="glyphicon glyphicon-calendar"></span> Citas
                                 </a>
                             </li>
                             <li>
-                                <a href="~/Reservacion/Create?id=@User.Identity.GetUserId()">
+                                <a href="~/SOGIP/Reservacion/Create?id=@User.Identity.GetUserId()">
                                     <span class="glyphicon glyphicon-calendar"></span> Reservaciones
                                 </a>
                             </li>
                             <li role="presentation">
-                                <a href="~/Actividad/Create/">
+                                <a href="~/SOGIP/Actividad/Create/">
                                     <span class="glyphicon glyphicon-calendar"></span> Actividades
                                 </a>
                             </li>
@@ -110,12 +110,12 @@
                     </li>
                     <li>
 
-                        <a href="~/Busqueda/Index">
+                        <a href="~/SOGIP/Busqueda/Index">
                             <span class="glyphicon glyphicon-search"></span> Búsqueda
                         </a>
                     </li>
                     <li>
-                        <a href="~/AtletasAsignados/Index">
+                        <a href="~/SOGIP/AtletasAsignados/Index">
                             <span class="glyphicon glyphicon-list-alt"></span> Funcionarios
                         </a>
                     </li>
@@ -125,19 +125,19 @@
                         </a>
                         <ul class="dropdown-menu" role="menu" id="OptionsTab">
                             <li>
-                                <a href="~/Opciones/Avanzadas">
+                                <a href="~/SOGIP/Opciones/Avanzadas">
                                     <span class="glyphicon glyphicon-cog"></span> Avanzadas
                                 </a>
                             </li>
                             <li class="divider"></li>
                             <li>
-                                <a href="~/ControlIngreso/Estadistica">
+                                <a href="~/SOGIP/ControlIngreso/Estadistica">
                                     <span class="glyphicon glyphicon-stats"></span> Gráficos
                                 </a>
                             </li>
                             <li class="divider"></li>
                             <li role="presentation">
-                                <a href="~/EstadosPagos/Index/">
+                                <a href="~/SOGIP/EstadosPagos/Index/">
                                     &cent; Pagos
                                 </a>
                             </li>
@@ -153,19 +153,19 @@
                         </a>
                         <ul class="dropdown-menu" role="menu" id="myTab">
                             <li>
-                                <a href="~/CitasAdmin/Create2?id=@User.Identity.GetUserId()">
+                                <a href="~/SOGIP/CitasAdmin/Create2?id=@User.Identity.GetUserId()">
                                     <span class="glyphicon glyphicon-calendar"></span> Citas
                                 </a>
                             </li>
                             <li>
-                                <a href="~/Reservacion/Create?id=@User.Identity.GetUserId()">
+                                <a href="~/SOGIP/Reservacion/Create?id=@User.Identity.GetUserId()">
                                     <span class="glyphicon glyphicon-calendar"></span> Reservaciones
                                 </a>
                             </li>
                         </ul>
                     </li>
                     <li role="presentation">
-                        <a href="~/Rutinas/ListaEjercicio?idUsuario=@User.Identity.GetUserId()">
+                        <a href="~/SOGIP/Rutinas/ListaEjercicio?idUsuario=@User.Identity.GetUserId()">
                             <span class="glyphicon glyphicon-apple"></span> Rutina
                         </a>
                     </li>
@@ -173,12 +173,12 @@
                 @if (User.IsInRole("Entrenador"))
                 {
                     <li role="presentation">
-                        <a href="~/Rutinas/Index">
+                        <a href="~/SOGIP/Rutinas/Index">
                             <span class="glyphicon glyphicon-apple"></span> Rutina
                         </a>
                     </li>
                     <li>
-                        <a href="~/Reservacion/Create?id=@User.Identity.GetUserId()">
+                        <a href="~/SOGIP/Reservacion/Create?id=@User.Identity.GetUserId()">
                             <span class="glyphicon glyphicon-calendar"></span> Reservaciones
                         </a>
                     </li>
@@ -187,7 +187,7 @@
                 @if (User.IsInRole("Seleccion/Federacion") || User.IsInRole("Asociacion/Comite") || User.IsInRole("Entrenador"))
                 {
                     <li role="presentation">
-                        <a href="~/AtletasAsignados/Index">
+                        <a href="~/SOGIP/AtletasAsignados/Index">
                             <span class="glyphicon glyphicon-list-alt"></span> Atletas
                         </a>
                     </li>
@@ -199,7 +199,7 @@
                 @if (Request.IsAuthenticated)
                 {
                     <li class="dropdown">
-                        <form action="/Account/LogOff" method="post" id="logoutForm">
+                        <form action="/SOGIP/Account/LogOff" method="post" id="logoutForm">
                             @Html.AntiForgeryToken()
                         </form>
 
@@ -218,7 +218,7 @@
                         </a>
                         <ul class="dropdown-menu" role="menu" id="myTab2">
                             <li role="presentation">
-                                <a href="~/Account/Perfil?id=@User.Identity.GetUserId()">
+                                <a href="~/SOGIP/Account/Perfil?id=@User.Identity.GetUserId()">
                                     <span class="glyphicon glyphicon-user"></span>
                                     Perfil
                                 </a>
@@ -245,7 +245,7 @@
                 else
                 {
                     <li>
-                        <a href="/Account/Login">
+                        <a href="/SOGIP/Account/Login">
                             <span class="glyphicon glyphicon-log-in"></span> Iniciar Sesión
                         </a>
                     </li>

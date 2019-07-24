@@ -16,7 +16,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/CitasAdmin/GetCed",
+            url: "/SOGIP/CitasAdmin/GetCed",
             success: function (data) {
                 ced = data;
             },
@@ -32,7 +32,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/CitasAdmin/GetEvents",
+            url: "/SOGIP/CitasAdmin/GetEvents",
             success: function (data) {
                 $.each(data, function (i, v) {
                     events.push({
@@ -315,7 +315,7 @@
                     $.ajax({
                         type: "POST",
                         dataType: "JSON",
-                        url: '/CitasAdmin/DeleteEvent',
+                        url: '/SOGIP/CitasAdmin/DeleteEvent',
                         data: { 'citaId': selectedEvent.citaId },
                         success: function (data) {
                             if (data.status) {
@@ -474,7 +474,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: '/CitasAdmin/SaveEvent',
+            url: '/SOGIP/CitasAdmin/SaveEvent',
             data: { 'e': data, 'cedu': ced },
             success: function (data) {
                 if (data.status) {

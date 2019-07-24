@@ -45,21 +45,21 @@
             
         }
         else {
-            $.get("/UsersAdmin/ArchivosUsuario", { usuarioId: id }, function (data) {
+            $.get("/SOGIP/UsersAdmin/ArchivosUsuario", { usuarioId: id }, function (data) {
                 $.each(data, function (index, row) {
                     index = index + 1;
 
                     $("#tabla1-" + id).append('<dt class="supr">Nombre: </dt><dd class="supr">' + index + '. ' + row.Nombre + '</dd>' +
                         '<dt class="supr">Tipo: </dt></dd>' + row.Tipo + '</dd>' +
                             '<dd class="supr">' + 
-                                '<a class="btn btn-info" href="/UsersAdmin/Download?archivoId=' + row.ArchivoId + '" style="padding: 2px 6px; margin: 2px;">' +
+                                '<a class="btn btn-info" href="/SOGIP/UsersAdmin/Download?archivoId=' + row.ArchivoId + '" style="padding: 2px 6px; margin: 2px;">' +
                                     '<text class="hidden-xs">Descargar </text>' +
                                     '<span class="glyphicon glyphicon-download"></span>' +
                                 '</a>' +
                         '</dd>');
 
                     $("#tabla2-" + id).append('<tr class="supr"><td>' + index + '. ' + row.Nombre + '</td><td>' + row.Tipo + '</td><td>' +
-                            '<a class="btn btn-info" href="/UsersAdmin/Download?archivoId=' + row.ArchivoId + '" style="padding: 2px 6px; margin: 2px;">' +
+                            '<a class="btn btn-info" href="/SOGIP/UsersAdmin/Download?archivoId=' + row.ArchivoId + '" style="padding: 2px 6px; margin: 2px;">' +
                                 '<text class="hidden-xs">Descargar </text>' +
                                 '<span class="glyphicon glyphicon-download"></span>' +
                             '</a>' +
@@ -94,7 +94,7 @@ function dis(id, DI) {
     };
 
     $.ajax({
-        url: '/UsersAdmin/InhabilitarUsuario',
+        url: '/SOGIP/UsersAdmin/InhabilitarUsuario',
         dataType: 'JSON',
         type: 'POST',
         data: JSON.stringify(datos),
@@ -154,7 +154,7 @@ function dis(id, DI) {
 function cargaArchivos(id) {
 
     $.ajax({
-        url: "/UsersAdmin/ArchivosUsuario",
+        url: "/SOGIP/UsersAdmin/ArchivosUsuario",
         type: "GET",
         data: { UsuarioId: id },
         success: function (data) {
@@ -187,7 +187,7 @@ function cargaArchivos(id) {
                 }
             },
             "ajax": {
-                "url": "/ExpedientesFisicos/ObtenerArchivos",
+                "url": "/SOGIP/ExpedientesFisicos/ObtenerArchivos",
                 "type": "GET",
                 "dataSrc": ""
             },
@@ -206,7 +206,7 @@ function cargaArchivos(id) {
                                     "<text class='hidden-xs'>Editar </text>" +
                                     "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>" +
-                                "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
+                                "<a class='btn btn-info' href='/SOGIP/UsersAdmin/Download?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
                                     "<text class='hidden-xs'>Descargar </text>" +
                                     "<span class='glyphicon glyphicon-download'></span>" +
                                 "</a>";
