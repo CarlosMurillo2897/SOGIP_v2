@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.Web.Security;
 using OfficeOpenXml;
 using System.Text.RegularExpressions;
+using System.Net.Mail;
 
 namespace SOGIP_v2.Controllers
 {
@@ -957,7 +958,8 @@ namespace SOGIP_v2.Controllers
             {
                 foreach (var item in users)
                 {
-                    string pass = UserManager.PasswordHasher.HashPassword(ComposicionPassword(item.Nombre1, item.Apellido1, item.Cedula, item.Fecha_Nacimiento));
+                    string aux = ComposicionPassword(item.Nombre1, item.Apellido1, item.Cedula, item.Fecha_Nacimiento);
+                    string pass = UserManager.PasswordHasher.HashPassword(aux);
                     item.PasswordHash = pass;
                     item.Roles.Add(new IdentityUserRole { UserId = item.Id, RoleId = "5" });
                     item.SecurityStamp = Guid.NewGuid().ToString();
@@ -987,6 +989,10 @@ namespace SOGIP_v2.Controllers
                         });
                     }
                     db.SaveChanges();
+                    // item.email
+                    SendMailToUser(item.Email, "SOGIP y el ICODER le da la bienvenida a nuestro sistema.\n"
+                    + " A continuación le detallamos su nombre de usuario: " + item.Email + " y contraseña creada por defecto " + aux + " (esta contraseña es temporal y puede ser cambiada dentro del sistema)."
+                    + "\nCon el cual podrá acceder y utilizar nuestro servicio virtual.");
                 }
             }
             catch (Exception)
@@ -995,6 +1001,34 @@ namespace SOGIP_v2.Controllers
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        //CORREO
+        private void SendMailToUser(string correo, string mensaje)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+
+
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("***************** EL_EMAIL ****************");
+                mail.To.Add(correo);
+                mail.Subject = "SOGIP: Usuario creado con éxito";
+                mail.Body = mensaje;
+
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("***************** EL_EMAIL ****************", "***************** LA_PASS ****************");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public JsonResult GetUsuarios(string filtro)
