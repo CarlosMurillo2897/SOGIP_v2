@@ -323,7 +323,7 @@
                 }
             },
             "ajax": {
-                "url": "/EstadosPagos/GetPagos",
+                "url": "/SOGIP/EstadosPagos/GetPagos",
                 "type": "GET",
                 "dataSrc": ""
             },
@@ -392,7 +392,7 @@
                     }
                 },
                 "ajax": {
-                    "url": "/EstadosPagos/PagoUsuarios",
+                    "url": "/SOGIP/EstadosPagos/PagoUsuarios",
                     "type": "GET",
                     "dataSrc": "",
                     data: { mes, year }
@@ -449,7 +449,7 @@
                 }
             },
             "ajax": {
-                "url": "/EstadosPagos/GetUsuarios",
+                "url": "/SOGIP/EstadosPagos/GetUsuarios",
                 "type": "GET",
                 "data": { fecha: dt },
                 "dataSrc": ""
@@ -488,7 +488,7 @@
 
     function cargarTipoPagos() {
         $.ajax({
-            url: "/Opciones/GetTipoPagos",
+            url: "/SOGIP/Opciones/GetTipoPagos",
             type: "GET",
             success: function (list) {
                 var slc = '<select class="form-control" id="TipoPago" name="TipoPago" required><option value="">-- Seleccionar --</option>';
@@ -506,7 +506,7 @@
 
     function cargarEstados() {
         $.ajax({
-            url: "/Opciones/GetEstados",
+            url: "/SOGIP/Opciones/GetEstados",
             type: "GET",
             success: function (list) {
                 var slc = '<select class="form-control" id="Estado" name="Estado" required><option value="">-- Seleccionar --</option>';
@@ -532,7 +532,7 @@
         form = form + "&usr=" + $('#usuario').val().split('-')[0];
 
         $.ajax({
-            url: "/EstadosPagos/AgregarPago",
+            url: "/SOGIP/EstadosPagos/AgregarPago",
             type: "POST",
             data: form,
             success: function () {

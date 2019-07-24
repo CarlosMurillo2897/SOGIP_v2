@@ -261,7 +261,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
-                url: '/Rutinas/DeleteEjercicio',
+                url: '/SOGIP/Rutinas/DeleteEjercicio',
                 data: {
                     'n':  @viewDataRutina,
                     'ejercicioId': id
@@ -281,7 +281,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
-                url: '/Rutinas/ObtenerEjer',
+                url: '/SOGIP/Rutinas/ObtenerEjer',
                 data: { 'ejercicioId': id },
                 success: function (data) {
                     $('#ejer').val(data.EjercicioId.Nombre);
@@ -324,7 +324,7 @@
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: '/Rutinas/EditEjer',
+                    url: '/SOGIP/Rutinas/EditEjer',
                     data: ejer,
                     success: function (data) {
                         
@@ -417,7 +417,7 @@
                     }
                 },
                 "ajax": {
-                    "url": "/TipoME/GetEjerMaquina",
+                    "url": "/SOGIP/TipoME/GetEjerMaquina",
                     "type": "GET",
                     "dataSrc": ""
                 },
@@ -452,7 +452,7 @@
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: '/Rutinas/ObtenerColores',
+                    url: '/SOGIP/Rutinas/ObtenerColores',
                     success: function (data) {
                         $.each(data, function (i, v) {
                             select.options[i] = new Option(v.Nombre, v.Identificador);
@@ -659,7 +659,7 @@
            
                                   }
                     $.ajax({
-                        url: '/Rutinas/Ejercicio',
+                        url: '/SOGIP/Rutinas/Ejercicio',
                         dataType: 'JSON',
                         type: 'POST',
                         data: JSON.stringify(datos),

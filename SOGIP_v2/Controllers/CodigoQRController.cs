@@ -26,6 +26,7 @@ namespace SOGIP_v2.Controllers
             //ViewBag.Role = userRoles.First();
             return View();
         }
+   
         public JsonResult GetMaquinas()
         {
             var consulta = from f in db.Archivo.Where(x=>x.Tipo.TipoId == 7&& x.maquina!=null)
@@ -37,6 +38,7 @@ namespace SOGIP_v2.Controllers
                             };
             return Json(consulta.ToList(), JsonRequestBehavior.AllowGet);
         }
+
         public JsonResult GetMaquinas2()
         {
             var consulta = from f in db.Maquina
