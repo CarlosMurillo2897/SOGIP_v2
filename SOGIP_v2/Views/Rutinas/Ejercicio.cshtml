@@ -267,48 +267,9 @@
                     'ejercicioId': id
                 },
                 success: function (data) {
-                    alert('Ejercicio Eliminado');
-                    $('#rutina tbody').empty();
-                    var aux = ' ';
-                    $.each(data, function (i) {
-                        if (aux !== data[i].DiaEjercicio) {
-                            console.log('h');
-                            $('#rutina tbody').append('<tr> <td>' + data[i].DiaEjercicio + ' </td> </tr>');
-                            aux = data[i].DiaEjercicio;
-                        }
-                        var s1 = data[i].Serie1 === null ? ' ' : data[i].Serie1;
-                        var p1 = data[i].Peso1 === null ? ' ' : data[i].Peso1;
-                        var r1 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion1;
-
-                        var s2 = data[i].Serie2 === null ? ' ' : data[i].Serie2;
-                        var p2 = data[i].Peso2 === null ? ' ' : data[i].Peso2;
-                        var r2 = data[i].Repeticion2 === null ? ' ' : data[i].Repeticion2;
-
-                        var s3 = data[i].Serie1 === null ? ' ' : data[i].Serie3;
-                        var p3 = data[i].Peso1 === null ? ' ' : data[i].Peso3;
-                        var r3 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion3;
-                        var a = '<tr style= "background-color: ' + data[i].ColorId.Codigo + '"> <td>' + data[i].EjercicioId.Nombre + '</td>' +
-                            '<td>' + s1 + '</td>' +
-                            '<td>' + r1 + '</td>' +
-                            '<td>' + p1 + '</td>' +
-                            '<td>' + s2 + '</td>' +
-                            '<td>' + r2 + '</td>' +
-                            '<td>' + p2 + '</td>' +
-                            '<td>' + s3 + '</td>' +
-                            '<td>' + r3 + '</td>' +
-                            '<td>' + p3 + '</td>' +
-                            '<td>' + data[i].DiaEjercicio + '</td>' +
-                            '<td>' + '<a class="btn btn-danger" style="padding: 2px 6px; margin: 2px;" id="boton_ ' + data[i].Conjunto_EjercicioId + ' " onclick="EliminarEjer(' + data[i].Conjunto_EjercicioId + ')">' +
-                            '<text class="hidden-xs">Eliminar </text>' +
-                            '<span class="glyphicon glyphicon-minus-sign"></span>' +
-                            '</a>' +
-                            '<a class="btn btn-warning" style="padding: 2px 6px; margin: 2px;" id="boton_' + data[i].Conjunto_EjercicioId + ' " onclick="EditarEjer(' + data[i].Conjunto_EjercicioId + ')" data-toggle="modal" data-target="#myModal">' +
-                            '<text class="hidden-xs">Editar </text>' +
-                            '<span class="glyphicon glyphicon-pencil"></span>' +
-                            '</a>' + '</td> </tr>';
-
-                        $('#rutina tbody').append(a);
-                    });
+                    
+                    location.reload();
+          
                 },
                 error: function () {
                     alert("Fallo");
@@ -341,7 +302,7 @@
                 }
             })
             $('#btnEdit').click(function () {
-                data = {
+                ejer = {
                     'n':  @viewDataRutina,
                     'data': {
                         Conjunto_EjercicioId: id,
@@ -364,48 +325,48 @@
                     type: "POST",
                     dataType: "JSON",
                     url: '/Rutinas/EditEjer',
-                    data: data,
+                    data: ejer,
                     success: function (data) {
-                        alert('Ejercicios Registrados');
-                      
-                        var aux = ' ';
-                        $.each(data, function (i) {
-                            if (aux !== data[i].DiaEjercicio) {
-                                $('#rutina tbody').append('<tr> <td>' + data[i].DiaEjercicio + ' </td> </tr>');
-                                aux = data[i].DiaEjercicio;
-                            }
-                            var s1 = data[i].Serie1 === null ? ' ' : data[i].Serie1;
-                            var p1 = data[i].Peso1 === null ? ' ' : data[i].Peso1;
-                            var r1 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion1;
+                        
+                        //$('#rutina tbody').empty();
+                        //var aux = ' ';
+                        //$.each(data, function (i) {
+                        //    if (aux !== data[i].DiaEjercicio) {
+                        //        $('#rutina tbody').append('<tr> <td>' + data[i].DiaEjercicio + ' </td> </tr>');
+                        //        aux = data[i].DiaEjercicio;
+                        //    }
+                        //    var s1 = data[i].Serie1 === null ? ' ' : data[i].Serie1;
+                        //    var p1 = data[i].Peso1 === null ? ' ' : data[i].Peso1;
+                        //    var r1 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion1;
 
-                            var s2 = data[i].Serie2 === null ? ' ' : data[i].Serie2;
-                            var p2 = data[i].Peso2 === null ? ' ' : data[i].Peso2;
-                            var r2 = data[i].Repeticion2 === null ? ' ' : data[i].Repeticion2;
+                        //    var s2 = data[i].Serie2 === null ? ' ' : data[i].Serie2;
+                        //    var p2 = data[i].Peso2 === null ? ' ' : data[i].Peso2;
+                        //    var r2 = data[i].Repeticion2 === null ? ' ' : data[i].Repeticion2;
 
-                            var s3 = data[i].Serie3 === null ? ' ' : data[i].Serie3;
-                            var p3 = data[i].Peso3 === null ? ' ' : data[i].Peso3;
-                            var r3 = data[i].Repeticion3 === null ? ' ' : data[i].Repeticion3;
-                            var a = '<tr style= "background-color: ' + data[i].ColorId.Codigo + '"> <td>' + data[i].EjercicioId.Nombre + '</td>' +
-                                '<td>' + s1 + '</td>' +
-                                '<td>' + r1 + '</td>' +
-                                '<td>' + p1 + '</td>' +
-                                '<td>' + s2 + '</td>' +
-                                '<td>' + r2 + '</td>' +
-                                '<td>' + p2 + '</td>' +
-                                '<td>' + s3 + '</td>' +
-                                '<td>' + r3 + '</td>' +
-                                '<td>' + p3 + '</td>' +
-                                '<td>' + data[i].DiaEjercicio + '</td>' +
-                                '<td>' + '<a class="btn btn-danger" style="padding: 2px 6px; margin: 2px;" id="boton_ ' + data[i].Conjunto_EjercicioId + ' " onclick="EliminarEjer(' + data[i].Conjunto_EjercicioId + ')">' +
-                                '<text class="hidden-xs">Eliminar </text>' +
-                                '<span class="glyphicon glyphicon-minus-sign"></span>' +
-                                '</a>' +
-                                '<a class="btn btn-warning" style="padding: 2px 6px; margin: 2px;" id="boton_' + data[i].Conjunto_EjercicioId + ' " onclick="EditarEjer(' + data[i].Conjunto_EjercicioId + ')" data-toggle="modal" data-target="#myModal">' +
-                                '<text class="hidden-xs">Editar </text>' +
-                                '<span class="glyphicon glyphicon-pencil"></span>' +
-                                '</a>' + '</td> </tr>';
+                        //    var s3 = data[i].Serie3 === null ? ' ' : data[i].Serie3;
+                        //    var p3 = data[i].Peso3 === null ? ' ' : data[i].Peso3;
+                        //    var r3 = data[i].Repeticion3 === null ? ' ' : data[i].Repeticion3;
+                        //    var a = '<tr style= "background-color: ' + data[i].ColorId.Codigo + '"> <td>' + data[i].EjercicioId.Nombre + '</td>' +
+                        //        '<td>' + s1 + '</td>' +
+                        //        '<td>' + r1 + '</td>' +
+                        //        '<td>' + p1 + '</td>' +
+                        //        '<td>' + s2 + '</td>' +
+                        //        '<td>' + r2 + '</td>' +
+                        //        '<td>' + p2 + '</td>' +
+                        //        '<td>' + s3 + '</td>' +
+                        //        '<td>' + r3 + '</td>' +
+                        //        '<td>' + p3 + '</td>' +
+                        //        '<td>' + data[i].DiaEjercicio + '</td>' +
+                        //        '<td>' + '<a class="btn btn-danger" style="padding: 2px 6px; margin: 2px;" id="boton_ ' + data[i].Conjunto_EjercicioId + ' " onclick="EliminarEjer(' + data[i].Conjunto_EjercicioId + ')">' +
+                        //        '<text class="hidden-xs">Eliminar </text>' +
+                        //        '<span class="glyphicon glyphicon-minus-sign"></span>' +
+                        //        '</a>' +
+                        //        '<a class="btn btn-warning" style="padding: 2px 6px; margin: 2px;" id="boton_' + data[i].Conjunto_EjercicioId + ' " onclick="EditarEjer(' + data[i].Conjunto_EjercicioId + ')" data-toggle="modal" data-target="#myModal">' +
+                        //        '<text class="hidden-xs">Editar </text>' +
+                        //        '<span class="glyphicon glyphicon-pencil"></span>' +
+                        //        '</a>' + '</td> </tr>';
 
-                            $('#rutina tbody').append(a);
+                        //    $('#rutina tbody').append(a);
                             location.reload();
                             //$('#tabla tbody').empty();
                             //var m = '<TR>' +
@@ -425,7 +386,7 @@
                             //    '</TR>';
                             //$('#tabla tbody').append(m);
                             //$('#tabla').show();
-                        });
+                        //});
 
                     },
                     error: function () {
@@ -509,11 +470,12 @@
 
 
             $("#adicional").on('click', function () {
+            
                 var tableRef = document.getElementById('tabla').getElementsByTagName('tbody')[0];
 
                 // Insert a row in the table at the last row
                 var newRow = tableRef.insertRow(tableRef.rows.length);
-
+              
                 // Insert a cell in the row at index 0
                 var newCell = newRow.insertCell(0);
                 var newCell1 = newRow.insertCell(1);
@@ -595,7 +557,7 @@
 
 
 
-
+                
                 newCell.appendChild(input10);
                 newCell1.appendChild(input1);
                 newCell2.appendChild(input2);
@@ -609,6 +571,7 @@
                 newCell10.appendChild(c);
                 newCell11.appendChild(d);
                 newCell12.appendChild(checkBox);
+        
 
 
 
@@ -651,6 +614,7 @@
 
 
             $('#submit').click(function () {
+
                 var contador = null;
                 var table1 = document.getElementById("tabla");
                 var ejer = null;
@@ -691,6 +655,8 @@
 
                     function delrows() {
                         var row = $('#tabla tbody td').remove();
+                        var row = $('#tabla tbody td').empty();
+           
                                   }
                     $.ajax({
                         url: '/Rutinas/Ejercicio',
@@ -701,47 +667,48 @@
                         success: function (data) {
                             alert('Ejercicios Registrados');
                             delrows();
-                            $('#rutina tbody').empty();
-                            var aux = ' ';
-                            $.each(data, function (i) {
-                                if (aux !== data[i].DiaEjercicio) {
+                            location.reload();
+                            //$('#rutina tbody').empty(); 
+                            //var aux = ' ';
+                            //$.each(data, function (i) {
+                            //    if (aux !== data[i].DiaEjercicio) {
                               
-                                    $('#rutina tbody').append('<tr> <td>' + data[i].DiaEjercicio + ' </td> </tr>');
-                                    aux = data[i].DiaEjercicio;
-                                }
-                                var s1 = data[i].Serie1 === null ? ' ' : data[i].Serie1;
-                                var p1 = data[i].Peso1 === null ? ' ' : data[i].Peso1;
-                                var r1 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion1;
+                            //        $('#rutina tbody').append('<tr> <td>' + data[i].DiaEjercicio + ' </td> </tr>');
+                            //        aux = data[i].DiaEjercicio;
+                            //    }
+                            //    var s1 = data[i].Serie1 === null ? ' ' : data[i].Serie1;
+                            //    var p1 = data[i].Peso1 === null ? ' ' : data[i].Peso1;
+                            //    var r1 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion1;
 
-                                var s2 = data[i].Serie2 === null ? ' ' : data[i].Serie2;
-                                var p2 = data[i].Peso2 === null ? ' ' : data[i].Peso2;
-                                var r2 = data[i].Repeticion2 === null ? ' ' : data[i].Repeticion2;
+                            //    var s2 = data[i].Serie2 === null ? ' ' : data[i].Serie2;
+                            //    var p2 = data[i].Peso2 === null ? ' ' : data[i].Peso2;
+                            //    var r2 = data[i].Repeticion2 === null ? ' ' : data[i].Repeticion2;
 
-                                var s3 = data[i].Serie1 === null ? ' ' : data[i].Serie3;
-                                var p3 = data[i].Peso1 === null ? ' ' : data[i].Peso3;
-                                var r3 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion3;
-                                var a = '<tr style= "background-color: ' + data[i].ColorId.Codigo+'"> <td>' + data[i].EjercicioId.Nombre + '</td>' +
-                                    '<td>' + s1 + '</td>' +
-                                    '<td>' + r1 + '</td>' +
-                                    '<td>' + p1 + '</td>' +
-                                    '<td>' + s2 + '</td>' +
-                                    '<td>' + r2 + '</td>' +
-                                    '<td>' + p2+ '</td>' +
-                                    '<td>' + s3 + '</td>' +
-                                    '<td>' + r3 + '</td>' +
-                                    '<td>' + p3 + '</td>' +
-                                    '<td>' + data[i].DiaEjercicio + '</td>' +
-                                    '<td>' + '<a class="btn btn-danger" style="padding: 2px 6px; margin: 2px;" id="boton_ '+ data[i].Conjunto_EjercicioId + ' " onclick="EliminarEjer('+data[i].Conjunto_EjercicioId+')">'+
-                                            '<text class="hidden-xs">Eliminar </text>'+
-                                            '<span class="glyphicon glyphicon-minus-sign"></span>'+
-                                        '</a>'+
-                                        '<a class="btn btn-warning" style="padding: 2px 6px; margin: 2px;" id="boton_' + data[i].Conjunto_EjercicioId +' " onclick="EditarEjer('+data[i].Conjunto_EjercicioId+')" data-toggle="modal" data-target="#myModal">'+
-                                            '<text class="hidden-xs">Editar </text>'+
-                                            '<span class="glyphicon glyphicon-pencil"></span>'+
-                                        '</a>' + '</td> </tr>';
+                            //    var s3 = data[i].Serie1 === null ? ' ' : data[i].Serie3;
+                            //    var p3 = data[i].Peso1 === null ? ' ' : data[i].Peso3;
+                            //    var r3 = data[i].Repeticion1 === null ? ' ' : data[i].Repeticion3;
+                            //    var a = '<tr style= "background-color: ' + data[i].ColorId.Codigo+'"> <td>' + data[i].EjercicioId.Nombre + '</td>' +
+                            //        '<td>' + s1 + '</td>' +
+                            //        '<td>' + r1 + '</td>' +
+                            //        '<td>' + p1 + '</td>' +
+                            //        '<td>' + s2 + '</td>' +
+                            //        '<td>' + r2 + '</td>' +
+                            //        '<td>' + p2+ '</td>' +
+                            //        '<td>' + s3 + '</td>' +
+                            //        '<td>' + r3 + '</td>' +
+                            //        '<td>' + p3 + '</td>' +
+                            //        '<td>' + data[i].DiaEjercicio + '</td>' +
+                            //        '<td>' + '<a class="btn btn-danger" style="padding: 2px 6px; margin: 2px;" id="boton_ '+ data[i].Conjunto_EjercicioId + ' " onclick="EliminarEjer('+data[i].Conjunto_EjercicioId+')">'+
+                            //                '<text class="hidden-xs">Eliminar </text>'+
+                            //                '<span class="glyphicon glyphicon-minus-sign"></span>'+
+                            //            '</a>'+
+                            //            '<a class="btn btn-warning" style="padding: 2px 6px; margin: 2px;" id="boton_' + data[i].Conjunto_EjercicioId +' " onclick="EditarEjer('+data[i].Conjunto_EjercicioId+')" data-toggle="modal" data-target="#myModal">'+
+                            //                '<text class="hidden-xs">Editar </text>'+
+                            //                '<span class="glyphicon glyphicon-pencil"></span>'+
+                            //            '</a>' + '</td> </tr>';
 
-                                $('#rutina tbody').append(a);
-                            });
+                            //    $('#rutina tbody').append(a);
+                            //});
 
                         },
                         error: function (request) {
