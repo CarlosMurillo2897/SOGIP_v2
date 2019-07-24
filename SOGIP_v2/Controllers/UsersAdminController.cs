@@ -271,8 +271,8 @@ namespace SOGIP_v2.Controllers
                     Fecha_Expiracion = DateTime.Now,
                     Estado = true
             };
-                
-                var adminresult = await UserManager.CreateAsync(user, ComposicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));
+                var pass = ComposicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento);
+                var adminresult = await UserManager.CreateAsync(user, pass);
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
                 {
@@ -394,6 +394,10 @@ namespace SOGIP_v2.Controllers
                         }
 
                         db.SaveChanges();
+
+                        SendMailToUser(user.Email, "SOGIP y el ICODER le da la bienvenida a nuestro sistema.\n"
+                        + " A continuación le detallamos su nombre de usuario: " + user.Email + " y contraseña creada por defecto " + pass + " (esta contraseña es temporal y puede ser cambiada dentro del sistema)."
+                        + "\nCon el cual podrá acceder y utilizar nuestro servicio virtual.");
 
                         if (!result.Succeeded)
                         {
