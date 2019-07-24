@@ -1013,14 +1013,14 @@ namespace SOGIP_v2.Controllers
 
                 SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
-                mail.From = new MailAddress("***************** EL_EMAIL ****************");
+                mail.From = new MailAddress("sogip.system@gmail.com");
                 mail.To.Add(correo);
                 mail.Subject = "SOGIP: Usuario creado con éxito";
                 mail.Body = mensaje;
 
 
                 SmtpServer.Port = 587;
-                SmtpServer.Credentials = new System.Net.NetworkCredential("***************** EL_EMAIL ****************", "***************** LA_PASS ****************");
+                SmtpServer.Credentials = new System.Net.NetworkCredential("sogip.system@gmail.com", "X100@ttW81&");
                 SmtpServer.EnableSsl = true;
 
                 SmtpServer.Send(mail);
