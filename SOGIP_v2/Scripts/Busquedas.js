@@ -14,7 +14,7 @@
 
         if (tipo === '1') {
             $.ajax({
-                url: "/UsersAdmin/ObtenerRoles",
+                url: "/SOGIP/UsersAdmin/ObtenerRoles",
                 type: "GET",
                 success: function (list) {
                     $.each(list, function (i) {
@@ -29,7 +29,7 @@
         }
         else if (tipo === '2') {
             $.ajax({
-                url: "/ExpedientesFisicos/ObtenerTipos",
+                url: "/SOGIP/ExpedientesFisicos/ObtenerTipos",
                 type: "GET",
                 success: function (list) {
                     $.each(list, function (i) {
@@ -44,7 +44,7 @@
         }
         else if (tipo === '3' || tipo === '4') {
             $.ajax({
-                url: "/TipoME/ObtenerTipos",
+                url: "/SOGIP/TipoME/ObtenerTipos",
                 type: "GET",
                 data: { tipo: tipo },
                 success: function (list) {
@@ -80,7 +80,7 @@
                 return;
             }
             case '1': {
-                url = "/UsersAdmin/GetUsuarios";
+                url = "/SOGIP/UsersAdmin/GetUsuarios";
                 header = header + '<th>Cédula</th><th>Nombre</th><th>Género</th><th>E-mail</th><th>Nacimiento</th><th>Estado</th><th>Rol</th><th>Entidad</th><th>Acción<span class="glyphicon glyphicon-cog"></span></th></tr>';
                 col[col.length] = { data: "Cedula" };
                 col[col.length] = { data: "Nombre" };
@@ -111,13 +111,13 @@
                 col[col.length] = {
                     data: "Id",
                     "render": function (Id) {
-                        return "<a class='btn btn-large btn-warning' href='/Account/Perfil?id=" + Id + "'>Detalle <span class='glyphicon glyphicon-user'></span></a>";
+                        return "<a class='btn btn-large btn-warning' href='/SOGIP/Account/Perfil?id=" + Id + "'>Detalle <span class='glyphicon glyphicon-user'></span></a>";
                     }
                 };
                 break;
             }
             case '2': {
-                url = "/ExpedientesFisicos/ObtenerArchivos";
+                url = "/SOGIP/ExpedientesFisicos/ObtenerArchivos";
                 header = header + '<th>Nombre</th><th>Tipo</th><th>Usuario</th><th>Acción <span class="glyphicon glyphicon-cog"></th></tr>';
                 col[col.length] = { data: "Nombre" };
                 col[col.length] = { data: "Tipo" };
@@ -125,7 +125,7 @@
                 col[col.length] = {
                     data: "Id",
                     "render": function (Id) {
-                        return "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
+                        return "<a class='btn btn-info' href='/SOGIP/UsersAdmin/Download?archivoId=" + Id + "' style='padding: 2px 6px; margin: 2px;'>" +
                             "<text class='hidden-xs'>Descargar </text>" +
                             "<span class='glyphicon glyphicon-download'></span>" +
                             "</a>";
@@ -134,14 +134,14 @@
                 break;
             }
             case '3': case '4': {
-                url = tipo === '3' ? "/TipoME/ObtenerEjercicios" : url = "/TipoME/ObtenerMaquinas";
+                url = tipo === '3' ? "/SOGIP/TipoME/ObtenerEjercicios" : url = "/SOGIP/TipoME/ObtenerMaquinas";
                 header = header + '<th>Nombre</th><th>Tipo</th></tr>';
                 col[col.length] = { data: "Nombre" };
                 col[col.length] = { data: "Tipo" };
                 break;
             }
             case '5': {
-                url = "/Busqueda/getActividades";
+                url = "/SOGIP/Busqueda/getActividades";
                 header = header + '<th>Título</th><th>Lugar</th><th>Descripción</th><th>Inicia</th><th>Termina</th></tr>';
                 col[col.length] = { data: "Titulo" };
                 col[col.length] = { data: "Lugar" };

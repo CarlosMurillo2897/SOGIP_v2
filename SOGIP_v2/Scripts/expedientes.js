@@ -165,7 +165,7 @@ function tablaUsuarios(id) {
         type: "POST",
         dataType: "JSON",
         data: { select: id, role: $('#Role').val() },
-        url: "/ExpedientesFisicos/ObtenerUsuarios",
+        url: "/SOGIP/ExpedientesFisicos/ObtenerUsuarios",
         success: function (data) {
             $.each(data, function (i, v) {
                 if (id === '6') {
@@ -260,7 +260,7 @@ function cargarTipos() {
     $.ajax({
         type: "POST",
         data: { role: $('#Role').val() },
-        url: "/ExpedientesFisicos/ObtenerTipos",
+        url: "/SOGIP/ExpedientesFisicos/ObtenerTipos",
         success: function (data) {
             $('#select').append('<option value="0">-- Seleccionar --</option>');
             $.each(data, function (i, v) {
@@ -303,7 +303,7 @@ function subirArchivo() {
 
         $.ajax({
             type: "POST",
-            url: "/ExpedientesFisicos/SubirArchivo",
+            url: "/SOGIP/ExpedientesFisicos/SubirArchivo",
             data: data,
             contentType: false,
             processData: false,
@@ -364,7 +364,7 @@ function llenarTablaArchivos() {
                 }
             },
             "ajax": {
-                "url": "/ExpedientesFisicos/ObtenerArchivos",
+                "url": "/SOGIP/ExpedientesFisicos/ObtenerArchivos",
                 "type": "GET",
                 "dataSrc": "",
                 "data": {"filtro": 0}
@@ -447,7 +447,7 @@ function EliminarArchivo(id) {
 
     $.ajax({
         type: "POST",
-        url: "/ExpedientesFisicos/EliminarArchivo",
+        url: "/SOGIP/ExpedientesFisicos/EliminarArchivo",
         data: { id: id },
         success: function (data) {
             var table = $('#archivos').DataTable().row(tr).remove().draw();

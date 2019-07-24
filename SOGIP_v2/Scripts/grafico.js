@@ -237,7 +237,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/years",
+            url: "/SOGIP/ControlIngreso/years",
             data: { 'mes': mes },
             success: function (data) {
                 an.push("2019");
@@ -274,7 +274,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/Selecciones",
+            url: "/SOGIP/ControlIngreso/Selecciones",
             success: function (data) {
                 $.each(data, function (i, v) {
                     $('#Selecciones').append('<option value=' + v.Id + '>' + v.Nombre + '</option>');
@@ -326,7 +326,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/Asociaciones",
+            url: "/SOGIP/ControlIngreso/Asociaciones",
             success: function (data) {
                 $.each(data, function (i, v) {
                     $('#Asociaciones').append('<option value=' + v.Id + '>' + v.Nombre + '</option>');
@@ -378,7 +378,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/Entidades",
+            url: "/SOGIP/ControlIngreso/Entidades",
             success: function (data) {
                 $.each(data, function (i, v) {
                     $('#Entidades').append('<option value=' + v.Id + '>' + v.Nombre + '</option>');
@@ -550,7 +550,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/allusers",
+            url: "/SOGIP/ControlIngreso/allusers",
             data: { 'mes': mes, 'an': an },
             success: function (data) {
                 all.push({
@@ -571,7 +571,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/allwomen",
+            url: "/SOGIP/ControlIngreso/allwomen",
             data: { 'mes': mes, 'an': an },
             success: function (data) {
                 all.push({
@@ -591,7 +591,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/allmen",
+            url: "/SOGIP/ControlIngreso/allmen",
             data: { 'mes': mes, 'an': an },
             success: function (data) {
                 all.push({
@@ -621,7 +621,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/allsele",
+            url: "/SOGIP/ControlIngreso/allsele",
             data: { 'mes': mes, 'an': an },
             success: function (data) {
                 all.push({
@@ -642,7 +642,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/allaso",
+            url: "/SOGIP/ControlIngreso/allaso",
             data: { 'mes': mes, 'an': an },
             success: function (data) {
                 all.push({
@@ -663,7 +663,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/allguber",
+            url: "/SOGIP/ControlIngreso/allguber",
             data: { 'mes': mes, 'an': an },
             success: function (data) {
                 all.push({
@@ -684,7 +684,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/allfunc",
+            url: "/SOGIP/ControlIngreso/allfunc",
             data: { 'mes': mes, 'an': an },
             success: function (data) {
                 all.push({
@@ -754,7 +754,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/PorMesAtletasF",
+            url: "/SOGIP/ControlIngreso/PorMesAtletasF",
             data: { 'mes': mes, 'aso': grupo, 'id': idas, 'an': an },
             success: function (data) {
                 if (idas == 1) {
@@ -787,7 +787,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/PorMesAtletasM",
+            url: "/SOGIP/ControlIngreso/PorMesAtletasM",
             data: { 'mes': mes, 'aso': grupo, 'id': idas, 'an': an },
             success: function (data) {
                 if (idas == 1) {
@@ -822,7 +822,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/PorMesUsuario",
+            url: "/SOGIP/ControlIngreso/PorMesUsuario",
             data: { 'mes': mes, 'cedu': cedu, 'an': an },
             success: function (data) {
 
@@ -847,7 +847,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/PorMesFFunc",
+            url: "/SOGIP/ControlIngreso/PorMesFFunc",
             data: { 'mes': mes, 'an': an },
             success: function (data) {
 
@@ -869,7 +869,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/ControlIngreso/PorMesMFunc",
+            url: "/SOGIP/ControlIngreso/PorMesMFunc",
             data: { 'mes': mes, 'an': an },
             success: function (data) {
 
@@ -966,7 +966,7 @@
                 }
             },
             "ajax": {
-                "url": "/ControlIngreso/getUsuariosA",
+                "url": "/SOGIP/ControlIngreso/getUsuariosA",
                 "type": "GET",
                 "dataSrc": ""
             },
