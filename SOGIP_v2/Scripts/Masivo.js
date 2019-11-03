@@ -186,7 +186,7 @@ function cargarUsuarios() {
         id: 'Entidades',
         class: 'table table-striped table-bordered dt-responsive nowrap',
         width: '100%'
-    }).append('<thead><tr><th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Rol</th><th>Acción</th></tr></thead>');
+    }).append('<thead><tr><th>ENTIDAD</th><th>CÉDULA</th><th>TIPO USUARIO</th><th>ACCIÓN</th></tr></thead>');
 
     $('#Tabla_Usuarios').append(table);
 
@@ -213,17 +213,17 @@ function cargarUsuarios() {
             }
         },
         "ajax": {
-            "url": "/UsersAdmin/ObtenerUsuarios",
+            "url": "/UsersAdmin/ObtenerUsuariosMasivo",
             "type": "GET",
             "dataSrc": ""
         },
         columns: [
             { data: "Entidad" },
             { data: "Cédula" },
-            { data: "Nombre" },
+            //{ data: "Nombre" },
             { data: "Rol" },
             {
-                data: function (data, type, dataToSet) {
+                data: function (data) {
                     var opciones = "";
                     if (data.Categoria.length !== 0) {
                         $.each(data.Categoria, function (i) {
@@ -246,10 +246,11 @@ function cargarUsuarios() {
             $('#submit').attr('disabled', 'disabled');
         }
         else {
+
             $('#usuario').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
             $('#submit').removeAttr('disabled');
         }
-        role = $(this).closest('tr').find('td:eq(3)').text();
+        role = $(this).closest('tr').find('td:eq(2)').text();
         
         $('.selectDT').val(0);
         $(this).val(value);
@@ -391,6 +392,7 @@ function cargar(x) {
 
 function actualizar() {
     var tr = $('#' + $('#hidden').val());
+    tr.find('td:eq(0)').find('a').text($('#ced').val().toUpperCase());
     var a = tr.find('td:eq(0)').find('a').removeClass('btn-danger');
         a.addClass('btn-success');
         a.attr("data-content", "<p style='color: green;'> \u23FA Todo en orden.</p>");
@@ -405,6 +407,7 @@ function actualizar() {
 }
 
 function registrar() {
+
     if ($('#usuario').val() === '') {
         alert('Favor seleccione un Usuario de la tabla.');
     }
@@ -431,9 +434,12 @@ function registrar() {
 
         // console.log(array);
 
+        var usr = $('#usuario').val().split(' - ');
+        
+
         var datos = {
             'users': array,
-            'usuario': $('#usuario').val().split("- ")[1],
+            'usuario': usr[1] === "N/A" ? usr[0] : usr[1],
             'value': value,
             'rol': role
         };
