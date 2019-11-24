@@ -5,6 +5,21 @@
     }
 });
 
+//$.validator.addMethod("repeated", function (value, element) {
+//    alert('ok')
+//    var bool = true;
+//    $('#UsuariosExcel tbody tr').each(function () {
+//        var tr = $(this).closest('tr');
+//        alert(tr.find('td:eq(0)').text());
+//        alert(value);
+//        if (tr.find('td:eq(0)').text() === value) {
+//            bool = false;
+//        }
+//    });
+
+//    return bool;
+//});
+
 $(document).ready(function () {
     var role, value, cedula, archivo;
     $('#usuario').val('');
@@ -39,6 +54,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 9,
                 maxlength: 15,
+                // repeated: true,
                 remote: {
                     url: "/UsersAdmin/CedulaRepetida",
                     type: "GET",
@@ -182,6 +198,12 @@ function clear() {
 
 function cargarUsuarios() {
 
+    $('#usuario').val('');
+    $('#submit').attr('disabled', 'disabled');
+
+    $('#Entidades').DataTable().destroy();
+    $('#Entidades').remove();
+
     var table = $('<table/>', {
         id: 'Entidades',
         class: 'table table-striped table-bordered dt-responsive nowrap',
@@ -215,6 +237,7 @@ function cargarUsuarios() {
         "ajax": {
             "url": "/UsersAdmin/ObtenerUsuariosMasivo",
             "type": "GET",
+            "data": { asociar: $('#idid').val() },
             "dataSrc": ""
         },
         columns: [
@@ -251,6 +274,27 @@ function cargarUsuarios() {
             $('#submit').removeAttr('disabled');
         }
         role = $(this).closest('tr').find('td:eq(2)').text();
+
+        if (role === "SELECCION/FEDERACION" || role === "ASOCIACION/COMITE") {
+            
+            $('#entName').show();
+            $('#nombreEntidad').show();
+            $('#UsuariosExcel tbody tr').each(function () {
+                var tr = $(this).closest('tr');
+                tr.find('td:eq(8)').show();
+            });
+            
+        }
+        else {
+            $('#entName').hide();
+            $('#nombreEntidad').hide();
+
+            $('#UsuariosExcel tbody tr').each(function () {
+                var tr = $(this).closest('tr');
+                tr.find('td:eq(8)').text('');
+                tr.find('td:eq(8)').hide();
+            });
+        }
         
         $('.selectDT').val(0);
         $(this).val(value);
@@ -314,7 +358,7 @@ function uploadImage() {
                 class: 'table table-striped table-bordered',
                 id: 'UsuariosExcel'
             }).append('<thead><tr><th>Cédula</th><th>1° Nombre</th><th>2° Nombre</th><th>1° Apellido</th><th>2° Apellido</th>' +
-                '<th>E-mail</th><th>Nacimiento</th><th>Sexo</th><th style="text-align: center;"><span class="glyphicon glyphicon-cog"></span></th></tr></thead>'
+                '<th>E-mail</th><th>Nacimiento</th><th>Sexo</th><th id="entName">Nombre Entidad</th><th style="text-align: center;"><span class="glyphicon glyphicon-cog"></span></th></tr></thead>'
             );
 
             var $body = $('<tbody/>');
@@ -336,13 +380,13 @@ function uploadImage() {
                         clase = "btn btn-danger";
                     });
                 }
-                
+
                 else {
                     p = "<p style='color: green;'> \u23FA Todo en orden.";
                     clase = "btn btn-success";
                 }
                 p = p + "</p>";
-                
+
                 $body.append(
                     '<tr id="' + i + '">' +
                     '<td>' +
@@ -355,6 +399,7 @@ function uploadImage() {
                     '<td>' + email + '</td>' +
                     '<td>' + list[i].Fecha_Nacimiento + '</td>' +
                     '<td>' + sexo + '</td>' +
+                    '<td></td>' +
                     '<td style="text-align: center;">' +
                     '<span class="glyphicon glyphicon-pencil invent" data-toggle="modal" onclick="cargar(this)" data-target="#myModal"></span>' +
                     '</td></tr>');
@@ -369,6 +414,19 @@ function uploadImage() {
             $('#btn_1').attr('data-content', title);
 
             $('[data-toggle="popover"]').popover();
+
+            if (role === "SELECCION/FEDERACION" || role === "ASOCIACION/COMITE") {  }
+            else {
+                // HIDE TABLE COLUMN
+                $('#entName').hide();
+                $('#UsuariosExcel tbody tr').each(function () {
+                    var tr = $(this).closest('tr');
+                    tr.find('td:eq(8)').hide();
+                });
+
+                $('#nombreEntidad').hide();
+
+            }
 
         },
         error: function (data) {
@@ -387,6 +445,11 @@ function cargar(x) {
     $('#email').val(tr.find('td:eq(5)').text());
     $("#dtp").datepicker("update", tr.find('td:eq(6)').text());
     $('#sexo').val(tr.find('td:eq(7)').text());
+
+
+    $('#nameEnt').val(tr.find('td:eq(8)').text());
+
+
     $('#hidden').val(tr.attr('id'));
 }
 
@@ -403,6 +466,11 @@ function actualizar() {
     tr.find('td:eq(5)').text($('#email').val());
     tr.find('td:eq(6)').text($("#dtp").data('datepicker').getFormattedDate('yyyy/mm/dd'));
     tr.find('td:eq(7)').text($('#sexo').val());
+
+
+
+    tr.find('td:eq(8)').text($('#nameEnt').val());
+
 
 }
 
@@ -427,6 +495,7 @@ function registrar() {
                 Email: tr.find('td:eq(5)').text(),
                 Fecha_Nacimiento: tr.find('td:eq(6)').text(),
                 Sexo: tr.find('td:eq(7)').text() === 'Masculino' ? true : false,
+                PasswordHash: tr.find('td:eq(8)').text(),
                 Estado: true,
                 Fecha_Expiracion: new Date()
             });
@@ -440,6 +509,7 @@ function registrar() {
         var datos = {
             'users': array,
             'usuario': usr[1] === "N/A" ? usr[0] : usr[1],
+            // Create switch for ent pub, asox, selex 
             'value': value,
             'rol': role
         };

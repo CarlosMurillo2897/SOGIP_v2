@@ -787,61 +787,66 @@ namespace SOGIP_v2.Controllers
         }
 
         // CREATE MULTIPLE SUER "INDEX-MASIVO"
-        public JsonResult ObtenerUsuariosMasivo()
+        public JsonResult ObtenerUsuariosMasivo(bool asociar)
         {
-            var selex = from u in db.Users
-                        from s in db.Selecciones
-                        where
-                        u.Id.Equals(s.Usuario.Id)
-                        select new
-                        {
-                            Cédula = u.Cedula,
-                            Entidad = s.Nombre_Seleccion,
-                            Rol = "ATLETA DE SELECCIÓN",
-                            Categoria = db.SubSeleccion.Where(x => x.Seleccion.SeleccionId == s.SeleccionId).Select(ss => ss.Categoria_Id).ToList()
-                        };
-
-            var sex = selex.ToList();
             List<Categoria> str = new List<Categoria>();
+            if (asociar)
+            {
+                var selex = from u in db.Users
+                            from s in db.Selecciones
+                            where
+                            u.Id.Equals(s.Usuario.Id)
+                            select new
+                            {
+                                Cédula = u.Cedula,
+                                Entidad = s.Nombre_Seleccion,
+                                Rol = "ATLETA DE SELECCIÓN",
+                                Categoria = db.SubSeleccion.Where(x => x.Seleccion.SeleccionId == s.SeleccionId).Select(ss => ss.Categoria_Id).ToList()
+                            };
 
-            var asox = from u in db.Users
-                       from a in db.Asociacion_Deportiva
-                       where
-                       u.Id.Equals(a.Usuario.Id)
-                       select new
-                       {
-                           Cédula = u.Cedula,
-                           Entidad = a.Nombre_DepAso,
-                           Rol = "ATLETA DE ASOCIACIÓN",
-                           Categoria = str
-                       };
+                var sex = selex.ToList();
 
-            var ent = from te in db.Tipo_Entidad
-                      select new
-                      {
-                          Cédula = "N/A",
-                          Entidad = te.Descripcion,
-                          Rol = "ENTIDADES PUBLICAS",
-                          Categoria = str
-                      };
+                var asox = from u in db.Users
+                           from a in db.Asociacion_Deportiva
+                           where
+                           u.Id.Equals(a.Usuario.Id)
+                           select new
+                           {
+                               Cédula = u.Cedula,
+                               Entidad = a.Nombre_DepAso,
+                               Rol = "ATLETA DE ASOCIACIÓN",
+                               Categoria = str
+                           };
 
-            var roles = from r in db.Roles
-                        where r.Name != "Atleta" && r.Name != "Atleta Becados" && r.Name != "Entidades Publicas"
-                        select new
-                        {
-                            Cédula = "N/A",
-                            Entidad = r.Name.ToUpper(),
-                            Rol = r.Name.ToUpper(),
-                            Categoria = str
-                        };
+                var ent = from te in db.Tipo_Entidad
+                          select new
+                          {
+                              Cédula = "N/A",
+                              Entidad = te.Descripcion,
+                              Rol = "ENTIDADES PUBLICAS",
+                              Categoria = str
+                          };
 
+                var entidades = Enumerable.Union(selex, asox).ToList();
+                entidades = entidades.Union(ent).ToList();
+                return Json(entidades, JsonRequestBehavior.AllowGet);
+            }
 
+            else
+            {
+                var roles = from r in db.Roles
+                            where r.Name != "Atleta" && r.Name != "Atleta Becados" && r.Name != "Entidades Publicas"
+                            select new
+                            {
+                                Cédula = "N/A",
+                                Entidad = r.Name.ToUpper(),
+                                Rol = r.Name.ToUpper(),
+                                Categoria = str
+                            };
 
-            var entidades = Enumerable.Union(selex, asox).ToList();
-            entidades = entidades.Union(ent).ToList();
-            entidades = entidades.Union(roles).ToList();
-
-            return Json(entidades, JsonRequestBehavior.AllowGet);
+                return Json(roles.ToList(), JsonRequestBehavior.AllowGet);
+            }
+            
         }
 
         [HttpPost]
@@ -1022,12 +1027,13 @@ namespace SOGIP_v2.Controllers
                      * 3. CREATE SECURITY STAMP FOR USER.
                      * I.E. THIS WILL WORK FOR 
                      *  1. Administrador
-                     *  7. Funcionarios ICODER
                      *  9. Supervisor
                      *  10. Usuario Externo
                      */
 
                 var id = rol == "ATLETA DE ASOCIACIÓN" || rol == "ATLETA DE SELECCIÓN" ? "5" : db.Roles.Where(x => x.Name == rol).Select(y => y.Id).SingleOrDefault();
+
+                var entName = item.PasswordHash == null ? "SIN NOMBRE" : item.PasswordHash.ToUpper();
 
                 string pass = UserManager.PasswordHasher.HashPassword(ComposicionPassword(item.Nombre1, item.Apellido1, item.Cedula, item.Fecha_Nacimiento));
                     item.PasswordHash = pass;
@@ -1054,12 +1060,13 @@ namespace SOGIP_v2.Controllers
                      *  4. Atleta Becados
                      *  5. Entidades Publicas
                      *  6. Entrenador
+                     *  7. Funcionarios ICODER
                      *  8. Seleccion/Federacion
                      */
 
                     switch (rol) {
 
-                        case "ASOCIACION/COMITE":
+                        case "ATLETA DE ASOCIACIÓN":
                             {
                                 db.Atletas.Add(new Atleta
                                 {
@@ -1069,7 +1076,7 @@ namespace SOGIP_v2.Controllers
                                 });
                                 break;
                             }
-                        case "SELECCION/FEDERACION":
+                        case "ATLETA DE SELECCIÓN":
                             {
                                 db.Atletas.Add(new Atleta
                                 {
@@ -1081,10 +1088,46 @@ namespace SOGIP_v2.Controllers
                             }
                         case "ENTIDADES PUBLICAS":
                             {
-                                db.Entidad_Publica.Add(new Entidad_Publica{
+                                db.Entidad_Publica.Add(new Entidad_Publica
+                                {
                                     Tipo_Entidad = db.Tipo_Entidad.Where( ti => ti.Descripcion == usuario).SingleOrDefault(),
                                     Usuario = db.Users.Where( u => u.Id == item.Id ).SingleOrDefault()
                                 });
+                                break;
+                            }
+                        case "ASOCIACION/COMITE":
+                            {
+                                db.Asociacion_Deportiva.Add(new Asociacion_Deportiva
+                                {
+                                    Nombre_DepAso = entName,
+                                    Usuario = db.Users.Where(u => u.Id == item.Id).SingleOrDefault()
+                                });
+                                break;
+                            }
+                        case "FUNCIONARIOS ICODER":
+                            {
+                                db.Funcionario_ICODER.Add(new Funcionario_ICODER
+                                {   
+                                    Usuario = db.Users.Where(u => u.Id == item.Id).SingleOrDefault()
+                                });
+                                break;
+                            }
+                            // Create Selection or Federation without SubSelection
+                        case "SELECCION/FEDERACION":
+                            {
+                                db.Selecciones.Add(new Seleccion
+                                {
+                                    Nombre_Seleccion = entName,
+                                    Deporte_Id = db.Deportes.Where(d => d.DeporteId == value).SingleOrDefault(),
+                                    Usuario = db.Users.Where(u => u.Id == item.Id).SingleOrDefault(),
+                                });
+                                /*
+                                db.SaveChanges();
+                                db.SubSeleccion.Add(new SubSeleccion{ 
+                                    Seleccion = db.Selecciones.Where(s => s.Nombre_Seleccion == usuario).SingleOrDefault(), 
+                                    Categoria_Id = db.Categorias.Where(c => c.CategoriaId == idDeCategoria).SingleOrDefault()
+                                });
+                                */
                                 break;
                             }
                         default: 

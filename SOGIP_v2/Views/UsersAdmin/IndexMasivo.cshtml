@@ -20,6 +20,25 @@
 <div class="container" style="min-height: 369px;">
     <div class="row">
         <div class="form-group col-md-6">
+            <br />
+            <input type="hidden" id="idid" value="false" />
+
+            <button id="" type="button" class="btn btn-success btn-block" onclick="$('#idid').val(true); cargarUsuarios();">
+                <span id="" class="glyphicon glyphicon-circle-arrow-left"></span>
+                <text id="">Asociar a Entidades </text>
+            </button>
+        </div>
+        <div class="form-group col-md-6">
+            <br />
+            <button id="" type="button" class="btn btn-danger btn-block" onclick="$('#idid').val(false); cargarUsuarios();">
+                <text id=""> Crear desde cero </text>
+                <span id="" class="glyphicon glyphicon-circle-arrow-right"></span>
+            </button>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
             <label>Seleccione el usuario: </label>
             <input type="text" class="form-control" id="usuario" placeholder="Seleccione un usuario de la tabla." readonly />
         </div>
@@ -130,7 +149,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-3" id="sex">
                                 <label>Género: </label>
                                 <div class="afect">
                                     <select class="form-control" id="sexo" name="sexo">
@@ -138,6 +157,12 @@
                                         <option>Femenino</option>
                                     </select>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="form-group" id="nombreEntidad">
+                            <label>Nombre Entidad: </label>
+                            <div class="afect">
+                                <input type="text" class="form-control" placeholder="Nombre de Entidad" id="nameEnt" name="nameEnt" />
                             </div>
                         </div>
                     </form>
