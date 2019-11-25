@@ -17,6 +17,7 @@ using System.Data.SqlClient;
 using System.Web.Security;
 using OfficeOpenXml;
 using System.Text.RegularExpressions;
+using System.Net.Mail;
 
 namespace SOGIP_v2.Controllers
 {
@@ -79,6 +80,34 @@ namespace SOGIP_v2.Controllers
 
             }
         }
+
+        private void SendMailToUser(string correo, string mensaje)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+
+
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("sogip.system@gmail.com");
+                mail.To.Add(correo);
+                mail.Subject = "SOGIP: Usuario creado con éxito";
+                mail.Body = mensaje;
+
+
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("sogip.system@gmail.com", "X100@ttW81&");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
 
         //
         // GET: /Users/
@@ -270,8 +299,8 @@ namespace SOGIP_v2.Controllers
                     Fecha_Expiracion = DateTime.Now,
                     Estado = true
             };
-                
-                var adminresult = await UserManager.CreateAsync(user, ComposicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento));
+                var pass = ComposicionPassword(userViewModel.Nombre1, userViewModel.Apellido1, userViewModel.Cedula, userViewModel.Fecha_Nacimiento);
+                var adminresult = await UserManager.CreateAsync(user, pass);
                 //Add User to the selected Roles 
                 if (adminresult.Succeeded)
                 {
@@ -393,6 +422,9 @@ namespace SOGIP_v2.Controllers
                         }
 
                         db.SaveChanges();
+                        SendMailToUser(user.Email, "SOGIP y el ICODER le da la bienvenida a nuestro sistema.\n"
+                        + " A continuación le detallamos su nombre de usuario: " + user.Email + " y contraseña creada por defecto " + pass + " (esta contraseña es temporal y puede ser cambiada dentro del sistema)."
+                        + "\nCon el cual podrá acceder y utilizar nuestro servicio virtual.");
 
                         if (!result.Succeeded)
                         {
@@ -626,7 +658,7 @@ namespace SOGIP_v2.Controllers
                 }
 
                 db.SaveChanges();
-
+                
             }
             catch (Exception e)
             {
@@ -1138,7 +1170,9 @@ namespace SOGIP_v2.Controllers
                     }
 
                     db.SaveChanges();
-
+                    SendMailToUser(item.Email, "SOGIP y el ICODER le da la bienvenida a nuestro sistema.\n"
+                        + " A continuación le detallamos su nombre de usuario: " + item.Email + " y contraseña creada por defecto " + pass + " (esta contraseña es temporal y puede ser cambiada dentro del sistema)."
+                        + "\nCon el cual podrá acceder y utilizar nuestro servicio virtual.");
                 }
             }
             catch (Exception)
