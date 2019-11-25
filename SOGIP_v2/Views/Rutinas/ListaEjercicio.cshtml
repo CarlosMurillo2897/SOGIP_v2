@@ -72,121 +72,79 @@
         </div>
     </div>
     <div class="well">
-        
-                <h1>Usuario</h1>
-                <h4>@ViewBag.Usuario</h4>
-                <h4>@ViewData["mensaje"]</h4>
-   
-                    <h1>Observaciones</h1>
-                    <h4>@ViewData["observaciones"]</h4>
-         
-            <div class="table-responsive">
-                <table id="proveedores" class="table table-bordered table-responsive table-hover">
-                    <thead style="background-color:#337ab7;border-color:#2e6da4;color:#fff;">
-                        <TR>
-                            <TH COLSPAN=1>Ejercicio</TH>
-                            <TH COLSPAN=3>Semana 1-2</TH>
-                            <TH COLSPAN=3>Semana 3-4</TH>
-                            <TH COLSPAN=3>Semana 5-6</TH>
-                        </TR>
-                        <TR>
-                            <TH></TH>
-                            <TH>S</TH>
-                            <TH>R</TH>
-                            <TH>P</TH>
-                            <TH>S</TH>
-                            <TH>R</TH>
-                            <TH>P</TH>
-                            <TH>S</TH>
-                            <TH>R</TH>
-                            <TH>P</TH>
-                        </TR>
-                    </thead>
-                    <tbody>
-                        @if (ViewBag.Conjunto_Ejercicios1 != null)
+
+        <h1>Usuario</h1>
+        <h4>@ViewBag.Usuario</h4>
+        <h4>@ViewData["mensaje"]</h4>
+
+        <h1>Observaciones</h1>
+        <h4>@ViewData["observaciones"]</h4>
+
+        <div class="table-responsive">
+            <table id="proveedores" class="table table-bordered table-responsive table-hover">
+                <thead style="background-color:#337ab7;border-color:#2e6da4;color:#fff;">
+                    <TR>
+                        <TH COLSPAN=1>Ejercicio</TH>
+                        <TH COLSPAN=3>Semana 1-2</TH>
+                        <TH COLSPAN=3>Semana 3-4</TH>
+                        <TH COLSPAN=3>Semana 5-6</TH>
+                    </TR>
+                    <TR>
+                        <TH></TH>
+                        <TH>S</TH>
+                        <TH>R</TH>
+                        <TH>P</TH>
+                        <TH>S</TH>
+                        <TH>R</TH>
+                        <TH>P</TH>
+                        <TH>S</TH>
+                        <TH>R</TH>
+                        <TH>P</TH>
+                    </TR>
+                </thead>
+                <tbody>
+                    @if (ViewBag.Conjunto_Ejercicios1 != null)
+                    {
+                        var dia = "";
+
+                        foreach (var item1 in ViewBag.Conjunto_Ejercicios1)
                         {
-                            var dia = "";
-
-                            foreach (var item1 in ViewBag.Conjunto_Ejercicios1)
+                            if (dia != item1.DiaEjercicio)
                             {
-                                if (dia != item1.DiaEjercicio)
-                                {
-                                    dia = item1.DiaEjercicio;
-                                    <tr><td>@item1.DiaEjercicio</td></tr>
-                                }
-
-                                <tr style="background-color: @item1.ColorId.Codigo">
-                                    <td>
-                                        @item1.EjercicioId.Nombre
-                                        <a class='btn btn-info' onclick='EnviarDes(@item1.Conjunto_EjercicioId)' style='padding: 2px 6px; margin: 2px;'>
-                                            <text class='hidden-xs'>Ver </text> <span class='glyphicon glyphicon-sd-video'></span>
-                                        </a>
-                                    </td>
-
-                                    <td>@item1.Serie1</td>
-                                    <td>@item1.Repeticion1</td>
-                                    <td>@item1.Peso1</td>
-                                    <td>@item1.Serie2</td>
-                                    <td>@item1.Repeticion2</td>
-                                    <td>@item1.Peso2</td>
-                                    <td>@item1.Serie3</td>
-                                    <td>@item1.Repeticion3</td>
-                                    <td>@item1.Peso3</td>
-                                </tr>
+                                dia = item1.DiaEjercicio;
+                                <tr><td>@item1.DiaEjercicio</td></tr>
                             }
+
+                            <tr style="background-color: @item1.ColorId.Codigo">
+                                <td>
+                                    @item1.EjercicioId.Nombre
+                                    <a class='btn btn-info' onclick='EnviarDes(@item1.Conjunto_EjercicioId)' style='padding: 2px 6px; margin: 2px;'>
+                                        <text class='hidden-xs'>Ver </text> <span class='glyphicon glyphicon-sd-video'></span>
+                                    </a>
+                                </td>
+
+                                <td>@item1.Serie1</td>
+                                <td>@item1.Repeticion1</td>
+                                <td>@item1.Peso1</td>
+                                <td>@item1.Serie2</td>
+                                <td>@item1.Repeticion2</td>
+                                <td>@item1.Peso2</td>
+                                <td>@item1.Serie3</td>
+                                <td>@item1.Repeticion3</td>
+                                <td>@item1.Peso3</td>
+                            </tr>
                         }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
 @section Scripts {
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/ListaEjercicio.js")
 
-    <script>
-        function EnviarDes(id) {
-            var idEjer= null;
-            var tr = $('#boton_' + id).closest('tr');
-            if (id === 0) {
-                alert('Archivo predeterminado, no se puede ver video.');
-                return;
-            }
-            $.ajax({
-
-                type: "POST",
-                url: "/Rutinas/getNombreEjer",
-                data: { id: id },
-                success: function (data) {
-                   
-                    idEjer = data.EjercicioId.Descripcion;
-                    $('#one').attr('src', idEjer);
-                    $('#modal').modal('show');
-
-                },
-                error: function (data) {
-                    alert("¡Error!");
-                }
-            });
-            //alert(idEjer);
-            //$.ajax({
-
-            //    type: "POST",
-            //    url: "/CodigoQR/Descripcion",
-            //    data: { id: idEjer },
-            //    success: function (data) {
-            //        $('#one').attr('src', data);
-            //        $('#modal').modal('show');
-
-            //    },
-            //    error: function (data) {
-            //        alert("¡Error!");
-            //    }
-            //});
-        }
-        $(document).ready(function () {
-                });
-    </script>
 }
