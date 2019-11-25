@@ -1050,9 +1050,9 @@ namespace SOGIP_v2.Controllers
                     db.Users.Add(item);
                     db.SaveChanges();
 
-                    /* GENERATE QR CODE ACCORDING TO USER CREDENTIAL
+                    //GENERATE QR CODE ACCORDING TO USER CREDENTIAL
                     CodigoQRController c = new CodigoQRController();
-                    c.generarQr2(item.Cedula);*/
+                    c.generarQr2(item.Cedula);
 
                     /* CREATE ROL INFORMATION IF IT'S 
                      *  2. Asociacion/Comite

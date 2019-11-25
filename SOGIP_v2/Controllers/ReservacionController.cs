@@ -15,9 +15,10 @@ namespace SOGIP_v2.Controllers
     public class ReservacionController : Controller
 
     {
-        [Authorize(Roles = "Administrador,Supervisor,Atleta,Atleta Becados,Entrenador,Seleccion/Federacion,Asociacion/Comite,Entidades Publicas")]
+       
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Reservacion
+        [Authorize(Roles = "Administrador,Supervisor,Atleta,Atleta Becados,Entrenador,Seleccion/Federacion,Asociacion/Comite,Entidades Publicas")]
         public ActionResult Index()
         {
             return View();
