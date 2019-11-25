@@ -613,6 +613,7 @@
     <Content Include="Scripts\DataTables\responsive.jqueryui.min.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.js" />
     <Content Include="Scripts\DataTables\responsive.semanticui.min.js" />
+    <Content Include="Scripts\Ejercicio.js" />
     <Content Include="Scripts\Ejercicios.js" />
     <Content Include="Scripts\expedientes.js" />
     <Content Include="Scripts\fontawesome\all.js" />
@@ -820,7 +821,6 @@
     <Content Include="Scripts\qrcode.js" />
     <Content Include="Scripts\qrjs.js" />
     <Content Include="Scripts\Rutina.js" />
-    <Content Include="Scripts\RutinaEjercicio.js" />
     <Content Include="Scripts\TipoME.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
