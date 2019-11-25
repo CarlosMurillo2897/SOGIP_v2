@@ -23,7 +23,7 @@ function tablaPrin() {
             }
         },
         "ajax": {
-            "url": '/TipoME/getMaquinas',
+            "url": '/SOGIP/TipoME/getMaquinas',
             "type": "GET",
             "dataSrc": ""
         },
@@ -44,7 +44,7 @@ function tablaPrin() {
 
 function EnviarRut(id) {
 
-    window.location.href = '/TipoME/MaquinaEjercicio?id=' + id;
+    window.location.href = '/SOGIP/TipoME/MaquinaEjercicio?id=' + id;
 }
 
 $(document).ready(function () {

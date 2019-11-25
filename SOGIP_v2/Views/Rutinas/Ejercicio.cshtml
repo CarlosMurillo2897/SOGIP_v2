@@ -125,6 +125,7 @@
             </table>
             <div class="btn-der">
                 <br>
+                <a href="~/TipoME/Index"><h4>Nuevos Ejercicios</h4></a>
                 <button id="adicional" name="adicional" type="button" class="btn btn-warning"> Más <span class="glyphicon glyphicon-plus-sign"></span> </button>
                 <button id="submit" name="submit" type="submit" class="btn btn-default"> Crear <span class="glyphicon glyphicon-check"></span> </button>
             </div>
@@ -233,26 +234,7 @@
                 </div>
             </div>
         </div>
-        <div id="nueva" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" id="cerrar" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title" style=' display:none;' id="agr">Agregar Ejercicio</h4>
-                        <h4 class="modal-title" style=' display:none;' id="edit">Cambiar Ejercicio</h4>
-                        <a href="~/TipoME/Index"><h4>Nuevos Ejercicios</h4></a>
-                        <div class="modal-body">
-
-                            <hr />
-                            <div class="table-responsive" id="Tabla_Prin">
-                                <div id="tablePrin"></div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
     </div>
 </div>
 
@@ -272,7 +254,7 @@
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/Rutinas/DeleteEjercicio',
+        url: '/SOGIP/Rutinas/DeleteEjercicio',
         data: {
             'n':  @viewDataRutina,
     'ejercicioId': id
@@ -293,7 +275,7 @@ error: function () {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/Rutinas/ObtenerEjer',
+        url: '/SOGIP/Rutinas/ObtenerEjer',
         data: { 'ejercicioId': id },
         success: function (data) {
             $('#ejer').val(data.EjercicioId.Nombre);
@@ -336,7 +318,7 @@ error: function () {
                 $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: '/Rutinas/EditEjer',
+            url: '/SOGIP/Rutinas/EditEjer',
             data: ejer,
             success: function (data) {
                 location.reload();
@@ -396,7 +378,7 @@ error: function () {
 
         }
         $.ajax({
-            url: '/Rutinas/Ejercicio',
+            url: '/SOGIP/Rutinas/Ejercicio',
             dataType: 'JSON',
             type: 'POST',
             data: JSON.stringify(datos),

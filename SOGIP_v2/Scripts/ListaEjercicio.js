@@ -8,7 +8,7 @@
     $.ajax({
 
         type: "POST",
-        url: "/Rutinas/getNombreEjer",
+        url: "/SOGIP/Rutinas/getNombreEjer",
         data: { id: id },
         success: function (data) {
 
@@ -21,21 +21,7 @@
             alert("¡Error!");
         }
     });
-    //alert(idEjer);
-    //$.ajax({
-
-    //    type: "POST",
-    //    url: "/CodigoQR/Descripcion",
-    //    data: { id: idEjer },
-    //    success: function (data) {
-    //        $('#one').attr('src', data);
-    //        $('#modal').modal('show');
-
-    //    },
-    //    error: function (data) {
-    //        alert("¡Error!");
-    //    }
-    //});
+   
 }
 $(document).ready(function () {
 });

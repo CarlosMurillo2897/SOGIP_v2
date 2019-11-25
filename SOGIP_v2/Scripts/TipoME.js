@@ -26,7 +26,7 @@ function tablaEjer1() {  //nuevo
             }
         },
         "ajax": {
-            "url": '/TipoME/getCategorias',
+            "url": '/SOGIP/TipoME/getCategorias',
             "type": "GET",
             "dataSrc": ""
         },
@@ -76,7 +76,7 @@ function tablaMaquina(id) {//nuevo
             }
         },
         "ajax": {
-            "url": '/TipoME/Maquinas',
+            "url": '/SOGIP/TipoME/Maquinas',
             "data": { 'id': id },
             "type": "GET",
             "dataSrc": ""
@@ -122,7 +122,7 @@ function tablaEjercicio(id) {//nuevo
             }
         },
         "ajax": {
-            "url": '/TipoME/EjerciciosList',
+            "url": '/SOGIP/TipoME/EjerciciosList',
             "data": { 'id': id },
             "type": "GET",
             "dataSrc": ""
@@ -148,7 +148,7 @@ function eliminar() {
 }
 function EnviarRut(id) {
 
-    window.location.href = '/TipoME/Ejercicios?id=' + id;
+    window.location.href = '/SOGIP/TipoME/Ejercicios?id=' + id;
 }
 
 function EnviarMaquina(id) { // nuevo
@@ -156,7 +156,7 @@ function EnviarMaquina(id) { // nuevo
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/getNombre',
+        url: '/SOGIP/TipoME/getNombre',
         data: { 'id': id },
         success: function (data) {
             $('#cat').css("display", "none");
@@ -182,7 +182,7 @@ function EnviarEjercicio(id) {//nuevo
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/getNombre',
+        url: '/SOGIP/TipoME/getNombre',
         data: { 'id': id },
         success: function (data) {
             $('#txtnuevo').css("display", "none");
@@ -219,7 +219,7 @@ function EditarCat(id) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/getNombre',
+        url: '/SOGIP/TipoME/getNombre',
         data: { 'id': id },
         success: function (data) {
             $('#cat').val(data.nombre);
@@ -240,7 +240,7 @@ function EditarMaq(id) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/getNombreMaq',
+        url: '/SOGIP/TipoME/getNombreMaq',
         data: { 'id': id },
         success: function (data) {
             $('#maq').val(data.Nombre);
@@ -261,7 +261,7 @@ function EditarEjer(id) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/getNombreEjer',
+        url: '/SOGIP/TipoME/getNombreEjer',
         data: { 'id': id },
         success: function (data) {
             $('#ejer').val(data.Nombre);
@@ -318,7 +318,7 @@ function SaveMaquina(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/SaveMaquina',
+        url: '/SOGIP/TipoME/SaveMaquina',
         data: data,
         success: function (data) {
             $('#nuevo').modal('hide');
@@ -337,7 +337,7 @@ function SaveEjercicio(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/SaveEjercicio',
+        url: '/SOGIP/TipoME/SaveEjercicio',
         data: data,
         success: function (data) {
             $('#nuevo').modal('hide');
@@ -357,7 +357,7 @@ function SaveCategoria(data) { // nuevo
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/SaveCategoria',
+        url: '/SOGIP/TipoME/SaveCategoria',
         data: data,
         success: function (data) {
             $('#nuevo').modal('hide');
@@ -377,7 +377,7 @@ function EditarCategoria(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/EditCategoria',
+        url: '/SOGIP/TipoME/EditCategoria',
         data: data,
         success: function (data) {
             $('#nuevo').modal('hide');
@@ -395,7 +395,7 @@ function EditarMaquina(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/EditMaquina',
+        url: '/SOGIP/TipoME/EditMaquina',
         data: data,
         success: function (data) {
             $('#nuevo').modal('hide');
@@ -414,7 +414,7 @@ function EditarEjercicio(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/EditEjercicio',
+        url: '/SOGIP/TipoME/EditEjercicio',
         data: data,
         success: function (data) {
             $('#nuevo').modal('hide');
@@ -498,7 +498,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 4,
                 remote: {
-                    url: '/TipoME/TipoRepetido',
+                    url: '/SOGIP/TipoME/TipoRepetido',
                     type: 'GET',
                     data: {
                         nombre: function () {
@@ -511,7 +511,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 4,
                 remote: {
-                    url: '/TipoME/EjercicioRepetido',
+                    url: '/SOGIP/TipoME/EjercicioRepetido',
                     type: 'GET',
                     data: {
                         nombre: function () {
@@ -524,7 +524,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 4,
                 remote: {
-                    url: '/TipoME/MaquinaRepetido',
+                    url: '/SOGIP/TipoME/MaquinaRepetido',
                     type: 'GET',
                     data: {
                         nombre: function () {

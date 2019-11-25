@@ -24,7 +24,7 @@ function llenarTablaUsuarios() {
             }
         },
         "ajax": {
-            "url": "/CodigoQR/ObtenerUsuarios",
+            "url": "/SOGIP/CodigoQR/ObtenerUsuarios",
             "type": "GET",
             "dataSrc": "",
         },
@@ -69,7 +69,7 @@ function llenarTablaMaquinas() {
             }
         },
         "ajax": {
-            "url": "/CodigoQR/ObtenerMaquinas",
+            "url": "/SOGIP/CodigoQR/ObtenerMaquinas",
             "type": "GET",
             "dataSrc": "",
         },
@@ -114,7 +114,7 @@ function llenarTablaEjercicio() {
             }
         },
         "ajax": {
-            "url": "/CodigoQR/ObtenerEjercicio",
+            "url": "/SOGIP/CodigoQR/ObtenerEjercicio",
             "type": "GET",
             "dataSrc": "",
         },
@@ -151,7 +151,7 @@ function EnviarDes(id) {
 
     $.ajax({
         type: "POST",
-        url: "/CodigoQR/Descripcion",
+        url: "/SOGIP/CodigoQR/Descripcion",
         data: { id: id },
         success: function (data) {
             $('#one').attr('src', data);
@@ -172,7 +172,7 @@ function EliminarDes(id) {
 
     $.ajax({
         type: "POST",
-        url: "/CodigoQR/EliminarEjer",
+        url: "/SOGIP/CodigoQR/EliminarEjer",
         data: { id: id },
         success: function (data) {
             var table = $('#archivos').DataTable().row(tr).remove().draw();
@@ -191,7 +191,7 @@ function EliminarArchivo(id) {
 
     $.ajax({
         type: "POST",
-        url: "/CodigoQR/EliminarArchivo",
+        url: "/SOGIP/CodigoQR/EliminarArchivo",
         data: { id: id },
         success: function (data) {
             var table = $('#archivos').DataTable().row(tr).remove().draw();
@@ -207,7 +207,7 @@ function generarQR(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/CodigoQR/generarQr',
+        url: '/SOGIP/CodigoQR/generarQr',
         data: data,
         success: function (data) {
             $('#archivos').DataTable().ajax.reload(null, false);
@@ -224,7 +224,7 @@ function generarQR2(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/CodigoQR/generarQr2',
+        url: '/SOGIP/CodigoQR/generarQr2',
         data: data,
         success: function (data) {
             $('#archivos').DataTable().ajax.reload(null, false);
@@ -241,7 +241,7 @@ function generarEjercicio(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/CodigoQR/generarEjercicio',
+        url: '/SOGIP/CodigoQR/generarEjercicio',
         data: data,
         success: function (data) {
             $('#archivos').DataTable().ajax.reload(null, false);
@@ -260,7 +260,7 @@ function enviar() {
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: '/CodigoQR/obtenerIdMaq',
+            url: '/SOGIP/CodigoQR/obtenerIdMaq',
             data: { "n": ced },
             success: function (data) {
                 ced = data.Id;
@@ -282,7 +282,7 @@ function enviar() {
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
-                url: '/CodigoQR/obtenerIdEjer',
+                url: '/SOGIP/CodigoQR/obtenerIdEjer',
                 data: { "n": ced },
                 success: function (data) {
                     ced = data.Id;
@@ -389,7 +389,7 @@ $(document).ready(function () {
                 }
             },
             "ajax": {
-                "url": '/CodigoQR/GetMaquinas2',
+                "url": '/SOGIP/CodigoQR/GetMaquinas2',
                 "type": "GET",
                 "dataSrc": ""
             },
@@ -434,7 +434,7 @@ $(document).ready(function () {
                 }
             },
             "ajax": {
-                "url": '/CodigoQR/GetMaquinas3',
+                "url": '/SOGIP/CodigoQR/GetMaquinas3',
                 "type": "GET",
                 "dataSrc": ""
             },
@@ -493,7 +493,7 @@ $(document).ready(function () {
             usuario: {
                 required: true,
                 remote: {
-                    url: '/CodigoQR/RepetidoMaquina',
+                    url: '/SOGIP/CodigoQR/RepetidoMaquina',
                     type: 'GET',
                     data: {
                         nombre: function () {
@@ -505,7 +505,7 @@ $(document).ready(function () {
             usuario1: {
                 required: true,
                 remote: {
-                    url: '/CodigoQR/RepetidoEjercicio',
+                    url: '/SOGIP/CodigoQR/RepetidoEjercicio',
                     type: 'GET',
                     data: {
                         nombre: function () {

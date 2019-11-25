@@ -8,18 +8,18 @@ var idRut = null;
 
 function tablaRutina() {
     if ($('#role').val() == "Administrador") {
-        url = "/Rutinas/GetRutinasAdministrador";
+        url = "/SOGIP/Rutinas/GetRutinasAdministrador";
     }
     else if ($('#role').val() == "Seleccion/Federacion") {
-        url = "/Rutinas/GetRutinasSeleccion";
+        url = "/SOGIP/Rutinas/GetRutinasSeleccion";
 
     }
     else if ($('#role').val() == "Asociacion/Comite") {
-        url = "/Rutinas/GetRutinasAsociacion";
+        url = "/SOGIP/Rutinas/GetRutinasAsociacion";
     }
     else if ($('#role').val() == "Entrenador") {
 
-        url = "/Rutinas/GetRutinasEntrenador";
+        url = "/SOGIP/Rutinas/GetRutinasEntrenador";
 
     }
     table = $('#rutina').DataTable({
@@ -99,7 +99,7 @@ function EditarRut(id) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/Rutinas/ObtnerRutina',
+        url: '/SOGIP/Rutinas/ObtnerRutina',
         data: { 'id': id },
         success: function (data) {
             var date = new Date(parseInt(data.FechaInicio.substr(6)));
@@ -118,7 +118,7 @@ function Edit(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/Rutinas/EditRutina',
+        url: '/SOGIP/Rutinas/EditRutina',
         data: data,
         success: function (data) {
             $('#nuevo').modal('hide');
@@ -145,20 +145,20 @@ function EnviarRut(id) {
         idUsuario: idUsuario,
         idRutina: id
     }
-    window.location.href = '/Rutinas/Ejercicio?idRutina=' + idRutina;
+    window.location.href = '/SOGIP/Rutinas/Ejercicio?idRutina=' + idRutina;
 
 }
 function Save(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/Rutinas/SaveRutina',
+        url: '/SOGIP/Rutinas/SaveRutina',
         data: data,
         success: function (data) {
             $('#nuevo').modal('hide');
             $('body').removeClass('modal-open');
             $('.modal-backdrop').remove();
-            window.location.href = '/Rutinas/Ejercicio?idRutina=' + data.RutinaId;
+            window.location.href = '/SOGIP/Rutinas/Ejercicio?idRutina=' + data.RutinaId;
         },
         error: function () {
             alert("Fallo");
@@ -224,18 +224,18 @@ $(document).ready(function () {
 
     function usuarios() {
         if ($('#role').val() == "Administrador") {
-            url = "/Rutinas/GetAtletasAdministrador";
+            url = "/SOGIP/Rutinas/GetAtletasAdministrador";
         }
         else if ($('#role').val() == "Seleccion/Federacion") {
-            url = "/Rutinas/GetUsuariosSeleccion";
+            url = "/SOGIP/Rutinas/GetUsuariosSeleccion";
 
         }
         else if ($('#role').val() == "Asociacion/Comite") {
-            url = "/Rutinas/GetAtletasAsociacion";
+            url = "/SOGIP/Rutinas/GetAtletasAsociacion";
         }
         else if ($('#role').val() == "Entrenador") {
 
-            url = "/Rutinas/GetUsuariosEntrenador";
+            url = "/SOGIP/Rutinas/GetUsuariosEntrenador";
 
         }
         $('#usuarios1').DataTable().destroy();

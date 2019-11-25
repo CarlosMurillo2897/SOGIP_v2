@@ -24,7 +24,7 @@
             }
         },
         "ajax": {
-            "url": '/TipoME/getEjercicios',
+            "url": '/SOGIP/TipoME/getEjercicios',
             "type": "GET",
             "data": data,
             "dataSrc": ""
@@ -53,7 +53,7 @@ function EnviarDes(id) {
 
     $.ajax({
         type: "POST",
-        url: "/TipoME/Descripcion",
+        url: "/SOGIP/TipoME/Descripcion",
         data: { id: id },
         success: function (data) {
             $('#one').attr('src', data);

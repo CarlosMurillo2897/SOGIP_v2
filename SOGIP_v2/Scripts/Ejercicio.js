@@ -17,7 +17,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: '/Rutinas/ObtenerColores',
+            url: '/SOGIP/Rutinas/ObtenerColores',
             success: function (data) {
                 $.each(data, function (i, v) {
                     select.options[i] = new Option(v.Nombre, v.Identificador);
@@ -37,7 +37,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/TipoME/GetEjerMaquina",
+            url: "/SOGIP/TipoME/GetEjerMaquina",
             success: function (data) {
                 $.each(data, function (i, v) {
                     select.options[i] = new Option(v.Nombre, v.Identificador);

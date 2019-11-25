@@ -33,7 +33,7 @@ function tablaPrin() {
             }
         },
         "ajax": {
-            "url": '/TipoME/getEjercicios',
+            "url": '/SOGIP/TipoME/getEjercicios',
             "type": "GET",
             "data": data,
             "dataSrc": ""
@@ -74,7 +74,7 @@ function tablaEjercicios() {
             }
         },
         "ajax": {
-            "url": "/TipoME/GetEjerMaquina",
+            "url": "/SOGIP/TipoME/GetEjerMaquina",
             "type": "GET",
             "dataSrc": ""
         },
@@ -106,7 +106,7 @@ function Eliminar(id) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/DeleteMaquinaEjercicio',
+        url: '/SOGIP/TipoME/DeleteMaquinaEjercicio',
         data: data,
         success: function (data) {
             $('#nueva').modal('hide');
@@ -124,7 +124,7 @@ function SaveMaquinaEjercicio(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/SaveMaquinaEjercicio',
+        url: '/SOGIP/TipoME/SaveMaquinaEjercicio',
         data: data,
         success: function (data) {
             $('#nueva').modal('hide');
@@ -143,7 +143,7 @@ function SaveMaquinaEjercicio2(data) {
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/TipoME/SaveEjerciciosMaq',
+        url: '/SOGIP/TipoME/SaveEjerciciosMaq',
         data: data,
         success: function (data) {
             $('#nueva').modal('hide');
@@ -175,7 +175,7 @@ function enviar() {
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
-                url: '/TipoME/obtenerIdEjer',
+                url: '/SOGIP/TipoME/obtenerIdEjer',
                 data: { "n": idEjer },
                 success: function (data) {
                     n1 = data.Id;
