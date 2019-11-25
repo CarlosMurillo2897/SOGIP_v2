@@ -56,7 +56,7 @@ $(document).ready(function () {
                 maxlength: 15,
                 // repeated: true,
                 remote: {
-                    url: "/UsersAdmin/CedulaRepetida",
+                    url: "/SOGIP/UsersAdmin/CedulaRepetida",
                     type: "GET",
                     data: { ced: cedula }
                 }
@@ -235,7 +235,7 @@ function cargarUsuarios() {
             }
         },
         "ajax": {
-            "url": "/UsersAdmin/ObtenerUsuariosMasivo",
+            "url": "/SOGIP/UsersAdmin/ObtenerUsuariosMasivo",
             "type": "GET",
             "data": { asociar: $('#idid').val() },
             "dataSrc": ""
@@ -348,7 +348,7 @@ function uploadImage() {
 
     $.ajax({
         type: "POST",
-        url: "/UsersAdmin/Import",
+        url: "/SOGIP/UsersAdmin/Import",
         data: data,
         contentType: false,
         processData: false,
@@ -515,7 +515,7 @@ function registrar() {
         };
 
         $.ajax({
-            url: '/UsersAdmin/CrearMasivo',
+            url: '/SOGIP/UsersAdmin/CrearMasivo',
             dataType: 'JSON',
             type: 'POST',
             data: JSON.stringify(datos), //agregar el campo para el id de la rutina

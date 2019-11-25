@@ -333,7 +333,7 @@ function dataTableEntidad(tipo) {
                 }
             },
             "ajax": {
-                "url": "/UsersAdmin/ObtenerUsuarios",
+                "url": "/SOGIP/UsersAdmin/ObtenerUsuarios",
                 "type": "GET",
                 "dataSrc": ""
             },
@@ -380,7 +380,7 @@ function dataTable(tipo) {
         type: "POST",
         dataType: "JSON",
         data: { tipo: tipo },
-        url: "/UsersAdmin/getEntrenador",
+        url: "/SOGIP/UsersAdmin/getEntrenador",
         success: function (data) {
             $.each(data, function (i, v) {
                 dataSet.push(["", v.Cedula, v.Nombre1, v.Apellido1, v.Apellido2]);

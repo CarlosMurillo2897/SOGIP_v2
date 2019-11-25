@@ -40,7 +40,7 @@
             }
         },
         "ajax": {
-            "url": "/Reservacion/getListaSolicitudes",
+            "url": "/SOGIP/Reservacion/getListaSolicitudes",
             "type": "POST",
             "dataSrc": "",
             "data": { userced: imp }
@@ -183,7 +183,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/Reservacion/GetReservaciones",
+            url: "/SOGIP/Reservacion/GetReservaciones",
             success: function (data) {
                 $.each(data, function (i, v) {
                     events.push({
@@ -392,7 +392,7 @@ $(document).ready(function () {
                 $.ajax({
                     type: "POST",
                     dataType: "JSON",
-                    url: '/Reservacion/saveReser',
+                    url: '/SOGIP/Reservacion/saveReser',
                     data: { 'dias': arr, 'horas': array2, 'cantidad': cantidad },
                     success: function (data) {
 
@@ -437,7 +437,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/Reservacion/Aprobar",
+            url: "/SOGIP/Reservacion/Aprobar",
             data: {ced: id},
             success: function (data) {
                 FetchEventAndRenderCalendar();
@@ -455,7 +455,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/Reservacion/Rechazar",
+            url: "/SOGIP/Reservacion/Rechazar",
             data: { ced: id },
             success: function (data) {
                 FetchEventAndRenderCalendar();
@@ -495,7 +495,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/Reservacion/getSolicitud",
+            url: "/SOGIP/Reservacion/getSolicitud",
             success: function (data) {
                 console.log(data);
             },
@@ -526,7 +526,7 @@ $(document).ready(function () {
         };
         $('#example thead').append(head);
         $.ajax({
-            url: "/Reservacion/getSolicitud",
+            url: "/SOGIP/Reservacion/getSolicitud",
             type: 'POST',
             success: function (data) {
                 var dat = data;

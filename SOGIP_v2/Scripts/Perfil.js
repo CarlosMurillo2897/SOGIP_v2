@@ -38,7 +38,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 9,
                 remote: {
-                    url: "/UsersAdmin/CedulaRepetida",
+                    url: "/SOGIP/UsersAdmin/CedulaRepetida",
                     type: "GET",
                     data: {
                         ced: function () { return $('#Cedula').val(); },
@@ -74,7 +74,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 6,
                 remote: {
-                    url: "/UsersAdmin/NombreSeleccionRepetido",
+                    url: "/SOGIP/UsersAdmin/NombreSeleccionRepetido",
                     type: "GET",
                     data: {
                         nombre: function () { return $('#Nombre_Seleccion').val(); },
@@ -90,7 +90,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 4,
                 remote: {
-                    url: "/UsersAdmin/NombreAsociacionRepetido",
+                    url: "/SOGIP/UsersAdmin/NombreAsociacionRepetido",
                     type: "GET",
                     data: {
                         nombre: function () { return $('#Nombre_Asociacion').val(); },
@@ -236,7 +236,7 @@ function cargarArchivos(id) {
             }
         },
         "ajax": {
-            "url": "/UsersAdmin/ArchivosUsuario",
+            "url": "/SOGIP/UsersAdmin/ArchivosUsuario",
             "type": "GET",
             "dataSrc": "",
             "data": { usuarioId: id }
@@ -251,7 +251,7 @@ function cargarArchivos(id) {
                     var href = "#";
                     if (!inactive) {
                         disable = "";
-                        href = "href='/UsersAdmin/Download?archivoId=" + ArchivoId + "'";
+                        href = "href='/SOGIP/UsersAdmin/Download?archivoId=" + ArchivoId + "'";
                     }
 
                     return "<a class='btn btn-info' " + href + " style='padding: 2px 6px; margin: 2px;' " + disable + " >"
@@ -278,16 +278,16 @@ function cargarAtletas(ced) {
     var head = '<thead><tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr></thead>';
 
     if ($('#role').val() === "Administrador") {
-        url = "/AtletasAsignados/GetAtletasAdministrador";
+        url = "/SOGIP/AtletasAsignados/GetAtletasAdministrador";
     }
     else if ($('#role').val() === "Seleccion/Federacion") {
-        url = "/AtletasAsignados/GetUsuariosSeleccion";
+        url = "/SOGIP/AtletasAsignados/GetUsuariosSeleccion";
         head = '<thead><tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Rol</td><td>Categoría</td><td>Acción</td></tr></thead>';
         col[col.length] = { data: "Rol" };
         col[col.length] = { data: "Categoria" };
     }
     else if ($('#role').val() === "Asociacion/Comite") {
-        url = "/AtletasAsignados/GetAtletasAsociacion";
+        url = "/SOGIP/AtletasAsignados/GetAtletasAsociacion";
     }
     else if ($('#role').val() === "Entrenador") {
         url = "/AtletasAsignados/GetUsuariosEntrenador";
@@ -300,7 +300,7 @@ function cargarAtletas(ced) {
     col[col.length] = {
         data: "Id",
         "render": function (Id) {
-            return "<a class='btn btn-warning' href='/Account/Perfil?id=" + Id + "' style='padding: 2px 6px; margin:2px;'>" +
+            return "<a class='btn btn-warning' href='/SOGIP/Account/Perfil?id=" + Id + "' style='padding: 2px 6px; margin:2px;'>" +
                 "<text class=''> Ver en detalle </text>" +
                 "<span class='glyphicon glyphicon-user'></span>" +
                 "</a>";
@@ -361,7 +361,7 @@ function cargarRutinas(IdUsuario) {
         col[col.length] = {
             data: "RutinaId",
             "render": function (Id) {
-                return "<a class='btn btn-success' href='/Rutinas/ListaEjercicio?id=" + Id + "' target='_blank' style='padding: 2px 6px; margin:2px;'>" +
+                return "<a class='btn btn-success' href='/SOGIP/Rutinas/ListaEjercicio?id=" + Id + "' target='_blank' style='padding: 2px 6px; margin:2px;'>" +
                     "<text class=''> Ver en detalle </text>" +
                     "<span class='glyphicon glyphicon-apple'></span>" +
                     "</a>";
@@ -392,7 +392,7 @@ function cargarRutinas(IdUsuario) {
             }
         },
         "ajax": {
-            "url": "/Rutinas/obtenerRutinasUsuario",
+            "url": "/SOGIP/Rutinas/obtenerRutinasUsuario",
             "type": "GET",
             "dataSrc": "",
             "data": { id: IdUsuario }
@@ -421,7 +421,7 @@ function GetCategorias(str) {
     //console.log(`TDT = ${TableData}`);
 
     $.ajax({
-        url: "/Opciones/GetCategorias",
+        url: "/SOGIP/Opciones/GetCategorias",
         type: "GET",
         success: function (consulta) {
             $.each(consulta, function (i) {
@@ -477,7 +477,7 @@ function sendData() {
     console.log(user);
     
    $.ajax({
-        url: "/UsersAdmin/UpdateUser/",
+       url: "/SOGIP/UsersAdmin/UpdateUser/",
         type: "POST",
         data: user,
         success: function () {
@@ -497,7 +497,7 @@ function OriginalPass() {
         return;
     }
     $.ajax({
-        url: "/UsersAdmin/RestaurarContraseñaOriginal",
+        url: "/SOGIP/UsersAdmin/RestaurarContraseñaOriginal",
         type: "POST",
         data: { Id: $('#Id').val() },
         success: function () {
@@ -526,7 +526,7 @@ function cargarModal(tipo, filaSel, str = '') {
     switch (tipo) {
         case 1: {
             $('#modalTitle').html('Buscar Deporte deseado');
-            url = "/Opciones/GetDeportes";
+            url = "/SOGIP/Opciones/GetDeportes";
             header = header + '<th>Nombre</th><th>Tipo de Deporte</th><th>Identificador</th></tr>';
             col = [
                 { data: "Nombre" },
@@ -534,14 +534,14 @@ function cargarModal(tipo, filaSel, str = '') {
                 { data: "DeporteId" }
             ];
             break;
-        }
+            
         case 2: {
 
             filaSel === 0 ? $('#modalTitle').html('Agregar nueva Categoría') : $('#modalTitle').html('Editar la Categoría seleccionada');
             dt = {
                 tipo: 4
             };
-            url = "/UsersAdmin/getEntrenador";
+            url = "/SOGIP/UsersAdmin/getEntrenador";
             header = header + '<th>Cédula</th><th>Nombre</th><th>1er Apellido</th><th>2do Apellido</th></tr>';
             col = [
                 { data: "Cedula" },
@@ -558,7 +558,7 @@ function cargarModal(tipo, filaSel, str = '') {
         }
         case 3: {
             $('#modalTitle').html('Buscar Entidad deseada');
-            url = "/Opciones/GetEntidades";
+            url = "/SOGIP/Opciones/GetEntidades";
             header = header + '<th>Nombre</th><th>Identificador</th></tr>';
             col = [
                 { data: "Descripcion" },
@@ -568,7 +568,7 @@ function cargarModal(tipo, filaSel, str = '') {
         }
         case 4: {
             $('#modalTitle').html('Buscar Entidad deseada');
-            url = "/UsersAdmin/ObtenerUsuarios";
+            url = "/SOGIP/UsersAdmin/ObtenerUsuarios";
             header = '<th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Rol</th><th>Acción</th>';
             col = [
                 { data: "Entidad" },
@@ -593,7 +593,7 @@ function cargarModal(tipo, filaSel, str = '') {
         }
         case 5: {
             $('#modalTitle').html('Buscar Entrenador(a) deseado(a)');
-            url = "/UsersAdmin/getEntrenador";
+            url = "/SOGIP/UsersAdmin/getEntrenador";
             dt = {
                 tipo: 2
             };

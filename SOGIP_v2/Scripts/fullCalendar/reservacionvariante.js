@@ -101,7 +101,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/Reservacion/GetCed",
+            url: "/SOGIP/Reservacion/GetCed",
             success: function (data) {
                 ced = data;
             },
@@ -146,7 +146,7 @@
         $.ajax({
             type: "POST",
             dataType: "JSON",
-            url: "/Reservacion/GetReservaciones",
+            url: "/SOGIP/Reservacion/GetReservaciones",
             success: function (data) {
                 $.each(data, function (i, v) {
                     events.push({
@@ -345,7 +345,7 @@
             $.ajax({
                 type: "POST",
                 dataType: "JSON",
-                url: '/Reservacion/saveReser',
+                url: '/SOGIP/Reservacion/saveReser',
                 data: { 'dias': arr, 'horas': array2, 'cantidad': cantidad },
                 success: function (data) {
 
