@@ -27,7 +27,7 @@ namespace SOGIP_v2.Controllers
             {
                 if (categoria != null)
                 {
-                    nueva.nombre = categoria;
+                    nueva.nombre = categoria.ToUpper();
                     db.TipoME.Add(nueva);
                 }
                 db.SaveChanges();
@@ -47,7 +47,7 @@ namespace SOGIP_v2.Controllers
                 if (categoria != null && n != null)
                 {
                     nueva.TipoId = id;
-                    nueva.nombre = categoria;
+                    nueva.nombre = categoria.ToUpper();
                     db.TipoME.Add(nueva);
                 }
                 db.SaveChanges();
@@ -101,7 +101,7 @@ namespace SOGIP_v2.Controllers
             {
                 if (tipo != null)
                 {
-                    tipo.nombre = categoria;
+                    tipo.nombre = categoria.ToUpper();
                 }
                 db.SaveChanges();
             }
@@ -118,7 +118,7 @@ namespace SOGIP_v2.Controllers
             {
                 if (maquina != null)
                 {
-                    maquina.Nombre = categoria;
+                    maquina.Nombre = categoria.ToUpper();
                 }
                 db.SaveChanges();
             }
@@ -135,7 +135,7 @@ namespace SOGIP_v2.Controllers
             {
                 if (ejercicio != null)
                 {
-                    ejercicio.Nombre = categoria;
+                    ejercicio.Nombre = categoria.ToUpper();
                 }
                 db.SaveChanges();
             }
@@ -176,7 +176,7 @@ namespace SOGIP_v2.Controllers
             {
                 if (nombre != null)
                 {
-                    nueva.Nombre = nombre;
+                    nueva.Nombre = nombre.ToUpper();
                     nueva.TipoId = tipo;
                     db.Maquina.Add(nueva);
                 }
@@ -196,7 +196,7 @@ namespace SOGIP_v2.Controllers
             {
                 if (nombre != null)
                 {
-                    nueva.Nombre = nombre;
+                    nueva.Nombre = nombre.ToUpper();
                     nueva.TipoId = tipo;
                     db.Ejercicio.Add(nueva);
                 }
