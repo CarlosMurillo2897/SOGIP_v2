@@ -1,6 +1,5 @@
 ﻿@using System.Text.RegularExpressions;
 @model SOGIP_v2.Models.Conjunto_Ejercicio
-
 @{
     ViewBag.Title = "Ejercicios";
 
@@ -19,9 +18,10 @@
     @Styles.Render("~/Content/manual.css")
 
 }
+@Styles.Render("~/Content/bootstrap-multiselect.css")
+<link rel="stylesheet" href="~/Content/fontawesome-all.min.css">
 <link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/jquery.dataTables.css">
-<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">
-
+<link rel="stylesheet" type="text/css" href="~/Content/DataTables/css/select.dataTables.min.css">>
 <div class="container container-fluid">
     <div class="well">
         <h4>Usuario</h4>
@@ -65,27 +65,27 @@
                                 <tr><td>@item1.DiaEjercicio</td></tr>
                             }
                             <tr style="background-color: @item1.ColorId.Codigo">
-                                    <td>@item1.EjercicioId.Nombre</td>
-                                    <td>@item1.Serie1</td>
-                                    <td>@item1.Repeticion1</td>
-                                    <td>@item1.Peso1</td>
-                                    <td>@item1.Serie2</td>
-                                    <td>@item1.Repeticion2</td>
-                                    <td>@item1.Peso2</td>
-                                    <td>@item1.Serie3</td>
-                                    <td>@item1.Repeticion3</td>
-                                    <td>@item1.Peso3</td>
-                                    <td>@item1.DiaEjercicio</td>
-                                    <td>
-                                        <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item1.Conjunto_EjercicioId)'>
-                                            <text class='hidden-xs'>Eliminar </text>
-                                            <span class='glyphicon glyphicon-minus-sign'></span>
-                                        </a>
-                                        <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
-                                            <text class='hidden-xs'>Editar </text>
-                                            <span class='glyphicon glyphicon-pencil'></span>
-                                        </a>
-                                    </td>
+                                <td>@item1.EjercicioId.Nombre</td>
+                                <td>@item1.Serie1</td>
+                                <td>@item1.Repeticion1</td>
+                                <td>@item1.Peso1</td>
+                                <td>@item1.Serie2</td>
+                                <td>@item1.Repeticion2</td>
+                                <td>@item1.Peso2</td>
+                                <td>@item1.Serie3</td>
+                                <td>@item1.Repeticion3</td>
+                                <td>@item1.Peso3</td>
+                                <td>@item1.DiaEjercicio</td>
+                                <td>
+                                    <a class='btn btn-danger' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EliminarEjer(@item1.Conjunto_EjercicioId)'>
+                                        <text class='hidden-xs'>Eliminar </text>
+                                        <span class='glyphicon glyphicon-minus-sign'></span>
+                                    </a>
+                                    <a class='btn btn-warning' style='padding: 2px 6px; margin: 2px;' id='boton_" + @item1.Conjunto_EjercicioId + "' onclick='EditarEjer(@item1.Conjunto_EjercicioId)' data-toggle='modal' data-target='#myModal'>
+                                        <text class='hidden-xs'>Editar </text>
+                                        <span class='glyphicon glyphicon-pencil'></span>
+                                    </a>
+                                </td>
                             </tr>
                         }
                     }
@@ -141,7 +141,10 @@
                             <div class="row">
                                 <div class="form-group col-md-4">
                                     <label>Ejercicio: </label>
-                                    <input type="text" class="form-control" id="ejer" readonly />
+                                    <br>
+                                    <div class="form-group col-md-4">
+                                        <select class="form-control" id="state"></select>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-4">
                                     <label>Día: </label>
@@ -250,10 +253,11 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Chart.min.js")
+    @Scripts.Render("~/Scripts/bootstrap-multiselect.js")
+    @Scripts.Render("~/Scripts/bootbox.min.js")
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/jquery.dataTables.js"></script>
     <script type="text/javascript" charset="utf8" src="~/Scripts/DataTables/dataTables.select.min.js"></script>
-    @Scripts.Render("~/bundles/jqueryval")
     <script>
 
         function EliminarEjer(id) {
@@ -267,9 +271,9 @@
                     'ejercicioId': id
                 },
                 success: function (data) {
-                    
+
                     location.reload();
-          
+
                 },
                 error: function () {
                     alert("Fallo");
@@ -327,7 +331,7 @@
                     url: '/Rutinas/EditEjer',
                     data: ejer,
                     success: function (data) {
-                        
+
                         //$('#rutina tbody').empty();
                         //var aux = ' ';
                         //$.each(data, function (i) {
@@ -395,7 +399,7 @@
                 })
             })
         }
-        
+
         function tablaEjercicios() {
             $('#ejercicios').DataTable().destroy();
             $('#ejercicios').remove();
@@ -443,10 +447,14 @@
 
        //Insert new rows into table
         $(document).ready(function () {
+
             var input10 = null;
             var colores = [];
             var colors = [];
+            var ejercicios = [];
+            var ejercicio = [];
             obtenerColores();
+            obtnerEjercicios();
 
             function obtenerColores() {
                 var select = document.getElementById("Color");
@@ -470,13 +478,34 @@
             }
 
 
+            function obtnerEjercicios() {
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: "/TipoME/GetEjerMaquina",
+                    success: function (data) {
+                        $.each(data, function (i, v) {
+                            $("#state").append('<option value="' + v.Id + '">' + v.Nombre + '</option>');
+                        });
+                        $('#state').multiselect({
+                            disableIfEmpty: true,
+                            enableFiltering: true,
+                        })
+                    },
+                    error: function () {
+                        alert("Fallo");
+                    }
+                })
+            }
+
+
             $("#adicional").on('click', function () {
-            
+
                 var tableRef = document.getElementById('tabla').getElementsByTagName('tbody')[0];
 
                 // Insert a row in the table at the last row
                 var newRow = tableRef.insertRow(tableRef.rows.length);
-              
+
                 // Insert a cell in the row at index 0
                 var newCell = newRow.insertCell(0);
                 var newCell1 = newRow.insertCell(1);
@@ -547,7 +576,18 @@
                     d.add(option);
                 }
 
+                //var dias = ["Dia1", "Dia2", "Dia3", "Dia4"];
+                //var d = document.createElement('select2');
+                //d.type = 'select2';
+                //for (var i = 0; i < dias.length; i++) {
+                //    var option = document.createElement('option');
+                //    option.value = dias[i];
+                //    option.text = dias[i];
+                //    d.add(option);
+                //}
+
                 //DropDownList1.type = "DropDownList"; DropDownList1.items.insert(Dia, " - Select From List - ")
+                //var selected = $("#componentList option:selected");
 
 
                 var checkBox = document.createElement('input');
@@ -558,7 +598,7 @@
 
 
 
-                
+
                 newCell.appendChild(input10);
                 newCell1.appendChild(input1);
                 newCell2.appendChild(input2);
@@ -572,10 +612,6 @@
                 newCell10.appendChild(c);
                 newCell11.appendChild(d);
                 newCell12.appendChild(checkBox);
-        
-
-
-
 
             });
             var td1 = null;
@@ -657,7 +693,7 @@
                     function delrows() {
                         var row = $('#tabla tbody td').remove();
                         var row = $('#tabla tbody td').empty();
-           
+
                                   }
                     $.ajax({
                         url: '/Rutinas/Ejercicio',
@@ -669,11 +705,11 @@
                             alert('Ejercicios Registrados');
                             delrows();
                             location.reload();
-                            //$('#rutina tbody').empty(); 
+                            //$('#rutina tbody').empty();
                             //var aux = ' ';
                             //$.each(data, function (i) {
                             //    if (aux !== data[i].DiaEjercicio) {
-                              
+
                             //        $('#rutina tbody').append('<tr> <td>' + data[i].DiaEjercicio + ' </td> </tr>');
                             //        aux = data[i].DiaEjercicio;
                             //    }
@@ -729,6 +765,30 @@
                 tablaEjercicios();
                 $('#nueva').modal('show');
             });
+
+            //$('.js-example-basic-single').select2({
+            //    width: 'width: 200%',
+            //    templateSelection: formatState
+            //});
+
+            //$('.js-example-basic-single').val('WY');
+            //$('.js-example-basic-single').trigger('change');
+
+            //function formatState(state) {
+            //    console.log(state);
+            //    var $state = $(
+            //        '<span>Content from the template: ' + hola + ' ' + 1 + '</span>'
+            //    );
+
+            //    return $state;
+            //}
+            //$(".js-example-basic-single").select2();
+            //$(".js-example-placeholder-single").select2({
+            //    placeholder: "Select a state",
+            //    allowClear: true
+            //});
+
+
 
        });
     </script>
