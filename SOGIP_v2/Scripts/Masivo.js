@@ -5,6 +5,21 @@
     }
 });
 
+//$.validator.addMethod("repeated", function (value, element) {
+//    alert('ok')
+//    var bool = true;
+//    $('#UsuariosExcel tbody tr').each(function () {
+//        var tr = $(this).closest('tr');
+//        alert(tr.find('td:eq(0)').text());
+//        alert(value);
+//        if (tr.find('td:eq(0)').text() === value) {
+//            bool = false;
+//        }
+//    });
+
+//    return bool;
+//});
+
 $(document).ready(function () {
     var role, value, cedula, archivo;
     $('#usuario').val('');
@@ -39,6 +54,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 9,
                 maxlength: 15,
+                // repeated: true,
                 remote: {
                     url: "/UsersAdmin/CedulaRepetida",
                     type: "GET",
@@ -182,11 +198,17 @@ function clear() {
 
 function cargarUsuarios() {
 
+    $('#usuario').val('');
+    $('#submit').attr('disabled', 'disabled');
+
+    $('#Entidades').DataTable().destroy();
+    $('#Entidades').remove();
+
     var table = $('<table/>', {
         id: 'Entidades',
         class: 'table table-striped table-bordered dt-responsive nowrap',
         width: '100%'
-    }).append('<thead><tr><th>Entidad</th><th>Cédula</th><th>Nombre</th><th>Rol</th><th>Acción</th></tr></thead>');
+    }).append('<thead><tr><th>ENTIDAD</th><th>CÉDULA</th><th>TIPO USUARIO</th><th>ACCIÓN</th></tr></thead>');
 
     $('#Tabla_Usuarios').append(table);
 
@@ -213,17 +235,18 @@ function cargarUsuarios() {
             }
         },
         "ajax": {
-            "url": "/UsersAdmin/ObtenerUsuarios",
+            "url": "/UsersAdmin/ObtenerUsuariosMasivo",
             "type": "GET",
+            "data": { asociar: $('#idid').val() },
             "dataSrc": ""
         },
         columns: [
             { data: "Entidad" },
             { data: "Cédula" },
-            { data: "Nombre" },
+            //{ data: "Nombre" },
             { data: "Rol" },
             {
-                data: function (data, type, dataToSet) {
+                data: function (data) {
                     var opciones = "";
                     if (data.Categoria.length !== 0) {
                         $.each(data.Categoria, function (i) {
@@ -246,10 +269,32 @@ function cargarUsuarios() {
             $('#submit').attr('disabled', 'disabled');
         }
         else {
+
             $('#usuario').val($(this).attr('id').split('_')[2] + " - " + $(this).attr('id').split('_')[1]);
             $('#submit').removeAttr('disabled');
         }
-        role = $(this).closest('tr').find('td:eq(3)').text();
+        role = $(this).closest('tr').find('td:eq(2)').text();
+
+        if (role === "SELECCION/FEDERACION" || role === "ASOCIACION/COMITE") {
+            
+            $('#entName').show();
+            $('#nombreEntidad').show();
+            $('#UsuariosExcel tbody tr').each(function () {
+                var tr = $(this).closest('tr');
+                tr.find('td:eq(8)').show();
+            });
+            
+        }
+        else {
+            $('#entName').hide();
+            $('#nombreEntidad').hide();
+
+            $('#UsuariosExcel tbody tr').each(function () {
+                var tr = $(this).closest('tr');
+                tr.find('td:eq(8)').text('');
+                tr.find('td:eq(8)').hide();
+            });
+        }
         
         $('.selectDT').val(0);
         $(this).val(value);
@@ -313,7 +358,7 @@ function uploadImage() {
                 class: 'table table-striped table-bordered',
                 id: 'UsuariosExcel'
             }).append('<thead><tr><th>Cédula</th><th>1° Nombre</th><th>2° Nombre</th><th>1° Apellido</th><th>2° Apellido</th>' +
-                '<th>E-mail</th><th>Nacimiento</th><th>Sexo</th><th style="text-align: center;"><span class="glyphicon glyphicon-cog"></span></th></tr></thead>'
+                '<th>E-mail</th><th>Nacimiento</th><th>Sexo</th><th id="entName">Nombre Entidad</th><th style="text-align: center;"><span class="glyphicon glyphicon-cog"></span></th></tr></thead>'
             );
 
             var $body = $('<tbody/>');
@@ -335,13 +380,13 @@ function uploadImage() {
                         clase = "btn btn-danger";
                     });
                 }
-                
+
                 else {
                     p = "<p style='color: green;'> \u23FA Todo en orden.";
                     clase = "btn btn-success";
                 }
                 p = p + "</p>";
-                
+
                 $body.append(
                     '<tr id="' + i + '">' +
                     '<td>' +
@@ -354,6 +399,7 @@ function uploadImage() {
                     '<td>' + email + '</td>' +
                     '<td>' + list[i].Fecha_Nacimiento + '</td>' +
                     '<td>' + sexo + '</td>' +
+                    '<td></td>' +
                     '<td style="text-align: center;">' +
                     '<span class="glyphicon glyphicon-pencil invent" data-toggle="modal" onclick="cargar(this)" data-target="#myModal"></span>' +
                     '</td></tr>');
@@ -368,6 +414,19 @@ function uploadImage() {
             $('#btn_1').attr('data-content', title);
 
             $('[data-toggle="popover"]').popover();
+
+            if (role === "SELECCION/FEDERACION" || role === "ASOCIACION/COMITE") {  }
+            else {
+                // HIDE TABLE COLUMN
+                $('#entName').hide();
+                $('#UsuariosExcel tbody tr').each(function () {
+                    var tr = $(this).closest('tr');
+                    tr.find('td:eq(8)').hide();
+                });
+
+                $('#nombreEntidad').hide();
+
+            }
 
         },
         error: function (data) {
@@ -386,11 +445,17 @@ function cargar(x) {
     $('#email').val(tr.find('td:eq(5)').text());
     $("#dtp").datepicker("update", tr.find('td:eq(6)').text());
     $('#sexo').val(tr.find('td:eq(7)').text());
+
+
+    $('#nameEnt').val(tr.find('td:eq(8)').text());
+
+
     $('#hidden').val(tr.attr('id'));
 }
 
 function actualizar() {
     var tr = $('#' + $('#hidden').val());
+    tr.find('td:eq(0)').find('a').text($('#ced').val().toUpperCase());
     var a = tr.find('td:eq(0)').find('a').removeClass('btn-danger');
         a.addClass('btn-success');
         a.attr("data-content", "<p style='color: green;'> \u23FA Todo en orden.</p>");
@@ -402,9 +467,15 @@ function actualizar() {
     tr.find('td:eq(6)').text($("#dtp").data('datepicker').getFormattedDate('yyyy/mm/dd'));
     tr.find('td:eq(7)').text($('#sexo').val());
 
+
+
+    tr.find('td:eq(8)').text($('#nameEnt').val());
+
+
 }
 
 function registrar() {
+
     if ($('#usuario').val() === '') {
         alert('Favor seleccione un Usuario de la tabla.');
     }
@@ -424,6 +495,7 @@ function registrar() {
                 Email: tr.find('td:eq(5)').text(),
                 Fecha_Nacimiento: tr.find('td:eq(6)').text(),
                 Sexo: tr.find('td:eq(7)').text() === 'Masculino' ? true : false,
+                PasswordHash: tr.find('td:eq(8)').text(),
                 Estado: true,
                 Fecha_Expiracion: new Date()
             });
@@ -431,9 +503,13 @@ function registrar() {
 
         // console.log(array);
 
+        var usr = $('#usuario').val().split(' - ');
+        
+
         var datos = {
             'users': array,
-            'usuario': $('#usuario').val().split("- ")[1],
+            'usuario': usr[1] === "N/A" ? usr[0] : usr[1],
+            // Create switch for ent pub, asox, selex 
             'value': value,
             'rol': role
         };
