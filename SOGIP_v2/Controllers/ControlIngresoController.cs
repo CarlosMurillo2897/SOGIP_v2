@@ -49,6 +49,7 @@ namespace SOGIP_v2.Controllers
             return Json(nueva, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize(Roles = "Administrador,Supervisor")]
         public ActionResult Estadistica()
         {
             return View();

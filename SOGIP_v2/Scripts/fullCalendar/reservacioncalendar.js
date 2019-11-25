@@ -152,6 +152,7 @@ $(document).ready(function () {
             if ($(this).is(':checked')) {
                 if (ar.indexOf((this).value) < 0) {
                     ar.push((this).value);
+
                 }
             }
             else {
@@ -311,7 +312,7 @@ $(document).ready(function () {
     //array.shift() sirve para remover el primer elemento
     $('#botón').click(function () { $('#myModalSave').modal('show'); });
     $('#boton1').click(function () { $('#modaldt').modal('show'); tablalista(); });
-    $('#btnSave').click(function () { 
+    $('#btnSave').click(function () {
         var array3 = [];
         function checkhours() {
             $('input.timepicker').each(function () {
@@ -328,7 +329,6 @@ $(document).ready(function () {
                 array.push(parseInt((this).value));
             }
         });
-        console.log(array);
 
         var start = $("#txtStart").datepicker("getDate"),
             end = $("#txtEnd").datepicker("getDate"),
@@ -336,31 +336,33 @@ $(document).ready(function () {
             arr = [];
 
 
- //recursivo 1
-     function dateof(currentDate, day) {
-         var date = new Date(currentDate);
-         if (currentDate > end) {
-               return arr;             
+        //recursivo 1
+        function dateof(currentDate, day) {
+            var date = new Date(currentDate);
+            if (currentDate > end) {
+                return arr;
             }
 
-         if (date.getDay() == day) {
-           
+            if (date.getDay() == day) {
 
-             arr.push(moment(new Date(date)).format("DD-MM-YYYY HH:mm a"));  
 
-             $('input.timepicker').each(function () {
-                 if ((this).value.length != 0 && this.name == day && !this.hidden) {
-                     array2.push((this).value);
-                 }
-             })
+                arr.push(moment(new Date(date)).format("DD-MM-YYYY HH:mm a"));
 
-         }
-            return dateof(date.setDate(date.getDate() + 1),day);
-         }
+                $('input.timepicker').each(function () {
+                    if ((this).value.length != 0 && this.name == day && !this.hidden) {
+                        array2.push((this).value); console.log(array2);
+                    }
+                })
 
- //recursivo 2      
+            }
+            return dateof(date.setDate(date.getDate() + 1), day);
+        }
+
+        console.log(arr);
+
+        //recursivo 2      
         function days(array) {
-             
+
             if (array.length > 0) {
                 dateof(currentDate, array[0]);
                 array.shift();
@@ -368,58 +370,61 @@ $(document).ready(function () {
             }
             return arr;
         }
-        days(array);
+
         checkhours();
-        if ($('#botón2').is(':disabled')) {//no ha seleccionado dias
+       if ($('#botón2').is(':disabled')) {//no ha seleccionado dias
             bootbox2(" No ha seleccionado los días");
             return;
         }
-        if (array2.length < 2 ) {//no ha ingresado horas
-            bootbox2(" Los horarios se encuentran vacíos");
+        if (array3.length == 0 ) {
+            bootbox2(" El rango de horas está incompleto");
             return;
         }
-        if (arr.length == 0) { //no ha ingresado fechas
-            bootbox2(" El rango de fecha está vacío");
+        if (start == null || end == null) {
+            bootbox2(" El rango de fecha está incompleto");
             return;
         }
+
 
         else {
-            cantidad = $('#cantidad').val();
-            $.ajax({
-                type: "POST",
-                dataType: "JSON",
-                url: '/Reservacion/saveReser',
-                data: { 'dias': arr, 'horas': array2, 'cantidad': cantidad},
-                success: function (data) {
+            days(array);
+                cantidad = $('#cantidad').val();
+                $.ajax({
+                    type: "POST",
+                    dataType: "JSON",
+                    url: '/Reservacion/saveReser',
+                    data: { 'dias': arr, 'horas': array2, 'cantidad': cantidad },
+                    success: function (data) {
 
-                    $('#myModalSave').modal('hide');
-                    bootbox1(" Guardando reservación...");
-                    FetchEventAndRenderCalendar();
-                    $('input.timepicker').each(function () {
-                        if ((this).value.length != 0) {
-                            this.value = "";
-                        }
-                        $('#txtHora1').timepicker('option', { 'disableTimeRanges': [[]] });
-                        $('#txtHora2').timepicker('option', { 'disableTimeRanges': [[]] });
-                        $('#txtHora3').timepicker('option', { 'disableTimeRanges': [[]] });
-                        $('#txtHora4').timepicker('option', { 'disableTimeRanges': [[]] });
-                        $('#txtHora5').timepicker('option', { 'disableTimeRanges': [[]] });
-                        $('#txtHora6').timepicker('option', { 'disableTimeRanges': [[]] });
-                        $('#txtHora7').timepicker('option', { 'disableTimeRanges': [[]] });
-                        $('#txtHora8').timepicker('option', { 'disableTimeRanges': [[]] });
-                        $('#txtHora9').timepicker('option', { 'disableTimeRanges': [[]] });
-                        $('#txtHora10').timepicker('option', { 'disableTimeRanges': [[]] });
-                    });
-                    $('#txtStart').datepicker('setDate', null);
-                    $('#txtEnd').datepicker('setDate', null);
-                    $('input[type=checkbox]').prop('checked', false);
-                    $('#botón2').prop("disabled", true);
-
-                },
-                error: function () {
-                    bootbox2(" Hubo un ERROR al intentar guardar");
-                }
-            })
+                        $('#myModalSave').modal('hide');
+                        bootbox1(" Guardando reservación...");
+                        FetchEventAndRenderCalendar();
+                        $('input.timepicker').each(function () {
+                            if ((this).value.length != 0) {
+                                this.value = "";
+                            }
+                            $('#txtHora1').timepicker('option', { 'disableTimeRanges': [[]] });
+                            $('#txtHora2').timepicker('option', { 'disableTimeRanges': [[]] });
+                            $('#txtHora3').timepicker('option', { 'disableTimeRanges': [[]] });
+                            $('#txtHora4').timepicker('option', { 'disableTimeRanges': [[]] });
+                            $('#txtHora5').timepicker('option', { 'disableTimeRanges': [[]] });
+                            $('#txtHora6').timepicker('option', { 'disableTimeRanges': [[]] });
+                            $('#txtHora7').timepicker('option', { 'disableTimeRanges': [[]] });
+                            $('#txtHora8').timepicker('option', { 'disableTimeRanges': [[]] });
+                            $('#txtHora9').timepicker('option', { 'disableTimeRanges': [[]] });
+                            $('#txtHora10').timepicker('option', { 'disableTimeRanges': [[]] });
+                        });
+                        $('#txtStart').datepicker('setDate', null);
+                        $('#txtEnd').datepicker('setDate', null);
+                        $('input[type=checkbox]').prop('checked', false);
+                        $('#botón2').prop("disabled", true);
+                        num = [];
+                    },
+                    error: function () {
+                        bootbox2(" Campos de horarios vacíos");
+                    }
+                })
+            
         }
 
     });

@@ -324,22 +324,23 @@
             }
             return arr;
         }
-        days(array);
+       
         checkhours();
         if ($('#botón2').is(':disabled')) {//no ha seleccionado dias
             bootbox2(" No ha seleccionado los días");
             return;
         }
-        if (array2.length < 2) {//no ha ingresado horas
-            bootbox2(" Los horarios se encuentran vacíos");
+        if (array3.length == 0) {
+            bootbox2(" El rango de horas está incompleto");
             return;
         }
-        if (arr.length == 0) { //no ha ingresado fechas
-            bootbox2(" El rango de fecha está vacío");
+        if (start == null || end == null) {
+            bootbox2(" El rango de fecha está incompleto");
             return;
         }
 
         else {
+            days(array);
             cantidad = $('#cantidad').val();
             $.ajax({
                 type: "POST",
@@ -373,7 +374,7 @@
 
                 },
                 error: function () {
-                    bootbox2(" Hubo un ERROR al intentar guardar");
+                    bootbox2(" Campos de horarios vacíos");
                 }
             })
         }

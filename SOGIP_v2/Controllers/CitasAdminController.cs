@@ -16,6 +16,7 @@ namespace SOGIP_v2.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: CitasAdmin
+        [Authorize(Roles = "Administrador,Supervisor,Atleta,Atleta Becados,Funcionarios ICODER,Entrenador,Seleccion/Federacion,Asociacion/Comite")]
         public ActionResult Index()
         {
             return View(db.Cita.ToList());
