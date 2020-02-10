@@ -2,7 +2,7 @@
     $.ajax({
         type: "POST",
         dataType: "JSON",
-        url: '/ControlIngreso/SaveIngreso',
+        url: '/SOGIP/ControlIngreso/SaveIngreso',
         data: data,
         success: function (data) {
             $('#principal').hide();

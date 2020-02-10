@@ -423,7 +423,7 @@ namespace SOGIP_v2.Controllers
 
                         db.SaveChanges();
                         SendMailToUser(user.Email, "SOGIP y el ICODER le da la bienvenida a nuestro sistema.\n"
-                        + " A continuación le detallamos su nombre de usuario: " + user.Email + " y contraseña creada por defecto " + pass + " (esta contraseña es temporal y puede ser cambiada dentro del sistema)."
+                        + " A continuación le detallamos su nombre de usuario: " + user.Cedula + " y contraseña creada por defecto " + pass + " (esta contraseña es temporal y puede ser cambiada dentro del sistema)."
                         + "\nCon el cual podrá acceder y utilizar nuestro servicio virtual.");
 
                         if (!result.Succeeded)
@@ -1171,7 +1171,7 @@ namespace SOGIP_v2.Controllers
 
                     db.SaveChanges();
                     SendMailToUser(item.Email, "SOGIP y el ICODER le da la bienvenida a nuestro sistema.\n"
-                        + " A continuación le detallamos su nombre de usuario: " + item.Email + " y contraseña creada por defecto " + pass + " (esta contraseña es temporal y puede ser cambiada dentro del sistema)."
+                        + " A continuación le detallamos su nombre de usuario: " + item.Cedula + " y contraseña creada por defecto " + pass + " (esta contraseña es temporal y puede ser cambiada dentro del sistema)."
                         + "\nCon el cual podrá acceder y utilizar nuestro servicio virtual.");
                 }
             }

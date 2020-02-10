@@ -257,7 +257,7 @@ $(document).ready(function () {
                 required: true,
                 minlength: 4,
                 remote: {
-                    url: '/TipoME/EjercicioRepetido',
+                    url: '/SOGIP/TipoME/EjercicioRepetido',
                     type: 'GET',
                     data: {
                         nombre: function () {

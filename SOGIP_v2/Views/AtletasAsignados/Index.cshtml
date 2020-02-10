@@ -54,20 +54,20 @@
             var head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Acción</td></tr>';
 
             if ($('#role').val() == "Administrador") {
-                url = "/AtletasAsignados/GetAtletasAdministrador";
+                url = "/SOGIP/AtletasAsignados/GetAtletasAdministrador";
             }
             else if ($('#role').val() == "Seleccion/Federacion") {
-                url = "/AtletasAsignados/GetUsuariosSeleccion";
+                url = "/SOGIP/AtletasAsignados/GetUsuariosSeleccion";
                 head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Rol</td><td>Categoría</td><td>Acción</td></tr>';
                 col[col.length] = { data: "Rol" };
                 col[col.length] = { data: "Categoria" };
             }
             else if ($('#role').val() == "Asociacion/Comite") {
-                url = "/AtletasAsignados/GetAtletasAsociacion";
+                url = "/SOGIP/AtletasAsignados/GetAtletasAsociacion";
             }
             else if ($('#role').val() == "Entrenador") {
                 
-                url = "/AtletasAsignados/GetUsuariosEntrenador";
+                url = "/SOGIP/AtletasAsignados/GetUsuariosEntrenador";
                 head = '<tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Categoría</td><td>Selección</td><td>Acción</td></tr>';
                 col[col.length] = { data: "Categoria" };
                 col[col.length] = { data: "Seleccion" };
@@ -76,7 +76,7 @@
             col[col.length] = {
                 data: "Id",
                 "render": function (Id) {
-                    return "<a class='btn btn-warning' href='/Account/Perfil?id=" + Id + "' style='padding: 2px 6px; margin:2px;'>" +
+                    return "<a class='btn btn-warning' href='/SOGIP/Account/Perfil?id=" + Id + "' style='padding: 2px 6px; margin:2px;'>" +
                         "<text class=''> Ver en detalle </text>" +
                         "<span class='glyphicon glyphicon-user'></span>" +
                         "</a>";

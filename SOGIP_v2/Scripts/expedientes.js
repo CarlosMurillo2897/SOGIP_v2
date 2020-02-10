@@ -390,7 +390,7 @@ function llenarTablaArchivos() {
                                     "<text class='hidden-xs'>Editar </text>" +
                                     "<span class='glyphicon glyphicon-pencil'></span>" +
                                 "</a>" +
-                                "<a class='btn btn-info' href='/UsersAdmin/Download?archivoId=" + row.Id + "' style='padding: 2px 6px; margin: 2px;'>" +
+                                "<a class='btn btn-info' href='/SOGIP/UsersAdmin/Download?archivoId=" + row.Id + "' style='padding: 2px 6px; margin: 2px;'>" +
                                     "<text class='hidden-xs'>Descargar </text>" +
                                     "<span class='glyphicon glyphicon-download'></span>" +
                                 "</a>";

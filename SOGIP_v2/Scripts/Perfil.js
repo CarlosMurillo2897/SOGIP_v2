@@ -290,7 +290,7 @@ function cargarAtletas(ced) {
         url = "/SOGIP/AtletasAsignados/GetAtletasAsociacion";
     }
     else if ($('#role').val() === "Entrenador") {
-        url = "/AtletasAsignados/GetUsuariosEntrenador";
+        url = "/SOGIP/AtletasAsignados/GetUsuariosEntrenador";
       //head = '<thead><tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Categoría</td><td>Selección</td><td>Acción</td></tr></thead>';
         head = '<thead><tr><td>Cédula</td><td>Nombre</td><td>1° Apellido</td><td>2° Apellido</td><td>Categoría</td><td>Acción</td></tr></thead>';
         col[col.length] = { data: "Categoria" };
@@ -534,6 +534,7 @@ function cargarModal(tipo, filaSel, str = '') {
                 { data: "DeporteId" }
             ];
             break;
+        }
             
         case 2: {
 
